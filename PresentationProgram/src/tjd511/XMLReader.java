@@ -68,7 +68,7 @@ public class XMLReader extends DefaultHandler {
 				// sort out attribute name
 				String attributeName = attrs.getLocalName(0);
 				if ("".equals(attributeName))
-					attributeName = attrs.getQName(0);
+					 = attrs.getQName(0);
 
 				if (attributeName == "id")
 					videoList.get(videoList.size() - 1).setID(
