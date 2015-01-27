@@ -11,7 +11,7 @@ import javax.xml.parsers.SAXParserFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 
-public class Parser extends DefaultHandler {
+public class XMLReader extends DefaultHandler {
 
 	private StringBuffer contentBuffer;
 
@@ -50,6 +50,7 @@ public class Parser extends DefaultHandler {
 		return videoList;
 	}
 
+	
 	public void startElement(String uri, String localName, String qName, Attributes attrs) throws SAXException {
 		// sort out element name if (no) namespace in use
 		String elementName = localName;
