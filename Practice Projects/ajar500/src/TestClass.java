@@ -30,7 +30,7 @@ class TestClass {
 		} else if (n == 2) {
 			System.out.println("N is two.");
 		} else {
-			System.out.println("N is not one or two.");
+			System.out.println("hello mate.");
 		}
 	}
 
