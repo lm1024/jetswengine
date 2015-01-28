@@ -1,8 +1,6 @@
 package server;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -139,28 +137,6 @@ public class XMLReader extends DefaultHandler {
 		System.out.println("\tFound the end of an element (" + elementName
 				+ ") ...");
 
-		// finished adding stuff to current student, so add student to
-		// university
-		// setting currentStudent to null forces an exception if we keep trying
-		// to add stuff
-		// if (elementName.equals("slide")) {
-		// slideshow.addSlide(currentSlide);
-		// currentSlide = null;
-		// }
-		// // finished adding content from various sub-elements of student
-		//
-		// else if (elementName.equals("title")) {
-		// currentSlide.setTitle(new Text(contentBuffer.toString().trim()));
-		// contentBuffer = null;
-		// }
-		// else if (elementName.equals("filename")) {
-		// currentSlide.setFilename(contentBuffer.toString().trim());
-		// contentBuffer = null;
-		// }
-		// else if (elementName.equals("description")){
-		// currentSlide.setDescription(contentBuffer.toString().trim());
-		// contentBuffer = null;
-		// }
 		if (elementName.equals(sectionName)) {
 			if (elementName.equals("slide")) {
 				slideshow.addSlide(currentSlide);
