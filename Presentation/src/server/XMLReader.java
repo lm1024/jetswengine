@@ -208,7 +208,6 @@ public class XMLReader extends DefaultHandler {
         		contentBuffer = null;
         	}
         	else if (elementName.equals("fontsize")) {
-        		System.out.println(contentBuffer.toString().trim());
         		//needs improving
         		//works for now.
         		defaults.setFontSize(Integer.parseInt(contentBuffer.toString().trim().substring(0,2)));
