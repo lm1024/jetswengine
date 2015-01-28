@@ -17,40 +17,42 @@ public class Slide implements Serializable {
 	private List<Image> imagesList;
 	private List<Movie> moviesList;
 
-	public Slide (String id){
+	public Slide(String id) {
 		this.id = id;
 	}
 
 	/**
-	 * @return the id
+	 * @return The slide id
 	 */
 	public String getId() {
 		return id;
 	}
 
 	/**
-	 * @return the duration
+	 * @return The slide duration
 	 */
 	public int getDuration() {
 		return duration;
 	}
 
 	/**
-	 * @param duration the duration to set
+	 * @param duration </br>Set the duration of the slide. </br>Setting to -1 indicates
+	 * slide that requires changing manually
 	 */
 	public void setDuration(int duration) {
 		this.duration = duration;
 	}
-	
+
 	/**
-	 * @return the title
+	 * @return The slide title
 	 */
 	public Text getTitle() {
 		return title;
 	}
 
 	/**
-	 * @param title the title to set
+	 * @param title
+	 *            the title to set
 	 */
 	public void setTitle(Text title) {
 		this.title = title;
@@ -69,12 +71,13 @@ public class Slide implements Serializable {
 	}
 
 	/**
-	 * @param add some text to the textList
+	 * @param add
+	 *            some text to the textList
 	 */
 	public void addText(Text someText) {
 		this.textList.add(textList.size(), someText);
 	}
-	
+
 	/**
 	 * @return the graphicsList
 	 */
@@ -83,12 +86,13 @@ public class Slide implements Serializable {
 	}
 
 	/**
-	 * @param add a graphic to the graphicsList
+	 * @param add
+	 *            a graphic to the graphicsList
 	 */
 	public void addGraphic(Graphic graphic) {
 		this.graphicsList.add(graphicsList.size(), graphic);
 	}
-	
+
 	/**
 	 * @return the soundsList
 	 */
@@ -97,12 +101,13 @@ public class Slide implements Serializable {
 	}
 
 	/**
-	 * @param add a sound to the soundsList
+	 * @param add
+	 *            a sound to the soundsList
 	 */
 	public void addSound(Sound sound) {
 		this.soundsList.add(soundsList.size(), sound);
 	}
-	
+
 	/**
 	 * @return the imagesList
 	 */
@@ -111,12 +116,13 @@ public class Slide implements Serializable {
 	}
 
 	/**
-	 * @param add an image to the imagesList
+	 * @param add
+	 *            an image to the imagesList
 	 */
 	public void addImage(Image image) {
 		this.imagesList.add(imagesList.size(), image);
 	}
-	
+
 	/**
 	 * @return the moviesList
 	 */
@@ -125,7 +131,8 @@ public class Slide implements Serializable {
 	}
 
 	/**
-	 * @param add a movie to the moviesList
+	 * @param add
+	 *            a movie to the moviesList
 	 */
 	public void addMovie(Movie movie) {
 		this.moviesList.add(moviesList.size(), movie);

@@ -204,6 +204,10 @@ public class XMLReader extends DefaultHandler {
 	 * that were read in from the XML file.
 	 */
 	private void writeSlides() {
+		
+		System.out.println("\tSlide Author: " + slideshow.getInfo().getAuthor());
+		System.out.println("\tSlide Version: " + slideshow.getInfo().getVersion());
+		System.out.println("\tSlide Comment: " + slideshow.getInfo().getComment());
 
 		// needs rewriting
 		//
