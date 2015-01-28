@@ -13,7 +13,7 @@ class TestClass {
 	 */
 	
 	/* All numbers that are not -1, 0 or 1 declared here as statics */
-	private static final int MAX_NUMBER_OF_GREEN_BOTTLES = 10;
+	private static final int MAX_NUMBER_OF_GREEN_BOTTLES = 2;
 	
 	static int numberOfGreenBottles; // One declaration per line
 	
@@ -32,6 +32,7 @@ class TestClass {
 		} else {
 			System.out.println("N is not one or two.");
 		}
+		System.out.println("Hello World");
 	}
 
 	/*
