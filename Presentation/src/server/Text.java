@@ -39,7 +39,7 @@ public class Text {
 	 * @param text the text to set
 	 */
 	public void addText(textFragment text) {
-		this.textFragments.add(textFragments.size(), text);
+		this.textFragments.add(text);
 	}
 	
 	/**
