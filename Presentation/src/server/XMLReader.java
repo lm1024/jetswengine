@@ -1,5 +1,6 @@
 package server;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -27,8 +28,8 @@ public class XMLReader extends DefaultHandler {
 	private StringBuffer contentBuffer;
 	private String sectionName;
 
-	public XMLReader() {
-		readXMLFile("Sample.xml");
+	public XMLReader(String filename) {
+		readXMLFile(filename);
 		writeSlides();
 	}
 
@@ -60,9 +61,11 @@ public class XMLReader extends DefaultHandler {
 			pce.printStackTrace();
 		} catch (SAXException saxe) {
 			saxe.printStackTrace();
+		} catch (FileNotFoundException fnfe) {
+			System.out.println("ERROR - File not found: " + inputFile);
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
-		}
+		} 
 
 		return slideshow;
 	}
@@ -204,10 +207,14 @@ public class XMLReader extends DefaultHandler {
 	 * that were read in from the XML file.
 	 */
 	private void writeSlides() {
+		if(slideshow != null) {
+			System.out.println("\tSlide Author: " + slideshow.getInfo().getAuthor());
+			System.out.println("\tSlide Version: " + slideshow.getInfo().getVersion());
+			System.out.println("\tSlide Comment: " + slideshow.getInfo().getComment());
+		} else {
+			System.out.println("Invalid slideshow found");
+		}
 		
-		System.out.println("\tSlide Author: " + slideshow.getInfo().getAuthor());
-		System.out.println("\tSlide Version: " + slideshow.getInfo().getVersion());
-		System.out.println("\tSlide Comment: " + slideshow.getInfo().getComment());
 
 		// needs rewriting
 		//

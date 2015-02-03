@@ -15,9 +15,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-public class Console extends JPanel implements ActionListener {
+public class Console extends Server implements ActionListener {
 
-	private static final long serialVersionUID = 1L;
+	private JPanel panel;
 	private JTextField textInput;
 	private JTextArea textOutput;
 	private JScrollPane areaScrollPane;
@@ -28,8 +28,10 @@ public class Console extends JPanel implements ActionListener {
 	private JPanel topPanel;
 
 	public Console() {
+		
+		panel = new JPanel();
 		// Use BorderLayout layout manager to arrange the label
-		setLayout(new BorderLayout());
+		panel.setLayout(new BorderLayout());
 
 		topPanel = new JPanel();
 
@@ -41,7 +43,7 @@ public class Console extends JPanel implements ActionListener {
 		checkBoxLabel.setText("Display System Messages");
 		topPanel.add(checkBoxLabel, BorderLayout.EAST);
 
-		add(topPanel, BorderLayout.NORTH);
+		panel.add(topPanel, BorderLayout.NORTH);
 
 		// Instantiate a JTextArea to output the data
 		textOutput = new JTextArea();
@@ -61,11 +63,11 @@ public class Console extends JPanel implements ActionListener {
 				.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
 		// Add the areaScrollPane to the JPanel
-		add(areaScrollPane, BorderLayout.CENTER);
+		panel.add(areaScrollPane, BorderLayout.CENTER);
 
 		// Instantiate a JTextFields for data entry
 		textInput = new JTextField(20);
-		add(textInput, BorderLayout.SOUTH); // Add the JTextFields to the JPanel
+		panel.add(textInput, BorderLayout.SOUTH); // Add the JTextFields to the JPanel
 		textInput.addActionListener(this); // Register the JTextFields with Java
 
 		// Create a new window using the Swing class JFrame and add this panel
@@ -117,10 +119,14 @@ public class Console extends JPanel implements ActionListener {
 				//do stuff before exiting now
 				System.exit(0);
 				break;
-			case "2":
-				System.out.println("2");
-				//do other stuff
+			case "open":
+				if(args.length == 2) {
+					super.setCurrentSlideshow(args[1]);
+				} else {
+					System.out.println("Invalid arguements for command \"OPEN\"");
+				}
 				break;
+				
 			default:
 				System.out.println("Unknown command: \"" + args[0] + "\"");
 				break;
@@ -149,7 +155,7 @@ public class Console extends JPanel implements ActionListener {
 		frame.setSize(600, 800);
 
 		// add the current object to the centre of the frame and make visible
-		frame.getContentPane().add(this, BorderLayout.CENTER);
+		frame.getContentPane().add(panel, BorderLayout.CENTER);
 		frame.setVisible(true);
 
 	}
