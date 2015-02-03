@@ -7,7 +7,9 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.PrintStream;
 
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -19,16 +21,27 @@ public class Console extends JPanel implements ActionListener {
 	private JTextField textInput;
 	private JTextArea textOutput;
 	private JScrollPane areaScrollPane;
+	private JCheckBox toggleSystemStream;
+	private JLabel checkBoxLabel;
+	private final PrintStream origOut = System.out;
+	private final PrintStream interceptor = new Interceptor(origOut);
+	private JPanel topPanel;
 
 	public Console() {
-
-		// Override standard output stream to also print to console window
-		PrintStream origOut = System.out;
-		PrintStream interceptor = new Interceptor(origOut);
-		System.setOut(interceptor); // just add the interceptor
-
 		// Use BorderLayout layout manager to arrange the label
 		setLayout(new BorderLayout());
+		
+		topPanel = new JPanel();
+		
+		toggleSystemStream = new JCheckBox();
+		topPanel.add(toggleSystemStream,BorderLayout.WEST);
+		toggleSystemStream.addActionListener(this);
+		
+		checkBoxLabel = new JLabel();
+		checkBoxLabel.setText("Display System Messages");
+		topPanel.add(checkBoxLabel,BorderLayout.EAST);
+		
+		add(topPanel,BorderLayout.NORTH);
 
 		// Instantiate a JTextArea to output the data
 		textOutput = new JTextArea();
@@ -75,6 +88,16 @@ public class Console extends JPanel implements ActionListener {
 				textInput.setText("");
 			}
 
+		} else if (e.getSource() == toggleSystemStream) {
+			if(toggleSystemStream.isSelected()) {
+				System.setOut(interceptor); // enable the interceptor
+				System.out.println("Interceptor enabled");
+			} else {
+				System.out.println("Interceptor disabled");
+				System.setOut(origOut);
+			}
+			
+			
 		}
 	}
 
