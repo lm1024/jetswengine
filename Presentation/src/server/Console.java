@@ -106,7 +106,7 @@ public class Console extends JPanel implements ActionListener {
 	}
 
 	// Create a window frame
-	public void makeFrame() {
+	private void makeFrame() {
 
 		// Instantiate a window frame using Swing class JFrame
 		JFrame frame = new JFrame("Console");
