@@ -8,13 +8,14 @@ package server;
  *
  */
 public class server {
-
+	public static Console console;
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		console = new Console();
+		XMLReader reader = new XMLReader();
+		
 	}
 
 }

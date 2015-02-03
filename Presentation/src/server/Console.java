@@ -104,7 +104,7 @@ public class Console extends JPanel implements ActionListener {
 		});
 
 		// set initial size of window
-		frame.setSize(300, 500);
+		frame.setSize(600, 800);
 
 		// add the current object to the centre of the frame and make visible
 		frame.getContentPane().add(this,BorderLayout.CENTER);
