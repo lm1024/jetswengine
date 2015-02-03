@@ -137,7 +137,9 @@ public class Console extends Server implements ActionListener {
 			
 			case "PRINT":
 				if(args.length > 1) {
-					printToConsole(processorUsername,args[1] + ": " + super.getCurrentSlideshow());
+					if(args[1].toUpperCase().equals("FILENAME")) {
+						printToConsole(processorUsername,args[1] + ": " + super.getCurrentSlideshow());
+					}
 				} else {
 					printToConsole(processorUsername,"Invalid arguements for command \"" + args[0] + "\"");
 				}

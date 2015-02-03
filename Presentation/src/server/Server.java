@@ -30,8 +30,12 @@ public class Server {
 				this.currentSlideshow = new XMLReader(filename).getSlideshow();
 			} catch (IOException ioe2) {
 				this.filename = null;
+			}
+			if (filename == null) {
 				console.printToConsole(console.getProcessorUsername(),"Failed to open fallback file");
 				console.printToConsole(console.getProcessorUsername(),"Please open a valid Slideshow");
+			} else {
+				console.printToConsole(console.getProcessorUsername(),"Successfully opened fallback file");
 			}
 		} else {
 			this.filename = loc;
