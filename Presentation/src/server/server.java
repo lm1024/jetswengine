@@ -15,6 +15,7 @@ public class server {
 		console = new Console();
 		XMLReader reader = new XMLReader();
 		currentSlideshow = reader.getSlideshow();
+		System.out.println(currentSlideshow.getInfo().getVersion());
 	}
 	
 
