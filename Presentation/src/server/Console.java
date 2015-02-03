@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.PrintStream;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -20,12 +21,18 @@ public class Console extends JPanel implements ActionListener {
 	private JScrollPane areaScrollPane;
 
 	public Console() {
+		
+		//Override standard output stream to also print to console window
+		PrintStream origOut = System.out;
+	    PrintStream interceptor = new Interceptor(origOut);
+	    System.setOut(interceptor);		// just add the interceptor
 
 		// Use BorderLayout layout manager to arrange the label
         setLayout(new BorderLayout());
 		
 		// Instantiate a JTextArea to output the data
 		textOutput = new JTextArea();
+		
 		
 		// Prevent the user from editing it
 		textOutput.setEditable(false); 
@@ -62,12 +69,15 @@ public class Console extends JPanel implements ActionListener {
 
 		// If the "Read value" button is pressed
 		if (e.getSource() == textInput) {
+			if(!textInput.getText().isEmpty()){
+				// Add the text to the console
+				textOutput.append("Username: " + textInput.getText() + "\n");
 
-			// Add the text to the console
-			textOutput.append("Username: " + textInput.getText() + "\n");
+				// clear the inputed text in the JTextField
+				textInput.setText("");
+			}
 
-			// clear the inputed text in the JTextField
-			textInput.setText("");
+			
 
 		}
 	}
@@ -87,6 +97,10 @@ public class Console extends JPanel implements ActionListener {
 			public void windowClosing(WindowEvent e) {
 				System.exit(0);
 			}
+			
+			public void windowOpened( WindowEvent e ){
+		        textInput.requestFocus();
+		    }
 		});
 
 		// set initial size of window
