@@ -21,55 +21,53 @@ public class Console extends JPanel implements ActionListener {
 	private JScrollPane areaScrollPane;
 
 	public Console() {
-		
-		//Override standard output stream to also print to console window
+
+		// Override standard output stream to also print to console window
 		PrintStream origOut = System.out;
-	    PrintStream interceptor = new Interceptor(origOut);
-	    System.setOut(interceptor);		// just add the interceptor
+		PrintStream interceptor = new Interceptor(origOut);
+		System.setOut(interceptor); // just add the interceptor
 
 		// Use BorderLayout layout manager to arrange the label
-        setLayout(new BorderLayout());
-		
+		setLayout(new BorderLayout());
+
 		// Instantiate a JTextArea to output the data
 		textOutput = new JTextArea();
-		
-		
+
 		// Prevent the user from editing it
-		textOutput.setEditable(false); 
-		
+		textOutput.setEditable(false);
+
 		// Make text wrap by words
 		textOutput.setLineWrap(true);
 		textOutput.setWrapStyleWord(true);
-		
-		//make it visible
+
+		// make it visible
 		textOutput.setVisible(true);
 
-		
 		areaScrollPane = new JScrollPane(textOutput);
 		areaScrollPane
 				.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-		
+
 		// Add the areaScrollPane to the JPanel
-		add(areaScrollPane, BorderLayout.CENTER); 
+		add(areaScrollPane, BorderLayout.CENTER);
 
 		// Instantiate a JTextFields for data entry
 		textInput = new JTextField(20);
-		add(textInput,BorderLayout.SOUTH); // Add the JTextFields to the JPanel
+		add(textInput, BorderLayout.SOUTH); // Add the JTextFields to the JPanel
 		textInput.addActionListener(this); // Register the JTextFields with Java
 
 		// Create a new window using the Swing class JFrame and add this panel
 		makeFrame();
 	}
 
-	/* 
-	 * When text is entered or the button is pressed
-	 * the following method will be called
+	/*
+	 * When text is entered or the button is pressed the following method will
+	 * be called
 	 */
 	public void actionPerformed(ActionEvent e) {
 
 		// If the "Read value" button is pressed
 		if (e.getSource() == textInput) {
-			if(!textInput.getText().isEmpty()){
+			if (!textInput.getText().isEmpty()) {
 				// Add the text to the console
 				textOutput.append("Username: " + textInput.getText() + "\n");
 
@@ -77,15 +75,13 @@ public class Console extends JPanel implements ActionListener {
 				textInput.setText("");
 			}
 
-			
-
 		}
 	}
-	
-	public void printToConsole(String user, String message){
+
+	public void printToConsole(String user, String message) {
 		textOutput.append(user + ": " + message + "\n");
 	}
-	
+
 	// Create a window frame
 	public void makeFrame() {
 
@@ -97,17 +93,17 @@ public class Console extends JPanel implements ActionListener {
 			public void windowClosing(WindowEvent e) {
 				System.exit(0);
 			}
-			
-			public void windowOpened( WindowEvent e ){
-		        textInput.requestFocus();
-		    }
+
+			public void windowOpened(WindowEvent e) {
+				textInput.requestFocus();
+			}
 		});
 
 		// set initial size of window
 		frame.setSize(600, 800);
 
 		// add the current object to the centre of the frame and make visible
-		frame.getContentPane().add(this,BorderLayout.CENTER);
+		frame.getContentPane().add(this, BorderLayout.CENTER);
 		frame.setVisible(true);
 
 	}
