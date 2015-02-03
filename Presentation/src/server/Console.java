@@ -30,18 +30,18 @@ public class Console extends JPanel implements ActionListener {
 	public Console() {
 		// Use BorderLayout layout manager to arrange the label
 		setLayout(new BorderLayout());
-		
+
 		topPanel = new JPanel();
-		
+
 		toggleSystemStream = new JCheckBox();
-		topPanel.add(toggleSystemStream,BorderLayout.WEST);
+		topPanel.add(toggleSystemStream, BorderLayout.WEST);
 		toggleSystemStream.addActionListener(this);
-		
+
 		checkBoxLabel = new JLabel();
 		checkBoxLabel.setText("Display System Messages");
-		topPanel.add(checkBoxLabel,BorderLayout.EAST);
-		
-		add(topPanel,BorderLayout.NORTH);
+		topPanel.add(checkBoxLabel, BorderLayout.EAST);
+
+		add(topPanel, BorderLayout.NORTH);
 
 		// Instantiate a JTextArea to output the data
 		textOutput = new JTextArea();
@@ -84,25 +84,47 @@ public class Console extends JPanel implements ActionListener {
 				// Add the text to the console
 				textOutput.append("Username: " + textInput.getText() + "\n");
 
+				/*
+				 *  Splits the command into an array of
+				 *  strings for the console to process
+				 */
+				processCommand(textInput.getText().split("\\s+"));
+
 				// clear the inputed text in the JTextField
 				textInput.setText("");
 			}
 
 		} else if (e.getSource() == toggleSystemStream) {
-			if(toggleSystemStream.isSelected()) {
+			if (toggleSystemStream.isSelected()) {
 				System.setOut(interceptor); // enable the interceptor
 				System.out.println("Interceptor enabled");
 			} else {
 				System.out.println("Interceptor disabled");
 				System.setOut(origOut);
 			}
-			
-			
+
 		}
 	}
 
 	public void printToConsole(String user, String message) {
 		textOutput.append(user + ": " + message + "\n");
+	}
+
+	private void processCommand(String[] args) {
+		switch(args[0]) {
+			case "exit":
+				System.out.println("exit");
+				//do stuff
+				break;
+			case "2":
+				System.out.println("2");
+				//do other stuff
+				break;
+			default:
+				System.out.println("Unknown command: \"" + args[0] + "\"");
+				break;
+				
+		}
 	}
 
 	// Create a window frame
