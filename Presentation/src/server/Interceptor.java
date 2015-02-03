@@ -13,6 +13,6 @@ public class Interceptor extends PrintStream
     public void print(String s)
     {
         super.print(s);
-    	server.console.printToConsole("SYSTEM", s);
+    	Server.console.printToConsole("SYSTEM", s);
     }
 }

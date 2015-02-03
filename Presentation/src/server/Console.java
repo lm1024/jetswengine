@@ -113,8 +113,9 @@ public class Console extends JPanel implements ActionListener {
 	private void processCommand(String[] args) {
 		switch(args[0]) {
 			case "exit":
-				System.out.println("exit");
-				//do stuff
+				System.out.println("Received exit command. Now exiting.");
+				//do stuff before exiting now
+				System.exit(0);
 				break;
 			case "2":
 				System.out.println("2");

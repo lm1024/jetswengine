@@ -7,11 +7,11 @@ package server;
  * @author dk666
  * 
  */
-public class server {
+public class Server {
 	public static Console console;
 	private Slideshow currentSlideshow;
 	
-	public server() {
+	public Server() {
 		console = new Console();
 		XMLReader reader = new XMLReader();
 		currentSlideshow = reader.getSlideshow();
@@ -23,7 +23,7 @@ public class server {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		new server();
+		new Server();
 	}
 
 }
