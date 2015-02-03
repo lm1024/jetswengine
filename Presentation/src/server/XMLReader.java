@@ -219,8 +219,4 @@ public class XMLReader extends DefaultHandler {
 		// }
 		//
 	}
-
-	public static void main(String[] args) {
-		new XMLReader();
-	}
 }
