@@ -1,6 +1,5 @@
 package server;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -20,7 +19,7 @@ import org.xml.sax.helpers.DefaultHandler;
  * Main class for reading XML file of students within a university
  * 
  */
-public class XMLReader extends DefaultHandler {
+public class XMLReader extends DefaultHandler  {
 	private Slideshow slideshow;
 	private Slide currentSlide;
 	private Defaults defaults;
@@ -28,7 +27,7 @@ public class XMLReader extends DefaultHandler {
 	private StringBuffer contentBuffer;
 	private String sectionName;
 
-	public XMLReader(String filename) {
+	public XMLReader(String filename) throws IOException {
 		readXMLFile(filename);
 		writeSlides();
 	}
@@ -50,7 +49,7 @@ public class XMLReader extends DefaultHandler {
 	 * the data.
 	 * 
 	 */
-	public Slideshow readXMLFile(String inputFile) {
+	public Slideshow readXMLFile(String inputFile) throws IOException {
 		try {
 			// use the default parser
 			SAXParserFactory factory = SAXParserFactory.newInstance();
@@ -61,11 +60,7 @@ public class XMLReader extends DefaultHandler {
 			pce.printStackTrace();
 		} catch (SAXException saxe) {
 			saxe.printStackTrace();
-		} catch (FileNotFoundException fnfe) {
-			System.out.println("ERROR - File not found: " + inputFile);
-		} catch (IOException ioe) {
-			ioe.printStackTrace();
-		} 
+		}
 
 		return slideshow;
 	}

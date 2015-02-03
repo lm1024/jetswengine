@@ -18,6 +18,7 @@ import javax.swing.JTextField;
 public class Console extends Server implements ActionListener {
 
 	private JPanel panel;
+	private final String processorUsername = "Command Processor";
 	private JTextField textInput;
 	private JTextArea textOutput;
 	private JScrollPane areaScrollPane;
@@ -73,6 +74,13 @@ public class Console extends Server implements ActionListener {
 		// Create a new window using the Swing class JFrame and add this panel
 		makeFrame();
 	}
+	
+	/**
+	 * @return the processorUsername
+	 */
+	public String getProcessorUsername() {
+		return processorUsername;
+	}
 
 	/*
 	 * When text is entered or the button is pressed the following method will
@@ -113,22 +121,30 @@ public class Console extends Server implements ActionListener {
 	}
 
 	private void processCommand(String[] args) {
-		switch(args[0]) {
-			case "exit":
+		switch(args[0].toUpperCase()) {
+			case "EXIT":
 				System.out.println("Received exit command. Now exiting.");
 				//do stuff before exiting now
 				System.exit(0);
 				break;
-			case "open":
+			case "OPEN":
 				if(args.length == 2) {
 					super.setCurrentSlideshow(args[1]);
 				} else {
-					System.out.println("Invalid arguements for command \"OPEN\"");
+					printToConsole(processorUsername,"Invalid arguements for command \"" + args[0] + "\"");
+				}
+				break;
+			
+			case "PRINT":
+				if(args.length > 1) {
+					printToConsole(processorUsername,args[1] + ": " + super.getCurrentSlideshow());
+				} else {
+					printToConsole(processorUsername,"Invalid arguements for command \"" + args[0] + "\"");
 				}
 				break;
 				
 			default:
-				System.out.println("Unknown command: \"" + args[0] + "\"");
+				printToConsole(processorUsername,"Unknown command: \"" + args[0] + "\"");
 				break;
 				
 		}

@@ -3,6 +3,8 @@
  */
 package server;
 
+import java.io.IOException;
+
 /**
  * @author dk666
  * 
@@ -16,18 +18,32 @@ public class Server {
 		return filename;
 	}
 
-	public void setCurrentSlideshow(String loc) throws IllegalArgumentException {
+	public void setCurrentSlideshow(String loc) {
 		try {
-			this.filename = loc;
-			this.currentSlideshow = new XMLReader(filename).getSlideshow();
-		} catch (IllegalArgumentException e) {
-			System.out.println("Failed to open \"" + filename + "\"");
+			this.currentSlideshow = new XMLReader(loc).getSlideshow();
+		} catch (IOException ioe) {
+			console.printToConsole(console.getProcessorUsername(),"Failed to open \"" + loc + "\"");
 		}
+		if(currentSlideshow == null) {
+			console.printToConsole(console.getProcessorUsername(),"Attempting to re-open previous file");
+			try {
+				this.currentSlideshow = new XMLReader(filename).getSlideshow();
+			} catch (IOException ioe2) {
+				this.filename = null;
+				console.printToConsole(console.getProcessorUsername(),"Failed to open fallback file");
+				console.printToConsole(console.getProcessorUsername(),"Please open a valid Slideshow");
+			}
+		} else {
+			this.filename = loc;
+		}
+		
+		
+		this.filename = loc;
 	}
 	
 	public Server() {
-		currentSlideshow = new XMLReader(filename).getSlideshow();
-		System.out.println(currentSlideshow.getInfo().getVersion());
+		//currentSlideshow = new XMLReader(filename).getSlideshow();
+		//System.out.println(currentSlideshow.getInfo().getVersion());
 	}
 	
 
