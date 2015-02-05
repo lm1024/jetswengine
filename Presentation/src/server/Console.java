@@ -18,8 +18,6 @@ import javax.swing.JTextField;
 public class Console extends Server implements ActionListener {
 
 	private JPanel panel;
-	private String processorUsername = "Command Processor";
-	private String username = "Username";
 	private JTextField textInput;
 	private JTextArea textOutput;
 	private JScrollPane areaScrollPane;
@@ -28,6 +26,9 @@ public class Console extends Server implements ActionListener {
 	private final PrintStream origOut = System.out;
 	private final PrintStream interceptor = new Interceptor(origOut);
 	private JPanel topPanel;
+	//private CommandProcessor commandProcessor = new CommandProcessor();
+	private String processorUsername = "Command Processor";
+	private String username = "Username";
 
 	public Console() {
 		
@@ -75,27 +76,7 @@ public class Console extends Server implements ActionListener {
 		// Create a new window using the Swing class JFrame and add this panel
 		makeFrame();
 	}
-	
-	/**
-	 * @return the processorUsername
-	 */
-	public String getProcessorUsername() {
-		return processorUsername;
-	}
-	
-	/**
-	 * @return the Username
-	 */
-	public String getUsername() {
-		return username;
-	}
-	
-	/**
-	 * @Param Set Username
-	 */
-	public void setUsername(String user) {
-		this.username = user;
-	}
+
 
 	/*
 	 * When text is entered or the button is pressed the following method will
@@ -107,7 +88,7 @@ public class Console extends Server implements ActionListener {
 		if (e.getSource() == textInput) {
 			if (!textInput.getText().isEmpty()) {
 				// Add the text to the console
-				textOutput.append( username + ": " + textInput.getText() + "\n");
+				textOutput.append( getUsername() + ": " + textInput.getText() + "\n");
 
 				/*
 				 *  Splits the command into an array of
@@ -135,52 +116,6 @@ public class Console extends Server implements ActionListener {
 		textOutput.append(user + ":\n" + message + "\n");
 	}
 
-	private void processCommand(String[] args) {
-		switch(args[0].toLowerCase()) {
-			case "close":
-			case "exit":
-				System.out.println("Received exit command. Now exiting.");
-				//do stuff before exiting now
-				System.exit(0);
-				break;
-			case "open":
-				if(args.length == 2) {
-					super.setCurrentSlideshow(args[1]);
-				} else {
-					printToConsole(processorUsername,"Invalid arguements for command \"" + args[0] + "\"");
-				}
-				break;
-			
-			case "print":
-				if(args.length > 1) {
-					if(args[1].toLowerCase().equals("filename")) {
-						printToConsole(processorUsername,args[1] + ": " + super.getCurrentSlideshow());
-					} else if(args[1].toLowerCase().equals("directory")) {
-						printToConsole(processorUsername,"Active Directory:\n" + System.getProperty("user.dir"));
-					}
-				} else {
-					printToConsole(processorUsername,"Invalid arguements for command \"" + args[0] + "\"");
-				}
-				break;
-				
-			case "set":
-				if(args.length > 2) {
-					if(args[1].toLowerCase().equals("username")) {
-						setUsername(args[2]);
-						printToConsole(processorUsername,"Username Updated");
-					}
-				} else {
-					printToConsole(processorUsername,"Invalid arguements for command \"" + args[0] + "\"");
-				}
-				break;
-				
-			default:
-				printToConsole(processorUsername,"Unknown command: \"" + args[0] + "\"");
-				break;
-				
-		}
-	}
-
 	// Create a window frame
 	private void makeFrame() {
 
@@ -206,4 +141,91 @@ public class Console extends Server implements ActionListener {
 		frame.setVisible(true);
 
 	}
+	
+	/**
+	 * @return the processorUsername
+	 */
+	public String getProcessorUsername() {
+		return processorUsername;
+	}
+	
+	/**
+	 * @return the Username
+	 */
+	public String getUsername() {
+		return username;
+	}
+	
+	/**
+	 * @Param Set Username
+	 */
+	public void setUsername(String user) {
+		this.username = user;
+	}
+	
+	private void close(String[] args) {
+		System.out.println("Received exit command. Now exiting.");
+		//do stuff before exiting now
+		System.exit(0);
+	}
+	
+	private void open(String[] args) {
+		if(args.length == 2) {
+			setCurrentSlideshow(args[1]);
+		} else {
+			printToConsole(getProcessorUsername(),"Invalid arguements for command \"Open\"");
+		}
+	}
+	
+	private void print(String[] args) {
+		if(args.length > 1) {
+			if(args[1].toLowerCase().equals("filename")) {
+				printToConsole(getProcessorUsername(),args[1] + ": " + getCurrentSlideshow());
+			} else if(args[1].toLowerCase().equals("directory")) {
+				printToConsole(getProcessorUsername(),"Active Directory:\n" + System.getProperty("user.dir"));
+			}
+		} else {
+			printToConsole(getProcessorUsername(),"Invalid arguements for command \"" + args[0] + "\"");
+		}
+	}
+	
+	private void set(String[] args) {
+		if(args.length > 2) {
+			if(args[1].toLowerCase().equals("username")) {
+				setUsername(args[2]);
+				printToConsole(processorUsername,"Username Updated");
+			}
+		} else {
+			printToConsole(processorUsername,"Invalid arguements for command \"" + args[0] + "\"");
+		}
+	}
+	
+	
+	
+	public void processCommand(String[] args) {
+		switch(args[0].toLowerCase()) {
+		
+			case "close":
+			case "exit":
+				close(args);
+				break;
+				
+			case "open":
+				open(args);
+				break;
+			
+			case "print":
+				print(args);
+				break;
+				
+			case "set":
+				set(args);
+				break;
+				
+			default:
+				printToConsole(processorUsername,"Unknown command: \"" + args[0] + "\"");
+				break;
+			
+	}
+}
 }
