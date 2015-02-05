@@ -52,7 +52,7 @@ class TestClass {
 			System.out
 					.printf("And if one green bottle should accidentally fall,\n");
 			System.out.printf(
-					"There'll be %d green bottles hanging on the wall.\n",
+					"There'll be %d blue bottles hanging on the wall.\n",
 					(numberOfGreenBottles - 1));
 		}
 	}
