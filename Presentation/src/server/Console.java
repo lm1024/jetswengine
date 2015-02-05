@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.PrintStream;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
@@ -203,6 +205,25 @@ public class Console extends Server implements ActionListener {
 	
 	
 	public void processCommand(String[] args) {
+		
+//		try {
+//			Method method = this.getClass().getMethod(args[0]);
+//			try {
+//				  method.invoke(this, args);
+//				} catch (IllegalArgumentException e) {
+//					
+//				} catch (IllegalAccessException e) {
+//					
+//				} catch (InvocationTargetException e) {
+//					
+//				}
+//			} catch (SecurityException e) {
+//			  // ...
+//			} catch (NoSuchMethodException e) {
+//			  // ...
+//			}
+		
+		
 		switch(args[0].toLowerCase()) {
 		
 			case "close":
