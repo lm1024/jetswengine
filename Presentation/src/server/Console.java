@@ -18,7 +18,8 @@ import javax.swing.JTextField;
 public class Console extends Server implements ActionListener {
 
 	private JPanel panel;
-	private final String processorUsername = "Command Processor";
+	private String processorUsername = "Command Processor";
+	private String username = "Username";
 	private JTextField textInput;
 	private JTextArea textOutput;
 	private JScrollPane areaScrollPane;
@@ -81,6 +82,20 @@ public class Console extends Server implements ActionListener {
 	public String getProcessorUsername() {
 		return processorUsername;
 	}
+	
+	/**
+	 * @return the Username
+	 */
+	public String getUsername() {
+		return username;
+	}
+	
+	/**
+	 * @Param Set Username
+	 */
+	public void setUsername(String user) {
+		this.username = user;
+	}
 
 	/*
 	 * When text is entered or the button is pressed the following method will
@@ -92,7 +107,7 @@ public class Console extends Server implements ActionListener {
 		if (e.getSource() == textInput) {
 			if (!textInput.getText().isEmpty()) {
 				// Add the text to the console
-				textOutput.append("Username: " + textInput.getText() + "\n");
+				textOutput.append( username + ": " + textInput.getText() + "\n");
 
 				/*
 				 *  Splits the command into an array of
@@ -117,17 +132,18 @@ public class Console extends Server implements ActionListener {
 	}
 
 	public void printToConsole(String user, String message) {
-		textOutput.append(user + ": " + message + "\n");
+		textOutput.append(user + ":\n" + message + "\n");
 	}
 
 	private void processCommand(String[] args) {
-		switch(args[0].toUpperCase()) {
-			case "EXIT":
+		switch(args[0].toLowerCase()) {
+			case "close":
+			case "exit":
 				System.out.println("Received exit command. Now exiting.");
 				//do stuff before exiting now
 				System.exit(0);
 				break;
-			case "OPEN":
+			case "open":
 				if(args.length == 2) {
 					super.setCurrentSlideshow(args[1]);
 				} else {
@@ -135,10 +151,23 @@ public class Console extends Server implements ActionListener {
 				}
 				break;
 			
-			case "PRINT":
+			case "print":
 				if(args.length > 1) {
-					if(args[1].toUpperCase().equals("FILENAME")) {
+					if(args[1].toLowerCase().equals("filename")) {
 						printToConsole(processorUsername,args[1] + ": " + super.getCurrentSlideshow());
+					} else if(args[1].toLowerCase().equals("directory")) {
+						printToConsole(processorUsername,"Active Directory:\n" + System.getProperty("user.dir"));
+					}
+				} else {
+					printToConsole(processorUsername,"Invalid arguements for command \"" + args[0] + "\"");
+				}
+				break;
+				
+			case "set":
+				if(args.length > 2) {
+					if(args[1].toLowerCase().equals("username")) {
+						setUsername(args[2]);
+						printToConsole(processorUsername,"Username Updated");
 					}
 				} else {
 					printToConsole(processorUsername,"Invalid arguements for command \"" + args[0] + "\"");
