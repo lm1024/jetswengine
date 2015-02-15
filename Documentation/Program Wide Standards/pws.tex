@@ -1,0 +1,152 @@
+\documentclass[oneside]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{parskip}
+\usepackage[UKenglish]{babel}
+\usepackage[margin=1in]{geometry}
+\usepackage{fancyhdr}
+\usepackage{multirow}
+\usepackage[colorlinks=false]{hyperref}
+\usepackage[super,square]{natbib}
+\usepackage{float}
+\usepackage[toc,page]{appendix}
+\usepackage[table]{xcolor}
+
+
+\usepackage{color}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{wrapfig}
+\usepackage{lscape}
+\usepackage{rotating}
+\usepackage{epstopdf}
+\definecolor{mygreen}{RGB}{0,127,0}
+\definecolor{mygray}{RGB}{100,100,100}
+\definecolor{mymauve}{RGB}{100,32,255}
+\definecolor{lgray}{RGB}{230,230,230}
+\definecolor{pastelgreen}{RGB}{119, 190, 119}
+\definecolor{pastelred}{RGB}{255, 105, 97}
+\definecolor{pastelorange}{RGB}{255, 179, 71}
+\lstset{ %
+  frame=tb,
+  backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+  basicstyle=\footnotesize\ttfamily,        % the size of the fonts that are used for the code
+  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                 % sets automatic line breaking
+  captionpos=t,                    % sets the caption-position to bottom
+  commentstyle=\color{mygreen},    % comment style
+  deletekeywords={...},            % if you want to delete keywords from the given language
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+%  frame=single,                    % adds a frame around the code
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  keywordstyle=\color{blue},       % keyword style
+  language=,                 % the language of the code
+  morekeywords={*,...},            % if you want to add more keywords to the set
+  numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=5pt,                   % how far the line-numbers are from the code
+  numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stepnumber=1,                    % the step between two line-numbers. If it's 1, each line will be numbered
+  stringstyle=\color{mymauve},     % string literal style
+  tabsize=4,                       % sets default tabsize to 2 spaces
+  aboveskip=3mm,
+  belowskip=3mm,
+}
+\definecolor{maroon}{rgb}{0.5,0,0}
+\definecolor{darkgreen}{rgb}{0,0.5,0}
+\lstdefinelanguage{XML}
+{
+  basicstyle=\ttfamily,
+  morestring=[s]{"}{"},
+  morecomment=[s]{?}{?},
+  morecomment=[s]{!--}{--},
+  commentstyle=\color{darkgreen},
+  moredelim=[s][\color{black}]{>}{<},
+  %moredelim=[s][\color{red}]{\ }{=},
+  stringstyle=\color{blue},
+  identifierstyle=\color{maroon}
+}
+
+
+
+
+\pagestyle{fancy} 
+\rhead{February 2015} 
+\lhead{Wave Media}
+\title{Project Wide Standard}
+\author{T. Davidson}
+
+\begin{document}
+\maketitle
+
+\clearpage
+
+\section{Rules}
+\subsection{XML Structure}
+\begin{itemize}
+\item The top level element is the slideshow element.
+\item The slideshow element must include both documentinfo and deafualtsettings elements. These elements must occur in the order documentinfo, deafultsettings.
+\item The slideshow element must include 1 or more slide elements.
+\item The documentinfo element must include author, version, comment and groupid elements. These elements may occur in any order.
+\item The defaultsettings element must include backgroundcolor, font, fontsize and fontcolor elements. These elements may occur in any order.
+\item The slide element can include any number of text, image, audio, video and graphics elements. These elements can occur in any order.
+\item The text element must include xstart and ystart attributes.
+\item The text element can include sourcefile, font, fontsize, fontcolor and duration attributes.
+\item The text element can be an empty element, if a source file is specified.
+\item The image element cannot include any child elements.
+\item The image element must include sourcefile, xstart and ystart attributes.
+\item The image element can include scale, duration and starttime attributes.
+\item The audio element cannot include any child elements.
+\item The audio element must include a sourcefile attribute.
+\item The audio element can include a starttime attribute.
+\item The video element cannot include any child elements.
+\item The video element must include sourcefile, xstart and ystart attributes.
+\item The graphics element must include type, xstart, ystart, xend, yend, solid and graphiccolor attributes.
+\item The graphics element can include a duration attribute.
+\item The graphics element can include a cyclicshading element.
+\item The cylclicshading element cannot include any elements.
+\item The cyclicshading element must include a shadingcolor attribute.
+
+\end{itemize}
+
+\clearpage
+
+\subsection{Additional Rules}
+\begin{itemize}
+\item XML, and therefore the project wide standard, is case sensitive. All element names, attribute names and data must be written purely in lower case characters.
+\item Color is always spelt color, not colour.
+\item All colors are described as 8 digit hex strings in ARGB format. (The alpha channel is the first two digits).
+\item All position values are relative to screen size, measured from the top left corner of the screen, and describe the top left corner of the object. The value is a float data type, in the range 0.0 - 1.0.
+\item All duration values are given in seconds. The value is a float data type.
+\item Where a duration value is not given an infinite duration is implied.
+\item A group ID value of 0 specifies that the file uses the standard format, with no group's extensions.
+\item All font sizes are integer pt sizes.
+\item The standard supports both 'arial' and 'times new roman' fonts.
+\item Slides occur in the XML file in sequential order, first to last.
+\item Text source files should be of type '.txt'.
+\item Image source files should be of type '.png' or '.jpg'.
+\item Audio source files should be of type '.wav'. 
+\item Video source files should be of type '.mkv'.
+\item Image scale attribute is relative to the dimensions of the source file. The value is a float data type greater than 0.
+\item The graphic 'type' attribute supports the following values: oval, rectangle, line.
+\end{itemize}
+
+\clearpage
+
+\newgeometry{left=1cm,right=1cm}
+\section{Example XML file}
+\small
+\lstset{language=XML}
+\lstinputlisting{"Example PWS XML.xml"}
+
+\clearpage
+
+\section{Schema}
+\lstset{language=XML}
+\lstinputlisting{"PWS Schema.xsd"}
+
+\end{document}
