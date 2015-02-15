@@ -8,19 +8,19 @@ import javax.swing.event.*;
 public class GraphicsWindow extends JPanel implements ActionListener {
 
 	private JComboBox<String> shapeChoice;
-	private JTextField xStart, yStart, xEnd, yEnd, color;
+	private JTextField xStart, yStart, xEnd, yEnd, shapeColor;
 	private JCheckBox solid;
-	private Graphics aShape;
 	private Oval firstOval;
-    private Rectangle firstRectangle;
-    private Line firstLine;
-    private Triangle firstTriangle;
+	private Rectangle firstRectangle;
+	private Line firstLine;
+	private Triangle firstTriangle;
+	private Shapes aShape;
+
 	/**
 	 * @param args
 	 */
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		new GraphicsWindow();
 	}
 
@@ -33,62 +33,81 @@ public class GraphicsWindow extends JPanel implements ActionListener {
 		add(shapeChoice);
 		shapeChoice.addActionListener(this);
 
-		// Instantiate a JTextFields for data entry
+		// Instantiate a JTextFields for xStart
 		xStart = new JTextField(3);
 		add(xStart); // Add the JTextFields to the JPanel
 		xStart.addActionListener(this); // Register the JTextFields with Java
 
-		// Instantiate a JTextFields for data entry
+		// Instantiate a JTextFields for yStart
 		yStart = new JTextField(3);
 		add(yStart); // Add the JTextFields to the JPanel
 		yStart.addActionListener(this); // Register the JTextFields with Java
 
-		// Instantiate a JTextFields for data entry
+		// Instantiate a JTextFields for xEnd
 		xEnd = new JTextField(3);
 		add(xEnd); // Add the JTextFields to the JPanel
 		xEnd.addActionListener(this); // Register the JTextFields with Java
 
-		// Instantiate a JTextFields for data entry
+		// Instantiate a JTextFields for yEnd
 		yEnd = new JTextField(3);
 		add(yEnd); // Add the JTextFields to the JPanel
 		yEnd.addActionListener(this); // Register the JTextFields with Java
 
-		// Instantiate a JTextFields for data entry
-		yEnd = new JTextField(9);
-		add(yEnd); // Add the JTextFields to the JPanel
-		yEnd.addActionListener(this); // Register the JTextFields with Java
+		// Instantiate a JTextFields for color
+		shapeColor = new JTextField(8);
+		add(shapeColor); // Add the JTextFields to the JPanel
+		shapeColor.addActionListener(this); // Register the JTextFields with
+											// Java
+
+		solid = new JCheckBox();
+		add(solid);
+		solid.addActionListener(this);
+
+		// Instantiates shape classes
+		firstOval = new Oval();
+		firstRectangle = new Rectangle();
+		firstLine = new Line();
+		firstTriangle = new Triangle();
+
+		aShape = firstOval;
 
 		// Create a new window using the Swing class JFrame and add this panel
 		makeFrame();
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == xStart) {
-			aShape.moveXY(100, 100);
-		}
-
-		else if (e.getSource() == yStart) {
-			aShape.reSize(20);
-		}
-
-		else if (e.getSource() == xEnd) {
-			aShape.reSize(-20);
-		}
-
-		else if (e.getSource() == yEnd) {
-			aShape.reSize(-20);
-		}
-
-		// checkbox assigns object to aShape
-		else if (e.getSource() == shapeChoice) {
-			if (shapeChoice.getSelectedItem().equals("Oval"))
+		// Updates various variables depending on the object that updates
+		if (e.getSource() == shapeChoice) {
+			// Set the selected shape to the one chosen in the shapeChoice menu
+			switch ((String) shapeChoice.getSelectedItem()) {
+			case "Oval":
 				aShape = firstOval;
-			else if (shapeChoice.getSelectedItem().equals("Rectangle"))
+				break;
+			case "Rectangle":
 				aShape = firstRectangle;
-			else if (shapeChoice.getSelectedItem().equals("Line"))
+				break;
+			case "Line":
 				aShape = firstLine;
-			else if (shapeChoice.getSelectedItem().equals("Triangle"))
+				break;
+			case "Triangle":
 				aShape = firstTriangle;
+			}
+
+		} else if (e.getSource() == xStart) {
+			aShape.setXStart(Integer.parseInt(xStart.getText()));
+		} else if (e.getSource() == yStart) {
+			aShape.setYStart(Integer.parseInt(yStart.getText()));
+		} else if (e.getSource() == xEnd) {
+			aShape.setXEnd(Integer.parseInt(xEnd.getText()));
+		} else if (e.getSource() == yEnd) {
+			System.out.println(yEnd.getText());
+			aShape.setYEnd(Integer.parseInt(yEnd.getText()));
+		} else if (e.getSource() == shapeColor) {
+			// checks for a 8 digit long hex number
+			if (shapeColor.getText().matches("\\p{XDigit}+") && shapeColor.getText().length() == 8)
+				aShape.shapeColor = new Color((int) Long.parseLong(shapeColor.getText(), 16), aShape.hasalpha);
+		} else if (e.getSource() == solid) {
+			aShape.setSolid(solid.isSelected());
 		}
 		repaint();
 	}
@@ -96,8 +115,8 @@ public class GraphicsWindow extends JPanel implements ActionListener {
 	// Provide this method to instruct Java what to do when repainting the
 	// window
 	public void paintComponent(Graphics g) {
-		g.setColor(Color.black);
-		super.printComponent(g);
+		super.paintComponent(g);
+		aShape.display(g);
 	}
 
 	// Create a window frame
@@ -105,7 +124,7 @@ public class GraphicsWindow extends JPanel implements ActionListener {
 	public void makeFrame() {
 
 		// Instantiate a window frame using Swing class JFrame
-		JFrame frame = new JFrame("Ex2");
+		JFrame frame = new JFrame("SmartSlidesTestEnvironment");
 
 		// When the window is closed terminate the application
 		frame.addWindowListener(new WindowAdapter() {

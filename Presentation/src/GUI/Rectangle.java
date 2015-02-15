@@ -9,27 +9,39 @@ public class Rectangle extends Shapes {
 	}
 
 	@Override
-	public void reSize(int dummy) {
+	public void setXStart(int xStart) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
-	public void moveXY(int newX, int newY) {
+	public void setYStart(int yStart) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
-	public void outputXYCoords(Graphics g) {
+	public void setXEnd(int xEnd) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
+	@Override
+	public void setYEnd(int yEnd) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void setSolid(boolean solid) {
+
+	}
+	
 	@Override
 	public void display(Graphics g) {
 		// TODO Auto-generated method stub
 
 	}
+
 
 }

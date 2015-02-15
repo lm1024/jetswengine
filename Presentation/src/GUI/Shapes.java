@@ -1,18 +1,26 @@
 package GUI;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 public abstract class Shapes {
 	
 	protected float xStart, yStart;
-	protected int rgba;
+	protected Color shapeColor;
 	final boolean hasalpha = true;
+	protected boolean solid;
+
+	public abstract void setXStart(int xStart);
 	
-	public abstract void reSize(int dummy);
-
-	public abstract void moveXY(int newX, int newY);
-
-	public abstract void outputXYCoords(Graphics g);
-
+	public abstract void setYStart(int yStart);
+	
+	public abstract void setXEnd(int xEnd);
+	
+	public abstract void setYEnd(int yEnd);
+	
+	public abstract void setSolid(boolean solid);
+	
 	public abstract void display(Graphics g);
+	
+	
 }
