@@ -19,7 +19,7 @@
 		</text>
 		
 		<text xstart="0.5" ystart="0.5" font="arial" fontsize="24" fontcolor="#00112233"  duration="1.5">
-			<richtext font="arial" fontsize="26" fontcolor="#11223344" newline="true" b="true" i="true" u="true" strikethrough="true" superscript="true" subscript="true" camelcase="true">Example text!</richtext>
+			<richtext font="arial" fontsize="26" fontcolor="#11223344" newline="true" b="true" i="true" u="true" strikethrough="true" superscript="true" subscript="true" camelcase="true" alignment="left">Example text!</richtext>
 		</text>
 		
 		
