@@ -2,10 +2,10 @@
 
 <slideshow>
 	<documentinfo>
-		<author>Ali Jewers</author>
+		<author>Tom Davidson</author>
 		<version>1.0</version>
 		<comment>this is a comment</comment>
-		<groupid>4</groupid>
+		<groupid>2</groupid>
 	</documentinfo>
 	<defaultsettings>
 		<backgroundcolor>#ff00ff00</backgroundcolor>
