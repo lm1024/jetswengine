@@ -23,7 +23,7 @@
 		</text>
 		
 		
-		<image sourcefile="selfie.jpg" xstart="0.5" ystart="0.5" scale="1.0" duration="1.5" starttime="2.0" />
+		<image sourcefile="cat.jpg" xstart="0.5" ystart="0.5" scale="1.0" duration="1.5" starttime="2.0" />
 		<image sourcefile="selfie.jpg" xstart="0.5" ystart="0.5" scale="1.0" duration="1.5" starttime="2.0" rotate="90" fliphorizontal="true" flipvertival="true"/>
 		
 		<audio sourcefile="gavel.wav" starttime="2.5" />
