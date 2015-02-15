@@ -1,11 +1,13 @@
 package GUI;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 public class Rectangle extends Shapes {
 
-	public Rectangle() {
-		// TODO Auto-generated constructor stub
+	public Rectangle(int xStart, int yStart, int xEnd, int yEnd, boolean solid, Color shapeColor, float duration, float startTime ) {
+		// Required call to super constructor
+		super(xStart, yStart, shapeColor);
 	}
 
 	@Override
@@ -30,11 +32,6 @@ public class Rectangle extends Shapes {
 	public void setYEnd(int yEnd) {
 		// TODO Auto-generated method stub
 		
-	}
-	
-	@Override
-	public void setSolid(boolean solid) {
-
 	}
 	
 	@Override

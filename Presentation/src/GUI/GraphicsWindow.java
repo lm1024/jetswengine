@@ -3,8 +3,8 @@ package GUI;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.event.*;
 
+@SuppressWarnings("serial")
 public class GraphicsWindow extends JPanel implements ActionListener {
 
 	private JComboBox<String> shapeChoice;
@@ -15,6 +15,9 @@ public class GraphicsWindow extends JPanel implements ActionListener {
 	private Line firstLine;
 	private Triangle firstTriangle;
 	private Shapes aShape;
+	
+	final float defaultStartingCoordinate = 100;
+	final float defaultEndingCoordinate = 200;
 
 	/**
 	 * @param args
@@ -33,45 +36,47 @@ public class GraphicsWindow extends JPanel implements ActionListener {
 		add(shapeChoice);
 		shapeChoice.addActionListener(this);
 
-		// Instantiate a JTextFields for xStart
+		/* Instantiate JTextFields for xStart, yStart, xEnd, yEnd and shapeColor*/
 		xStart = new JTextField(3);
-		add(xStart); // Add the JTextFields to the JPanel
-		xStart.addActionListener(this); // Register the JTextFields with Java
+		add(xStart); 
+		xStart.addActionListener(this); 
+		xStart.setText(Integer.toString((int)defaultStartingCoordinate));
 
-		// Instantiate a JTextFields for yStart
 		yStart = new JTextField(3);
-		add(yStart); // Add the JTextFields to the JPanel
-		yStart.addActionListener(this); // Register the JTextFields with Java
-
-		// Instantiate a JTextFields for xEnd
+		add(yStart); 
+		yStart.addActionListener(this); 
+		yStart.setText(Integer.toString((int)defaultStartingCoordinate));
+		
 		xEnd = new JTextField(3);
-		add(xEnd); // Add the JTextFields to the JPanel
-		xEnd.addActionListener(this); // Register the JTextFields with Java
-
-		// Instantiate a JTextFields for yEnd
+		add(xEnd); 
+		xEnd.addActionListener(this); 
+		xEnd.setText(Integer.toString((int)defaultEndingCoordinate));
+		
 		yEnd = new JTextField(3);
-		add(yEnd); // Add the JTextFields to the JPanel
-		yEnd.addActionListener(this); // Register the JTextFields with Java
+		add(yEnd); 
+		yEnd.addActionListener(this); 
+		yEnd.setText(Integer.toString((int)defaultEndingCoordinate));
 
-		// Instantiate a JTextFields for color
 		shapeColor = new JTextField(8);
-		add(shapeColor); // Add the JTextFields to the JPanel
-		shapeColor.addActionListener(this); // Register the JTextFields with
-											// Java
-
+		add(shapeColor); 
+		shapeColor.addActionListener(this);
+		shapeColor.setText("00000000");
+		
+		/* Instantiate a JCheckBox for if shape is solid */
 		solid = new JCheckBox();
 		add(solid);
 		solid.addActionListener(this);
+		solid.setSelected(true);
 
-		// Instantiates shape classes
-		firstOval = new Oval();
-		firstRectangle = new Rectangle();
-		firstLine = new Line();
-		firstTriangle = new Triangle();
+		/* Instantiates shape classes */
+		firstOval = new Oval(100, 100, 200, 200, true, Color.black, 0, 0);
+		firstRectangle = new Rectangle(100, 100, 200, 200, true, Color.black, 0, 0);
+		firstLine = new Line(100, 100, 200, 200, Color.black, 0, 0);
+		firstTriangle = new Triangle(100, 100, 200, 200, true, Color.black, 0, 0);
 
 		aShape = firstOval;
 
-		// Create a new window using the Swing class JFrame and add this panel
+		/* Create a new window using the Swing class JFrame and add this panel */
 		makeFrame();
 	}
 

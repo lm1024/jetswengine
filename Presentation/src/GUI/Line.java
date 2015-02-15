@@ -1,11 +1,13 @@
 package GUI;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 public class Line extends Shapes {
 
-	public Line() {
-		// TODO Auto-generated constructor stub
+	public Line(int xStart, int yStart, int xEnd, int yEnd, Color shapeColor, float duration, float startTime ) {
+		// Required call to super constructor
+		super(xStart, yStart, shapeColor);
 	}
 
 	@Override
@@ -30,11 +32,6 @@ public class Line extends Shapes {
 	public void setYEnd(int yEnd) {
 		// TODO Auto-generated method stub
 		
-	}
-	
-	@Override
-	public void setSolid(boolean solid) {
-
 	}
 	
 	@Override

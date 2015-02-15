@@ -6,16 +6,20 @@ import java.awt.Graphics;
 public class Oval extends Shapes {
 
 	protected float xEnd, yEnd;
+	protected boolean solid;
 
-	public Oval() {
+	public Oval(int xStart, int yStart, int xEnd, int yEnd, boolean solid, Color shapeColor, float duration, float startTime ) {
+		super(xStart, yStart, shapeColor);
 		// Set initial values for boundary around Oval, and color of Oval
-		xStart = 100;
-		yStart = 100;
-		xEnd = 200;
-		yEnd = 200;
+		this.xStart = xStart;
+		this.yStart = yStart;
+		this.xEnd = xEnd;
+		this.yEnd = yEnd;
+		this.solid = solid;
 		shapeColor = new Color(255, 255, 255);
 	}
-
+	
+	@Override
 	public void setXStart(int xStart) {
 		this.xStart = xStart;
 	}
@@ -39,11 +43,6 @@ public class Oval extends Shapes {
 	}
 
 	@Override
-	public void setSolid(boolean solid) {
-		this.solid = solid;
-	}
-
-	@Override
 	public void display(Graphics g) {
 		g.setColor(shapeColor);
 		// Draws a oval or outline of oval depening on solid checkbox
@@ -51,7 +50,21 @@ public class Oval extends Shapes {
 			g.fillOval((int) xStart, (int) yStart, (int) (xEnd - xStart), (int) (yEnd - yStart));
 		else
 			g.drawOval((int) xStart, (int) yStart, (int) (xEnd - xStart), (int) (yEnd - yStart));
-
 	}
+	
+	@Override
+	public void setSolid(boolean solid) {
+		this.solid = solid;
+	}
+	
+	public void setColor(Color shapeColor) {
+		this.shapeColor = shapeColor;
+	}
+	
+	public void setDuration(float duration) {
+		
+	}
+	
+	
 
 }
