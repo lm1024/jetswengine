@@ -1,4 +1,4 @@
-package server;
+package XML;
 
 import java.io.IOException;
 
@@ -9,6 +9,12 @@ import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+
+import Data.Defaults;
+import Data.DocumentInfo;
+import Data.Slide;
+import Data.Slideshow;
+
 
 /**
  * enum type for keeping track of when we need to store content in certain elements

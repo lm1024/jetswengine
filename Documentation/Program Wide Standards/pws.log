@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=pdflatex 2015.2.15)  15 FEB 2015 11:57
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=pdflatex 2015.2.15)  15 FEB 2015 15:19
 entering extended mode
 **pws.tex
 ("M:\Sweng\jetswengine\Documentation\Program Wide Standards\pws.tex"
@@ -718,40 +718,41 @@ Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
 nput line 144.
 
 ("M:\Sweng\jetswengine\Documentation\Program Wide Standards\Example PWS XML.xml
-") [4
+" [4
 
 
-]
+]) [5]
 ("M:\Sweng\jetswengine\Documentation\Program Wide Standards\PWS Schema.xsd"
-[5
+[6
 
-] [6])
+] [7] [8] [9])
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 152.
- [7]
+ [10]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 152.
- ("M:\Sweng\jetswengine\Documentation\Program Wide Standards\pws.aux")
+
+("M:\Sweng\jetswengine\Documentation\Program Wide Standards\pws.aux")
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 152.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 152.
 Package rerunfilecheck Info: File `pws.out' has not changed.
 (rerunfilecheck)             Checksum: 3A5AF84226BC6359BFCFBBC07C853C4B;264.
  ) 
 Here is how much of TeX's memory you used:
- 9894 strings out of 494045
- 140095 string characters out of 3154023
- 1075990 words of memory out of 3000000
- 12908 multiletter control sequences out of 15000+200000
+ 10065 strings out of 494045
+ 142665 string characters out of 3154023
+ 1021002 words of memory out of 3000000
+ 12934 multiletter control sequences out of 15000+200000
  8053 words of font info for 29 fonts, out of 3000000 for 9000
  715 hyphenation exceptions out of 8191
- 41i,12n,43p,232b,1817s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 41i,12n,43p,309b,1833s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/TEX/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/TEX/MiKTeX/fonts
 /type1/public/amsfonts/cm/cmr10.pfb><C:/TEX/MiKTeX/fonts/type1/public/amsfonts/
 cm/cmr12.pfb><C:/TEX/MiKTeX/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/TEX/Mi
 KTeX/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/TEX/MiKTeX/fonts/type1/public/
 amsfonts/cm/cmsy10.pfb><C:/TEX/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
 
-Output written on pws.pdf (7 pages, 125134 bytes).
+Output written on pws.pdf (10 pages, 154498 bytes).
 PDF statistics:
- 258 PDF objects out of 1000 (max. 8388607)
- 154 named destinations out of 1000 (max. 500000)
+ 442 PDF objects out of 1000 (max. 8388607)
+ 299 named destinations out of 1000 (max. 500000)
  41 words of extra memory for PDF output out of 10000 (max. 10000000)
 

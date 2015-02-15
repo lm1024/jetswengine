@@ -1,4 +1,4 @@
-package server;
+package Data;
 
 public class Movie {
 

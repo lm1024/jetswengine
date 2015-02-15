@@ -1,4 +1,4 @@
-package server;
+package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -16,6 +16,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+
+import server.Interceptor;
+import server.Server;
 
 public class Console extends Server implements ActionListener {
 

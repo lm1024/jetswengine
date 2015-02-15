@@ -5,6 +5,10 @@ package server;
 
 import java.io.IOException;
 
+import Data.Slideshow;
+import GUI.Console;
+import XML.XMLReader;
+
 /**
  * @author dk666
  * 
