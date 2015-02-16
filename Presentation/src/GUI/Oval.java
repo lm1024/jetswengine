@@ -76,7 +76,7 @@ public class Oval extends Shapes {
 		g.setColor(shapeColor);
 		/* Draws a oval or outline of oval depending on solid boolean */
 		if (solid)
-			g.fillOval((int) xStart, (int) yStart, (int) (xEnd - xStart), (int) (yEnd - yStart));
+			g.fillRect((int) xStart, (int) yStart, (int) (xEnd - xStart), (int) (yEnd - yStart));
 		else
 			g.drawOval((int) xStart, (int) yStart, (int) (xEnd - xStart), (int) (yEnd - yStart));
 	}
