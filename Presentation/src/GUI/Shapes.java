@@ -8,7 +8,10 @@ import java.awt.Graphics;
  * @author Tom Davidson */
 public abstract class Shapes {
 
-	protected float xStart, yStart, duration, startTime;
+	protected float xStart;
+	protected float yStart;
+	protected float duration;
+	protected float startTime;
 	protected Color shapeColor;
 	final boolean hasalpha = true;
 	

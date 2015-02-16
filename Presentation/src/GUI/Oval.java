@@ -9,7 +9,8 @@ import java.awt.Graphics;
  * @author Tom Davidson */
 public class Oval extends Shapes {
 
-	protected float xEnd, yEnd;
+	protected float xEnd;
+	protected float yEnd;
 	protected boolean solid;
 	
 	/** Constructor method */

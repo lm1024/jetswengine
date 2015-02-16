@@ -8,7 +8,7 @@ public class Text {
 	private int xStart;
 	private int yStart;
 	private int startTime;
-	private int endTime;
+	private int duration;
 	
 	public Text(String text){
 		this.textFragments.add(0, new textFragment(text));
@@ -80,14 +80,14 @@ public class Text {
 	/**
 	 * @return the endTime
 	 */
-	public int getEndTime() {
-		return endTime;
+	public int getDuration() {
+		return duration;
 	}
 
 	/**
 	 * @param endTime the endTime to set
 	 */
-	public void setEndTime(int endTime) {
-		this.endTime = endTime;
+	public void setDuration(int duration) {
+		this.duration = duration;
 	}
 }
