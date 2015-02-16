@@ -18,6 +18,7 @@ public class Oval extends Shapes {
 		/* Required call to super constructor */
 		super(xStart, yStart, shapeColor, duration, startTime);
 		
+		
 		/* Set initial values for Oval */
 		this.xStart = xStart;
 		this.yStart = yStart;

@@ -29,6 +29,7 @@ public class GraphicsWindow extends JPanel implements ActionListener {
 	}
 	
 	
+	
 	public GraphicsWindow() {
 		shapeChoice = new JComboBox<String>();
 		shapeChoice.addItem("Oval");
