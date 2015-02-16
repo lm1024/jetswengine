@@ -56,7 +56,6 @@ public class Slide implements Serializable {
 	 */
 	public void setTitle(Text title) {
 		this.title = title;
-		this.title.setEndTime(-1);
 		this.title.setxStart(20);
 		this.title.setyStart(20);
 		this.title.getTextFragment(0).setBold(true);

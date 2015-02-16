@@ -78,14 +78,14 @@ public class Text {
 	}
 
 	/**
-	 * @return the endTime
+	 * @return the duration
 	 */
 	public int getDuration() {
 		return duration;
 	}
 
 	/**
-	 * @param endTime the endTime to set
+	 * @param duration the duration to set
 	 */
 	public void setDuration(int duration) {
 		this.duration = duration;

@@ -9,6 +9,46 @@ public class textFragment {
 	private boolean bold;
 	private boolean underlined;
 	private boolean italicised;
+	private boolean superscript;
+	private boolean subscript;
+	private boolean strikethrough;
+	
+	/**
+	 * @return true if fragment is superscript
+	 */
+	public boolean isSuperscript() {
+		return superscript;
+	}
+	/**
+	 * @param superscript the superscript to set
+	 */
+	public void setSuperscript(boolean superscript) {
+		this.superscript = superscript;
+	}
+	/**
+	 * @return the subscript
+	 */
+	public boolean isSubscript() {
+		return subscript;
+	}
+	/**
+	 * @param subscript the subscript to set
+	 */
+	public void setSubscript(boolean subscript) {
+		this.subscript = subscript;
+	}
+	/**
+	 * @return the strikethrough
+	 */
+	public boolean isStrikethrough() {
+		return strikethrough;
+	}
+	/**
+	 * @param strikethrough the strikethrough to set
+	 */
+	public void setStrikethrough(boolean strikethrough) {
+		this.strikethrough = strikethrough;
+	}
 	
 	/**
 	 * @Initialises a new text fragment
