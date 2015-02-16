@@ -8,8 +8,7 @@ public class Slide implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String id;
-	private int duration;
+	private float duration;
 	private Text title;
 	private List<Text> textList;
 	private List<Graphic> graphicsList;
@@ -17,21 +16,14 @@ public class Slide implements Serializable {
 	private List<Image> imagesList;
 	private List<Movie> moviesList;
 
-	public Slide(String id) {
-		this.id = id;
-	}
-
-	/**
-	 * @return The slide id
-	 */
-	public String getId() {
-		return id;
+	public Slide() {
+		
 	}
 
 	/**
 	 * @return The slide duration
 	 */
-	public int getDuration() {
+	public float getDuration() {
 		return duration;
 	}
 
@@ -39,7 +31,7 @@ public class Slide implements Serializable {
 	 * @param duration </br>Set the duration of the slide. </br>Setting to -1 indicates
 	 * slide that requires changing manually
 	 */
-	public void setDuration(int duration) {
+	public void setDuration(float duration) {
 		this.duration = duration;
 	}
 

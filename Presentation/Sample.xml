@@ -24,7 +24,7 @@
 		<audio urlname="http://www.amp.york.ac.uk/mySound.wav" starttime="3" loop="true"/>
 		<image urlname="http://www.amp.york.ac.uk/myPicture.gif" xstart="150" ystart="200" width="200" height="80" starttime="8" endtime="12"/>
 		<midi urlname="myLocalMidi.midi" starttime="2" loop="false"/>
-		<video urlname="http://www.amp.york.ac.uk/AGoodVideo.avi" starttime="20" loop="false" xstart="100" ystart="400"/>
+		<video urlname="http://www.amp.york.ac.uk/AGoodVideo.avi" starttime="20" loop="false" xstart="100" ystart="400"></video>
 	</slide>
 	<slide id="sample2">
 		<text xstart="60" ystart="20">

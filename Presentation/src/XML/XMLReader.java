@@ -15,7 +15,6 @@ import Data.DocumentInfo;
 import Data.Slide;
 import Data.Slideshow;
 
-
 /**
  * enum type for keeping track of when we need to store content in certain elements
  *
@@ -25,7 +24,7 @@ import Data.Slideshow;
  * Main class for reading XML file of students within a university
  * 
  */
-public class XMLReader extends DefaultHandler  {
+public class XMLReader extends DefaultHandler {
 	private Slideshow slideshow;
 	private Slide currentSlide;
 	private Defaults defaults;
@@ -92,17 +91,17 @@ public class XMLReader extends DefaultHandler  {
 				+ ") ...");
 
 		if (elementName.equals("slideshow")) {
-			if (slideshow == null) {
-				slideshow = new Slideshow();
-			}
+			slideshow = new Slideshow();
 		} else if (elementName.equals("slide")) {
 			sectionName = elementName;
-			currentSlide = new Slide(attributes.getValue("id"));
+			currentSlide = new Slide();
 			try {
-				currentSlide.setDuration(Integer.parseInt(attributes
+				currentSlide.setDuration(Float.parseFloat(attributes
 						.getValue("duration")));
 			} catch (NumberFormatException e) {
-
+				/* Do nothing if no duration is specified */
+			} catch (NullPointerException npe) {
+				/* Do nothing if no duration is specified */
 			}
 		} else if (elementName.equals("defaults")) {
 			sectionName = elementName;
@@ -208,14 +207,18 @@ public class XMLReader extends DefaultHandler  {
 	 * that were read in from the XML file.
 	 */
 	private void writeSlides() {
-		if(slideshow != null) {
-			System.out.println("\tSlide Author: " + slideshow.getInfo().getAuthor());
-			System.out.println("\tSlide Version: " + slideshow.getInfo().getVersion());
-			System.out.println("\tSlide Comment: " + slideshow.getInfo().getComment());
+		if (slideshow != null) {
+			System.out.println("\tSlide Author: "
+					+ slideshow.getInfo().getAuthor());
+			System.out.println("\tSlide Version: "
+					+ slideshow.getInfo().getVersion());
+			System.out.println("\tSlide Comment: "
+					+ slideshow.getInfo().getComment());
+			System.out.println("\tSlide 1 duration: "
+					+ slideshow.getSlides().get(0).getDuration());
 		} else {
 			System.out.println("Invalid slideshow found");
 		}
-		
 
 		// needs rewriting
 		//
