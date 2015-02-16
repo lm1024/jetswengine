@@ -4,6 +4,11 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+
+/** Class to make graphics window to test drawing shapes
+ * 
+ * @version 1.0 16/02/2015
+ * @author Tom Davidson */
 @SuppressWarnings("serial")
 public class GraphicsWindow extends JPanel implements ActionListener {
 
@@ -19,14 +24,11 @@ public class GraphicsWindow extends JPanel implements ActionListener {
 	final float defaultStartingCoordinate = 100;
 	final float defaultEndingCoordinate = 200;
 
-	/**
-	 * @param args
-	 */
-
 	public static void main(String[] args) {
 		new GraphicsWindow();
 	}
-
+	
+	
 	public GraphicsWindow() {
 		shapeChoice = new JComboBox<String>();
 		shapeChoice.addItem("Oval");
@@ -79,9 +81,10 @@ public class GraphicsWindow extends JPanel implements ActionListener {
 		/* Create a new window using the Swing class JFrame and add this panel */
 		makeFrame();
 	}
-
+	
+	/** Method called whenever any item is updated */
 	public void actionPerformed(ActionEvent e) {
-		// Updates various variables depending on the object that updates
+		// Calls methods/updates variables depending on the object that updates
 		if (e.getSource() == shapeChoice) {
 			// Set the selected shape to the one chosen in the shapeChoice menu
 			switch ((String) shapeChoice.getSelectedItem()) {
@@ -109,7 +112,8 @@ public class GraphicsWindow extends JPanel implements ActionListener {
 			aShape.setYEnd(Integer.parseInt(yEnd.getText()));
 		} else if (e.getSource() == shapeColor) {
 			// checks for a 8 digit long hex number
-			if (shapeColor.getText().matches("\\p{XDigit}+") && shapeColor.getText().length() == 8)
+			String colorText = new String(shapeColor.getText());
+			if (colorText.matches("\\p{XDigit}+") && colorText.length() == 8)
 				aShape.shapeColor = new Color((int) Long.parseLong(shapeColor.getText(), 16), aShape.hasalpha);
 		} else if (e.getSource() == solid) {
 			aShape.setSolid(solid.isSelected());
@@ -117,15 +121,13 @@ public class GraphicsWindow extends JPanel implements ActionListener {
 		repaint();
 	}
 
-	// Provide this method to instruct Java what to do when repainting the
-	// window
+	/** Method for what to do when updating graphics window */
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		aShape.display(g);
 	}
 
-	// Create a window frame
-
+	/** Creates the window frame and adds the listener for exiting the program on window close */
 	public void makeFrame() {
 
 		// Instantiate a window frame using Swing class JFrame

@@ -7,7 +7,7 @@ public class Line extends Shapes {
 
 	public Line(int xStart, int yStart, int xEnd, int yEnd, Color shapeColor, float duration, float startTime ) {
 		// Required call to super constructor
-		super(xStart, yStart, shapeColor);
+		super(xStart, yStart, shapeColor, duration, startTime);
 	}
 
 	@Override
@@ -30,6 +30,23 @@ public class Line extends Shapes {
 
 	@Override
 	public void setYEnd(int yEnd) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setSolid(boolean solid) {
+		
+	}
+	
+	@Override
+	public void setDuration(float duration) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setStartTime(float startTime) {
 		// TODO Auto-generated method stub
 		
 	}

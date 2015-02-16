@@ -9,6 +9,7 @@ public class Defaults {
 	private String fontColour;
 	private String lineColour;
 	private String fillColour;
+	
 	/**
 	 * @return the backgroundColour
 	 */
