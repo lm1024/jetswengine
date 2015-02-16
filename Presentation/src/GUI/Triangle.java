@@ -5,31 +5,31 @@ import java.awt.Graphics;
 
 public class Triangle extends Shapes {
 
-	public Triangle(int xStart, int yStart, int xEnd, int yEnd, boolean solid, Color shapeColor, float duration, float startTime ) {
+	public Triangle(float xStart, float yStart, float xEnd, float yEnd, boolean solid, Color shapeColor, float duration, float startTime ) {
 		// Required call to super constructor
 		super(xStart, yStart, shapeColor, duration, startTime);
 	}
 
 	@Override
-	public void setXStart(int xStart) {
+	public void setXStart(float xStart) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void setYStart(int yStart) {
+	public void setYStart(float yStart) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void setXEnd(int xEnd) {
+	public void setXEnd(float xEnd) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void setYEnd(int yEnd) {
+	public void setYEnd(float yEnd) {
 		// TODO Auto-generated method stub
 		
 	}

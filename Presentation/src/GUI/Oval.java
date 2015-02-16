@@ -14,10 +14,9 @@ public class Oval extends Shapes {
 	protected boolean solid;
 	
 	/** Constructor method */
-	public Oval(int xStart, int yStart, int xEnd, int yEnd, boolean solid, Color shapeColor, float duration, float startTime ) {
+	public Oval(float xStart, float yStart, float xEnd, float yEnd, boolean solid, Color shapeColor, float duration, float startTime ) {
 		/* Required call to super constructor */
 		super(xStart, yStart, shapeColor, duration, startTime);
-		
 		
 		/* Set initial values for Oval */
 		this.xStart = xStart;
@@ -30,25 +29,25 @@ public class Oval extends Shapes {
 	
 	/** Method for setting the X Start Coordinate */
 	@Override
-	public void setXStart(int xStart) {
+	public void setXStart(float xStart) {
 		this.xStart = xStart;
 	}
 
 	/** Method for setting the Y Start Coordinate */
 	@Override
-	public void setYStart(int yStart) {
+	public void setYStart(float yStart) {
 		this.yStart = yStart;
 	}
 
 	/** Method for setting the X End Coordinate */
 	@Override
-	public void setXEnd(int xEnd) {
+	public void setXEnd(float xEnd) {
 		this.xEnd = xEnd;
 	}
 
 	/** Method for setting the Y End Coordinate */
 	@Override
-	public void setYEnd(int yEnd) {
+	public void setYEnd(float yEnd) {
 		this.yEnd = yEnd;
 	}
 	
@@ -76,7 +75,7 @@ public class Oval extends Shapes {
 		g.setColor(shapeColor);
 		/* Draws a oval or outline of oval depending on solid boolean */
 		if (solid)
-			g.fillRect((int) xStart, (int) yStart, (int) (xEnd - xStart), (int) (yEnd - yStart));
+			g.fillOval((int) xStart, (int) yStart, (int) (xEnd - xStart), (int) (yEnd - yStart));
 		else
 			g.drawOval((int) xStart, (int) yStart, (int) (xEnd - xStart), (int) (yEnd - yStart));
 	}

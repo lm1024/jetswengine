@@ -16,7 +16,7 @@ public abstract class Shapes {
 	final boolean hasalpha = true;
 	
 	/** Constructor method for Shapes */
-	public Shapes(int xStart, int yStart, Color shapeColor, float duration, float startTime) {
+	public Shapes(float xStart, float yStart, Color shapeColor, float duration, float startTime) {
 		this.xStart = xStart;
 		this.yStart = yStart;
 		this.shapeColor = shapeColor;
@@ -24,13 +24,13 @@ public abstract class Shapes {
 		this.startTime = startTime;
 	}
 
-	public abstract void setXStart(int xStart);
+	public abstract void setXStart(float xStart);
 
-	public abstract void setYStart(int yStart);
+	public abstract void setYStart(float yStart);
 
-	public abstract void setXEnd(int xEnd);
+	public abstract void setXEnd(float xEnd);
 
-	public abstract void setYEnd(int yEnd);
+	public abstract void setYEnd(float yEnd);
 	
 	/** Method setSolid required to support polymorphism */
 	public void setSolid(boolean solid) {
