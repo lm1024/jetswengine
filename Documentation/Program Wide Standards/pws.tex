@@ -136,6 +136,26 @@
 \end{itemize}
 
 \clearpage
+\section{Text Handler}
+Five different XML text standards need to be supported, which are shown below.
+
+The hierarchy for settings is program defaults, slideshow defaults(if the parameter exists), text element, richtext element.
+
+The hierarchy for what text is printed is text from sourcefile, then text within XML file.
+\subsection{Text included with a null string for sourcefile}
+\lstset{language=XML}
+\lstinputlisting{"TextXML1.xml"}
+
+\subsection{Text included with no sourcefile attribute}
+\lstinputlisting{"TextXML2.xml"}
+
+\subsection{Text from sourcefile}
+\lstinputlisting{"TextXML3.xml"}
+
+\subsection{Text from list of richtext elements}
+\lstinputlisting{"TextXML4.xml"}
+	
+\clearpage
 
 \newgeometry{left=1cm,right=1cm}
 \section{Example XML file}

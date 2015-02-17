@@ -1,0 +1,8 @@
+<text xstart="0.5" ystart="0.5">
+	<richtext newline="true">Example text!</richtext>
+	<richtext newline="false">Hello</richtext>
+	<richtext newline="true">World!</richtext>
+</text>
+
+Example Text!
+HelloWorld!

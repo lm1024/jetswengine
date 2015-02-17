@@ -1,0 +1,7 @@
+<text sourcefile="null" xstart="0.5" ystart="0.5">
+	Some Text.
+</text>
+
+    Some Text.
+	
+(If sourcefile is null, display chars inside text)

@@ -1,0 +1,7 @@
+<text xstart="0.5" ystart="0.5">
+	Some Text.
+</text>
+
+    Some Text.
+
+(If sourcefile attribute is missing, display chars inside text)
