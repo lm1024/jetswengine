@@ -1,0 +1,13 @@
+\select@language {UKenglish}
+\contentsline {section}{\numberline {1}Rules}{3}{section.1}
+\contentsline {subsection}{\numberline {1.1}XML Structure}{3}{subsection.1.1}
+\contentsline {subsection}{\numberline {1.2}Additional Rules}{4}{subsection.1.2}
+\contentsline {section}{\numberline {2}Text Handler}{5}{section.2}
+\contentsline {subsection}{\numberline {2.1}Text included with a null string for sourcefile}{5}{subsection.2.1}
+\contentsline {subsection}{\numberline {2.2}Text included with no sourcefile attribute}{5}{subsection.2.2}
+\contentsline {subsection}{\numberline {2.3}Text from sourcefile}{5}{subsection.2.3}
+\contentsline {subsection}{\numberline {2.4}Text from list of richtext elements}{5}{subsection.2.4}
+\contentsline {section}{\numberline {3}Graphics Handler}{6}{section.3}
+\contentsline {section}{\numberline {4}Image Handler}{7}{section.4}
+\contentsline {section}{\numberline {5}Example XML file}{8}{section.5}
+\contentsline {section}{\numberline {6}Schema}{10}{section.6}
