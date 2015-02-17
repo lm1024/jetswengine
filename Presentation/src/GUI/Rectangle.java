@@ -5,31 +5,31 @@ import java.awt.Graphics;
 
 public class Rectangle extends Shapes {
 
-	public Rectangle(float xStart, float yStart, float xEnd, float yEnd, boolean solid, Color shapeColor, float duration, float startTime ) {
+	public Rectangle(int xStart, int yStart, int xEnd, int yEnd, boolean solid, Color shapeColor, float duration, float startTime ) {
 		// Required call to super constructor
 		super(xStart, yStart, shapeColor, duration, startTime);
 	}
 
 	@Override
-	public void setXStart(float xStart) {
+	public void setXStart(int xStart) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void setYStart(float yStart) {
+	public void setYStart(int yStart) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void setXEnd(float xEnd) {
+	public void setXEnd(int xEnd) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void setYEnd(float yEnd) {
+	public void setYEnd(int yEnd) {
 		// TODO Auto-generated method stub
 		
 	}
