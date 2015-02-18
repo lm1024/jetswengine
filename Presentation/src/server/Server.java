@@ -16,7 +16,7 @@ import XML.XMLReader;
 public class Server {
 	public static Console console = new Console();
 	private Slideshow currentSlideshow;
-	private String filename = "Sample.xml";
+	private String filename = "pws.xml";
 	
 	public String getCurrentSlideshow() {
 		return filename;
