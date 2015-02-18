@@ -3,12 +3,10 @@ package Data;
 public class Defaults {
 	
 	private String backgroundColour;
-	private Image backgroundImage;
 	private String font;
 	private int fontSize;
 	private String fontColour;
-	private String lineColour;
-	private String fillColour;
+	private String graphicColour;
 	
 	/**
 	 * @return the backgroundColour
@@ -21,18 +19,6 @@ public class Defaults {
 	 */
 	public void setBackgroundColour(String backgroundColour) {
 		this.backgroundColour = backgroundColour;
-	}
-	/**
-	 * @return the backgroundImage
-	 */
-	public Image getBackgroundImage() {
-		return backgroundImage;
-	}
-	/**
-	 * @param backgroundImage the backgroundImage to set
-	 */
-	public void setBackgroundImage(Image backgroundImage) {
-		this.backgroundImage = backgroundImage;
 	}
 	/**
 	 * @return the font
@@ -71,28 +57,16 @@ public class Defaults {
 		this.fontColour = fontColour;
 	}
 	/**
-	 * @return the lineColour
+	 * @return the graphicColour
 	 */
-	public String getLineColour() {
-		return lineColour;
+	public String getGraphicColour() {
+		return graphicColour;
 	}
 	/**
-	 * @param lineColour the lineColour to set
+	 * @param fillColour the graphicColour to set
 	 */
-	public void setLineColour(String lineColour) {
-		this.lineColour = lineColour;
-	}
-	/**
-	 * @return the fillColour
-	 */
-	public String getFillColour() {
-		return fillColour;
-	}
-	/**
-	 * @param fillColour the fillColour to set
-	 */
-	public void setFillColour(String fillColour) {
-		this.fillColour = fillColour;
+	public void setGraphicColour(String colour) {
+		this.graphicColour = colour;
 	}
 	
 }

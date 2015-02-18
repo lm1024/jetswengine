@@ -30,7 +30,7 @@ public class XMLReader extends DefaultHandler {
 	private Defaults defaults;
 	private DocumentInfo info;
 	private StringBuffer contentBuffer;
-	private String sectionName;
+	private String sectionName = "";
 
 	public XMLReader(String filename) throws IOException {
 		readXMLFile(filename);
@@ -90,26 +90,44 @@ public class XMLReader extends DefaultHandler {
 		System.out.println("\tFound the start of an element (" + elementName
 				+ ") ...");
 
-		if (elementName.equals("slideshow")) {
-			slideshow = new Slideshow();
-		} else if (elementName.equals("slide")) {
-			sectionName = elementName;
-			currentSlide = new Slide();
-			try {
-				currentSlide.setDuration(Float.parseFloat(attributes
-						.getValue("duration")));
-			} catch (NumberFormatException e) {
-				/* Do nothing if no duration is specified */
-			} catch (NullPointerException npe) {
-				/* Do nothing if no duration is specified */
+		switch (sectionName) {
+		case "":
+			if (elementName.equals("slideshow")) {
+				slideshow = new Slideshow();
+			} else if (elementName.equals("slide")) {
+				sectionName = elementName;
+				currentSlide = new Slide();
+				try {
+					currentSlide.setDuration(Float.parseFloat(attributes
+							.getValue("duration")));
+				} catch (NumberFormatException e) {
+					/* Do nothing if invalid duration is specified */
+				} catch (NullPointerException npe) {
+					/* Do nothing if invalid duration is specified */
+				}
+			} else if (elementName.equals("defaultsettings")) {
+				sectionName = elementName;
+				defaults = new Defaults();
+			} else if (elementName.equals("documentinfo")) {
+				sectionName = elementName;
+				info = new DocumentInfo();
 			}
-		} else if (elementName.equals("defaults")) {
-			sectionName = elementName;
-			defaults = new Defaults();
-		} else if (elementName.equals("documentinfo")) {
-			sectionName = elementName;
-			info = new DocumentInfo();
+			break;
+		case "defaultsettings":
+
+			break;
+		case "a":
+
+			break;
+		case "b":
+
+			break;
+		case "c":
+
+			break;
+
 		}
+
 	}
 
 	/**
@@ -144,12 +162,15 @@ public class XMLReader extends DefaultHandler {
 			if (elementName.equals("slide")) {
 				slideshow.addSlide(currentSlide);
 				currentSlide = null;
+				sectionName = null;
 			} else if (elementName.equals("documentinfo")) {
 				slideshow.setInfo(info);
 				info = null;
-			} else if (elementName.equals("defaults")) {
+				sectionName = null;
+			} else if (elementName.equals("defaultsettings")) {
 				slideshow.setDefaults(defaults);
 				defaults = null;
+				sectionName = null;
 			}
 		} else if (sectionName.equals("slide")) {
 			contentBuffer = null;
@@ -164,32 +185,28 @@ public class XMLReader extends DefaultHandler {
 				info.setComment(contentBuffer.toString().trim());
 				contentBuffer = null;
 			}
-		} else if (sectionName.equals("defaults")) {
+		} else if (sectionName.equals("defaultsettings")) {
 			if (elementName.equals("backgroundcolour")) {
 				defaults.setBackgroundColour(contentBuffer.toString().trim());
 				contentBuffer = null;
-			} else if (elementName.equals("backgroundimage")) {
-				// Needs Image class finishing
-				System.out
-						.println("Background image tag detected but XML reader not finished.");
-				// slideshow.getDefaults().setBackgroundImage(contentBuffer.toString().trim());
 			} else if (elementName.equals("font")) {
 				defaults.setFont(contentBuffer.toString().trim());
 				contentBuffer = null;
 			} else if (elementName.equals("fontsize")) {
-				// needs improving
-				// works for now.
-				defaults.setFontSize(Integer.parseInt(contentBuffer.toString()
-						.trim().substring(0, 2)));
+				try {
+					defaults.setFontSize(Integer.parseInt(contentBuffer
+							.toString().trim()));
+				} catch (NumberFormatException e) {
+					/* Do nothing if invalid font size specified */
+				} catch (NullPointerException npe) {
+					/* Do nothing if invalid font size specified */
+				}
 				contentBuffer = null;
 			} else if (elementName.equals("fontcolor")) {
 				defaults.setFontColour(contentBuffer.toString().trim());
 				contentBuffer = null;
-			} else if (elementName.equals("linecolor")) {
-				defaults.setLineColour(contentBuffer.toString().trim());
-				contentBuffer = null;
-			} else if (elementName.equals("fillcolor")) {
-				defaults.setFillColour(contentBuffer.toString().trim());
+			} else if (elementName.equals("graphiccolor")) {
+				defaults.setGraphicColour(contentBuffer.toString().trim());
 				contentBuffer = null;
 			}
 		}
