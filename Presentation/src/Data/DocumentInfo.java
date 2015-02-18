@@ -5,6 +5,7 @@ public class DocumentInfo {
 	private String author;
 	private String version;
 	private String comment;
+	private String groupID;
 	
 	public DocumentInfo(){
 		
@@ -44,6 +45,18 @@ public class DocumentInfo {
 	 */
 	public void setComment(String comment) {
 		this.comment = comment;
+	}
+	/**
+	 * @return the groupID
+	 */
+	public String getGroupID() {
+		return groupID;
+	}
+	/**
+	 * @param groupID the groupID to set
+	 */
+	public void setGroupID(String groupID) {
+		this.groupID = groupID;
 	}
 
 }

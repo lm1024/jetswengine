@@ -159,19 +159,26 @@ public class XMLReader extends DefaultHandler {
 				+ ") ...");
 
 		if (elementName.equals(sectionName)) {
-			if (elementName.equals("slide")) {
+			switch (sectionName) {
+			case "slide":
 				slideshow.addSlide(currentSlide);
 				currentSlide = null;
-				sectionName = null;
-			} else if (elementName.equals("documentinfo")) {
+				break;
+			case "documentinfo":
 				slideshow.setInfo(info);
 				info = null;
-				sectionName = null;
-			} else if (elementName.equals("defaultsettings")) {
+				break;
+			case "defaultsettings":
 				slideshow.setDefaults(defaults);
 				defaults = null;
-				sectionName = null;
+				break;
+			default:
+
+				break;
+
 			}
+			sectionName = "";
+
 		} else if (sectionName.equals("slide")) {
 			contentBuffer = null;
 		} else if (sectionName.equals("documentinfo")) {
@@ -225,12 +232,14 @@ public class XMLReader extends DefaultHandler {
 	 */
 	private void writeSlides() {
 		if (slideshow != null) {
-			System.out.println("\tSlide Author: "
+			System.out.println("\tSlideshow Author: "
 					+ slideshow.getInfo().getAuthor());
-			System.out.println("\tSlide Version: "
+			System.out.println("\tSlideshow Version: "
 					+ slideshow.getInfo().getVersion());
-			System.out.println("\tSlide Comment: "
+			System.out.println("\tSlideshow Comment: "
 					+ slideshow.getInfo().getComment());
+			System.out.println("\tSlideshow groupid: "
+					+ slideshow.getInfo().getGroupID());
 			System.out.println("\tSlide 1 duration: "
 					+ slideshow.getSlides().get(0).getDuration());
 		} else {
