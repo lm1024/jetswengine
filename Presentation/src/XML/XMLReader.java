@@ -14,6 +14,7 @@ import Data.Defaults;
 import Data.DocumentInfo;
 import Data.Slide;
 import Data.Slideshow;
+import Data.TextFragment;
 
 /**
  * enum type for keeping track of when we need to store content in certain elements
@@ -92,9 +93,11 @@ public class XMLReader extends DefaultHandler {
 
 		switch (sectionName) {
 		case "":
-			if (elementName.equals("slideshow")) {
+			switch (elementName) {
+			case "slideshow":
 				slideshow = new Slideshow();
-			} else if (elementName.equals("slide")) {
+				break;
+			case "slide":
 				sectionName = elementName;
 				currentSlide = new Slide();
 				try {
@@ -105,27 +108,22 @@ public class XMLReader extends DefaultHandler {
 				} catch (NullPointerException npe) {
 					/* Do nothing if invalid duration is specified */
 				}
-			} else if (elementName.equals("defaultsettings")) {
+				break;
+			case "defaultsettings":
 				sectionName = elementName;
 				defaults = new Defaults();
-			} else if (elementName.equals("documentinfo")) {
+				break;
+			case "documentinfo":
 				sectionName = elementName;
 				info = new DocumentInfo();
+				break;
 			}
 			break;
-		case "defaultsettings":
+		case "slide":
 
 			break;
-		case "a":
-
+		default:
 			break;
-		case "b":
-
-			break;
-		case "c":
-
-			break;
-
 		}
 
 	}
@@ -173,50 +171,84 @@ public class XMLReader extends DefaultHandler {
 				defaults = null;
 				break;
 			default:
-
 				break;
-
 			}
 			sectionName = "";
 
-		} else if (sectionName.equals("slide")) {
-			contentBuffer = null;
-		} else if (sectionName.equals("documentinfo")) {
-			if (elementName.equals("author")) {
-				info.setAuthor(contentBuffer.toString().trim());
-				contentBuffer = null;
-			} else if (elementName.equals("version")) {
-				info.setVersion(contentBuffer.toString().trim());
-				contentBuffer = null;
-			} else if (elementName.equals("comment")) {
-				info.setComment(contentBuffer.toString().trim());
-				contentBuffer = null;
-			}
-		} else if (sectionName.equals("defaultsettings")) {
-			if (elementName.equals("backgroundcolour")) {
-				defaults.setBackgroundColour(contentBuffer.toString().trim());
-				contentBuffer = null;
-			} else if (elementName.equals("font")) {
-				defaults.setFont(contentBuffer.toString().trim());
-				contentBuffer = null;
-			} else if (elementName.equals("fontsize")) {
-				try {
-					defaults.setFontSize(Integer.parseInt(contentBuffer
-							.toString().trim()));
-				} catch (NumberFormatException e) {
-					/* Do nothing if invalid font size specified */
-				} catch (NullPointerException npe) {
-					/* Do nothing if invalid font size specified */
+		} else
+			switch (sectionName) {
+			case "slide":
+				switch (elementName) {
+				case "text":
+					if (contentBuffer != null) {
+						TextFragment t = new TextFragment(contentBuffer
+								.toString().trim());
+
+					}
+					break;
+				case "image":
+					break;
+				case "video":
+					break;
+				case "graphic":
+					break;
+				case "sound":
+					break;
+
+				}
+				break;
+			case "documentinfo":
+				switch (elementName) {
+				case "author":
+					info.setAuthor(contentBuffer.toString().trim());
+					break;
+				case "version":
+					info.setVersion(contentBuffer.toString().trim());
+					break;
+				case "comment":
+					info.setComment(contentBuffer.toString().trim());
+					break;
+				case "groupid":
+					info.setGroupID(contentBuffer.toString().trim());
+					break;
+				default:
+					break;
 				}
 				contentBuffer = null;
-			} else if (elementName.equals("fontcolor")) {
-				defaults.setFontColour(contentBuffer.toString().trim());
+				break;
+			case "defaultsettings":
+				switch (elementName) {
+				case "backgroundcolor":
+					defaults.setBackgroundColour(contentBuffer.toString()
+							.trim());
+					break;
+				case "font":
+					defaults.setFont(contentBuffer.toString().trim());
+					break;
+				case "fontsize":
+					try {
+						defaults.setFontSize(Integer.parseInt(contentBuffer
+								.toString().trim()));
+					} catch (NumberFormatException e) {
+						/* Do nothing if invalid font size specified */
+					} catch (NullPointerException npe) {
+						/* Do nothing if invalid font size specified */
+					}
+					break;
+				case "fontcolor":
+					defaults.setFontColour(contentBuffer.toString().trim());
+					break;
+				case "graphiccolor":
+					defaults.setGraphicColour(contentBuffer.toString().trim());
+					break;
+				default:
+					break;
+				}
 				contentBuffer = null;
-			} else if (elementName.equals("graphiccolor")) {
-				defaults.setGraphicColour(contentBuffer.toString().trim());
-				contentBuffer = null;
+				break;
+			default:
+				break;
 			}
-		}
 	}
 
 	/**

@@ -4,14 +4,14 @@ import java.util.List;
 
 public class Text {
 	
-	private List<textFragment> textFragments;
+	private List<TextFragment> textFragments;
+	private TextFragment currentTextFragment;
 	private int xStart;
 	private int yStart;
 	private int startTime;
 	private int duration;
 	
-	public Text(String text){
-		this.textFragments.add(0, new textFragment(text));
+	public Text(){
 	}
 
 	/**
@@ -31,21 +31,21 @@ public class Text {
 	/**
 	 * @return the textList
 	 */
-	public List<textFragment> getTextFragments() {
+	public List<TextFragment> getTextFragments() {
 		return textFragments;
 	}
 
 	/**
 	 * @param text the text to set
 	 */
-	public void addText(textFragment text) {
+	public void addText(TextFragment text) {
 		this.textFragments.add(text);
 	}
 	
 	/**
 	 * @return the textList
 	 */
-	public textFragment getTextFragment(int index) {
+	public TextFragment getTextFragment(int index) {
 		return textFragments.get(index);
 	}
 
@@ -89,5 +89,19 @@ public class Text {
 	 */
 	public void setDuration(int duration) {
 		this.duration = duration;
+	}
+
+	/**
+	 * @return the currentTextFragment
+	 */
+	public TextFragment getCurrentTextFragment() {
+		return currentTextFragment;
+	}
+
+	/**
+	 * @param currentTextFragment the currentTextFragment to set
+	 */
+	public void setCurrentTextFragment(TextFragment currentTextFragment) {
+		this.currentTextFragment = currentTextFragment;
 	}
 }

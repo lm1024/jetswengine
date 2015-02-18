@@ -9,12 +9,87 @@ public class Slide implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private float duration;
-	private Text title;
 	private List<Text> textList;
 	private List<Graphic> graphicsList;
 	private List<Sound> soundsList;
 	private List<Image> imagesList;
 	private List<Movie> moviesList;
+	private Text currentText;
+	/**
+	 * @return the currentText
+	 */
+	public Text getCurrentText() {
+		return currentText;
+	}
+
+	/**
+	 * @param currentText the currentText to set
+	 */
+	public void setCurrentText(Text currentText) {
+		this.currentText = currentText;
+	}
+
+	/**
+	 * @return the currentGraphic
+	 */
+	public Graphic getCurrentGraphic() {
+		return currentGraphic;
+	}
+
+	/**
+	 * @param currentGraphic the currentGraphic to set
+	 */
+	public void setCurrentGraphic(Graphic currentGraphic) {
+		this.currentGraphic = currentGraphic;
+	}
+
+	/**
+	 * @return the currentImage
+	 */
+	public Image getCurrentImage() {
+		return currentImage;
+	}
+
+	/**
+	 * @param currentImage the currentImage to set
+	 */
+	public void setCurrentImage(Image currentImage) {
+		this.currentImage = currentImage;
+	}
+
+	/**
+	 * @return the currentMovie
+	 */
+	public Movie getCurrentMovie() {
+		return currentMovie;
+	}
+
+	/**
+	 * @param currentMovie the currentMovie to set
+	 */
+	public void setCurrentMovie(Movie currentMovie) {
+		this.currentMovie = currentMovie;
+	}
+
+	/**
+	 * @return the currentSound
+	 */
+	public Sound getCurrentSound() {
+		return currentSound;
+	}
+
+	/**
+	 * @param currentSound the currentSound to set
+	 */
+	public void setCurrentSound(Sound currentSound) {
+		this.currentSound = currentSound;
+	}
+
+	private Graphic currentGraphic;
+	private Image currentImage;
+	private Movie currentMovie;
+	private Sound currentSound;
+	
 
 	public Slide() {
 		
@@ -33,25 +108,6 @@ public class Slide implements Serializable {
 	 */
 	public void setDuration(float duration) {
 		this.duration = duration;
-	}
-
-	/**
-	 * @return The slide title
-	 */
-	public Text getTitle() {
-		return title;
-	}
-
-	/**
-	 * @param title
-	 *            the title to set
-	 */
-	public void setTitle(Text title) {
-		this.title = title;
-		this.title.setxStart(20);
-		this.title.setyStart(20);
-		this.title.getTextFragment(0).setBold(true);
-		this.title.getTextFragment(0).setFontSize(20);
 	}
 
 	/**

@@ -11,7 +11,9 @@ public class Slideshow {
 	private Defaults defaults;
 	
 	public Slideshow() {
-		slides = new ArrayList<>();
+		this.slides = new ArrayList<Slide>();
+		this.info = new DocumentInfo();
+		this.defaults = new Defaults();
 	}
 	
 	/**

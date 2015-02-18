@@ -1,6 +1,6 @@
 package Data;
 
-public class textFragment {
+public class TextFragment {
 	
 	private String text;
 	private String font;
@@ -53,7 +53,7 @@ public class textFragment {
 	/**
 	 * @Initialises a new text fragment
 	 */
-	public textFragment(String text) {
+	public TextFragment(String text) {
 		this.text = text;
 	}
 	/**
