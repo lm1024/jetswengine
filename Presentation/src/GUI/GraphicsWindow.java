@@ -85,6 +85,7 @@ public class GraphicsWindow extends JPanel implements ActionListener {
 		float duration = 0;
 		float startTime = 0;
 		
+		/* N FOR SIDES ON POLYGON */
 		int numberOfSides = 5;
 		
 		/* Instantiates shape classes */
