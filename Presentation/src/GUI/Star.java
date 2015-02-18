@@ -5,7 +5,7 @@ import java.awt.Graphics;
 
 public class Star extends Shapes {
 
-	public Star(int xStart, int yStart, int xEnd, int yEnd, boolean solid, Color shapeColor, float duration, float startTime ) {
+	public Star(int xStart, int yStart, int xEnd, int yEnd, boolean solid, Color shapeColor, float rotation, float duration, float startTime ) {
 		// Required call to super constructor
 		super(xStart, yStart, shapeColor, duration, startTime);
 	}
@@ -50,6 +50,18 @@ public class Star extends Shapes {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	@Override
+	public void setColor(Color shapeColor) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void setRotation(float rotation) {
+		// TODO Auto-generated method stub
+		
+	}	
 	
 	@Override
 	public void display(Graphics g) {

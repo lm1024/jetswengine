@@ -14,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -47,13 +48,14 @@ public class JavaFXTest extends Application {
     public void start(Stage primaryStage) {
         primaryStage.setTitle("JavaFX Welcome");
         
-        Group grid = new Group();
-        //grid.setAlignment(Pos.CENTER);
-        //grid.setHgap(10);
-        //grid.setVgap(10);
-        //grid.setPadding(new Insets(25, 25, 25, 25));
+        //Group grid = new Group();
+        GridPane grid = new GridPane();
+        grid.setAlignment(Pos.CENTER);
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(25, 25, 25, 25));
         
-        /*Text scenetitle = new Text("Welcome");
+        Text scenetitle = new Text("Welcome");
         scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         grid.add(scenetitle, 0, 0, 2, 1);
 
@@ -87,22 +89,26 @@ public class JavaFXTest extends Application {
                 actiontarget.setFill(Color.FIREBRICK);
                 actiontarget.setText("Sign in button pressed");
             }
-        });
+        });//*/
 
-        Scene scene = new Scene(grid, 300, 275);*/
+        //Scene scene = new Scene(grid, 300, 275);*/
         //Scene scene = new Scene(grid, 300, 275);
         //primaryStage.setScene(scene);
         
-        grid.setStyle("-fx-background-color: white;");
+        /*grid.setStyle("-fx-background-color: white;");
         //grid.setPrefSize(200,200);
         Circle circle = new Circle(50,Color.BLUE);
         circle.relocate(150, 20);
         circle.setFill(new Color(0, 1, 0, 1)); //RGBa!!!!!
         
-        Ellipse ellipse = new Ellipse(100, 100, 20, 30);
-        ellipse.setFill(new Color(0, 0.8, 1, 1));
-
+        Ellipse ellipse = new Ellipse(100, 150, 20, 30);
+        ellipse.setFill(new Color(0, 0.8, 1, 0.1));
         
+        Ellipse ellipse2 = new Ellipse(200, 250, 20, 30);
+        ellipse2.setFill(new Color(0, 0.8, 1, 1));
+        ellipse2.setRotate(90);
+        
+        ellipse.setEffect(new DropShadow());
         
         Scene scene = new Scene(grid, 300, 275);
         
@@ -112,8 +118,9 @@ public class JavaFXTest extends Application {
      // create mediaView and add media player to the viewer
         MediaView mediaView = new MediaView(mediaPlayer);
         ((Group)scene.getRoot()).getChildren().add(mediaView);
-        grid.getChildren().addAll(circle, ellipse);
         
+        grid.getChildren().addAll(circle, ellipse, ellipse2);*/
+        Scene scene = new Scene(grid, 300, 275);
         primaryStage.setScene(scene);
         primaryStage.show();
     }

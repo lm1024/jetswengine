@@ -12,9 +12,10 @@ public class Oval extends Shapes {
 	protected int xEnd;
 	protected int yEnd;
 	protected boolean solid;
+	private float rotation;
 	
 	/** Constructor method */
-	public Oval(int xStart, int yStart, int xEnd, int yEnd, boolean solid, Color shapeColor, float duration, float startTime ) {
+	public Oval(int xStart, int yStart, int xEnd, int yEnd, boolean solid, Color shapeColor, float rotation, float duration, float startTime ) {
 		/* Required call to super constructor */
 		super(xStart, yStart, shapeColor, duration, startTime);
 		
@@ -25,6 +26,7 @@ public class Oval extends Shapes {
 		this.yEnd = yEnd;
 		this.solid = solid;
 		this.shapeColor = shapeColor;
+		this.rotation = rotation;
 	}
 	
 	/** Method for setting the X Start Coordinate */
@@ -69,10 +71,23 @@ public class Oval extends Shapes {
 		this.startTime = startTime;
 	}
 
+	/** Method for setting the color of the shape */
+	@Override
+	public void setColor(Color shapeColor) {
+		this.shapeColor = shapeColor;
+	}
+	
+	/** Method for setting the rotation of the shape */
+	@Override
+	public void setRotation(float rotation) {
+		this.rotation = rotation;
+	}	
+	
 	/** Method for displaying the object */
 	@Override
 	public void display(Graphics g) {
 		g.setColor(shapeColor);
+		
 		/* Draws a oval or outline of oval depending on solid boolean */
 		if (solid)
 			g.fillOval((int) xStart, (int) yStart, (int) (xEnd - xStart), (int) (yEnd - yStart));
@@ -81,10 +96,4 @@ public class Oval extends Shapes {
 		}
 	}
 	
-	/** Method for setting the color of the shape */
-	public void setColor(Color shapeColor) {
-		this.shapeColor = shapeColor;
-	}
-	
-
 }
