@@ -15,6 +15,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.MotionBlur;
+import javafx.scene.effect.SepiaTone;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -48,8 +52,8 @@ public class JavaFXTest extends Application {
     public void start(Stage primaryStage) {
         primaryStage.setTitle("JavaFX Welcome");
         
-        //Group grid = new Group();
-        GridPane grid = new GridPane();
+        Group grid = new Group();
+        /*GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
         grid.setHgap(10);
         grid.setVgap(10);
@@ -89,13 +93,13 @@ public class JavaFXTest extends Application {
                 actiontarget.setFill(Color.FIREBRICK);
                 actiontarget.setText("Sign in button pressed");
             }
-        });//*/
+        }); */
 
         //Scene scene = new Scene(grid, 300, 275);*/
         //Scene scene = new Scene(grid, 300, 275);
         //primaryStage.setScene(scene);
         
-        /*grid.setStyle("-fx-background-color: white;");
+        grid.setStyle("-fx-background-color: white;");
         //grid.setPrefSize(200,200);
         Circle circle = new Circle(50,Color.BLUE);
         circle.relocate(150, 20);
@@ -110,7 +114,7 @@ public class JavaFXTest extends Application {
         
         ellipse.setEffect(new DropShadow());
         
-        Scene scene = new Scene(grid, 300, 275);
+        Scene scene = new Scene(grid, 500, 575);
         
         Media media = new Media("http://download.oracle.com/otndocs/products/javafx/oow2010-2.flv");
         MediaPlayer mediaPlayer = new MediaPlayer(media);
@@ -119,8 +123,15 @@ public class JavaFXTest extends Application {
         MediaView mediaView = new MediaView(mediaPlayer);
         ((Group)scene.getRoot()).getChildren().add(mediaView);
         
-        grid.getChildren().addAll(circle, ellipse, ellipse2);*/
-        Scene scene = new Scene(grid, 300, 275);
+        Image image = new Image("file:me.png", 100, 100, true, true);
+        ImageView imageView = new ImageView();
+        imageView.setImage(image);
+        imageView.relocate(200, 300);
+        
+        imageView.setEffect(new SepiaTone());
+        
+        grid.getChildren().addAll(circle, ellipse, ellipse2, imageView);
+        //Scene scene = new Scene(grid, 300, 275);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
