@@ -19,7 +19,18 @@ import java.util.HashMap;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import javafx.*;
+//import javafx.*;
+//import javafx.application.Application;
+//import javafx.event.ActionEvent;
+//import javafx.event.EventHandler;
+//import javafx.scene.Group;
+//import javafx.scene.Scene;
+//import javafx.scene.canvas.Canvas;
+//import javafx.scene.canvas.GraphicsContext;
+//import javafx.scene.control.Button;
+//import javafx.scene.layout.StackPane;
+//import javafx.scene.shape.Circle;
+//import javafx.stage.Stage;
 
 
 /**
@@ -49,7 +60,7 @@ public class DrawText extends JPanel {
 		 //System.out.println(f.getFontName());
 		 //}
 		
-		/*String fontna = "Arial";
+		String fontna = "Arial";
 		drawSubstring(g, "normal", 200, 400, fontna, 20, new Color(0, 0, 0), false, false, false, false, false, false);
 		drawSubstring(g, "bold", 200, 420, fontna, 20, new Color(0, 0, 0), true, false, false, false, false, false);
 		drawSubstring(g, "italic", 200, 440, fontna, 20, new Color(0, 0, 0), false, true, false, false, false, false);
@@ -59,7 +70,7 @@ public class DrawText extends JPanel {
 		drawSubstring(g, "superscript", 200, 500, fontna, 20, new Color(0, 0, 0), false, false, false, false, true,
 				false);
 		drawSubstring(g, "subscript", 200, 520, fontna, 20, new Color(0, 0, 0), false, false, false, false, false, true);
-		*/
+		
 
 		// g.drawString("Hello\nworld!", 200, 400);
 		// String text = new String("Hello\nWorld!\nB");
@@ -78,7 +89,7 @@ public class DrawText extends JPanel {
 		// for (int tests : test)
 		// System.out.println(tests);
 
-		/*
+		
 		Graphics2D g2 = (Graphics2D) g;
 
 		String s = "www.java2s.com is g\nreat.";
@@ -100,19 +111,19 @@ public class DrawText extends JPanel {
 		as.addAttribute(TextAttribute.BACKGROUND, new Color(231, 0, 255), 19, 25);
 		
 		g2.drawString(as.getIterator(), 24, 70);
-		*/
 		
-
+		
+		/*
 		Group root = new Group();
-		Scene s = new Scene(root, 300, 300, Color.BLACK);
+		Scene s = new Scene(root, 300, 300);
 		
 		final Canvas canvas = new Canvas(250,250);
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		
-		gc.setFill(Color.BLUE);
+		//gc.setFill(Color.BLUE);
 		gc.fillRect(75,75,100,100);
 		
-		root.getChildren().add(canvas);
+		root.getChildren().add(canvas);*/
  
 		
 	}
