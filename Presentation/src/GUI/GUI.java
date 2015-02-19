@@ -37,6 +37,8 @@ public class GUI extends Application {
 	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		/* TODO Jake, please make a nice GUI. You are our only hope. */
+		
 		/* Set the title of the window */
 		primaryStage.setTitle("JavaFX Welcome");
 

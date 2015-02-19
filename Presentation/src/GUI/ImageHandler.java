@@ -7,12 +7,12 @@ import javafx.scene.Group;
 
 /**
  * @author tjd511
- *
+ * 
  */
 public class ImageHandler {
-	
+
 	private Group group;
-	
+
 	/**
 	 * 
 	 */
@@ -28,13 +28,31 @@ public class ImageHandler {
 		// TODO Auto-generated method stub
 
 	}
-	
-	/** Function that  */
-	public void drawImage(float xPos, float yPos, String filepath, float vScale, float hScale, float rotation, boolean vFlip, boolean hFlip) {
-		//TODO Write a method that draws an image depending on params passed
-		
+
+	/** 
+	 * 
+	 * */
+	public void drawImage(float xPos, float yPos, String filepath,
+			float vScale, float hScale, float rotation, boolean vFlip,
+			boolean hFlip) {
+		/*
+		 * TODO Write a method that draws an image depending on params passed.
+		 * Investigate filters!
+		 */
+
 		/* This is the line that will be used to add items */
-		//group.getChildren().add(ITEM GOES HERE);
+		// group.getChildren().add(ITEM GOES HERE);
+	}
+	
+	
+	/** 
+	 * 
+	 * */
+	public void drawGIF() {
+		/*
+		 * TODO Write a method that draws a GIF on the screen that updates!
+		 */
+
 	}
 
 }

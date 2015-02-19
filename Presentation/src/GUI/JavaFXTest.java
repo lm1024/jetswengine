@@ -64,7 +64,6 @@ public class JavaFXTest extends Application {
 
 		ellipse2.setEffect(new DropShadow());
 
-
 		/* Video Section */
 		Media media = new Media(
 				"http://download.oracle.com/otndocs/products/javafx/oow2010-2.flv");
