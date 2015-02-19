@@ -11,7 +11,7 @@ public class Text {
 	private int yStart;
 	private int startTime;
 	private int duration;
-	
+	private String alignment; //left/right/center/justify/justified/centre
 	public Text(){
 		this.textFragments = new ArrayList<TextFragment>();
 	}
@@ -113,5 +113,19 @@ public class Text {
 	 */
 	public void setCurrentTextFragment(TextFragment currentTextFragment) {
 		this.currentTextFragment = currentTextFragment;
+	}
+
+	/**
+	 * @return the alignment
+	 */
+	public String getAlignment() {
+		return alignment;
+	}
+
+	/**
+	 * @param alignment the alignment to set
+	 */
+	public void setAlignment(String alignment) {
+		this.alignment = alignment;
 	}
 }

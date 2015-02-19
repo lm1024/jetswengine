@@ -218,6 +218,25 @@ public class Slide implements Serializable {
 		this.currentMovie = new Movie(source);
 		this.moviesList.add(currentMovie);
 	}
+	
+	public void removeGraphic() {
+		this.graphicsList.remove(currentGraphic);
+		currentGraphic = null;
+	}
+	
+	/**
+	 * @param add
+	 *            a graphic to the graphicsList
+	 */
+	public void newGraphic(String type) {
+		switch(type) {
+		case "oval":
+			this.currentGraphic = new Oval();
+			break;
+		}
+		
+		this.graphicsList.add(currentGraphic);
+	}
 
 	/**
 	 * @param add

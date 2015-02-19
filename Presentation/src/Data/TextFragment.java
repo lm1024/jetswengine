@@ -5,7 +5,7 @@ public class TextFragment {
 	private String text;
 	private String font;
 	private int fontSize;
-	private int colour;
+	private String color;
 	private boolean bold;
 	private boolean underlined;
 	private boolean italicised;
@@ -93,16 +93,16 @@ public class TextFragment {
 		this.fontSize = fontSize;
 	}
 	/**
-	 * @return the colour
+	 * @return the color
 	 */
-	public int getColour() {
-		return colour;
+	public String getColor() {
+		return color;
 	}
 	/**
 	 * @param colour the colour to set
 	 */
-	public void setColour(int colour) {
-		this.colour = colour;
+	public void setColor(String color) {
+		this.color = color;
 	}
 	/**
 	 * @return the bold

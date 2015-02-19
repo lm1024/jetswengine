@@ -10,6 +10,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import Data.Oval;
 import Data.Slideshow;
 
 /**
@@ -311,13 +312,51 @@ public class XMLReader extends DefaultHandler {
 				}
 				break;
 			case "graphic":
-				
+
 				break;
 			case "richtext":
 				break;
 			case "cyclicshading":
 				break;
 			case "oval":
+				Oval temp = new Oval();
+				try {
+					temp.setxStart(Float.parseFloat(attributes
+							.getValue("xstart")));
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+				try {
+					temp.setyStart(Float.parseFloat(attributes
+							.getValue("ystart")));
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+				try {
+					temp.setxEnd(Float.parseFloat(attributes
+							.getValue("xend")));
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+				try {
+					temp.setyEnd(Float.parseFloat(attributes
+							.getValue("yend")));
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+				try {
+					temp.setSolid(Boolean.parseBoolean(attributes
+							.getValue("solid")));
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+				try {
+					slideshow.getCurrentSlide().addGraphic(temp);
+					// slideshow.getCurrentSlide().newGraphic("oval");
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+				temp = null;
 				break;
 			case "rectangle":
 				break;
@@ -515,6 +554,24 @@ public class XMLReader extends DefaultHandler {
 			System.out.println("\tSlide 1 image 2: "
 					+ slideshow.getSlides().get(0).getImagesList().get(1)
 							.getCropY2());
+			System.out.println("\tSlide 1 image 2: "
+					+ slideshow.getSlides().get(0).getGraphicsList().get(0)
+							.getClass().getSimpleName().toLowerCase());
+			System.out.println("\tSlide 1 image 2: "
+					+ slideshow.getSlides().get(0).getGraphicsList().get(0)
+							.getxStart());
+			System.out.println("\tSlide 1 image 2: "
+					+ ((Oval)slideshow.getSlides().get(0).getGraphicsList().get(0))
+							.getxEnd());
+			System.out.println("\tSlide 1 image 2: "
+					+ slideshow.getSlides().get(0).getGraphicsList().get(0)
+							.getyStart());
+			System.out.println("\tSlide 1 image 2: "
+					+ ((Oval)slideshow.getSlides().get(0).getGraphicsList().get(0))
+							.getyEnd());
+			System.out.println("\tSlide 1 image 2: "
+					+ ((Oval)slideshow.getSlides().get(0).getGraphicsList().get(0))
+							.isSolid());
 
 		} else {
 			System.out.println("Invalid slideshow found");
