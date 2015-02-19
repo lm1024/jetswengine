@@ -4,13 +4,17 @@
 package GUI;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.SepiaTone;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
@@ -44,46 +48,10 @@ public class JavaFXTest extends Application {
 	public void start(Stage primaryStage) {
 		primaryStage.setTitle("JavaFX Welcome");
 
-		Group grid = new Group();
-		/*
-		 * GridPane grid = new GridPane(); grid.setAlignment(Pos.CENTER);
-		 * grid.setHgap(10); grid.setVgap(10); grid.setPadding(new Insets(25,
-		 * 25, 25, 25));
-		 * 
-		 * Text scenetitle = new Text("Welcome");
-		 * scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-		 * grid.add(scenetitle, 0, 0, 2, 1);
-		 * 
-		 * Label userName = new Label("User Name:"); grid.add(userName, 0, 1);
-		 * 
-		 * TextField userTextField = new TextField(); grid.add(userTextField, 1,
-		 * 1);
-		 * 
-		 * Label pw = new Label("Password:"); grid.add(pw, 0, 2);
-		 * 
-		 * PasswordField pwBox = new PasswordField(); grid.add(pwBox, 1, 2);
-		 * 
-		 * //grid.setGridLinesVisible(true);
-		 * 
-		 * Button btn = new Button("Sign in"); HBox hbBtn = new HBox(10);
-		 * hbBtn.setAlignment(Pos.BOTTOM_RIGHT); hbBtn.getChildren().add(btn);
-		 * grid.add(hbBtn, 1, 4);
-		 * 
-		 * final Text actiontarget = new Text(); grid.add(actiontarget, 1, 6);
-		 * 
-		 * btn.setOnAction(new EventHandler<ActionEvent>() {
-		 * 
-		 * @Override public void handle(ActionEvent e) {
-		 * actiontarget.setFill(Color.FIREBRICK);
-		 * actiontarget.setText("Sign in button pressed"); } });
-		 */
+		Group group = new Group();
+		
+		group.setStyle("-fx-background-color: white;");
 
-		// Scene scene = new Scene(grid, 300, 275);*/
-		// Scene scene = new Scene(grid, 300, 275);
-		// primaryStage.setScene(scene);
-
-		grid.setStyle("-fx-background-color: white;");
-		// grid.setPrefSize(200,200);
 		/* Graphics Section */
 		Circle circle = new Circle(50, Color.BLUE);
 		circle.relocate(150, 20);
@@ -96,12 +64,8 @@ public class JavaFXTest extends Application {
 		ellipse2.setFill(new Color(0, 0.8, 1, 1));
 		ellipse2.setRotate(90);
 
-		ellipse.setEffect(new DropShadow());
-		
-		Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
-		System.out.println(primaryStage.getMaxHeight());
-		System.out.println(primaryScreenBounds.getHeight());
-		Scene scene = new Scene(grid, primaryScreenBounds.getWidth(),primaryScreenBounds.getHeight());//500, 575);
+		ellipse2.setEffect(new DropShadow());
+
 
 		/* Video Section */
 		Media media = new Media(
@@ -110,7 +74,8 @@ public class JavaFXTest extends Application {
 		mediaPlayer.setAutoPlay(true);
 		// create mediaView and add media player to the viewer
 		MediaView mediaView = new MediaView(mediaPlayer);
-		((Group) scene.getRoot()).getChildren().add(mediaView);
+		mediaView.relocate(50, 50);
+		//(scene.getRoot()).getChildren().add(mediaView);
 
 		/* Image section! */
 		Image image = new Image("file:me.png", 100, 100, true, true);
@@ -118,6 +83,8 @@ public class JavaFXTest extends Application {
 		imageView.setImage(image);
 		imageView.relocate(200, 300);
 		imageView.setEffect(new SepiaTone());
+		
+		Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
 		
 		/* Text section */
 		Text scenetitle = new Text("Welcome Hello \nWorld Hello World Hello World Hello World Hello World Hello World Hello World Hello World Hello World Hello World Hello World Hello World Hello World Hello World Hello World Hello World Hello World Hello World Hello World Hello World Hello World");
@@ -137,18 +104,38 @@ public class JavaFXTest extends Application {
 		string3.relocate(250, 280);
 		/* It looks like superscript and subscript may have to be done manually... shame*/
 		
-		grid.getChildren().addAll(circle, ellipse, ellipse2, imageView, scenetitle, string2, string3);
+		//EventHandler<ActionEvent> brian = new EventHandler<ActionEvent>();
+		Button btn = addButton(400, 400);
+		btn.setId("ali2");
 		
-		// Scene scene = new Scene(grid, 300, 275);
+		group.getChildren().addAll(mediaView, circle, ellipse, ellipse2, imageView, scenetitle, string2, string3, btn);
 		
 		primaryStage.setFullScreen(true);
 		
+		
+		Scene scene = new Scene(group, primaryScreenBounds.getWidth(),primaryScreenBounds.getHeight());//500, 575);
+		
 		primaryStage.setScene(scene);
 		primaryStage.show();
-		
-		
 	}
-
+	
+	private Button addButton(double xPos, double yPos) {
+		/* Button section */
+		Button btn = new Button();
+		btn.setText("Hello Ali2!");
+		btn.relocate(400, 400);
+		btn.setOnAction(new buttonEventHandler());
+		return btn;
+	}
+	
+	public class buttonEventHandler implements EventHandler<ActionEvent> {
+		@Override 
+		public void handle(ActionEvent e) {
+			Button buttonPressed = (Button)e.getSource();
+			System.out.println(buttonPressed.getId());
+		}
+	}
+	
 	/**
 	 * @param args
 	 */
