@@ -1,4 +1,4 @@
-package GUI;
+package SwingGUI;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -161,8 +161,8 @@ public class GraphicsWindow extends JPanel implements ActionListener {
 		aShape.display(g);
 		
 		/* Uncomment these lines if you want to see the shading that Tom has been playing with!!!!! */
-		//Shading aShade = new Shading();
-		//aShade.display(g);
+		Shading aShade = new Shading();
+		aShade.display(g);
 		
 	}
 

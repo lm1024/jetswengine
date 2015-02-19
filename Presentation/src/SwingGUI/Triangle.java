@@ -1,11 +1,11 @@
-package GUI;
+package SwingGUI;
 
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class Rectangle extends Shapes {
+public class Triangle extends Shapes {
 
-	public Rectangle(int xStart, int yStart, int xEnd, int yEnd, boolean solid, Color shapeColor, float rotation, float duration, float startTime ) {
+	public Triangle(int xStart, int yStart, int xEnd, int yEnd, boolean solid, Color shapeColor, float rotation, float duration, float startTime ) {
 		// Required call to super constructor
 		super(xStart, yStart, shapeColor, duration, startTime);
 	}
@@ -57,16 +57,17 @@ public class Rectangle extends Shapes {
 		
 	}
 	
-	@Override 
+	@Override
 	public void setRotation(float rotation) {
 		// TODO Auto-generated method stub
 		
-	}
+	}	
 	
 	@Override
 	public void display(Graphics g) {
 		// TODO Auto-generated method stub
 
 	}
+
 
 }

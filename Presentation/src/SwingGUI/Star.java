@@ -1,11 +1,11 @@
-package GUI;
+package SwingGUI;
 
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class RegularConvexPolygon extends Shapes {
+public class Star extends Shapes {
 
-	public RegularConvexPolygon(int xStart, int yStart, int xEnd, int yEnd, int numberOfSides, boolean solid, Color shapeColor, float rotation, float duration, float startTime ) {
+	public Star(int xStart, int yStart, int xEnd, int yEnd, boolean solid, Color shapeColor, float rotation, float duration, float startTime ) {
 		// Required call to super constructor
 		super(xStart, yStart, shapeColor, duration, startTime);
 	}

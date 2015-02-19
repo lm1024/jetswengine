@@ -1,11 +1,11 @@
-package GUI;
+package SwingGUI;
 
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class Triangle extends Shapes {
+public class Line extends Shapes {
 
-	public Triangle(int xStart, int yStart, int xEnd, int yEnd, boolean solid, Color shapeColor, float rotation, float duration, float startTime ) {
+	public Line(int xStart, int yStart, int xEnd, int yEnd, Color shapeColor, float rotation, float duration, float startTime ) {
 		// Required call to super constructor
 		super(xStart, yStart, shapeColor, duration, startTime);
 	}
@@ -33,7 +33,7 @@ public class Triangle extends Shapes {
 		// TODO Auto-generated method stub
 		
 	}
-	
+
 	@Override
 	public void setSolid(boolean solid) {
 		
@@ -68,6 +68,5 @@ public class Triangle extends Shapes {
 		// TODO Auto-generated method stub
 
 	}
-
 
 }

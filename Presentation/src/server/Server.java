@@ -6,7 +6,7 @@ package server;
 import java.io.IOException;
 
 import Data.Slideshow;
-import GUI.Console;
+import SwingGUI.Console;
 import XML.XMLReader;
 
 /**

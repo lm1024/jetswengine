@@ -1,37 +1,20 @@
 /**
  * 
  */
-package GUI;
+package SwingGUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.GraphicsEnvironment;
 import java.awt.RenderingHints;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.font.TextAttribute;
 import java.text.AttributedString;
-import java.util.HashMap;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
-//import javafx.*;
-//import javafx.application.Application;
-//import javafx.event.ActionEvent;
-//import javafx.event.EventHandler;
-//import javafx.scene.Group;
-//import javafx.scene.Scene;
-//import javafx.scene.canvas.Canvas;
-//import javafx.scene.canvas.GraphicsContext;
-//import javafx.scene.control.Button;
-//import javafx.scene.layout.StackPane;
-//import javafx.scene.shape.Circle;
-//import javafx.stage.Stage;
-
 
 /**
  * @author tjd511

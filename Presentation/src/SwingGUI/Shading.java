@@ -1,4 +1,4 @@
-package GUI;
+package SwingGUI;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -7,8 +7,8 @@ public class Shading {
 
 	int xStart = 100;
 	int xEnd = 200;
-	int yStart = 100;
-	int yEnd = 200;
+	int yStart = 300;
+	int yEnd = 400;
 
 	public Shading() {
 
