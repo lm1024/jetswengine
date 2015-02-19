@@ -5,6 +5,7 @@ package GUI;
 
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.*;
 
 /**
  * @author tjd511
@@ -27,6 +28,7 @@ public class GraphicsHandler {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+
 		// TODO Auto-generated method stub
 
 	}
@@ -35,7 +37,15 @@ public class GraphicsHandler {
 			float yEndPos, Color ovalColor, float rotation) {
 		/* TODO Write a method that draws an oval depending on params passed */
 
-		// group.getChildren().add(ITEM GOES HERE);
+		double xCenter = (xEndPos - xStartPos)/2;
+		double yCenter = (yEndPos - yStartPos)/2;
+		double xRad = (xEndPos - xStartPos)/2;
+		double yRad = (yEndPos - yStartPos)/2;
+		
+		Ellipse oval = new Ellipse(xCenter, yCenter, xRad, yRad);
+		oval.setFill(ovalColor);
+
+		group.getChildren().add(oval);
 	}
 
 	public void drawCircle(float xStartPos, float yStartPos, float radius,
@@ -44,8 +54,10 @@ public class GraphicsHandler {
 		 * TODO Write a method that draws a circle depending on params passed,
 		 * calling drawOval
 		 */
+		Circle circle = new Circle(xStartPos, yStartPos, radius);
+		circle.setFill(circleColor);
 
-		// group.getChildren().add(ITEM GOES HERE);
+		group.getChildren().add(circle);
 	}
 
 	public void drawRectangle() {

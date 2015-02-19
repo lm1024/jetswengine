@@ -62,7 +62,9 @@ public class DummyGUI extends Application {
 		thisImageHandler.drawImage(100, 100, "file:me.png", 1, 1, 0, false, false);
 		
 		GraphicsHandler thisGraphicsHandler = new GraphicsHandler(group);
-		thisGraphicsHandler.drawOval(200, 200, 300, 350, new Color(0, 0, 1, 1), 0);
+		thisGraphicsHandler.drawCircle(100, 100, 50, new Color(0, 0, 1, 1));
+		thisGraphicsHandler.drawOval(400, 70, 490, 300, new Color(1,0,0,1), 0);
+		
 		//thisGraphicsHandler.drawRectangle();
 		
 		primaryStage.show();
