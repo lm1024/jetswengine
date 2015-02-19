@@ -10,9 +10,6 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import Data.Defaults;
-import Data.DocumentInfo;
-import Data.Slide;
 import Data.Slideshow;
 import Data.TextFragment;
 
@@ -27,13 +24,12 @@ import Data.TextFragment;
  */
 public class XMLReader extends DefaultHandler {
 	private Slideshow slideshow;
-	private Slide currentSlide;
-	private Defaults defaults;
-	private DocumentInfo info;
 	private StringBuffer contentBuffer;
 	private String sectionName = "";
+	private String subSectionName = "";
 
 	public XMLReader(String filename) throws IOException {
+		slideshow = new Slideshow();
 		readXMLFile(filename);
 		writeSlides();
 	}
@@ -90,42 +86,25 @@ public class XMLReader extends DefaultHandler {
 		}
 		System.out.println("\tFound the start of an element (" + elementName
 				+ ") ...");
-
-		switch (sectionName) {
-		case "":
-			switch (elementName) {
-			case "slideshow":
-				slideshow = new Slideshow();
-				break;
-			case "slide":
+		if (sectionName.equals("")) {
+			if (elementName.matches("documentinfo|defaultsettings|slide")) {
 				sectionName = elementName;
-				currentSlide = new Slide();
+			}
+			if (elementName.equals("slide")) {
 				try {
-					currentSlide.setDuration(Float.parseFloat(attributes
+					slideshow.addSlide(Float.parseFloat(attributes
 							.getValue("duration")));
-				} catch (NumberFormatException e) {
-					/* Do nothing if invalid duration is specified */
-				} catch (NullPointerException npe) {
-					/* Do nothing if invalid duration is specified */
+				} catch (Exception e) {
+					slideshow.addSlide(0);
 				}
-				break;
-			case "defaultsettings":
-				sectionName = elementName;
-				defaults = new Defaults();
-				break;
-			case "documentinfo":
-				sectionName = elementName;
-				info = new DocumentInfo();
+			}
+		} else if (sectionName.equals("slide")) {
+			switch(elementName) {
+			case "text":
+				slideshow.getCurrentSlide().newText();
 				break;
 			}
-			break;
-		case "slide":
-
-			break;
-		default:
-			break;
 		}
-
 	}
 
 	/**
@@ -157,32 +136,16 @@ public class XMLReader extends DefaultHandler {
 				+ ") ...");
 
 		if (elementName.equals(sectionName)) {
-			switch (sectionName) {
-			case "slide":
-				slideshow.addSlide(currentSlide);
-				currentSlide = null;
-				break;
-			case "documentinfo":
-				slideshow.setInfo(info);
-				info = null;
-				break;
-			case "defaultsettings":
-				slideshow.setDefaults(defaults);
-				defaults = null;
-				break;
-			default:
-				break;
-			}
 			sectionName = "";
-
 		} else
 			switch (sectionName) {
 			case "slide":
 				switch (elementName) {
 				case "text":
 					if (contentBuffer != null) {
-						TextFragment t = new TextFragment(contentBuffer
-								.toString().trim());
+						System.out.println(contentBuffer.toString().trim());
+						slideshow.getCurrentSlide().getCurrentText().addText(
+								contentBuffer.toString().trim());
 
 					}
 					break;
@@ -200,16 +163,20 @@ public class XMLReader extends DefaultHandler {
 			case "documentinfo":
 				switch (elementName) {
 				case "author":
-					info.setAuthor(contentBuffer.toString().trim());
+					slideshow.getInfo().setAuthor(
+							contentBuffer.toString().trim());
 					break;
 				case "version":
-					info.setVersion(contentBuffer.toString().trim());
+					slideshow.getInfo().setVersion(
+							contentBuffer.toString().trim());
 					break;
 				case "comment":
-					info.setComment(contentBuffer.toString().trim());
+					slideshow.getInfo().setComment(
+							contentBuffer.toString().trim());
 					break;
 				case "groupid":
-					info.setGroupID(contentBuffer.toString().trim());
+					slideshow.getInfo().setGroupID(
+							contentBuffer.toString().trim());
 					break;
 				default:
 					break;
@@ -219,16 +186,18 @@ public class XMLReader extends DefaultHandler {
 			case "defaultsettings":
 				switch (elementName) {
 				case "backgroundcolor":
-					defaults.setBackgroundColour(contentBuffer.toString()
-							.trim());
+					slideshow.getDefaults().setBackgroundColour(
+							contentBuffer.toString().trim());
 					break;
 				case "font":
-					defaults.setFont(contentBuffer.toString().trim());
+					slideshow.getDefaults().setFont(
+							contentBuffer.toString().trim());
 					break;
 				case "fontsize":
 					try {
-						defaults.setFontSize(Integer.parseInt(contentBuffer
-								.toString().trim()));
+						slideshow.getDefaults().setFontSize(
+								Integer.parseInt(contentBuffer.toString()
+										.trim()));
 					} catch (NumberFormatException e) {
 						/* Do nothing if invalid font size specified */
 					} catch (NullPointerException npe) {
@@ -236,10 +205,12 @@ public class XMLReader extends DefaultHandler {
 					}
 					break;
 				case "fontcolor":
-					defaults.setFontColour(contentBuffer.toString().trim());
+					slideshow.getDefaults().setFontColour(
+							contentBuffer.toString().trim());
 					break;
 				case "graphiccolor":
-					defaults.setGraphicColour(contentBuffer.toString().trim());
+					slideshow.getDefaults().setGraphicColour(
+							contentBuffer.toString().trim());
 					break;
 				default:
 					break;
@@ -274,6 +245,8 @@ public class XMLReader extends DefaultHandler {
 					+ slideshow.getInfo().getGroupID());
 			System.out.println("\tSlide 1 duration: "
 					+ slideshow.getSlides().get(0).getDuration());
+			System.out.println("\tSlide 1 duration: "
+					+ slideshow.getSlides().get(0).getTextList().get(0).getTextFragments().get(0).getText());
 		} else {
 			System.out.println("Invalid slideshow found");
 		}

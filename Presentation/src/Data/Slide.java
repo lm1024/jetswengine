@@ -1,6 +1,7 @@
 package Data;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Slide implements Serializable {
@@ -15,6 +16,19 @@ public class Slide implements Serializable {
 	private List<Image> imagesList;
 	private List<Movie> moviesList;
 	private Text currentText;
+	private Graphic currentGraphic;
+	private Image currentImage;
+	private Movie currentMovie;
+	private Sound currentSound;
+
+	public Slide() {
+		this.textList = new ArrayList<Text>();
+		this.soundsList = new ArrayList<Sound>();
+		this.graphicsList = new ArrayList<Graphic>();
+		this.moviesList = new ArrayList<Movie>();
+		this.imagesList = new ArrayList<Image>();
+	}
+
 	/**
 	 * @return the currentText
 	 */
@@ -23,7 +37,8 @@ public class Slide implements Serializable {
 	}
 
 	/**
-	 * @param currentText the currentText to set
+	 * @param currentText
+	 *            the currentText to set
 	 */
 	public void setCurrentText(Text currentText) {
 		this.currentText = currentText;
@@ -37,7 +52,8 @@ public class Slide implements Serializable {
 	}
 
 	/**
-	 * @param currentGraphic the currentGraphic to set
+	 * @param currentGraphic
+	 *            the currentGraphic to set
 	 */
 	public void setCurrentGraphic(Graphic currentGraphic) {
 		this.currentGraphic = currentGraphic;
@@ -51,7 +67,8 @@ public class Slide implements Serializable {
 	}
 
 	/**
-	 * @param currentImage the currentImage to set
+	 * @param currentImage
+	 *            the currentImage to set
 	 */
 	public void setCurrentImage(Image currentImage) {
 		this.currentImage = currentImage;
@@ -65,7 +82,8 @@ public class Slide implements Serializable {
 	}
 
 	/**
-	 * @param currentMovie the currentMovie to set
+	 * @param currentMovie
+	 *            the currentMovie to set
 	 */
 	public void setCurrentMovie(Movie currentMovie) {
 		this.currentMovie = currentMovie;
@@ -79,20 +97,11 @@ public class Slide implements Serializable {
 	}
 
 	/**
-	 * @param currentSound the currentSound to set
+	 * @param currentSound
+	 *            the currentSound to set
 	 */
 	public void setCurrentSound(Sound currentSound) {
 		this.currentSound = currentSound;
-	}
-
-	private Graphic currentGraphic;
-	private Image currentImage;
-	private Movie currentMovie;
-	private Sound currentSound;
-	
-
-	public Slide() {
-		
 	}
 
 	/**
@@ -103,8 +112,9 @@ public class Slide implements Serializable {
 	}
 
 	/**
-	 * @param duration </br>Set the duration of the slide. </br>Setting to -1 indicates
-	 * slide that requires changing manually
+	 * @param duration
+	 *            </br>Set the duration of the slide. </br>Setting to -1
+	 *            indicates slide that requires changing manually
 	 */
 	public void setDuration(float duration) {
 		this.duration = duration;
@@ -121,8 +131,18 @@ public class Slide implements Serializable {
 	 * @param add
 	 *            some text to the textList
 	 */
-	public void addText(Text someText) {
-		this.textList.add(textList.size(), someText);
+	public void addText(Text text) {
+		this.currentText = text;
+		this.textList.add(currentText);
+	}
+	
+	/**
+	 * @param add
+	 *            some text to the textList
+	 */
+	public void newText() {
+		this.currentText = new Text();
+		this.textList.add(currentText);
 	}
 
 	/**
@@ -137,7 +157,8 @@ public class Slide implements Serializable {
 	 *            a graphic to the graphicsList
 	 */
 	public void addGraphic(Graphic graphic) {
-		this.graphicsList.add(graphicsList.size(), graphic);
+		this.currentGraphic = graphic;
+		this.graphicsList.add(currentGraphic);
 	}
 
 	/**
@@ -152,7 +173,8 @@ public class Slide implements Serializable {
 	 *            a sound to the soundsList
 	 */
 	public void addSound(Sound sound) {
-		this.soundsList.add(soundsList.size(), sound);
+		this.currentSound = sound;
+		this.soundsList.add(currentSound);
 	}
 
 	/**
@@ -167,7 +189,8 @@ public class Slide implements Serializable {
 	 *            an image to the imagesList
 	 */
 	public void addImage(Image image) {
-		this.imagesList.add(imagesList.size(), image);
+		this.currentImage = image;
+		this.imagesList.add(currentImage);
 	}
 
 	/**
@@ -182,7 +205,8 @@ public class Slide implements Serializable {
 	 *            a movie to the moviesList
 	 */
 	public void addMovie(Movie movie) {
-		this.moviesList.add(moviesList.size(), movie);
+		this.currentMovie = movie;
+		this.moviesList.add(currentMovie);
 	}
 
 }

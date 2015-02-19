@@ -1,5 +1,6 @@
 package Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Text {
@@ -12,6 +13,7 @@ public class Text {
 	private int duration;
 	
 	public Text(){
+		this.textFragments = new ArrayList<TextFragment>();
 	}
 
 	/**
@@ -36,10 +38,18 @@ public class Text {
 	}
 
 	/**
-	 * @param text the text to set
+	 * @param text the Text to add
 	 */
 	public void addText(TextFragment text) {
 		this.textFragments.add(text);
+	}
+	
+	/**
+	 * @param text the String to add
+	 */
+	public void addText(String string) {
+		this.currentTextFragment = new TextFragment(string);
+		this.textFragments.add(currentTextFragment);
 	}
 	
 	/**

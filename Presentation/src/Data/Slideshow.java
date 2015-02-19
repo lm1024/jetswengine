@@ -9,6 +9,7 @@ public class Slideshow {
 	private List<Slide> slides;
 	private DocumentInfo info;
 	private Defaults defaults;
+	private Slide currentSlide;
 	
 	public Slideshow() {
 		this.slides = new ArrayList<Slide>();
@@ -25,8 +26,10 @@ public class Slideshow {
 	/**
 	 * @param slides the slides to set
 	 */
-	public void addSlide(Slide slide) {
-		this.slides.add(slide);
+	public void addSlide(float duration) {
+		this.currentSlide = new Slide();
+		currentSlide.setDuration(duration);
+		this.slides.add(currentSlide);
 	}
 	/**
 	 * @return the defaults
@@ -51,6 +54,20 @@ public class Slideshow {
 	 */
 	public void setInfo(DocumentInfo info) {
 		this.info = info;
+	}
+
+	/**
+	 * @return the currentSlide
+	 */
+	public Slide getCurrentSlide() {
+		return currentSlide;
+	}
+
+	/**
+	 * @param currentSlide the currentSlide to set
+	 */
+	public void setCurrentSlide(Slide currentSlide) {
+		this.currentSlide = currentSlide;
 	}
 	
 
