@@ -42,6 +42,8 @@ public class JavaFXTest extends Application {
 		// TODO Auto-generated constructor stub
 	}
 
+	public static MediaView mediaView = new MediaView();
+	
 	@Override
 	public void start(Stage primaryStage) {
 		primaryStage.setTitle("JavaFX Welcome");
@@ -53,7 +55,7 @@ public class JavaFXTest extends Application {
 		/* Graphics Section */
 		Circle circle = new Circle(50, Color.BLUE);
 		circle.relocate(150, 20);
-		circle.setFill(new Color(0, 1, 0, 1)); // RGBa!!!!!
+		circle.setFill(new Color(0, 1, 0, 0.5)); // RGBa!!!!!
 
 		Ellipse ellipse = new Ellipse(100, 150, 20, 30);
 		ellipse.setFill(new Color(1, 0.8, 1, 1));
@@ -70,9 +72,11 @@ public class JavaFXTest extends Application {
 		MediaPlayer mediaPlayer = new MediaPlayer(media);
 		mediaPlayer.setAutoPlay(true);
 		// create mediaView and add media player to the viewer
-		MediaView mediaView = new MediaView(mediaPlayer);
-		mediaView.relocate(50, 50);
+		mediaView.setMediaPlayer(mediaPlayer);
+		mediaView.relocate(500, 500);
 		//(scene.getRoot()).getChildren().add(mediaView);
+		mediaView.setOpacity(1);//Set Opacity of the Media View. Defaults to 1.
+		
 
 		/* Image section! */
 		Image image = new Image("file:me.png", 100, 100, true, true);
@@ -129,7 +133,13 @@ public class JavaFXTest extends Application {
 		@Override 
 		public void handle(ActionEvent e) {
 			Button buttonPressed = (Button)e.getSource();
-			System.out.println(buttonPressed.getId());
+			System.out.println(buttonPressed.getId());	
+			
+		if (mediaView.getOpacity() == 0){
+			mediaView.setOpacity(1);
+		} else {
+		mediaView.setOpacity(0);	
+		}
 		}
 	}
 	
