@@ -44,12 +44,10 @@ public class Server {
 		} else {
 			this.filename = loc;
 		}
-		
-		
-		this.filename = loc;
 	}
 	
 	public Server() {
+		setCurrentSlideshow(filename);
 		//currentSlideshow = new XMLReader(filename).getSlideshow();
 		//System.out.println(currentSlideshow.getInfo().getVersion());
 	}

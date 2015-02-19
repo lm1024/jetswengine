@@ -188,8 +188,8 @@ public class Slide implements Serializable {
 	 * @param add
 	 *            an image to the imagesList
 	 */
-	public void addImage(Image image) {
-		this.currentImage = image;
+	public void addImage(String source) {
+		this.currentImage = new Image(source);
 		this.imagesList.add(currentImage);
 	}
 

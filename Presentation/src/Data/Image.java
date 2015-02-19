@@ -1,174 +1,204 @@
 package Data;
 
 public class Image {
-	private String sourcefile;
-	private float xstart;
-	private float ystart;
+	private String sourceFile;
+	private float xStart;
+	private float yStart;
 	private float scale;
 	private float duration;
-	private float starttime;
+	private float startTime;
 	private int rotation;
-	private Boolean fliphorizontal;
-	private Boolean flipvertical;
-	private float cropx1;
-	private float cropy1;
-	private float cropx2;
-	private float cropy2;
+	private Boolean flipHorizontal;
+	private Boolean flipVertical;
+	private float cropX1;
+	private float cropY1;
+	private float cropX2;
+	private float cropY2;
 	
-	/**
-	 * @return the sourcefile
-	 */
-	public String getSourcefile() {
-		return sourcefile;
+	public Image(String source) {
+		this.sourceFile = source;
 	}
+
 	/**
-	 * @param sourcefile the sourcefile to set
+	 * @return the sourceFile
 	 */
-	public void setSourcefile(String sourcefile) {
-		this.sourcefile = sourcefile;
+	public String getSourceFile() {
+		return sourceFile;
 	}
+
 	/**
-	 * @return the xstart
+	 * @param sourceFile the sourceFile to set
 	 */
-	public float getXstart() {
-		return xstart;
+	public void setSourceFile(String sourceFile) {
+		this.sourceFile = sourceFile;
 	}
+
 	/**
-	 * @param xstart the xstart to set
+	 * @return the xStart
 	 */
-	public void setXstart(float xstart) {
-		this.xstart = xstart;
+	public float getxStart() {
+		return xStart;
 	}
+
 	/**
-	 * @return the ystart
+	 * @param xStart the xStart to set
 	 */
-	public float getYstart() {
-		return ystart;
+	public void setxStart(float xStart) {
+		this.xStart = xStart;
 	}
+
 	/**
-	 * @param ystart the ystart to set
+	 * @return the yStart
 	 */
-	public void setYstart(float ystart) {
-		this.ystart = ystart;
+	public float getyStart() {
+		return yStart;
 	}
+
+	/**
+	 * @param yStart the yStart to set
+	 */
+	public void setyStart(float yStart) {
+		this.yStart = yStart;
+	}
+
 	/**
 	 * @return the scale
 	 */
 	public float getScale() {
 		return scale;
 	}
+
 	/**
 	 * @param scale the scale to set
 	 */
 	public void setScale(float scale) {
 		this.scale = scale;
 	}
+
 	/**
 	 * @return the duration
 	 */
 	public float getDuration() {
 		return duration;
 	}
+
 	/**
 	 * @param duration the duration to set
 	 */
 	public void setDuration(float duration) {
 		this.duration = duration;
 	}
+
 	/**
-	 * @return the starttime
+	 * @return the startTime
 	 */
-	public float getStarttime() {
-		return starttime;
+	public float getStartTime() {
+		return startTime;
 	}
+
 	/**
-	 * @param starttime the starttime to set
+	 * @param startTime the startTime to set
 	 */
-	public void setStarttime(float starttime) {
-		this.starttime = starttime;
+	public void setStartTime(float startTime) {
+		this.startTime = startTime;
 	}
+
 	/**
 	 * @return the rotation
 	 */
 	public int getRotation() {
 		return rotation;
 	}
+
 	/**
 	 * @param rotation the rotation to set
 	 */
 	public void setRotation(int rotation) {
 		this.rotation = rotation;
 	}
+
 	/**
-	 * @return the fliphorizontal
+	 * @return the flipHorizontal
 	 */
-	public Boolean getFliphorizontal() {
-		return fliphorizontal;
+	public Boolean getFlipHorizontal() {
+		return flipHorizontal;
 	}
+
 	/**
-	 * @param fliphorizontal the fliphorizontal to set
+	 * @param flipHorizontal the flipHorizontal to set
 	 */
-	public void setFliphorizontal(Boolean fliphorizontal) {
-		this.fliphorizontal = fliphorizontal;
+	public void setFlipHorizontal(Boolean flipHorizontal) {
+		this.flipHorizontal = flipHorizontal;
 	}
+
 	/**
-	 * @return the flipvertical
+	 * @return the flipVertical
 	 */
-	public Boolean getFlipvertical() {
-		return flipvertical;
+	public Boolean getFlipVertical() {
+		return flipVertical;
 	}
+
 	/**
-	 * @param flipvertical the flipvertical to set
+	 * @param flipVertical the flipVertical to set
 	 */
-	public void setFlipvertical(Boolean flipvertical) {
-		this.flipvertical = flipvertical;
+	public void setFlipVertical(Boolean flipVertical) {
+		this.flipVertical = flipVertical;
 	}
+
 	/**
-	 * @return the cropx1
+	 * @return the cropX1
 	 */
-	public float getCropx1() {
-		return cropx1;
+	public float getCropX1() {
+		return cropX1;
 	}
+
 	/**
-	 * @param cropx1 the cropx1 to set
+	 * @param cropX1 the cropX1 to set
 	 */
-	public void setCropx1(float cropx1) {
-		this.cropx1 = cropx1;
+	public void setCropX1(float cropX1) {
+		this.cropX1 = cropX1;
 	}
+
 	/**
-	 * @return the cropy1
+	 * @return the cropY1
 	 */
-	public float getCropy1() {
-		return cropy1;
+	public float getCropY1() {
+		return cropY1;
 	}
+
 	/**
-	 * @param cropy1 the cropy1 to set
+	 * @param cropY1 the cropY1 to set
 	 */
-	public void setCropy1(float cropy1) {
-		this.cropy1 = cropy1;
+	public void setCropY1(float cropY1) {
+		this.cropY1 = cropY1;
 	}
+
 	/**
-	 * @return the cropx2
+	 * @return the cropX2
 	 */
-	public float getCropx2() {
-		return cropx2;
+	public float getCropX2() {
+		return cropX2;
 	}
+
 	/**
-	 * @param cropx2 the cropx2 to set
+	 * @param cropX2 the cropX2 to set
 	 */
-	public void setCropx2(float cropx2) {
-		this.cropx2 = cropx2;
+	public void setCropX2(float cropX2) {
+		this.cropX2 = cropX2;
 	}
+
 	/**
-	 * @return the cropy2
+	 * @return the cropY2
 	 */
-	public float getCropy2() {
-		return cropy2;
+	public float getCropY2() {
+		return cropY2;
 	}
+
 	/**
-	 * @param cropy2 the cropy2 to set
+	 * @param cropY2 the cropY2 to set
 	 */
-	public void setCropy2(float cropy2) {
-		this.cropy2 = cropy2;
+	public void setCropY2(float cropY2) {
+		this.cropY2 = cropY2;
 	}
+	
 }
