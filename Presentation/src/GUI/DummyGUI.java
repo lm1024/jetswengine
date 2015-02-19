@@ -65,6 +65,9 @@ public class DummyGUI extends Application {
 		thisGraphicsHandler.drawOval(200, 200, 300, 350, new Color(0, 0, 1, 1), 0);
 		//thisGraphicsHandler.drawRectangle();
 		
+		TextHandler thisTextHandler = new TextHandler(group);
+		thisTextHandler.drawString("Hello a world!", 200f, 300f, "Arial", 20, new Color(0,0,1,1), true, true, true, true, false, false, "camel", "right");
+		
 		primaryStage.show();
 	}
 
