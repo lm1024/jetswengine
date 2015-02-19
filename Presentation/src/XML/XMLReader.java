@@ -233,10 +233,85 @@ public class XMLReader extends DefaultHandler {
 				}
 				break;
 			case "audio":
+				try {
+					slideshow.getCurrentSlide().addSound(
+							attributes.getValue("sourcefile").trim());
+				} catch (Exception e) {
+					break;
+					// TODO: handle exception
+				}
+				try {
+					slideshow
+							.getCurrentSlide()
+							.getCurrentSound()
+							.setStartTime(
+									Float.parseFloat(attributes
+											.getValue("starttime")));
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+				try {
+					slideshow
+							.getCurrentSlide()
+							.getCurrentSound()
+							.setXStart(
+									Float.parseFloat(attributes
+											.getValue("xstart")));
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+				try {
+					slideshow
+							.getCurrentSlide()
+							.getCurrentSound()
+							.setYStart(
+									Float.parseFloat(attributes
+											.getValue("ystart")));
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
 				break;
 			case "video":
+				try {
+					slideshow.getCurrentSlide().addMovie(
+							attributes.getValue("sourcefile").trim());
+				} catch (Exception e) {
+					break;
+					// TODO: handle exception
+				}
+				try {
+					slideshow
+							.getCurrentSlide()
+							.getCurrentMovie()
+							.setStartTime(
+									Float.parseFloat(attributes
+											.getValue("starttime")));
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+				try {
+					slideshow
+							.getCurrentSlide()
+							.getCurrentMovie()
+							.setXStart(
+									Float.parseFloat(attributes
+											.getValue("xstart")));
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+				try {
+					slideshow
+							.getCurrentSlide()
+							.getCurrentMovie()
+							.setYStart(
+									Float.parseFloat(attributes
+											.getValue("ystart")));
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
 				break;
 			case "graphic":
+				
 				break;
 			case "richtext":
 				break;

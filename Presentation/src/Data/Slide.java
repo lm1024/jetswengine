@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class Slide implements Serializable {
 	/**
 	 * 
@@ -176,6 +177,15 @@ public class Slide implements Serializable {
 		this.currentSound = sound;
 		this.soundsList.add(currentSound);
 	}
+	
+	/**
+	 * @param add
+	 *            a sound to the soundsList
+	 */
+	public void addSound(String source) {
+		this.currentSound = new Sound(source);
+		this.soundsList.add(currentSound);
+	}
 
 	/**
 	 * @return the imagesList
@@ -198,6 +208,15 @@ public class Slide implements Serializable {
 	 */
 	public List<Movie> getMoviesList() {
 		return moviesList;
+	}
+	
+	/**
+	 * @param add
+	 *            a movie to the moviesList
+	 */
+	public void addMovie(String source) {
+		this.currentMovie = new Movie(source);
+		this.moviesList.add(currentMovie);
 	}
 
 	/**

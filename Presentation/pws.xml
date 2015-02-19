@@ -34,8 +34,8 @@
 		
 		<image sourcefile="selfie.jpg" xstart="0.5" ystart="0.5" scale="1.0" duration="1.5" starttime="2.0" rotate="90" fliphorizontal="true" flipvertical="true" cropx1="0.0" cropy1="0.0" cropx2="0.5" cropy2="0.5"/>
 		
-		<audio sourcefile="gavel.wav" starttime="2.5" />
-		<video sourcefile="avengers.mkv" xstart="0.5" ystart="0.5" />
+		<audio sourcefile="gavel.wav" starttime="2.5" xstart="0.5" ystart="0.5"/>
+		<video sourcefile="avengers.mkv" starttime="2.5" xstart="0.5" ystart="0.5" />
 		
 		
 		<graphic type="oval/rectangle/line" xstart="0.5" ystart="0.5" xend="0.7" yend="0.7" solid="true" graphiccolor="#11223344" duration="1.5">

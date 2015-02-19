@@ -6,6 +6,10 @@ public class Movie {
 	private float yStart;
 	private float startTime;
 	
+	public Movie(String source) {
+		this.sourceFile = source;
+	}
+	
 	/**
 	 * @return the sourceFile
 	 */
@@ -21,25 +25,25 @@ public class Movie {
 	/**
 	 * @return the xStart
 	 */
-	public float getxStart() {
+	public float getXStart() {
 		return xStart;
 	}
 	/**
 	 * @param xStart the xStart to set
 	 */
-	public void setxStart(float xStart) {
+	public void setXStart(float xStart) {
 		this.xStart = xStart;
 	}
 	/**
 	 * @return the yStart
 	 */
-	public float getyStart() {
+	public float getYStart() {
 		return yStart;
 	}
 	/**
 	 * @param yStart the yStart to set
 	 */
-	public void setyStart(float yStart) {
+	public void setYStart(float yStart) {
 		this.yStart = yStart;
 	}
 	/**
