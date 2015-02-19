@@ -48,6 +48,16 @@ public abstract class Shapes {
 
 	public abstract void setStartTime(float startTime);
 
+	public abstract void setColor(Color shapeColor);
+
+	/**
+	 * Method setRotation required to support polymorphism even though some
+	 * objects will not require rotation. If this is called on a (for example)
+	 * circle object, this method will be called, so nothing will happen.
+	 */
+	public void setRotation(float rotation) {
+	}
+
 	public abstract void display(Graphics g);
 
 }

@@ -5,7 +5,7 @@ import java.awt.Graphics;
 
 public class Rectangle extends Shapes {
 
-	public Rectangle(int xStart, int yStart, int xEnd, int yEnd, boolean solid, Color shapeColor, float duration, float startTime ) {
+	public Rectangle(int xStart, int yStart, int xEnd, int yEnd, boolean solid, Color shapeColor, float rotation, float duration, float startTime ) {
 		// Required call to super constructor
 		super(xStart, yStart, shapeColor, duration, startTime);
 	}
@@ -47,6 +47,18 @@ public class Rectangle extends Shapes {
 
 	@Override
 	public void setStartTime(float startTime) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void setColor(Color shapeColor) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override 
+	public void setRotation(float rotation) {
 		// TODO Auto-generated method stub
 		
 	}

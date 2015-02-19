@@ -14,7 +14,7 @@ import javax.swing.*;
 public class GraphicsWindow extends JPanel implements ActionListener {
 
 	private JComboBox<String> shapeChoice;
-	private JTextField xStart, yStart, xEnd, yEnd, shapeColor;
+	private JTextField xStart, yStart, xEnd, yEnd, rotation, shapeColor;
 	private JCheckBox solid;
 	private Oval firstOval;
 	private Rectangle firstRectangle;
@@ -68,6 +68,11 @@ public class GraphicsWindow extends JPanel implements ActionListener {
 		add(shapeColor);
 		shapeColor.addActionListener(this);
 		shapeColor.setText("00000000");
+		
+		rotation = new JTextField(3);
+		add(rotation);
+		rotation.addActionListener(this);
+		rotation.setText("0");
 
 		/* Instantiate a JCheckBox for if shape is solid */
 		solid = new JCheckBox();
@@ -82,6 +87,7 @@ public class GraphicsWindow extends JPanel implements ActionListener {
 		int yEnd = 200;
 		boolean solid = true;
 		Color shapeColor = Color.black;
+		float rotation = 0;
 		float duration = 0;
 		float startTime = 0;
 		
@@ -89,12 +95,12 @@ public class GraphicsWindow extends JPanel implements ActionListener {
 		int numberOfSides = 5;
 		
 		/* Instantiates shape classes */
-		firstOval = new Oval(xStart, yStart, xEnd, yEnd, solid, shapeColor, duration, startTime);
-		firstRectangle = new Rectangle(xStart, yStart, xEnd, yEnd, solid, shapeColor, duration, startTime);
-		firstLine = new Line(xStart, yStart, xEnd, yEnd, shapeColor, duration, startTime);
-		firstTriangle = new Triangle(xStart, yStart, xEnd, yEnd, solid, shapeColor, duration, startTime);
-		firstStar = new Star(xStart, yStart, xEnd, yEnd, solid, shapeColor, duration, startTime);
-		firstPolygon = new RegularConvexPolygon(xStart, yStart, xEnd, yEnd, numberOfSides, solid, shapeColor, duration, startTime);
+		firstOval = new Oval(xStart, yStart, xEnd, yEnd, solid, shapeColor, rotation, duration, startTime);
+		firstRectangle = new Rectangle(xStart, yStart, xEnd, yEnd, solid, shapeColor, rotation, duration, startTime);
+		firstLine = new Line(xStart, yStart, xEnd, yEnd, shapeColor, rotation, duration, startTime);
+		firstTriangle = new Triangle(xStart, yStart, xEnd, yEnd, solid, shapeColor, rotation, duration, startTime);
+		firstStar = new Star(xStart, yStart, xEnd, yEnd, solid, shapeColor, rotation, duration, startTime);
+		firstPolygon = new RegularConvexPolygon(xStart, yStart, xEnd, yEnd, numberOfSides, solid, shapeColor, rotation, duration, startTime);
 		
 		aShape = firstOval;
 
@@ -141,6 +147,8 @@ public class GraphicsWindow extends JPanel implements ActionListener {
 			if (colorText.matches("\\p{XDigit}+") && colorText.length() == 8)
 				aShape.shapeColor = new Color((int) Long.parseLong(
 						shapeColor.getText(), 16), aShape.hasalpha);
+		} else if (e.getSource() == rotation) {
+			aShape.setRotation(Float.parseFloat(rotation.getText()));			
 		} else if (e.getSource() == solid) {
 			aShape.setSolid(solid.isSelected());
 		}
