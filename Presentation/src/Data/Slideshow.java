@@ -5,7 +5,6 @@ import java.util.List;
 
 public class Slideshow {
 	
-	//private String groupID;
 	private List<Slide> slides;
 	private DocumentInfo info;
 	private Defaults defaults;
