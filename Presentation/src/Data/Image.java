@@ -8,8 +8,8 @@ public class Image {
 	private float duration;
 	private float startTime;
 	private int rotation;
-	private Boolean flipHorizontal;
-	private Boolean flipVertical;
+	private boolean flipHorizontal;
+	private boolean flipVertical;
 	private float cropX1;
 	private float cropY1;
 	private float cropX2;
