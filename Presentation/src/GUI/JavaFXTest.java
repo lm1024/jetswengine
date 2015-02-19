@@ -56,11 +56,11 @@ public class JavaFXTest extends Application {
 		circle.setFill(new Color(0, 1, 0, 1)); // RGBa!!!!!
 
 		Ellipse ellipse = new Ellipse(100, 150, 20, 30);
-		ellipse.setFill(new Color(0, 0.8, 1, 0.1));
+		ellipse.setFill(new Color(1, 0.8, 1, 1));
 
-		Ellipse ellipse2 = new Ellipse(200, 250, 20, 30);
+		Ellipse ellipse2 = new Ellipse(100, 150, 20, 30);
 		ellipse2.setFill(new Color(0, 0.8, 1, 1));
-		ellipse2.setRotate(90);
+		ellipse2.setRotate(45);// ROTATES ABOUT THE CENTER YAY!
 
 		ellipse2.setEffect(new DropShadow());
 

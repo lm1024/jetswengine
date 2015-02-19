@@ -9,7 +9,6 @@ import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 /**
@@ -17,12 +16,12 @@ import javafx.stage.Stage;
  * @version 1.0 19/02/2015
  * 
  */
-public class DummyGUI extends Application {
+public class GUI extends Application {
 
 	/**
 	 * 
 	 */
-	public DummyGUI() {
+	public GUI() {
 	}
 
 	/**
@@ -56,13 +55,7 @@ public class DummyGUI extends Application {
 		
 		/* Line sets the screen to fullscreen */
 		//primaryStage.setFullScreen(true);
-		
-		/* Calls to add items to screen */
-		ImageHandler thisImageHandler = new ImageHandler(group);
-		thisImageHandler.drawImage(100, 100, "file:me.png", 1, 1, 0, false, false);
-		
-		GraphicsHandler thisGraphicsHandler = new GraphicsHandler(group);
-		thisGraphicsHandler.drawOval(200, 200, 300, 350, new Color(0, 0, 1, 1), 0);
+
 		//thisGraphicsHandler.drawRectangle();
 		
 		primaryStage.show();

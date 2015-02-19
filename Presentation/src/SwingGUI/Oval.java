@@ -12,7 +12,7 @@ public class Oval extends Shapes {
 	protected int xEnd;
 	protected int yEnd;
 	protected boolean solid;
-	private float rotation;
+	//private float rotation;
 	
 	/** Constructor method */
 	public Oval(int xStart, int yStart, int xEnd, int yEnd, boolean solid, Color shapeColor, float rotation, float duration, float startTime ) {
@@ -26,7 +26,7 @@ public class Oval extends Shapes {
 		this.yEnd = yEnd;
 		this.solid = solid;
 		this.shapeColor = shapeColor;
-		this.rotation = rotation;
+		//this.rotation = rotation;
 	}
 	
 	/** Method for setting the X Start Coordinate */
@@ -80,7 +80,7 @@ public class Oval extends Shapes {
 	/** Method for setting the rotation of the shape */
 	@Override
 	public void setRotation(float rotation) {
-		this.rotation = rotation;
+		//this.rotation = rotation;
 	}	
 	
 	/** Method for displaying the object */
