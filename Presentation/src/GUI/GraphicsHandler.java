@@ -37,8 +37,8 @@ public class GraphicsHandler {
 			float yEndPos, Color ovalColor, float rotation) {
 		/* TODO Write a method that draws an oval depending on params passed */
 
-		double xCenter = (xEndPos - xStartPos)/2;
-		double yCenter = (yEndPos - yStartPos)/2;
+		double xCenter = (xEndPos + xStartPos)/2;
+		double yCenter = (yEndPos + yStartPos)/2;
 		double xRad = (xEndPos - xStartPos)/2;
 		double yRad = (yEndPos - yStartPos)/2;
 		

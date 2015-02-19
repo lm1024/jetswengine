@@ -63,7 +63,7 @@ public class DummyGUI extends Application {
 		
 		GraphicsHandler thisGraphicsHandler = new GraphicsHandler(group);
 		thisGraphicsHandler.drawCircle(100, 100, 50, new Color(0, 0, 1, 1));
-		thisGraphicsHandler.drawOval(400, 70, 490, 300, new Color(1,0,0,1), 0);
+		thisGraphicsHandler.drawOval(200, 100, 300, 250, new Color(1,0,0,1), 0);
 		
 		//thisGraphicsHandler.drawRectangle();
 		
