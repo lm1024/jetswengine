@@ -64,10 +64,8 @@ public class TextHandler {
 
 	/** Error checking method for printing all the stored strings in the buffer. */
 	public void printBuffer() {
-		createHTMLStringFromBuffer("left");
-		
-		//for (int i = 0; i < stringBuffer.size(); i++)
-		//	System.out.println(stringBuffer.get(i).getText());
+		for (int i = 0; i < stringBuffer.size(); i++)
+			System.out.println(stringBuffer.get(i).getText());
 	}
 
 	public void drawBuffer(int xStartPos, int yStartPos, int xEndPos, int yEndPos, String allignment) {
@@ -103,14 +101,16 @@ public class TextHandler {
 		 */
 		webView.setDisable(true);
 
-		/* Loads a HTML string containing all the data about the strings into the webView */
+		/*
+		 * Loads a HTML string containing all the data about the strings into
+		 * the webView
+		 */
 		webView.getEngine().loadContent(createHTMLStringFromBuffer(allignment));
-		
-		//webView.getEngine()
-		//.loadContent(
-		//		"<div id=\"mydiv\"><body contenteditable=\"false\"><p style=\"text-align: left;\"><b>bold </b><i>italic </i><u>underline </u><sub>subscript</sub><sup>superscript</sup><font face=\"arial\" color=\"ff0000\"> color arial </font><span style=\"opacity:0.1\">opacity </span><span style=\"font-size:20px\">size 20 </span><span style=\"font-size:30px\">size 30 </span><p style=\"text-align: right;\">p tag alligned right </p><strike>strikethrough </strike> hjakfsdlhjlksadf hjklfdsa hjklsfd hjlkfds hjklfds hjklfdsah jlksdfah jlksafdh jlkfdsa hjlksfda hjkldfsah jlkfdsah  <a href=\"http://www.facebook.com\">link text</a> </p></body></div>");
 
-		
+		// webView.getEngine()
+		// .loadContent(
+		// "<div id=\"mydiv\"><body contenteditable=\"false\"><p style=\"text-align: left;\"><b>bold </b><i>italic </i><u>underline </u><sub>subscript</sub><sup>superscript</sup><font face=\"arial\" color=\"ff0000\"> color arial </font><span style=\"opacity:0.1\">opacity </span><span style=\"font-size:20px\">size 20 </span><span style=\"font-size:30px\">size 30 </span><p style=\"text-align: right;\">p tag alligned right </p><strike>strikethrough </strike> hjakfsdlhjlksadf hjklfdsa hjklsfd hjlkfds hjklfds hjklfdsah jlksdfah jlksafdh jlkfdsa hjlksfda hjkldfsah jlkfdsah  <a href=\"http://www.facebook.com\">link text</a> </p></body></div>");
+
 		/*
 		 * Remove the background from the webView panel. Adapted from
 		 * http://stackoverflow
@@ -187,6 +187,10 @@ public class TextHandler {
 			String preBodyAttributes = "";
 			String postBodyAttributes = "";
 
+			/*
+			 * Appends basic tags (tags that require no custom info) depending
+			 * on the values of booleans
+			 */
 			if (currentString.isBold()) {
 				preBodyAttributes = "<b>";
 				postBodyAttributes = "</b>";
@@ -203,45 +207,65 @@ public class TextHandler {
 				preBodyAttributes = preBodyAttributes + "<strike>";
 				postBodyAttributes = postBodyAttributes + "</strike>";
 			}
-			
-			
+
+			/*
+			 * Still appending basic tags, but giving priority to superscript as
+			 * opposed to subscript
+			 */
 			if (currentString.isSuperscript()) {
 				preBodyAttributes = preBodyAttributes + "<sup>";
 				postBodyAttributes = postBodyAttributes + "</sup>";
-			}
-			else if (currentString.isSubscript()) {
+			} else if (currentString.isSubscript()) {
 				preBodyAttributes = preBodyAttributes + "<sub>";
 				postBodyAttributes = postBodyAttributes + "</sub>";
 			}
-			
+
 			/* Section for font, font size and font color */
 			String colorString = currentString.getColor();
-			String fontNameAndColorString = "<font face =\"" + currentString.getFont() + "\" color=\"" + colorString.substring(2, colorString.length()) + "\">";
-			
-			/* Convert the opacity to a 1 decimal place number so that it works in the opacity tag */
+
+			/*
+			 * Initialise new string to store the preBody font name, and font
+			 * color information (last 6 chars of color string contain RRGGBB in
+			 * hex).
+			 */
+			String fontNameAndColorString = "<font face =\"" + currentString.getFont() + "\" color=\""
+					+ colorString.substring(2, colorString.length()) + "\">";
+
+			/*
+			 * Convert the opacity to a 1 decimal place number so that it works
+			 * in the opacity tag (first 2 chars of color string contain alpha
+			 * in hex).
+			 */
 			DecimalFormat df = new DecimalFormat("0.0");
-			System.out.println(colorString.substring(0, 2));
-		    String opacityFormatted = df.format((Integer.parseInt(colorString.substring(0, 2), 16))/255f);
-		    System.out.println(opacityFormatted);
+			String opacityFormatted = df.format((Integer.parseInt(colorString.substring(0, 2), 16)) / 255f);
+
+			/*
+			 * Initialise new string to store the preBody font opacity
+			 * information
+			 */
 			String fontOpacityString = "<span style=\"opacity:" + opacityFormatted + "\">";
-			
+
+			/* Initialise new string to store the preBody font size information */
 			String fontSizeString = "<span style=\"font-size:" + currentString.getFontSize() + "px\">";
-			
+
+			/* Combines the attribute strings */
 			preBodyAttributes = preBodyAttributes + fontNameAndColorString + fontOpacityString + fontSizeString;
 			postBodyAttributes = postBodyAttributes + "</font>" + "</span>" + "</span>";
-			
-			
-			System.out.println(preBodyAttributes);
-			System.out.println(postBodyAttributes);
+
+			/*
+			 * Combines the current htmlstring (to preserve anything already
+			 * there), the preBodyAttributes, the body of the string and then
+			 * postBodyAttributes.
+			 */
 			htmlString = htmlString + preBodyAttributes + currentString.getText() + postBodyAttributes;
 		}
 
 		/* Append the closing tags for the initial attributes. */
 		htmlString = htmlString + "</p></body></div>";
-		
+
 		/* Empty the buffer so new strings can be added */
 		stringBuffer.clear();
-		
+
 		return htmlString;
 	}
 
