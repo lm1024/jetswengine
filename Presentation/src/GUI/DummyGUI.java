@@ -50,7 +50,7 @@ public class DummyGUI extends Application {
 		btn.getText();
 		group.getChildren().add(btn);
 
-		Scene scene = new Scene(group, 500, 500);
+		Scene scene = new Scene(group, 800, 800);
 
 		primaryStage.setScene(scene);
 		
@@ -62,14 +62,18 @@ public class DummyGUI extends Application {
 		thisImageHandler.drawImage(100, 100, "file:me.png", 1, 1, 0, false, false);
 		
 		GraphicsHandler thisGraphicsHandler = new GraphicsHandler(group);
-		thisGraphicsHandler.drawCircle(100, 100, 50, new Color(0, 0, 1, 1));
-		thisGraphicsHandler.drawOval(200, 75, 300, 125, new Color(1,0,0,1), 0);
-		thisGraphicsHandler.drawRectangle(350, 50, 30, 100, 20, 20, new Color(0,1,0,1));
+		thisGraphicsHandler.drawCircle(100, 100, 50, new Color(0, 0, 1, 1), new Color(0,0,1,1));
+		thisGraphicsHandler.drawOval(200, 75, 300, 125, new Color(1,0,0,1), 0, new Color(1,0,1,1));
+		thisGraphicsHandler.drawRectangle(350, 50, 30, 100, 20, 20, new Color(0,1,0,1), new Color(1,1,1,1));
 		thisGraphicsHandler.drawPolygon(new Color(0,1,1,1),	new Double[] { 120.0, 270.0, 140.0, 310.0,
-			110.0, 350.0, 160.0, 320.0		}, -50,-50);
-		thisGraphicsHandler.drawRegularPolygon(80, 80, 220, 220, 5, new Color(0,0.5,0.8,1));
-		thisGraphicsHandler.drawSquare(350, 200, 80, new Color(1,0,1,1));
+			110.0, 350.0, 160.0, 320.0		}, -50,-50, new Color(1,1,1,0.5));
+		thisGraphicsHandler.drawRegularPolygon(80, 80, 220, 220, 5, 
+				new Color(0,0.5,0.8,1), new Color(0,0.5,0.8,1));
+		thisGraphicsHandler.drawSquare(350, 200, 80, new Color(1,0,1,1), new Color(1,0,0,1));
 		thisGraphicsHandler.drawLine(160, 160, 350, 165, new Color(1,0.2,0.5,1));
+		thisGraphicsHandler.drawChord(100, 400, 50, 50, 45, 200, new Color(1,0,1,0.8), new Color(0,1,1,1));
+		thisGraphicsHandler.drawArc(250, 400, 50, 50, 100, 100, new Color(0,1,1,1), new Color(0,1,1,1));
+		thisGraphicsHandler.drawTriangle(350.0, 400, 350, 420, 400, 410, new Color(1,0,1,1), new Color(1,0,1,1));
 		
 		primaryStage.show();
 	}
@@ -79,7 +83,7 @@ public class DummyGUI extends Application {
 		/* Button section */
 		Button btn = new Button();
 		btn.setText(buttonText);
-		btn.relocate(400, 400);
+		btn.relocate(700, 700);
 		btn.setOnAction(new buttonEventHandler());
 		return btn;
 	}
