@@ -35,6 +35,7 @@ public class TextHandler {
 			boolean subscript, String stringCase, String alignment) {
 		/* Make new text object for the passed string */
 		Text textObject;
+		Text textObject2 = new Text("teststring");
 
 		/* Initial string manipulation depending on stringCase variable */
 
@@ -97,7 +98,12 @@ public class TextHandler {
 		default:
 			break;
 		}
-
+		
+		Text combo = new Text();
+		
+		//combo.b
+		
+		//textObject = textObject + textObject2;
 		group.getChildren().add(textObject);
 	}
 
