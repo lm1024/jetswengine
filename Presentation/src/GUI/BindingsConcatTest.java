@@ -3,6 +3,7 @@ package GUI;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
+import java.text.DecimalFormat;
 
 import com.sun.webpane.platform.WebPage;
 
@@ -20,6 +21,12 @@ public class BindingsConcatTest extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
+		
+		System.out.println(Integer.parseInt("0a", 16));
+		System.out.println((Integer.parseInt("0a", 16))/255f);
+		
+		
+		
 		WebView webView = new WebView();
 		webView.setPrefWidth(200);
 
@@ -34,7 +41,7 @@ public class BindingsConcatTest extends Application {
 		webView.setDisable(true);
 		webView.getEngine()
 				.loadContent(
-						"<div id=\"mydiv\"><body background-color: transparent; contenteditable=\"false\"><p style=\"text-align: left;\"><sub>subscript</sub><sup>superscript</sup><font face=\"arial\" color=\"ff0000\"> color arial </font><span style=\"opacity:0.1\">opacity </span><span style=\"font-size:20px\">size 20 </span><span style=\"font-size:30px\">size 30 </span><p style=\"text-align: right;\">p tag alligned right </p><strike>strikethrough </strike> hjakfsdlhjlksadf hjklfdsa hjklsfd hjlkfds hjklfds hjklfdsah jlksdfah jlksafdh jlkfdsa hjlksfda hjkldfsah jlkfdsah  <a href=\"http://www.facebook.com\">link text</a> </p></body></div>");
+						"<div id=\"mydiv\"><body contenteditable=\"false\"><p style=\"text-align: left;\"><b>bold </b><i>italic </i><u>underline </u><sub>subscript</sub><sup>superscript</sup><font face=\"arial\" color=\"ff0000\"> color arial </font><span style=\"opacity:0.1\">opacity </span><span style=\"font-size:20px\">size 20 </span><span style=\"font-size:30px\">size 30 </span><p style=\"text-align: right;\">p tag alligned right </p><strike>strikethrough </strike> hjakfsdlhjlksadf hjklfdsa hjklsfd hjlkfds hjklfds hjklfdsah jlksdfah jlksafdh jlkfdsa hjlksfda hjkldfsah jlkfdsah  <a href=\"http://www.facebook.com\">link text</a> </p></body></div>");
 
 		/*
 		 * <html> </html> -- not required <div id=\"mydiv\"> </div> -- Used for
@@ -46,7 +53,7 @@ public class BindingsConcatTest extends Application {
 		 */
 
 		webView.relocate(100, 100);
-		webView.setContextMenuEnabled(false);
+		webView.setContextMenuEnabled(true);
 		adjustHeight(webView);
 
 		/*
