@@ -1,9 +1,11 @@
 package com.wavemedia.studentapp;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 
 public class QuestionActivity extends ActionBarActivity {
@@ -35,5 +37,33 @@ public class QuestionActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    /** Called when User clicks the A Option */
+    public void optionA(View view) {
+        // Generate Intent. All new Activities are linked to old ones by Intent. "Provides Runtime Bindings"
+        Intent intent = new Intent(this, OptionA.class);
+        startActivity(intent);
+    }
+
+    /** Called when User clicks the B Option */
+    public void optionB(View view) {
+        // Generate Intent. All new Activities are linked to old ones by Intent. "Provides Runtime Bindings"
+        Intent intent = new Intent(this, OptionB.class);
+        startActivity(intent);
+    }
+
+    /** Called when User clicks the C Option */
+    public void optionC(View view) {
+        // Generate Intent. All new Activities are linked to old ones by Intent. "Provides Runtime Bindings"
+        Intent intent = new Intent(this, OptionC.class);
+        startActivity(intent);
+    }
+
+    /** Called when User clicks the D Option */
+    public void optionD(View view) {
+        // Generate Intent. All new Activities are linked to old ones by Intent. "Provides Runtime Bindings"
+        Intent intent = new Intent(this, OptionD.class);
+        startActivity(intent);
     }
 }
