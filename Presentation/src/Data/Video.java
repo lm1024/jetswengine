@@ -1,12 +1,12 @@
 package Data;
 
-public class Movie extends SlideItem{
+public class Video extends SlideItem{
 	private String sourceFile;
 	private float xStart;
 	private float yStart;
 	private float startTime;
 	
-	public Movie(String source) {
+	public Video(String source) {
 		this.sourceFile = source;
 	}
 	
@@ -31,8 +31,9 @@ public class Movie extends SlideItem{
 	/**
 	 * @param xStart the xStart to set
 	 */
-	public void setXStart(float xStart) {
-		this.xStart = xStart;
+	public void setXStart(String xStart) {
+		float x = Float.parseFloat(xStart);
+		this.xStart = x;
 	}
 	/**
 	 * @return the yStart
@@ -43,8 +44,9 @@ public class Movie extends SlideItem{
 	/**
 	 * @param yStart the yStart to set
 	 */
-	public void setYStart(float yStart) {
-		this.yStart = yStart;
+	public void setYStart(String yStart) {
+		Float y = Float.parseFloat(yStart);
+		this.yStart = y;
 	}
 	/**
 	 * @return the startTime
@@ -55,8 +57,9 @@ public class Movie extends SlideItem{
 	/**
 	 * @param startTime the startTime to set
 	 */
-	public void setStartTime(float startTime) {
-		this.startTime = startTime;
+	public void setStartTime(String startTime) {
+		Float s = Float.parseFloat(startTime);
+		this.startTime = s;
 	}
 
 }

@@ -1,6 +1,6 @@
 package Data;
 
-public class Audio extends SlideItem{
+public class Audio extends SlideItem {
 	private String sourceFile;
 	private float startTime;
 	private float xStart;
@@ -30,8 +30,13 @@ public class Audio extends SlideItem{
 	/**
 	 * @param startTime the startTime to set
 	 */
-	public void setStartTime(float startTime) {
-		this.startTime = startTime;
+	public void setStartTime(String startTime) {
+		try {
+			float s = Float.parseFloat(startTime);
+			this.startTime = s;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 	/**
 	 * @return the xStart
@@ -42,8 +47,13 @@ public class Audio extends SlideItem{
 	/**
 	 * @param xStart the xStart to set
 	 */
-	public void setXStart(float xStart) {
-		this.xStart = xStart;
+	public void setXStart(String xStart) {
+		try {
+			float x = Float.parseFloat(xStart);
+			this.xStart = x;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 	/**
 	 * @return the yStart
@@ -54,8 +64,13 @@ public class Audio extends SlideItem{
 	/**
 	 * @param yStart the yStart to set
 	 */
-	public void setYStart(float yStart) {
-		this.yStart = yStart;
+	public void setYStart(String yStart) {
+		try {
+			float y = Float.parseFloat(yStart);
+			this.yStart = y;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 	
 }

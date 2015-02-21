@@ -11,71 +11,75 @@ public class Slide {
 	private float duration;
 	private List<Text> textList;
 	private List<Graphic> graphicsList;
-	private List<Audio> soundsList;
+	private List<Audio> audioList;
 	private List<Image> imagesList;
-	private List<Movie> moviesList;
+	private List<Video> videoList;
 	private Text currentText;
 	private Graphic currentGraphic;
 	private Image currentImage;
-	private Movie currentMovie;
-	private Audio currentSound;
+	private Video currentVideo;
+	private Audio currentAudio;
 
 	public Slide() {
 		this.textList = new ArrayList<Text>();
-		this.soundsList = new ArrayList<Audio>();
+		this.audioList = new ArrayList<Audio>();
 		this.graphicsList = new ArrayList<Graphic>();
-		this.moviesList = new ArrayList<Movie>();
+		this.videoList = new ArrayList<Video>();
 		this.imagesList = new ArrayList<Image>();
 	}
 
 	public Slide(float duration) {
 		this.duration = duration;
 		this.textList = new ArrayList<Text>();
-		this.soundsList = new ArrayList<Audio>();
+		this.audioList = new ArrayList<Audio>();
 		this.graphicsList = new ArrayList<Graphic>();
-		this.moviesList = new ArrayList<Movie>();
+		this.videoList = new ArrayList<Video>();
 		this.imagesList = new ArrayList<Image>();
 	}
 
 	public void add(HashMap<String, String> hashMap) {
 		switch (hashMap.get("type")) {
 		case "image":
-			this.currentImage = new Image((String) hashMap.get("sourcefile"));
-
+			this.currentImage = new Image(hashMap.get("sourcefile"));
 			currentImage.setCropX1( hashMap.get("cropx1"));
-
 			currentImage.setCropX2( hashMap.get("cropx2"));
-
 			currentImage.setCropY1( hashMap.get("cropy1"));
-
 			currentImage.setCropY2( hashMap.get("cropy2"));
-
 			currentImage.setDuration( hashMap.get("duration"));
-
 			currentImage.setFlipHorizontal( hashMap
 					.get("fliphorizontal"));
-
 			currentImage.setFlipVertical( hashMap.get("flipvertical"));
-
 			currentImage.setRotation(hashMap.get("rotate"));
-
 			currentImage.setScale( hashMap.get("scale"));
-
 			currentImage.setStartTime( hashMap.get("starttime"));
-
 			currentImage.setxStart( hashMap.get("xstart"));
-
 			currentImage.setyStart( hashMap.get("ystart"));
-
 			this.imagesList.add(currentImage);
 			break;
-		case "sound":
+		case "audio":
+			this.currentAudio = new Audio( hashMap.get("sourcefile"));
+			currentAudio.setStartTime( hashMap.get("starttime"));
+			currentAudio.setXStart( hashMap.get("xstart"));
+			currentAudio.setXStart( hashMap.get("ystart"));
+			this.audioList.add(currentAudio);
 			break;
-		case "movie":
+		case "video":
+			this.currentVideo = new Video( hashMap.get("sourcefile"));
+			currentVideo.setStartTime( hashMap.get("starttime"));
+			currentVideo.setXStart( hashMap.get("xstart"));
+			currentVideo.setXStart( hashMap.get("ystart"));
+			this.videoList.add(currentVideo);
 			break;
 		case "graphic":
 			break;
 		case "text":
+			this.currentText = new Text();
+			currentText.setStartTime( hashMap.get("starttime"));
+			currentText.setxStart( hashMap.get("xstart"));
+			currentText.setyStart( hashMap.get("ystart"));
+			currentText.setFont(hashMap.get("font"));
+			currentText.setAlignment(hashMap.get("alignment"));
+			this.textList.add(currentText);
 			break;
 		}
 	}
@@ -90,45 +94,13 @@ public class Slide {
 		} else if (obj instanceof Image) {
 			this.currentImage = (Image) obj;
 			this.imagesList.add(currentImage);
-		} else if (obj instanceof Movie) {
-			this.currentMovie = (Movie) obj;
-			this.moviesList.add(currentMovie);
+		} else if (obj instanceof Video) {
+			this.currentVideo = (Video) obj;
+			this.videoList.add(currentVideo);
 		} else if (obj instanceof Audio) {
-			this.currentSound = (Audio) obj;
-			this.soundsList.add(currentSound);
+			this.currentAudio = (Audio) obj;
+			this.audioList.add(currentAudio);
 		}
-	}
-
-	/**
-	 * @param add
-	 *            a sound to the soundsList
-	 */
-	public void addSound(String source) {
-		this.currentSound = new Audio(source);
-		this.soundsList.add(currentSound);
-	}
-
-	/**
-	 * @param add
-	 *            a movie to the moviesList
-	 */
-	public void addMovie(String source) {
-		this.currentMovie = new Movie(source);
-		this.moviesList.add(currentMovie);
-	}
-
-	/**
-	 * @param add
-	 *            a graphic to the graphicsList
-	 */
-	public void newGraphic(String type) {
-		switch (type) {
-		case "oval":
-			this.currentGraphic = new Oval();
-			break;
-		}
-
-		this.graphicsList.add(currentGraphic);
 	}
 
 	/**
@@ -139,26 +111,10 @@ public class Slide {
 	}
 
 	/**
-	 * @param currentText
-	 *            the currentText to set
-	 */
-	public void setCurrentText(Text currentText) {
-		this.currentText = currentText;
-	}
-
-	/**
 	 * @return the currentGraphic
 	 */
 	public Graphic getCurrentGraphic() {
 		return currentGraphic;
-	}
-
-	/**
-	 * @param currentGraphic
-	 *            the currentGraphic to set
-	 */
-	public void setCurrentGraphic(Graphic currentGraphic) {
-		this.currentGraphic = currentGraphic;
 	}
 
 	/**
@@ -169,41 +125,17 @@ public class Slide {
 	}
 
 	/**
-	 * @param currentImage
-	 *            the currentImage to set
+	 * @return the currentVideo
 	 */
-	public void setCurrentImage(Image currentImage) {
-		this.currentImage = currentImage;
-	}
-
-	/**
-	 * @return the currentMovie
-	 */
-	public Movie getCurrentMovie() {
-		return currentMovie;
-	}
-
-	/**
-	 * @param currentMovie
-	 *            the currentMovie to set
-	 */
-	public void setCurrentMovie(Movie currentMovie) {
-		this.currentMovie = currentMovie;
+	public Video getCurrentMovie() {
+		return currentVideo;
 	}
 
 	/**
 	 * @return the currentSound
 	 */
-	public Audio getCurrentSound() {
-		return currentSound;
-	}
-
-	/**
-	 * @param currentSound
-	 *            the currentSound to set
-	 */
-	public void setCurrentSound(Audio currentSound) {
-		this.currentSound = currentSound;
+	public Audio getCurrentAudio() {
+		return currentAudio;
 	}
 
 	/**
@@ -214,28 +146,10 @@ public class Slide {
 	}
 
 	/**
-	 * @param duration
-	 *            </br>Set the duration of the slide. </br>Setting to -1
-	 *            indicates slide that requires changing manually
-	 */
-	public void setDuration(float duration) {
-		this.duration = duration;
-	}
-
-	/**
 	 * @return the textList
 	 */
 	public List<Text> getTextList() {
 		return textList;
-	}
-
-	/**
-	 * @param add
-	 *            some text to the textList
-	 */
-	public void newText() {
-		this.currentText = new Text();
-		this.textList.add(currentText);
 	}
 
 	/**
@@ -248,8 +162,8 @@ public class Slide {
 	/**
 	 * @return the soundsList
 	 */
-	public List<Audio> getSoundsList() {
-		return soundsList;
+	public List<Audio> getAudioList() {
+		return audioList;
 	}
 
 	/**
@@ -260,15 +174,10 @@ public class Slide {
 	}
 
 	/**
-	 * @return the moviesList
+	 * @return the videoList
 	 */
-	public List<Movie> getMoviesList() {
-		return moviesList;
-	}
-
-	public void removeGraphic() {
-		this.graphicsList.remove(currentGraphic);
-		currentGraphic = null;
+	public List<Video> getMoviesList() {
+		return videoList;
 	}
 
 }

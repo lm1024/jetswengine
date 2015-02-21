@@ -3,31 +3,40 @@ package Data;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Text extends SlideItem{
+public class Text extends SlideItem {
 	
 	private List<TextFragment> textFragments;
 	private TextFragment currentTextFragment;
-	private int xStart;
-	private int yStart;
-	private int startTime;
-	private int duration;
-	private String alignment; //left/right/center/justify/justified/centre
-	public Text(){
+	private float xStart;
+	private float yStart;
+	private float startTime;
+	private float duration;
+	private String alignment; //left/right/center/justify /justified/centre
+	private String font;
+	private String fontcolor;
+	
+	
+	public Text() {
 		this.textFragments = new ArrayList<TextFragment>();
 	}
 
 	/**
 	 * @return the xStart
 	 */
-	public int getxStart() {
+	public float getxStart() {
 		return xStart;
 	}
 
 	/**
-	 * @param xStart the xStart to set
+	 * @param string the xStart to set
 	 */
-	public void setxStart(int xStart) {
-		this.xStart = xStart;
+	public void setxStart(String xStart) {
+		try {
+			float x = Float.parseFloat(xStart);
+			this.xStart = x;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 
 	/**
@@ -62,35 +71,45 @@ public class Text extends SlideItem{
 	/**
 	 * @return the yStart
 	 */
-	public int getyStart() {
+	public float getyStart() {
 		return yStart;
 	}
 
 	/**
-	 * @param yStart the yStart to set
+	 * @param string the yStart to set
 	 */
-	public void setyStart(int yStart) {
-		this.yStart = yStart;
+	public void setyStart(String yStart) {
+		try {
+			float y = Float.parseFloat(yStart);
+			this.yStart = y;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 
 	/**
 	 * @return the startTime
 	 */
-	public int getStartTime() {
+	public float getStartTime() {
 		return startTime;
 	}
 
 	/**
-	 * @param startTime the startTime to set
+	 * @param string the startTime to set
 	 */
-	public void setStartTime(int startTime) {
-		this.startTime = startTime;
+	public void setStartTime(String startTime) {
+		try {
+			Float s = Float.parseFloat(startTime);
+			this.startTime = s;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 
 	/**
 	 * @return the duration
 	 */
-	public int getDuration() {
+	public float getDuration() {
 		return duration;
 	}
 
@@ -127,5 +146,33 @@ public class Text extends SlideItem{
 	 */
 	public void setAlignment(String alignment) {
 		this.alignment = alignment;
+	}
+
+	/**
+	 * @return the font
+	 */
+	public String getFont() {
+		return font;
+	}
+
+	/**
+	 * @param font the font to set
+	 */
+	public void setFont(String font) {
+		this.font = font;
+	}
+
+	/**
+	 * @return the fontcolor
+	 */
+	public String getFontcolor() {
+		return fontcolor;
+	}
+
+	/**
+	 * @param fontcolor the fontcolor to set
+	 */
+	public void setFontcolor(String fontcolor) {
+		this.fontcolor = fontcolor;
 	}
 }

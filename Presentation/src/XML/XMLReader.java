@@ -105,7 +105,17 @@ public class XMLReader extends DefaultHandler {
 		} else if (sectionName.equals("slide")) {
 			switch (elementName) {
 			case "text":
-				slideshow.getCurrentSlide().newText();
+				currentObject.put("type", "text");
+				if (parse(currentObject, attributes, "xstart",
+						"ystart")) {
+					System.out.println("Required attribute missing");
+					currentObject.clear();
+					break;
+				}
+				parse(currentObject, attributes, "sourcefile","font","fontsize","fontcolor","duration","starttime", "alignment");
+				System.out.println("sourcefile not yet implemented.\ndelete this line when it is.");
+				slideshow.add(currentObject);
+				currentObject.clear();
 				break;
 			case "image":
 				currentObject.put("type", "image");
@@ -121,84 +131,29 @@ public class XMLReader extends DefaultHandler {
 				slideshow.add(currentObject);
 				currentObject.clear();
 				break;
-
 			case "audio":
-				try {
-					slideshow.getCurrentSlide().addSound(
-							attributes.getValue("sourcefile").trim());
-				} catch (Exception e) {
+				currentObject.put("type", "audio");
+				if (parse(currentObject, attributes, "sourcefile", "xstart",
+						"ystart")) {
+					System.out.println("Required attribute missing");
+					currentObject.clear();
 					break;
-					// TODO: handle exception
 				}
-				try {
-					slideshow
-							.getCurrentSlide()
-							.getCurrentSound()
-							.setStartTime(
-									Float.parseFloat(attributes
-											.getValue("starttime")));
-				} catch (Exception e) {
-					// TODO: handle exception
-				}
-				try {
-					slideshow
-							.getCurrentSlide()
-							.getCurrentSound()
-							.setXStart(
-									Float.parseFloat(attributes
-											.getValue("xstart")));
-				} catch (Exception e) {
-					// TODO: handle exception
-				}
-				try {
-					slideshow
-							.getCurrentSlide()
-							.getCurrentSound()
-							.setYStart(
-									Float.parseFloat(attributes
-											.getValue("ystart")));
-				} catch (Exception e) {
-					// TODO: handle exception
-				}
+				parse(currentObject, attributes, "starttime");
+				slideshow.add(currentObject);
+				currentObject.clear();
 				break;
 			case "video":
-				try {
-					slideshow.getCurrentSlide().addMovie(
-							attributes.getValue("sourcefile").trim());
-				} catch (Exception e) {
+				currentObject.put("type", "video");
+				if (parse(currentObject, attributes, "sourcefile", "xstart",
+						"ystart")) {
+					System.out.println("Required attribute missing");
+					currentObject.clear();
 					break;
-					// TODO: handle exception
 				}
-				try {
-					slideshow
-							.getCurrentSlide()
-							.getCurrentMovie()
-							.setStartTime(
-									Float.parseFloat(attributes
-											.getValue("starttime")));
-				} catch (Exception e) {
-					// TODO: handle exception
-				}
-				try {
-					slideshow
-							.getCurrentSlide()
-							.getCurrentMovie()
-							.setXStart(
-									Float.parseFloat(attributes
-											.getValue("xstart")));
-				} catch (Exception e) {
-					// TODO: handle exception
-				}
-				try {
-					slideshow
-							.getCurrentSlide()
-							.getCurrentMovie()
-							.setYStart(
-									Float.parseFloat(attributes
-											.getValue("ystart")));
-				} catch (Exception e) {
-					// TODO: handle exception
-				}
+				parse(currentObject, attributes, "starttime");
+				slideshow.add(currentObject);
+				currentObject.clear();
 				break;
 			case "graphic":
 
@@ -294,6 +249,7 @@ public class XMLReader extends DefaultHandler {
 				case "text":
 					if (!contentBuffer.toString().trim().equals("")) {
 						System.out.println(contentBuffer.toString().trim());
+						
 						slideshow.getCurrentSlide().getCurrentText()
 								.addText(contentBuffer.toString().trim());
 
