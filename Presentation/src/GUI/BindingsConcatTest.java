@@ -10,6 +10,11 @@ import com.sun.webpane.platform.WebPage;
 import netscape.javascript.JSException;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.concurrent.Task;
+import javafx.concurrent.Worker;
+import javafx.concurrent.Worker.State;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
@@ -19,17 +24,18 @@ import javafx.stage.Stage;
 
 public class BindingsConcatTest extends Application {
 
+	Double height;
+
 	@Override
 	public void start(Stage primaryStage) {
-		
+
 		System.out.println(Integer.parseInt("0a", 16));
-		System.out.println((Integer.parseInt("0a", 16))/255f);
-		
-		
-		
+		System.out.println((Integer.parseInt("0a", 16)) / 255f);
+
 		WebView webView = new WebView();
 		webView.setPrefWidth(200);
-
+		webView.setPrefHeight(200);
+		
 		File f = new File("custom.css");
 		try {
 			webView.getEngine().setUserStyleSheetLocation(f.toURI().toURL().toString());
@@ -54,7 +60,10 @@ public class BindingsConcatTest extends Application {
 
 		webView.relocate(100, 100);
 		webView.setContextMenuEnabled(true);
-		adjustHeight(webView);
+		//Double height = new Double(0);
+
+		//adjustHeight(webView);
+		//System.out.println(Thread.currentThread().getName());
 
 		/*
 		 * Remove the background from the webView panel. Adapted from
@@ -82,7 +91,10 @@ public class BindingsConcatTest extends Application {
 			e.printStackTrace();
 		}
 
-		/* This works, perhaps just say that backgrounds can be made using graphics handler? */
+		/*
+		 * This works, perhaps just say that backgrounds can be made using
+		 * graphics handler?
+		 */
 		Rectangle rect = new Rectangle(100, 100, webView.getPrefWidth(), 200);
 		rect.setFill(new Color(1, 0, 1, 1));
 
@@ -111,9 +123,10 @@ public class BindingsConcatTest extends Application {
 					Object result = webView.getEngine().executeScript("document.getElementById('mydiv').offsetHeight");
 					if (result instanceof Integer) {
 						Integer i = (Integer) result;
-						double height = new Double(i);
+						height = new Double(i);
 						height = height + 20;
 						webView.setPrefHeight(height);
+						System.out.println("fin");
 					}
 				} catch (JSException e) {
 					System.out

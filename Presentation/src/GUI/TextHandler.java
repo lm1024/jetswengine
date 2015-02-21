@@ -13,6 +13,7 @@ import com.sun.webpane.platform.WebPage;
 
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
@@ -35,7 +36,6 @@ public class TextHandler {
 	 * 
 	 */
 	public TextHandler(Group group) {
-		// TODO Auto-generated constructor stub
 		this.group = group;
 	}
 
@@ -106,11 +106,10 @@ public class TextHandler {
 		 * the webView
 		 */
 		webView.getEngine().loadContent(createHTMLStringFromBuffer(allignment));
-
-		// webView.getEngine()
-		// .loadContent(
-		// "<div id=\"mydiv\"><body contenteditable=\"false\"><p style=\"text-align: left;\"><b>bold </b><i>italic </i><u>underline </u><sub>subscript</sub><sup>superscript</sup><font face=\"arial\" color=\"ff0000\"> color arial </font><span style=\"opacity:0.1\">opacity </span><span style=\"font-size:20px\">size 20 </span><span style=\"font-size:30px\">size 30 </span><p style=\"text-align: right;\">p tag alligned right </p><strike>strikethrough </strike> hjakfsdlhjlksadf hjklfdsa hjklsfd hjlkfds hjklfds hjklfdsah jlksdfah jlksafdh jlkfdsa hjlksfda hjkldfsah jlkfdsah  <a href=\"http://www.facebook.com\">link text</a> </p></body></div>");
-
+		
+		/* Section for resizing the text to fit in the box.  */
+		webView.setPrefHeight(yEndPos-yStartPos);
+		
 		/*
 		 * Remove the background from the webView panel. Adapted from
 		 * http://stackoverflow
@@ -124,20 +123,19 @@ public class TextHandler {
 			WebPage page = (WebPage) field.get(webView.getEngine());
 			page.setBackgroundColor((new java.awt.Color(0, 0, 0, 0)).getRGB());
 		} catch (NoSuchFieldException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		Rectangle rect = new Rectangle(xStartPos, yStartPos, xEndPos, yEndPos);
+		rect.setFill(new Color(1, 0, 1, 1));
 
-		group.getChildren().add(webView);
+		group.getChildren().addAll(rect, webView);
 	}
 
 	/**
