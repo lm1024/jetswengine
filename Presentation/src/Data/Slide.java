@@ -1,15 +1,13 @@
 package Data;
 
-import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
-
-public class Slide implements Serializable {
+public class Slide {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
 	private float duration;
 	private List<Text> textList;
 	private List<Graphic> graphicsList;
@@ -28,6 +26,79 @@ public class Slide implements Serializable {
 		this.graphicsList = new ArrayList<Graphic>();
 		this.moviesList = new ArrayList<Movie>();
 		this.imagesList = new ArrayList<Image>();
+	}
+
+	public Slide(float duration) {
+		this.duration = duration;
+		this.textList = new ArrayList<Text>();
+		this.soundsList = new ArrayList<Sound>();
+		this.graphicsList = new ArrayList<Graphic>();
+		this.moviesList = new ArrayList<Movie>();
+		this.imagesList = new ArrayList<Image>();
+	}
+	
+	public void add(HashMap<String,Object> hashMap) {
+		
+	}
+
+	public void add(SlideItem obj) {
+		if (obj instanceof Text) {
+			this.currentText = (Text) obj;
+			this.textList.add(currentText);
+		} else if (obj instanceof Graphic) {
+			this.currentGraphic = (Graphic) obj;
+			this.graphicsList.add(currentGraphic);
+		} else if (obj instanceof Image) {
+			this.currentImage = (Image) obj;
+			this.imagesList.add(currentImage);
+		} else if (obj instanceof Movie) {
+			this.currentMovie = (Movie) obj;
+			this.moviesList.add(currentMovie);
+		} else if (obj instanceof Sound) {
+			this.currentSound = (Sound) obj;
+			this.soundsList.add(currentSound);
+		}
+	}
+
+	/**
+	 * @param add
+	 *            a sound to the soundsList
+	 */
+	public void addSound(String source) {
+		this.currentSound = new Sound(source);
+		this.soundsList.add(currentSound);
+	}
+
+	/**
+	 * @param add
+	 *            an image to the imagesList
+	 */
+	public void addImage(String source) {
+		this.currentImage = new Image(source);
+		this.imagesList.add(currentImage);
+	}
+
+	/**
+	 * @param add
+	 *            a movie to the moviesList
+	 */
+	public void addMovie(String source) {
+		this.currentMovie = new Movie(source);
+		this.moviesList.add(currentMovie);
+	}
+
+	/**
+	 * @param add
+	 *            a graphic to the graphicsList
+	 */
+	public void newGraphic(String type) {
+		switch (type) {
+		case "oval":
+			this.currentGraphic = new Oval();
+			break;
+		}
+
+		this.graphicsList.add(currentGraphic);
 	}
 
 	/**
@@ -132,15 +203,6 @@ public class Slide implements Serializable {
 	 * @param add
 	 *            some text to the textList
 	 */
-	public void addText(Text text) {
-		this.currentText = text;
-		this.textList.add(currentText);
-	}
-	
-	/**
-	 * @param add
-	 *            some text to the textList
-	 */
 	public void newText() {
 		this.currentText = new Text();
 		this.textList.add(currentText);
@@ -154,37 +216,10 @@ public class Slide implements Serializable {
 	}
 
 	/**
-	 * @param add
-	 *            a graphic to the graphicsList
-	 */
-	public void addGraphic(Graphic graphic) {
-		this.currentGraphic = graphic;
-		this.graphicsList.add(currentGraphic);
-	}
-
-	/**
 	 * @return the soundsList
 	 */
 	public List<Sound> getSoundsList() {
 		return soundsList;
-	}
-
-	/**
-	 * @param add
-	 *            a sound to the soundsList
-	 */
-	public void addSound(Sound sound) {
-		this.currentSound = sound;
-		this.soundsList.add(currentSound);
-	}
-	
-	/**
-	 * @param add
-	 *            a sound to the soundsList
-	 */
-	public void addSound(String source) {
-		this.currentSound = new Sound(source);
-		this.soundsList.add(currentSound);
 	}
 
 	/**
@@ -195,56 +230,15 @@ public class Slide implements Serializable {
 	}
 
 	/**
-	 * @param add
-	 *            an image to the imagesList
-	 */
-	public void addImage(String source) {
-		this.currentImage = new Image(source);
-		this.imagesList.add(currentImage);
-	}
-
-	/**
 	 * @return the moviesList
 	 */
 	public List<Movie> getMoviesList() {
 		return moviesList;
 	}
-	
-	/**
-	 * @param add
-	 *            a movie to the moviesList
-	 */
-	public void addMovie(String source) {
-		this.currentMovie = new Movie(source);
-		this.moviesList.add(currentMovie);
-	}
-	
+
 	public void removeGraphic() {
 		this.graphicsList.remove(currentGraphic);
 		currentGraphic = null;
-	}
-	
-	/**
-	 * @param add
-	 *            a graphic to the graphicsList
-	 */
-	public void newGraphic(String type) {
-		switch(type) {
-		case "oval":
-			this.currentGraphic = new Oval();
-			break;
-		}
-		
-		this.graphicsList.add(currentGraphic);
-	}
-
-	/**
-	 * @param add
-	 *            a movie to the moviesList
-	 */
-	public void addMovie(Movie movie) {
-		this.currentMovie = movie;
-		this.moviesList.add(currentMovie);
 	}
 
 }

@@ -1,6 +1,6 @@
 package Data;
 
-public class Sound {
+public class Sound extends SlideItem{
 	private String sourceFile;
 	private float startTime;
 	private float xStart;

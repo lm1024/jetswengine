@@ -1,6 +1,8 @@
 package XML;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -26,6 +28,7 @@ public class XMLReader extends DefaultHandler {
 	private Slideshow slideshow;
 	private StringBuffer contentBuffer;
 	private String sectionName = "";
+	private Map<String, Object> currentObject = new HashMap<String, Object>();
 
 	// private String subSectionName = "";
 
@@ -96,7 +99,7 @@ public class XMLReader extends DefaultHandler {
 					slideshow.addSlide(Float.parseFloat(attributes
 							.getValue("duration")));
 				} catch (Exception e) {
-					slideshow.addSlide(0);
+					slideshow.addSlide();
 				}
 			}
 		} else if (sectionName.equals("slide")) {
@@ -105,133 +108,56 @@ public class XMLReader extends DefaultHandler {
 				slideshow.getCurrentSlide().newText();
 				break;
 			case "image":
+				currentObject.put("type", "image");
 				try {
-					slideshow.getCurrentSlide().addImage(
+					currentObject.put("sourcefile",
 							attributes.getValue("sourcefile").trim());
+					currentObject.put("xstart",
+							Float.parseFloat(attributes.getValue("xstart")));
+					currentObject.put("ystart",
+							Float.parseFloat(attributes.getValue("ystart")));
 				} catch (Exception e) {
+					currentObject.clear();
 					break;
-					// TODO: handle exception
 				}
 				try {
-					slideshow
-							.getCurrentSlide()
-							.getCurrentImage()
-							.setxStart(
-									Float.parseFloat(attributes
-											.getValue("xstart")));
+					currentObject.put("scale",
+							Float.parseFloat(attributes.getValue("scale")));
+					currentObject.put("rotate",
+							Integer.parseInt(attributes.getValue("rotate")));
+					currentObject.put("fliphorizontal",
+							Boolean.parseBoolean(attributes
+									.getValue("fliphorizontal")));
+					currentObject.put("flipverticle", Boolean
+							.parseBoolean(attributes.getValue("flipverticle")));
+					currentObject.put("cropx1",
+							Float.parseFloat(attributes.getValue("cropx1")));
+					currentObject.put("cropx2",
+							Float.parseFloat(attributes.getValue("cropx2")));
+					currentObject.put("cropy1",
+							Float.parseFloat(attributes.getValue("cropy1")));
+					currentObject.put("cropy2",
+							Float.parseFloat(attributes.getValue("cropy2")));
 				} catch (Exception e) {
-					// TODO: handle exception
+					/*
+					 * Optional Attributes Do nothing if unable to parse any of
+					 * these
+					 */
 				}
 				try {
-					slideshow
-							.getCurrentSlide()
-							.getCurrentImage()
-							.setyStart(
-									Float.parseFloat(attributes
-											.getValue("ystart")));
+					currentObject.put("duration",
+							Float.parseFloat(attributes.getValue("duration")));
+					currentObject.put("starttime",
+							Float.parseFloat(attributes.getValue("starttime")));
 				} catch (Exception e) {
-					// TODO: handle exception
+					currentObject.remove("duration");
+					/*
+					 * Optional Attributes but both must be present if either is
+					 * specified
+					 */
+					// currentObject.remove("starttime");
 				}
-				try {
-					slideshow
-							.getCurrentSlide()
-							.getCurrentImage()
-							.setScale(
-									Float.parseFloat(attributes
-											.getValue("scale")));
-				} catch (Exception e) {
-					// TODO: handle exception
-				}
-				try {
-					slideshow
-							.getCurrentSlide()
-							.getCurrentImage()
-							.setDuration(
-									Float.parseFloat(attributes
-											.getValue("duration")));
-				} catch (Exception e) {
-					// TODO: handle exception
-				}
-				try {
-					slideshow
-							.getCurrentSlide()
-							.getCurrentImage()
-							.setStartTime(
-									Float.parseFloat(attributes
-											.getValue("starttime")));
-				} catch (Exception e) {
-					// TODO: handle exception
-				}
-				try {
-					slideshow
-							.getCurrentSlide()
-							.getCurrentImage()
-							.setRotation(
-									Integer.parseInt(attributes
-											.getValue("rotate")));
-				} catch (Exception e) {
-					// TODO: handle exception
-				}
-				try {
-					slideshow
-							.getCurrentSlide()
-							.getCurrentImage()
-							.setFlipHorizontal(
-									Boolean.parseBoolean(attributes
-											.getValue("fliphorizontal")));
-				} catch (Exception e) {
-					// TODO: handle exception
-				}
-				try {
-					slideshow
-							.getCurrentSlide()
-							.getCurrentImage()
-							.setFlipVertical(
-									Boolean.parseBoolean(attributes
-											.getValue("flipverticle")));
-				} catch (Exception e) {
-					// TODO: handle exception
-				}
-				try {
-					slideshow
-							.getCurrentSlide()
-							.getCurrentImage()
-							.setCropX1(
-									Float.parseFloat(attributes
-											.getValue("cropx1")));
-				} catch (Exception e) {
-					// TODO: handle exception
-				}
-				try {
-					slideshow
-							.getCurrentSlide()
-							.getCurrentImage()
-							.setCropY1(
-									Float.parseFloat(attributes
-											.getValue("cropy1")));
-				} catch (Exception e) {
-					// TODO: handle exception
-				}
-				try {
-					slideshow
-							.getCurrentSlide()
-							.getCurrentImage()
-							.setCropX2(
-									Float.parseFloat(attributes
-											.getValue("cropx2")));
-				} catch (Exception e) {
-					// TODO: handle exception
-				}
-				try {
-					slideshow
-							.getCurrentSlide()
-							.getCurrentImage()
-							.setCropY2(
-									Float.parseFloat(attributes
-											.getValue("cropy2")));
-				} catch (Exception e) {
-					// TODO: handle exception
-				}
+				slideshow.add(currentObject);
 				break;
 			case "audio":
 				try {
@@ -333,14 +259,12 @@ public class XMLReader extends DefaultHandler {
 					// TODO: handle exception
 				}
 				try {
-					temp.setxEnd(Float.parseFloat(attributes
-							.getValue("xend")));
+					temp.setxEnd(Float.parseFloat(attributes.getValue("xend")));
 				} catch (Exception e) {
 					// TODO: handle exception
 				}
 				try {
-					temp.setyEnd(Float.parseFloat(attributes
-							.getValue("yend")));
+					temp.setyEnd(Float.parseFloat(attributes.getValue("yend")));
 				} catch (Exception e) {
 					// TODO: handle exception
 				}
@@ -351,7 +275,7 @@ public class XMLReader extends DefaultHandler {
 					// TODO: handle exception
 				}
 				try {
-					slideshow.getCurrentSlide().addGraphic(temp);
+					slideshow.getCurrentSlide().add(temp);
 					// slideshow.getCurrentSlide().newGraphic("oval");
 				} catch (Exception e) {
 					// TODO: handle exception
@@ -561,17 +485,17 @@ public class XMLReader extends DefaultHandler {
 					+ slideshow.getSlides().get(0).getGraphicsList().get(0)
 							.getxStart());
 			System.out.println("\tSlide 1 image 2: "
-					+ ((Oval)slideshow.getSlides().get(0).getGraphicsList().get(0))
-							.getxEnd());
+					+ ((Oval) slideshow.getSlides().get(0).getGraphicsList()
+							.get(0)).getxEnd());
 			System.out.println("\tSlide 1 image 2: "
 					+ slideshow.getSlides().get(0).getGraphicsList().get(0)
 							.getyStart());
 			System.out.println("\tSlide 1 image 2: "
-					+ ((Oval)slideshow.getSlides().get(0).getGraphicsList().get(0))
-							.getyEnd());
+					+ ((Oval) slideshow.getSlides().get(0).getGraphicsList()
+							.get(0)).getyEnd());
 			System.out.println("\tSlide 1 image 2: "
-					+ ((Oval)slideshow.getSlides().get(0).getGraphicsList().get(0))
-							.isSolid());
+					+ ((Oval) slideshow.getSlides().get(0).getGraphicsList()
+							.get(0)).isSolid());
 
 		} else {
 			System.out.println("Invalid slideshow found");

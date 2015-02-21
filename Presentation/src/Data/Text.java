@@ -3,7 +3,7 @@ package Data;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Text {
+public class Text extends SlideItem{
 	
 	private List<TextFragment> textFragments;
 	private TextFragment currentTextFragment;

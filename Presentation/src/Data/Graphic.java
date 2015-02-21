@@ -5,7 +5,7 @@ package Data;
  * 
  * @author Tom Davidson
  */
-public class Graphic {
+public class Graphic extends SlideItem {
 
 	private Graphic graphic;
 	private float xStart;

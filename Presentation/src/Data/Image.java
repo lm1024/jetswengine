@@ -1,6 +1,6 @@
 package Data;
 
-public class Image {
+public class Image extends SlideItem {
 	private String sourceFile;
 	private float xStart;
 	private float yStart;

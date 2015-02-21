@@ -1,6 +1,6 @@
 package Data;
 
-public class Movie {
+public class Movie extends SlideItem{
 	private String sourceFile;
 	private float xStart;
 	private float yStart;
