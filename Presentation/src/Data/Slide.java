@@ -11,18 +11,18 @@ public class Slide {
 	private float duration;
 	private List<Text> textList;
 	private List<Graphic> graphicsList;
-	private List<Sound> soundsList;
+	private List<Audio> soundsList;
 	private List<Image> imagesList;
 	private List<Movie> moviesList;
 	private Text currentText;
 	private Graphic currentGraphic;
 	private Image currentImage;
 	private Movie currentMovie;
-	private Sound currentSound;
+	private Audio currentSound;
 
 	public Slide() {
 		this.textList = new ArrayList<Text>();
-		this.soundsList = new ArrayList<Sound>();
+		this.soundsList = new ArrayList<Audio>();
 		this.graphicsList = new ArrayList<Graphic>();
 		this.moviesList = new ArrayList<Movie>();
 		this.imagesList = new ArrayList<Image>();
@@ -31,14 +31,53 @@ public class Slide {
 	public Slide(float duration) {
 		this.duration = duration;
 		this.textList = new ArrayList<Text>();
-		this.soundsList = new ArrayList<Sound>();
+		this.soundsList = new ArrayList<Audio>();
 		this.graphicsList = new ArrayList<Graphic>();
 		this.moviesList = new ArrayList<Movie>();
 		this.imagesList = new ArrayList<Image>();
 	}
-	
-	public void add(HashMap<String,Object> hashMap) {
-		
+
+	public void add(HashMap<String, String> hashMap) {
+		switch (hashMap.get("type")) {
+		case "image":
+			this.currentImage = new Image((String) hashMap.get("sourcefile"));
+
+			currentImage.setCropX1( hashMap.get("cropx1"));
+
+			currentImage.setCropX2( hashMap.get("cropx2"));
+
+			currentImage.setCropY1( hashMap.get("cropy1"));
+
+			currentImage.setCropY2( hashMap.get("cropy2"));
+
+			currentImage.setDuration( hashMap.get("duration"));
+
+			currentImage.setFlipHorizontal( hashMap
+					.get("fliphorizontal"));
+
+			currentImage.setFlipVertical( hashMap.get("flipvertical"));
+
+			currentImage.setRotation(hashMap.get("rotate"));
+
+			currentImage.setScale( hashMap.get("scale"));
+
+			currentImage.setStartTime( hashMap.get("starttime"));
+
+			currentImage.setxStart( hashMap.get("xstart"));
+
+			currentImage.setyStart( hashMap.get("ystart"));
+
+			this.imagesList.add(currentImage);
+			break;
+		case "sound":
+			break;
+		case "movie":
+			break;
+		case "graphic":
+			break;
+		case "text":
+			break;
+		}
 	}
 
 	public void add(SlideItem obj) {
@@ -54,8 +93,8 @@ public class Slide {
 		} else if (obj instanceof Movie) {
 			this.currentMovie = (Movie) obj;
 			this.moviesList.add(currentMovie);
-		} else if (obj instanceof Sound) {
-			this.currentSound = (Sound) obj;
+		} else if (obj instanceof Audio) {
+			this.currentSound = (Audio) obj;
 			this.soundsList.add(currentSound);
 		}
 	}
@@ -65,17 +104,8 @@ public class Slide {
 	 *            a sound to the soundsList
 	 */
 	public void addSound(String source) {
-		this.currentSound = new Sound(source);
+		this.currentSound = new Audio(source);
 		this.soundsList.add(currentSound);
-	}
-
-	/**
-	 * @param add
-	 *            an image to the imagesList
-	 */
-	public void addImage(String source) {
-		this.currentImage = new Image(source);
-		this.imagesList.add(currentImage);
 	}
 
 	/**
@@ -164,7 +194,7 @@ public class Slide {
 	/**
 	 * @return the currentSound
 	 */
-	public Sound getCurrentSound() {
+	public Audio getCurrentSound() {
 		return currentSound;
 	}
 
@@ -172,7 +202,7 @@ public class Slide {
 	 * @param currentSound
 	 *            the currentSound to set
 	 */
-	public void setCurrentSound(Sound currentSound) {
+	public void setCurrentSound(Audio currentSound) {
 		this.currentSound = currentSound;
 	}
 
@@ -218,7 +248,7 @@ public class Slide {
 	/**
 	 * @return the soundsList
 	 */
-	public List<Sound> getSoundsList() {
+	public List<Audio> getSoundsList() {
 		return soundsList;
 	}
 

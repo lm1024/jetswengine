@@ -22,8 +22,8 @@ public class Slideshow {
 		if (obj instanceof SlideItem) {
 			currentSlide.add((SlideItem) obj);
 		} else if (obj instanceof HashMap) {
-			if (((HashMap<String, Object>) obj).containsKey("type")) {
-				currentSlide.add(((HashMap<String, Object>) obj)); 
+			if (((HashMap<String, String>) obj).containsKey("type")) {
+				currentSlide.add(((HashMap<String, String>) obj)); 
 				}
 			}
 		}

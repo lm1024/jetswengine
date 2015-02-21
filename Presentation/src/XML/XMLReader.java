@@ -28,7 +28,7 @@ public class XMLReader extends DefaultHandler {
 	private Slideshow slideshow;
 	private StringBuffer contentBuffer;
 	private String sectionName = "";
-	private Map<String, Object> currentObject = new HashMap<String, Object>();
+	private Map<String, String> currentObject = new HashMap<String, String>();
 
 	// private String subSectionName = "";
 
@@ -109,56 +109,19 @@ public class XMLReader extends DefaultHandler {
 				break;
 			case "image":
 				currentObject.put("type", "image");
-				try {
-					currentObject.put("sourcefile",
-							attributes.getValue("sourcefile").trim());
-					currentObject.put("xstart",
-							Float.parseFloat(attributes.getValue("xstart")));
-					currentObject.put("ystart",
-							Float.parseFloat(attributes.getValue("ystart")));
-				} catch (Exception e) {
+				if (parse(currentObject, attributes, "sourcefile", "xstart",
+						"ystart")) {
+					System.out.println("Required attribute missing");
 					currentObject.clear();
 					break;
 				}
-				try {
-					currentObject.put("scale",
-							Float.parseFloat(attributes.getValue("scale")));
-					currentObject.put("rotate",
-							Integer.parseInt(attributes.getValue("rotate")));
-					currentObject.put("fliphorizontal",
-							Boolean.parseBoolean(attributes
-									.getValue("fliphorizontal")));
-					currentObject.put("flipverticle", Boolean
-							.parseBoolean(attributes.getValue("flipverticle")));
-					currentObject.put("cropx1",
-							Float.parseFloat(attributes.getValue("cropx1")));
-					currentObject.put("cropx2",
-							Float.parseFloat(attributes.getValue("cropx2")));
-					currentObject.put("cropy1",
-							Float.parseFloat(attributes.getValue("cropy1")));
-					currentObject.put("cropy2",
-							Float.parseFloat(attributes.getValue("cropy2")));
-				} catch (Exception e) {
-					/*
-					 * Optional Attributes Do nothing if unable to parse any of
-					 * these
-					 */
-				}
-				try {
-					currentObject.put("duration",
-							Float.parseFloat(attributes.getValue("duration")));
-					currentObject.put("starttime",
-							Float.parseFloat(attributes.getValue("starttime")));
-				} catch (Exception e) {
-					currentObject.remove("duration");
-					/*
-					 * Optional Attributes but both must be present if either is
-					 * specified
-					 */
-					// currentObject.remove("starttime");
-				}
+				parse(currentObject, attributes, "scale", "duration",
+						"starttime", "rotate", "fliphorizontal",
+						"flipvertical", "cropx1", "cropx2", "cropy1", "cropy2");
 				slideshow.add(currentObject);
+				currentObject.clear();
 				break;
+
 			case "audio":
 				try {
 					slideshow.getCurrentSlide().addSound(
@@ -408,6 +371,21 @@ public class XMLReader extends DefaultHandler {
 			default:
 				break;
 			}
+	}
+
+	public boolean parse(Map<String, String> hashMap, Attributes attributes,
+			String... strings) {
+		boolean errors = false;
+		String temp;
+		for (String string : strings) {
+				temp = attributes.getValue(string);
+				if (temp != null) {
+					hashMap.put(string, temp);
+				} else {
+					errors = true;
+				}
+		}
+		return errors;
 	}
 
 	/**
