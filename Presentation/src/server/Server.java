@@ -52,22 +52,18 @@ public class Server {
 	}
 
 	public Server() {
-		XMLReader reader;
 
 		long startTime = System.nanoTime();
-		for (int i = 0; i < 10000; i++) {
-			try {
-				reader = new XMLReader(filename);
 
-				this.currentSlideshow = reader.getSlideshow();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		try {
+			this.currentSlideshow = new XMLReader(filename).getSlideshow();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		long endTime = System.nanoTime();
-		System.out.println((endTime - startTime) / 1000000000);
+		System.out.println((endTime - startTime) / 1000000);
 		// System.out.println(currentSlideshow.getInfo().getVersion());
 	}
 

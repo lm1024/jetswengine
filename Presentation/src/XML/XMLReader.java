@@ -36,7 +36,7 @@ public class XMLReader extends DefaultHandler {
 	public XMLReader(String filename) throws IOException {
 		slideshow = new Slideshow();
 		readXMLFile(filename);
-		// writeSlides();
+		writeSlides();
 	}
 
 	public Slideshow getSlideshow() {
@@ -170,7 +170,7 @@ public class XMLReader extends DefaultHandler {
 				currentObject.put("type", "textfragmentstart");
 				parse(currentObject, attributes, "font", "fontsize",
 						"fontcolor", "b", "i", "u", "strikethrough",
-						"superscript", "subscript", "case");
+						"superscript", "subscript", "case", "highlightcolor");
 				slideshow.add(currentObject);
 				currentObject.clear();
 				break;
@@ -383,12 +383,15 @@ public class XMLReader extends DefaultHandler {
 					+ slideshow.getInfo().getGroupID());
 			System.out.println("\tSlide 1 duration: "
 					+ slideshow.getSlides().get(0).getDuration());
-			System.out.println("\tSlide 1 text 2.1: "
+			System.out.println("\tSlide 1 text 1.1: "
 					+ slideshow.getSlides().get(0).getTextList().get(0)
 							.getTextFragments().get(0).getText());
-			System.out.println("\tSlide 1 text 2.1 case: "
-					+ slideshow.getSlides().get(0).getTextList().get(1)
+			System.out.println("\tSlide 1 text 1.1 case: "
+					+ slideshow.getSlides().get(0).getTextList().get(0)
 							.getTextFragments().get(0).getTextCase());
+			System.out.println("\tSlide 1 text 1.1 font: "
+					+ slideshow.getSlides().get(0).getTextList().get(0)
+							.getTextFragments().get(0).getFont());
 			System.out.println("\tSlide 1 image 1: "
 					+ slideshow.getSlides().get(0).getImagesList().get(0)
 							.getSourceFile());

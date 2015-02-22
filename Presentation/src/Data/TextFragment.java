@@ -1,11 +1,14 @@
 package Data;
 
+import javafx.scene.text.Font;
+
 public class TextFragment {
 
 	private String text;
 	private String font;
 	private int fontSize;
 	private String color;
+	private String highlightColor;
 	private boolean bold;
 	private boolean underlined;
 	private boolean italicised;
@@ -13,6 +16,13 @@ public class TextFragment {
 	private boolean subscript;
 	private boolean strikethrough;
 	private String textCase;
+	
+	/**
+	 * @Initialises a new text fragment
+	 */
+	public TextFragment() {
+		
+	}
 
 	/**
 	 * @return true if fragment is superscript
@@ -26,8 +36,12 @@ public class TextFragment {
 	 *            the superscript to set
 	 */
 	public void setSuperscript(String string) {
-		boolean b = Boolean.parseBoolean(string);
-		this.superscript = b;
+		try {
+			boolean b = Boolean.parseBoolean(string);
+			this.superscript = b;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 
 	/**
@@ -42,8 +56,12 @@ public class TextFragment {
 	 *            the subscript to set
 	 */
 	public void setSubscript(String string) {
-		boolean b = Boolean.parseBoolean(string);
-		this.subscript = b;
+		try {
+			boolean b = Boolean.parseBoolean(string);
+			this.subscript = b;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 
 	/**
@@ -58,15 +76,12 @@ public class TextFragment {
 	 *            the strikethrough to set
 	 */
 	public void setStrikethrough(String string) {
-		boolean b = Boolean.parseBoolean(string);
-		this.strikethrough = b;
-	}
-
-	/**
-	 * @Initialises a new text fragment
-	 */
-	public TextFragment() {
-
+		try {
+			boolean b = Boolean.parseBoolean(string);
+			this.strikethrough = b;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 
 	/**
@@ -96,7 +111,20 @@ public class TextFragment {
 	 *            the font to set
 	 */
 	public void setFont(String font) {
-		this.font = font;
+		font = capitaliseEachFirstLetter(font);
+		if(Font.getFontNames().contains(font)) {
+			this.font = font;
+		}
+		
+	}
+	
+	static String capitaliseEachFirstLetter(String s) {
+		String[] words = s.split(" ");
+		String finalString = "";
+		for(String word : words) {
+			finalString += word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase() + " ";
+		}
+		return finalString.substring(0, finalString.length() - 1);
 	}
 
 	/**
@@ -111,8 +139,12 @@ public class TextFragment {
 	 *            the fontSize to set
 	 */
 	public void setFontSize(String string) {
-		int i = Integer.parseInt(string);
-		this.fontSize = i;
+		try {
+			int i = Integer.parseInt(string);
+			this.fontSize = i;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 
 	/**
@@ -127,7 +159,9 @@ public class TextFragment {
 	 *            the colour to set
 	 */
 	public void setColor(String color) {
-		this.color = color;
+		if(color.matches("^[#]([0-9a-fA-F]{8}))$")) {
+			this.color = color;
+		}
 	}
 
 	/**
@@ -142,8 +176,12 @@ public class TextFragment {
 	 *            the bold to set
 	 */
 	public void setBold(String string) {
-		boolean b = Boolean.parseBoolean(string);
-		this.bold = b;
+		try {
+			boolean b = Boolean.parseBoolean(string);
+			this.bold = b;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 
 	/**
@@ -158,8 +196,12 @@ public class TextFragment {
 	 *            the underlined to set
 	 */
 	public void setUnderlined(String string) {
-		boolean b = Boolean.parseBoolean(string);
-		this.underlined = b;
+		try {
+			boolean b = Boolean.parseBoolean(string);
+			this.underlined = b;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 
 	/**
@@ -174,8 +216,12 @@ public class TextFragment {
 	 *            the italicised to set
 	 */
 	public void setItalicised(String string) {
-		boolean b = Boolean.parseBoolean(string);
-		this.italicised = b;
+		try {
+			boolean b = Boolean.parseBoolean(string);
+			this.italicised = b;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 
 	/**
@@ -191,6 +237,23 @@ public class TextFragment {
 	 */
 	public void setTextCase(String textCase) {
 		this.textCase = textCase;
+	}
+
+	/**
+	 * @return the highlightColor
+	 */
+	public String getHighlightColor() {
+		return highlightColor;
+	}
+
+	/**
+	 * @param highlightColor the highlightColor to set
+	 */
+	public void setHighlightColor(String highlightColor) {
+		if(highlightColor.matches("^[#]([0-9a-fA-F]{8}))$")) {
+			this.highlightColor = highlightColor;
+		}
+		
 	}
 
 }

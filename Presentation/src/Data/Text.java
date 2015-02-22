@@ -22,6 +22,7 @@ public class Text extends SlideItem {
 	}
 
 	public void add(HashMap<String, String> hashMap) {
+		
 		if (hashMap.get("type").equals("textfragmentstart")) {
 			this.currentTextFragment = new TextFragment();
 			currentTextFragment.setFont(hashMap.get("font"));
@@ -34,10 +35,10 @@ public class Text extends SlideItem {
 			currentTextFragment.setSuperscript(hashMap.get("superscript"));
 			currentTextFragment.setUnderlined(hashMap.get("underlined"));
 			currentTextFragment.setTextCase(hashMap.get("case"));
+			currentTextFragment.setHighlightColor(hashMap.get("highlightcolor"));
 
 		} else {
 			currentTextFragment.setText(hashMap.get("text"));
-			//System.out.println(hashMap.get("text"));
 			this.textFragments.add(currentTextFragment);
 		}
 
