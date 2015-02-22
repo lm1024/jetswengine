@@ -36,7 +36,7 @@ public class XMLReader extends DefaultHandler {
 	public XMLReader(String filename) throws IOException {
 		slideshow = new Slideshow();
 		readXMLFile(filename);
-		writeSlides();
+		// writeSlides();
 	}
 
 	public Slideshow getSlideshow() {
@@ -76,7 +76,7 @@ public class XMLReader extends DefaultHandler {
 	 * Called by the parser when it encounters the start of the XML file.
 	 */
 	public void startDocument() throws SAXException {
-		System.out.println("Starting to process document.");
+		//System.out.println("Starting to process document.");
 	}
 
 	/**
@@ -89,8 +89,10 @@ public class XMLReader extends DefaultHandler {
 		if ("".equals(elementName)) {
 			elementName = qName;
 		}
-		System.out.println("\tFound the start of an element (" + elementName
-				+ ") ...");
+		/*
+		 * System.out.println("\tFound the start of an element (" + elementName
+		 * + ") ...");
+		 */
 		if (sectionName.equals("")) {
 			if (elementName.matches("documentinfo|defaultsettings|slide")) {
 				sectionName = elementName;
@@ -108,15 +110,15 @@ public class XMLReader extends DefaultHandler {
 			case "text":
 				currentObject.put("type", "textstart");
 				if (parse(currentObject, attributes, "xstart", "ystart")) {
-					System.out.println("Required attribute missing");
+					//System.out.println("Required attribute missing");
 					currentObject.clear();
 					break;
 				}
 				parse(currentObject, attributes, "sourcefile", "font",
 						"fontsize", "fontcolor", "duration", "starttime",
 						"alignment");
-				System.out
-						.println("sourcefile not yet implemented.\ndelete this line when it is.");
+				//System.out
+				//		.println("sourcefile not yet implemented.\ndelete this line when it is.");
 				slideshow.add(currentObject);
 				currentObject.clear();
 				break;
@@ -124,7 +126,7 @@ public class XMLReader extends DefaultHandler {
 				currentObject.put("type", "image");
 				if (parse(currentObject, attributes, "sourcefile", "xstart",
 						"ystart")) {
-					System.out.println("Required attribute missing");
+					//System.out.println("Required attribute missing");
 					currentObject.clear();
 					break;
 				}
@@ -138,7 +140,7 @@ public class XMLReader extends DefaultHandler {
 				currentObject.put("type", "audio");
 				if (parse(currentObject, attributes, "sourcefile", "xstart",
 						"ystart")) {
-					System.out.println("Required attribute missing");
+					//System.out.println("Required attribute missing");
 					currentObject.clear();
 					break;
 				}
@@ -150,7 +152,7 @@ public class XMLReader extends DefaultHandler {
 				currentObject.put("type", "video");
 				if (parse(currentObject, attributes, "sourcefile", "xstart",
 						"ystart")) {
-					System.out.println("Required attribute missing");
+					//System.out.println("Required attribute missing");
 					currentObject.clear();
 					break;
 				}
@@ -229,9 +231,10 @@ public class XMLReader extends DefaultHandler {
 		if ("".equals(elementName)) {
 			elementName = qName;
 		}
-		System.out.println("\tFound the end of an element (" + elementName
-				+ ") ...");
-
+		/*
+		 * System.out.println("\tFound the end of an element (" + elementName +
+		 * ") ...");
+		 */
 		if (elementName.equals(sectionName)) {
 			sectionName = "";
 		} else
@@ -361,7 +364,7 @@ public class XMLReader extends DefaultHandler {
 	 * Called by the parser when it encounters the end of the XML file.
 	 */
 	public void endDocument() throws SAXException {
-		System.out.println("Finished processing document.");
+		//System.out.println("Finished processing document.");
 	}
 
 	/**
@@ -449,10 +452,10 @@ public class XMLReader extends DefaultHandler {
 			System.out.println("\tSlide 1 image 2: "
 					+ ((Oval) slideshow.getSlides().get(0).getGraphicsList()
 							.get(1)).isSolid());
-			for(Graphic g : slideshow.getSlides().get(0).getGraphicsList()) {
+			for (Graphic g : slideshow.getSlides().get(0).getGraphicsList()) {
 				System.out.println(g.getClass().getSimpleName().toLowerCase());
 			}
-			
+
 			System.out.println("\tSlideshow Author: "
 					+ slideshow.getInfo().getAuthor());
 			System.out.println("\tSlideshow Version: "
@@ -532,7 +535,7 @@ public class XMLReader extends DefaultHandler {
 			System.out.println("\tSlide 1 image 2: "
 					+ ((Oval) slideshow.getSlides().get(1).getGraphicsList()
 							.get(1)).isSolid());
-			for(Graphic g : slideshow.getSlides().get(1).getGraphicsList()) {
+			for (Graphic g : slideshow.getSlides().get(1).getGraphicsList()) {
 				System.out.println(g.getClass().getSimpleName().toLowerCase());
 			}
 

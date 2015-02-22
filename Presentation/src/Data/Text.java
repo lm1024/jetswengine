@@ -37,7 +37,7 @@ public class Text extends SlideItem {
 
 		} else {
 			currentTextFragment.setText(hashMap.get("text"));
-			System.out.println(hashMap.get("text"));
+			//System.out.println(hashMap.get("text"));
 			this.textFragments.add(currentTextFragment);
 		}
 
