@@ -72,14 +72,21 @@ public class Slide {
 			break;
 		case "graphic":
 			break;
-		case "text":
+		case "textstart":
 			this.currentText = new Text();
 			currentText.setStartTime( hashMap.get("starttime"));
 			currentText.setxStart( hashMap.get("xstart"));
 			currentText.setyStart( hashMap.get("ystart"));
 			currentText.setFont(hashMap.get("font"));
 			currentText.setAlignment(hashMap.get("alignment"));
-			this.textList.add(currentText);
+			break;
+		case "textend":
+			textList.add(currentText);
+			break;
+		case "textfragmentstart":
+			/* intentional fall through */
+		case "textfragmentend":
+			currentText.add(hashMap);
 			break;
 		}
 	}

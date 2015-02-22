@@ -12,6 +12,7 @@ public class TextFragment {
 	private boolean superscript;
 	private boolean subscript;
 	private boolean strikethrough;
+	private String textCase;
 	
 	/**
 	 * @return true if fragment is superscript
@@ -22,8 +23,9 @@ public class TextFragment {
 	/**
 	 * @param superscript the superscript to set
 	 */
-	public void setSuperscript(boolean superscript) {
-		this.superscript = superscript;
+	public void setSuperscript(String string) {
+		boolean b = Boolean.parseBoolean(string);
+		this.superscript = b;
 	}
 	/**
 	 * @return the subscript
@@ -34,8 +36,9 @@ public class TextFragment {
 	/**
 	 * @param subscript the subscript to set
 	 */
-	public void setSubscript(boolean subscript) {
-		this.subscript = subscript;
+	public void setSubscript(String string) {
+		boolean b = Boolean.parseBoolean(string);
+		this.subscript = b;
 	}
 	/**
 	 * @return the strikethrough
@@ -46,15 +49,16 @@ public class TextFragment {
 	/**
 	 * @param strikethrough the strikethrough to set
 	 */
-	public void setStrikethrough(boolean strikethrough) {
-		this.strikethrough = strikethrough;
+	public void setStrikethrough(String string) {
+		boolean b = Boolean.parseBoolean(string);
+		this.strikethrough = b;
 	}
 	
 	/**
 	 * @Initialises a new text fragment
 	 */
-	public TextFragment(String text) {
-		this.text = text;
+	public TextFragment() {
+
 	}
 	/**
 	 * @return the text
@@ -89,8 +93,9 @@ public class TextFragment {
 	/**
 	 * @param fontSize the fontSize to set
 	 */
-	public void setFontSize(int fontSize) {
-		this.fontSize = fontSize;
+	public void setFontSize(String string) {
+		int i = Integer.parseInt(string);
+		this.fontSize = i;
 	}
 	/**
 	 * @return the color
@@ -113,8 +118,9 @@ public class TextFragment {
 	/**
 	 * @param bold the bold to set
 	 */
-	public void setBold(boolean bold) {
-		this.bold = bold;
+	public void setBold(String string) {
+		boolean b = Boolean.parseBoolean(string);
+		this.bold = b;
 	}
 	/**
 	 * @return the underlined
@@ -125,8 +131,9 @@ public class TextFragment {
 	/**
 	 * @param underlined the underlined to set
 	 */
-	public void setUnderlined(boolean underlined) {
-		this.underlined = underlined;
+	public void setUnderlined(String string) {
+		boolean b = Boolean.parseBoolean(string);
+		this.underlined = b;
 	}
 	/**
 	 * @return the italicised
@@ -137,8 +144,21 @@ public class TextFragment {
 	/**
 	 * @param italicised the italicised to set
 	 */
-	public void setItalicised(boolean italicised) {
-		this.italicised = italicised;
+	public void setItalicised(String string) {
+		boolean b = Boolean.parseBoolean(string);
+		this.italicised = b;
+	}
+	/**
+	 * @return the textCase
+	 */
+	public String getTextCase() {
+		return textCase;
+	}
+	/**
+	 * @param textCase the textCase to set
+	 */
+	public void setTextCase(String textCase) {
+		this.textCase = textCase;
 	}
 
 }

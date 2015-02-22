@@ -105,15 +105,17 @@ public class XMLReader extends DefaultHandler {
 		} else if (sectionName.equals("slide")) {
 			switch (elementName) {
 			case "text":
-				currentObject.put("type", "text");
-				if (parse(currentObject, attributes, "xstart",
-						"ystart")) {
+				currentObject.put("type", "textstart");
+				if (parse(currentObject, attributes, "xstart", "ystart")) {
 					System.out.println("Required attribute missing");
 					currentObject.clear();
 					break;
 				}
-				parse(currentObject, attributes, "sourcefile","font","fontsize","fontcolor","duration","starttime", "alignment");
-				System.out.println("sourcefile not yet implemented.\ndelete this line when it is.");
+				parse(currentObject, attributes, "sourcefile", "font",
+						"fontsize", "fontcolor", "duration", "starttime",
+						"alignment");
+				System.out
+						.println("sourcefile not yet implemented.\ndelete this line when it is.");
 				slideshow.add(currentObject);
 				currentObject.clear();
 				break;
@@ -159,6 +161,10 @@ public class XMLReader extends DefaultHandler {
 
 				break;
 			case "richtext":
+				currentObject.put("type", "textfragmentstart");
+				parse(currentObject, attributes,"font","fontsize","fontcolor","b","i","u","strikethrough","superscript","subscript","case");
+				slideshow.add(currentObject);
+				currentObject.clear();
 				break;
 			case "cyclicshading":
 				break;
@@ -248,22 +254,42 @@ public class XMLReader extends DefaultHandler {
 				switch (elementName) {
 				case "text":
 					if (!contentBuffer.toString().trim().equals("")) {
-						System.out.println(contentBuffer.toString().trim());
-						
-						slideshow.getCurrentSlide().getCurrentText()
-								.addText(contentBuffer.toString().trim());
-
+						currentObject.put("type", "textfragmentend");
+						currentObject.put("text", contentBuffer.toString()
+								.trim());
+						slideshow.add(currentObject);
+						currentObject.clear();
+						/*
+						 * System.out.println(contentBuffer.toString().trim());
+						 * 
+						 * slideshow.getCurrentSlide().getCurrentText()
+						 * .addText(contentBuffer.toString().trim());
+						 */
 					}
+					currentObject.put("type", "textend");
+					slideshow.add(currentObject);
+					currentObject.clear();
 					break;
 				case "image":
+					// Only required if image support is expanded
 					break;
 				case "video":
+					// Only required if video support is expanded
 					break;
 				case "graphic":
 					break;
 				case "sound":
+					// Only required if sound support is expanded
 					break;
-
+				case "richtext":
+					currentObject.put("type", "textfragmentend");
+					currentObject.put("text", contentBuffer.toString()
+							.trim());
+					slideshow.add(currentObject);
+					currentObject.clear();
+					break;
+				default:
+					break;
 				}
 				contentBuffer = null;
 				break;
@@ -334,12 +360,12 @@ public class XMLReader extends DefaultHandler {
 		boolean errors = false;
 		String temp;
 		for (String string : strings) {
-				temp = attributes.getValue(string);
-				if (temp != null) {
-					hashMap.put(string, temp);
-				} else {
-					errors = true;
-				}
+			temp = attributes.getValue(string);
+			if (temp != null) {
+				hashMap.put(string, temp);
+			} else {
+				errors = true;
+			}
 		}
 		return errors;
 	}
@@ -367,7 +393,7 @@ public class XMLReader extends DefaultHandler {
 					+ slideshow.getInfo().getGroupID());
 			System.out.println("\tSlide 1 duration: "
 					+ slideshow.getSlides().get(0).getDuration());
-			System.out.println("\tSlide 1 text 1: "
+			System.out.println("\tSlide 1 text 2: "
 					+ slideshow.getSlides().get(0).getTextList().get(0)
 							.getTextFragments().get(0).getText());
 			System.out.println("\tSlide 1 image 1: "

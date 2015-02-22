@@ -1,6 +1,7 @@
 package Data;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Text extends SlideItem {
@@ -18,6 +19,30 @@ public class Text extends SlideItem {
 	
 	public Text() {
 		this.textFragments = new ArrayList<TextFragment>();
+		this.currentTextFragment = new TextFragment();
+	}
+	
+	public void add(HashMap<String, String> hashMap) {
+		if(hashMap.get("type").equals("textfragmentstart")) {
+			this.currentTextFragment = new TextFragment();
+			currentTextFragment.setFont(hashMap.get("font"));
+			currentTextFragment.setBold(hashMap.get("bold"));
+			currentTextFragment.setColor(hashMap.get("fontcolor"));
+			currentTextFragment.setFontSize(hashMap.get("fontsize"));
+			currentTextFragment.setItalicised(hashMap.get("italic"));
+			currentTextFragment.setStrikethrough(hashMap.get("strikethrough"));
+			currentTextFragment.setSubscript(hashMap.get("subscript"));
+			currentTextFragment.setSuperscript(hashMap.get("superscript"));
+			currentTextFragment.setUnderlined(hashMap.get("underlined"));
+			currentTextFragment.setTextCase(hashMap.get("textcase"));
+			
+		} else {
+			currentTextFragment.setText(hashMap.get("text"));
+			System.out.println(hashMap.get("text"));
+			this.textFragments.add(currentTextFragment);
+		}
+		
+		
 	}
 
 	/**
@@ -51,14 +76,6 @@ public class Text extends SlideItem {
 	 */
 	public void addText(TextFragment text) {
 		this.textFragments.add(text);
-	}
-	
-	/**
-	 * @param text the String to add
-	 */
-	public void addText(String string) {
-		this.currentTextFragment = new TextFragment(string);
-		this.textFragments.add(currentTextFragment);
 	}
 	
 	/**

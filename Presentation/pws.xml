@@ -20,14 +20,14 @@
 		</text>
 		
 		<text xstart="0.5" ystart="0.5" font="arial" fontsize="24" fontcolor="#00112233" duration="1.5" starttime="2.0">
-			<richtext font="arial" fontsize="26" fontcolor="#11223344" newline="true" b="true" i="true" u="true" strikethrough="true" superscript="true" subscript="true" case="upper/lower/camel" alignment="left/right/centre">Example text!</richtext>
-			<richtext font="arial" fontsize="26" fontcolor="#11223344" newline="true" b="true" i="true" u="true" strikethrough="true" superscript="true" subscript="true" case="upper/lower/camel" alignment="left">Example text!</richtext>
-			<richtext font="arial" fontsize="26" fontcolor="#11223344" newline="true" b="true" i="true" u="true" strikethrough="true" superscript="true" subscript="true" case="upper/lower/camel" alignment="left">Example text!</richtext>
+			<richtext font="arial" fontsize="26" fontcolor="#11223344" newline="true" b="true" i="true" u="true" strikethrough="true" superscript="true" subscript="true" case="upper/lower/camel" alignment="left/right/centre">Example text1!</richtext>
+			<richtext font="arial" fontsize="26" fontcolor="#11223344" newline="true" b="true" i="true" u="true" strikethrough="true" superscript="true" subscript="true" case="upper/lower/camel" alignment="left">Example text2!</richtext>
+			<richtext font="arial" fontsize="26" fontcolor="#11223344" newline="true" b="true" i="true" u="true" strikethrough="true" superscript="true" subscript="true" case="upper/lower/camel" alignment="left">Example text3!</richtext>
 		</text>
 		
 		<text xstart="0.5" ystart="0.5" font="arial" fontsize="24" fontcolor="#00112233" duration="1.5" starttime="2.0">
-			<richtext font="arial" fontsize="26" fontcolor="#11223344" newline="true" b="true" i="true" u="true" strikethrough="true" superscript="true" subscript="true" case="upper/lower/camel" alignment="left">Example text!</richtext>
-			<richtext font="arial" fontsize="26" fontcolor="#11223344" newline="true" b="true" i="true" u="true" strikethrough="true" superscript="true" subscript="true" case="upper/lower/camel" alignment="left">Example text!</richtext>
+			<richtext font="arial" fontsize="26" fontcolor="#11223344" newline="true" b="true" i="true" u="true" strikethrough="true" superscript="true" subscript="true" case="upper/lower/camel" alignment="left">Example text4!</richtext>
+			<richtext font="arial" fontsize="26" fontcolor="#11223344" newline="true" b="true" i="true" u="true" strikethrough="true" superscript="true" subscript="true" case="upper/lower/camel" alignment="left">Example text5!</richtext>
 		</text>
 
 		<image sourcefile="cat.jpg" xstart="0.5" ystart="0.5" scale="1.0" duration="1.5" starttime="2.0" />
