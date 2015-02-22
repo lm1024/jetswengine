@@ -3,6 +3,7 @@
  */
 package GUI;
 
+import java.awt.GraphicsEnvironment;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
@@ -27,6 +28,17 @@ import Data.TextFragment;
  * 
  */
 public class TextHandler {
+	
+	private final int alphaStartChar = 0;
+	private final int rStartChar = 2;
+	private final int gStartChar = 4;
+	private final int bStartChar = 6;
+
+	private final int alphaEndChar = 2;
+	private final int rEndChar = 4;
+	private final int gEndChar = 6;
+	private final int bEndChar = 8;
+
 
 	private ArrayList<TextFragment> stringBuffer = new ArrayList<TextFragment>();
 
@@ -105,8 +117,7 @@ public class TextHandler {
 			currentString = new TextFragment(string);
 		}
 
-		currentString.setFont(fontName);
-		currentString.setFontSize(fontSize);
+		/* Set all paramaters that do not require error checking */
 		currentString.setBold(bold);
 		currentString.setItalicised(italic);
 		currentString.setUnderlined(underline);
@@ -114,18 +125,50 @@ public class TextHandler {
 		currentString.setSubscript(subscript);
 		currentString.setSuperscript(superscript);
 		
+		/* Error checking for fontName */
+		String lowerCaseFontName = fontName.toLowerCase();
+		System.out.println(lowerCaseFontName);
+		String []fontsInstalled = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+		currentString.setFont("Arial");//"Lucidia Sans");
+		for (String currentFont: fontsInstalled) {
+			//System.out.println(currentFont);
+			if(lowerCaseFontName.compareToIgnoreCase(currentFont.toLowerCase()) == 0) {
+				//System.out.println("MATCH");
+				currentString.setFont(fontName);
+				break;
+			}
+		}
+			
+		
+		
+		/* Error checking for fontSize */
+		if (fontSize > 0)
+			currentString.setFontSize(fontSize);
+		else {
+			System.out.print("The fontSize integer is smaller than 0. Setting it to 10.");
+			currentString.setFontSize(10);
+		}
+
+		/* Sets fontColor to blank if the fontColor is not a valid hex string */
 		if (verifyColor(fontColor))
 			currentString.setColor(fontColor);
 		else {
-			//TODO
+			System.out.print("The fontColor string is in an incorrect format. Setting it to blank.");
+			currentString.setColor("00000000");
 		}
-		
+
+		/*
+		 * Sets highlightColor to blank if the fontColor is not a valid hex
+		 * string
+		 */
 		if (verifyColor(highlightColor))
-			//currentString.setHighlightColor(highlightColor);
-			System.out.println("Hightlight color is good");
+			// currentString.setHighlightColor(highlightColor);
+			currentString.getColor(); // need to use this to keep the if from breaking whilst setHightlightColor is not there
 		else {
-			
+			System.out.print("The highlightColor string is in an incorrect format. Setting it to blank.");
+			// currentString.setHightlightColor("00000000");
 		}
+
 		stringBuffer.add(currentString);
 	}
 
@@ -168,11 +211,11 @@ public class TextHandler {
 			yStartPos = yEndPos;
 			yEndPos = temp;
 		}
-		
+
 		/* Checking that backgroundColor is a 8 digit long hex string */
-		if (!(backgroundColor.matches("-?[0-9a-fA-F]+") && backgroundColor.length() == 8)) {
+		if (!verifyColor(backgroundColor)) {
 			System.out
-					.println("Error! Background color should be a 8 digit hex string. Buffer has been cleared, text box will not be displayed. ");
+					.println("The backgroundColor string is in an incorrect format. Buffer has been cleared, text box will not be displayed. ");
 			stringBuffer.clear();
 			return;
 		}
@@ -279,12 +322,12 @@ public class TextHandler {
 			break;
 		}
 
-		/*
-		 * Loops through all the items in the buffer, and //TODO
+		/**
+		 * Loops through all the items in the buffer, and builds a dynamic HTML
+		 * string that can be used to generate a "text box" in a webView.
 		 */
 		for (int i = 0; i < stringBuffer.size(); i++) {
-			stringBuffer.get(i).getText();
-
+			/* Get the current text fragment */
 			TextFragment currentString = stringBuffer.get(i);
 
 			/*
@@ -306,7 +349,7 @@ public class TextHandler {
 				postBodyAttributes = postBodyAttributes + "</sub>";
 			}
 
-			/* Section for font, font size and font color */
+			/* Section for font, font size and font color. */
 			String colorString = currentString.getColor();
 
 			/* Initialise new string to store the preBody font size information */
@@ -318,7 +361,7 @@ public class TextHandler {
 			 * hex).
 			 */
 			String fontNameAndColorString = "<font face =\"" + currentString.getFont() + "\" color=\""
-					+ colorString.substring(2, colorString.length()) + "\">";
+					+ colorString.substring(2, 8) + "\">";
 
 			/*
 			 * Highlighting section. Initialise string with the 8bit hex value
@@ -333,7 +376,8 @@ public class TextHandler {
 			/*
 			 * Convert the opacity to a 1 decimal place number so that it works
 			 * in the opacity tag (first 2 chars of color string contain alpha
-			 * in hex).
+			 * in hex). 16 to convert from hex to int, dividing by 255f to
+			 * convert to a decimal from 0 to 1
 			 */
 			DecimalFormat df = new DecimalFormat("0.0");
 			String opacityFormatted = df.format((Integer.parseInt(colorString.substring(0, 2), 16)) / 255f);
@@ -418,13 +462,13 @@ public class TextHandler {
 
 		return formattedColorString;
 	}
-	
+
 	/** Method to check validity of any color string */
 	private boolean verifyColor(String color) {
 		/* Checking that backgroundColor is a 8 digit long hex string */
 		return (color.matches("-?[0-9a-fA-F]+") && color.length() == 8);
 	}
-	
+
 	/**
 	 * Method draws a string passed to the group set by the constructor.
 	 * */
@@ -476,11 +520,13 @@ public class TextHandler {
 			textObject.setFont(Font.font(fontName, (double) fontSize));
 
 		/* Set other parameters about the text */
+		textObject.setFill(fontColor);
 		textObject.setUnderline(underline);
 		textObject.setStrikethrough(strikethrough);
 
-		textObject.setWrappingWidth(70);// screensize - xcoordinate
-
+		//textObject.setWrappingWidth(70);// screensize - xcoordinate
+		//System.out.println(Font.font(fontName,(double) fontSize).getName());
+		
 		/* Set alignment, with the default value being left */
 		switch (alignment) {
 		case CENTER:

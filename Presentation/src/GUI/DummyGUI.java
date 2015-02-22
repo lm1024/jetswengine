@@ -66,14 +66,18 @@ public class DummyGUI extends Application {
 		//thisGraphicsHandler.drawRectangle();
 		
 		TextHandler thisTextHandler = new TextHandler(group);
-		thisTextHandler.drawString("Hello a world!", 200f, 100f, "Arial", 20, new Color(0,0,1,1), true, true, true, true, false, false, TextCase.CAPITALISED, Alignment.RIGHT);
-		
-		thisTextHandler.addStringToBuffer("Number 1 ", "arial", 20, "ff0000ff", true, false, false, true, false, false, TextCase.LOWER, "ffaa00ff");
-		thisTextHandler.addStringToBuffer("Number 2 ", "arial", 20, "ff00ff00", false, true, false, true, true, false, TextCase.LOWER, "ffaa00ff");
+		thisTextHandler.drawString("Number 1", 200f, 100f, "Arial", 20, new Color(0,0,1,1), true, true, true, true, false, false, TextCase.CAPITALISED, Alignment.RIGHT);
+		thisTextHandler.drawString("number 2 ", 200f, 140f, "Calibri", 20, new Color(0,1,1,1), true, true, true, true, false, false, TextCase.CAPITALISED, Alignment.RIGHT);
+		thisTextHandler.drawString("NUMBER 3 ", 200f, 180f, "calibri", 20, new Color(1,0,1,1), true, true, true, true, false, false, TextCase.CAPITALISED, Alignment.RIGHT);
+		thisTextHandler.drawString("Number 3 ", 200f, 220f, "Trebuchet MS", 20, new Color(0,0,1,1), true, true, true, true, false, false, TextCase.CAPITALISED, Alignment.RIGHT);
+		thisTextHandler.drawString("Number 3 ", 200f, 260f, "Times New Roman", 20, new Color(1,1,0,1), true, true, true, true, false, false, TextCase.CAPITALISED, Alignment.RIGHT);
+
+		thisTextHandler.addStringToBuffer("Number 1 ", "Calibri", 20, "ff0000ff", true, false, false, true, false, false, TextCase.LOWER, "ffaa00ff");
+		thisTextHandler.addStringToBuffer("Number 2 ", "Webdings", 1, "ff00ff00", false, true, false, true, true, false, TextCase.LOWER, "ffaa00ff");
 		thisTextHandler.addStringToBuffer("Number 3 ", "arial", 20, "ffff0000", false, false, true, true, false, false, TextCase.UPPER, "ffaa00ff");
 		thisTextHandler.addStringToBuffer("Number 4 ", "arial", 20, "fff0f0f0", true, false, true, false, false, true, TextCase.UPPER, "ffaa00ff");
 		thisTextHandler.addStringToBuffer("Number 5 ", "arial", 20, "ff0f0f0f", true, true, true, false, false, false, TextCase.CAPITALISED, "ffaa00ff");
-		thisTextHandler.addStringToBuffer("Number 6 ", "arial", 20, "11000000", true, true, true, false, true, true, TextCase.CAPITALISED, "ffaa00ff");
+		thisTextHandler.addStringToBuffer("Number 6 ", "Verdana", 20, "11000000", true, true, true, false, true, true, TextCase.CAPITALISED, "ffaa00ff");
 		//thisTextHandler.printBuffer();
 		
 		thisTextHandler.drawBuffer(0, 0, 800, 200, "aabbccdd", Alignment.CENTER);
