@@ -18,13 +18,13 @@ public class Text extends SlideItem {
 
 	public Text() {
 		this.textFragments = new ArrayList<TextFragment>();
-		this.currentTextFragment = new TextFragment();
+		this.currentTextFragment = new TextFragment(this);
 	}
 
 	public void add(HashMap<String, String> hashMap) {
 		
-		if (hashMap.get("type").equals("textfragmentstart")) {
-			this.currentTextFragment = new TextFragment();
+		if (hashMap.get("type").equals("richtext")) {
+			this.currentTextFragment = new TextFragment(this);
 			currentTextFragment.setFont(hashMap.get("font"));
 			currentTextFragment.setBold(hashMap.get("bold"));
 			currentTextFragment.setColor(hashMap.get("fontcolor"));

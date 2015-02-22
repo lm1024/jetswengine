@@ -17,15 +17,17 @@ public class Slideshow {
 		this.defaults = new Defaults();
 	}
 
-	@SuppressWarnings("unchecked")
-	public void add(Object obj) {
-		if (obj instanceof SlideItem) {
-			currentSlide.add((SlideItem) obj);
-		} else if (obj instanceof HashMap) {
-			if (((HashMap<String, String>) obj).containsKey("type")) {
-				currentSlide.add(((HashMap<String, String>) obj));
+	public void add(HashMap<String, String> hashMap) {
+		
+			if (hashMap.get("type") == null) {
+				
+			} else if (hashMap.get("type").equals("documentinfo")) {
+				info.add(hashMap);
+			} else if (hashMap.get("type").equals("defaultsettings")) {
+				defaults.add(hashMap);
+			} else {
+				currentSlide.add(hashMap);
 			}
-		}
 	}
 
 	/**

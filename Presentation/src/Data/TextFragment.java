@@ -16,12 +16,13 @@ public class TextFragment {
 	private boolean subscript;
 	private boolean strikethrough;
 	private String textCase;
-	
+
 	/**
 	 * @Initialises a new text fragment
 	 */
-	public TextFragment() {
-		
+	public TextFragment(Text textcontainer) {
+		System.out.println(textcontainer.getFont());
+		this.font = textcontainer.getFont();
 	}
 
 	/**
@@ -112,17 +113,18 @@ public class TextFragment {
 	 */
 	public void setFont(String font) {
 		font = capitaliseEachFirstLetter(font);
-		if(Font.getFontNames().contains(font)) {
+		if (Font.getFontNames().contains(font)) {
 			this.font = font;
 		}
-		
+
 	}
-	
+
 	static String capitaliseEachFirstLetter(String s) {
 		String[] words = s.split(" ");
 		String finalString = "";
-		for(String word : words) {
-			finalString += word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase() + " ";
+		for (String word : words) {
+			finalString += word.substring(0, 1).toUpperCase()
+					+ word.substring(1).toLowerCase() + " ";
 		}
 		return finalString.substring(0, finalString.length() - 1);
 	}
@@ -159,8 +161,12 @@ public class TextFragment {
 	 *            the colour to set
 	 */
 	public void setColor(String color) {
-		if(color.matches("^[#]([0-9a-fA-F]{8}))$")) {
-			this.color = color;
+		try {
+			if (color.matches("^([#]([0-9a-fA-F]{8}))$")) {
+				this.color = color;
+			}
+		} catch (NullPointerException npe) {
+			/* Do nothing */
 		}
 	}
 
@@ -247,13 +253,18 @@ public class TextFragment {
 	}
 
 	/**
-	 * @param highlightColor the highlightColor to set
+	 * @param highlightColor
+	 *            the highlightColor to set
 	 */
 	public void setHighlightColor(String highlightColor) {
-		if(highlightColor.matches("^[#]([0-9a-fA-F]{8}))$")) {
-			this.highlightColor = highlightColor;
+		try {
+			if (highlightColor.matches("^[#]([0-9a-fA-F]{8}))$")) {
+				this.highlightColor = highlightColor;
+			}
+		} catch (NullPointerException npe) {
+			/* Do nothing */
 		}
-		
+
 	}
 
 }

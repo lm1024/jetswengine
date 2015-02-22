@@ -1,5 +1,7 @@
 package Data;
 
+import java.util.HashMap;
+
 public class Defaults {
 
 	private String backgroundColour;
@@ -49,8 +51,9 @@ public class Defaults {
 	 * @param fontSize
 	 *            the fontSize to set
 	 */
-	public void setFontSize(int fontSize) {
-		this.fontSize = fontSize;
+	public void setFontSize(String string) {
+		int i = Integer.parseInt(string);
+		this.fontSize = i;
 	}
 
 	/**
@@ -83,4 +86,12 @@ public class Defaults {
 		this.graphicColour = colour;
 	}
 
+	public void add(HashMap<String, String> hashMap) {
+
+		setBackgroundColour(hashMap.get("backgroundcolor"));
+		setFont(hashMap.get("font"));
+		setFontColour(hashMap.get("fontcolor"));
+		setFontSize(hashMap.get("fontsize"));
+		setGraphicColour(hashMap.get("graphiccolor"));
+	}
 }

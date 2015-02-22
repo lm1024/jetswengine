@@ -1,5 +1,7 @@
 package Data;
 
+import java.util.HashMap;
+
 public class DocumentInfo {
 
 	private String author;
@@ -69,6 +71,14 @@ public class DocumentInfo {
 	 */
 	public void setGroupID(String groupID) {
 		this.groupID = groupID;
+	}
+	
+	public void add(HashMap<String, String> hashMap) {
+
+		setAuthor(hashMap.get("author"));
+		setComment(hashMap.get("comment"));
+		setGroupID(hashMap.get("groupid"));
+		setVersion(hashMap.get("version"));
 	}
 
 }

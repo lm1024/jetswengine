@@ -71,7 +71,7 @@ public class Slide {
 			break;
 		case "graphic":
 			break;
-		case "textstart":
+		case "text":
 			this.currentText = new Text();
 			currentText.setStartTime(hashMap.get("starttime"));
 			currentText.setxStart(hashMap.get("xstart"));
@@ -82,7 +82,7 @@ public class Slide {
 		case "textend":
 			textList.add(currentText);
 			break;
-		case "textfragmentstart":
+		case "richtext":
 			/* intentional fall through */
 		case "textfragmentend":
 			currentText.add(hashMap);
