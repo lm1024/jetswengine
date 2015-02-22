@@ -5,30 +5,36 @@ public class Audio extends SlideItem {
 	private float startTime;
 	private float xStart;
 	private float yStart;
-	
+
 	public Audio(String source) {
 		this.sourceFile = source;
 	}
+
 	/**
 	 * @return the sourceFile
 	 */
 	public String getSourceFile() {
 		return sourceFile;
 	}
+
 	/**
-	 * @param sourceFile the sourceFile to set
+	 * @param sourceFile
+	 *            the sourceFile to set
 	 */
 	public void setSourceFile(String sourceFile) {
 		this.sourceFile = sourceFile;
 	}
+
 	/**
 	 * @return the startTime
 	 */
 	public float getStartTime() {
 		return startTime;
 	}
+
 	/**
-	 * @param startTime the startTime to set
+	 * @param startTime
+	 *            the startTime to set
 	 */
 	public void setStartTime(String startTime) {
 		try {
@@ -38,14 +44,17 @@ public class Audio extends SlideItem {
 			// TODO: handle exception
 		}
 	}
+
 	/**
 	 * @return the xStart
 	 */
 	public float getXStart() {
 		return xStart;
 	}
+
 	/**
-	 * @param xStart the xStart to set
+	 * @param xStart
+	 *            the xStart to set
 	 */
 	public void setXStart(String xStart) {
 		try {
@@ -55,14 +64,17 @@ public class Audio extends SlideItem {
 			// TODO: handle exception
 		}
 	}
+
 	/**
 	 * @return the yStart
 	 */
 	public float getYStart() {
 		return yStart;
 	}
+
 	/**
-	 * @param yStart the yStart to set
+	 * @param yStart
+	 *            the yStart to set
 	 */
 	public void setYStart(String yStart) {
 		try {
@@ -72,5 +84,5 @@ public class Audio extends SlideItem {
 			// TODO: handle exception
 		}
 	}
-	
+
 }

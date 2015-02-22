@@ -5,25 +5,24 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Text extends SlideItem {
-	
+
 	private List<TextFragment> textFragments;
 	private TextFragment currentTextFragment;
 	private float xStart;
 	private float yStart;
 	private float startTime;
 	private float duration;
-	private String alignment; //left/right/center/justify /justified/centre
+	private String alignment; // left/right/center/justify /justified/centre
 	private String font;
 	private String fontcolor;
-	
-	
+
 	public Text() {
 		this.textFragments = new ArrayList<TextFragment>();
 		this.currentTextFragment = new TextFragment();
 	}
-	
+
 	public void add(HashMap<String, String> hashMap) {
-		if(hashMap.get("type").equals("textfragmentstart")) {
+		if (hashMap.get("type").equals("textfragmentstart")) {
 			this.currentTextFragment = new TextFragment();
 			currentTextFragment.setFont(hashMap.get("font"));
 			currentTextFragment.setBold(hashMap.get("bold"));
@@ -34,15 +33,14 @@ public class Text extends SlideItem {
 			currentTextFragment.setSubscript(hashMap.get("subscript"));
 			currentTextFragment.setSuperscript(hashMap.get("superscript"));
 			currentTextFragment.setUnderlined(hashMap.get("underlined"));
-			currentTextFragment.setTextCase(hashMap.get("textcase"));
-			
+			currentTextFragment.setTextCase(hashMap.get("case"));
+
 		} else {
 			currentTextFragment.setText(hashMap.get("text"));
 			System.out.println(hashMap.get("text"));
 			this.textFragments.add(currentTextFragment);
 		}
-		
-		
+
 	}
 
 	/**
@@ -53,7 +51,8 @@ public class Text extends SlideItem {
 	}
 
 	/**
-	 * @param string the xStart to set
+	 * @param string
+	 *            the xStart to set
 	 */
 	public void setxStart(String xStart) {
 		try {
@@ -72,12 +71,13 @@ public class Text extends SlideItem {
 	}
 
 	/**
-	 * @param text the Text to add
+	 * @param text
+	 *            the Text to add
 	 */
 	public void addText(TextFragment text) {
 		this.textFragments.add(text);
 	}
-	
+
 	/**
 	 * @return the textList
 	 */
@@ -93,7 +93,8 @@ public class Text extends SlideItem {
 	}
 
 	/**
-	 * @param string the yStart to set
+	 * @param string
+	 *            the yStart to set
 	 */
 	public void setyStart(String yStart) {
 		try {
@@ -112,7 +113,8 @@ public class Text extends SlideItem {
 	}
 
 	/**
-	 * @param string the startTime to set
+	 * @param string
+	 *            the startTime to set
 	 */
 	public void setStartTime(String startTime) {
 		try {
@@ -131,7 +133,8 @@ public class Text extends SlideItem {
 	}
 
 	/**
-	 * @param duration the duration to set
+	 * @param duration
+	 *            the duration to set
 	 */
 	public void setDuration(int duration) {
 		this.duration = duration;
@@ -145,7 +148,8 @@ public class Text extends SlideItem {
 	}
 
 	/**
-	 * @param currentTextFragment the currentTextFragment to set
+	 * @param currentTextFragment
+	 *            the currentTextFragment to set
 	 */
 	public void setCurrentTextFragment(TextFragment currentTextFragment) {
 		this.currentTextFragment = currentTextFragment;
@@ -159,7 +163,8 @@ public class Text extends SlideItem {
 	}
 
 	/**
-	 * @param alignment the alignment to set
+	 * @param alignment
+	 *            the alignment to set
 	 */
 	public void setAlignment(String alignment) {
 		this.alignment = alignment;
@@ -173,7 +178,8 @@ public class Text extends SlideItem {
 	}
 
 	/**
-	 * @param font the font to set
+	 * @param font
+	 *            the font to set
 	 */
 	public void setFont(String font) {
 		this.font = font;
@@ -187,7 +193,8 @@ public class Text extends SlideItem {
 	}
 
 	/**
-	 * @param fontcolor the fontcolor to set
+	 * @param fontcolor
+	 *            the fontcolor to set
 	 */
 	public void setFontcolor(String fontcolor) {
 		this.fontcolor = fontcolor;

@@ -162,7 +162,9 @@ public class XMLReader extends DefaultHandler {
 				break;
 			case "richtext":
 				currentObject.put("type", "textfragmentstart");
-				parse(currentObject, attributes,"font","fontsize","fontcolor","b","i","u","strikethrough","superscript","subscript","case");
+				parse(currentObject, attributes, "font", "fontsize",
+						"fontcolor", "b", "i", "u", "strikethrough",
+						"superscript", "subscript", "case");
 				slideshow.add(currentObject);
 				currentObject.clear();
 				break;
@@ -283,8 +285,7 @@ public class XMLReader extends DefaultHandler {
 					break;
 				case "richtext":
 					currentObject.put("type", "textfragmentend");
-					currentObject.put("text", contentBuffer.toString()
-							.trim());
+					currentObject.put("text", contentBuffer.toString().trim());
 					slideshow.add(currentObject);
 					currentObject.clear();
 					break;
@@ -393,9 +394,12 @@ public class XMLReader extends DefaultHandler {
 					+ slideshow.getInfo().getGroupID());
 			System.out.println("\tSlide 1 duration: "
 					+ slideshow.getSlides().get(0).getDuration());
-			System.out.println("\tSlide 1 text 2: "
+			System.out.println("\tSlide 1 text 2.1: "
 					+ slideshow.getSlides().get(0).getTextList().get(0)
 							.getTextFragments().get(0).getText());
+			System.out.println("\tSlide 1 text 2.1 case: "
+					+ slideshow.getSlides().get(0).getTextList().get(1)
+							.getTextFragments().get(0).getTextCase());
 			System.out.println("\tSlide 1 image 1: "
 					+ slideshow.getSlides().get(0).getImagesList().get(0)
 							.getSourceFile());

@@ -13,11 +13,11 @@ public class Graphic extends SlideItem {
 	private float duration;
 	private float startTime;
 	private String graphicColor;
-	
+
 	public Graphic() {
-		
+
 	}
-	
+
 	/**
 	 * @return the xStart
 	 */
@@ -26,7 +26,8 @@ public class Graphic extends SlideItem {
 	}
 
 	/**
-	 * @param xStart the xStart to set
+	 * @param xStart
+	 *            the xStart to set
 	 */
 	public void setxStart(float xStart) {
 		this.xStart = xStart;
@@ -40,7 +41,8 @@ public class Graphic extends SlideItem {
 	}
 
 	/**
-	 * @param yStart the yStart to set
+	 * @param yStart
+	 *            the yStart to set
 	 */
 	public void setyStart(float yStart) {
 		this.yStart = yStart;
@@ -54,7 +56,8 @@ public class Graphic extends SlideItem {
 	}
 
 	/**
-	 * @param duration the duration to set
+	 * @param duration
+	 *            the duration to set
 	 */
 	public void setDuration(float duration) {
 		this.duration = duration;
@@ -68,7 +71,8 @@ public class Graphic extends SlideItem {
 	}
 
 	/**
-	 * @param startTime the startTime to set
+	 * @param startTime
+	 *            the startTime to set
 	 */
 	public void setStartTime(float startTime) {
 		this.startTime = startTime;
@@ -82,7 +86,8 @@ public class Graphic extends SlideItem {
 	}
 
 	/**
-	 * @param graphicColor the graphicColor to set
+	 * @param graphicColor
+	 *            the graphicColor to set
 	 */
 	public void setGraphicColor(String graphicColor) {
 		this.graphicColor = graphicColor;
@@ -96,11 +101,11 @@ public class Graphic extends SlideItem {
 	}
 
 	/**
-	 * @param graphic the graphic to set
+	 * @param graphic
+	 *            the graphic to set
 	 */
 	public void setGraphic(Graphic graphic) {
 		this.graphic = graphic;
 	}
-
 
 }

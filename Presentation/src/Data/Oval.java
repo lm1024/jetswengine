@@ -8,8 +8,8 @@ package Data;
  *
  */
 public class Oval extends CommonShapes {
-	
+
 	public Oval() {
 	}
-	
+
 }

@@ -41,42 +41,41 @@ public class Slide {
 		switch (hashMap.get("type")) {
 		case "image":
 			this.currentImage = new Image(hashMap.get("sourcefile"));
-			currentImage.setCropX1( hashMap.get("cropx1"));
-			currentImage.setCropX2( hashMap.get("cropx2"));
-			currentImage.setCropY1( hashMap.get("cropy1"));
-			currentImage.setCropY2( hashMap.get("cropy2"));
-			currentImage.setDuration( hashMap.get("duration"));
-			currentImage.setFlipHorizontal( hashMap
-					.get("fliphorizontal"));
-			currentImage.setFlipVertical( hashMap.get("flipvertical"));
+			currentImage.setCropX1(hashMap.get("cropx1"));
+			currentImage.setCropX2(hashMap.get("cropx2"));
+			currentImage.setCropY1(hashMap.get("cropy1"));
+			currentImage.setCropY2(hashMap.get("cropy2"));
+			currentImage.setDuration(hashMap.get("duration"));
+			currentImage.setFlipHorizontal(hashMap.get("fliphorizontal"));
+			currentImage.setFlipVertical(hashMap.get("flipvertical"));
 			currentImage.setRotation(hashMap.get("rotate"));
-			currentImage.setScale( hashMap.get("scale"));
-			currentImage.setStartTime( hashMap.get("starttime"));
-			currentImage.setxStart( hashMap.get("xstart"));
-			currentImage.setyStart( hashMap.get("ystart"));
+			currentImage.setScale(hashMap.get("scale"));
+			currentImage.setStartTime(hashMap.get("starttime"));
+			currentImage.setxStart(hashMap.get("xstart"));
+			currentImage.setyStart(hashMap.get("ystart"));
 			this.imagesList.add(currentImage);
 			break;
 		case "audio":
-			this.currentAudio = new Audio( hashMap.get("sourcefile"));
-			currentAudio.setStartTime( hashMap.get("starttime"));
-			currentAudio.setXStart( hashMap.get("xstart"));
-			currentAudio.setXStart( hashMap.get("ystart"));
+			this.currentAudio = new Audio(hashMap.get("sourcefile"));
+			currentAudio.setStartTime(hashMap.get("starttime"));
+			currentAudio.setXStart(hashMap.get("xstart"));
+			currentAudio.setXStart(hashMap.get("ystart"));
 			this.audioList.add(currentAudio);
 			break;
 		case "video":
-			this.currentVideo = new Video( hashMap.get("sourcefile"));
-			currentVideo.setStartTime( hashMap.get("starttime"));
-			currentVideo.setXStart( hashMap.get("xstart"));
-			currentVideo.setXStart( hashMap.get("ystart"));
+			this.currentVideo = new Video(hashMap.get("sourcefile"));
+			currentVideo.setStartTime(hashMap.get("starttime"));
+			currentVideo.setXStart(hashMap.get("xstart"));
+			currentVideo.setXStart(hashMap.get("ystart"));
 			this.videoList.add(currentVideo);
 			break;
 		case "graphic":
 			break;
 		case "textstart":
 			this.currentText = new Text();
-			currentText.setStartTime( hashMap.get("starttime"));
-			currentText.setxStart( hashMap.get("xstart"));
-			currentText.setyStart( hashMap.get("ystart"));
+			currentText.setStartTime(hashMap.get("starttime"));
+			currentText.setxStart(hashMap.get("xstart"));
+			currentText.setyStart(hashMap.get("ystart"));
 			currentText.setFont(hashMap.get("font"));
 			currentText.setAlignment(hashMap.get("alignment"));
 			break;

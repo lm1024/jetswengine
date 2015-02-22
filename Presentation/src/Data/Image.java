@@ -14,7 +14,7 @@ public class Image extends SlideItem {
 	private float cropY1;
 	private float cropX2;
 	private float cropY2;
-	
+
 	public Image(String source) {
 		this.sourceFile = source;
 	}
@@ -27,7 +27,8 @@ public class Image extends SlideItem {
 	}
 
 	/**
-	 * @param sourceFile the sourceFile to set
+	 * @param sourceFile
+	 *            the sourceFile to set
 	 */
 	public void setSourceFile(String sourceFile) {
 		this.sourceFile = sourceFile;
@@ -41,7 +42,8 @@ public class Image extends SlideItem {
 	}
 
 	/**
-	 * @param xStart the xStart to set
+	 * @param xStart
+	 *            the xStart to set
 	 */
 	public void setxStart(String xStart) {
 		float x;
@@ -51,7 +53,7 @@ public class Image extends SlideItem {
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		
+
 	}
 
 	/**
@@ -62,7 +64,8 @@ public class Image extends SlideItem {
 	}
 
 	/**
-	 * @param yStart the yStart to set
+	 * @param yStart
+	 *            the yStart to set
 	 */
 	public void setyStart(String yStart) {
 		try {
@@ -81,7 +84,8 @@ public class Image extends SlideItem {
 	}
 
 	/**
-	 * @param scale the scale to set
+	 * @param scale
+	 *            the scale to set
 	 */
 	public void setScale(String scale) {
 		try {
@@ -100,7 +104,8 @@ public class Image extends SlideItem {
 	}
 
 	/**
-	 * @param duration the duration to set
+	 * @param duration
+	 *            the duration to set
 	 */
 	public void setDuration(String duration) {
 		try {
@@ -119,7 +124,8 @@ public class Image extends SlideItem {
 	}
 
 	/**
-	 * @param startTime the startTime to set
+	 * @param startTime
+	 *            the startTime to set
 	 */
 	public void setStartTime(String startTime) {
 		try {
@@ -138,7 +144,8 @@ public class Image extends SlideItem {
 	}
 
 	/**
-	 * @param rotation the rotation to set
+	 * @param rotation
+	 *            the rotation to set
 	 */
 	public void setRotation(String rotation) {
 		try {
@@ -157,7 +164,8 @@ public class Image extends SlideItem {
 	}
 
 	/**
-	 * @param flipHorizontal the flipHorizontal to set
+	 * @param flipHorizontal
+	 *            the flipHorizontal to set
 	 */
 	public void setFlipHorizontal(String flipHorizontal) {
 		try {
@@ -175,7 +183,8 @@ public class Image extends SlideItem {
 	}
 
 	/**
-	 * @param flipVertical the flipVertical to set
+	 * @param flipVertical
+	 *            the flipVertical to set
 	 */
 	public void setFlipVertical(String flipVertical) {
 		try {
@@ -193,7 +202,8 @@ public class Image extends SlideItem {
 	}
 
 	/**
-	 * @param cropX1 the cropX1 to set
+	 * @param cropX1
+	 *            the cropX1 to set
 	 */
 	public void setCropX1(String cropX1) {
 		try {
@@ -212,7 +222,8 @@ public class Image extends SlideItem {
 	}
 
 	/**
-	 * @param cropY1 the cropY1 to set
+	 * @param cropY1
+	 *            the cropY1 to set
 	 */
 	public void setCropY1(String cropY1) {
 		try {
@@ -231,7 +242,8 @@ public class Image extends SlideItem {
 	}
 
 	/**
-	 * @param cropX2 the cropX2 to set
+	 * @param cropX2
+	 *            the cropX2 to set
 	 */
 	public void setCropX2(String cropX2) {
 		try {
@@ -250,7 +262,8 @@ public class Image extends SlideItem {
 	}
 
 	/**
-	 * @param cropY2 the cropY2 to set
+	 * @param cropY2
+	 *            the cropY2 to set
 	 */
 	public void setCropY2(String cropY2) {
 		try {
@@ -260,5 +273,5 @@ public class Image extends SlideItem {
 			// TODO: handle exception
 		}
 	}
-	
+
 }

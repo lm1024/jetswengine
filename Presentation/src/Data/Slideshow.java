@@ -23,10 +23,10 @@ public class Slideshow {
 			currentSlide.add((SlideItem) obj);
 		} else if (obj instanceof HashMap) {
 			if (((HashMap<String, String>) obj).containsKey("type")) {
-				currentSlide.add(((HashMap<String, String>) obj)); 
-				}
+				currentSlide.add(((HashMap<String, String>) obj));
 			}
 		}
+	}
 
 	/**
 	 * @return the slides
