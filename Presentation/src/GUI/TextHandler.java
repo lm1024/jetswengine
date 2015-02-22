@@ -77,7 +77,7 @@ public class TextHandler {
 	 * */
 	public void addStringToBuffer(String string, String fontName, int fontSize, String fontColor, boolean bold,
 			boolean italic, boolean underline, boolean strikethrough, boolean superscript, boolean subscript,
-			TextCase stringCase) {
+			TextCase stringCase, String highlightColor) {
 		TextFragment currentString;
 
 		/* Initial string manipulation depending on stringCase variable */
@@ -107,14 +107,25 @@ public class TextHandler {
 
 		currentString.setFont(fontName);
 		currentString.setFontSize(fontSize);
-		currentString.setColor(fontColor);
 		currentString.setBold(bold);
 		currentString.setItalicised(italic);
 		currentString.setUnderlined(underline);
 		currentString.setStrikethrough(strikethrough);
 		currentString.setSubscript(subscript);
 		currentString.setSuperscript(superscript);
-
+		
+		if (verifyColor(fontColor))
+			currentString.setColor(fontColor);
+		else {
+			//TODO
+		}
+		
+		if (verifyColor(highlightColor))
+			//currentString.setHighlightColor(highlightColor);
+			System.out.println("Hightlight color is good");
+		else {
+			
+		}
 		stringBuffer.add(currentString);
 	}
 
@@ -144,7 +155,8 @@ public class TextHandler {
 	 *            justifies the text. "left" - sets the text to be left aligned.
 	 * 
 	 * */
-	public void drawBuffer(int xStartPos, int yStartPos, int xEndPos, int yEndPos, Alignment alignment) {
+	public void drawBuffer(int xStartPos, int yStartPos, int xEndPos, int yEndPos, String backgroundColor,
+			Alignment alignment) {
 		/* Swaps around coordinates if incorrectly passed in */
 		if (xStartPos > xEndPos) {
 			int temp = xStartPos;
@@ -156,6 +168,14 @@ public class TextHandler {
 			yStartPos = yEndPos;
 			yEndPos = temp;
 		}
+		
+		/* Checking that backgroundColor is a 8 digit long hex string */
+		if (!(backgroundColor.matches("-?[0-9a-fA-F]+") && backgroundColor.length() == 8)) {
+			System.out
+					.println("Error! Background color should be a 8 digit hex string. Buffer has been cleared, text box will not be displayed. ");
+			stringBuffer.clear();
+			return;
+		}
 
 		/* Instantiate the WebView that will be used to display the text */
 		WebView webView = new WebView();
@@ -164,6 +184,7 @@ public class TextHandler {
 		webView.relocate(xStartPos, yStartPos);
 		webView.setPrefWidth(xEndPos - xStartPos);
 
+		/* Load a css file that hides the scrollbar added by webView */
 		File f = new File("custom.css");
 		try {
 			webView.getEngine().setUserStyleSheetLocation(f.toURI().toURL().toString());
@@ -181,7 +202,7 @@ public class TextHandler {
 		 * Loads a HTML string containing all the data about the strings into
 		 * the webView
 		 */
-		webView.getEngine().loadContent(createHTMLStringFromBuffer(alignment));
+		webView.getEngine().loadContent(createHTMLStringFromBuffer(backgroundColor, alignment));
 
 		/* Section for resizing the text to fit in the box. */
 		webView.setPrefHeight(yEndPos - yStartPos);
@@ -199,40 +220,45 @@ public class TextHandler {
 			WebPage page = (WebPage) field.get(webView.getEngine());
 			page.setBackgroundColor((new java.awt.Color(0, 0, 0, 0)).getRGB());
 		} catch (NoSuchFieldException e) {
-			// TODO this shit
 			e.printStackTrace();
+			System.out.println("An error occured when trying to build a text box.");
+			System.exit(-1);
 		} catch (SecurityException e) {
 			e.printStackTrace();
+			System.out.println("An error occured when trying to build a text box.");
+			System.exit(-1);
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
+			System.out.println("An error occured when trying to build a text box.");
+			System.exit(-1);
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
+			System.out.println("An error occured when trying to build a text box.");
+			System.exit(-1);
 		}
 
-		/*
-		 * TODO Decide how to handle background color. Could just be clear, then
-		 * let user add box themselves.
-		 */
-		Rectangle rect = new Rectangle(xStartPos, yStartPos, xEndPos, yEndPos);
-		rect.setFill(new Color(1, 0, 0, 0.2));
-
-		group.getChildren().addAll(rect, webView);
+		group.getChildren().addAll(webView);
 	}
 
 	/**
 	 * Formats a HTML string in order to display a rich text box full with the
 	 * fragments from the buffer.
 	 * 
+	 * @param backgroundColor
+	 *            8 bit hex string of style ARGB.
+	 * 
 	 * @param alignment
 	 *            an enum used to specify how the text is aligned in the text
 	 *            box. Can be CENTER, RIGHT, JUSTIFY or LEFT. Defaults to LEFT.
 	 */
-	private String createHTMLStringFromBuffer(Alignment alignment) {
+	private String createHTMLStringFromBuffer(String backgroundColor, Alignment alignment) {
+
 		/*
 		 * Initialise string with the initial attribute of a body element that
 		 * has a tag that stops the html being edited by the user.
 		 */
-		String htmlString = "<body contenteditable=\"false\">";
+		String htmlString = "<body contenteditable=\"false\" style=\"background-color: "
+				+ formatColorHTMLString(backgroundColor) + "\">";
 
 		/*
 		 * Append the tag for the type of text alignment required. Set
@@ -254,7 +280,7 @@ public class TextHandler {
 		}
 
 		/*
-		 * Loops through all the items in the buffer, and
+		 * Loops through all the items in the buffer, and //TODO
 		 */
 		for (int i = 0; i < stringBuffer.size(); i++) {
 			stringBuffer.get(i).getText();
@@ -269,29 +295,8 @@ public class TextHandler {
 			String postBodyAttributes = "";
 
 			/*
-			 * Appends basic tags (tags that require no custom info) depending
-			 * on the values of booleans
-			 */
-			if (currentString.isBold()) {
-				preBodyAttributes = "<b>";
-				postBodyAttributes = "</b>";
-			}
-			if (currentString.isItalicised()) {
-				preBodyAttributes = preBodyAttributes + "<i>";
-				postBodyAttributes = postBodyAttributes + "</i>";
-			}
-			if (currentString.isUnderlined()) {
-				preBodyAttributes = preBodyAttributes + "<u>";
-				postBodyAttributes = postBodyAttributes + "</u>";
-			}
-			if (currentString.isStrikethrough()) {
-				preBodyAttributes = preBodyAttributes + "<strike>";
-				postBodyAttributes = postBodyAttributes + "</strike>";
-			}
-
-			/*
-			 * Still appending basic tags, but giving priority to superscript as
-			 * opposed to subscript
+			 * Appends tags for superscript and subscript, but giving priority
+			 * to superscript
 			 */
 			if (currentString.isSuperscript()) {
 				preBodyAttributes = preBodyAttributes + "<sup>";
@@ -304,6 +309,9 @@ public class TextHandler {
 			/* Section for font, font size and font color */
 			String colorString = currentString.getColor();
 
+			/* Initialise new string to store the preBody font size information */
+			String fontSizeString = "<span style=\"font-size:" + currentString.getFontSize() + "px\">";
+
 			/*
 			 * Initialise new string to store the preBody font name, and font
 			 * color information (last 6 chars of color string contain RRGGBB in
@@ -311,6 +319,16 @@ public class TextHandler {
 			 */
 			String fontNameAndColorString = "<font face =\"" + currentString.getFont() + "\" color=\""
 					+ colorString.substring(2, colorString.length()) + "\">";
+
+			/*
+			 * Highlighting section. Initialise string with the 8bit hex value
+			 * for highlight.
+			 */
+			String highlightString = currentString.getHighlight();
+
+			/* Combine all of the highlight strings */
+			String highlightingString = "<span style=\"background-color: " + formatColorHTMLString(highlightString)
+					+ "\">";
 
 			/*
 			 * Convert the opacity to a 1 decimal place number so that it works
@@ -326,41 +344,28 @@ public class TextHandler {
 			 */
 			String fontOpacityString = "<span style=\"opacity:" + opacityFormatted + "\">";
 
-			/* Initialise new string to store the preBody font size information */
-			String fontSizeString = "<span style=\"font-size:" + currentString.getFontSize() + "px\">";
-
-			/*
-			 * Highlighting section. Initialise string with the 8bit hex value
-			 * for highlight.
-			 */
-			String highlightString = currentString.getHighlight();
-
-			/*
-			 * Use the decimal format to convert the opacity to 1dp number so it
-			 * works with rgba css tag
-			 */
-			df = new DecimalFormat("0.0");
-			String highlightingOpacityFormatted = df
-					.format((Integer.parseInt(highlightString.substring(0, 2), 16)) / 255f);
-
-			/*
-			 * Convert r, g and b from 2digit hex to integer values to work with
-			 * rgba css tag
-			 */
-			String redHighlightingFormatted = Integer.toString((Integer.parseInt(highlightString.substring(2, 4), 16)));
-			String greenHighlightingFormatted = Integer
-					.toString((Integer.parseInt(highlightString.substring(4, 6), 16)));
-			String blueHighlightingFormatted = Integer
-					.toString((Integer.parseInt(highlightString.substring(6, 8), 16)));
-
-			/* Combine all of the highlight strings */
-			String highlightingString = "<span style=\"background-color: rgba(" + redHighlightingFormatted + ","
-					+ greenHighlightingFormatted + "," + blueHighlightingFormatted + "," + highlightingOpacityFormatted
-					+ ")\">";
-
 			/* Combines the attribute strings */
-			preBodyAttributes = preBodyAttributes + fontNameAndColorString + fontOpacityString + fontSizeString
-					+ highlightingString;
+			preBodyAttributes = preBodyAttributes + fontSizeString + fontNameAndColorString + highlightingString
+					+ fontOpacityString;
+
+			/* Adds tags for bold, italic, underline and strike through */
+			if (currentString.isBold()) {
+				preBodyAttributes = preBodyAttributes + "<b>";
+				postBodyAttributes = postBodyAttributes + "</b>";
+			}
+			if (currentString.isItalicised()) {
+				preBodyAttributes = preBodyAttributes + "<i>";
+				postBodyAttributes = postBodyAttributes + "</i>";
+			}
+			if (currentString.isUnderlined()) {
+				preBodyAttributes = preBodyAttributes + "<u>";
+				postBodyAttributes = postBodyAttributes + "</u>";
+			}
+			if (currentString.isStrikethrough()) {
+				preBodyAttributes = preBodyAttributes + "<strike>";
+				postBodyAttributes = postBodyAttributes + "</strike>";
+			}
+
 			/*
 			 * Close all of the elements that have been added to the html
 			 * string. These are not correctly ordered, but it does not matter.
@@ -383,10 +388,43 @@ public class TextHandler {
 
 		/* Empty the buffer so new strings can be added */
 		stringBuffer.clear();
-		
+
+		System.out.println(htmlString);
+
 		return htmlString;
 	}
 
+	/** Method to format a string in the style rgba(r,g,b,a) for html styling */
+	private String formatColorHTMLString(String colorString) {
+		String formattedColorString = "rgba(";
+
+		/*
+		 * Use the decimal format to convert the opacity to 1dp number so it
+		 * works with rgba css tag
+		 */
+		DecimalFormat df = new DecimalFormat("0.0");
+		String highlightingOpacityFormatted = df.format((Integer.parseInt(colorString.substring(0, 2), 16)) / 255f);
+
+		/*
+		 * Convert r, g and b from 2digit hex to integer values to work with
+		 * rgba css tag
+		 */
+		String redHighlightingFormatted = Integer.toString((Integer.parseInt(colorString.substring(2, 4), 16)));
+		String greenHighlightingFormatted = Integer.toString((Integer.parseInt(colorString.substring(4, 6), 16)));
+		String blueHighlightingFormatted = Integer.toString((Integer.parseInt(colorString.substring(6, 8), 16)));
+
+		formattedColorString = formattedColorString + redHighlightingFormatted + "," + greenHighlightingFormatted + ","
+				+ blueHighlightingFormatted + "," + highlightingOpacityFormatted + ")";
+
+		return formattedColorString;
+	}
+	
+	/** Method to check validity of any color string */
+	private boolean verifyColor(String color) {
+		/* Checking that backgroundColor is a 8 digit long hex string */
+		return (color.matches("-?[0-9a-fA-F]+") && color.length() == 8);
+	}
+	
 	/**
 	 * Method draws a string passed to the group set by the constructor.
 	 * */

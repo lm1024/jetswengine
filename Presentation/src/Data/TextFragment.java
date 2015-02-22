@@ -142,7 +142,7 @@ public class TextFragment {
 	}
 	public String getHighlight() {
 		// TODO Auto-generated method stub
-		return "660000ff";
+		return "100000ff";
 	}
 
 }
