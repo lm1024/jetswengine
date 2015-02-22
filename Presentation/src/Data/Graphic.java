@@ -1,13 +1,9 @@
 package Data;
 
-/**
- * Abstract class that contains variables that all the graphics object contain.
- * 
- * @author Tom Davidson
- */
+import java.util.HashMap;
+
 public class Graphic extends SlideItem {
 
-	private Graphic graphic;
 	private float xStart;
 	private float yStart;
 	private float duration;
@@ -16,6 +12,25 @@ public class Graphic extends SlideItem {
 
 	public Graphic() {
 
+	}
+	
+	public static Graphic makeGraphic(HashMap<String, String> hashMap) {
+		switch (hashMap.get("type")) {
+		case "oval":
+			Oval g = new Oval();
+			g.setDuration(hashMap.get("duration"));
+			g.setGraphicColor(hashMap.get("graphiccolor"));
+			g.setSolid(hashMap.get("solid"));
+			g.setStartTime(hashMap.get("starttime"));
+			g.setxEnd(hashMap.get("xend"));
+			g.setxStart(hashMap.get("xstart"));
+			g.setyEnd(hashMap.get("yend"));
+			g.setyStart(hashMap.get("ystart"));
+			return g;
+			default:
+				return null;
+			
+		}
 	}
 
 	/**
@@ -29,8 +44,13 @@ public class Graphic extends SlideItem {
 	 * @param xStart
 	 *            the xStart to set
 	 */
-	public void setxStart(float xStart) {
-		this.xStart = xStart;
+	public void setxStart(String string) {
+		try {
+			float f = Float.parseFloat(string);
+			this.xStart = f;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 
 	/**
@@ -44,8 +64,13 @@ public class Graphic extends SlideItem {
 	 * @param yStart
 	 *            the yStart to set
 	 */
-	public void setyStart(float yStart) {
-		this.yStart = yStart;
+	public void setyStart(String string) {
+		try {
+			float f = Float.parseFloat(string);
+			this.yStart = f;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 
 	/**
@@ -59,8 +84,13 @@ public class Graphic extends SlideItem {
 	 * @param duration
 	 *            the duration to set
 	 */
-	public void setDuration(float duration) {
-		this.duration = duration;
+	public void setDuration(String string) {
+		try {
+			float f = Float.parseFloat(string);
+			this.duration = f;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 
 	/**
@@ -74,8 +104,13 @@ public class Graphic extends SlideItem {
 	 * @param startTime
 	 *            the startTime to set
 	 */
-	public void setStartTime(float startTime) {
-		this.startTime = startTime;
+	public void setStartTime(String string) {
+		try {
+			float f = Float.parseFloat(string);
+			this.startTime = f;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 
 	/**
@@ -91,21 +126,6 @@ public class Graphic extends SlideItem {
 	 */
 	public void setGraphicColor(String graphicColor) {
 		this.graphicColor = graphicColor;
-	}
-
-	/**
-	 * @return the graphic
-	 */
-	public Graphic getGraphic() {
-		return graphic;
-	}
-
-	/**
-	 * @param graphic
-	 *            the graphic to set
-	 */
-	public void setGraphic(Graphic graphic) {
-		this.graphic = graphic;
 	}
 
 }

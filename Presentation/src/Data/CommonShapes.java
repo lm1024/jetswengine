@@ -27,8 +27,13 @@ public class CommonShapes extends Graphic {
 	 * @param xEnd
 	 *            the xEnd to set
 	 */
-	public void setxEnd(float xEnd) {
-		this.xEnd = xEnd;
+	public void setxEnd(String string) {
+		try {
+			float f = Float.parseFloat(string);
+			this.xEnd = f;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 
 	/**
@@ -42,8 +47,13 @@ public class CommonShapes extends Graphic {
 	 * @param yEnd
 	 *            the yEnd to set
 	 */
-	public void setyEnd(float yEnd) {
-		this.yEnd = yEnd;
+	public void setyEnd(String string) {
+		try {
+			float f = Float.parseFloat(string);
+			this.yEnd = f;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 
 	/**
@@ -57,8 +67,13 @@ public class CommonShapes extends Graphic {
 	 * @param solid
 	 *            the solid to set
 	 */
-	public void setSolid(boolean solid) {
-		this.solid = solid;
+	public void setSolid(String string) {
+		try {
+			boolean b = Boolean.parseBoolean(string);
+			this.solid = b;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 
 }

@@ -87,6 +87,9 @@ public class Slide {
 		case "textfragmentend":
 			currentText.add(hashMap);
 			break;
+		case "oval":
+			this.currentGraphic = Graphic.makeGraphic(hashMap);
+			this.graphicsList.add(currentGraphic);
 		}
 	}
 

@@ -38,17 +38,21 @@
 		<video sourcefile="avengers.mkv" starttime="2.5" xstart="0.5" ystart="0.5" />
 		
 		
-		<graphic type="oval/rectangle/line" xstart="0.5" ystart="0.5" xend="0.7" yend="0.7" solid="true" graphiccolor="#11223344" duration="1.5">
+		<graphic type="oval" xstart="0.5" ystart="0.5" xend="0.7" yend="0.7" solid="true" graphiccolor="#11223344" duration="1.5">
 			<cyclicshading shadingcolor="#88776655" />
 		</graphic>
 		
 		<graphic graphiccolor="#11223344" duration="1.5" starttime="2.0">
-			<oval xstart="0.5" ystart="0.5" xend="0.7" yend="0.7" solid="true"/>
+			<oval xstart="0.5" ystart="0.5" xend="0.7" yend="0.9" solid="false"/>
 			<cyclicshading shadingcolor="#88776655" />
 		</graphic>
 		
 		<graphic graphiccolor="#11223344" duration="1.5" starttime="2.0">
 			<rectangle xstart="0.5" ystart="0.5" xend="0.7" yend="0.7" solid="true"/>
+		</graphic>
+		
+		<graphic graphiccolor="#11223344" duration="1.5" starttime="2.0" xstart="0.5" ystart="0.5" xend="0.7" yend="0.7" solid="true">
+			<rectangle />
 		</graphic>
 		
 		<graphic graphiccolor="#11223344" duration="1.5" starttime="2.0">

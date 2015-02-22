@@ -158,7 +158,10 @@ public class XMLReader extends DefaultHandler {
 				currentObject.clear();
 				break;
 			case "graphic":
-
+				currentObject.put("type", "graphic");
+				parse(currentObject, attributes, "type", "xstart", "ystart",
+						"yend", "xend", "solid", "graphiccolor", "duration",
+						"subscript", "case");
 				break;
 			case "richtext":
 				currentObject.put("type", "textfragmentstart");
@@ -171,42 +174,28 @@ public class XMLReader extends DefaultHandler {
 			case "cyclicshading":
 				break;
 			case "oval":
-				Oval temp = new Oval();
-				try {
-					temp.setxStart(Float.parseFloat(attributes
-							.getValue("xstart")));
-				} catch (Exception e) {
-					// TODO: handle exception
-				}
-				try {
-					temp.setyStart(Float.parseFloat(attributes
-							.getValue("ystart")));
-				} catch (Exception e) {
-					// TODO: handle exception
-				}
-				try {
-					temp.setxEnd(Float.parseFloat(attributes.getValue("xend")));
-				} catch (Exception e) {
-					// TODO: handle exception
-				}
-				try {
-					temp.setyEnd(Float.parseFloat(attributes.getValue("yend")));
-				} catch (Exception e) {
-					// TODO: handle exception
-				}
-				try {
-					temp.setSolid(Boolean.parseBoolean(attributes
-							.getValue("solid")));
-				} catch (Exception e) {
-					// TODO: handle exception
-				}
-				try {
-					slideshow.getCurrentSlide().add(temp);
-					// slideshow.getCurrentSlide().newGraphic("oval");
-				} catch (Exception e) {
-					// TODO: handle exception
-				}
-				temp = null;
+				currentObject.put("type", "oval");
+				parse(currentObject, attributes, "type", "xstart", "ystart",
+						"yend", "xend", "solid", "graphiccolor", "duration",
+						"subscript", "case");
+				/*
+				 * Oval temp = new Oval(); try {
+				 * temp.setxStart(Float.parseFloat(attributes
+				 * .getValue("xstart"))); } catch (Exception e) { // TODO:
+				 * handle exception } try {
+				 * temp.setyStart(Float.parseFloat(attributes
+				 * .getValue("ystart"))); } catch (Exception e) { // TODO:
+				 * handle exception } try {
+				 * temp.setxEnd(Float.parseFloat(attributes.getValue("xend")));
+				 * } catch (Exception e) { // TODO: handle exception } try {
+				 * temp.setyEnd(Float.parseFloat(attributes.getValue("yend")));
+				 * } catch (Exception e) { // TODO: handle exception } try {
+				 * temp.setSolid(Boolean.parseBoolean(attributes
+				 * .getValue("solid"))); } catch (Exception e) { // TODO: handle
+				 * exception } try { slideshow.getCurrentSlide().add(temp); //
+				 * slideshow.getCurrentSlide().newGraphic("oval"); } catch
+				 * (Exception e) { // TODO: handle exception } temp = null;
+				 */
 				break;
 			case "rectangle":
 				break;
@@ -279,6 +268,8 @@ public class XMLReader extends DefaultHandler {
 					// Only required if video support is expanded
 					break;
 				case "graphic":
+					slideshow.add(currentObject);
+					currentObject.clear();
 					break;
 				case "sound":
 					// Only required if sound support is expanded
@@ -456,10 +447,13 @@ public class XMLReader extends DefaultHandler {
 							.getyStart());
 			System.out.println("\tSlide 1 image 2: "
 					+ ((Oval) slideshow.getSlides().get(0).getGraphicsList()
-							.get(0)).getyEnd());
+							.get(1)).getyEnd());
 			System.out.println("\tSlide 1 image 2: "
 					+ ((Oval) slideshow.getSlides().get(0).getGraphicsList()
 							.get(0)).isSolid());
+			System.out.println("\tSlide 1 image 2: "
+					+ ((Oval) slideshow.getSlides().get(0).getGraphicsList()
+							.get(1)).isSolid());
 
 		} else {
 			System.out.println("Invalid slideshow found");
