@@ -13,22 +13,11 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import Data.Slideshow;
 
-/**
- * enum type for keeping track of when we need to store content in certain elements
- *
- */
-
-/**
- * Main class for reading XML file of students within a university
- * 
- */
 public class XMLReader extends DefaultHandler {
 	private Slideshow slideshow;
 	private StringBuffer contentBuffer;
 	private String sectionName = "";
 	private HashMap<String, String> currentObject = new HashMap<String, String>();
-
-	// private String subSectionName = "";
 
 	public XMLReader(String filename) throws IOException {
 		slideshow = new Slideshow();
@@ -64,7 +53,6 @@ public class XMLReader extends DefaultHandler {
 		} catch (SAXException saxe) {
 			saxe.printStackTrace();
 		}
-
 		return slideshow;
 	}
 
@@ -104,10 +92,7 @@ public class XMLReader extends DefaultHandler {
 				}
 			}
 		} else if (sectionName.equals("slide")) {
-			currentObject.put(
-					"type",
-					elementName.equals("cyclicshading") ? currentObject
-							.get("type") : elementName);
+			currentObject.put("type", elementName.equals("cyclicshading") ? currentObject.get("type"): elementName);
 			switch (elementName) {
 			case "text":
 				if (parse(currentObject, attributes, "xstart", "ystart")) {
@@ -118,8 +103,7 @@ public class XMLReader extends DefaultHandler {
 				parse(currentObject, attributes, "sourcefile", "font",
 						"fontsize", "fontcolor", "duration", "starttime",
 						"alignment");
-				// System.out
-				// .println("sourcefile not yet implemented.\ndelete this line when it is.");
+				System.err.println("sourcefile not yet implemented. Delete this line when it is.");
 				slideshow.add(currentObject);
 				currentObject.clear();
 				break;
@@ -133,8 +117,6 @@ public class XMLReader extends DefaultHandler {
 				parse(currentObject, attributes, "scale", "duration",
 						"starttime", "rotate", "fliphorizontal",
 						"flipvertical", "cropx1", "cropx2", "cropy1", "cropy2");
-				slideshow.add(currentObject);
-				currentObject.clear();
 				break;
 			case "audio":
 				if (parse(currentObject, attributes, "sourcefile", "xstart",
@@ -144,8 +126,6 @@ public class XMLReader extends DefaultHandler {
 					break;
 				}
 				parse(currentObject, attributes, "starttime");
-				slideshow.add(currentObject);
-				currentObject.clear();
 				break;
 			case "video":
 				if (parse(currentObject, attributes, "sourcefile", "xstart",
@@ -155,8 +135,6 @@ public class XMLReader extends DefaultHandler {
 					break;
 				}
 				parse(currentObject, attributes, "starttime");
-				slideshow.add(currentObject);
-				currentObject.clear();
 				break;
 			case "graphic":
 				parse(currentObject, attributes, "type", "xstart", "ystart",
@@ -179,7 +157,6 @@ public class XMLReader extends DefaultHandler {
 			case "line":
 				/* Intentional fall through */
 			case "itriangle":
-				currentObject.put("type", elementName);
 				parse(currentObject, attributes, "type", "xstart", "ystart",
 						"yend", "xend", "solid", "graphiccolor", "duration",
 						"subscript", "case");
@@ -227,6 +204,8 @@ public class XMLReader extends DefaultHandler {
 			switch (sectionName) {
 			case "slide":
 				switch (elementName) {
+				case "richtext":
+					/* Intentional fall through */
 				case "text":
 					if (!contentBuffer.toString().trim().equals("")) {
 						currentObject.put("type", "textfragmentend");
@@ -235,43 +214,43 @@ public class XMLReader extends DefaultHandler {
 						slideshow.add(currentObject);
 						currentObject.clear();
 					}
-					currentObject.put("type", "textend");
-					slideshow.add(currentObject);
-					currentObject.clear();
+
+					if (elementName.equals("text")) {
+						currentObject.put("type", "textend");
+						slideshow.add(currentObject);
+						currentObject.clear();
+					}
+
 					break;
 				case "graphic":
 					slideshow.add(currentObject);
 					currentObject.clear();
 					break;
-				case "richtext":
-					currentObject.put("type", "textfragmentend");
-					currentObject.put("text", contentBuffer.toString().trim());
+				case "image":
 					slideshow.add(currentObject);
 					currentObject.clear();
 					break;
-				case "image":
-					// Only required if image support is expanded
-					break;
 				case "video":
-					// Only required if video support is expanded
+					slideshow.add(currentObject);
+					currentObject.clear();
 					break;
-				case "sound":
-					// Only required if sound support is expanded
+				case "audio":
+					slideshow.add(currentObject);
+					currentObject.clear();
 					break;
 				default:
 					break;
 				}
-				contentBuffer = null;
 				break;
 			case "defaultsettings":
 				/* Intentional fall through */
 			case "documentinfo":
 				currentObject.put(elementName, contentBuffer.toString().trim());
-				contentBuffer = null;
 				break;
 			default:
 				break;
 			}
+		contentBuffer = null;
 	}
 
 	public boolean parse(HashMap<String, String> hashMap,

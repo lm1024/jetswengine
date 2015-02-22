@@ -68,9 +68,12 @@ public class Server {
 					+ currentSlideshow.getInfo().getGroupID());
 			System.out.println("\tSlide 1 duration: "
 					+ currentSlideshow.getSlides().get(0).getDuration());
-			System.out.println("\tSlide 1 text 1.1: "
-					+ currentSlideshow.getSlides().get(0).getTextList().get(0)
-							.getTextFragments().get(0).getText());
+			System.out.println("\tSlide 1 text 3.2: "
+					+ currentSlideshow.getSlides().get(0).getTextList().get(2)
+							.getTextFragments().get(1).getText());
+			System.out.println("\tSlide 1 text 3.2: "
+					+ currentSlideshow.getSlides().get(0).getTextList().get(2)
+							.getTextFragments().get(1).isSubscript());
 			System.out.println("\tSlide 1 text 1.1 case: "
 					+ currentSlideshow.getSlides().get(0).getTextList().get(0)
 							.getTextFragments().get(0).getTextCase());

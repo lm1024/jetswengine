@@ -36,10 +36,10 @@ public class Text extends SlideItem {
 			currentTextFragment.setUnderlined(hashMap.get("underlined"));
 			currentTextFragment.setTextCase(hashMap.get("case"));
 			currentTextFragment.setHighlightColor(hashMap.get("highlightcolor"));
-
 		} else {
 			currentTextFragment.setText(hashMap.get("text"));
 			this.textFragments.add(currentTextFragment);
+			
 		}
 
 	}

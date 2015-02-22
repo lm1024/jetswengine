@@ -21,7 +21,6 @@ public class TextFragment {
 	 * @Initialises a new text fragment
 	 */
 	public TextFragment(Text textcontainer) {
-		System.out.println(textcontainer.getFont());
 		this.font = textcontainer.getFont();
 	}
 
