@@ -15,22 +15,41 @@ public class Graphic extends SlideItem {
 	}
 	
 	public static Graphic makeGraphic(HashMap<String, String> hashMap) {
+		Graphic g;
 		switch (hashMap.get("type")) {
 		case "oval":
-			Oval g = new Oval();
-			g.setDuration(hashMap.get("duration"));
-			g.setGraphicColor(hashMap.get("graphiccolor"));
-			g.setSolid(hashMap.get("solid"));
-			g.setStartTime(hashMap.get("starttime"));
-			g.setxEnd(hashMap.get("xend"));
-			g.setxStart(hashMap.get("xstart"));
-			g.setyEnd(hashMap.get("yend"));
-			g.setyStart(hashMap.get("ystart"));
-			return g;
+			g = new Oval();
+			((Oval)g).setSolid(hashMap.get("solid"));
+			((Oval)g).setxEnd(hashMap.get("xend"));
+			((Oval)g).setyEnd(hashMap.get("yend"));
+			break;
+		case "rectangle":
+			g = new Rectangle();
+			((Rectangle)g).setSolid(hashMap.get("solid"));
+			((Rectangle)g).setxEnd(hashMap.get("xend"));
+			((Rectangle)g).setyEnd(hashMap.get("yend"));
+			break;
+		case "itriangle":
+			g = new IsoscelesTriangle();
+			((IsoscelesTriangle)g).setSolid(hashMap.get("solid"));
+			((IsoscelesTriangle)g).setxEnd(hashMap.get("xend"));
+			((IsoscelesTriangle)g).setyEnd(hashMap.get("yend"));
+			break;
+		case "line":
+			g = new Line();
+			((Line)g).setxEnd(hashMap.get("xend"));
+			((Line)g).setyEnd(hashMap.get("yend"));
+			break;
 			default:
 				return null;
 			
 		}
+		g.setDuration(hashMap.get("duration"));
+		g.setGraphicColor(hashMap.get("graphiccolor"));
+		g.setStartTime(hashMap.get("starttime"));
+		g.setxStart(hashMap.get("xstart"));
+		g.setyStart(hashMap.get("ystart"));
+		return g;
 	}
 
 	/**

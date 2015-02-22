@@ -12,6 +12,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import Data.Graphic;
 import Data.Oval;
 import Data.Slideshow;
 
@@ -178,30 +179,24 @@ public class XMLReader extends DefaultHandler {
 				parse(currentObject, attributes, "type", "xstart", "ystart",
 						"yend", "xend", "solid", "graphiccolor", "duration",
 						"subscript", "case");
-				/*
-				 * Oval temp = new Oval(); try {
-				 * temp.setxStart(Float.parseFloat(attributes
-				 * .getValue("xstart"))); } catch (Exception e) { // TODO:
-				 * handle exception } try {
-				 * temp.setyStart(Float.parseFloat(attributes
-				 * .getValue("ystart"))); } catch (Exception e) { // TODO:
-				 * handle exception } try {
-				 * temp.setxEnd(Float.parseFloat(attributes.getValue("xend")));
-				 * } catch (Exception e) { // TODO: handle exception } try {
-				 * temp.setyEnd(Float.parseFloat(attributes.getValue("yend")));
-				 * } catch (Exception e) { // TODO: handle exception } try {
-				 * temp.setSolid(Boolean.parseBoolean(attributes
-				 * .getValue("solid"))); } catch (Exception e) { // TODO: handle
-				 * exception } try { slideshow.getCurrentSlide().add(temp); //
-				 * slideshow.getCurrentSlide().newGraphic("oval"); } catch
-				 * (Exception e) { // TODO: handle exception } temp = null;
-				 */
 				break;
 			case "rectangle":
+				currentObject.put("type", "rectangle");
+				parse(currentObject, attributes, "type", "xstart", "ystart",
+						"yend", "xend", "solid", "graphiccolor", "duration",
+						"subscript", "case");
 				break;
 			case "line":
+				currentObject.put("type", "line");
+				parse(currentObject, attributes, "type", "xstart", "ystart",
+						"yend", "xend", "solid", "graphiccolor", "duration",
+						"subscript", "case");
 				break;
 			case "itriangle":
+				currentObject.put("type", "itriangle");
+				parse(currentObject, attributes, "type", "xstart", "ystart",
+						"yend", "xend", "solid", "graphiccolor", "duration",
+						"subscript", "case");
 				break;
 			default:
 				break;
@@ -454,6 +449,9 @@ public class XMLReader extends DefaultHandler {
 			System.out.println("\tSlide 1 image 2: "
 					+ ((Oval) slideshow.getSlides().get(0).getGraphicsList()
 							.get(1)).isSolid());
+			for(Graphic g : slideshow.getSlides().get(0).getGraphicsList()) {
+				System.out.println(g.getClass().getSimpleName().toLowerCase());
+			}
 
 		} else {
 			System.out.println("Invalid slideshow found");

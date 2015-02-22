@@ -87,9 +87,18 @@ public class Slide {
 		case "textfragmentend":
 			currentText.add(hashMap);
 			break;
+		case "rectangle":
+			/* intentional fall through */
+		case "line":
+			/* intentional fall through */
+		case "itriangle":
+			/* intentional fall through */
 		case "oval":
 			this.currentGraphic = Graphic.makeGraphic(hashMap);
 			this.graphicsList.add(currentGraphic);
+			break;
+		default:
+			break;
 		}
 	}
 
