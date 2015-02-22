@@ -140,5 +140,9 @@ public class TextFragment {
 	public void setItalicised(boolean italicised) {
 		this.italicised = italicised;
 	}
+	public String getHighlight() {
+		// TODO Auto-generated method stub
+		return "660000ff";
+	}
 
 }

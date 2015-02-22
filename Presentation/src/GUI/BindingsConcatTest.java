@@ -22,6 +22,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
+@SuppressWarnings("unused")
 public class BindingsConcatTest extends Application {
 
 	Double height;
@@ -47,7 +48,7 @@ public class BindingsConcatTest extends Application {
 		webView.setDisable(true);
 		webView.getEngine()
 				.loadContent(
-						"<div id=\"mydiv\"><body contenteditable=\"false\"><p style=\"text-align: left;\"><b>bold </b><i>italic </i><u>underline </u><sub>subscript</sub><sup>superscript</sup><font face=\"arial\" color=\"ff0000\"> color arial </font><span style=\"opacity:0.1\">opacity </span><span style=\"font-size:20px\">size 20 </span><span style=\"font-size:30px\">size 30 </span><p style=\"text-align: right;\">p tag alligned right </p><strike>strikethrough </strike> hjakfsdlhjlksadf hjklfdsa hjklsfd hjlkfds hjklfds hjklfdsah jlksdfah jlksafdh jlkfdsa hjlksfda hjkldfsah jlkfdsah  <a href=\"http://www.facebook.com\">link text</a> </p></body></div>");
+						"<!DOCTYPE html><html><body><p><span style=\"background-color: hsla(120, 100%, 50%, 0.3)\">This is a text.</span> This is a text. This is a text. This is a text. This is a text. This is a text. This is a text. This is a text. This is a text. </p></body></html>");
 
 		/*
 		 * <html> </html> -- not required <div id=\"mydiv\"> </div> -- Used for
@@ -99,7 +100,7 @@ public class BindingsConcatTest extends Application {
 		rect.setFill(new Color(1, 0, 1, 1));
 
 		Group root = new Group();
-		root.getChildren().addAll(rect, webView);
+		root.getChildren().addAll(rect, webView);//rect, webView);
 
 		Scene scene = new Scene(root, 500, 500);
 		primaryStage.setScene(scene);

@@ -58,24 +58,27 @@ public class DummyGUI extends Application {
 		//primaryStage.setFullScreen(true);
 		
 		/* Calls to add items to screen */
-		ImageHandler thisImageHandler = new ImageHandler(group);
-		thisImageHandler.drawImage(100, 100, "file:me.png", 1, 1, 0, false, false);
+		//ImageHandler thisImageHandler = new ImageHandler(group);
+		//thisImageHandler.drawImage(100, 100, "file:me.png", 1, 1, 0, false, false);
 		
-		GraphicsHandler thisGraphicsHandler = new GraphicsHandler(group);
+		//GraphicsHandler thisGraphicsHandler = new GraphicsHandler(group);
 		//thisGraphicsHandler.drawOval(200, 200, 300, 350, new Color(0, 0, 1, 1), 0);
 		//thisGraphicsHandler.drawRectangle();
 		
 		TextHandler thisTextHandler = new TextHandler(group);
-		//thisTextHandler.drawString("Hello a world!", 200f, 300f, "Arial", 20, new Color(0,0,1,1), true, true, true, true, false, false, "camel", "right");
+		thisTextHandler.drawString("Hello a world!", 200f, 300f, "Arial", 20, new Color(0,0,1,1), true, true, true, true, false, false, TextCase.CAPITALISED, Alignment.RIGHT);
 		
-		thisTextHandler.addStringToBuffer("Number 1 ", "arial", 20, "ff000000", true, true, true, true, false, false, "camel");
-		thisTextHandler.addStringToBuffer("Number 2 ", "arial", 20, "ff000000", true, true, true, true, true, false, "camel");
-		thisTextHandler.addStringToBuffer("Number 3 ", "arial", 20, "ff000000", true, true, true, true, false, false, "camel");
-		thisTextHandler.addStringToBuffer("Number 4 ", "arial", 20, "ff000000", true, true, true, true, false, true, "camel");
-		thisTextHandler.addStringToBuffer("Number 5 ", "arial", 20, "ff000000", true, true, true, true, false, false, "camel");
-		thisTextHandler.addStringToBuffer("Number 6 ", "arial", 20, "ff000000", true, true, true, true, true, true, "camel");
+		thisTextHandler.addStringToBuffer("Number 1 ", "arial", 20, "ff000000", true, false, false, true, false, false, TextCase.LOWER);
+		thisTextHandler.addStringToBuffer("Number 2 ", "arial", 20, "ff000000", false, true, false, true, true, false, TextCase.LOWER);
+		thisTextHandler.addStringToBuffer("Number 3 ", "arial", 20, "ff000000", false, false, true, true, false, false, TextCase.UPPER);
+		thisTextHandler.addStringToBuffer("Number 4 ", "arial", 20, "ff000000", true, false, true, false, false, true, TextCase.UPPER);
+		thisTextHandler.addStringToBuffer("Number 5 ", "arial", 20, "ff000000", true, true, true, false, false, false, TextCase.CAPITALISED);
+		thisTextHandler.addStringToBuffer("Number 6 ", "arial", 20, "ff000000", true, true, true, false, true, true, TextCase.CAPITALISED);
 		//thisTextHandler.printBuffer();
-		thisTextHandler.drawBuffer(0, 0, 200, 600, "left");
+		
+		
+		thisTextHandler.drawBuffer(0, 0, 800, 200, Alignment.CENTER);
+		
 		primaryStage.show();
 	}
 
