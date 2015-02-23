@@ -1,72 +1,24 @@
 package Data;
 
-public class TextFragment {
+public class Defaults {
 	
-	private String text;
+	private String backgroundColour;
 	private String font;
 	private int fontSize;
-	private String color;
-	private boolean bold = false;
-	private boolean underlined = false;
-	private boolean italicised = false;
-	private boolean superscript = false;
-	private boolean subscript = false;
-	private boolean strikethrough = false;
+	private String fontColour;
+	private String graphicColour;
 	
 	/**
-	 * @return true if fragment is superscript
+	 * @return the backgroundColour
 	 */
-	public boolean isSuperscript() {
-		return superscript;
+	public String getBackgroundColour() {
+		return backgroundColour;
 	}
 	/**
-	 * @param superscript the superscript to set
+	 * @param backgroundColour the backgroundColour to set
 	 */
-	public void setSuperscript(boolean superscript) {
-		this.superscript = superscript;
-	}
-	/**
-	 * @return the subscript
-	 */
-	public boolean isSubscript() {
-		return subscript;
-	}
-	/**
-	 * @param subscript the subscript to set
-	 */
-	public void setSubscript(boolean subscript) {
-		this.subscript = subscript;
-	}
-	/**
-	 * @return the strikethrough
-	 */
-	public boolean isStrikethrough() {
-		return strikethrough;
-	}
-	/**
-	 * @param strikethrough the strikethrough to set
-	 */
-	public void setStrikethrough(boolean strikethrough) {
-		this.strikethrough = strikethrough;
-	}
-	
-	/**
-	 * @Initialises a new text fragment
-	 */
-	public TextFragment(String text) {
-		this.text = text;
-	}
-	/**
-	 * @return the text
-	 */
-	public String getText() {
-		return text;
-	}
-	/**
-	 * @param text the text to set
-	 */
-	public void setText(String text) {
-		this.text = text;
+	public void setBackgroundColour(String backgroundColour) {
+		this.backgroundColour = backgroundColour;
 	}
 	/**
 	 * @return the font
@@ -93,56 +45,28 @@ public class TextFragment {
 		this.fontSize = fontSize;
 	}
 	/**
-	 * @return the color
+	 * @return the fontColour
 	 */
-	public String getColor() {
-		return color;
+	public String getFontColour() {
+		return fontColour;
 	}
 	/**
-	 * @param colour the colour to set
+	 * @param fontColour the fontColour to set
 	 */
-	public void setColor(String color) {
-		this.color = color;
+	public void setFontColour(String fontColour) {
+		this.fontColour = fontColour;
 	}
 	/**
-	 * @return the bold
+	 * @return the graphicColour
 	 */
-	public boolean isBold() {
-		return bold;
+	public String getGraphicColour() {
+		return graphicColour;
 	}
 	/**
-	 * @param bold the bold to set
+	 * @param fillColour the graphicColour to set
 	 */
-	public void setBold(boolean bold) {
-		this.bold = bold;
+	public void setGraphicColour(String colour) {
+		this.graphicColour = colour;
 	}
-	/**
-	 * @return the underlined
-	 */
-	public boolean isUnderlined() {
-		return underlined;
-	}
-	/**
-	 * @param underlined the underlined to set
-	 */
-	public void setUnderlined(boolean underlined) {
-		this.underlined = underlined;
-	}
-	/**
-	 * @return the italicised
-	 */
-	public boolean isItalicised() {
-		return italicised;
-	}
-	/**
-	 * @param italicised the italicised to set
-	 */
-	public void setItalicised(boolean italicised) {
-		this.italicised = italicised;
-	}
-	public String getHighlight() {
-		// TODO Auto-generated method stub
-		return "100000ff";
-	}
-
+	
 }
