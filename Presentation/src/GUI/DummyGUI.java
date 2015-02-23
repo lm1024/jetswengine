@@ -59,7 +59,7 @@ public class DummyGUI extends Application {
 		
 		/* Calls to add items to screen */
 		ImageHandler thisImageHandler = new ImageHandler(group);
-		thisImageHandler.drawImage(100, 100, "file:me.png", 1, 1, 0, false, false);
+		thisImageHandler.drawImage(0, 0, "file:me.png", 0.5, 0.5, 0, false, false);
 		
 		GraphicsHandler thisGraphicsHandler = new GraphicsHandler(group);
 		thisGraphicsHandler.drawOval(200, 200, 300, 350, new Color(0, 0, 1, 1), 0);
