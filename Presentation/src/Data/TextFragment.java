@@ -6,12 +6,12 @@ public class TextFragment {
 	private String font;
 	private int fontSize;
 	private String color;
-	private boolean bold;
-	private boolean underlined;
-	private boolean italicised;
-	private boolean superscript;
-	private boolean subscript;
-	private boolean strikethrough;
+	private boolean bold = false;
+	private boolean underlined = false;
+	private boolean italicised = false;
+	private boolean superscript = false;
+	private boolean subscript = false;
+	private boolean strikethrough = false;
 	
 	/**
 	 * @return true if fragment is superscript

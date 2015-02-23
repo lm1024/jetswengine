@@ -64,30 +64,22 @@ public class TextHandler {
 	 * @param fontColor
 	 *            the color for the string to be drawn in, in the form of a 8
 	 *            digit hex number, ARGB.
-	 * @param bold
-	 *            boolean controlling if the text should be bold or not
-	 * @param italic
-	 *            boolean controlling if the text should be italic or not
-	 * @param underline
-	 *            boolean controlling if the text should be underlined or not
-	 * @param strikethrough
-	 *            boolean controlling if the text should be strikethough or not
-	 * @param superscript
-	 *            boolean controlling if the text should be superscript or not
-	 * @param subscript
-	 *            boolean controlling if the text should be subscript or not. In
-	 *            the case that both superscript and subscript are true,
-	 *            superscript takes precedence
 	 * @param stringCase
 	 *            enum that controls the case of the string stored. Options:
 	 *            TextCase.UPPER - all chars get changed to upper case.
 	 *            TextCase.LOWER - all chars get changed to lower case.
 	 *            TextCase.CAPITALISED - the first letter of each word in the
 	 *            string is capitalised
+	 * @param TextAttributes
+	 *            varargs of TextAttribute enum that controls what effects are
+	 *            applied to the string. Options are TextAttribute.BOLD,
+	 *            TextAttribute.ITALIC, TextAttribute.UNDERLINE,
+	 *            TextAttribute.STRIKETHROUGH, TextAttribute.SUPERSCRIPT and
+	 *            TextAttribute.SUBSCRIPT. If both SUPERSCRIPT and SUBSCRIPT,
+	 *            the text is displayed as SUPERSCRIPT.
 	 * */
-	public void addStringToBuffer(String string, String fontName, int fontSize, String fontColor, boolean bold,
-			boolean italic, boolean underline, boolean strikethrough, boolean superscript, boolean subscript,
-			TextCase stringCase, String highlightColor) {
+	public void addStringToBuffer(String string, String fontName, int fontSize, String fontColor, TextCase stringCase,
+			String highlightColor, TextAttribute... TextAttributes) {
 		TextFragment currentString;
 
 		/* Initial string manipulation depending on stringCase variable */
@@ -116,23 +108,39 @@ public class TextHandler {
 		}
 
 		/* Set all parameters that do not require error checking */
-		currentString.setBold(bold);
-		currentString.setItalicised(italic);
-		currentString.setUnderlined(underline);
-		currentString.setStrikethrough(strikethrough);
-		currentString.setSubscript(subscript);
-		currentString.setSuperscript(superscript);
+		for (TextAttribute currentAttribute : TextAttributes) {
+			switch (currentAttribute) {
+			case BOLD:
+				currentString.setBold(true);
+				break;
+			case ITALIC:
+				currentString.setItalicised(true);
+				break;
+			case UNDERLINE:
+				currentString.setUnderlined(true);
+				break;
+			case STRIKETHROUGH:
+				currentString.setStrikethrough(true);
+				break;
+			case SUPERSCRIPT:
+				currentString.setSuperscript(true);
+				break;
+			case SUBSCRIPT:
+				currentString.setSubscript(true);
+				break;
+			}
+
+		}
 
 		/* Error checking for fontName */
 		String lowerCaseFontName = fontName.toLowerCase();
 		String[] fontsInstalled = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
 
-		/* Set the default font to be Arial */
-		currentString.setFont("Arial");// "Lucidia Sans");
+		/* Set the default font to be a font from the Serif family */
+		currentString.setFont("Serif");
+		/* Loops through the installed fonts and looks for a match */
 		for (String currentFont : fontsInstalled) {
-			System.out.println(currentFont);
 			if (lowerCaseFontName.compareToIgnoreCase(currentFont.toLowerCase()) == 0) {
-				// System.out.println("MATCH");
 				currentString.setFont(fontName);
 				break;
 			}
@@ -478,10 +486,8 @@ public class TextHandler {
 	 * */
 	public void drawString(String string, float xPos, float yPos, String fontName, int fontSize, Color fontColor,
 			boolean bold, boolean italic, boolean underline, boolean strikethrough, boolean superscript,
-			boolean subscript, TextCase stringCase, Alignment alignment) {
+			boolean subscript, TextCase stringCase, Alignment alignment, TextAttribute... TextAttributes) {
 		/* Initial string manipulation depending on stringCase variable */
-
-		/* Make new text object for the passed string */
 		Text textObject;
 		switch (stringCase) {
 		case UPPER:
