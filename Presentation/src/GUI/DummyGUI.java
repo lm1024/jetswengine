@@ -68,6 +68,7 @@ public class DummyGUI extends Application {
 		// thisGraphicsHandler.drawRectangle();
 
 		TextHandler thisTextHandler = new TextHandler(group);
+		//System.out.println(thisTextHandler.getClass().getSimpleName());
 		thisTextHandler.addStringToBuffer("dsadsafas 1 ", Font.getDefault().getName(), 20, "#ff0000ff", "#ffaa00ff",
 				TextAttribute.BOLD);
 		
