@@ -105,9 +105,7 @@ public class TextFragment {
 	 *            the font to set
 	 */
 	public void setFont(String font) {
-		System.out.println(font);
 		font = Defaults.capitaliseEachFirstLetter(font);
-		System.out.println(font);
 		if (Font.getFontNames().contains(font)) {
 			this.font = font;
 		} else {
