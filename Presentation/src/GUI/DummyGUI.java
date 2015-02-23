@@ -68,7 +68,7 @@ public class DummyGUI extends Application {
 		// thisGraphicsHandler.drawRectangle();
 
 		TextHandler thisTextHandler = new TextHandler(group);
-		thisTextHandler.drawString("Number 1", 200f, 100f, "Arial", 20, new Color(0, 0, 1, 1), true, true, true, true,
+		/*thisTextHandler.drawString("Number 1", 200f, 100f, "Arial", 20, new Color(0, 0, 1, 1), true, true, true, true,
 				false, false, TextCase.CAPITALISED, Alignment.RIGHT);
 		thisTextHandler.drawString("number 2 ", 200f, 140f, "Calibri", 20, new Color(0, 1, 1, 1), true, true, true,
 				true, false, false, TextCase.CAPITALISED, Alignment.RIGHT);
@@ -77,7 +77,7 @@ public class DummyGUI extends Application {
 		thisTextHandler.drawString("Number 3 ", 200f, 220f, "Trebuchet MS", 20, new Color(0, 0, 1, 1), true, true,
 				true, true, false, false, TextCase.CAPITALISED, Alignment.RIGHT);
 		thisTextHandler.drawString("Number 3 ", 200f, 260f, "Times New Roman", 20, new Color(1, 1, 0, 1), true, true,
-				true, true, false, false, TextCase.CAPITALISED, Alignment.RIGHT);
+				true, true, false, false, TextCase.CAPITALISED, Alignment.RIGHT);*/
 
 		thisTextHandler.addStringToBuffer("Number 1 ", "Calibri", 20, "ff0000ff", TextCase.LOWER, "ffaa00ff",
 				TextAttribute.BOLD);
