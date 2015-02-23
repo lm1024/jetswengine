@@ -1,6 +1,6 @@
 package Data;
 
-public class Image {
+public class Image extends SlideItem {
 	private String sourceFile;
 	private float xStart;
 	private float yStart;
@@ -14,7 +14,7 @@ public class Image {
 	private float cropY1;
 	private float cropX2;
 	private float cropY2;
-	
+
 	public Image(String source) {
 		this.sourceFile = source;
 	}
@@ -27,7 +27,8 @@ public class Image {
 	}
 
 	/**
-	 * @param sourceFile the sourceFile to set
+	 * @param sourceFile
+	 *            the sourceFile to set
 	 */
 	public void setSourceFile(String sourceFile) {
 		this.sourceFile = sourceFile;
@@ -41,10 +42,18 @@ public class Image {
 	}
 
 	/**
-	 * @param xStart the xStart to set
+	 * @param xStart
+	 *            the xStart to set
 	 */
-	public void setxStart(float xStart) {
-		this.xStart = xStart;
+	public void setxStart(String xStart) {
+		float x;
+		try {
+			x = Float.parseFloat(xStart);
+			this.xStart = x;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
 	}
 
 	/**
@@ -55,10 +64,16 @@ public class Image {
 	}
 
 	/**
-	 * @param yStart the yStart to set
+	 * @param yStart
+	 *            the yStart to set
 	 */
-	public void setyStart(float yStart) {
-		this.yStart = yStart;
+	public void setyStart(String yStart) {
+		try {
+			float y = Float.parseFloat(yStart);
+			this.yStart = y;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 
 	/**
@@ -69,10 +84,16 @@ public class Image {
 	}
 
 	/**
-	 * @param scale the scale to set
+	 * @param scale
+	 *            the scale to set
 	 */
-	public void setScale(float scale) {
-		this.scale = scale;
+	public void setScale(String scale) {
+		try {
+			float s = Float.parseFloat(scale);
+			this.scale = s;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 
 	/**
@@ -83,10 +104,16 @@ public class Image {
 	}
 
 	/**
-	 * @param duration the duration to set
+	 * @param duration
+	 *            the duration to set
 	 */
-	public void setDuration(float duration) {
-		this.duration = duration;
+	public void setDuration(String duration) {
+		try {
+			float d = Float.parseFloat(duration);
+			this.duration = d;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 
 	/**
@@ -97,10 +124,16 @@ public class Image {
 	}
 
 	/**
-	 * @param startTime the startTime to set
+	 * @param startTime
+	 *            the startTime to set
 	 */
-	public void setStartTime(float startTime) {
-		this.startTime = startTime;
+	public void setStartTime(String startTime) {
+		try {
+			float s = Float.parseFloat(startTime);
+			this.startTime = s;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 
 	/**
@@ -111,10 +144,16 @@ public class Image {
 	}
 
 	/**
-	 * @param rotation the rotation to set
+	 * @param rotation
+	 *            the rotation to set
 	 */
-	public void setRotation(int rotation) {
-		this.rotation = rotation;
+	public void setRotation(String rotation) {
+		try {
+			int r = Integer.parseInt(rotation);
+			this.rotation = r;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 
 	/**
@@ -125,10 +164,15 @@ public class Image {
 	}
 
 	/**
-	 * @param flipHorizontal the flipHorizontal to set
+	 * @param flipHorizontal
+	 *            the flipHorizontal to set
 	 */
-	public void setFlipHorizontal(Boolean flipHorizontal) {
-		this.flipHorizontal = flipHorizontal;
+	public void setFlipHorizontal(String flipHorizontal) {
+		try {
+			this.flipHorizontal = Boolean.parseBoolean(flipHorizontal);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 
 	/**
@@ -139,10 +183,15 @@ public class Image {
 	}
 
 	/**
-	 * @param flipVertical the flipVertical to set
+	 * @param flipVertical
+	 *            the flipVertical to set
 	 */
-	public void setFlipVertical(Boolean flipVertical) {
-		this.flipVertical = flipVertical;
+	public void setFlipVertical(String flipVertical) {
+		try {
+			this.flipVertical = Boolean.parseBoolean(flipVertical);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 
 	/**
@@ -153,10 +202,16 @@ public class Image {
 	}
 
 	/**
-	 * @param cropX1 the cropX1 to set
+	 * @param cropX1
+	 *            the cropX1 to set
 	 */
-	public void setCropX1(float cropX1) {
-		this.cropX1 = cropX1;
+	public void setCropX1(String cropX1) {
+		try {
+			float c = Float.parseFloat(cropX1);
+			this.cropX1 = c;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 
 	/**
@@ -167,10 +222,16 @@ public class Image {
 	}
 
 	/**
-	 * @param cropY1 the cropY1 to set
+	 * @param cropY1
+	 *            the cropY1 to set
 	 */
-	public void setCropY1(float cropY1) {
-		this.cropY1 = cropY1;
+	public void setCropY1(String cropY1) {
+		try {
+			float c = Float.parseFloat(cropY1);
+			this.cropY1 = c;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 
 	/**
@@ -181,10 +242,16 @@ public class Image {
 	}
 
 	/**
-	 * @param cropX2 the cropX2 to set
+	 * @param cropX2
+	 *            the cropX2 to set
 	 */
-	public void setCropX2(float cropX2) {
-		this.cropX2 = cropX2;
+	public void setCropX2(String cropX2) {
+		try {
+			float c = Float.parseFloat(cropX2);
+			this.cropX2 = c;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 
 	/**
@@ -195,10 +262,16 @@ public class Image {
 	}
 
 	/**
-	 * @param cropY2 the cropY2 to set
+	 * @param cropY2
+	 *            the cropY2 to set
 	 */
-	public void setCropY2(float cropY2) {
-		this.cropY2 = cropY2;
+	public void setCropY2(String cropY2) {
+		try {
+			float c = Float.parseFloat(cropY2);
+			this.cropY2 = c;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
-	
+
 }

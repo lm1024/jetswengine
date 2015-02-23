@@ -1,6 +1,7 @@
 package XML;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -12,26 +13,15 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import Data.Slideshow;
 
-/**
- * enum type for keeping track of when we need to store content in certain elements
- *
- */
-
-/**
- * Main class for reading XML file of students within a university
- * 
- */
 public class XMLReader extends DefaultHandler {
 	private Slideshow slideshow;
 	private StringBuffer contentBuffer;
 	private String sectionName = "";
-
-	// private String subSectionName = "";
+	private HashMap<String, String> currentObject = new HashMap<String, String>();
 
 	public XMLReader(String filename) throws IOException {
 		slideshow = new Slideshow();
 		readXMLFile(filename);
-		writeSlides();
 	}
 
 	public Slideshow getSlideshow() {
@@ -63,7 +53,6 @@ public class XMLReader extends DefaultHandler {
 		} catch (SAXException saxe) {
 			saxe.printStackTrace();
 		}
-
 		return slideshow;
 	}
 
@@ -71,7 +60,7 @@ public class XMLReader extends DefaultHandler {
 	 * Called by the parser when it encounters the start of the XML file.
 	 */
 	public void startDocument() throws SAXException {
-		System.out.println("Starting to process document.");
+		// System.out.println("Starting to process document.");
 	}
 
 	/**
@@ -84,171 +73,93 @@ public class XMLReader extends DefaultHandler {
 		if ("".equals(elementName)) {
 			elementName = qName;
 		}
-		System.out.println("\tFound the start of an element (" + elementName
-				+ ") ...");
+		/*
+		 * System.out.println("\tFound the start of an element (" + elementName
+		 * + ") ...");
+		 */
 		if (sectionName.equals("")) {
 			if (elementName.matches("documentinfo|defaultsettings|slide")) {
 				sectionName = elementName;
-			}
-			if (elementName.equals("slide")) {
-				try {
-					slideshow.addSlide(Float.parseFloat(attributes
-							.getValue("duration")));
-				} catch (Exception e) {
-					slideshow.addSlide(0);
+				if (elementName.equals("slide")) {
+					try {
+						slideshow.addSlide(Float.parseFloat(attributes
+								.getValue("duration")));
+					} catch (Exception e) {
+						slideshow.addSlide();
+					}
+				} else {
+					currentObject.put("type", elementName);
 				}
 			}
 		} else if (sectionName.equals("slide")) {
+			currentObject.put("type", elementName.equals("cyclicshading") ? currentObject.get("type"): elementName);
 			switch (elementName) {
 			case "text":
-				slideshow.getCurrentSlide().newText();
+				if (parse(currentObject, attributes, "xstart", "ystart")) {
+					System.err.println("Required attribute missing");
+					currentObject.clear();
+					break;
+				}
+				parse(currentObject, attributes, "sourcefile", "font",
+						"fontsize", "fontcolor", "duration", "starttime",
+						"alignment");
+				System.err.println("sourcefile not yet implemented. Delete this line when it is.");
+				slideshow.add(currentObject);
+				currentObject.clear();
 				break;
 			case "image":
-				try {
-					slideshow.getCurrentSlide().addImage(
-							attributes.getValue("sourcefile").trim());
-				} catch (Exception e) {
+				if (parse(currentObject, attributes, "sourcefile", "xstart",
+						"ystart")) {
+					System.err.println("Required attribute missing");
+					currentObject.clear();
 					break;
-					// TODO: handle exception
 				}
-				try {
-					slideshow
-							.getCurrentSlide()
-							.getCurrentImage()
-							.setxStart(
-									Float.parseFloat(attributes
-											.getValue("xstart")));
-				} catch (Exception e) {
-					// TODO: handle exception
-				}
-				try {
-					slideshow
-							.getCurrentSlide()
-							.getCurrentImage()
-							.setyStart(
-									Float.parseFloat(attributes
-											.getValue("ystart")));
-				} catch (Exception e) {
-					// TODO: handle exception
-				}
-				try {
-					slideshow
-							.getCurrentSlide()
-							.getCurrentImage()
-							.setScale(
-									Float.parseFloat(attributes
-											.getValue("scale")));
-				} catch (Exception e) {
-					// TODO: handle exception
-				}
-				try {
-					slideshow
-							.getCurrentSlide()
-							.getCurrentImage()
-							.setDuration(
-									Float.parseFloat(attributes
-											.getValue("duration")));
-				} catch (Exception e) {
-					// TODO: handle exception
-				}
-				try {
-					slideshow
-							.getCurrentSlide()
-							.getCurrentImage()
-							.setStartTime(
-									Float.parseFloat(attributes
-											.getValue("starttime")));
-				} catch (Exception e) {
-					// TODO: handle exception
-				}
-				try {
-					slideshow
-							.getCurrentSlide()
-							.getCurrentImage()
-							.setRotation(
-									Integer.parseInt(attributes
-											.getValue("rotate")));
-				} catch (Exception e) {
-					// TODO: handle exception
-				}
-				try {
-					slideshow
-							.getCurrentSlide()
-							.getCurrentImage()
-							.setFlipHorizontal(
-									Boolean.parseBoolean(attributes
-											.getValue("fliphorizontal")));
-				} catch (Exception e) {
-					// TODO: handle exception
-				}
-				try {
-					slideshow
-							.getCurrentSlide()
-							.getCurrentImage()
-							.setFlipVertical(
-									Boolean.parseBoolean(attributes
-											.getValue("flipverticle")));
-				} catch (Exception e) {
-					// TODO: handle exception
-				}
-				try {
-					slideshow
-							.getCurrentSlide()
-							.getCurrentImage()
-							.setCropX1(
-									Float.parseFloat(attributes
-											.getValue("cropx1")));
-				} catch (Exception e) {
-					// TODO: handle exception
-				}
-				try {
-					slideshow
-							.getCurrentSlide()
-							.getCurrentImage()
-							.setCropY1(
-									Float.parseFloat(attributes
-											.getValue("cropy1")));
-				} catch (Exception e) {
-					// TODO: handle exception
-				}
-				try {
-					slideshow
-							.getCurrentSlide()
-							.getCurrentImage()
-							.setCropX2(
-									Float.parseFloat(attributes
-											.getValue("cropx2")));
-				} catch (Exception e) {
-					// TODO: handle exception
-				}
-				try {
-					slideshow
-							.getCurrentSlide()
-							.getCurrentImage()
-							.setCropY2(
-									Float.parseFloat(attributes
-											.getValue("cropy2")));
-				} catch (Exception e) {
-					// TODO: handle exception
-				}
+				parse(currentObject, attributes, "scale", "duration",
+						"starttime", "rotate", "fliphorizontal",
+						"flipvertical", "cropx1", "cropx2", "cropy1", "cropy2");
 				break;
 			case "audio":
+				if (parse(currentObject, attributes, "sourcefile", "xstart",
+						"ystart")) {
+					System.err.println("Required attribute missing");
+					currentObject.clear();
+					break;
+				}
+				parse(currentObject, attributes, "starttime");
 				break;
 			case "video":
+				if (parse(currentObject, attributes, "sourcefile", "xstart",
+						"ystart")) {
+					System.err.println("Required attribute missing");
+					currentObject.clear();
+					break;
+				}
+				parse(currentObject, attributes, "starttime");
 				break;
 			case "graphic":
+				parse(currentObject, attributes, "type", "xstart", "ystart",
+						"yend", "xend", "solid", "graphiccolor", "duration",
+						"subscript", "case");
 				break;
 			case "richtext":
+				parse(currentObject, attributes, "font", "fontsize",
+						"fontcolor", "b", "i", "u", "strikethrough",
+						"superscript", "subscript", "case", "highlightcolor");
+				slideshow.add(currentObject);
+				currentObject.clear();
 				break;
 			case "cyclicshading":
 				break;
 			case "oval":
-				break;
+				/* Intentional fall through */
 			case "rectangle":
-				break;
+				/* Intentional fall through */
 			case "line":
-				break;
+				/* Intentional fall through */
 			case "itriangle":
+				parse(currentObject, attributes, "type", "xstart", "ystart",
+						"yend", "xend", "solid", "graphiccolor", "duration",
+						"subscript", "case");
 				break;
 			default:
 				break;
@@ -281,178 +192,86 @@ public class XMLReader extends DefaultHandler {
 		if ("".equals(elementName)) {
 			elementName = qName;
 		}
-		System.out.println("\tFound the end of an element (" + elementName
-				+ ") ...");
-
+		/*
+		 * System.out.println("\tFound the end of an element (" + elementName +
+		 * ") ...");
+		 */
 		if (elementName.equals(sectionName)) {
+			slideshow.add(currentObject);
+			currentObject.clear();
 			sectionName = "";
 		} else
 			switch (sectionName) {
 			case "slide":
 				switch (elementName) {
+				case "richtext":
+					/* Intentional fall through */
 				case "text":
 					if (!contentBuffer.toString().trim().equals("")) {
-						System.out.println(contentBuffer.toString().trim());
-						slideshow.getCurrentSlide().getCurrentText()
-								.addText(contentBuffer.toString().trim());
-
+						currentObject.put("type", "textfragmentend");
+						currentObject.put("text", contentBuffer.toString()
+								.trim());
+						slideshow.add(currentObject);
+						currentObject.clear();
 					}
-					break;
-				case "image":
-					break;
-				case "video":
+
+					if (elementName.equals("text")) {
+						currentObject.put("type", "textend");
+						slideshow.add(currentObject);
+						currentObject.clear();
+					}
+
 					break;
 				case "graphic":
+					slideshow.add(currentObject);
+					currentObject.clear();
 					break;
-				case "sound":
+				case "image":
+					slideshow.add(currentObject);
+					currentObject.clear();
 					break;
-
-				}
-				contentBuffer = null;
-				break;
-			case "documentinfo":
-				switch (elementName) {
-				case "author":
-					slideshow.getInfo().setAuthor(
-							contentBuffer.toString().trim());
+				case "video":
+					slideshow.add(currentObject);
+					currentObject.clear();
 					break;
-				case "version":
-					slideshow.getInfo().setVersion(
-							contentBuffer.toString().trim());
-					break;
-				case "comment":
-					slideshow.getInfo().setComment(
-							contentBuffer.toString().trim());
-					break;
-				case "groupid":
-					slideshow.getInfo().setGroupID(
-							contentBuffer.toString().trim());
+				case "audio":
+					slideshow.add(currentObject);
+					currentObject.clear();
 					break;
 				default:
 					break;
 				}
-				contentBuffer = null;
 				break;
 			case "defaultsettings":
-				switch (elementName) {
-				case "backgroundcolor":
-					slideshow.getDefaults().setBackgroundColour(
-							contentBuffer.toString().trim());
-					break;
-				case "font":
-					slideshow.getDefaults().setFont(
-							contentBuffer.toString().trim());
-					break;
-				case "fontsize":
-					try {
-						slideshow.getDefaults().setFontSize(
-								Integer.parseInt(contentBuffer.toString()
-										.trim()));
-					} catch (NumberFormatException e) {
-						/* Do nothing if invalid font size specified */
-					} catch (NullPointerException npe) {
-						/* Do nothing if invalid font size specified */
-					}
-					break;
-				case "fontcolor":
-					slideshow.getDefaults().setFontColour(
-							contentBuffer.toString().trim());
-					break;
-				case "graphiccolor":
-					slideshow.getDefaults().setGraphicColour(
-							contentBuffer.toString().trim());
-					break;
-				default:
-					break;
-				}
-				contentBuffer = null;
+				/* Intentional fall through */
+			case "documentinfo":
+				currentObject.put(elementName, contentBuffer.toString().trim());
 				break;
 			default:
 				break;
 			}
+		contentBuffer = null;
+	}
+
+	public boolean parse(HashMap<String, String> hashMap,
+			Attributes attributes, String... strings) {
+		boolean errors = false;
+		String temp;
+		for (String string : strings) {
+			temp = attributes.getValue(string);
+			if (temp != null) {
+				hashMap.put(string, temp);
+			} else {
+				errors = true;
+			}
+		}
+		return errors;
 	}
 
 	/**
 	 * Called by the parser when it encounters the end of the XML file.
 	 */
 	public void endDocument() throws SAXException {
-		System.out.println("Finished processing document.");
-	}
-
-	/**
-	 * Utility method for this class, to output a quick check on the contents
-	 * that were read in from the XML file.
-	 */
-	private void writeSlides() {
-		if (slideshow != null) {
-			System.out.println("\tSlideshow Author: "
-					+ slideshow.getInfo().getAuthor());
-			System.out.println("\tSlideshow Version: "
-					+ slideshow.getInfo().getVersion());
-			System.out.println("\tSlideshow Comment: "
-					+ slideshow.getInfo().getComment());
-			System.out.println("\tSlideshow groupid: "
-					+ slideshow.getInfo().getGroupID());
-			System.out.println("\tSlide 1 duration: "
-					+ slideshow.getSlides().get(0).getDuration());
-			System.out.println("\tSlide 1 text 1: "
-					+ slideshow.getSlides().get(0).getTextList().get(0)
-							.getTextFragments().get(0).getText());
-			System.out.println("\tSlide 1 image 1: "
-					+ slideshow.getSlides().get(0).getImagesList().get(0)
-							.getSourceFile());
-			System.out.println("\tSlide 1 image 2: "
-					+ slideshow.getSlides().get(0).getImagesList().get(1)
-							.getSourceFile());
-			System.out.println("\tSlide 1 image 2: "
-					+ slideshow.getSlides().get(0).getImagesList().get(1)
-							.getxStart());
-			System.out.println("\tSlide 1 image 2: "
-					+ slideshow.getSlides().get(0).getImagesList().get(1)
-							.getyStart());
-			System.out.println("\tSlide 1 image 2: "
-					+ slideshow.getSlides().get(0).getImagesList().get(1)
-							.getScale());
-			System.out.println("\tSlide 1 image 2: "
-					+ slideshow.getSlides().get(0).getImagesList().get(1)
-							.getDuration());
-			System.out.println("\tSlide 1 image 2: "
-					+ slideshow.getSlides().get(0).getImagesList().get(1)
-							.getStartTime());
-			System.out.println("\tSlide 1 image 2: "
-					+ slideshow.getSlides().get(0).getImagesList().get(1)
-							.getRotation());
-			System.out.println("\tSlide 1 image 2: "
-					+ slideshow.getSlides().get(0).getImagesList().get(1)
-							.getFlipHorizontal());
-			System.out.println("\tSlide 1 image 2: "
-					+ slideshow.getSlides().get(0).getImagesList().get(1)
-							.getFlipVertical());
-			System.out.println("\tSlide 1 image 2: "
-					+ slideshow.getSlides().get(0).getImagesList().get(1)
-							.getCropX1());
-			System.out.println("\tSlide 1 image 2: "
-					+ slideshow.getSlides().get(0).getImagesList().get(1)
-							.getCropY1());
-			System.out.println("\tSlide 1 image 2: "
-					+ slideshow.getSlides().get(0).getImagesList().get(1)
-							.getCropX2());
-			System.out.println("\tSlide 1 image 2: "
-					+ slideshow.getSlides().get(0).getImagesList().get(1)
-							.getCropY2());
-
-		} else {
-			System.out.println("Invalid slideshow found");
-		}
-
-		// needs rewriting
-		//
-		// for (Slide slide : slideshow) {
-		// System.out.println("\tSlide ID: " + slide.getId());
-		// System.out.println("\t\tTitle: " + slide.getTitle());
-		// System.out.println("\t\tFilename: " + slide.getFilename());
-		// System.out.println("\t\tDescription: " + slide.getDescription());
-		// }
-		//
+		// System.out.println("Finished processing document.");
 	}
 }
