@@ -14,7 +14,6 @@ import com.sun.webpane.platform.WebPage;
 
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
@@ -28,7 +27,7 @@ import Data.TextFragment;
  * 
  */
 public class TextHandler {
-	
+
 	private final int alphaStartChar = 0;
 	private final int rStartChar = 2;
 	private final int gStartChar = 4;
@@ -38,7 +37,6 @@ public class TextHandler {
 	private final int rEndChar = 4;
 	private final int gEndChar = 6;
 	private final int bEndChar = 8;
-
 
 	private ArrayList<TextFragment> stringBuffer = new ArrayList<TextFragment>();
 
@@ -117,30 +115,29 @@ public class TextHandler {
 			currentString = new TextFragment(string);
 		}
 
-		/* Set all paramaters that do not require error checking */
+		/* Set all parameters that do not require error checking */
 		currentString.setBold(bold);
 		currentString.setItalicised(italic);
 		currentString.setUnderlined(underline);
 		currentString.setStrikethrough(strikethrough);
 		currentString.setSubscript(subscript);
 		currentString.setSuperscript(superscript);
-		
+
 		/* Error checking for fontName */
 		String lowerCaseFontName = fontName.toLowerCase();
-		System.out.println(lowerCaseFontName);
-		String []fontsInstalled = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
-		currentString.setFont("Arial");//"Lucidia Sans");
-		for (String currentFont: fontsInstalled) {
-			//System.out.println(currentFont);
-			if(lowerCaseFontName.compareToIgnoreCase(currentFont.toLowerCase()) == 0) {
-				//System.out.println("MATCH");
+		String[] fontsInstalled = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+
+		/* Set the default font to be Arial */
+		currentString.setFont("Arial");// "Lucidia Sans");
+		for (String currentFont : fontsInstalled) {
+			System.out.println(currentFont);
+			if (lowerCaseFontName.compareToIgnoreCase(currentFont.toLowerCase()) == 0) {
+				// System.out.println("MATCH");
 				currentString.setFont(fontName);
 				break;
 			}
 		}
-			
-		
-		
+
 		/* Error checking for fontSize */
 		if (fontSize > 0)
 			currentString.setFontSize(fontSize);
@@ -163,7 +160,9 @@ public class TextHandler {
 		 */
 		if (verifyColor(highlightColor))
 			// currentString.setHighlightColor(highlightColor);
-			currentString.getColor(); // need to use this to keep the if from breaking whilst setHightlightColor is not there
+			currentString.getColor(); // need to use this to keep the if from
+										// breaking whilst setHightlightColor is
+										// not there
 		else {
 			System.out.print("The highlightColor string is in an incorrect format. Setting it to blank.");
 			// currentString.setHightlightColor("00000000");
@@ -361,7 +360,7 @@ public class TextHandler {
 			 * hex).
 			 */
 			String fontNameAndColorString = "<font face =\"" + currentString.getFont() + "\" color=\""
-					+ colorString.substring(2, 8) + "\">";
+					+ colorString.substring(rStartChar, bEndChar) + "\">";
 
 			/*
 			 * Highlighting section. Initialise string with the 8bit hex value
@@ -380,7 +379,8 @@ public class TextHandler {
 			 * convert to a decimal from 0 to 1
 			 */
 			DecimalFormat df = new DecimalFormat("0.0");
-			String opacityFormatted = df.format((Integer.parseInt(colorString.substring(0, 2), 16)) / 255f);
+			String opacityFormatted = df.format((Integer.parseInt(colorString.substring(alphaStartChar, alphaEndChar),
+					16)) / 255f);
 
 			/*
 			 * Initialise new string to store the preBody font opacity
@@ -447,15 +447,19 @@ public class TextHandler {
 		 * works with rgba css tag
 		 */
 		DecimalFormat df = new DecimalFormat("0.0");
-		String highlightingOpacityFormatted = df.format((Integer.parseInt(colorString.substring(0, 2), 16)) / 255f);
+		String highlightingOpacityFormatted = df.format((Integer.parseInt(
+				colorString.substring(alphaStartChar, alphaEndChar), 16)) / 255f);
 
 		/*
 		 * Convert r, g and b from 2digit hex to integer values to work with
 		 * rgba css tag
 		 */
-		String redHighlightingFormatted = Integer.toString((Integer.parseInt(colorString.substring(2, 4), 16)));
-		String greenHighlightingFormatted = Integer.toString((Integer.parseInt(colorString.substring(4, 6), 16)));
-		String blueHighlightingFormatted = Integer.toString((Integer.parseInt(colorString.substring(6, 8), 16)));
+		String redHighlightingFormatted = Integer.toString((Integer.parseInt(
+				colorString.substring(rStartChar, rEndChar), 16)));
+		String greenHighlightingFormatted = Integer.toString((Integer.parseInt(
+				colorString.substring(gStartChar, gEndChar), 16)));
+		String blueHighlightingFormatted = Integer.toString((Integer.parseInt(
+				colorString.substring(bStartChar, bEndChar), 16)));
 
 		formattedColorString = formattedColorString + redHighlightingFormatted + "," + greenHighlightingFormatted + ","
 				+ blueHighlightingFormatted + "," + highlightingOpacityFormatted + ")";
@@ -466,7 +470,7 @@ public class TextHandler {
 	/** Method to check validity of any color string */
 	private boolean verifyColor(String color) {
 		/* Checking that backgroundColor is a 8 digit long hex string */
-		return (color.matches("-?[0-9a-fA-F]+") && color.length() == 8);
+		return (color.matches("-?[0-9a-fA-F]+") && color.length() == bEndChar);
 	}
 
 	/**
@@ -524,9 +528,9 @@ public class TextHandler {
 		textObject.setUnderline(underline);
 		textObject.setStrikethrough(strikethrough);
 
-		//textObject.setWrappingWidth(70);// screensize - xcoordinate
-		//System.out.println(Font.font(fontName,(double) fontSize).getName());
-		
+		// textObject.setWrappingWidth(70);// screensize - xcoordinate
+		// System.out.println(Font.font(fontName,(double) fontSize).getName());
+
 		/* Set alignment, with the default value being left */
 		switch (alignment) {
 		case CENTER:
