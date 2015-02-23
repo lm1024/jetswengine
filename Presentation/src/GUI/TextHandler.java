@@ -420,18 +420,14 @@ public class TextHandler {
 			htmlString = htmlString + preBodyAttributes + currentString.getText() + postBodyAttributes;
 		}
 
+		/* Empty the buffer so new strings can be added */
+		stringBuffer.clear();
+
 		/*
 		 * Append the closing tags for the initial attribute and the text
 		 * alignment paragraph tag.
 		 */
-		htmlString = htmlString + "</p></body>";
-
-		/* Empty the buffer so new strings can be added */
-		stringBuffer.clear();
-
-		System.out.println(htmlString);
-
-		return htmlString;
+		return htmlString + "</p></body>";
 	}
 
 	/**
