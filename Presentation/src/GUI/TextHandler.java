@@ -184,6 +184,11 @@ public class TextHandler {
 		for (int i = 0; i < stringBuffer.size(); i++)
 			System.out.println(stringBuffer.get(i).getText());
 	}
+	
+	/** Method for clearing the string buffer */
+	public void clearBuffer() {
+		stringBuffer.clear();
+	}
 
 	/**
 	 * Method forms a text box of a set size and adds all the strings contained
@@ -530,7 +535,7 @@ public class TextHandler {
 			textObject.setFont(Font.font(fontName, (double) fontSize));
 
 		/* Set other parameters about the text */
-		textObject.setFill(fontColor);
+		textObject.setFill(fontColor);//TODO
 		textObject.setUnderline(underline);
 		textObject.setStrikethrough(strikethrough);
 
