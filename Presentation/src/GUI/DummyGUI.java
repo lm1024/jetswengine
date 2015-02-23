@@ -9,7 +9,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 /**
@@ -42,7 +42,7 @@ public class DummyGUI extends Application {
 		primaryStage.setTitle("JavaFX Welcome");
 
 		Group group = new Group();
-		//group.setStyle("-fx-background-color: white;");
+		// group.setStyle("-fx-background-color: white;");
 
 		/* Create new button */
 		Button btn = makeButton(100, 100, "Button Text");
@@ -53,18 +53,41 @@ public class DummyGUI extends Application {
 		Scene scene = new Scene(group, 500, 500);
 
 		primaryStage.setScene(scene);
-		
+
 		/* Line sets the screen to fullscreen */
-		//primaryStage.setFullScreen(true);
-		
+		// primaryStage.setFullScreen(true);
+
 		/* Calls to add items to screen */
-		ImageHandler thisImageHandler = new ImageHandler(group);
-		thisImageHandler.drawImage(100, 100, "file:me.png", 1, 1, 0, false, false);
+		// ImageHandler thisImageHandler = new ImageHandler(group);
+		// thisImageHandler.drawImage(100, 100, "file:me.png", 1, 1, 0, false,
+		// false);
+
+		// GraphicsHandler thisGraphicsHandler = new GraphicsHandler(group);
+		// thisGraphicsHandler.drawOval(200, 200, 300, 350, new Color(0, 0, 1,
+		// 1), 0);
+		// thisGraphicsHandler.drawRectangle();
+
+		TextHandler thisTextHandler = new TextHandler(group);
+		thisTextHandler.addStringToBuffer("dsadsafas 1 ", Font.getDefault().getName(), 20, "ff0000ff", "ffaa00ff",
+				TextAttribute.BOLD);
 		
-		GraphicsHandler thisGraphicsHandler = new GraphicsHandler(group);
-		thisGraphicsHandler.drawOval(200, 200, 300, 350, new Color(0, 0, 1, 1), 0);
-		//thisGraphicsHandler.drawRectangle();
 		
+		thisTextHandler.drawString("Number 7 ", 200, 200, "Arial", 20, "ffaabbcc", "00000000");
+		thisTextHandler.drawString("Hello", 300, 200);
+
+		thisTextHandler.addStringToBuffer("Number 1 ", Font.getDefault().getName(), 20, "ff0000ff", "ffaa00ff",
+				TextAttribute.BOLD);
+		thisTextHandler.addStringToBuffer("Number 2 ", "Calibri", 20, "ff00ff00", "ffaa00ff",
+				TextAttribute.BOLD, TextAttribute.ITALIC, TextAttribute.UNDERLINE, TextAttribute.STRIKETHROUGH,
+				TextAttribute.SUPERSCRIPT, TextAttribute.SUBSCRIPT);
+		thisTextHandler.addStringToBuffer("Number 3 ", "arial", 20, "ffff0000", "ffaa00ff", TextAttribute.ITALIC);
+		thisTextHandler.addStringToBuffer("Number 4 ", "Corbel", 20, "fff0f0f0", "ffaa00ff");
+		thisTextHandler.addStringToBuffer("Number 5 ", "arial", 20, "ff0f0f0f", "ffaa00ff");
+		thisTextHandler.addStringToBuffer("Number 6 ", "Verdana", 20, "11000000", "ffaa00ff");
+		// thisTextHandler.printBuffer();
+
+		thisTextHandler.drawBuffer(20, 20, 600, 200, "aabbccdd", Alignment.LEFT);
+
 		primaryStage.show();
 	}
 

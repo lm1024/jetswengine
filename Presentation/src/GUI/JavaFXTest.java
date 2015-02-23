@@ -94,7 +94,7 @@ public class JavaFXTest extends Application {
 		
 		Text string2 = new Text("Welcome");
 		string2.setFont(Font.font("Arial", FontWeight.NORMAL, 20));
-		string2.relocate(250, 250);
+		string2.relocate(250, 450);
 		
 		Text string3 = new Text("Welcome");
 		string3.setFont(Font.font("Arial", FontWeight.NORMAL, FontPosture.ITALIC, 20));
