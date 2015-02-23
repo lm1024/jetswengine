@@ -19,10 +19,10 @@
 			Some Text.
 		</text>
 		
-		<text xstart="0.5" ystart="0.5" font="arial" fontsize="24" fontcolor="#00112233" duration="1.5" starttime="2.0">
-			<richtext font="arial" fontsize="26" fontcolor="#11223344" newline="true" b="true" i="true" u="true" strikethrough="true" superscript="true" subscript="true" case="upper" alignment="left/right/centre">Example text1!</richtext>
-			<richtext font="arial" fontsize="26" fontcolor="#11223344" newline="true" b="true" i="true" u="true" strikethrough="true" superscript="true" subscript="true" case="lower" alignment="left">Example text2!</richtext>
-			<richtext font="arial" fontsize="26" fontcolor="#11223344" newline="true" b="true" i="true" u="true" strikethrough="true" superscript="true" subscript="true" case="camel" alignment="left">Example text3!</richtext>
+		<text xstart="0.5" ystart="0.5" font="arial" fontsize="24" fontcolor="#00112233" duration="1.5" starttime="2.0" alignment="left/right/centre">
+			<richtext font="arial" fontsize="26" fontcolor="#11223344" newline="true" b="true" i="true" u="true" strikethrough="true" superscript="true" subscript="true" case="upper" >Example text1!</richtext>
+			<richtext font="arial" fontsize="26" fontcolor="#11223344" newline="true" b="true" i="true" u="true" strikethrough="true" superscript="true" subscript="true" case="lower" >Example text2!</richtext>
+			<richtext font="arial" fontsize="26" fontcolor="#11223344" newline="true" b="true" i="true" u="true" strikethrough="true" superscript="true" subscript="true" case="camel">Example text3!</richtext>
 		</text>
 		
 		<text xstart="0.5" ystart="0.5" font="arial" fontsize="24" fontcolor="#00112233" duration="1.5" starttime="2.0">

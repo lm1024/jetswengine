@@ -5,17 +5,17 @@ import javafx.scene.text.Font;
 public class TextFragment {
 
 	private String text;
-	private String font;
-	private int fontSize;
-	private String color;
-	private String highlightColor;
+	private String font = Defaults.getFont();
+	private double fontSize = Defaults.getFontSize();
+	private String color = Defaults.getFontColor();
+	private String highlightColor = Defaults.getHighlightColor();
 	private boolean bold;
 	private boolean underlined;
 	private boolean italicised;
 	private boolean superscript;
 	private boolean subscript;
 	private boolean strikethrough;
-	private String textCase;
+	private String textCase = Defaults.getTextCase();
 
 	/**
 	 * @Initialises a new text fragment
@@ -36,12 +36,10 @@ public class TextFragment {
 	 *            the superscript to set
 	 */
 	public void setSuperscript(String string) {
-		try {
-			boolean b = Boolean.parseBoolean(string);
-			this.superscript = b;
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
+
+		boolean b = Boolean.parseBoolean(string);
+		this.superscript = b;
+
 	}
 
 	/**
@@ -56,12 +54,10 @@ public class TextFragment {
 	 *            the subscript to set
 	 */
 	public void setSubscript(String string) {
-		try {
+
 			boolean b = Boolean.parseBoolean(string);
 			this.subscript = b;
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
+
 	}
 
 	/**
@@ -76,12 +72,10 @@ public class TextFragment {
 	 *            the strikethrough to set
 	 */
 	public void setStrikethrough(String string) {
-		try {
+
 			boolean b = Boolean.parseBoolean(string);
 			this.strikethrough = b;
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
+
 	}
 
 	/**
@@ -114,11 +108,13 @@ public class TextFragment {
 		font = capitaliseEachFirstLetter(font);
 		if (Font.getFontNames().contains(font)) {
 			this.font = font;
+		} else {
+			this.font = Defaults.getFont();
 		}
 
 	}
 
-	static String capitaliseEachFirstLetter(String s) {
+	public static String capitaliseEachFirstLetter(String s) {
 		String[] words = s.split(" ");
 		String finalString = "";
 		for (String word : words) {
@@ -131,7 +127,7 @@ public class TextFragment {
 	/**
 	 * @return the fontSize
 	 */
-	public int getFontSize() {
+	public double getFontSize() {
 		return fontSize;
 	}
 
@@ -141,10 +137,10 @@ public class TextFragment {
 	 */
 	public void setFontSize(String string) {
 		try {
-			int i = Integer.parseInt(string);
-			this.fontSize = i;
+			double d = Double.parseDouble(string);
+			this.fontSize = d;
 		} catch (Exception e) {
-			// TODO: handle exception
+			this.fontSize = Defaults.getFontSize();
 		}
 	}
 
@@ -240,8 +236,13 @@ public class TextFragment {
 	 * @param textCase
 	 *            the textCase to set
 	 */
-	public void setTextCase(String textCase) {
-		this.textCase = textCase;
+	public void setTextCase(String string) {
+		if (string.matches("upper|lower|camel|none")) {
+			this.textCase = string;
+		} else {
+			this.textCase = Defaults.getTextCase();
+		}
+
 	}
 
 	/**

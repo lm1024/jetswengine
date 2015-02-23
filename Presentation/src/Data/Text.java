@@ -3,6 +3,7 @@ package Data;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import Data.Defaults;
 
 public class Text extends SlideItem {
 
@@ -122,7 +123,7 @@ public class Text extends SlideItem {
 			Float s = Float.parseFloat(startTime);
 			this.startTime = s;
 		} catch (Exception e) {
-			// TODO: handle exception
+			this.startTime = Defaults.getStartTime();
 		}
 	}
 

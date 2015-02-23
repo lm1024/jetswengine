@@ -7,14 +7,14 @@ import java.util.List;
 public class Slideshow {
 
 	private List<Slide> slides;
-	private DocumentInfo info;
-	private Defaults defaults;
+	private static DocumentInfo info;
+	private static Defaults defaults;
 	private Slide currentSlide;
 
 	public Slideshow() {
 		this.slides = new ArrayList<Slide>();
-		this.info = new DocumentInfo();
-		this.defaults = new Defaults();
+		info = new DocumentInfo();
+		defaults = new Defaults();
 	}
 
 	public void add(HashMap<String, String> hashMap) {
