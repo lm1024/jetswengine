@@ -19,8 +19,10 @@ import javafx.stage.Screen;
 import Data.TextFragment;
 
 /**
- * @author tjd511
+ * Class for handling text and text boxes on a javafx group.
  * 
+ * @author tjd511
+ * @version 1.0 23:01/2015
  */
 public class TextHandler {
 
