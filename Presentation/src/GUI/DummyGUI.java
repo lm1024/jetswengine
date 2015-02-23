@@ -9,7 +9,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 /**
@@ -68,26 +68,22 @@ public class DummyGUI extends Application {
 		// thisGraphicsHandler.drawRectangle();
 
 		TextHandler thisTextHandler = new TextHandler(group);
-		/*thisTextHandler.drawString("Number 1", 200f, 100f, "Arial", 20, new Color(0, 0, 1, 1), true, true, true, true,
-				false, false, TextCase.CAPITALISED, Alignment.RIGHT);
-		thisTextHandler.drawString("number 2 ", 200f, 140f, "Calibri", 20, new Color(0, 1, 1, 1), true, true, true,
-				true, false, false, TextCase.CAPITALISED, Alignment.RIGHT);
-		thisTextHandler.drawString("Hello 3 ", 200f, 180f, "Comic Sans MS", 20, new Color(1, 0, 1, 1), true, true,
-				true, true, false, false, TextCase.CAPITALISED, Alignment.RIGHT);
-		thisTextHandler.drawString("Number 3 ", 200f, 220f, "Trebuchet MS", 20, new Color(0, 0, 1, 1), true, true,
-				true, true, false, false, TextCase.CAPITALISED, Alignment.RIGHT);
-		thisTextHandler.drawString("Number 3 ", 200f, 260f, "Times New Roman", 20, new Color(1, 1, 0, 1), true, true,
-				true, true, false, false, TextCase.CAPITALISED, Alignment.RIGHT);*/
-
-		thisTextHandler.addStringToBuffer("Number 1 ", "Calibri", 20, "ff0000ff", TextCase.LOWER, "ffaa00ff",
+		thisTextHandler.addStringToBuffer("dsadsafas 1 ", Font.getDefault().getName(), 20, "ff0000ff", "ffaa00ff",
 				TextAttribute.BOLD);
-		thisTextHandler.addStringToBuffer("Number 2 ", "Webdings", 20, "ff00ff00", TextCase.LOWER, "ffaa00ff",
+		
+		
+		thisTextHandler.drawString("Number 7 ", 200, 200, "Arial", 20, "ffaabbcc", "00000000");
+		thisTextHandler.drawString("Hello", 300, 200);
+
+		thisTextHandler.addStringToBuffer("Number 1 ", Font.getDefault().getName(), 20, "ff0000ff", "ffaa00ff",
+				TextAttribute.BOLD);
+		thisTextHandler.addStringToBuffer("Number 2 ", "Calibri", 20, "ff00ff00", "ffaa00ff",
 				TextAttribute.BOLD, TextAttribute.ITALIC, TextAttribute.UNDERLINE, TextAttribute.STRIKETHROUGH,
 				TextAttribute.SUPERSCRIPT, TextAttribute.SUBSCRIPT);
-		thisTextHandler.addStringToBuffer("Number 3 ", "arial", 20, "ffff0000", TextCase.UPPER, "ffaa00ff", TextAttribute.ITALIC);
-		thisTextHandler.addStringToBuffer("Number 4 ", "Corbel", 20, "fff0f0f0", TextCase.UPPER, "ffaa00ff");
-		thisTextHandler.addStringToBuffer("Number 5 ", "arial", 20, "ff0f0f0f", TextCase.CAPITALISED, "ffaa00ff");
-		thisTextHandler.addStringToBuffer("Number 6 ", "Verdana", 20, "11000000", TextCase.CAPITALISED, "ffaa00ff");
+		thisTextHandler.addStringToBuffer("Number 3 ", "arial", 20, "ffff0000", "ffaa00ff", TextAttribute.ITALIC);
+		thisTextHandler.addStringToBuffer("Number 4 ", "Corbel", 20, "fff0f0f0", "ffaa00ff");
+		thisTextHandler.addStringToBuffer("Number 5 ", "arial", 20, "ff0f0f0f", "ffaa00ff");
+		thisTextHandler.addStringToBuffer("Number 6 ", "Verdana", 20, "11000000", "ffaa00ff");
 		// thisTextHandler.printBuffer();
 
 		thisTextHandler.drawBuffer(20, 20, 600, 200, "aabbccdd", Alignment.LEFT);

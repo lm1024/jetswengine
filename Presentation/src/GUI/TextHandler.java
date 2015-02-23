@@ -3,7 +3,6 @@
  */
 package GUI;
 
-import java.awt.GraphicsEnvironment;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
@@ -12,14 +11,11 @@ import java.util.ArrayList;
 
 import com.sun.webpane.platform.WebPage;
 
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontPosture;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.scene.web.WebView;
+import javafx.stage.Screen;
 import Data.TextFragment;
 
 /**
@@ -43,7 +39,10 @@ public class TextHandler {
 	private Group group;
 
 	/**
+	 * Constructor for the textHandler.
 	 * 
+	 * @param group
+	 *            The group that all of the text is to be drawn to.
 	 */
 	public TextHandler(Group group) {
 		this.group = group;
@@ -78,34 +77,9 @@ public class TextHandler {
 	 *            TextAttribute.SUBSCRIPT. If both SUPERSCRIPT and SUBSCRIPT,
 	 *            the text is displayed as SUPERSCRIPT.
 	 * */
-	public void addStringToBuffer(String string, String fontName, int fontSize, String fontColor, TextCase stringCase,
+	public void addStringToBuffer(String string, String fontName, int fontSize, String fontColor,
 			String highlightColor, TextAttribute... TextAttributes) {
-		TextFragment currentString;
-
-		/* Initial string manipulation depending on stringCase variable */
-		switch (stringCase) {
-		case UPPER:
-			currentString = new TextFragment(string.toUpperCase());
-			break;
-		case LOWER:
-			currentString = new TextFragment(string.toLowerCase());
-			break;
-		case CAPITALISED:
-			/*
-			 * Converts string to capitalised (first letter of each word
-			 * capitalised)
-			 */
-			String[] parts = string.split(" ");
-			String capitalisedString = "";
-
-			for (String part : parts) {
-				capitalisedString = capitalisedString + toProperCase(part) + " ";
-			}
-			currentString = new TextFragment(capitalisedString.trim());
-			break;
-		default:
-			currentString = new TextFragment(string);
-		}
+		TextFragment currentString = new TextFragment(string);
 
 		/* Set all parameters that do not require error checking */
 		for (TextAttribute currentAttribute : TextAttributes) {
@@ -129,21 +103,17 @@ public class TextHandler {
 				currentString.setSubscript(true);
 				break;
 			}
-
 		}
 
 		/* Error checking for fontName */
-		String lowerCaseFontName = fontName.toLowerCase();
-		String[] fontsInstalled = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+		String capitalisedFontName = capitaliseEachFirstLetter(fontName);
 
-		/* Set the default font to be a font from the Serif family */
-		currentString.setFont("Serif");
+		/* Set the default font to be the system default font */
+		currentString.setFont(Font.getDefault().getName());
+
 		/* Loops through the installed fonts and looks for a match */
-		for (String currentFont : fontsInstalled) {
-			if (lowerCaseFontName.compareToIgnoreCase(currentFont.toLowerCase()) == 0) {
-				currentString.setFont(fontName);
-				break;
-			}
+		if (Font.getFontNames().contains(capitalisedFontName)) {
+			currentString.setFont(fontName);
 		}
 
 		/* Error checking for fontSize */
@@ -184,7 +154,7 @@ public class TextHandler {
 		for (int i = 0; i < stringBuffer.size(); i++)
 			System.out.println(stringBuffer.get(i).getText());
 	}
-	
+
 	/** Method for clearing the string buffer */
 	public void clearBuffer() {
 		stringBuffer.clear();
@@ -293,6 +263,21 @@ public class TextHandler {
 		}
 
 		group.getChildren().addAll(webView);
+	}
+
+	/**
+	 * Method forms a transparent text box of a large size to display a single
+	 * string at one point. Wraps at edge of screen.
+	 * 
+	 * @param xStartPos
+	 *            the starting x coordinate of the text box
+	 * @param yStartPos
+	 *            the starting y coordinate of the text box
+	 */
+	public void drawBuffer(int xStartPos, int yStartPos) {
+		Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+		drawBuffer(xStartPos, yStartPos, (int) primaryScreenBounds.getWidth() - xStartPos,
+				(int) primaryScreenBounds.getHeight() - yStartPos, "00000000", Alignment.LEFT);
 	}
 
 	/**
@@ -451,7 +436,12 @@ public class TextHandler {
 		return htmlString;
 	}
 
-	/** Method to format a string in the style rgba(r,g,b,a) for html styling */
+	/**
+	 * Method to format a string in the style rgba(r,g,b,a) for html styling
+	 * 
+	 * @param colorString
+	 *            8 digit hex string specifying a color in ARGB format
+	 */
 	private String formatColorHTMLString(String colorString) {
 		String formattedColorString = "rgba(";
 
@@ -480,88 +470,71 @@ public class TextHandler {
 		return formattedColorString;
 	}
 
-	/** Method to check validity of any color string */
+	/**
+	 * Method to check validity of any color string
+	 * 
+	 * @param color
+	 *            string to be verified
+	 */
 	private boolean verifyColor(String color) {
 		/* Checking that backgroundColor is a 8 digit long hex string */
 		return (color.matches("-?[0-9a-fA-F]+") && color.length() == bEndChar);
 	}
 
 	/**
-	 * Method draws a string passed to the group set by the constructor.
-	 * */
-	public void drawString(String string, float xPos, float yPos, String fontName, int fontSize, Color fontColor,
-			boolean bold, boolean italic, boolean underline, boolean strikethrough, boolean superscript,
-			boolean subscript, TextCase stringCase, Alignment alignment, TextAttribute... TextAttributes) {
-		/* Initial string manipulation depending on stringCase variable */
-		Text textObject;
-		switch (stringCase) {
-		case UPPER:
-			textObject = new Text(string.toUpperCase());
-			break;
-		case LOWER:
-			textObject = new Text(string.toLowerCase());
-			break;
-		case CAPITALISED:
-			/*
-			 * Converts string to capitalised (first letter of each word
-			 * capitalised)
-			 */
-			String[] parts = string.split(" ");
-			String capitalisedString = "";
+	 * Method draws a string on the group set by the constructor.
+	 * 
+	 * @param string
+	 *            the string to be drawn to the group
+	 * @param xPos
+	 *            the starting x coordinate of the string
+	 * @param yPos
+	 *            the starting y coordinate of the string
+	 * @param fontName
+	 *            a string containing the font of the string. If font is not
+	 *            recognised, it defaults to the system default font.
+	 * @param fontSize
+	 *            the size of the font in pt
+	 * @param fontColor
+	 *            8 bit hex string specifying the font color in ARGB format
+	 * @param highlightColor
+	 *            8 bit hex string specifying the highlight color in ARGB format
+	 * @param TextAttributes
+	 *            varargs of TextAttribute enum that controls what effects are
+	 *            applied to the string. Options are TextAttribute.BOLD,
+	 *            TextAttribute.ITALIC, TextAttribute.UNDERLINE,
+	 *            TextAttribute.STRIKETHROUGH, TextAttribute.SUPERSCRIPT and
+	 *            TextAttribute.SUBSCRIPT. If both SUPERSCRIPT and SUBSCRIPT,
+	 *            the text is displayed as SUPERSCRIPT
+	 */
+	public void drawString(String string, int xPos, int yPos, String fontName, int fontSize, String fontColor,
+			String highlightColor, TextAttribute... TextAttributes) {
+		ArrayList<TextFragment> tempBuffer = new ArrayList<TextFragment>(stringBuffer);
+		stringBuffer.clear();
 
-			for (String part : parts) {
-				capitalisedString = capitalisedString + toProperCase(part) + " ";
-			}
-			textObject = new Text(capitalisedString.trim());
-			break;
-		default:
-			textObject = new Text(string);
-		}
+		addStringToBuffer(string, fontName, fontSize, fontColor, highlightColor, TextAttributes);
+		drawBuffer(xPos, yPos);
 
-		/* Move string to required position */
-		textObject.relocate(xPos, yPos);
-
-		/*
-		 * Set font depending upon the fontName, size, and the values of bold
-		 * and italic
-		 */
-		if (bold && italic)
-			textObject.setFont(Font.font(fontName, FontWeight.BOLD, FontPosture.ITALIC, (double) fontSize));
-		else if (bold)
-			textObject.setFont(Font.font(fontName, FontWeight.BOLD, (double) fontSize));
-		else if (italic)
-			textObject.setFont(Font.font(fontName, FontPosture.ITALIC, (double) fontSize));
-		else
-			textObject.setFont(Font.font(fontName, (double) fontSize));
-
-		/* Set other parameters about the text */
-		textObject.setFill(fontColor);//TODO
-		textObject.setUnderline(underline);
-		textObject.setStrikethrough(strikethrough);
-
-		// textObject.setWrappingWidth(70);// screensize - xcoordinate
-		// System.out.println(Font.font(fontName,(double) fontSize).getName());
-
-		/* Set alignment, with the default value being left */
-		switch (alignment) {
-		case CENTER:
-			textObject.setTextAlignment(TextAlignment.CENTER);
-			break;
-		case RIGHT:
-			textObject.setTextAlignment(TextAlignment.RIGHT);
-			break;
-		case LEFT:
-			textObject.setTextAlignment(TextAlignment.JUSTIFY);
-			break;
-		default:
-			break;
-		}
-
-		group.getChildren().add(textObject);
+		/* Store stringBuffer back */
+		stringBuffer = tempBuffer;
 	}
 
-	private String toProperCase(String s) {
-		return s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase();
+	/**
+	 * Method drawString for not specifying font name, size, color and highlight
+	 * color
+	 */
+	public void drawString(String string, int xPos, int yPos) {
+		drawString(string, xPos, yPos, Font.getDefault().getName(), 16, "ff000000", "00000000");
+	}
+
+	/** Method to capitalise the first letter of each word in a string */
+	private static String capitaliseEachFirstLetter(String s) {
+		String[] words = s.split(" ");
+		String finalString = "";
+		for (String word : words) {
+			finalString += word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase() + " ";
+		}
+		return finalString.substring(0, finalString.length() - 1);
 	}
 
 }
