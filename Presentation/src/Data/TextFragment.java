@@ -21,7 +21,7 @@ public class TextFragment {
 	 * @Initialises a new text fragment
 	 */
 	public TextFragment(Text textcontainer) {
-		this.font = textcontainer.getFont();
+		
 	}
 
 	/**
@@ -105,23 +105,15 @@ public class TextFragment {
 	 *            the font to set
 	 */
 	public void setFont(String font) {
-		font = capitaliseEachFirstLetter(font);
+		System.out.println(font);
+		font = Defaults.capitaliseEachFirstLetter(font);
+		System.out.println(font);
 		if (Font.getFontNames().contains(font)) {
 			this.font = font;
 		} else {
 			this.font = Defaults.getFont();
 		}
 
-	}
-
-	public static String capitaliseEachFirstLetter(String s) {
-		String[] words = s.split(" ");
-		String finalString = "";
-		for (String word : words) {
-			finalString += word.substring(0, 1).toUpperCase()
-					+ word.substring(1).toLowerCase() + " ";
-		}
-		return finalString.substring(0, finalString.length() - 1);
 	}
 
 	/**
@@ -258,7 +250,7 @@ public class TextFragment {
 	 */
 	public void setHighlightColor(String highlightColor) {
 		try {
-			if (highlightColor.matches("^[#]([0-9a-fA-F]{8}))$")) {
+			if (highlightColor.matches("^([#]([0-9a-fA-F]{8}))$")) {
 				this.highlightColor = highlightColor;
 			}
 		} catch (NullPointerException npe) {
