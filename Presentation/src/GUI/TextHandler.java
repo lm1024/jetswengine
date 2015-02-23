@@ -24,15 +24,15 @@ import Data.TextFragment;
  */
 public class TextHandler {
 
-	private final int alphaStartChar = 0;
-	private final int rStartChar = 2;
-	private final int gStartChar = 4;
-	private final int bStartChar = 6;
+	private final int alphaStartChar = 1;
+	private final int rStartChar = 3;
+	private final int gStartChar = 5;
+	private final int bStartChar = 7;
 
-	private final int alphaEndChar = 2;
-	private final int rEndChar = 4;
-	private final int gEndChar = 6;
-	private final int bEndChar = 8;
+	private final int alphaEndChar = 3;
+	private final int rEndChar = 5;
+	private final int gEndChar = 7;
+	private final int bEndChar = 9;
 
 	private ArrayList<TextFragment> stringBuffer = new ArrayList<TextFragment>();
 
@@ -79,7 +79,8 @@ public class TextHandler {
 	 * */
 	public void addStringToBuffer(String string, String fontName, int fontSize, String fontColor,
 			String highlightColor, TextAttribute... TextAttributes) {
-		TextFragment currentString = new TextFragment(string);
+		TextFragment currentString = new TextFragment();
+		currentString.setText(string);
 
 		/* Set all parameters that do not require error checking */
 		for (TextAttribute currentAttribute : TextAttributes) {
@@ -128,8 +129,9 @@ public class TextHandler {
 		if (verifyColor(fontColor))
 			currentString.setColor(fontColor);
 		else {
-			System.out.print("The fontColor string is in an incorrect format. Setting it to blank.");
-			currentString.setColor("00000000");
+			System.err.println("The fontColor string is in an incorrect format. Setting it to blank.");
+			System.out.println(fontColor);
+			currentString.setColor("#00000000");
 		}
 
 		/*
@@ -137,13 +139,10 @@ public class TextHandler {
 		 * string
 		 */
 		if (verifyColor(highlightColor))
-			// currentString.setHighlightColor(highlightColor);
-			currentString.getColor(); // need to use this to keep the if from
-										// breaking whilst setHightlightColor is
-										// not there
+			currentString.setHighlightColor(highlightColor);
 		else {
-			System.out.print("The highlightColor string is in an incorrect format. Setting it to blank.");
-			// currentString.setHightlightColor("00000000");
+			System.err.println("The highlightColor string is in an incorrect format. Setting it to blank.");
+			currentString.setHighlightColor("#00000000");
 		}
 
 		stringBuffer.add(currentString);
@@ -196,7 +195,7 @@ public class TextHandler {
 
 		/* Checking that backgroundColor is a 8 digit long hex string */
 		if (!verifyColor(backgroundColor)) {
-			System.out
+			System.err
 					.println("The backgroundColor string is in an incorrect format. Buffer has been cleared, text box will not be displayed. ");
 			stringBuffer.clear();
 			return;
@@ -214,7 +213,7 @@ public class TextHandler {
 		try {
 			webView.getEngine().setUserStyleSheetLocation(f.toURI().toURL().toString());
 		} catch (MalformedURLException ex) {
-			System.out.println("custom.css does not exist.");
+			System.err.println("custom.css does not exist.");
 		}
 
 		/*
@@ -246,19 +245,19 @@ public class TextHandler {
 			page.setBackgroundColor((new java.awt.Color(0, 0, 0, 0)).getRGB());
 		} catch (NoSuchFieldException e) {
 			e.printStackTrace();
-			System.out.println("An error occured when trying to build a text box.");
+			System.err.println("An error occured when trying to build a text box.");
 			System.exit(-1);
 		} catch (SecurityException e) {
 			e.printStackTrace();
-			System.out.println("An error occured when trying to build a text box.");
+			System.err.println("An error occured when trying to build a text box.");
 			System.exit(-1);
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
-			System.out.println("An error occured when trying to build a text box.");
+			System.err.println("An error occured when trying to build a text box.");
 			System.exit(-1);
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
-			System.out.println("An error occured when trying to build a text box.");
+			System.err.println("An error occured when trying to build a text box.");
 			System.exit(-1);
 		}
 
@@ -277,7 +276,7 @@ public class TextHandler {
 	public void drawBuffer(int xStartPos, int yStartPos) {
 		Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
 		drawBuffer(xStartPos, yStartPos, (int) primaryScreenBounds.getWidth() - xStartPos,
-				(int) primaryScreenBounds.getHeight() - yStartPos, "00000000", Alignment.LEFT);
+				(int) primaryScreenBounds.getHeight() - yStartPos, "#00000000", Alignment.LEFT);
 	}
 
 	/**
@@ -292,7 +291,6 @@ public class TextHandler {
 	 *            box. Can be CENTER, RIGHT, JUSTIFY or LEFT. Defaults to LEFT.
 	 */
 	private String createHTMLStringFromBuffer(String backgroundColor, Alignment alignment) {
-
 		/*
 		 * Initialise string with the initial attribute of a body element that
 		 * has a tag that stops the html being edited by the user.
@@ -364,7 +362,7 @@ public class TextHandler {
 			 * Highlighting section. Initialise string with the 8bit hex value
 			 * for highlight.
 			 */
-			String highlightString = currentString.getHighlight();
+			String highlightString = currentString.getHighlightColor();
 
 			/* Combine all of the highlight strings */
 			String highlightingString = "<span style=\"background-color: " + formatColorHTMLString(highlightString)
@@ -450,6 +448,7 @@ public class TextHandler {
 		 * works with rgba css tag
 		 */
 		DecimalFormat df = new DecimalFormat("0.0");
+
 		String highlightingOpacityFormatted = df.format((Integer.parseInt(
 				colorString.substring(alphaStartChar, alphaEndChar), 16)) / 255f);
 
@@ -478,7 +477,7 @@ public class TextHandler {
 	 */
 	private boolean verifyColor(String color) {
 		/* Checking that backgroundColor is a 8 digit long hex string */
-		return (color.matches("-?[0-9a-fA-F]+") && color.length() == bEndChar);
+		return (color.matches("^([#]([0-9a-fA-F]{8}))$"));
 	}
 
 	/**
@@ -524,7 +523,7 @@ public class TextHandler {
 	 * color
 	 */
 	public void drawString(String string, int xPos, int yPos) {
-		drawString(string, xPos, yPos, Font.getDefault().getName(), 16, "ff000000", "00000000");
+		drawString(string, xPos, yPos, Font.getDefault().getName(), 16, "#ff000000", "#00000000");
 	}
 
 	/** Method to capitalise the first letter of each word in a string */

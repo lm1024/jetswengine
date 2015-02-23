@@ -68,25 +68,25 @@ public class DummyGUI extends Application {
 		// thisGraphicsHandler.drawRectangle();
 
 		TextHandler thisTextHandler = new TextHandler(group);
-		thisTextHandler.addStringToBuffer("dsadsafas 1 ", Font.getDefault().getName(), 20, "ff0000ff", "ffaa00ff",
+		thisTextHandler.addStringToBuffer("dsadsafas 1 ", Font.getDefault().getName(), 20, "#ff0000ff", "#ffaa00ff",
 				TextAttribute.BOLD);
 		
 		
-		thisTextHandler.drawString("Number 7 ", 200, 200, "Arial", 20, "ffaabbcc", "00000000");
+		thisTextHandler.drawString("Number 7 ", 200, 200, "Arial", 20, "#ffaabbcc", "#00000000");
 		thisTextHandler.drawString("Hello", 300, 200);
 
-		thisTextHandler.addStringToBuffer("Number 1 ", Font.getDefault().getName(), 20, "ff0000ff", "ffaa00ff",
+		thisTextHandler.addStringToBuffer("Number 1 ", Font.getDefault().getName(), 20, "#ff0000ff", "#ffaa00ff",
 				TextAttribute.BOLD);
-		thisTextHandler.addStringToBuffer("Number 2 ", "Calibri", 20, "ff00ff00", "ffaa00ff",
+		thisTextHandler.addStringToBuffer("Number 2 ", "Calibri", 20, "#ff00ff00", "#ffaa00ff",
 				TextAttribute.BOLD, TextAttribute.ITALIC, TextAttribute.UNDERLINE, TextAttribute.STRIKETHROUGH,
 				TextAttribute.SUPERSCRIPT, TextAttribute.SUBSCRIPT);
-		thisTextHandler.addStringToBuffer("Number 3 ", "arial", 20, "ffff0000", "ffaa00ff", TextAttribute.ITALIC);
-		thisTextHandler.addStringToBuffer("Number 4 ", "Corbel", 20, "fff0f0f0", "ffaa00ff");
-		thisTextHandler.addStringToBuffer("Number 5 ", "arial", 20, "ff0f0f0f", "ffaa00ff");
-		thisTextHandler.addStringToBuffer("Number 6 ", "Verdana", 20, "11000000", "ffaa00ff");
+		thisTextHandler.addStringToBuffer("Number 3 ", "arial", 20, "#fffff000", "#ffaa00ff", TextAttribute.ITALIC);
+		thisTextHandler.addStringToBuffer("Number 4 ", "Corbel", 20, "#fff0f0f0", "#ffaa00ff");
+		thisTextHandler.addStringToBuffer("Number 5 ", "arial", 20, "#ff0f0f0f", "#ffaa00ff");
+		thisTextHandler.addStringToBuffer("Number 6 ", "Verdana", 20, "#11000000", "#ffaa00ff");
 		// thisTextHandler.printBuffer();
 
-		thisTextHandler.drawBuffer(20, 20, 600, 200, "aabbccdd", Alignment.LEFT);
+		thisTextHandler.drawBuffer(20, 20, 600, 200, "#ac0bccdd", Alignment.LEFT);
 
 		primaryStage.show();
 	}
