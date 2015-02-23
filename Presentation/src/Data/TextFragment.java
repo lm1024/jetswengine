@@ -23,6 +23,13 @@ public class TextFragment {
 	public TextFragment(Text textcontainer) {
 		
 	}
+	
+	/**
+	 * @Initialises a new text fragment
+	 */
+	public TextFragment() {
+		
+	}
 
 	/**
 	 * @return true if fragment is superscript
@@ -255,6 +262,57 @@ public class TextFragment {
 			/* Do nothing */
 		}
 
+	}
+
+	/**
+	 * @param fontSize the fontSize to set
+	 */
+	public void setFontSize(double fontSize) {
+		if(fontSize > 0) {
+			this.fontSize = fontSize;
+		}
+	}
+
+	/**
+	 * @param bold the bold to set
+	 */
+	public void setBold(boolean bold) {
+		this.bold = bold;
+	}
+
+	/**
+	 * @param underlined the underlined to set
+	 */
+	public void setUnderlined(boolean underlined) {
+		this.underlined = underlined;
+	}
+
+	/**
+	 * @param italicised the italicised to set
+	 */
+	public void setItalicised(boolean italicised) {
+		this.italicised = italicised;
+	}
+
+	/**
+	 * @param superscript the superscript to set
+	 */
+	public void setSuperscript(boolean superscript) {
+		this.superscript = superscript;
+	}
+
+	/**
+	 * @param subscript the subscript to set
+	 */
+	public void setSubscript(boolean subscript) {
+		this.subscript = subscript;
+	}
+
+	/**
+	 * @param strikethrough the strikethrough to set
+	 */
+	public void setStrikethrough(boolean strikethrough) {
+		this.strikethrough = strikethrough;
 	}
 
 }
