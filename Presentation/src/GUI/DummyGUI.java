@@ -9,6 +9,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
@@ -61,12 +62,10 @@ public class DummyGUI extends Application {
 		// ImageHandler thisImageHandler = new ImageHandler(group);
 		// thisImageHandler.drawImage(100, 100, "file:me.png", 1, 1, 0, false,
 		// false);
-
-		// GraphicsHandler thisGraphicsHandler = new GraphicsHandler(group);
-		// thisGraphicsHandler.drawOval(200, 200, 300, 350, new Color(0, 0, 1,
-		// 1), 0);
+		GraphicsHandler thisGraphicsHandler = new GraphicsHandler(group);
+		thisGraphicsHandler.drawOval(200, 200, 300, 350, false, new Color(0, 0, 1, 1));
+		thisGraphicsHandler.drawOval(100, 200, 200, 350, true, new Color(0, 0, 1, 1));
 		// thisGraphicsHandler.drawRectangle();
-
 		TextHandler thisTextHandler = new TextHandler(group);
 		//System.out.println(thisTextHandler.getClass().getSimpleName());
 		thisTextHandler.addStringToBuffer("dsadsafas 1 ", Font.getDefault().getName(), 20, "#ff0000ff", "#ffaa00ff",
@@ -90,7 +89,7 @@ public class DummyGUI extends Application {
 		thisTextHandler.addStringToBuffer(textBit, "Arial", 20, "#ff000000", "#00000000");
 		// thisTextHandler.printBuffer();
 
-		thisTextHandler.drawBuffer(20, 20, 600, 800, "#ac0bccdd", Alignment.LEFT);
+		thisTextHandler.drawBuffer(20, 800, 600, 1200, "#ac0bccdd", Alignment.LEFT);
 
 		primaryStage.show();
 	}
