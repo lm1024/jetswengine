@@ -189,11 +189,11 @@ public class SettingsGUI extends Application {
 		btnBox.setSpacing(5.0);
 
 		/* Save and Clear buttons */
-		Button btn = makeButton(100, 100, "Clear Text");
+		Button btn = makeButton("Clear Text", "button");
 		btn.setId("clr"); // id set so that source of event can be found
 		btn.getText();
 				
-		Button btn1 = makeButton(200, 200, "Save");
+		Button btn1 = makeButton("Save", "button");
 		btn1.setId("saveWords"); 
 		btn1.getText();
 		
@@ -215,10 +215,11 @@ public class SettingsGUI extends Application {
 	}
 
 	/** Utility function for adding button */
-	private Button makeButton(double xPos, double yPos, String buttonText) {
+	private Button makeButton(String buttonText, String styleClass) {
 		/* Button section */
 		Button btn = new Button();
 		btn.setText(buttonText);
+		btn.getStyleClass().add(styleClass);
 		btn.setOnAction(new buttonEventHandler());
 		return btn;
 	}
