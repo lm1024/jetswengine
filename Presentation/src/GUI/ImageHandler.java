@@ -4,6 +4,8 @@
 package GUI;
 
 import javafx.scene.Group;
+import javafx.scene.effect.Bloom;
+import javafx.scene.effect.SepiaTone;
 //import javafx.scene.effect.SepiaTone;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -55,25 +57,10 @@ public class ImageHandler {
 		imageView.setScaleY(d);
 		imageView.setRotate(rotation);
 		imageView.relocate(xPos, yPos);
-		
-		
-		
-		
-		//imageView.setEffect(new SepiaTone());
+		imageView.setEffect(new SepiaTone());
+		//imageView.setEffect(new Bloom());
 
 		/* This is the line that will be used to add items */
 		 group.getChildren().add(imageView);
 	}
-	
-	
-	/** 
-	 * 
-	 * */
-	public void drawGIF() {
-		/*
-		 * TODO Write a method that draws a GIF on the screen that updates!
-		 */
-
-	}
-
 }
