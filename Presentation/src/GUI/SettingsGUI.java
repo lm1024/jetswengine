@@ -16,6 +16,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
@@ -36,11 +37,14 @@ import javafx.stage.Stage;
  */
 public class SettingsGUI extends Application {
 
+	/* Create gridpane in which to put objects */
+	GridPane grid = new GridPane();
+	
 	/* Global text area and array in which to save words */
 	private TextArea ta = new TextArea();
 	private String bannedWords[];
-	/* Create gridpane in which to put objects */
-	GridPane grid = new GridPane();
+	private TextField userField = new TextField();//text field
+
 
 	/**
 	 * 
@@ -78,7 +82,6 @@ public class SettingsGUI extends Application {
 		grid.setAlignment(Pos.TOP_LEFT);
 		grid.setHgap(10);
 		grid.setVgap(10);
-		grid.setStyle("-fx-background-color: #F0F0F0;");
 		
 		/* Set grid columns to be a third of the page 
 		ColumnConstraints column1 = new ColumnConstraints();
@@ -87,7 +90,7 @@ public class SettingsGUI extends Application {
 		*/
 			
 		/* Wavemedia logo Home button */
-		Button homeBtn = makeButton(100, 100, "");
+		Button homeBtn = makeButton("", "lightButton");
 		homeBtn.setId("home"); // id set so that source of event can be found
 		/* logo image for button */	
 		Image logo = new Image("file:WM_logo_transparent.png", 200, 200, true, true);
@@ -101,13 +104,10 @@ public class SettingsGUI extends Application {
 		titleBox.getStyleClass().add("vbox");
 		titleBox.setSpacing(10);
 		titleBox.setStyle("-fx-background-color: #F0F0F0;");
-		titleBox.setAlignment(Pos.CENTER);		
+		titleBox.setAlignment(Pos.TOP_LEFT);		
 		
-		/* Use a label to create a title for screen */
-		Label titleLabel = makeLabel("Settings", "titleStyle");
-		//titleLabel.getStyleClass().add("titleStyle");
-		/* load custom font  */
-		//titleLabel.setFont(Font.loadFont("file:resources/fonts/Roboto-Bold.ttf", 120));
+		/* Add a label as a title */
+		Label titleLabel = makeLabel("Settings", "titleLabel");
 		
 		/* Add Logo and Title to titleBox */
 		titleBox.getChildren().addAll(titleLabel);
@@ -139,9 +139,7 @@ public class SettingsGUI extends Application {
 		cb1.selectedProperty().addListener(new checkHandler());
 		
 		/* Vbox to contain check boses */
-		VBox vbox1 = new VBox();
-		vbox1.getStyleClass().add("vbox");
-		vbox1.setAlignment(Pos.TOP_LEFT);
+		VBox vbox1 = makeVBox("clearBox", Pos.TOP_LEFT, 0);
 		vbox1.setPadding(new Insets(5,5,5,5));
 		vbox1.getChildren().addAll(cb1);
 		grid.add(vbox1, 0, 2, 1, 2);
@@ -152,35 +150,37 @@ public class SettingsGUI extends Application {
 		ToggleButton tb1 = new ToggleButton("", new ImageView(image));
 		grid.add(tb1, 0, 1);
 		*/
-
-		/* Add user name text field with label */
-		Label userLabel =  makeLabel("Username:", "headdings");
-		//userLabel.setFont(Font.loadFont("file:resources/fonts/Roboto-Bold.ttf", 120));
-		//userLabel.setTextFill(Color.web("#33B5E5"));
-		grid.add(userLabel, 1, 2);
+		
+		/* Add user name submission */
+		VBox userBox = makeVBox("clearBox", Pos.TOP_CENTER, 5);//holding box
+		
+		Label userLabel =  makeLabel("Username:", "headdings");//label
+		
+		/*Text field declared outside the main so can be accessed elsewhere */
+		userField.getStyleClass().add("textArea");
+		
+		Button userButton = makeButton("Submit", "darkButton");//submit button
+		userButton.setId("submit");
+		userBox.getChildren().addAll(userLabel, userField, userButton);//add to box
+		grid.add(userBox, 1, 2);//add box to grid
 		
 		/* VBox to put banned words title and text box in */
-		VBox vbox = new VBox();
-		vbox.getStyleClass().add("vbox");
-		vbox.setSpacing(10);
-		vbox.setStyle("-fx-background-color: #F0F0F0;");
-		vbox.setAlignment(Pos.CENTER);
+		VBox bannedBox = makeVBox("clearBox", Pos.CENTER, 10);
 		
 		/* Label for BannedWords box */
 		Label textLabel = makeLabel("Banned Words:", "headdings");
-//		textLabel.setTextFill(Color.web("#313131"));
-//		textLabel.setFont(Font.loadFont("file:resources/fonts/Roboto-Medium.ttf", 120));
-//		textLabel.setStyle("-fx-font-size: 15pt;");
+
 		
 		/* Editable text area for banned words */
+		/* Defined outside of main class */
 		ta.setPrefRowCount(20);
 		ta.setPrefColumnCount(20);
 		ta.setPromptText("Banned Words Here");
 		ta.getStyleClass().add("textArea");
 		
 		/* Add items to banned words VBox */
-		vbox.getChildren().addAll(textLabel, ta);
-		grid.add(vbox, 2, 2);
+		bannedBox.getChildren().addAll(textLabel, ta);
+		grid.add(bannedBox, 2, 2);
 		
 		/* HBox to put buttons controlling banned words in */
 		HBox btnBox = new HBox();
@@ -189,13 +189,11 @@ public class SettingsGUI extends Application {
 		btnBox.setSpacing(5.0);
 
 		/* Save and Clear buttons */
-		Button btn = makeButton("Clear Text", "button");
+		Button btn = makeButton("Clear Text", "darkButton");
 		btn.setId("clr"); // id set so that source of event can be found
-		btn.getText();
 				
-		Button btn1 = makeButton("Save", "button");
+		Button btn1 = makeButton("Save", "darkButton");
 		btn1.setId("saveWords"); 
-		btn1.getText();
 		
 		/* Add buttons to box */
 		btnBox.getChildren().addAll(btn, btn1);
@@ -214,12 +212,22 @@ public class SettingsGUI extends Application {
 		primaryStage.show();
 	}
 
+	private VBox makeVBox(String string, Pos position, int space) {
+		
+		VBox vbox = new VBox();
+		vbox.getStyleClass().add(string);
+		vbox.setAlignment(position);
+		vbox.setSpacing(space);
+		return vbox;
+	}
+
 	/** Utility function for adding button */
 	private Button makeButton(String buttonText, String styleClass) {
 		/* Button section */
 		Button btn = new Button();
 		btn.setText(buttonText);
 		btn.getStyleClass().add(styleClass);
+		btn.setPrefHeight(10);
 		btn.setOnAction(new buttonEventHandler());
 		return btn;
 	}
@@ -243,18 +251,23 @@ public class SettingsGUI extends Application {
 			Button buttonPressed = (Button) e.getSource();
 			
 			/**/
-			System.out.println(buttonPressed.getText() + " pressed");
+			System.out.println(buttonPressed.getId() + " pressed");
 			switch (buttonPressed.getId()) {
 			case "clr":
 				ta.clear();
 				break;
 			case "saveWords":
 				bannedWords = ta.getText().split("\n");
-				for(String string : bannedWords) {
-					System.out.println(string);
+				if(!bannedWords[0].isEmpty()){
+					for(String string : bannedWords) {
+						System.out.println(string);
+					}
 				}
 				break;
-			case "home" : 
+			case "home" : System.out.println("Going home");
+				break;
+			case "submit" : System.out.println(userField.getText());
+				break;
 			default:
 				System.out.println("error");
 			}

@@ -2,36 +2,45 @@
 /* 
 	Document	: Style1
 	Author		: J. Feasey
+	Date		: 25/02/2015
 */
 
-
+/* load fonts */
 @font-face {
     font-family: 'RobotoBold';
-    src: url('file:resources/fonts/Roboto-Bold.ttf');
+    src: url("file:resources/fonts/Roboto-Bold.ttf");
 }
 
 @font-face {
     font-family: 'RobotoMedium';
-    src: url('file:resources/fonts/Roboto-Medium.ttf');
+    src: url("file:resources/fonts/Roboto-Medium.ttf");
 }
 
+
+/* set cream background colour */
 .root{
 	-fx-font-size: 16pt;
 	-fx-background-color: #F0F0F0;
 }
 
+
+/* Blue text, RobotoBold/large font */
 .titleLabel {
 	-fx-font-size: 50pt;
 	-fx-text-fill: #33B5E5;
 	-fx-font-family: "RobotoBold";
 }
 
+
+/* Dark text, RobotoMedium/smaller font */
 .headdings {
 	-fx-font-size: 15pt;
 	-fx-text-fill: #313131;
 	-fx-font-family: "RobotoMedium";
 }
 
+
+/* Dark background, blue writing, RobotoMedium font */
 .textArea {
 	-fx-background-color: #313131;
 	-fx-text-inner-color: #33B5E5;
@@ -39,7 +48,37 @@
 	-fx-font-family: "RobotoMedium";
 }
 
-.button {
-	
-
+ /* Same colour as background */
+.clearBox {
+	-fx-background-color: #F0F0F0;
 }
+
+/* Dark background */
+.darkBox {
+	-fx-background-color: #313131;
+}
+
+
+/* Dark background, blue writing */
+.darkButton {
+	-fx-background-color: #313131;
+	-fx-text-fill: #33B5E5;
+	
+}
+
+
+/* Blue background, cream writing */
+.lightButton {
+	-fx-background-color: #33B5E5;
+	-fx-text-fill: #F0F0F0;
+	
+}
+
+
+/* Cream background, dark writing */
+.invisiButton {
+	-fx-background-color: #F0F0F0;
+	-fx-text-fill: #313131;
+	
+}
+
