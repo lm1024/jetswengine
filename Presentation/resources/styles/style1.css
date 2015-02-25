@@ -1,0 +1,45 @@
+
+/* 
+	Document	: Style1
+	Author		: J. Feasey
+*/
+
+
+@font-face {
+    font-family: 'RobotoBold';
+    src: url('file:resources/fonts/Roboto-Bold.ttf');
+}
+
+@font-face {
+    font-family: 'RobotoMedium';
+    src: url('file:resources/fonts/Roboto-Medium.ttf');
+}
+
+.root{
+	-fx-font-size: 16pt;
+	-fx-background-color: #F0F0F0;
+}
+
+.titleLabel {
+	-fx-font-size: 50pt;
+	-fx-text-fill: #33B5E5;
+	-fx-font-family: "RobotoBold";
+}
+
+.headdings {
+	-fx-font-size: 15pt;
+	-fx-text-fill: #313131;
+	-fx-font-family: "RobotoMedium";
+}
+
+.textArea {
+	-fx-background-color: #313131;
+	-fx-text-inner-color: #33B5E5;
+	-fx-prop-text-color: #33B5E5;
+	-fx-font-family: "RobotoMedium";
+}
+
+.button {
+	
+
+}
