@@ -65,6 +65,19 @@ public class DummyGUI extends Application {
 		GraphicsHandler thisGraphicsHandler = new GraphicsHandler(group);
 		thisGraphicsHandler.drawOval(200, 200, 300, 350, false, new Color(0, 0, 1, 1));
 		thisGraphicsHandler.drawOval(100, 200, 200, 350, true, new Color(0, 0, 1, 1));
+		
+		thisGraphicsHandler.drawCircle(100, 100, 50, new Color(0, 0, 1, 1), new Color(0,0,1,1));
+		thisGraphicsHandler.drawRectangle(350, 50, 30, 100, 20, 20, new Color(0,1,0,1), new Color(1,1,1,1));
+		thisGraphicsHandler.drawPolygon(new Color(0,1,1,1), new Double[] { 120.0, 270.0, 140.0, 310.0,
+		110.0, 350.0, 160.0, 320.0	}, -50,-50, new Color(1,1,1,0.5));
+		thisGraphicsHandler.drawRegularPolygon(80, 80, 220, 220, 5,
+		new Color(0,0.5,0.8,1), new Color(0,0.5,0.8,1));
+		thisGraphicsHandler.drawSquare(350, 200, 80, new Color(1,0,1,1), new Color(1,0,0,1));
+		thisGraphicsHandler.drawLine(160, 160, 350, 165, new Color(1,0.2,0.5,1));
+		thisGraphicsHandler.drawChord(100, 400, 50, 50, 45, 200, new Color(1,0,1,0.8), new Color(0,1,1,1));
+		thisGraphicsHandler.drawArc(250, 400, 50, 50, 100, 100, new Color(0,1,1,1), new Color(0,1,1,1));
+		thisGraphicsHandler.drawTriangle(350.0, 400, 350, 420, 400, 410, new Color(1,0,1,1), new Color(1,0,1,1));
+		
 		// thisGraphicsHandler.drawRectangle();
 		TextHandler thisTextHandler = new TextHandler(group);
 		//System.out.println(thisTextHandler.getClass().getSimpleName());
@@ -86,7 +99,7 @@ public class DummyGUI extends Application {
 		thisTextHandler.addStringToBuffer("Number 5 ", "arial", 20, "#ff0f0f0f", "#ffaa00ff");
 		thisTextHandler.addStringToBuffer("Number 6 ", "Verdana", 20, "#11000000", "#ffaa00ff");
 		
-		thisTextHandler.addStringToBuffer(textBit, "Arial", 20, "#ff000000", "#00000000");
+		thisTextHandler.addStringToBuffer(textBit, "Arial", 20, "#ff000000", "#95ff00ff");
 		// thisTextHandler.printBuffer();
 
 		thisTextHandler.drawBuffer(20, 800, 600, 1200, "#ac0bccdd", Alignment.LEFT);

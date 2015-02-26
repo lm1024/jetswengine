@@ -40,7 +40,7 @@ public class GraphicsHandler {
 
 	public void drawOval(float xStartPos, float yStartPos, float xEndPos, float yEndPos, Color ovalColor,
 			Color outline, int outlineThickness, boolean shadow, float rotation, Shading shadingType, Color shadingColor) {
-
+		
 	}
 
 	public void drawOval(float xStartPos, float yStartPos, float xEndPos, float yEndPos, boolean solid, Color ovalColor) {

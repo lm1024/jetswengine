@@ -18,8 +18,12 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.CycleMethod;
+import javafx.scene.paint.RadialGradient;
+import javafx.scene.paint.Stop;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Ellipse;
+import javafx.scene.shape.StrokeType;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
@@ -27,7 +31,6 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-
 
 /**
  * @author tjd511
@@ -47,7 +50,7 @@ public class JavaFXTest extends Application {
 		primaryStage.setTitle("JavaFX Welcome");
 
 		Group group = new Group();
-		
+
 		group.setStyle("-fx-background-color: white;");
 
 		/* Graphics Section */
@@ -55,24 +58,44 @@ public class JavaFXTest extends Application {
 		circle.relocate(150, 20);
 		circle.setFill(new Color(0, 1, 0, 1)); // RGBa!!!!!
 
-		Ellipse ellipse = new Ellipse(100, 150, 20, 30);
-		ellipse.setFill(new Color(1, 0.8, 1, 1));
+		Ellipse ellipse = new Ellipse(100, 150, 200, 300);
+		// ellipse.setFill(new Color(1, 0.8, 1, 1));
+		// ellipse.setStroke(new Color(1, 1, 1, 1));
+		// ellipse.setStrokeWidth(100);
 
-		Ellipse ellipse2 = new Ellipse(100, 150, 20, 30);
+		RadialGradient gradient1 = new RadialGradient(0, 20, 0, 0, 200, true, CycleMethod.NO_CYCLE, new Stop(0,
+				Color.RED), new Stop(0.5, Color.YELLOW), new Stop(1, Color.WHITE));
+		ellipse.setFill(gradient1);
+
+		final Circle ball = new Circle(400, 400, 20);
+
+		RadialGradient gradient2 = new RadialGradient(0, .1, 400, 400, 20, false, CycleMethod.NO_CYCLE, new Stop(0,
+				Color.RED), new Stop(1, Color.BLACK));
+
+		ball.setFill(gradient2);
+
+		Ellipse ellipse2 = new Ellipse(800, 150, 20, 30);
 		ellipse2.setFill(new Color(0, 0.8, 1, 1));
 		ellipse2.setRotate(45);// ROTATES ABOUT THE CENTER YAY!
 
-		ellipse2.setEffect(new DropShadow());
+		DropShadow dropShadow = new DropShadow();
+		dropShadow.setRadius(5);
+		dropShadow.setOffsetX(2.0);
+		dropShadow.setOffsetY(2.0);
+
+		ellipse2.setStroke(new Color(1, 1, 0, 1));
+		ellipse2.getStrokeDashArray().addAll(2d);
+
+		ellipse2.setEffect(dropShadow);
 
 		/* Video Section */
-		Media media = new Media(
-				"http://download.oracle.com/otndocs/products/javafx/oow2010-2.flv");
+		Media media = new Media("http://download.oracle.com/otndocs/products/javafx/oow2010-2.flv");
 		MediaPlayer mediaPlayer = new MediaPlayer(media);
 		mediaPlayer.setAutoPlay(true);
 		// create mediaView and add media player to the viewer
 		MediaView mediaView = new MediaView(mediaPlayer);
 		mediaView.relocate(50, 50);
-		//(scene.getRoot()).getChildren().add(mediaView);
+		// (scene.getRoot()).getChildren().add(mediaView);
 
 		/* Image section! */
 		Image image = new Image("file:me.png", 100, 100, true, true);
@@ -80,42 +103,50 @@ public class JavaFXTest extends Application {
 		imageView.setImage(image);
 		imageView.relocate(200, 300);
 		imageView.setEffect(new SepiaTone());
-		
+
 		Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
-		
+
 		/* Text section */
-		Text scenetitle = new Text("Welcome Hello \nWorld Hello World Hello World Hello World Hello World Hello World Hello World Hello World Hello World Hello World Hello World Hello World Hello World Hello World Hello World Hello World Hello World Hello World Hello World Hello World Hello World");
+		Text scenetitle = new Text(
+				"Welcome Hello \nWorld Hello World Hello World Hello World Hello World Hello World Hello World Hello World Hello World Hello World Hello World Hello World Hello World Hello World Hello World Hello World Hello World Hello World Hello World Hello World Hello World");
 		scenetitle.setFont(Font.font("Tahoma", FontWeight.BOLD, FontPosture.ITALIC, 20));
 		scenetitle.relocate(150, 400);
 		scenetitle.setStrikethrough(true);
 		scenetitle.setUnderline(true);
-		scenetitle.setWrappingWidth(primaryScreenBounds.getWidth()-150);//screensize - xcoordinate
-		scenetitle.setTextAlignment(TextAlignment.JUSTIFY);// or justify or whatever
-		
+		scenetitle.setWrappingWidth(primaryScreenBounds.getWidth() - 150);// screensize
+																			// -
+																			// xcoordinate
+		scenetitle.setTextAlignment(TextAlignment.JUSTIFY);// or justify or
+															// whatever
+
 		Text string2 = new Text("Welcome");
 		string2.setFont(Font.font("Arial", FontWeight.NORMAL, 20));
 		string2.relocate(250, 450);
-		
+
 		Text string3 = new Text("Welcome");
 		string3.setFont(Font.font("Arial", FontWeight.NORMAL, FontPosture.ITALIC, 20));
 		string3.relocate(250, 280);
-		/* It looks like superscript and subscript may have to be done manually... shame*/
-		
-		//EventHandler<ActionEvent> brian = new EventHandler<ActionEvent>();
+		/*
+		 * It looks like superscript and subscript may have to be done
+		 * manually... shame
+		 */
+
+		// EventHandler<ActionEvent> brian = new EventHandler<ActionEvent>();
 		Button btn = addButton(400, 400);
 		btn.setId("ali2");
-		
-		group.getChildren().addAll(mediaView, circle, ellipse, ellipse2, imageView, scenetitle, string2, string3, btn);
-		
-		primaryStage.setFullScreen(true);
-		
-		
-		Scene scene = new Scene(group, primaryScreenBounds.getWidth(),primaryScreenBounds.getHeight());//500, 575);
-		
+
+		group.getChildren().addAll(mediaView, ball, circle, ellipse, ellipse2, imageView, scenetitle, string2, string3,
+				btn);
+
+		// primaryStage.setFullScreen(true);
+
+		Scene scene = new Scene(group, 800, 800);// primaryScreenBounds.getWidth(),primaryScreenBounds.getHeight());//500,
+													// 575);
+
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
-	
+
 	private Button addButton(double xPos, double yPos) {
 		/* Button section */
 		Button btn = new Button();
@@ -124,15 +155,15 @@ public class JavaFXTest extends Application {
 		btn.setOnAction(new buttonEventHandler());
 		return btn;
 	}
-	
+
 	public class buttonEventHandler implements EventHandler<ActionEvent> {
-		@Override 
+		@Override
 		public void handle(ActionEvent e) {
-			Button buttonPressed = (Button)e.getSource();
+			Button buttonPressed = (Button) e.getSource();
 			System.out.println(buttonPressed.getId());
 		}
 	}
-	
+
 	/**
 	 * @param args
 	 */
