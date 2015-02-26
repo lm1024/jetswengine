@@ -102,7 +102,7 @@ public class DummyGUI extends Application {
 		thisTextHandler.addStringToBuffer(textBit, "Arial", 20, "#ff000000", "#95ff00ff");
 		// thisTextHandler.printBuffer();
 
-		thisTextHandler.drawBuffer(20, 800, 600, 1200, "#ac0bccdd", Alignment.LEFT);
+		thisTextHandler.drawBuffer(20, 500, 600, 1200, "#ac0bccdd", Alignment.LEFT);
 
 		primaryStage.show();
 	}

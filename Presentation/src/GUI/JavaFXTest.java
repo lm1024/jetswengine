@@ -19,10 +19,12 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
+import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.RadialGradient;
 import javafx.scene.paint.Stop;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Ellipse;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
@@ -54,18 +56,30 @@ public class JavaFXTest extends Application {
 		group.setStyle("-fx-background-color: white;");
 
 		/* Graphics Section */
-		Circle circle = new Circle(50, Color.BLUE);
-		circle.relocate(150, 20);
+		Circle circle = new Circle(150, 20, 50);
+		circle.relocate(250, 20);
 		circle.setFill(new Color(0, 1, 0, 1)); // RGBa!!!!!
 
-		Ellipse ellipse = new Ellipse(100, 150, 200, 300);
+		Ellipse ellipse = new Ellipse(100, 150, 20, 30);
 		// ellipse.setFill(new Color(1, 0.8, 1, 1));
-		// ellipse.setStroke(new Color(1, 1, 1, 1));
+		//ellipse.setStroke(new Color(1, 1, 1, 1));
 		// ellipse.setStrokeWidth(100);
 
-		RadialGradient gradient1 = new RadialGradient(0, 20, 0, 0, 200, true, CycleMethod.NO_CYCLE, new Stop(0,
-				Color.RED), new Stop(0.5, Color.YELLOW), new Stop(1, Color.WHITE));
-		ellipse.setFill(gradient1);
+		RadialGradient gradient1 = new RadialGradient(0, .1, 0.5, 0.5, 0.5, true, CycleMethod.NO_CYCLE, new Stop(0,
+				Color.RED), new Stop(1, Color.BLACK)); // this one works for all
+														// shapes (maybe)
+		LinearGradient lg1 = new LinearGradient(0, 0, 0.5, .5, true, CycleMethod.NO_CYCLE,  new Stop(0, Color.BLACK), new Stop(1, Color.RED));
+		ellipse.setFill(lg1);
+
+		// final Circle circle2 = new Circle(300, 400, 20);
+		// circle.setFill(gradient1);
+
+		RadialGradient gradient3 = new RadialGradient(0, 0, 0.5, 0.5, 0.5, true, CycleMethod.NO_CYCLE, new Stop(0,
+				Color.RED), new Stop(1, Color.BLACK)); // this one works for all
+														// shapes (maybe)
+		
+		Rectangle rect = new Rectangle(150, 100, 50, 50);
+		rect.setFill(gradient3);
 
 		final Circle ball = new Circle(400, 400, 20);
 
@@ -135,8 +149,18 @@ public class JavaFXTest extends Application {
 		Button btn = addButton(400, 400);
 		btn.setId("ali2");
 
-		group.getChildren().addAll(mediaView, ball, circle, ellipse, ellipse2, imageView, scenetitle, string2, string3,
-				btn);
+		group.getChildren().addAll(mediaView, rect, ball, circle, ellipse, ellipse2, imageView, scenetitle, string2,
+				string3, btn);
+		
+		/*for (int i=1; i<100; i++) {
+			Rectangle thisCircle = new Rectangle(100+i/2f, 100+i/2f, 100-i, 100-i);
+			if (i==50)
+				thisCircle.setFill(new Color(0,1,0,1));
+			else
+				thisCircle.setFill(new Color(1-(i/100f),0,0,1));
+			group.getChildren().add(thisCircle);
+			
+		}*/
 
 		// primaryStage.setFullScreen(true);
 
