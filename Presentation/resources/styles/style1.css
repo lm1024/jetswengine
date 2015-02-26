@@ -9,12 +9,12 @@
 /* load fonts */
 @font-face {
     font-family: 'RobotoBold';
-    src: url("file:resources/fonts/Roboto-Bold.ttf");
+    src: url("fonts/Roboto-Bold.ttf");
 }
 
 @font-face {
     font-family: 'RobotoMedium';
-    src: url("file:resources/fonts/Roboto-Medium.ttf");
+    src: url("fonts/Roboto-Medium.ttf");
 }
 
 
@@ -32,17 +32,17 @@
 
 /* Blue text, RobotoBold/large font */
 .title {
+	-fx-font-family: 'RobotoBold';
 	-fx-font-size: 50pt;
 	-fx-text-fill: #33B5E5;
-	-fx-font-family: "RobotoBold";
 }
 
 
 /* Dark text, RobotoMedium/smaller font */
 .headding {
+	-fx-font-family: "RobotoMedium";
 	-fx-font-size: 15pt;
 	-fx-text-fill: #313131;
-	-fx-font-family: "RobotoMedium";
 }
 
 
