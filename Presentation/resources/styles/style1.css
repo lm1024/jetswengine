@@ -5,6 +5,7 @@
 	Date		: 25/02/2015
 */
 
+
 /* load fonts */
 @font-face {
     font-family: 'RobotoBold';
@@ -24,8 +25,13 @@
 }
 
 
+
+/*----------------------------------------------------
+ *	Labels:
+ *---------------------------------------------------*/
+
 /* Blue text, RobotoBold/large font */
-.titleLabel {
+.title {
 	-fx-font-size: 50pt;
 	-fx-text-fill: #33B5E5;
 	-fx-font-family: "RobotoBold";
@@ -33,12 +39,17 @@
 
 
 /* Dark text, RobotoMedium/smaller font */
-.headdings {
+.headding {
 	-fx-font-size: 15pt;
 	-fx-text-fill: #313131;
 	-fx-font-family: "RobotoMedium";
 }
 
+
+
+/*----------------------------------------------------
+ *	Text areas/fields/etc.:
+ *---------------------------------------------------*/
 
 /* Dark background, blue writing, RobotoMedium font */
 .textArea {
@@ -47,6 +58,12 @@
 	-fx-prop-text-color: #33B5E5;
 	-fx-font-family: "RobotoMedium";
 }
+
+
+
+/*----------------------------------------------------
+ *	VBox and HBox:
+ *---------------------------------------------------*/
 
  /* Same colour as background */
 .clearBox {
@@ -58,6 +75,11 @@
 	-fx-background-color: #313131;
 }
 
+
+
+/*----------------------------------------------------
+ *	Buttons:
+ *---------------------------------------------------*/
 
 /* Dark background, blue writing */
 .darkButton {
@@ -75,10 +97,30 @@
 }
 
 
-/* Cream background, dark writing */
+/* Cream background, dark writing, with boarder */
 .invisiButton {
 	-fx-background-color: #F0F0F0;
 	-fx-text-fill: #313131;
+	-fx-border-width: 2;
+	-fx-border-color: #313131;
 	
 }
+
+
+
+/*----------------------------------------------------
+ *	Check Boxes:
+ *---------------------------------------------------*/
+
+/* Dark text, blue box*/
+.checkLight {
+	-fx-font-family: "RobotoMedium";
+	-fx-text-fill: #313131;
+	-fx-body-color: #33B5E5;
+}
+
+
+
+
+
 
