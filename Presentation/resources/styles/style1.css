@@ -40,9 +40,15 @@
 
 /* Dark text, RobotoMedium/smaller font */
 .headding {
-	-fx-font-family: "RobotoMedium";
+	-fx-font-family: 'RobotoMedium';
 	-fx-font-size: 15pt;
 	-fx-text-fill: #313131;
+}
+
+.error {
+	-fx-font-family: 'RobotoBold';
+	-fx-font-size: 50pt;
+	-fx-text-fill: #FF0000;
 }
 
 
@@ -102,7 +108,7 @@
 	-fx-background-color: #F0F0F0;
 	-fx-text-fill: #313131;
 	-fx-border-width: 2;
-	-fx-border-color: #313131;
+	-fx-border-color: #F0F0F0;
 	
 }
 
