@@ -1,5 +1,5 @@
 package GUI;
 
 public enum Shading {
-	CYCLIC, HORIZONTAL, VERTICAL
+	NONE, CYCLIC, HORIZONTAL, VERTICAL;
 }

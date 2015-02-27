@@ -100,7 +100,7 @@ public class JavaFXTest extends Application {
 		ellipse2.setStroke(new Color(1, 1, 0, 1));
 		ellipse2.getStrokeDashArray().addAll(2d);
 
-		ellipse2.setEffect(dropShadow);
+		circle.setEffect(dropShadow);
 
 		/* Video Section */
 		Media media = new Media("http://download.oracle.com/otndocs/products/javafx/oow2010-2.flv");
