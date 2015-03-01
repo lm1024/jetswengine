@@ -1,81 +1,71 @@
-/**
- * 
- */
 package GUI;
 
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
-import javafx.scene.effect.Bloom;
-import javafx.scene.effect.SepiaTone;
-//import javafx.scene.effect.SepiaTone;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.image.PixelReader;
-import javafx.scene.image.WritableImage;
+//import javafx.scene.effect.Bloom;
+//import javafx.scene.effect.SepiaTone;
 
-/**
- * @author tjd511
- * 
- */
 public class ImageHandler {
 
 	private Group group;
-
-	/**
-	 * 
-	 */
+	
 	public ImageHandler(Group group) {
-		// TODO Auto-generated constructor stub
 		this.group = group;
 	}
 
-	/**
-	 * @param args
-	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
 	}
 
-	/** 
-	 * 
-	 * */
+	//IMAGE FUNCTION//
 	public void drawImage(float xPos, float yPos, String filepath,
-			double d, double e, float rotation, boolean vFlip,
-			boolean hFlip, double cropRight,  double cropLeft, 
+			double scaleX, double scaleY, float rotation, boolean vFlip,
+			boolean hFlip, double cropLeft, double cropRight,
 			double cropDown, double cropUp) {
 		
-		if(vFlip) {
-			d *= -1;
-		}
-		
-		if(hFlip) {
-			e  *= -1;
-		}
-		
-		/* Image section! */
+		//Create image variable
 		Image image = new Image(filepath);
 		ImageView imageView = new ImageView();
-		imageView.setScaleX(e);
-		imageView.setScaleY(d);
+		
+		//Get height and width of image
 		double width = image.getWidth();
 		double height = image.getHeight();
+		
+		//Set image position values to centre of image
 		double x = xPos - width/2;
 		double y = yPos - height/2;
 		
-		imageView.setImage(image);
+		//Flip image vertically
+		if(vFlip) {
+			scaleY *= -1;
+		}
+		
+		//Flip image horizontally
+		if(hFlip) {
+			scaleX  *= -1;
+		}
+		
+		//Scale image vertically and horizontally
+		imageView.setScaleX(scaleX);
+		imageView.setScaleY(scaleY);
+		
+		//Rotate image
 		imageView.setRotate(rotation);
-
-		imageView.relocate(x, y);
+		
+		//Crop image - create a rectangle of smaller size and view image through it
+		Rectangle2D cropImage = new Rectangle2D(x + cropLeft, y + cropDown,
+				width - cropRight - cropLeft, height - cropUp - cropDown);
+		imageView.setViewport(cropImage);
+		imageView.relocate(x + cropLeft, y + cropDown);
 		
 		//imageView.setEffect(new Bloom());
 		//imageView.setEffect(new SepiaTone());
 		
-		Rectangle2D cropImage = new Rectangle2D(x + cropLeft, y + cropDown, width - cropRight - cropLeft, height - cropUp - cropDown);
-		imageView.setViewport(cropImage);
-		imageView.relocate(x + cropLeft, y + cropDown);
+		//Draw image on screen
+		imageView.setImage(image);
 	
-		/* This is the line that will be used to add items */
-		 group.getChildren().add(imageView);
+		//This is the line that will be used to add items
+		group.getChildren().add(imageView);
 	}
 }

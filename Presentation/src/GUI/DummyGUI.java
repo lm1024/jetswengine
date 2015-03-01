@@ -50,7 +50,7 @@ public class DummyGUI extends Application {
 		btn.getText();
 		group.getChildren().add(btn);
 
-		Scene scene = new Scene(group, 500, 500);
+		Scene scene = new Scene(group, 1000, 1000);
 
 		primaryStage.setScene(scene);
 		
@@ -59,7 +59,7 @@ public class DummyGUI extends Application {
 		
 		/* Calls to add items to screen */
 		ImageHandler thisImageHandler = new ImageHandler(group);
-		thisImageHandler.drawImage(700, 700, "file:me.png", 1, 1, 0, false, false, 500, 600, 300, 200);
+		thisImageHandler.drawImage(700, 700, "file:me.png", 1, 1, 0, false, false, 0, 0, 0, 0);
 		
 		GraphicsHandler thisGraphicsHandler = new GraphicsHandler(group);
 		thisGraphicsHandler.drawOval(200, 200, 300, 350, new Color(0, 0, 1, 1), 0);
