@@ -415,11 +415,18 @@ public class TextHandler {
 			postBodyAttributes = postBodyAttributes + "</font>" + "</span>" + "</span>" + "</span>";
 
 			/*
+			 * Replaces the < character with the html expression for a <
+			 * character, "%lt". This is to prevent html tags within the entered
+			 * string from messing with the text box.
+			 */
+			String editedString = currentString.getText().replaceAll("<", "&lt");
+
+			/*
 			 * Combines the current htmlstring (to preserve anything already
 			 * there), the preBodyAttributes, the body of the string and then
 			 * postBodyAttributes.
 			 */
-			htmlString = htmlString + preBodyAttributes + currentString.getText() + postBodyAttributes;
+			htmlString = htmlString + preBodyAttributes + editedString + postBodyAttributes;
 		}
 
 		/* Empty the buffer so new strings can be added */
