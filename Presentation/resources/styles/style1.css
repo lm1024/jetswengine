@@ -32,22 +32,19 @@
 
 /* Blue text, RobotoBold/large font */
 .title {
-	-fx-font-family: 'RobotoBold';
-	-fx-font-size: 50pt;
+	-fx-font: 50pt RobotoBold;
 	-fx-text-fill: #33B5E5;
 }
 
 
 /* Dark text, RobotoMedium/smaller font */
 .headding {
-	-fx-font-family: 'RobotoMedium';
-	-fx-font-size: 15pt;
+	-fx-font: 15pt RobotoMedium;
 	-fx-text-fill: #313131;
 }
 
 .error {
-	-fx-font-family: 'RobotoBold';
-	-fx-font-size: 50pt;
+	-fx-font: 50pt RobotoBold;
 	-fx-text-fill: #FF0000;
 }
 
@@ -62,7 +59,7 @@
 	-fx-background-color: #313131;
 	-fx-text-inner-color: #33B5E5;
 	-fx-prop-text-color: #33B5E5;
-	-fx-font-family: "RobotoMedium";
+	-fx-font: 16pt RobotoMedium;
 }
 
 
@@ -120,7 +117,7 @@
 
 /* Dark text, blue box*/
 .checkLight {
-	-fx-font-family: "RobotoMedium";
+	-fx-font: 16pt RobotoMedium;
 	-fx-text-fill: #313131;
 	-fx-body-color: #33B5E5;
 }

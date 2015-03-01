@@ -38,6 +38,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Screen;
@@ -67,7 +68,7 @@ public class GUI extends Application {
 
 	private Scene settingsScene;
 	private Scene mainScene;
-	// private Scene slides;
+	private Scene slides;
 
 	private Stage stageRef;
 
@@ -99,11 +100,12 @@ public class GUI extends Application {
 		primaryStage.setHeight(primaryScreenBounds.getHeight());
 
 		/* create a gridpane layout */
-		GridPane grid = new GridPane();
+		final GridPane grid = new GridPane();
 		grid.setHgap(10);
 		grid.setVgap(10);
 		grid.setPadding(new Insets(5, 5, 5, 5));
 		grid.setAlignment(Pos.CENTER);
+		grid.setOnMouseClicked(new mouseClickHandler());
 
 		/* creates a scene within the stage of pixel size x by y */
 		mainScene = new Scene(grid, primaryStage.getWidth(),
@@ -113,7 +115,9 @@ public class GUI extends Application {
 		grid.add(makeImageView("file:WM_logo_transparent.png", 225), 0, 0, 3, 3);
 
 		/* Product name in column 2-5, row 3 */
-		grid.add(makeLabel("     SmartSlides", "title"), 1, 2, 4, 1);
+		Label titleLabel = makeLabel("     SmartSlides", "title");
+		titleLabel.setFont(Font.font("Verdana", 20));
+		grid.add(titleLabel, 1, 2, 4, 1);
 
 		/* Create first button for Slide Preview and add in column 1, row 4 */
 		Button one = makeButton("Presentation 1", "invisiButton", true, "0",
@@ -212,33 +216,8 @@ public class GUI extends Application {
 
 					if (currentSlideshow == null) {
 
-						/* Create new stage and scene with gridpane */
-						Stage errorStage = new Stage();
-						errorStage.setTitle("Error!");
-						GridPane errorGrid = new GridPane();
-						Scene errorScene = new Scene(errorGrid);
-						errorGrid.setAlignment(Pos.CENTER);
-
-						/* Add style sheet to pop-up */
-						errorScene.getStylesheets().add(styleSheet);
-
-						/* Add image and label */
-						errorGrid.add(
-								makeImageView("file:resources/error.png", 0),
-								0, 0);
-
-						HBox errBox = makeHBox("clearBox", Pos.CENTER, 5);
-						errBox.getChildren().addAll(
-								makeLabel("Error!", "error"));
-						errorGrid.add(errBox, 0, 1);
-
-						/* Add scene to stage and make window Modal */
-						errorStage.setScene(errorScene);
-						errorStage.initModality(Modality.WINDOW_MODAL);
-						errorStage.initOwner(buttonPressed.getScene()
-								.getWindow());
-
-						errorStage.show();
+						/* Display error scene */
+						dispError();
 
 						System.out.println("Null slideshow");
 					}
@@ -341,6 +320,19 @@ public class GUI extends Application {
 
 		}
 
+	}
+
+	private class mouseClickHandler implements EventHandler<MouseEvent> {
+
+		public void handle(MouseEvent e) {
+
+			if (e.getX() > (slides.getWidth()) * 0.5) {
+				System.out.println("right");
+			} else {
+				System.out.println("left");
+			}
+
+		}
 	}
 
 	private void buildSettings() {
@@ -458,6 +450,38 @@ public class GUI extends Application {
 
 		/* Line sets the screen to full screen */
 		// primaryStage.setFullScreen(true);
+
+	}
+
+	/*
+	 * Method to build and display error screne
+	 */
+	private void dispError() {
+
+		/* Create new stage and scene with gridpane */
+		Stage errorStage = new Stage();
+		errorStage.setTitle("Error!");
+		GridPane errorGrid = new GridPane();
+		Scene errorScene = new Scene(errorGrid);
+		errorGrid.setAlignment(Pos.CENTER);
+
+		/* Add style sheet to pop-up */
+		errorScene.getStylesheets().add(styleSheet);
+
+		/* Add image and label */
+		errorGrid.add(makeImageView("file:resources/error.png", 0), 0, 0);
+
+		HBox errBox = makeHBox("clearBox", Pos.CENTER, 5);
+		errBox.getChildren().addAll(makeLabel("Error!", "error"));
+		errorGrid.add(errBox, 0, 1);
+
+		/* Add scene to stage and make window Modal */
+		errorStage.setScene(errorScene);
+		/* User has to close window */
+		errorStage.initModality(Modality.WINDOW_MODAL);
+		errorStage.initOwner(stageRef);
+
+		errorStage.show();
 
 	}
 
