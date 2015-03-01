@@ -151,8 +151,8 @@ public class GraphicsHandler {
 				outlineThickness, shadowType, rotation, shadingType, shadingColors);
 	}
 
-	public void drawLine(float startX, float startY, float endX, float endY, Color lineColor, Shadow shadowType,
-			Shading shadingType, Color... shadingColors) {
+	public void drawLine(float startX, float startY, float endX, float endY, Color lineColor, Shading shadingType,
+			Color... shadingColors) {
 		/*
 		 * TODO Write a method that draws a line depending on params passed.
 		 * Must be able to also do arrows!
@@ -175,14 +175,82 @@ public class GraphicsHandler {
 				stops[i] = (new Stop((float) i / shadingColors.length, shadingColors[i - 1]));
 			line.setStroke(new LinearGradient(0, 0.5, 1, 0.5, true, CycleMethod.NO_CYCLE, stops));
 		} else
-			line.setStroke(lineColor);			
+			line.setStroke(lineColor);
 
 		group.getChildren().add(line);
 
 	}
 
-	public void drawArrow() {
+	public void drawArrow(float startX, float startY, float endX, float endY, Color arrowColor, Shading shadingType,
+			Color... shadingColors) {
 
+		int arrowHeadSide = 15;
+		double arrowHeadHeight = (arrowHeadSide * (Math.sqrt(3) / (2.0)));
+
+		// to work out the angle of rotation
+		double dx = Math.abs(endX - startX);
+		double dy = Math.abs(endY - startY);
+		int length = (int) Math.sqrt((dx * dx + dy * dy));
+
+		double x1 = endX;
+		double y1 = endY - (arrowHeadHeight / 2);
+		double x2 = endX + (arrowHeadSide / 2);
+		double y2 = endY + (arrowHeadHeight / 2);
+		double x3 = endX - (arrowHeadSide / 2);
+		double y3 = endY + (arrowHeadHeight / 2);
+		;
+
+		// new arrow
+		Line arrow = new Line(startX, startY, endX, endY);
+		// arrow.setFill(arrowColor);
+		// arrow.setStroke(arrowColor);
+
+		Polygon arrowHead = new Polygon();
+		// arrowHead.setFill(arrowColor);
+		arrowHead.getPoints().addAll(new Double[] { x1, y1, x2, y2, x3, y3 });
+
+		double rotation = 0.0;
+		if ((endX > startX) && (endY > startY)) { // bottom right
+			rotation = (90 + Math.toDegrees(Math.asin(dy / length)));
+		} else if ((endX == startX) && (endY > startY)) {
+			rotation = 180;
+		} else if ((endX < startX) && (endY == startY)) {
+			rotation = 270;
+		} else if ((endX > startX) && (endY == startY)) {
+			rotation = 90;
+		} else if ((endX < startX) && (endY > startY)) { // bottom left
+			rotation = (180 + Math.toDegrees(Math.asin(dx / length)));
+		} else if ((endX < startX) && (endY < startY)) { // top right
+			rotation = (270 + Math.toDegrees(Math.asin(dy / length)));
+		} else if ((endX > startX) && (endY < startY)) { // top left
+			rotation = (Math.toDegrees(Math.asin(dx / length)));
+		}
+
+		arrowHead.setRotate(rotation);
+
+		Stop[] stops = null;
+		/* Code to generate stops for if a shading type is to be used. */
+		if (shadingType != Shading.NONE) {
+			/*
+			 * Builds an array of stops evenly spaced through the shape
+			 * consisting of the varargs of shadingColors. The last color in the
+			 * varargs is the outer shading color.
+			 */
+			stops = new Stop[shadingColors.length + 1];
+			/* Add the shape color as the central color */
+			stops[0] = new Stop(0, arrowColor);
+			/* Loop through the varargs adding the colors to the stop array */
+			for (int i = 1; i <= shadingColors.length; i++)
+				stops[i] = (new Stop((float) i / shadingColors.length, shadingColors[i - 1]));
+			arrow.setStroke(new LinearGradient(0, 0.5, 1, 0.5, true, CycleMethod.NO_CYCLE, stops));
+			arrowHead.setFill(new LinearGradient(0.5, 0, 0.5, 1, true, CycleMethod.NO_CYCLE, stops));
+		} else {
+			arrow.setStroke(arrowColor);
+			arrowHead.setFill(arrowColor);
+		}
+
+		group.getChildren().add(arrow);
+		group.getChildren().add(arrowHead);
 	}
 
 	public void drawEquiTriangle() {
@@ -247,11 +315,32 @@ public class GraphicsHandler {
 		group.getChildren().add(polygon);
 	}
 
-	public void drawStar() {
-		/*
-		 * TODO Write a method that draws a n pointed star depending on params
-		 * passed.
-		 */
+	public void drawStar(double midX, double midY, int numPoints, float size, Color starColor, boolean solid,
+			Color outlineColor, double outlineThickness, Shadow shadowType, float rotation, Shading shadingType,
+			Color... shadingColors) {
+		int a = 0;
+		double z = 0;
+
+		Polygon star = new Polygon();
+		colorShape(star, solid, starColor, outlineColor, outlineThickness, shadowType, shadingType, shadingColors);
+
+		while (a < ((2 * numPoints) + 1)) {
+			z = ((a * Math.PI) / numPoints);
+			if ((a % 2 == 0)) {
+				star.getPoints().add((double) Math.round(((size / 2) * Math.sin(z)) + midX + (size / 2)));
+				star.getPoints().add((double) Math.round(((-size / 2) * Math.cos(z)) + midY + (size / 2)));
+			} else {
+				star.getPoints()
+						.add((double) Math.round(((size / (2 * Math.pow(numPoints, 0.5))) * Math.sin(z)) + midX
+								+ (size / 2)));
+				star.getPoints().add(
+						(double) Math.round(((-size / (2 * Math.pow(numPoints, 0.5))) * Math.cos(z)) + midY
+								+ (size / 2)));
+			}
+			a++;
+		}
+
+		group.getChildren().add(star);
 	}
 
 	public void drawChord(float centerX, float centerY, float radiusX, float radiusY, float arcAngle, float Length,
