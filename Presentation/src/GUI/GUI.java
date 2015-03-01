@@ -38,8 +38,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -59,12 +59,15 @@ public class GUI extends Application {
 	private TextArea ta = new TextArea();
 	private String bannedWords[];
 	private TextField userField = new TextField();// text field
+	private File initDir;
+
 	private boolean isShadow = false;
+
 	private String styleSheet = "file:resources/styles/style1.css";
 
-	Scene settingsScene;
-	Scene mainScene;
-	Scene slides;
+	private Scene settingsScene;
+	private Scene mainScene;
+	// private Scene slides;
 
 	private Stage stageRef;
 
@@ -79,14 +82,13 @@ public class GUI extends Application {
 	}
 
 	/**
-	 * Must implement the inherited abstract method
-	 * Application.start(Stage).
+	 * Must implement the inherited abstract method Application.start(Stage).
 	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		/*
-		 * TODO Jake, please make a nice GUI. You are our only hope. TODO add
-		 * button creation methods
+		 * TODO Jake, please make a nice GUI. You are our only hope. Screen
+		 * resizing stuff!!
 		 */
 		stageRef = primaryStage;
 
@@ -108,13 +110,10 @@ public class GUI extends Application {
 				primaryStage.getHeight());
 
 		/* Company icon in column 1-3, row 1-3 */
-		ImageView companyimage = makeImageView("file:WM_logo_transparent.png",
-				225);
-		grid.add(companyimage, 0, 0, 3, 3);
+		grid.add(makeImageView("file:WM_logo_transparent.png", 225), 0, 0, 3, 3);
 
 		/* Product name in column 2-5, row 3 */
-		Label productName = makeLabel("     SmartSlides", "title");
-		grid.add(productName, 1, 2, 4, 1);
+		grid.add(makeLabel("     SmartSlides", "title"), 1, 2, 4, 1);
 
 		/* Create first button for Slide Preview and add in column 1, row 4 */
 		Button one = makeButton("Presentation 1", "invisiButton", true, "0",
@@ -127,18 +126,18 @@ public class GUI extends Application {
 		grid.add(two, 2, 3);
 
 		/* Create third button for Slide Preview and add in column 5, row 4 */
-		Button three = makeButton("Presentation 3", "invisiButton", true,
-				"2", "file:me.png", 130);
+		Button three = makeButton("Presentation 3", "invisiButton", true, "2",
+				"file:me.png", 130);
 		grid.add(three, 4, 3);
 
 		/* Create forth button for Slide Preview and add in column 1, row 6 */
-		Button four = makeButton("Presentation 4", "invisiButton", true,
-				"3", "file:me.png", 130);
+		Button four = makeButton("Presentation 4", "invisiButton", true, "3",
+				"file:me.png", 130);
 		grid.add(four, 0, 5);
 
 		/* Create fifth button for Slide Preview and add in column 3, row 6 */
-		Button five = makeButton("Presentation 5", "invisiButton", true,
-				"4", "file:me.png", 130);
+		Button five = makeButton("Presentation 5", "invisiButton", true, "4",
+				"file:me.png", 130);
 		grid.add(five, 2, 5);
 
 		/* Create sixth button for Slide Preview and add in column 5, row 6 */
@@ -146,28 +145,24 @@ public class GUI extends Application {
 				"file:me.png", 130);
 		grid.add(six, 4, 5);
 
-		/* Insert blank in column 2, row 4-6 */
-		Pane emptycell = makePane();
-		grid.add(emptycell, 1, 3, 1, 3);
-
-		/* Insert blank in column 4, row 4-6 */
-		Pane emptycell1 = makePane();
-		grid.add(emptycell1, 3, 3, 1, 3);
+		/* Insert blank in column 2 and 4, row 4-6 */
+		grid.add(makePane(), 1, 3, 1, 3);
+		grid.add(makePane(), 3, 3, 1, 3);
 
 		/* Insert blank in row 5 */
-		Pane emptyrow = makePane();
-		grid.add(emptyrow, 0, 4, 5, 1);
+		grid.add(makePane(), 0, 4, 5, 1);
 
 		/* Create Openfile button in column 2-3, row 7 */
-		Button openfile = makeButton("Open file", "darkButton", true, "Openfile");
+		Button openfile = makeButton("Open file", "darkButton", true,
+				"Openfile");
 		grid.add(openfile, 1, 6, 2, 1);
 
 		/* Create Settings button in column 4-5, row 7 */
 		Button settings = makeButton("Settings", "darkButton", true, "Settings");
 		grid.add(settings, 3, 6, 2, 1);
-		
+
 		mainScene.getStylesheets().add(styleSheet);
-		
+
 		primaryStage.setScene(mainScene);
 
 		/* Line sets the screen to fullscreen */
@@ -196,60 +191,79 @@ public class GUI extends Application {
 				Slideshow currentSlideshow = null;
 				FileChooser fileChooser = new FileChooser();
 				fileChooser.setTitle("Open Resource File");
+				fileChooser.setInitialDirectory(initDir);
+
+				/* Add filters to file chooser */
+				fileChooser.getExtensionFilters().addAll(
+						new FileChooser.ExtensionFilter("XML files ", "*.xml"),
+						new FileChooser.ExtensionFilter("All files", "*.*"));
+
 				File file = fileChooser.showOpenDialog(stageRef);
-				
+
 				/* Check that a file was selected */
-				if(file != null){
-					System.out.println(file.getAbsolutePath());
+				if (file != null) {
 					try {
-						currentSlideshow = new XMLReader(file.getAbsolutePath()).getSlideshow();
+						currentSlideshow = new XMLReader(file.getAbsolutePath())
+								.getSlideshow();
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						//e1.printStackTrace();
 					}
-				}else{
+					initDir = file.getParentFile();
+					System.out.println(initDir);
+
+					if (currentSlideshow == null) {
+
+						/* Create new stage and scene with gridpane */
+						Stage errorStage = new Stage();
+						errorStage.setTitle("Error!");
+						GridPane errorGrid = new GridPane();
+						Scene errorScene = new Scene(errorGrid);
+						errorGrid.setAlignment(Pos.CENTER);
+
+						/* Add style sheet to pop-up */
+						errorScene.getStylesheets().add(styleSheet);
+
+						/* Add image and label */
+						errorGrid.add(
+								makeImageView("file:resources/error.png", 0),
+								0, 0);
+
+						HBox errBox = makeHBox("clearBox", Pos.CENTER, 5);
+						errBox.getChildren().addAll(
+								makeLabel("Error!", "error"));
+						errorGrid.add(errBox, 0, 1);
+
+						/* Add scene to stage and make window Modal */
+						errorStage.setScene(errorScene);
+						errorStage.initModality(Modality.WINDOW_MODAL);
+						errorStage.initOwner(buttonPressed.getScene()
+								.getWindow());
+
+						errorStage.show();
+
+						System.out.println("Null slideshow");
+					}
+				} else {
 					System.out.println("No file");
 				}
-				
-				if(currentSlideshow == null){
-					
-					Stage errorStage = new Stage();
-					errorStage.setTitle("Error!");
-					GridPane errorGrid = new GridPane();
-					Scene errorScene = new Scene(errorGrid);
-					errorGrid.setAlignment(Pos.CENTER);
-					errorScene.getStylesheets().add(styleSheet);
-					
-					ImageView errorImage = makeImageView("file:resources/error.png", 0);
-					errorGrid.add(errorImage,0,0);
-					
-					Label error = makeLabel("Error", "error");
-					errorGrid.add(error,0,1);
-					
-					errorStage.setScene(errorScene);
-					errorStage.showAndWait();
-					
-					System.out.println("Null slideshow");
-				}
-				
+
 				break;
-				
+
 			case "Settings":
 				buildSettings();
 				System.out.println("building");
 				stageRef.setScene(settingsScene);
 				break;
-				
-			case "0" :
-			case "1" :
-			case "2" :
-			case "3" : 
-			case "4" :
-			case "5" :
+
+			case "0":
+			case "1":
+			case "2":
+			case "3":
+			case "4":
+			case "5":
 				int i = Integer.parseInt(buttonPressed.getId());
 				System.out.println("Open pres. " + i);
 				break;
-				
+
 			case "clr":
 				ta.clear();
 				break;
@@ -332,8 +346,7 @@ public class GUI extends Application {
 	private void buildSettings() {
 
 		/*
-		 * TODO Jake, please make a nice GUI. You are our only hope. TODO Javafx
-		 * Ensemble TODO Find more settings options to add
+		 * TODO Find more settings options to add
 		 */
 
 		/* Create gridpane in which to put objects */
@@ -355,28 +368,20 @@ public class GUI extends Application {
 		 */
 
 		/* Wavemedia logo Home button */
-		Button homeBtn = makeButton("", "invisiButton", true, "home");
-		ImageView imageView = makeImageView("file:WM_logo_transparent.png", 200);
-		homeBtn.setGraphic(imageView); // put image into button
+		Button homeBtn = makeButton("", "invisiButton", true, "home",
+				"file:WM_logo_transparent.png", 200);
 		settingsGrid.add(homeBtn, 0, 0);
 
 		/* Create a HBox to put title in */
 		HBox titleBox = makeHBox("clearBox", Pos.CENTER, 10);
 
-		/* Add a label as a title */
-		Label titleLabel = makeLabel("Settings", "title");
-		titleLabel.setFont(Font.loadFont(
-				"file:resources/fonts/Roboto-Black.ttf", 120));
-
 		/* Add Logo and Title to titleBox */
-		titleBox.getChildren().addAll(titleLabel);
+		titleBox.getChildren().addAll(makeLabel("Settings", "title"));
 		settingsGrid.add(titleBox, 1, 0, 2, 1);
 
 		/*
 		 * Checkbox options:
 		 */
-
-		Label timLabel = makeLabel("Auto-Next:", "headding");
 
 		/* Add check boxes */
 		CheckBox cb1 = makeCheckBox("Slide Timer", "checkLight", "cb1", false);
@@ -384,8 +389,16 @@ public class GUI extends Application {
 
 		/* Vbox to contain check boses */
 		VBox vbox1 = makeVBox("clearBox", Pos.TOP_LEFT, 10);
-		vbox1.getChildren().addAll(timLabel, cb1, cb2);
+		vbox1.getChildren().addAll(makeLabel("Auto-Next:", "headding"), cb1,
+				cb2);
 		settingsGrid.add(vbox1, 0, 2, 1, 2);
+
+		/*
+		 * Back to main screen
+		 */
+		Button back = makeButton("Back", "lightButton", true, "home");
+		back.setPrefSize(100, 50);
+		settingsGrid.add(back, 0, 3);
 
 		/*
 		 * Username input
@@ -394,15 +407,12 @@ public class GUI extends Application {
 		/* Add user name submission */
 		VBox userBox = makeVBox("clearBox", Pos.TOP_CENTER, 5);// holding box
 
-		Label userLabel = makeLabel("Username:", "headding");// label
-
 		/* Text field declared outside the main so can be accessed elsewhere */
 		userField.getStyleClass().add("textArea");
 		userField.setPromptText("Username");
 
 		/* Add buttons and add to a box */
 		Button userSubmit = makeButton("Submit", "darkButton", true, "submit");
-
 		Button userClr = makeButton("Clear", "darkButton", true, "userClr");
 
 		/* Hbox for username Buttons */
@@ -410,16 +420,14 @@ public class GUI extends Application {
 		userButtons.getChildren().addAll(userSubmit, userClr);
 
 		/* Add everything to the box */
-		userBox.getChildren().addAll(userLabel, userField, userButtons);// add
-																		// to
-																		// box
+		userBox.getChildren().addAll(makeLabel("Username:", "headding"),
+				userField, userButtons);// add
+		// to
+		// box
 		settingsGrid.add(userBox, 1, 2);// add box to settingsGrid
 
 		/* VBox to put banned words title and text box in */
 		VBox bannedBox = makeVBox("clearBox", Pos.CENTER, 10);
-
-		/* Label for BannedWords box */
-		Label textLabel = makeLabel("Banned Words:", "headding");
 
 		/* Editable text area for banned words */
 		/* Defined outside of main class */
@@ -429,7 +437,8 @@ public class GUI extends Application {
 		ta.getStyleClass().add("textArea");
 
 		/* Add items to banned words VBox */
-		bannedBox.getChildren().addAll(textLabel, ta);
+		bannedBox.getChildren().addAll(makeLabel("Banned Words:", "headding"),
+				ta);
 		settingsGrid.add(bannedBox, 2, 2);
 
 		/* HBox to put buttons controlling banned words in */
