@@ -1,6 +1,4 @@
-/**
- * 
- */
+/** (c) Copyright by Wave Media. */
 package GUI;
 
 import javafx.application.Application;
@@ -127,30 +125,11 @@ public class DummyGUI extends Application {
 		// thisTextHandler.drawString("Number 7 ", 200, 200, "Arial", 20,
 		// "#ffaabbcc", "#00000000");
 		// thisTextHandler.drawString("Hello", 300, 200);
-		
-		/*
-		 * thisTextHandler.addStringToBuffer("Number 1 ",
-		 * Font.getDefault().getName(), 20, "#ff0000ff", "#ffaa00ff",
-		 * TextAttribute.BOLD); thisTextHandler.addStringToBuffer("Number 2 ",
-		 * "Calibri", 20, "#ff00ff00", "#ffaa00ff", TextAttribute.BOLD,
-		 * TextAttribute.ITALIC, TextAttribute.UNDERLINE,
-		 * TextAttribute.STRIKETHROUGH, TextAttribute.SUPERSCRIPT,
-		 * TextAttribute.SUBSCRIPT);
-		 * thisTextHandler.addStringToBuffer("Number 3 ", "arial", 20,
-		 * "#fffff000", "#ffaa00ff", TextAttribute.ITALIC);
-		 * thisTextHandler.addStringToBuffer("Number 4 ", "Corbel", 20,
-		 * "#fff0f0f0", "#ffaa00ff");
-		 * thisTextHandler.addStringToBuffer("Number 5 ", "arial", 20,
-		 * "#ff0f0f0f", "#ffaa00ff");
-		 * thisTextHandler.addStringToBuffer("Number 6 ", "Verdana", 20,
-		 * "#11000000", "#ffaa00ff");
-		 */
-		//thisTextHandler.printBuffer();
+
 		thisTextHandler.addStringToBuffer(textBit, "Arial", 20, "#ff000000", "#95ff00ff");
-		// thisTextHandler.printBuffer();
-		
+
 		thisTextHandler.drawBuffer(650, 50, 1200, 750, "#ac0bccdd", Alignment.LEFT);
-		//thisTextHandler.createCustomCss();
+
 		primaryStage.show();
 	}
 
