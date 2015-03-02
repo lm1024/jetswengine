@@ -3,7 +3,11 @@
  */
 package GUI;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.text.DecimalFormat;
@@ -26,18 +30,26 @@ import Data.TextFragment;
  */
 public class TextHandler {
 
+	/*
+	 * Constants for where in the string "#00112233" the A, R, G and B portions
+	 * of the color string are.
+	 */
 	private final int alphaStartChar = 1;
 	private final int rStartChar = 3;
 	private final int gStartChar = 5;
 	private final int bStartChar = 7;
-
 	private final int alphaEndChar = 3;
 	private final int rEndChar = 5;
 	private final int gEndChar = 7;
 	private final int bEndChar = 9;
 
+	/*
+	 * ArrayList of TextFragments used to store details about the strings that
+	 * will be displayed.
+	 */
 	private ArrayList<TextFragment> stringBuffer = new ArrayList<TextFragment>();
 
+	/* Group onto which the text boxes are drawn. */
 	private Group group;
 
 	/**
@@ -65,12 +77,9 @@ public class TextHandler {
 	 * @param fontColor
 	 *            the color for the string to be drawn in, in the form of a 8
 	 *            digit hex number, ARGB.
-	 * @param stringCase
-	 *            enum that controls the case of the string stored. Options:
-	 *            TextCase.UPPER - all chars get changed to upper case.
-	 *            TextCase.LOWER - all chars get changed to lower case.
-	 *            TextCase.CAPITALISED - the first letter of each word in the
-	 *            string is capitalised
+	 * @param highlightColor
+	 *            the color of the highlighting around the text, in the form of
+	 *            a 8 digit hex humber, ARGB.
 	 * @param TextAttributes
 	 *            varargs of TextAttribute enum that controls what effects are
 	 *            applied to the string. Options are TextAttribute.BOLD,
@@ -120,19 +129,14 @@ public class TextHandler {
 		}
 
 		/* Error checking for fontSize */
-		if (fontSize > 0)
-			currentString.setFontSize(fontSize);
-		else {
-			System.out.print("The fontSize integer is smaller than 0. Setting it to 10.");
-			currentString.setFontSize(10);
-		}
+		currentString.setFontSize(Math.abs(fontSize));
 
 		/* Sets fontColor to blank if the fontColor is not a valid hex string */
 		if (verifyColor(fontColor))
 			currentString.setColor(fontColor);
 		else {
-			System.err.println("The fontColor string is in an incorrect format. Setting it to blank.");
-			System.out.println(fontColor);
+			System.err.println("The fontColor string \"" + highlightColor
+					+ "\" is in an incorrect format. Setting it to blank.");
 			currentString.setColor("#00000000");
 		}
 
@@ -143,28 +147,18 @@ public class TextHandler {
 		if (verifyColor(highlightColor))
 			currentString.setHighlightColor(highlightColor);
 		else {
-			System.err.println("The highlightColor string is in an incorrect format. Setting it to blank.");
+			System.err.println("The highlightColor string \"" + highlightColor
+					+ "\" is in an incorrect format. Setting it to blank.");
 			currentString.setHighlightColor("#00000000");
 		}
 
 		stringBuffer.add(currentString);
 	}
 
-	/** Error checking method for printing all the stored strings in the buffer. */
-	public void printBuffer() {
-		for (int i = 0; i < stringBuffer.size(); i++)
-			System.out.println(stringBuffer.get(i).getText());
-	}
-
-	/** Method for clearing the string buffer */
-	public void clearBuffer() {
-		stringBuffer.clear();
-	}
-
 	/**
-	 * Method forms a text box of a set size and adds all the strings contained
-	 * in the buffer to it. Then draws the text box on the group specified
-	 * during the instantiation of the object.
+	 * Method forms a text box of a set size and color and adds all the strings
+	 * contained in the buffer to it. Then draws the text box on the group
+	 * specified during the instantiation of the object.
 	 * 
 	 * @param xStartPos
 	 *            the starting x coordinate of the text box
@@ -174,6 +168,9 @@ public class TextHandler {
 	 *            the ending x coordinate of the text box
 	 * @param yEndPos
 	 *            the ending y coordinate of the text box
+	 * @param backgroundColor
+	 *            the color for the background of the text box, in the form of a
+	 *            8 digit hex number, ARGB.
 	 * @param alignment
 	 *            a string that can be used to control the alignment of the text
 	 *            within the text box. Options: "centre" - centres the text.
@@ -212,6 +209,10 @@ public class TextHandler {
 
 		/* Load a css file that hides the scrollbar added by webView */
 		File f = new File("custom.css");
+
+		if (!f.isFile())
+			createCustomCss();
+
 		try {
 			webView.getEngine().setUserStyleSheetLocation(f.toURI().toURL().toString());
 		} catch (MalformedURLException ex) {
@@ -279,6 +280,63 @@ public class TextHandler {
 		Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
 		drawBuffer(xStartPos, yStartPos, (int) primaryScreenBounds.getWidth() - xStartPos,
 				(int) primaryScreenBounds.getHeight() - yStartPos, "#00000000", Alignment.LEFT);
+	}
+
+	/**
+	 * Method draws a string on the group set by the constructor.
+	 * 
+	 * @param string
+	 *            the string to be drawn to the group
+	 * @param xPos
+	 *            the starting x coordinate of the string
+	 * @param yPos
+	 *            the starting y coordinate of the string
+	 * @param fontName
+	 *            a string containing the font of the string. If font is not
+	 *            recognised, it defaults to the system default font.
+	 * @param fontSize
+	 *            the size of the font in pt
+	 * @param fontColor
+	 *            8 bit hex string specifying the font color in ARGB format
+	 * @param highlightColor
+	 *            8 bit hex string specifying the highlight color in ARGB format
+	 * @param TextAttributes
+	 *            varargs of TextAttribute enum that controls what effects are
+	 *            applied to the string. Options are TextAttribute.BOLD,
+	 *            TextAttribute.ITALIC, TextAttribute.UNDERLINE,
+	 *            TextAttribute.STRIKETHROUGH, TextAttribute.SUPERSCRIPT and
+	 *            TextAttribute.SUBSCRIPT. If both SUPERSCRIPT and SUBSCRIPT,
+	 *            the text is displayed as SUPERSCRIPT
+	 */
+	public void drawString(String string, int xPos, int yPos, String fontName, int fontSize, String fontColor,
+			String highlightColor, TextAttribute... TextAttributes) {
+		ArrayList<TextFragment> tempBuffer = new ArrayList<TextFragment>(stringBuffer);
+		stringBuffer.clear();
+
+		addStringToBuffer(string, fontName, fontSize, fontColor, highlightColor, TextAttributes);
+		drawBuffer(xPos, yPos);
+
+		/* Store stringBuffer back */
+		stringBuffer = tempBuffer;
+	}
+
+	/**
+	 * Method drawString for not specifying font name, size, color and highlight
+	 * color
+	 */
+	public void drawString(String string, int xPos, int yPos) {
+		drawString(string, xPos, yPos, Font.getDefault().getName(), 16, "#ff000000", "#00000000");
+	}
+
+	/** Error checking method for printing all the stored strings in the buffer. */
+	public void printBuffer() {
+		for (int i = 0; i < stringBuffer.size(); i++)
+			System.out.println(stringBuffer.get(i).getText());
+	}
+
+	/** Method for clearing the string buffer */
+	public void clearBuffer() {
+		stringBuffer.clear();
 	}
 
 	/**
@@ -481,54 +539,8 @@ public class TextHandler {
 	 *            string to be verified
 	 */
 	private boolean verifyColor(String color) {
-		/* Checking that backgroundColor is a 8 digit long hex string */
+		/* Checking that color is a 8 digit long hex string */
 		return (color.matches("^([#]([0-9a-fA-F]{8}))$"));
-	}
-
-	/**
-	 * Method draws a string on the group set by the constructor.
-	 * 
-	 * @param string
-	 *            the string to be drawn to the group
-	 * @param xPos
-	 *            the starting x coordinate of the string
-	 * @param yPos
-	 *            the starting y coordinate of the string
-	 * @param fontName
-	 *            a string containing the font of the string. If font is not
-	 *            recognised, it defaults to the system default font.
-	 * @param fontSize
-	 *            the size of the font in pt
-	 * @param fontColor
-	 *            8 bit hex string specifying the font color in ARGB format
-	 * @param highlightColor
-	 *            8 bit hex string specifying the highlight color in ARGB format
-	 * @param TextAttributes
-	 *            varargs of TextAttribute enum that controls what effects are
-	 *            applied to the string. Options are TextAttribute.BOLD,
-	 *            TextAttribute.ITALIC, TextAttribute.UNDERLINE,
-	 *            TextAttribute.STRIKETHROUGH, TextAttribute.SUPERSCRIPT and
-	 *            TextAttribute.SUBSCRIPT. If both SUPERSCRIPT and SUBSCRIPT,
-	 *            the text is displayed as SUPERSCRIPT
-	 */
-	public void drawString(String string, int xPos, int yPos, String fontName, int fontSize, String fontColor,
-			String highlightColor, TextAttribute... TextAttributes) {
-		ArrayList<TextFragment> tempBuffer = new ArrayList<TextFragment>(stringBuffer);
-		stringBuffer.clear();
-
-		addStringToBuffer(string, fontName, fontSize, fontColor, highlightColor, TextAttributes);
-		drawBuffer(xPos, yPos);
-
-		/* Store stringBuffer back */
-		stringBuffer = tempBuffer;
-	}
-
-	/**
-	 * Method drawString for not specifying font name, size, color and highlight
-	 * color
-	 */
-	public void drawString(String string, int xPos, int yPos) {
-		drawString(string, xPos, yPos, Font.getDefault().getName(), 16, "#ff000000", "#00000000");
 	}
 
 	/** Method to capitalise the first letter of each word in a string */
@@ -541,4 +553,25 @@ public class TextHandler {
 		return finalString.substring(0, finalString.length() - 1);
 	}
 
+	/**
+	 * Method to create the customcss file used for removing the background and
+	 * scrollbars of the WebView.
+	 */
+	private void createCustomCss() {
+		Writer writer = null;
+		File file = new File("custom.css");
+
+		try {
+			writer = new BufferedWriter(new FileWriter(file));
+			writer.write("body {\n	    overflow-x: hidden;\n	    overflow-y: hidden;\n}\n::-webkit-scrollbar { \n   width: 16px;\n}::-webkit-scrollbar-track  { \n   background-color: white;\n}");
+		} catch (IOException ex) {
+			System.err.println("IOException occured during custom.css creation.");
+		} finally {
+			try {
+				writer.close();
+			} catch (IOException ex) {
+				System.err.println("IOException occured during custom.css creation.");
+			}
+		}
+	}
 }

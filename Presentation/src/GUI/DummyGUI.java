@@ -127,8 +127,7 @@ public class DummyGUI extends Application {
 		// thisTextHandler.drawString("Number 7 ", 200, 200, "Arial", 20,
 		// "#ffaabbcc", "#00000000");
 		// thisTextHandler.drawString("Hello", 300, 200);
-		textBit.replaceAll("\\<.*?>","");
-		System.out.println(textBit.replaceAll("<","\\<"));
+		
 		/*
 		 * thisTextHandler.addStringToBuffer("Number 1 ",
 		 * Font.getDefault().getName(), 20, "#ff0000ff", "#ffaa00ff",
@@ -146,11 +145,12 @@ public class DummyGUI extends Application {
 		 * thisTextHandler.addStringToBuffer("Number 6 ", "Verdana", 20,
 		 * "#11000000", "#ffaa00ff");
 		 */
+		//thisTextHandler.printBuffer();
 		thisTextHandler.addStringToBuffer(textBit, "Arial", 20, "#ff000000", "#95ff00ff");
 		// thisTextHandler.printBuffer();
-
+		
 		thisTextHandler.drawBuffer(650, 50, 1200, 750, "#ac0bccdd", Alignment.LEFT);
-
+		//thisTextHandler.createCustomCss();
 		primaryStage.show();
 	}
 
