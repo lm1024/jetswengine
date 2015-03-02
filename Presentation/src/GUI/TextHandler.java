@@ -1,6 +1,4 @@
-/**
- * 
- */
+/** (c) Copyright by Wave Media. */
 package GUI;
 
 import java.io.BufferedWriter;
@@ -26,7 +24,7 @@ import Data.TextFragment;
  * Class for handling text and text boxes on a javafx group.
  * 
  * @author tjd511
- * @version 1.0 23:01/2015
+ * @version 1.0 02/03/2015
  */
 public class TextHandler {
 
