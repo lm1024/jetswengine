@@ -29,6 +29,7 @@ public class GraphicsHandler {
 	 *            The group that all of the graphics are to be drawn to.
 	 */
 	public GraphicsHandler(Group group) {
+
 		// TODO Auto-generated constructor stub
 		this.group = group;
 	}
