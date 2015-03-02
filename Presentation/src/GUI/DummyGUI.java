@@ -82,19 +82,22 @@ public class DummyGUI extends Application {
 		thisGraphicsHandler.drawSquare(550f, 100f, 50f, new Color(0, 0, 1, 1), true, new Color(0, 0, 1, 1), 1.0,
 				Shadow.NORMAL, 45, Shading.CYCLIC, new Color(1, 0, 0, 1), new Color(0, 0, 0, 1));
 
-		thisGraphicsHandler.drawLine(100f, 200f, 220f, 200f, new Color(0, 0, 1, 1), Shading.HORIZONTAL, new Color(1, 0,
+		thisGraphicsHandler.drawLine(100f, 200f, 220f, 200f, new Color(0, 0, 1, 1), 2, Shading.HORIZONTAL, new Color(1, 0,
 				0, 1), new Color(0, 0, 0, 1));
 
-		thisGraphicsHandler.drawLine(230f, 200f, 350f, 200f, new Color(0, 0, 1, 1), Shading.NONE,
+		thisGraphicsHandler.drawLine(230f, 200f, 350f, 200f, new Color(0, 0, 1, 1), 2, Shading.NONE,
 				new Color(1, 0, 0, 1), new Color(0, 0, 0, 1));
 
 		thisGraphicsHandler.drawTriangle(400.0, 200, 450, 200, 425, 250, new Color(1, 0, 1, 1), true, new Color(0, 0,
 				1, 1), 1.0, Shadow.NORMAL, 45, Shading.CYCLIC, new Color(1, 0, 0, 1), new Color(0, 0, 0, 1));
 
+		thisGraphicsHandler.drawSquare(220, 220, 80, Color.BLACK, true, new Color(0,0,0,0), 5, Shadow.NONE, 0, Shading.NONE, null);
+
 		thisGraphicsHandler.drawRegularPolygon(220, 220, 80, 80, 5, new Color(0, 0.5, 0.8, 1), true, new Color(0, 0, 1,
 				1), 1.0, Shadow.NORMAL, 45, Shading.HORIZONTAL, new Color(1, 0, 0, 1), new Color(0, 1, 0, 1),
 				new Color(1, 1, 1, 1), new Color(0, 0, 0, 1));
-
+		
+		
 		for (int i = 50; i < 250; i = i + 25)
 			for (int j = 300; j < 500; j = j + 25)
 				thisGraphicsHandler.drawArrow(150, 400, i, j, new Color(1, 0.2, 0.5, 1), Shading.HORIZONTAL, new Color(
