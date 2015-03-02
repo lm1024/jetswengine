@@ -10,8 +10,10 @@
 package GUI;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import SwingGUI.Console;
 import XML.XMLReader;
 
 import Data.Slideshow;
@@ -55,12 +57,21 @@ public class GUI extends Application {
 	/**
 	 * 
 	 */
+	
+//	@Override
+//	public void init() throws Exception {
+//		super.init();
+//		Font font = Font.loadFont("file:resources/fonts/Roboto-Bold.ttf", 50);
+//		//Font.loadFont("file:resources/fonts/Roboto-Medium.ttf", 50);
+//	}
 
 	/* Global text area and array in which to save words */
 	private TextArea ta = new TextArea();
 	private String bannedWords[];
+	private String fileArray[] = {"pws.xml","","","","",""};
 	private TextField userField = new TextField();// text field
 	private File initDir;
+	private String outputFile;
 
 	private boolean isShadow = false;
 
@@ -105,7 +116,8 @@ public class GUI extends Application {
 		grid.setVgap(10);
 		grid.setPadding(new Insets(5, 5, 5, 5));
 		grid.setAlignment(Pos.CENTER);
-		grid.setOnMouseClicked(new mouseClickHandler());
+		
+		//slides.setOnMouseClicked(new mouseClickHandler());
 
 		/* creates a scene within the stage of pixel size x by y */
 		mainScene = new Scene(grid, primaryStage.getWidth(),
@@ -115,8 +127,7 @@ public class GUI extends Application {
 		grid.add(makeImageView("file:WM_logo_transparent.png", 225), 0, 0, 3, 3);
 
 		/* Product name in column 2-5, row 3 */
-		Label titleLabel = makeLabel("     SmartSlides", "title");
-		titleLabel.setFont(Font.font("Verdana", 20));
+		Label titleLabel = makeLabel("     SmartSlides", 50, "#33B5E5");
 		grid.add(titleLabel, 1, 2, 4, 1);
 
 		/* Create first button for Slide Preview and add in column 1, row 4 */
@@ -241,6 +252,9 @@ public class GUI extends Application {
 			case "5":
 				int i = Integer.parseInt(buttonPressed.getId());
 				System.out.println("Open pres. " + i);
+				//openfile(filename);
+				outputFile = fileArray[i]; //buttonPressed.getId();
+				Console.console.processCommand(("open " + outputFile).split("\\s+"));
 				break;
 
 			case "clr":
@@ -368,7 +382,7 @@ public class GUI extends Application {
 		HBox titleBox = makeHBox("clearBox", Pos.CENTER, 10);
 
 		/* Add Logo and Title to titleBox */
-		titleBox.getChildren().addAll(makeLabel("Settings", "title"));
+		titleBox.getChildren().addAll(makeLabel("Settings", 50, "#33B5E5"));
 		settingsGrid.add(titleBox, 1, 0, 2, 1);
 
 		/*
@@ -381,7 +395,7 @@ public class GUI extends Application {
 
 		/* Vbox to contain check boses */
 		VBox vbox1 = makeVBox("clearBox", Pos.TOP_LEFT, 10);
-		vbox1.getChildren().addAll(makeLabel("Auto-Next:", "headding"), cb1,
+		vbox1.getChildren().addAll(makeLabel("Auto-Next:", 16, "#313131"), cb1,
 				cb2);
 		settingsGrid.add(vbox1, 0, 2, 1, 2);
 
@@ -412,7 +426,7 @@ public class GUI extends Application {
 		userButtons.getChildren().addAll(userSubmit, userClr);
 
 		/* Add everything to the box */
-		userBox.getChildren().addAll(makeLabel("Username:", "headding"),
+		userBox.getChildren().addAll(makeLabel("Username:", 16, "#313131"),
 				userField, userButtons);// add
 		// to
 		// box
@@ -429,7 +443,7 @@ public class GUI extends Application {
 		ta.getStyleClass().add("textArea");
 
 		/* Add items to banned words VBox */
-		bannedBox.getChildren().addAll(makeLabel("Banned Words:", "headding"),
+		bannedBox.getChildren().addAll(makeLabel("Banned Words:", 16, "#313131"),
 				ta);
 		settingsGrid.add(bannedBox, 2, 2);
 
@@ -472,7 +486,7 @@ public class GUI extends Application {
 		errorGrid.add(makeImageView("file:resources/error.png", 0), 0, 0);
 
 		HBox errBox = makeHBox("clearBox", Pos.CENTER, 5);
-		errBox.getChildren().addAll(makeLabel("Error!", "error"));
+		errBox.getChildren().addAll(makeLabel("Error!", 16, "#313131"));
 		errorGrid.add(errBox, 0, 1);
 
 		/* Add scene to stage and make window Modal */
@@ -490,9 +504,12 @@ public class GUI extends Application {
 	 */
 
 	/** Utility function for adding labels **/
-	private Label makeLabel(String labelText, String styleClass) {
+	private Label makeLabel(String labelText, int size, String colour) {
+		Font bold = Font.loadFont("file:resources/fonts/Roboto-Bold.ttf", 10);
 		Label lbl = new Label(labelText);// create new instance of label
-		lbl.getStyleClass().add(styleClass);// add style to label
+		lbl.setFont(bold);
+		lbl.setStyle("-fx-text-fill:" + colour + ";-fx-font-size:" + size);// add colour to label
+		
 		return lbl;
 	}
 
@@ -529,6 +546,9 @@ public class GUI extends Application {
 	/** Utility function for adding button */
 	private Button makeButton(String buttonText, String styleClass,
 			boolean hover, String id) {
+		
+
+		Font medium = Font.loadFont("file:resources/fonts/Roboto-Regular.ttf", 15);
 		Button btn = new Button();// new instance of button
 		btn.setText(buttonText);// add text
 		btn.getStyleClass().add(styleClass);// add style
@@ -540,6 +560,7 @@ public class GUI extends Application {
 			btn.setOnMouseExited(new hoverHandler());
 		}
 		btn.setOnAction(new buttonEventHandler());// event handler for buttons
+		btn.setFont(medium);
 		return btn;
 	}
 

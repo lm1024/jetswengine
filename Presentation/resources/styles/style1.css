@@ -8,15 +8,15 @@
 
 /* load fonts */
 @font-face {
-    font-family: 'RobotoBold';
-    src: url("fonts/Roboto-Bold.ttf");
+    font-family: 'Roboto';
+    src: url('Roboto-Bold.ttf');
 }
 
-@font-face {
+/*@font-face {
     font-family: 'RobotoMedium';
-    src: url("fonts/Roboto-Medium.ttf");
+    src: url('Roboto-Medium.ttf');
 }
-
+*/
 
 /* set cream background colour */
 .root{
@@ -32,19 +32,22 @@
 
 /* Blue text, RobotoBold/large font */
 .title {
-	-fx-font: 50pt RobotoBold;
+	//-fx-font-family: "Roboto";
 	-fx-text-fill: #33B5E5;
+	-fx-font-size: 50pt;
 }
 
 
 /* Dark text, RobotoMedium/smaller font */
 .headding {
-	-fx-font: 15pt RobotoMedium;
+	//-fx-font-family: "Roboto";
+	-fx-font-size: 15pt;
 	-fx-text-fill: #313131;
 }
 
 .error {
-	-fx-font: 50pt RobotoBold;
+	//-fx-font-family: "Roboto";
+	-fx-font-size: 50pt;
 	-fx-text-fill: #FF0000;
 }
 
