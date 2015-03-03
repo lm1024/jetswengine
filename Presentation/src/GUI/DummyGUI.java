@@ -1,6 +1,8 @@
 /** (c) Copyright by Wave Media. */
 package GUI;
 
+import java.util.concurrent.TimeUnit;
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -82,22 +84,22 @@ public class DummyGUI extends Application {
 		thisGraphicsHandler.drawSquare(550f, 100f, 50f, new Color(0, 0, 1, 1), true, new Color(0, 0, 1, 1), 1.0,
 				Shadow.NORMAL, 45, Shading.CYCLIC, new Color(1, 0, 0, 1), new Color(0, 0, 0, 1));
 
-		thisGraphicsHandler.drawLine(100f, 200f, 220f, 200f, new Color(0, 0, 1, 1), 2, Shading.HORIZONTAL, new Color(1, 0,
-				0, 1), new Color(0, 0, 0, 1));
+		thisGraphicsHandler.drawLine(100f, 200f, 220f, 200f, new Color(0, 0, 1, 1), 2, Shading.HORIZONTAL, new Color(1,
+				0, 0, 1), new Color(0, 0, 0, 1));
 
-		thisGraphicsHandler.drawLine(230f, 200f, 350f, 200f, new Color(0, 0, 1, 1), 2, Shading.NONE,
-				new Color(1, 0, 0, 1), new Color(0, 0, 0, 1));
+		thisGraphicsHandler.drawLine(230f, 200f, 350f, 200f, new Color(0, 0, 1, 1), 2, Shading.NONE, new Color(1, 0, 0,
+				1), new Color(0, 0, 0, 1));
 
 		thisGraphicsHandler.drawTriangle(400.0, 200, 450, 200, 425, 250, new Color(1, 0, 1, 1), true, new Color(0, 0,
 				1, 1), 1.0, Shadow.NORMAL, 45, Shading.CYCLIC, new Color(1, 0, 0, 1), new Color(0, 0, 0, 1));
 
-		thisGraphicsHandler.drawSquare(220, 220, 80, Color.BLACK, true, new Color(0,0,0,0), 5, Shadow.NONE, 0, Shading.NONE, null);
+		thisGraphicsHandler.drawSquare(220, 220, 80, Color.BLACK, true, new Color(0, 0, 0, 0), 5, Shadow.NONE, 0,
+				Shading.NONE, null);
 
 		thisGraphicsHandler.drawRegularPolygon(220, 220, 80, 80, 5, new Color(0, 0.5, 0.8, 1), true, new Color(0, 0, 1,
 				1), 1.0, Shadow.NORMAL, 45, Shading.HORIZONTAL, new Color(1, 0, 0, 1), new Color(0, 1, 0, 1),
 				new Color(1, 1, 1, 1), new Color(0, 0, 0, 1));
-		
-		
+
 		for (int i = 50; i < 250; i = i + 25)
 			for (int j = 300; j < 500; j = j + 25)
 				thisGraphicsHandler.drawArrow(150, 400, i, j, new Color(1, 0.2, 0.5, 1), Shading.HORIZONTAL, new Color(
@@ -116,23 +118,20 @@ public class DummyGUI extends Application {
 		thisGraphicsHandler.drawArc(450, 400, 50, 50, 100, 100, new Color(0, 1, 1, 1), true, new Color(0, 0, 1, 1),
 				1.0, Shadow.NORMAL, 45, Shading.CYCLIC, new Color(1, 1, 0, 1), new Color(0, 0, 0, 1));
 
-		// thisGraphicsHandler.drawRectangle();
+		long startTime = System.nanoTime();
 		TextHandler thisTextHandler = new TextHandler(group);
-		// System.out.println(thisTextHandler.getClass().getSimpleName());
-		// thisTextHandler.addStringToBuffer("dsadsafas 1 ",
-		// Font.getDefault().getName(), 20, "#ff0000ff", "#ffaa00ff",
-		// TextAttribute.BOLD);
 
 		String textBit = "There's a lady who's sure all <b> that glitters is gold And she's buying a stairway to heaven. When she gets there she knows, if the stores are all closed With a word she can get what she came for. Ooh, ooh, and she's buying a stairway to heaven. There's a sign on the wall but she wants to be sure 'Cause you know sometimes words have two meanings. In a tree by the brook, there's a songbird who sings, Sometimes all of our thoughts are misgiven. Ooh, it makes me wonder, Ooh, it makes me wonder. There's a feeling I get when I look to the west, And my spirit is crying for leaving. In my thoughts I have seen rings of smoke through the trees, And the voices of those who stand looking. Ooh, it makes me wonder, Ooh, it really makes me wonder. And it's whispered that soon, if we all call the tune, Then the piper will lead us to reason. And a new day will dawn for those who stand long, And the forests will echo with laughter. If there's a bustle in your hedgerow, don't be alarmed now, It's just a spring clean for the May queen. Yes, there are two paths you can go by, but in the long run There's still time to change the road you're on. And it makes me wonder. Your head is humming and it won't go, in case you don't know, The piper's calling you to join him, Dear lady, can you hear the wind blow, and did you know Your stairway lies on the whispering wind? And as we wind on down the road Our shadows taller than our soul. There walks a lady we all know Who shines white light and wants to show How everything still turns to gold. And if you listen very hard The tune will come to you at last. When all are one and one is all To be a rock and not to roll. And she's buying a stairway to heaven.";
-
-		// thisTextHandler.drawString("Number 7 ", 200, 200, "Arial", 20,
-		// "#ffaabbcc", "#00000000");
-		// thisTextHandler.drawString("Hello", 300, 200);
-
+		
 		thisTextHandler.addStringToBuffer(textBit, "Arial", 20, "#ff000000", "#95ff00ff");
-
+		long startTime2 = System.nanoTime();
 		thisTextHandler.drawBuffer(650, 50, 1200, 750, "#ac0bccdd", Alignment.LEFT);
-
+		long endTime = System.nanoTime();
+		thisTextHandler.drawString("Hello!", 600, 700);
+		long endTime2 = System.nanoTime();
+		System.out.println("Execution time: " + TimeUnit.NANOSECONDS.toMillis(endTime2 - endTime) + "ms, "
+				+ TimeUnit.NANOSECONDS.toMillis(endTime - startTime2) + "ms, "
+				+ TimeUnit.NANOSECONDS.toMillis(startTime2 - startTime) + "ms");
 		primaryStage.show();
 	}
 

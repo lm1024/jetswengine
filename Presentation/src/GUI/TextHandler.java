@@ -10,6 +10,7 @@ import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import com.sun.webpane.platform.WebPage;
 
@@ -58,6 +59,7 @@ public class TextHandler {
 	 */
 	public TextHandler(Group group) {
 		this.group = group;
+		WebView initialWebViewInstantiation = new WebView(); //TODO 
 	}
 
 	/**
@@ -178,6 +180,7 @@ public class TextHandler {
 	 * */
 	public void drawBuffer(int xStartPos, int yStartPos, int xEndPos, int yEndPos, String backgroundColor,
 			Alignment alignment) {
+		
 		/* Swaps around coordinates if incorrectly passed in */
 		if (xStartPos > xEndPos) {
 			int temp = xStartPos;
@@ -197,10 +200,10 @@ public class TextHandler {
 			stringBuffer.clear();
 			return;
 		}
-
+		long startTime = System.nanoTime();
 		/* Instantiate the WebView that will be used to display the text */
 		WebView webView = new WebView();
-
+		
 		/* Set starting position and width of the panel */
 		webView.relocate(xStartPos, yStartPos);
 		webView.setPrefWidth(xEndPos - xStartPos);
@@ -263,6 +266,8 @@ public class TextHandler {
 		}
 
 		group.getChildren().addAll(webView);
+		long endTime = System.nanoTime();
+		System.out.println("Execution time: " + TimeUnit.NANOSECONDS.toMillis(endTime - startTime) + "ms");
 	}
 
 	/**
