@@ -283,7 +283,7 @@ public class TextHandler {
 	 * @param yStartPos
 	 *            the starting y coordinate of the text box
 	 */
-	public void drawBuffer(int xStartPos, int yStartPos) {
+	private void drawBuffer(int xStartPos, int yStartPos) {
 		Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
 		drawBuffer(xStartPos, yStartPos, (int) primaryScreenBounds.getWidth() - xStartPos,
 				(int) primaryScreenBounds.getHeight() - yStartPos, "#00000000", Alignment.LEFT);
