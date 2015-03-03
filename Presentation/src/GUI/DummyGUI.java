@@ -9,6 +9,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 /**
@@ -44,11 +45,17 @@ public class DummyGUI extends Application {
 		Button btn = makeButton(100, 100, "Button Text");
 		btn.setId("button1"); // id set so that source of event can be found
 		btn.getText();
-		group.getChildren().addAll(btn);
+		group.getChildren().add(btn);
 		Scene scene = new Scene(group, 500, 500);
 		primaryStage.setScene(scene);
 		/* Line sets the screen to fullscreen */
 		// primaryStage.setFullScreen(true);
+		/* Calls to add items to screen */
+		ImageHandler thisImageHandler = new ImageHandler(group);
+		thisImageHandler.drawImage(100, 100, "file:me.png", 1, 1, 0, false, false);
+		GraphicsHandler thisGraphicsHandler = new GraphicsHandler(group);
+		thisGraphicsHandler.drawOval(200, 200, 300, 350, new Color(0, 0, 1, 1), 0);
+		// thisGraphicsHandler.drawRectangle();
 		primaryStage.show();
 	}
 
