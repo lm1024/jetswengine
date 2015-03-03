@@ -89,9 +89,11 @@ public class TextHandler {
 	 *            the text is displayed as SUPERSCRIPT.
 	 * */
 	public void addStringToBuffer(String string, String fontName, int fontSize, String fontColor,
-			String highlightColor, TextAttribute... TextAttributes) {
+			String highlightColor, boolean newLine, TextAttribute... TextAttributes) {
 		TextFragment currentString = new TextFragment();
+		
 		currentString.setText(string);
+		
 
 		/* Set all parameters that do not require error checking */
 		for (TextAttribute currentAttribute : TextAttributes) {
@@ -116,6 +118,8 @@ public class TextHandler {
 				break;
 			}
 		}
+		
+		currentString.setNewLine(newLine);
 
 		/* Error checking for fontName */
 		String capitalisedFontName = capitaliseEachFirstLetter(fontName);
@@ -316,7 +320,7 @@ public class TextHandler {
 		ArrayList<TextFragment> tempBuffer = new ArrayList<TextFragment>(stringBuffer);
 		stringBuffer.clear();
 
-		addStringToBuffer(string, fontName, fontSize, fontColor, highlightColor, TextAttributes);
+		addStringToBuffer(string, fontName, fontSize, fontColor, highlightColor, false, TextAttributes);
 		drawBuffer(xPos, yPos);
 
 		/* Store stringBuffer back */
@@ -475,6 +479,10 @@ public class TextHandler {
 			 */
 			postBodyAttributes = postBodyAttributes + "</font>" + "</span>" + "</span>" + "</span>";
 
+			/* Add a new line tag if required */
+			if (currentString.isNewLine())
+				postBodyAttributes = postBodyAttributes + "<br>";
+			
 			/*
 			 * Replaces the < character with the html expression for a <
 			 * character, "%lt". This is to prevent html tags within the entered
