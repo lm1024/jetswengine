@@ -56,6 +56,10 @@ public class ImageHandler {
 	 *            size of crop from the top of the image
 	 * @param cropUp
 	 *            size of crop from the bottom of the image
+	 * @param imageEffects
+	 *            a varargs containing all image effects that are to be applied
+	 *            to the image. The first one in the list is the primary effect,
+	 *            the effect following uses the previous effect as an input.
 	 */
 	public void drawImage(float xPos, float yPos, String filepath, double scaleX, double scaleY, float rotation,
 			boolean vFlip, boolean hFlip, double cropLeft, double cropRight, double cropDown, double cropUp,
