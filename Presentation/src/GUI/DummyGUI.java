@@ -42,7 +42,7 @@ public class DummyGUI extends Application {
 		primaryStage.setTitle("JavaFX Welcome");
 
 		Group group = new Group();
-		//group.setStyle("-fx-background-color: white;");
+		// group.setStyle("-fx-background-color: white;");
 
 		/* Create new button */
 		Button btn = makeButton(100, 100, "Button Text");
@@ -53,18 +53,18 @@ public class DummyGUI extends Application {
 		Scene scene = new Scene(group, 1000, 1000);
 
 		primaryStage.setScene(scene);
-		
+
 		/* Line sets the screen to fullscreen */
-		//primaryStage.setFullScreen(true);
-		
+		// primaryStage.setFullScreen(true);
+
 		/* Calls to add items to screen */
 		ImageHandler thisImageHandler = new ImageHandler(group);
-		thisImageHandler.drawImage(200, 200, "file:me.png", 0.1, 0.1,90, false, false, 0, 0, 500, 500);
-		
+		thisImageHandler.drawImage(200, 200, "file:me.png", 0.4, 0.4, 225, false, false, 0, 0, 0, 0);
+
 		GraphicsHandler thisGraphicsHandler = new GraphicsHandler(group);
 		thisGraphicsHandler.drawOval(200, 200, 300, 350, new Color(0, 0, 1, 1), 0);
-		//thisGraphicsHandler.drawRectangle();
-		
+		// thisGraphicsHandler.drawRectangle();
+
 		primaryStage.show();
 	}
 
