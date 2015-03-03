@@ -153,14 +153,13 @@ public class ImageHandler {
 				break;
 			case REFLECTION:
 				Reflection reflection = new Reflection();
-				reflection.setFraction(0.5);// TODO
+				reflection.setFraction(0.3);
 				reflection.setInput(bottomEffect);
 				bottomEffect = reflection;
 				break;
 			default:
 				System.err.println("Effect " + currentEffectName + " not implemented yet.");
 			}
-			System.out.println(bottomEffect);
 			imageView.setEffect(bottomEffect);
 		}
 

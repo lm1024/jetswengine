@@ -58,9 +58,8 @@ public class DummyGUI extends Application {
 		// primaryStage.setFullScreen(true);
 
 		/* Calls to add items to screen */
-		// ImageHandler thisImageHandler = new ImageHandler(group);
-		// thisImageHandler.drawImage(100, 100, "file:me.png", 1, 1, 0, false,
-		// false);
+		ImageHandler thisImageHandler = new ImageHandler(group);
+		thisImageHandler.drawImage(200, 200, "file:me.png", 0.4, 0.4, 0, false, false, 0, 0, 0, 0, ImageEffect.REFLECTION, ImageEffect.SEPIA);
 
 		// GraphicsHandler thisGraphicsHandler = new GraphicsHandler(group);
 		// thisGraphicsHandler.drawOval(200, 200, 300, 350, new Color(0, 0, 1,
