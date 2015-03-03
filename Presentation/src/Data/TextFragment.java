@@ -15,6 +15,7 @@ public class TextFragment {
 	private boolean superscript;
 	private boolean subscript;
 	private boolean strikethrough;
+	private boolean newLine;
 	private String textCase = Defaults.getTextCase();
 
 	/**
@@ -313,6 +314,14 @@ public class TextFragment {
 	 */
 	public void setStrikethrough(boolean strikethrough) {
 		this.strikethrough = strikethrough;
+	}
+
+	public boolean isNewLine() {
+		return newLine;
+	}
+
+	public void setNewLine(boolean newLine) {
+		this.newLine = newLine;
 	}
 
 }
