@@ -275,21 +275,6 @@ public class TextHandler {
 	}
 
 	/**
-	 * Method forms a transparent text box of a large size to display a single
-	 * string at one point. Wraps at edge of screen.
-	 * 
-	 * @param xStartPos
-	 *            the starting x coordinate of the text box
-	 * @param yStartPos
-	 *            the starting y coordinate of the text box
-	 */
-	private void drawBuffer(int xStartPos, int yStartPos) {
-		Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
-		drawBuffer(xStartPos, yStartPos, (int) primaryScreenBounds.getWidth() - xStartPos,
-				(int) primaryScreenBounds.getHeight() - yStartPos, "#00000000", Alignment.LEFT);
-	}
-
-	/**
 	 * Method draws a string on the group set by the constructor.
 	 * 
 	 * @param string
@@ -346,6 +331,21 @@ public class TextHandler {
 		stringBuffer.clear();
 	}
 
+	/**
+	 * Method forms a transparent text box of a large size to display a single
+	 * string at one point. Wraps at edge of screen.
+	 * 
+	 * @param xStartPos
+	 *            the starting x coordinate of the text box
+	 * @param yStartPos
+	 *            the starting y coordinate of the text box
+	 */
+	private void drawBuffer(int xStartPos, int yStartPos) {
+		Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+		drawBuffer(xStartPos, yStartPos, (int) primaryScreenBounds.getWidth() - xStartPos,
+				(int) primaryScreenBounds.getHeight() - yStartPos, "#00000000", Alignment.LEFT);
+	}
+	
 	/**
 	 * Formats a HTML string in order to display a rich text box full with the
 	 * fragments from the buffer.
