@@ -3,7 +3,6 @@
  */
 package server;
 
-import java.io.IOException;
 import java.util.List;
 
 import XML.XMLReader;
@@ -15,10 +14,7 @@ import Data.Text;
 import Data.TextFragment;
 import GUI.Alignment;
 import GUI.GraphicsHandler;
-import GUI.ImageEffect;
 import GUI.ImageHandler;
-import GUI.Shading;
-import GUI.Shadow;
 import GUI.TextHandler;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -27,7 +23,6 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -119,9 +114,11 @@ public class PresentationDisplayerTest extends Application {
 		return (int) (coordinate * ySize);
 	}
 
+	/** Method draws slide based upon what is in the datastructure */
 	private void drawSlide(Slide currentSlide) {
 		group.getChildren().clear();
 
+		/* Text section */
 		for (Text currentText : currentSlide.getTextList()) {
 			System.out.println("	Current Text: " + currentText);
 			for (TextFragment currentTextFragment : currentText.getTextFragments()) {
@@ -132,12 +129,13 @@ public class PresentationDisplayerTest extends Application {
 
 			int absXStart = convertXRelToAbs(currentText.getxStart());
 			int absYStart = convertYRelToAbs(currentText.getyStart());
-			int absXEnd = convertXRelToAbs(currentText.getxStart() * 1.5);
-			int absYEnd = convertYRelToAbs(currentText.getyStart() * 1.4);
+			int absXEnd = convertXRelToAbs(currentText.getxStart() * 1.5); // TODO
+			int absYEnd = convertYRelToAbs(currentText.getyStart() * 1.4); // TODO
 
 			thisTextHandler.drawBuffer(absXStart, absYStart, absXEnd, absYEnd, "#10aa0000", Alignment.LEFT);
 		}
-
+		
+		/* Image section */
 		for (Image currentImage : currentSlide.getImagesList()) {
 			System.out.println("	Current Image: " + currentImage);
 			thisImageHandler.drawImage(currentImage.getxStart(), currentImage.getxStart(),
