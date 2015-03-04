@@ -8,15 +8,15 @@
 
 /* load fonts */
 @font-face {
-    font-family: 'RobotoBold';
-    src: url("file:resources/fonts/Roboto-Bold.ttf");
+    font-family: 'Roboto';
+    src: url('Roboto-Bold.ttf');
 }
 
-@font-face {
+/*@font-face {
     font-family: 'RobotoMedium';
-    src: url("file:resources/fonts/Roboto-Medium.ttf");
+    src: url('Roboto-Medium.ttf');
 }
-
+*/
 
 /* set cream background colour */
 .root{
@@ -32,17 +32,23 @@
 
 /* Blue text, RobotoBold/large font */
 .title {
-	-fx-font-size: 50pt;
+	//-fx-font-family: "Roboto";
 	-fx-text-fill: #33B5E5;
-	-fx-font-family: "RobotoBold";
+	-fx-font-size: 50pt;
 }
 
 
 /* Dark text, RobotoMedium/smaller font */
 .headding {
+	//-fx-font-family: "Roboto";
 	-fx-font-size: 15pt;
 	-fx-text-fill: #313131;
-	-fx-font-family: "RobotoMedium";
+}
+
+.error {
+	//-fx-font-family: "Roboto";
+	-fx-font-size: 50pt;
+	-fx-text-fill: #FF0000;
 }
 
 
@@ -56,7 +62,7 @@
 	-fx-background-color: #313131;
 	-fx-text-inner-color: #33B5E5;
 	-fx-prop-text-color: #33B5E5;
-	-fx-font-family: "RobotoMedium";
+	-fx-font: 16pt RobotoMedium;
 }
 
 
@@ -102,7 +108,7 @@
 	-fx-background-color: #F0F0F0;
 	-fx-text-fill: #313131;
 	-fx-border-width: 2;
-	-fx-border-color: #313131;
+	-fx-border-color: #F0F0F0;
 	
 }
 
@@ -114,11 +120,10 @@
 
 /* Dark text, blue box*/
 .checkLight {
-	-fx-font-family: "RobotoMedium";
+	-fx-font: 16pt RobotoMedium;
 	-fx-text-fill: #313131;
 	-fx-body-color: #33B5E5;
 }
-
 
 
 

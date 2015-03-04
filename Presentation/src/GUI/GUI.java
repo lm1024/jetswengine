@@ -19,6 +19,8 @@ import XML.XMLReader;
 import Data.Slideshow;
 
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -59,18 +61,18 @@ public class GUI extends Application {
 	/**
 	 * 
 	 */
-	
-//	@Override
-//	public void init() throws Exception {
-//		super.init();
-//		Font font = Font.loadFont("file:resources/fonts/Roboto-Bold.ttf", 50);
-//		//Font.loadFont("file:resources/fonts/Roboto-Medium.ttf", 50);
-//	}
+
+	// @Override
+	// public void init() throws Exception {
+	// super.init();
+	// Font font = Font.loadFont("file:resources/fonts/Roboto-Bold.ttf", 50);
+	// //Font.loadFont("file:resources/fonts/Roboto-Medium.ttf", 50);
+	// }
 
 	/* Global text area and array in which to save words */
 	private TextArea ta = new TextArea();
 	private String bannedWords[];
-	private String fileArray[] = {"pws.xml","","","","",""};
+	private String fileArray[] = { "pws.xml", "", "", "", "", "" };
 	private TextField userField = new TextField();// text field
 	private File initDir;
 	private String outputFile;
@@ -84,6 +86,8 @@ public class GUI extends Application {
 	private Scene slides;
 
 	private Stage stageRef;
+	
+	final GridPane grid = new GridPane();
 
 	public GUI() {
 	}
@@ -105,6 +109,7 @@ public class GUI extends Application {
 		 * resizing stuff!!
 		 */
 		stageRef = primaryStage;
+		stageRef.widthProperty().addListener(new widthSizeListener());
 
 		/* Set the title of the window */
 		primaryStage.setTitle("SmartSlides");
@@ -113,24 +118,23 @@ public class GUI extends Application {
 		primaryStage.setHeight(primaryScreenBounds.getHeight());
 
 		/* create a gridpane layout */
-		final GridPane grid = new GridPane();
 		grid.setHgap(10);
 		grid.setVgap(10);
 		grid.setPadding(new Insets(5, 5, 5, 5));
 		//grid.setAlignment(Pos.CENTER);
 		
+		/* creates a group and stackpane where the grid is added to*/
 		Group group = new Group(grid);
-		GridPane outerPane = new GridPane();
-		outerPane.getChildren().add(group);
-		outerPane.setAlignment(Pos.CENTER);
-		//slides.setOnMouseClicked(new mouseClickHandler());
+		StackPane rootpane = new StackPane();
+		rootpane.getChildren().add(group);
 
 		/* creates a scene within the stage of pixel size x by y */
-		mainScene = new Scene(outerPane, primaryStage.getWidth(),
+		mainScene = new Scene(rootpane, primaryStage.getWidth(),
 				primaryStage.getHeight());
 
 		/* Company icon in column 1-3, row 1-3 */
-		grid.add(makeImageView("file:WM_logo_transparent.png", 225), 0, 0, 3, 3);
+		grid.add(makeImageView("file:WM_logo_transparent.png", 0.25), 0, 0, 3,
+				3);
 
 		/* Product name in column 2-5, row 3 */
 		Label titleLabel = makeLabel("     SmartSlides", 50, "#33B5E5");
@@ -138,32 +142,32 @@ public class GUI extends Application {
 
 		/* Create first button for Slide Preview and add in column 1, row 4 */
 		Button one = makeButton("Presentation 1", "invisiButton", true, "0",
-				"file:me.png", 130);
+				"file:me.png", 0.2);
 		grid.add(one, 0, 3);
 
 		/* Create second button for Slide Preview and add in column 3, row 4 */
 		Button two = makeButton("Presentation 2", "invisiButton", true, "1",
-				"file:me.png", 130);
+				"file:me.png", 0.2);
 		grid.add(two, 2, 3);
 
 		/* Create third button for Slide Preview and add in column 5, row 4 */
 		Button three = makeButton("Presentation 3", "invisiButton", true, "2",
-				"file:me.png", 130);
+				"file:me.png", 0.2);
 		grid.add(three, 4, 3);
 
 		/* Create forth button for Slide Preview and add in column 1, row 6 */
 		Button four = makeButton("Presentation 4", "invisiButton", true, "3",
-				"file:me.png", 130);
+				"file:me.png", 0.2);
 		grid.add(four, 0, 5);
 
 		/* Create fifth button for Slide Preview and add in column 3, row 6 */
 		Button five = makeButton("Presentation 5", "invisiButton", true, "4",
-				"file:me.png", 130);
+				"file:me.png", 0.2);
 		grid.add(five, 2, 5);
 
 		/* Create sixth button for Slide Preview and add in column 5, row 6 */
 		Button six = makeButton("Presentation 6", "invisiButton", true, "5",
-				"file:me.png", 130);
+				"file:me.png", 0.2);
 		grid.add(six, 4, 5);
 
 		/* Insert blank in column 2 and 4, row 4-6 */
@@ -184,8 +188,9 @@ public class GUI extends Application {
 
 		mainScene.getStylesheets().add(styleSheet);
 
-		group.scaleXProperty().bind(mainScene.widthProperty().divide(600));
-		group.scaleYProperty().bind(mainScene.heightProperty().divide(560));
+		/* makes the scene and its contents resizable */
+		group.scaleXProperty().bind(mainScene.widthProperty().divide(primaryStage.getWidth()));
+		group.scaleYProperty().bind(mainScene.heightProperty().divide(primaryStage.getHeight()));
 		primaryStage.setScene(mainScene);
 
 		/* Line sets the screen to fullscreen */
@@ -258,11 +263,26 @@ public class GUI extends Application {
 			case "3":
 			case "4":
 			case "5":
+				Slideshow currentSlideshow1 = null;
 				int i = Integer.parseInt(buttonPressed.getId());
+				buildSlides();
 				System.out.println("Open pres. " + i);
-				//openfile(filename);
-				outputFile = fileArray[i]; //buttonPressed.getId();
-				Console.console.processCommand(("open " + outputFile).split("\\s+"));
+				outputFile = fileArray[i];
+
+				try {
+					currentSlideshow1 = new XMLReader(outputFile)
+							.getSlideshow();
+				} catch (IOException e1) {
+					if (currentSlideshow1 == null) {
+
+						/* Display error scene */
+						dispError();
+
+						System.out.println("Null slideshow");
+					}
+
+				}
+
 				break;
 
 			case "clr":
@@ -357,6 +377,18 @@ public class GUI extends Application {
 		}
 	}
 
+	private class widthSizeListener implements ChangeListener<Number> {
+
+		@Override
+		public void changed(ObservableValue<? extends Number> observableValue,
+				Number oldSceneWidth, Number newSceneWidth) {
+			System.out.println("Width: " + newSceneWidth);
+			
+
+		}
+
+	}
+
 	private void buildSettings() {
 
 		/*
@@ -383,7 +415,7 @@ public class GUI extends Application {
 
 		/* Wavemedia logo Home button */
 		Button homeBtn = makeButton("", "invisiButton", true, "home",
-				"file:WM_logo_transparent.png", 200);
+				"file:WM_logo_transparent.png", 0.2);
 		settingsGrid.add(homeBtn, 0, 0);
 
 		/* Create a HBox to put title in */
@@ -451,8 +483,8 @@ public class GUI extends Application {
 		ta.getStyleClass().add("textArea");
 
 		/* Add items to banned words VBox */
-		bannedBox.getChildren().addAll(makeLabel("Banned Words:", 16, "#313131"),
-				ta);
+		bannedBox.getChildren().addAll(
+				makeLabel("Banned Words:", 16, "#313131"), ta);
 		settingsGrid.add(bannedBox, 2, 2);
 
 		/* HBox to put buttons controlling banned words in */
@@ -473,6 +505,25 @@ public class GUI extends Application {
 		/* Line sets the screen to full screen */
 		// primaryStage.setFullScreen(true);
 
+	}
+	
+	private void buildSlides() {
+		
+		Stage slideStage = new Stage();
+		slideStage.setTitle("SmartSlides");
+		GridPane slidePane = new GridPane();
+		settingsScene = new Scene(slidePane);
+		
+		
+	
+		slidePane.add(makeImageView("file:resources/error.png", 0), 0, 0);
+		
+		slideStage.setScene(settingsScene);
+		slideStage.setFullScreen(true);
+		slideStage.show();
+		
+		slides.setOnMouseClicked(new mouseClickHandler());
+		
 	}
 
 	/*
@@ -516,8 +567,11 @@ public class GUI extends Application {
 		Font bold = Font.loadFont("file:resources/fonts/Roboto-Bold.ttf", 10);
 		Label lbl = new Label(labelText);// create new instance of label
 		lbl.setFont(bold);
-		lbl.setStyle("-fx-text-fill:" + colour + ";-fx-font-size:" + size);// add colour to label
-		
+		lbl.setStyle("-fx-text-fill:" + colour + ";-fx-font-size:" + size);// add
+																			// colour
+																			// to
+																			// label
+
 		return lbl;
 	}
 
@@ -554,9 +608,9 @@ public class GUI extends Application {
 	/** Utility function for adding button */
 	private Button makeButton(String buttonText, String styleClass,
 			boolean hover, String id) {
-		
 
-		Font medium = Font.loadFont("file:resources/fonts/Roboto-Regular.ttf", 15);
+		Font medium = Font.loadFont("file:resources/fonts/Roboto-Regular.ttf",
+				15);
 		Button btn = new Button();// new instance of button
 		btn.setText(buttonText);// add text
 		btn.getStyleClass().add(styleClass);// add style
@@ -576,7 +630,7 @@ public class GUI extends Application {
 	 * Utility function to make a button with an image and label
 	 */
 	private Button makeButton(String buttonText, String styleClass,
-			boolean hover, String id, String file, int size) {
+			boolean hover, String id, String file, double size) {
 
 		ImageView image = makeImageView(file, size);// make an ImageView
 		Button btn = makeButton(buttonText, styleClass, hover, id);// make a
@@ -591,10 +645,13 @@ public class GUI extends Application {
 	 */
 	private ImageView makeImageView(String file, double width) {
 		ImageView iv = new ImageView();// new instance of ImageView
-		iv.setImage(new Image(file, width, 0, true, true));// set the image in
-															// the ImageView to
-															// the Image in the
-															// file 'File'
+		iv.setImage(new Image(file, stageRef.getWidth() * width, 0, true, true));// set
+																					// the
+																					// image
+																					// in
+		// the ImageView to
+		// the Image in the
+		// file 'File'
 
 		return iv;
 	}
