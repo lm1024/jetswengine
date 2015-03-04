@@ -38,6 +38,7 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -116,18 +117,20 @@ public class GUI extends Application {
 		Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
 		primaryStage.setWidth(primaryScreenBounds.getWidth());
 		primaryStage.setHeight(primaryScreenBounds.getHeight());
+		
+		/* sets the scale required to scale the height with change in width*/
+		double sizescale = primaryScreenBounds.getWidth()/primaryScreenBounds.getHeight();
 
 		/* create a gridpane layout */
 		grid.setHgap(10);
 		grid.setVgap(10);
 		grid.setPadding(new Insets(5, 5, 5, 5));
-		//grid.setAlignment(Pos.CENTER);
-		
-		/* creates a group and stackpane where the grid is added to*/
-		Group group = new Group(grid);
-		StackPane rootpane = new StackPane();
-		rootpane.getChildren().add(group);
+		grid.setAlignment(Pos.CENTER);
 
+		/* creates a stackpane to add the grid in for resizable option*/
+		StackPane rootpane = new StackPane();
+		rootpane.getChildren().add(grid);
+		
 		/* creates a scene within the stage of pixel size x by y */
 		mainScene = new Scene(rootpane, primaryStage.getWidth(),
 				primaryStage.getHeight());
@@ -187,11 +190,13 @@ public class GUI extends Application {
 		grid.add(settings, 3, 6, 2, 1);
 
 		mainScene.getStylesheets().add(styleSheet);
-
-		/* makes the scene and its contents resizable */
-		group.scaleXProperty().bind(mainScene.widthProperty().divide(primaryStage.getWidth()));
-		group.scaleYProperty().bind(mainScene.heightProperty().divide(primaryStage.getHeight()));
 		primaryStage.setScene(mainScene);
+		
+		/* set the grid and its contents to resize to the stage size*/
+		primaryStage.maxHeightProperty().bind(mainScene.widthProperty().divide(sizescale));
+		primaryStage.minHeightProperty().bind(mainScene.widthProperty().divide(sizescale));
+		grid.scaleXProperty().bind(mainScene.widthProperty().divide(primaryStage.getWidth()));
+	    grid.scaleYProperty().bind(mainScene.heightProperty().divide(primaryStage.getHeight()));
 
 		/* Line sets the screen to fullscreen */
 		// primaryStage.setFullScreen(true);
@@ -376,13 +381,14 @@ public class GUI extends Application {
 
 		}
 	}
+	
 
 	private class widthSizeListener implements ChangeListener<Number> {
 
 		@Override
 		public void changed(ObservableValue<? extends Number> observableValue,
 				Number oldSceneWidth, Number newSceneWidth) {
-			System.out.println("Width: " + newSceneWidth);
+			System.out.println("Width: " + newSceneWidth);	
 			
 
 		}
