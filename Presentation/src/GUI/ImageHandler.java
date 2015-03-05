@@ -12,6 +12,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.image.PixelReader;
+import javax.swing.JOptionPane;
 
 /**
  * Class for handling images on a JavaFX group.
@@ -63,8 +64,12 @@ public class ImageHandler {
 	public void drawImage(float xPos, float yPos, String filepath, double scaleX, double scaleY, float rotation,
 			boolean vFlip, boolean hFlip, double cropLeft, double cropRight, double cropDown, double cropUp,
 			ImageEffect... imageEffects) {
+				
+		try {
+		
 		/* Create image variable */
 		Image image = new Image(filepath);
+		
 		ImageView imageView = new ImageView();
 		/* Get height and width of image */
 		double imageWidth = image.getWidth();
@@ -152,7 +157,15 @@ public class ImageHandler {
 			}
 			imageView.setEffect(bottomEffect);
 		}
+		
 		/* Add the imageview to the group */
 		group.getChildren().add(imageView);
+		}
+		
+		/* Exception handling for simple URL/Image type errors */
+		catch (IllegalArgumentException WrongURL) {
+			/* Display an error message to the user */
+			JOptionPane.showMessageDialog(null,"Could not locate/open image file","ERROR",JOptionPane.ERROR_MESSAGE);
+		}
 	}
 }
