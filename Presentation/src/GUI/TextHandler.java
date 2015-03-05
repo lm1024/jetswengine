@@ -204,7 +204,6 @@ public class TextHandler {
 			stringBuffer.clear();
 			return;
 		}
-		long startTime = System.nanoTime();
 		/* Instantiate the WebView that will be used to display the text */
 		WebView webView = new WebView();
 		
@@ -270,8 +269,6 @@ public class TextHandler {
 		}
 
 		group.getChildren().addAll(webView);
-		long endTime = System.nanoTime();
-		System.out.println("Execution time: " + TimeUnit.NANOSECONDS.toMillis(endTime - startTime) + "ms");
 	}
 
 	/**

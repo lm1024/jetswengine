@@ -3,7 +3,15 @@
  */
 package GUI;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Group;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.PieChart;
+import javafx.scene.chart.XYChart;
+import javafx.scene.chart.XYChart.Series;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
@@ -234,9 +242,11 @@ public class GraphicsHandler {
 	 * @param yEndPos
 	 *            y coordinate of the bottom right corner of the rectangle
 	 * @param arcWidth
-	 *            //TODO
+	 *            the vertical diameter of the arc at the four corners of the
+	 *            rectangle
 	 * @param arcHeight
-	 *            //TODO
+	 *            the horizontal diameter of the arc at the four corners of the
+	 *            rectangle
 	 * @param rectangleColor
 	 *            color of the rectangle
 	 * @param solid
@@ -260,11 +270,10 @@ public class GraphicsHandler {
 	public void drawRectangle(float xStartPos, float yStartPos, float xEndPos, float yEndPos, float arcWidth,
 			float arcHeight, Color rectangleColor, boolean solid, Color outlineColor, double outlineThickness,
 			Shadow shadowType, float rotation, Shading shadingType, Color... shadingColors) {
-		/*
-		 * TODO rounded corners (look up arkheight and arkwidth javafx)
-		 */
 		Rectangle rectangle = new Rectangle(xStartPos, yStartPos, xEndPos - xStartPos, yEndPos - yStartPos);
 		rectangle.setRotate(rotation);
+		rectangle.setArcWidth(arcWidth);
+		rectangle.setArcHeight(arcHeight);
 
 		colorShape(rectangle, solid, rectangleColor, outlineColor, outlineThickness, shadowType, shadingType,
 				shadingColors);
@@ -305,9 +314,6 @@ public class GraphicsHandler {
 	public void drawSquare(float xStartPos, float yStartPos, float length, Color squareColor, boolean solid,
 			Color outlineColor, double outlineThickness, Shadow shadowType, float rotation, Shading shadingType,
 			Color... shadingColors) {
-		/*
-		 * TODO rounded corners (look up arkheight and arkwidth javafx)
-		 */
 		drawRectangle(xStartPos, yStartPos, xStartPos + length, yStartPos + length, 0, 0, squareColor, solid,
 				outlineColor, outlineThickness, shadowType, rotation, shadingType, shadingColors);
 	}
@@ -446,12 +452,56 @@ public class GraphicsHandler {
 		group.getChildren().add(arrowHead);
 	}
 
-	public void drawEquiTriangle() {
-		/*
-		 * TODO Write a method that draws an equilateral triangle depending on
-		 * params passed.
-		 */
+	/**
+	 * Method to draw an equilateral triangle.
+	 * 
+	 * @param xStartPos
+	 *            x coordinate of the top left corner of the boundary box around
+	 *            the triangle
+	 * @param yStartPos
+	 *            y coordinate of the top left corner of the boundary box around
+	 *            the triangle
+	 * @param length
+	 *            the side length of the triangle
+	 * @param equiTriangleColor
+	 *            color of the triangle
+	 * @param solid
+	 *            boolean value of if the shape is an outline or a solid shape
+	 * @param outlineColor
+	 *            color of the shape outline
+	 * @param outlineThickness
+	 *            thickness of the shape outline
+	 * @param shadowType
+	 *            enum for type of shadow. Options: Shadow.NONE, Shadow.LIGHT,
+	 *            Shadow.NORMAL and Shadow.HEAVY.
+	 * @param rotation
+	 *            amount of rotation about the center in degrees
+	 * @param shadingType
+	 *            enum for type of shading. Options: Shading.NONE,
+	 *            Shading.CYCLIC, Shading.HORIZONTAL, Shading.VERTICAL.
+	 * @param shadingColors
+	 *            varargs of type Color that contains all of the shapes shaded
+	 *            colors.
+	 */
+	public void drawEquiTriangle(float xStartPos, float yStartPos, float length, Color equiTriangleColor,
+			boolean solid, Color outlineColor, double outlineThickness, Shadow shadowType, float rotation,
+			Shading shadingType, Color... shadingColors) {
+		/* Calculate new coordinates for all the corners */
 
+		/* Bottom left */
+		double x1 = xStartPos;
+		double y1 = yStartPos + (length * (Math.sqrt(3) / (2.0)));
+
+		/* Top */
+		double x2 = xStartPos + (length / 2);
+		double y2 = yStartPos;
+
+		/* Bottom right */
+		double x3 = xStartPos + length;
+		double y3 = yStartPos + (length * (Math.sqrt(3) / (2.0)));
+
+		drawTriangle(x1, y1, x2, y2, x3, y3, equiTriangleColor, solid, outlineColor, outlineThickness, shadowType,
+				rotation, shadingType, shadingColors);
 	}
 
 	/**
@@ -492,10 +542,6 @@ public class GraphicsHandler {
 	public void drawTriangle(double x1, double y1, double x2, double y2, double x3, double y3, Color triangleColor,
 			boolean solid, Color outlineColor, double outlineThickness, Shadow shadowType, float rotation,
 			Shading shadingType, Color... shadingColors) {
-		/*
-		 * TODO Write a method that draws a triangle depending on params passed.
-		 * Takes 3 sets of coordinates so any triangle can be made.
-		 */
 		Polygon triangle = new Polygon();
 		colorShape(triangle, solid, triangleColor, outlineColor, outlineThickness, shadowType, shadingType,
 				shadingColors);
@@ -552,6 +598,7 @@ public class GraphicsHandler {
 			regPolygon.getPoints().add(((double) Math.round((yPos + (-radius) * Math.cos(z)) + (radius))));
 
 		}
+		regPolygon.setRotate(rotation);
 		group.getChildren().add(regPolygon);
 	}
 
@@ -751,21 +798,40 @@ public class GraphicsHandler {
 
 	}
 
-	public void drawPieChart(float x, float y, double r, float n, Double digits[], String names[], Color colors) {
-		/*
-		 * TODO Write a method that draws a pie chart, varying upon input of 2
-		 * arrays, one of name of input and one of numbers in input. Toggle key,
-		 * and maybe array of colors for sections?
-		 */
-
+	public void drawPieChart(int x, int y, double size, String title, String[] dataNames, Double[] dataValues) {
+		ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
+		for (int i = 0; i < dataValues.length; i++) {
+			pieChartData.add(new PieChart.Data(dataNames[i], dataValues[i]));
+		}
+		PieChart pChart = new PieChart(pieChartData);
+		pChart.setTitle(title);
+		pChart.setLayoutX(x);
+		pChart.setLayoutY(y);
+		pChart.setScaleX(size);
+		pChart.setScaleY(size);
+		group.getChildren().add(pChart);
 	}
 
-	public void drawBarChart() {
-		/*
-		 * TODO Write a method that draws a bar chart, varying upon input of 2
-		 * arrays, one of name of input and one of numbers in input. Toggle key,
-		 * and maybe array of colors for sections? Color schemes?
-		 */
+	@SuppressWarnings("unchecked") // safe
+	public void drawBarChart(int x, int y, double size, String title, String xLabel, String yLabel, String[] xLabels,
+			Double[] yValues) {
+		CategoryAxis xAxis = new CategoryAxis();
+		NumberAxis yAxis = new NumberAxis();
+		BarChart<String, Number> bChart = new BarChart<String, Number>(xAxis, yAxis);
+		bChart.setTitle(title);
+		xAxis.setLabel(xLabel);
+		yAxis.setLabel(yLabel);
+		XYChart.Series<String, Number> series1 = new Series<String, Number>();
+		series1.setName("series1");
+		for (int i = 0; i < yValues.length; i++) {
+			series1.getData().add(new XYChart.Data<String, Number>(xLabels[i], yValues[i]));
+		}
+		bChart.getData().addAll(series1);
+		bChart.setLayoutX(x);
+		bChart.setLayoutY(y);
+		bChart.setScaleX(size);
+		bChart.setScaleY(size);
+		group.getChildren().add(bChart);
 	}
 
 }
