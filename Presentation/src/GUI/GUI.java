@@ -35,6 +35,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -73,8 +74,8 @@ public class GUI extends Application {
 	private Scene settingsScene;
 	private Scene mainScene;
 	private GridPane slidePane;
-
 	private Stage stageRef;
+	private double sizescale;
 
 	final GridPane grid = new GridPane();
 	private Label lbl;
@@ -102,21 +103,20 @@ public class GUI extends Application {
 		readFile();
 
 		stageRef = primaryStage;
-		
+
 		/* Set the title of the window */
 		stageRef.setTitle("SmartSlides");
 		Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
 		stageRef.setWidth(primaryScreenBounds.getWidth());
 		stageRef.setHeight(primaryScreenBounds.getHeight());
-		
-		/* sets the scale required to scale the height with change in width*/
-		sizescale = primaryScreenBounds.getWidth()/primaryScreenBounds.getHeight();
+
+		/* sets the scale required to scale the height with change in width */
+		sizescale = primaryScreenBounds.getWidth()
+				/ primaryScreenBounds.getHeight();
 
 		buildmain();
 
 		primaryStage.show();
-
-
 
 	}
 
@@ -129,10 +129,11 @@ public class GUI extends Application {
 			br = new BufferedReader(new FileReader("resources/files.csv"));
 			String line;
 			while ((line = br.readLine()) != null) {
-				
+
 				// use comma as separator
 				fileArray = line.split(",");
-				System.out.println("line: " + i + " Files: " + fileArray[0] + fileArray[1]);
+				System.out.println("line: " + i + " Files: " + fileArray[0]
+						+ fileArray[1]);
 
 				i++;
 			}
@@ -219,18 +220,19 @@ public class GUI extends Application {
 				int i = Integer.parseInt(buttonPressed.getId());
 				System.out.println("Open pres. " + i);
 				outputFile = fileArray[i];
+				System.out.println(outputFile);
 
 				try {
 					currentSlideshow1 = new XMLReader(outputFile)
 							.getSlideshow();
 				} catch (IOException e1) {
-				
+
 				}
 				if (currentSlideshow1 != null) {
 					/* Only build if there is a slideshow */
 					buildSlides();
 
-				}else{
+				} else {
 					/* Display error scene */
 					dispError();
 
@@ -252,9 +254,8 @@ public class GUI extends Application {
 				break;
 
 			case "home":
-				System.out.println("Going home");
-				stageRef.setScene(mainScene);
-
+				buildmain();
+				
 				break;
 
 			case "submit":
@@ -337,9 +338,8 @@ public class GUI extends Application {
 		}
 	}
 
+	private void buildmain() {
 
-private void buildmain(){
-		
 		GridPane grid = new GridPane();
 
 		/* create a gridpane layout */
@@ -348,10 +348,10 @@ private void buildmain(){
 		grid.setPadding(new Insets(5, 5, 5, 5));
 		grid.setAlignment(Pos.CENTER);
 
-		/* creates a stackpane to add the grid in for resizable option*/
+		/* creates a stackpane to add the grid in for resizable option */
 		StackPane rootpane = new StackPane();
 		rootpane.getChildren().add(grid);
-		
+
 		/* creates a scene within the stage of pixel size x by y */
 		mainScene = new Scene(rootpane, stageRef.getWidth(),
 				stageRef.getHeight());
@@ -412,20 +412,23 @@ private void buildmain(){
 
 		mainScene.getStylesheets().add(styleSheet);
 		stageRef.setScene(mainScene);
-		
-		/* set the grid and its contents to resize to the stage size*/
-		stageRef.maxHeightProperty().bind(mainScene.widthProperty().divide(sizescale));
-		stageRef.minHeightProperty().bind(mainScene.widthProperty().divide(sizescale));
-		grid.scaleXProperty().bind(mainScene.widthProperty().divide(stageRef.getWidth()));
-	    grid.scaleYProperty().bind(mainScene.heightProperty().divide(stageRef.getHeight()));
+
+		/* set the grid and its contents to resize to the stage size */
+		stageRef.maxHeightProperty().bind(
+				mainScene.widthProperty().divide(sizescale));
+		stageRef.minHeightProperty().bind(
+				mainScene.widthProperty().divide(sizescale));
+		grid.scaleXProperty().bind(
+				mainScene.widthProperty().divide(stageRef.getWidth()));
+		grid.scaleYProperty().bind(
+				mainScene.heightProperty().divide(stageRef.getHeight()));
 
 		/* Line sets the screen to fullscreen */
 		// primaryStage.setFullScreen(true);
 
 		// thisGraphicsHandler.drawRectangle();
-		
-}
-	
+
+	}
 
 	private void buildSettings() {
 
@@ -436,8 +439,12 @@ private void buildmain(){
 		/* Create gridpane in which to put objects */
 		GridPane settingsGrid = new GridPane();
 
+		/* creates a stackpane to add the grid in for resizable option */
+		StackPane settingsrootpane = new StackPane();
+		settingsrootpane.getChildren().add(settingsGrid);
+
 		// creates a scene within the stage of pixel size x by y
-		settingsScene = new Scene(settingsGrid, stageRef.getWidth(),
+		settingsScene = new Scene(settingsrootpane, stageRef.getWidth(),
 				stageRef.getHeight());
 		settingsScene.getStylesheets().add(styleSheet);
 
@@ -537,6 +544,16 @@ private void buildmain(){
 
 		/* Add box to the settingsGrid */
 		settingsGrid.add(btnBox, 2, 3);
+
+		/* set the settings grid and its contents to resize to the stage size */
+		stageRef.maxHeightProperty().bind(
+				settingsScene.widthProperty().divide(sizescale));
+		stageRef.minHeightProperty().bind(
+				settingsScene.widthProperty().divide(sizescale));
+		settingsGrid.scaleXProperty().bind(
+				settingsScene.widthProperty().divide(stageRef.getWidth()));
+		settingsGrid.scaleYProperty().bind(
+				settingsScene.heightProperty().divide(stageRef.getHeight()));
 
 		stageRef.setScene(mainScene);
 
