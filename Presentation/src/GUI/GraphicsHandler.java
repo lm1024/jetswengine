@@ -872,6 +872,8 @@ public class GraphicsHandler {
 	 */
 	private Color convertStringToColor(String colorString) {
 		if (!verifyColor(colorString)) {
+			System.err.println("Color " + colorString + " is not a valid color string.");
+			System.err.println("Color strings should comprise of a hash (#) followed by an 8 bit hexedecimal number.");
 			return null;
 		}
 		double a = Integer.parseInt(colorString.substring(alphaStartChar, alphaEndChar), 16) / 255.0;
