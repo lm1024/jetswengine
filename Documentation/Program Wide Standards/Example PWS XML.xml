@@ -37,22 +37,44 @@
 		<audio sourcefile="gavel.wav" starttime="2.5" />
 		<video sourcefile="avengers.mkv" xstart="0.5" ystart="0.5" />
 		
-		
+		<!-- PWS Shapes -->
 		<graphic type="oval/rectangle/line" xstart="0.5" ystart="0.5" xend="0.7" yend="0.7" solid="true" graphiccolor="#11223344" duration="1.5">
 			<cyclicshading shadingcolor="#88776655" />
+		</graphic>		
+		
+
+		<!-- Our Expanded PWS Shapes -->
+		<graphic graphiccolor="#11223344" duration="1.5" starttime="2.0">
+			<oval xstart="0.5" ystart="0.5" xend="0.7" yend="0.7" solid="true" outlinecolor="#00000000" outlinethickness="1.0" rotation="45"/>
+			<shadow weight="heavy/normal/light"/>
+			<cyclicshading shadingcolor="#88776655">
+				<shading shadingcolor="#00aabbcc"/>
+				<shading shadingcolor="#00aabbcc"/>
+			<cyclicshading/>
 		</graphic>
 		
 		<graphic graphiccolor="#11223344" duration="1.5" starttime="2.0">
-			<oval xstart="0.5" ystart="0.5" xend="0.7" yend="0.7" solid="true"/>
-			<cyclicshading shadingcolor="#88776655" />
+			<rectangle xstart="0.5" ystart="0.5" xend="0.7" yend="0.7" arcwidth="10" archeight="10" solid="true" outlinecolor="#00000000" outlinethickness="1.0" rotation="45"/>
 		</graphic>
 		
 		<graphic graphiccolor="#11223344" duration="1.5" starttime="2.0">
-			<rectangle xstart="0.5" ystart="0.5" xend="0.7" yend="0.7" solid="true"/>
+			<line xstart="0.5" ystart="0.5" xend="0.7" yend="0.7" outlinethickness="1.0"/> <!-- I'm happy with calling this outline thickness... -->
+		</graphic>
+		
+		
+		<!-- Our Added Shapes -->
+		
+		<graphic graphiccolor="#11223344" duration="1.5" starttime="2.0">
+			<circle xstart="0.5" ystart="0.5" size="10" solid="true" outlinecolor="#00000000" outlinethickness="1.0"/>
+			<shadow weight="heavy/normal/light"/>
+			<cyclicshading shadingcolor="#88776655">
+				<shading shadingcolor="#00aabbcc"/>
+				<shading shadingcolor="#00aabbcc"/>
+			<cyclicshading/>
 		</graphic>
 		
 		<graphic graphiccolor="#11223344" duration="1.5" starttime="2.0">
-			<line xstart="0.5" ystart="0.5" xend="0.7" yend="0.7"/>
+			<square xstart="0.5" ystart="0.5" size="10" solid="true" outlinecolor="#00000000" outlinethickness="1.0">
 		</graphic>
 		
 		<graphic graphiccolor="#11223344" duration="1.5" starttime="2.0">

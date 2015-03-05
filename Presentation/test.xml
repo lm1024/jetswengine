@@ -16,7 +16,7 @@
 	</defaultsettings>
 	<slide>
 		<text xstart="0.5" ystart="0.5" font="arial"
-			fontsize="24" fontcolor="#00112233" duration="1.5">
+			fontsize="24" fontcolor="#ff112233" duration="1.5">
 			Hello World! This is a test.
 		</text>
 		<text xstart="0.2" ystart="0.2" font="times new roman"
