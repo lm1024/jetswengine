@@ -126,7 +126,7 @@ public class XMLTest {
 		System.out.println(" HAHAHSHSA " + currentSlideshow.getSlide(1).getImage(1).getSourceFile());
 		assertTrue(text.getAlignment().equals("none"));
 		/* Needs Finishing */
-		
+		assertTrue(currentSlideshow.getSlide(1).getImage(1).getSourceFile() != null);
 	}
 
 }
