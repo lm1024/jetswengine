@@ -9,7 +9,10 @@
 
 package GUI;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 
 import javafx.application.Application;
@@ -57,7 +60,7 @@ public class GUI extends Application {
 	/* Global text area and array in which to save words */
 	private TextArea ta = new TextArea();
 	private String bannedWords[];
-	private String fileArray[] = { "pws.xml", "", "", "", "", "" };
+	private String fileArray[][] = null;
 	private TextField userField = new TextField();// text field
 	private File initDir;
 	private String outputFile;
@@ -95,6 +98,9 @@ public class GUI extends Application {
 		 * TODO Jake, please make a nice GUI. You are our only hope. text file
 		 * to make reference to image files and XML files
 		 */
+
+		readFile();
+
 		stageRef = primaryStage;
 
 		/* Set the title of the window */
@@ -179,6 +185,41 @@ public class GUI extends Application {
 		primaryStage.show();
 	}
 
+	private void readFile() {
+		// TODO Auto-generated method stub
+		int i = 0;
+		BufferedReader br = null;
+		try {
+
+			br = new BufferedReader(new FileReader("resources/files.csv"));
+			String line;
+			while ((line = br.readLine()) != null) {
+				
+				// use comma as separator
+				String[] s = line.split(",");
+				System.out.println("line: " + i + " Files: " + s[0] + s[1]);
+				
+				fileArray[0][i] = s[0];
+				fileArray[1][i] = s[1];
+				i++;
+			}
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (br != null) {
+				try {
+					br.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+	}
+
 	/**
 	 * Private class written so that multiple buttonEvents can be handled
 	 * easily.
@@ -245,7 +286,7 @@ public class GUI extends Application {
 				int i = Integer.parseInt(buttonPressed.getId());
 				buildSlides();
 				System.out.println("Open pres. " + i);
-				outputFile = fileArray[i];
+				outputFile = fileArray[0][i];
 
 				try {
 					currentSlideshow1 = new XMLReader(outputFile)
@@ -359,7 +400,6 @@ public class GUI extends Application {
 			}
 
 			lbl.setText(String.valueOf(slideNo));
-			System.out.println(slideNo);
 		}
 	}
 
