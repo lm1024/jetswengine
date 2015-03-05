@@ -5,6 +5,8 @@ package server;
 
 import java.util.List;
 
+import sofia.VideoHandler;
+
 import XML.XMLReader;
 import Data.Graphic;
 import Data.Image;
@@ -12,6 +14,7 @@ import Data.Slide;
 import Data.Slideshow;
 import Data.Text;
 import Data.TextFragment;
+import Data.Video;
 import GUI.Alignment;
 import GUI.GraphicsHandler;
 import GUI.ImageHandler;
@@ -38,6 +41,7 @@ public class PresentationDisplayerTest extends Application {
 	private GraphicsHandler graphicsHandler;
 	private TextHandler thisTextHandler;
 	private ImageHandler thisImageHandler;
+	private VideoHandler thisVideoHandler;
 
 	private List<Slide> slides;
 	private int currentSlideInt = 1;
@@ -77,6 +81,7 @@ public class PresentationDisplayerTest extends Application {
 		thisImageHandler = new ImageHandler(group);
 		thisTextHandler = new TextHandler(group);
 		// GraphicsHandler thisGraphicsHandler = new GraphicsHandler(group);
+		thisVideoHandler = new VideoHandler(group);
 
 		Slideshow currentSlideshow = new XMLReader(filename).getSlideshow();
 
@@ -143,6 +148,17 @@ public class PresentationDisplayerTest extends Application {
 					currentImage.getRotation(), currentImage.getFlipVertical(), currentImage.getFlipHorizontal(),
 					currentImage.getCropX1(), currentImage.getCropX2(), currentImage.getCropY1(),
 					currentImage.getCropY2());
+		}
+		
+		/* Image section */
+		for (Video currentVideo : currentSlide.getMoviesList()) {
+			System.out.println("	Current Image: " + currentVideo);
+			int absXStart = convertXRelToAbs(currentVideo.getXStart());
+			int absYStart = convertYRelToAbs(currentVideo.getYStart());
+			System.out.println(absXStart + " " + absYStart + " " + currentVideo.getYStart());
+			
+			
+			thisVideoHandler.createVideo(absXStart, absYStart, 500, currentVideo.getSourceFile(), true, true);
 		}
 
 		Button b1 = makeButton(200, 800, "Next");
