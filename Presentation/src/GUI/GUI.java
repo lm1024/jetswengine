@@ -61,8 +61,9 @@ public class GUI extends Application {
 	/* Global text area and array in which to save words */
 	private TextArea ta = new TextArea();
 	private String bannedWords[];
-	private String fileArray[] = null;
 	private TextField userField = new TextField();// text field
+	private String fileArray[] = null;
+	private String pictureArray[] = null;
 	private File initDir;
 	private String outputFile;
 	private int slideNo = 0;
@@ -79,6 +80,7 @@ public class GUI extends Application {
 
 	final GridPane grid = new GridPane();
 	private Label lbl;
+
 
 	public GUI() {
 	}
@@ -97,10 +99,11 @@ public class GUI extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		/*
 		 * TODO Jake, please make a nice GUI. You are our only hope. text file
-		 * to make reference to image files and XML files
+		 * to make reference to image files and XML files. Move back to CSS
 		 */
 
-		readFile();
+		readFile("resources/files.csv", fileArray);
+		readFile("resources/images.csv", pictureArray);
 
 		stageRef = primaryStage;
 
@@ -120,20 +123,20 @@ public class GUI extends Application {
 
 	}
 
-	private void readFile() {
+	private void readFile(String file, String []array) {
 		// TODO Auto-generated method stub
 		int i = 0;
 		BufferedReader br = null;
 		try {
 
-			br = new BufferedReader(new FileReader("resources/files.csv"));
+			br = new BufferedReader(new FileReader(file));
 			String line;
 			while ((line = br.readLine()) != null) {
 
 				// use comma as separator
-				fileArray = line.split(",");
-				System.out.println("line: " + i + " Files: " + fileArray[0]
-						+ fileArray[1]);
+				array = line.split(",");
+				//fileArray[i] = s[0];
+				System.out.println("line: " + i + " Files: " + array[0]);
 
 				i++;
 			}
@@ -366,32 +369,32 @@ public class GUI extends Application {
 
 		/* Create first button for Slide Preview and add in column 1, row 4 */
 		Button one = makeButton("Presentation 1", "invisiButton", true, "0",
-				"file:me.png", 0.2);
+				"file:logo.png", 0.2);
 		grid.add(one, 0, 3);
 
 		/* Create second button for Slide Preview and add in column 3, row 4 */
 		Button two = makeButton("Presentation 2", "invisiButton", true, "1",
-				"file:me.png", 0.2);
+				"file:logo.png", 0.2);
 		grid.add(two, 2, 3);
 
 		/* Create third button for Slide Preview and add in column 5, row 4 */
 		Button three = makeButton("Presentation 3", "invisiButton", true, "2",
-				"file:me.png", 0.2);
+				"file:logo.png", 0.2);
 		grid.add(three, 4, 3);
 
 		/* Create forth button for Slide Preview and add in column 1, row 6 */
 		Button four = makeButton("Presentation 4", "invisiButton", true, "3",
-				"file:me.png", 0.2);
+				"file:logo.png", 0.2);
 		grid.add(four, 0, 5);
 
 		/* Create fifth button for Slide Preview and add in column 3, row 6 */
 		Button five = makeButton("Presentation 5", "invisiButton", true, "4",
-				"file:me.png", 0.2);
+				"file:logo.png", 0.2);
 		grid.add(five, 2, 5);
 
 		/* Create sixth button for Slide Preview and add in column 5, row 6 */
 		Button six = makeButton("Presentation 6", "invisiButton", true, "5",
-				"file:me.png", 0.2);
+				"file:logo.png", 0.2);
 		grid.add(six, 4, 5);
 
 		/* Insert blank in column 2 and 4, row 4-6 */
@@ -620,10 +623,10 @@ public class GUI extends Application {
 
 	/** Utility function for adding labels **/
 	private Label makeLabel(String labelText, int size, String colour) {
-		Font bold = Font.loadFont("file:resources/fonts/Roboto-Bold.ttf", 10);
+		Font bold = Font.loadFont("file:resources/fonts/Roboto-Bold.ttf", size);
 		Label lbl = new Label(labelText);// create new instance of label
 		lbl.setFont(bold);
-		lbl.setStyle("-fx-text-fill:" + colour + ";-fx-font-size:" + size);// add
+		lbl.setStyle("-fx-text-fill:" + colour);// add
 																			// colour
 																			// to
 																			// label
@@ -665,7 +668,7 @@ public class GUI extends Application {
 	private Button makeButton(String buttonText, String styleClass,
 			boolean hover, String id) {
 
-		Font medium = Font.loadFont("file:resources/fonts/Roboto-Regular.ttf",
+		Font medium = Font.loadFont("file:resources/fonts/Roboto-Bold.ttf",
 				15);
 		Button btn = new Button();// new instance of button
 		btn.setText(buttonText);// add text
