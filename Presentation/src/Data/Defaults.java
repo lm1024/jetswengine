@@ -1,83 +1,103 @@
 package Data;
 
-import java.util.HashMap;
-
+import utils.Utils;
 import javafx.scene.text.Font;
 
 public class Defaults {
 
-	private static String backgroundColour = "#00FFFFFF";
-	private static String font = Font.getDefault().getName();
-	private static double fontSize = Font.getDefault().getSize();
-	private static String fontColor = "#FF000000";
-	private static String graphicColor = "#FF000000";
-	private static String highlightColor = "#FFFF0000";
-	private static float startTime = 0;
-	private static float duration = Float.MAX_VALUE;
-	private static String alignment = "none";
-	private static String textCase = "none";
-	private static float scale = 1;
-	private static int rotation = 0;
-	private static float cropx1 = 0;
-	private static float cropy1 = 0;
-	private static float cropx2 = 1;
-	private static float cropy2 = 1;
+	private String backgroundColor = "#00FFFFFF";
+	private String font = Font.getDefault().getName();
+	private double fontSize = Font.getDefault().getSize();
+	private String fontColor = "#FF000000";
+	private String graphicColor = "#FF000000";
+	private String highlightColor = "#FFFF0000";
+	private float startTime = 0;
+	private float duration = Float.MAX_VALUE;
+	private String alignment = "none";
+	private String textCase = "none";
+	private float scale = 1;
+	private int rotation = 0;
+	private float cropX1 = 0;
+	private float cropY1 = 0;
+	private float cropX2 = 1;
+	private float cropY2 = 1;
+
+	public Defaults() {
+		
+	}
+
+	public void printDefaults() {
+		System.out.println("Start of Document Defaults:");
+		System.out.println("BackgroundColour: " + backgroundColor);
+		System.out.println("Font: " + font);
+		System.out.println("FontSize: " + fontSize);
+		System.out.println("FontColor: " + fontColor);
+		System.out.println("GraphicColor: " + graphicColor);
+		System.out.println("HighlightColor: " + highlightColor);
+		System.out.println("StartTime: " + startTime);
+		System.out.println("Duration: " + duration);
+		System.out.println("Alignment: " + alignment);
+		System.out.println("TextCase: " + textCase);
+		System.out.println("Scale: " + scale);
+		System.out.println("Rotation: " + rotation);
+		System.out.println("CropX1: " + cropX1);
+		System.out.println("CropY1: " + cropY1);
+		System.out.println("CropX2: " + cropX2);
+		System.out.println("CropY2: " + cropY2);
+		System.out.println("End of Document Defaults\n");
+	}
 
 	/**
 	 * @return the backgroundColour
 	 */
-	public static String getBackgroundColour() {
-		return backgroundColour;
+	public String getBackgroundColor() {
+		return this.backgroundColor;
 	}
 
 	/**
 	 * @param backgroundColour
 	 *            the backgroundColour to set
 	 */
-	public static void setBackgroundColour(String string) {
-		try {
-			if (string.matches("^([#]([0-9a-fA-F]{8}))$")) {
-				backgroundColour = string;
-			}
-		} catch (NullPointerException npe) {
-			/* Do nothing */
+	public void setBackgroundColor(String string) {
+		if (Utils.validARGB(string)) {
+			this.backgroundColor = string;
 		}
 	}
 
 	/**
 	 * @return the font
 	 */
-	public static String getFont() {
-		return font;
+	public String getFont() {
+		return this.font;
 	}
 
 	/**
 	 * @param font
 	 *            the font to set
 	 */
-	public static void setFont(String string) {
-		string = capitaliseEachFirstLetter(string);
+	public void setFont(String string) {
+		string = Utils.capitaliseEachFirstLetter(string);
 		if (Font.getFontNames().contains(string)) {
-			font = string;
+			this.font = string;
 		}
 	}
 
 	/**
 	 * @return the fontSize
 	 */
-	public static double getFontSize() {
-		return fontSize;
+	public double getFontSize() {
+		return this.fontSize;
 	}
 
 	/**
 	 * @param fontSize
 	 *            the fontSize to set
 	 */
-	public static void setFontSize(String string) {
+	public void setFontSize(String string) {
 		try {
 			double d = Double.parseDouble(string);
-			if((d > 0)) {
-				fontSize = d;
+			if ((d > 0)) {
+				this.fontSize = d;
 			}
 		} catch (Exception e) {
 			/* Do nothing */
@@ -87,92 +107,70 @@ public class Defaults {
 	/**
 	 * @return the fontColor
 	 */
-	public static String getFontColor() {
-		return fontColor;
+	public String getFontColor() {
+		return this.fontColor;
 	}
 
 	/**
 	 * @param fontColor
 	 *            the fontColor to set
 	 */
-	public static void setFontColor(String string) {
-		try {
-			if (string.matches("^([#]([0-9a-fA-F]{8}))$")) {
-				fontColor = string;
-			}
-		} catch (NullPointerException npe) {
-			/* Do nothing */
+	public void setFontColor(String string) {
+		if (Utils.validARGB(string)) {
+			this.fontColor = string;
 		}
 	}
 
 	/**
 	 * @return the graphicColour
 	 */
-	public static String getGraphicColor() {
-		return graphicColor;
+	public String getGraphicColor() {
+		return this.graphicColor;
 	}
 
 	/**
 	 * @param fillColour
 	 *            the graphicColour to set
 	 */
-	public static void setGraphicColor(String string) {
-		try {
-			if (string.matches("^([#]([0-9a-fA-F]{8}))$")) {
-				graphicColor = string;
-			}
-		} catch (NullPointerException npe) {
-			/* Do nothing */
+	public void setGraphicColor(String string) {
+		if (Utils.validARGB(string)) {
+			this.graphicColor = string;
 		}
 	}
 
 	/**
 	 * @return the graphicColour
 	 */
-	public static String getHighlightColor() {
-		return highlightColor;
+	public String getHighlightColor() {
+		return this.highlightColor;
 	}
 
 	/**
-	 * @param fillColour
-	 *            the graphicColour to set
+	 * @param string
+	 *            the graphicColor to set
 	 */
-	public static void setHighlightColor(String string) {
-		try {
-			if (string.matches("^([#]([0-9a-fA-F]{8}))$")) {
-				highlightColor = string;
-			}
-		} catch (NullPointerException npe) {
-			/* Do nothing */
+	public void setHighlightColor(String string) {
+		if (Utils.validARGB(string)) {
+			this.highlightColor = string;
 		}
-		
-	}
-
-	public static void add(HashMap<String, String> hashMap) {
-
-		setBackgroundColour(hashMap.get("backgroundcolor"));
-		setFont(hashMap.get("font"));
-		setFontColor(hashMap.get("fontcolor"));
-		setFontSize(hashMap.get("fontsize"));
-		setGraphicColor(hashMap.get("graphiccolor"));
 	}
 
 	/**
 	 * @return the startTime
 	 */
-	public static float getStartTime() {
-		return startTime;
+	public float getStartTime() {
+		return this.startTime;
 	}
 
 	/**
 	 * @param startTime
 	 *            the startTime to set
 	 */
-	public static void setStartTime(String string) {
+	public void setStartTime(String string) {
 		try {
 			float f = Float.parseFloat(string);
-			if(f >= 0) {
-				startTime = f;
+			if (f >= 0) {
+				this.startTime = f;
 			}
 		} catch (Exception e) {
 			/* Do Nothing */
@@ -182,19 +180,19 @@ public class Defaults {
 	/**
 	 * @return the duration
 	 */
-	public static float getDuration() {
-		return duration;
+	public float getDuration() {
+		return this.duration;
 	}
 
 	/**
 	 * @param duration
 	 *            the duration to set
 	 */
-	public static void setDuration(String string) {
+	public void setDuration(String string) {
 		try {
 			float f = Float.parseFloat(string);
-			if(f > 0){
-				duration = f;
+			if (f > 0) {
+				this.duration = f;
 			}
 		} catch (Exception e) {
 			/* Do Nothing */
@@ -204,62 +202,53 @@ public class Defaults {
 	/**
 	 * @return the alignment
 	 */
-	public static String getAlignment() {
-		return alignment;
+	public String getAlignment() {
+		return this.alignment;
 	}
 
 	/**
 	 * @param alignment
 	 *            the alignment to set
 	 */
-	public static void setAlignment(String string) {
-		try {
-			if (string.matches("left|right|centre|none")) {
-				alignment = string;
-			}
-		} catch (Exception e) {
-			/* Do nothing */
+	public void setAlignment(String string) {
+		if (Utils.validAlignment(string)) {
+			this.alignment = string;
 		}
-		
 	}
 
 	/**
 	 * @return the textCase
 	 */
-	public static String getTextCase() {
-		return textCase;
+	public String getTextCase() {
+		return this.textCase;
 	}
 
 	/**
 	 * @param textCase
 	 *            the textCase to set
 	 */
-	public static void setTextCase(String string) {
-		try {
-			if (string.matches("upper|lower|camel|none")) {
-				textCase = string;
-			}
-		} catch (Exception e) {
-			/* Do Nothing */
+	public void setTextCase(String string) {
+		if (Utils.validTextCase(string)) {
+			this.textCase = string;
 		}
 	}
 
 	/**
 	 * @return the scale
 	 */
-	public static float getScale() {
-		return scale;
+	public float getScale() {
+		return this.scale;
 	}
 
 	/**
 	 * @param scale
 	 *            the scale to set
 	 */
-	public static void setScale(String string) {
+	public void setScale(String string) {
 		try {
 			float f = Float.parseFloat(string);
-			if(f > 0) {
-				scale = f;
+			if (f > 0) {
+				this.scale = f;
 			}
 		} catch (Exception e) {
 			/* Do Nothing */
@@ -269,19 +258,19 @@ public class Defaults {
 	/**
 	 * @return the rotation
 	 */
-	public static int getRotation() {
-		return rotation;
+	public int getRotation() {
+		return this.rotation;
 	}
 
 	/**
 	 * @param rotation
 	 *            the rotation to set
 	 */
-	public static void setRotation(String string) {
+	public void setRotation(String string) {
 		try {
 			int i = Integer.parseInt(string);
-			if((i >= 0) && (i <= 360)) {
-				rotation = i;
+			if (Utils.withinRangeInclusive(0, 360, i)) {
+				this.rotation = i;
 			}
 		} catch (Exception e) {
 			/* Do Nothing */
@@ -289,21 +278,21 @@ public class Defaults {
 	}
 
 	/**
-	 * @return the cropx1
+	 * @return the cropX1
 	 */
-	public static float getCropx1() {
-		return cropx1;
+	public float getCropX1() {
+		return this.cropX1;
 	}
 
 	/**
-	 * @param cropx1
-	 *            the cropx1 to set
+	 * @param cropX1
+	 *            the cropX1 to set
 	 */
-	public static void setCropx1(String string) {
+	public void setCropX1(String string) {
 		try {
 			float f = Float.parseFloat(string);
-			if((f >= 0) && (f <= 1)) {
-				cropx1 = f;
+			if (Utils.withinRangeInclusive(0, 1, f)) {
+				this.cropX1 = f;
 			}
 		} catch (Exception e) {
 			/* Do Nothing */
@@ -311,21 +300,21 @@ public class Defaults {
 	}
 
 	/**
-	 * @return the cropy1
+	 * @return the cropY1
 	 */
-	public static float getCropy1() {
-		return cropy1;
+	public float getCropY1() {
+		return this.cropY1;
 	}
 
 	/**
-	 * @param cropy1
-	 *            the cropy1 to set
+	 * @param cropY1
+	 *            the cropY1 to set
 	 */
-	public static void setCropy1(String string) {
+	public void setCropY1(String string) {
 		try {
 			float f = Float.parseFloat(string);
-			if((f >= 0) && (f <= 1)) {
-				cropy1 = f;
+			if (Utils.withinRangeInclusive(0, 1, f)) {
+				this.cropY1 = f;
 			}
 		} catch (Exception e) {
 			/* Do Nothing */
@@ -333,21 +322,21 @@ public class Defaults {
 	}
 
 	/**
-	 * @return the cropx2
+	 * @return the cropX2
 	 */
-	public static float getCropx2() {
-		return cropx2;
+	public float getCropX2() {
+		return this.cropX2;
 	}
 
 	/**
-	 * @param cropx2
-	 *            the cropx2 to set
+	 * @param cropX2
+	 *            the cropX2 to set
 	 */
-	public static void setCropx2(String string) {
+	public void setCropX2(String string) {
 		try {
 			float f = Float.parseFloat(string);
-			if((f >= 0) && (f <= 1)) {
-				cropx2 = f;
+			if (Utils.withinRangeInclusive(0, 1, f)) {
+				this.cropX2 = f;
 			}
 		} catch (Exception e) {
 			/* Do Nothing */
@@ -355,34 +344,24 @@ public class Defaults {
 	}
 
 	/**
-	 * @return the cropy2
+	 * @return the cropY2
 	 */
-	public static float getCropy2() {
-		return cropy2;
+	public float getCropY2() {
+		return this.cropY2;
 	}
 
 	/**
-	 * @param cropy2
-	 *            the cropy2 to set
+	 * @param cropY2
+	 *            the cropY2 to set
 	 */
-	public static void setCropy2(String string) {
+	public void setCropY2(String string) {
 		try {
 			float f = Float.parseFloat(string);
-			if ((f >= 0) && (f <= 1)) {
-				cropy2 = f;
+			if (Utils.withinRangeInclusive(0, 1, f)) {
+				this.cropY2 = f;
 			}
 		} catch (Exception e) {
 			/* Do Nothing */
 		}
-	}
-	
-	public static String capitaliseEachFirstLetter(String s) {
-		String[] words = s.split(" ");
-		String finalString = "";
-		for (String word : words) {
-			finalString += word.substring(0, 1).toUpperCase()
-					+ word.substring(1).toLowerCase() + " ";
-		}
-		return finalString.substring(0, finalString.length() - 1);
 	}
 }

@@ -1,79 +1,39 @@
 package Data;
 
 public class Image extends SlideItem {
-	private String sourceFile;
-	private float xStart;
-	private float yStart;
-	private float scale;
-	private float duration;
-	private float startTime;
+	
+	public Image(Defaults defaults) {
+		super(defaults);
+		this.rotation = defaults.getRotation();
+		this.scale = defaults.getScale();
+		this.cropX1 = defaults.getCropX1();
+		this.cropX2 = defaults.getCropX2();
+		this.cropY1 = defaults.getCropY1();
+		this.cropY2 = defaults.getCropY2();
+	}
+
 	private int rotation;
-	private boolean flipHorizontal;
-	private boolean flipVertical;
+	private float scale;
 	private float cropX1;
 	private float cropY1;
 	private float cropX2;
 	private float cropY2;
-
-	public Image(String source) {
-		this.sourceFile = source;
-	}
-
-	/**
-	 * @return the sourceFile
-	 */
-	public String getSourceFile() {
-		return sourceFile;
-	}
-
-	/**
-	 * @param sourceFile
-	 *            the sourceFile to set
-	 */
-	public void setSourceFile(String sourceFile) {
-		this.sourceFile = sourceFile;
-	}
-
-	/**
-	 * @return the xStart
-	 */
-	public float getxStart() {
-		return xStart;
-	}
-
-	/**
-	 * @param xStart
-	 *            the xStart to set
-	 */
-	public void setxStart(String xStart) {
-		float x;
-		try {
-			x = Float.parseFloat(xStart);
-			this.xStart = x;
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-
-	}
-
-	/**
-	 * @return the yStart
-	 */
-	public float getyStart() {
-		return yStart;
-	}
-
-	/**
-	 * @param yStart
-	 *            the yStart to set
-	 */
-	public void setyStart(String yStart) {
-		try {
-			float y = Float.parseFloat(yStart);
-			this.yStart = y;
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
+	private boolean flipHorizontal;
+	private boolean flipVertical;
+	
+	@Override
+	public void printItem() {
+		super.printItem();
+		System.out.println("Rotation: " + rotation);
+		System.out.println("Scale: " + scale);
+		System.out.println("CropX1: " + cropX1);
+		System.out.println("CropY1: " + cropY1);
+		System.out.println("CropX2: " + cropX2);
+		System.out.println("CropX1: " + cropX1);
+		System.out.println("CropY2: " + cropY2);
+		System.out.println("FlipHorizontal: " + flipHorizontal);
+		System.out.println("FlipVertical: " + flipVertical);
+		System.out.println("");
 	}
 
 	/**
@@ -87,52 +47,14 @@ public class Image extends SlideItem {
 	 * @param scale
 	 *            the scale to set
 	 */
-	public void setScale(String scale) {
+	public void setScale(String string) {
 		try {
-			float s = Float.parseFloat(scale);
-			this.scale = s;
+			float f = Float.parseFloat(string);
+			if (f > 0) {
+				this.scale = f;
+			}
 		} catch (Exception e) {
-			// TODO: handle exception
-		}
-	}
-
-	/**
-	 * @return the duration
-	 */
-	public float getDuration() {
-		return duration;
-	}
-
-	/**
-	 * @param duration
-	 *            the duration to set
-	 */
-	public void setDuration(String duration) {
-		try {
-			float d = Float.parseFloat(duration);
-			this.duration = d;
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-	}
-
-	/**
-	 * @return the startTime
-	 */
-	public float getStartTime() {
-		return startTime;
-	}
-
-	/**
-	 * @param startTime
-	 *            the startTime to set
-	 */
-	public void setStartTime(String startTime) {
-		try {
-			float s = Float.parseFloat(startTime);
-			this.startTime = s;
-		} catch (Exception e) {
-			// TODO: handle exception
+			/* Do Nothing */
 		}
 	}
 
@@ -147,12 +69,14 @@ public class Image extends SlideItem {
 	 * @param rotation
 	 *            the rotation to set
 	 */
-	public void setRotation(String rotation) {
+	public void setRotation(String string) {
 		try {
-			int r = Integer.parseInt(rotation);
-			this.rotation = r;
+			int i = Integer.parseInt(string);
+			if ((i >= 0) && (i <= 360)) {
+				this.rotation = i;
+			}
 		} catch (Exception e) {
-			// TODO: handle exception
+			/* Do Nothing */
 		}
 	}
 
@@ -168,11 +92,7 @@ public class Image extends SlideItem {
 	 *            the flipHorizontal to set
 	 */
 	public void setFlipHorizontal(String flipHorizontal) {
-		try {
-			this.flipHorizontal = Boolean.parseBoolean(flipHorizontal);
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
+		this.flipHorizontal = Boolean.parseBoolean(flipHorizontal);
 	}
 
 	/**
@@ -187,16 +107,12 @@ public class Image extends SlideItem {
 	 *            the flipVertical to set
 	 */
 	public void setFlipVertical(String flipVertical) {
-		try {
-			this.flipVertical = Boolean.parseBoolean(flipVertical);
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
+		this.flipVertical = Boolean.parseBoolean(flipVertical);
 	}
 
 	/**
 	 * @return the cropX1
-	 */
+	 */	
 	public float getCropX1() {
 		return cropX1;
 	}
@@ -205,12 +121,14 @@ public class Image extends SlideItem {
 	 * @param cropX1
 	 *            the cropX1 to set
 	 */
-	public void setCropX1(String cropX1) {
+	public void setCropX1(String string) {
 		try {
-			float c = Float.parseFloat(cropX1);
-			this.cropX1 = c;
+			float f = Float.parseFloat(string);
+			if((f >= 0) && (f <= 1)) {
+				this.cropX1 = f;
+			}
 		} catch (Exception e) {
-			// TODO: handle exception
+			/* Do Nothing */
 		}
 	}
 
@@ -225,12 +143,14 @@ public class Image extends SlideItem {
 	 * @param cropY1
 	 *            the cropY1 to set
 	 */
-	public void setCropY1(String cropY1) {
+	public void setCropY1(String string) {
 		try {
-			float c = Float.parseFloat(cropY1);
-			this.cropY1 = c;
+			float f = Float.parseFloat(string);
+			if((f >= 0) && (f <= 1)) {
+				this.cropY1 = f;
+			}
 		} catch (Exception e) {
-			// TODO: handle exception
+			/* Do Nothing */
 		}
 	}
 
@@ -245,12 +165,14 @@ public class Image extends SlideItem {
 	 * @param cropX2
 	 *            the cropX2 to set
 	 */
-	public void setCropX2(String cropX2) {
+	public void setCropX2(String string) {
 		try {
-			float c = Float.parseFloat(cropX2);
-			this.cropX2 = c;
+			float f = Float.parseFloat(string);
+			if((f >= 0) && (f <= 1)) {
+				this.cropX2 = f;
+			}
 		} catch (Exception e) {
-			// TODO: handle exception
+			/* Do Nothing */
 		}
 	}
 
@@ -265,12 +187,14 @@ public class Image extends SlideItem {
 	 * @param cropY2
 	 *            the cropY2 to set
 	 */
-	public void setCropY2(String cropY2) {
+	public void setCropY2(String string) {
 		try {
-			float c = Float.parseFloat(cropY2);
-			this.cropY2 = c;
+			float f = Float.parseFloat(string);
+			if ((f >= 0) && (f <= 1)) {
+				this.cropY2 = f;
+			}
 		} catch (Exception e) {
-			// TODO: handle exception
+			/* Do Nothing */
 		}
 	}
 
