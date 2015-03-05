@@ -60,7 +60,7 @@ public class GUI extends Application {
 	/* Global text area and array in which to save words */
 	private TextArea ta = new TextArea();
 	private String bannedWords[];
-	private String fileArray[][] = null;
+	private String fileArray[] = null;
 	private TextField userField = new TextField();// text field
 	private File initDir;
 	private String outputFile;
@@ -196,11 +196,9 @@ public class GUI extends Application {
 			while ((line = br.readLine()) != null) {
 				
 				// use comma as separator
-				String[] s = line.split(",");
-				System.out.println("line: " + i + " Files: " + s[0] + s[1]);
-				
-				fileArray[0][i] = s[0];
-				fileArray[1][i] = s[1];
+				fileArray = line.split(",");
+				System.out.println("line: " + i + " Files: " + fileArray[0] + fileArray[1]);
+
 				i++;
 			}
 
@@ -284,24 +282,25 @@ public class GUI extends Application {
 			case "5":
 				Slideshow currentSlideshow1 = null;
 				int i = Integer.parseInt(buttonPressed.getId());
-				buildSlides();
 				System.out.println("Open pres. " + i);
-				outputFile = fileArray[0][i];
+				outputFile = fileArray[i];
 
 				try {
 					currentSlideshow1 = new XMLReader(outputFile)
 							.getSlideshow();
 				} catch (IOException e1) {
-					if (currentSlideshow1 == null) {
-
-						/* Display error scene */
-						dispError();
-
-						System.out.println("Null slideshow");
-					}
-
+				
 				}
+				if (currentSlideshow1 != null) {
+					/* Only build if there is a slideshow */
+					buildSlides();
 
+				}else{
+					/* Display error scene */
+					dispError();
+
+					System.out.println("Null slideshow");
+				}
 				break;
 
 			case "clr":
@@ -530,7 +529,7 @@ public class GUI extends Application {
 		Scene slides = new Scene(slidePane);
 
 		/* Make and add a label */
-		lbl = makeLabel("Slide", 10, "");
+		lbl = makeLabel("Slide", 10, "#313131");
 		slidePane.add(lbl, 0, 0);
 
 		slideStage.setScene(slides);
