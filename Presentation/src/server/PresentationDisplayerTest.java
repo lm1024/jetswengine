@@ -18,6 +18,8 @@ import Data.Video;
 import GUI.Alignment;
 import GUI.GraphicsHandler;
 import GUI.ImageHandler;
+import GUI.Shading;
+import GUI.Shadow;
 import GUI.TextHandler;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -38,7 +40,7 @@ public class PresentationDisplayerTest extends Application {
 
 	private String filename = "test.xml";
 	private Group group;
-	private GraphicsHandler graphicsHandler;
+	private GraphicsHandler thisGraphicsHandler;
 	private TextHandler thisTextHandler;
 	private ImageHandler thisImageHandler;
 	private VideoHandler thisVideoHandler;
@@ -80,7 +82,7 @@ public class PresentationDisplayerTest extends Application {
 		/* Calls to add items to screen */
 		thisImageHandler = new ImageHandler(group);
 		thisTextHandler = new TextHandler(group);
-		// GraphicsHandler thisGraphicsHandler = new GraphicsHandler(group);
+		thisGraphicsHandler = new GraphicsHandler(group);
 		thisVideoHandler = new VideoHandler(group);
 
 		Slideshow currentSlideshow = new ImprovedXMLReader(filename).getSlideshow();
@@ -139,7 +141,7 @@ public class PresentationDisplayerTest extends Application {
 			int absXEnd = convertXRelToAbs(currentText.getXStart() * 1.5); // TODO
 			int absYEnd = convertYRelToAbs(currentText.getYStart() * 1.4); // TODO
 
-			thisTextHandler.drawBuffer(absXStart, absYStart, absXEnd, absYEnd, "#10aa0000", Alignment.LEFT);
+			thisTextHandler.drawBuffer(absXStart, absYStart, absXEnd, absYEnd, "#ffaa0000", Alignment.LEFT);
 		}
 
 		/* Image section */
@@ -160,6 +162,13 @@ public class PresentationDisplayerTest extends Application {
 			case "Oval":
 				break;
 			case "Rectangle":
+				
+				int absXStart = convertXRelToAbs(currentGraphic.getXStart());
+				int absYStart = convertYRelToAbs(currentGraphic.getYStart());
+				int absXEnd = convertXRelToAbs(currentGraphic.getXStart() * 1.5); // TODO
+				int absYEnd = convertYRelToAbs(currentGraphic.getYStart() * 1.4); // TODO
+				
+				thisGraphicsHandler.drawRectangle(absXStart, absYStart, absXEnd, absYEnd, 0, 0, currentGraphic.getGraphicColor(), true, "#00000000", 1, Shadow.NORMAL, 0, Shading.NONE);
 				break;
 			case "Line":
 				break;
