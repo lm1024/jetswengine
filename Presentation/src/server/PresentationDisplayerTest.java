@@ -7,7 +7,7 @@ import java.util.List;
 
 import sofia.VideoHandler;
 
-import XML.XMLReader;
+import XML.ImprovedXMLReader;
 import Data.Graphic;
 import Data.Image;
 import Data.Slide;
@@ -83,7 +83,7 @@ public class PresentationDisplayerTest extends Application {
 		// GraphicsHandler thisGraphicsHandler = new GraphicsHandler(group);
 		thisVideoHandler = new VideoHandler(group);
 
-		Slideshow currentSlideshow = new XMLReader(filename).getSlideshow();
+		Slideshow currentSlideshow = new ImprovedXMLReader(filename).getSlideshow();
 
 		System.out.println(currentSlideshow.getSlides());
 
@@ -99,8 +99,8 @@ public class PresentationDisplayerTest extends Application {
 				System.out.println("	Current Image: " + currentImage.getSourceFile());
 			}
 			for (Graphic currentGraphic : currentSlide.getGraphicsList()) {
-				System.out.println("	Current Graphic Coordinates: " + currentGraphic.getxStart() + " "
-						+ currentGraphic.getyStart());
+				System.out.println("	Current Graphic Coordinates: " + currentGraphic.getXStart() + " "
+						+ currentGraphic.getYStart());
 			}
 		}
 		slides = currentSlideshow.getSlides();
@@ -127,37 +127,55 @@ public class PresentationDisplayerTest extends Application {
 		for (Text currentText : currentSlide.getTextList()) {
 			System.out.println("	Current Text: " + currentText);
 			for (TextFragment currentTextFragment : currentText.getTextFragments()) {
-				System.out.println("		Current Text Fragment: " + currentTextFragment.getColor());
-				thisTextHandler.addStringToBuffer(currentTextFragment.getText(), currentTextFragment.getFont(),
-						(int) currentTextFragment.getFontSize(), currentTextFragment.getColor(), "#00000000", false);
+				System.out.println("		Current Text Fragment: " + currentTextFragment.getFontColor());
+				thisTextHandler
+						.addStringToBuffer(currentTextFragment.getText(), currentTextFragment.getFont(),
+								(int) currentTextFragment.getFontSize(), currentTextFragment.getFontColor(),
+								"#00000000", false);
 			}
 
-			int absXStart = convertXRelToAbs(currentText.getxStart());
-			int absYStart = convertYRelToAbs(currentText.getyStart());
-			int absXEnd = convertXRelToAbs(currentText.getxStart() * 1.5); // TODO
-			int absYEnd = convertYRelToAbs(currentText.getyStart() * 1.4); // TODO
+			int absXStart = convertXRelToAbs(currentText.getXStart());
+			int absYStart = convertYRelToAbs(currentText.getYStart());
+			int absXEnd = convertXRelToAbs(currentText.getXStart() * 1.5); // TODO
+			int absYEnd = convertYRelToAbs(currentText.getYStart() * 1.4); // TODO
 
 			thisTextHandler.drawBuffer(absXStart, absYStart, absXEnd, absYEnd, "#10aa0000", Alignment.LEFT);
 		}
-		
+
 		/* Image section */
 		for (Image currentImage : currentSlide.getImagesList()) {
-			System.out.println("	Current Image: " + currentImage);
-			thisImageHandler.drawImage(currentImage.getxStart(), currentImage.getxStart(),
+			System.out.println("	Current Image: " + currentImage.getSourceFile());
+			thisImageHandler.drawImage(currentImage.getXStart(), currentImage.getXStart(),
 					currentImage.getSourceFile(), currentImage.getScale(), currentImage.getScale(),
 					currentImage.getRotation(), currentImage.getFlipVertical(), currentImage.getFlipHorizontal(),
 					currentImage.getCropX1(), currentImage.getCropX2(), currentImage.getCropY1(),
 					currentImage.getCropY2());
 		}
-		
-		/* Image section */
-		for (Video currentVideo : currentSlide.getMoviesList()) {
+
+		/* Graphics section */
+		for (Graphic currentGraphic : currentSlide.getGraphicsList()) {
+			System.out.println("	Current Graphic: " + currentGraphic.getType());
+
+			switch (currentGraphic.getType()) {
+			case "Oval":
+				break;
+			case "Rectangle":
+				break;
+			case "Line":
+				break;
+			default:
+				break;
+			}
+
+		}
+
+		/* Video section */
+		for (Video currentVideo : currentSlide.getVideosList()) {
 			System.out.println("	Current Image: " + currentVideo);
 			int absXStart = convertXRelToAbs(currentVideo.getXStart());
 			int absYStart = convertYRelToAbs(currentVideo.getYStart());
 			System.out.println(absXStart + " " + absYStart + " " + currentVideo.getYStart());
-			
-			
+
 			thisVideoHandler.createVideo(absXStart, absYStart, 500, currentVideo.getSourceFile(), true, true);
 		}
 

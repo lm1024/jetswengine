@@ -118,7 +118,7 @@ public class TextHandler {
 			}
 		}
 		
-		//currentString.setNewLine(newLine); // TODO
+		currentString.setNewline(newLine);
 
 		/* Error checking for fontName */
 		String capitalisedFontName = capitaliseEachFirstLetter(fontName);
@@ -476,8 +476,8 @@ public class TextHandler {
 			postBodyAttributes = postBodyAttributes + "</font>" + "</span>" + "</span>" + "</span>";
 
 			/* Add a new line tag if required */
-			/*if (currentString.isNewLine())
-				postBodyAttributes = postBodyAttributes + "<br>";*/ //TODO
+			if (currentString.endsWithNewline())
+				postBodyAttributes = postBodyAttributes + "<br>"; 
 			
 			/*
 			 * Replaces the < character with the html expression for a <
