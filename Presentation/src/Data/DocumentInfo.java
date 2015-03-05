@@ -1,7 +1,5 @@
 package Data;
 
-import java.util.HashMap;
-
 public class DocumentInfo {
 
 	private String author;
@@ -10,7 +8,7 @@ public class DocumentInfo {
 	private String groupID;
 
 	public DocumentInfo() {
-
+		//Exists to prevent instantiation
 	}
 
 	/**
@@ -73,12 +71,13 @@ public class DocumentInfo {
 		this.groupID = groupID;
 	}
 	
-	public void add(HashMap<String, String> hashMap) {
-
-		setAuthor(hashMap.get("author"));
-		setComment(hashMap.get("comment"));
-		setGroupID(hashMap.get("groupid"));
-		setVersion(hashMap.get("version"));
+	public void printInfo() {
+		System.out.println("Start of Document Info:");
+		System.out.println("Author: " + author);
+		System.out.println("Version: " + version);
+		System.out.println("Comment: " + comment);
+		System.out.println("Group ID: "+ groupID);
+		System.out.println("End of Document Info\n");
 	}
 
 }

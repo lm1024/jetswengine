@@ -1,35 +1,53 @@
 package Data;
 
-import javafx.scene.text.Font;
+import utils.Utils;
 
-public class TextFragment {
+public class TextFragment implements Cloneable {
 
-	private String text;
-	private String font = Defaults.getFont();
-	private double fontSize = Defaults.getFontSize();
-	private String color = Defaults.getFontColor();
-	private String highlightColor = Defaults.getHighlightColor();
 	private boolean bold;
 	private boolean underlined;
 	private boolean italicised;
 	private boolean superscript;
 	private boolean subscript;
 	private boolean strikethrough;
-	private boolean newLine;
-	private String textCase = Defaults.getTextCase();
+	private boolean newline;
+	private String fontColor;
+	private String highlightColor;
+	private String font;
+	private double fontSize;
+	private String text;
+	
+	public TextFragment clone(){  
+	    try{  
+	        return (TextFragment)super.clone();  
+	    }catch(Exception e){ 
+	        return null; 
+	    }
+	}
+
+	public void printItem() {
+		System.out.println("Bold: " + bold);
+		System.out.println("Underlined: " + underlined);
+		System.out.println("Italicised: " + italicised);
+		System.out.println("Superscript: " + superscript);
+		System.out.println("Subscript: " + subscript);
+		System.out.println("Strikethrough: " + strikethrough);
+		System.out.println("Font Color: " + fontColor);
+		System.out.println("Highlight Color: " + highlightColor);
+		System.out.println("Font: " + font);
+		System.out.println("Font Size: " + fontSize);
+		System.out.println("Text: \"" + text + "\"");
+		System.out.println("");
+	}
 
 	/**
 	 * @Initialises a new text fragment
 	 */
-	public TextFragment(Text textcontainer) {
-		
-	}
-	
-	/**
-	 * @Initialises a new text fragment
-	 */
-	public TextFragment() {
-		
+	public TextFragment(Defaults defaults) {
+		this.font = defaults.getFont();
+		this.fontColor = defaults.getFontColor();
+		this.fontSize = defaults.getFontSize();
+		this.highlightColor = defaults.getHighlightColor();
 	}
 
 	/**
@@ -44,10 +62,7 @@ public class TextFragment {
 	 *            the superscript to set
 	 */
 	public void setSuperscript(String string) {
-
-		boolean b = Boolean.parseBoolean(string);
-		this.superscript = b;
-
+		this.superscript = Boolean.parseBoolean(string);
 	}
 
 	/**
@@ -62,10 +77,7 @@ public class TextFragment {
 	 *            the subscript to set
 	 */
 	public void setSubscript(String string) {
-
-			boolean b = Boolean.parseBoolean(string);
-			this.subscript = b;
-
+		this.subscript = Boolean.parseBoolean(string);
 	}
 
 	/**
@@ -80,10 +92,7 @@ public class TextFragment {
 	 *            the strikethrough to set
 	 */
 	public void setStrikethrough(String string) {
-
-			boolean b = Boolean.parseBoolean(string);
-			this.strikethrough = b;
-
+		this.strikethrough = Boolean.parseBoolean(string);
 	}
 
 	/**
@@ -112,14 +121,11 @@ public class TextFragment {
 	 * @param font
 	 *            the font to set
 	 */
-	public void setFont(String font) {
-		font = Defaults.capitaliseEachFirstLetter(font);
-		if (Font.getFontNames().contains(font)) {
-			this.font = font;
-		} else {
-			this.font = Defaults.getFont();
+	public void setFont(String string) {
+		string = Utils.capitaliseEachFirstLetter(string);
+		if (Utils.validFont(string)) {
+			this.font = string;
 		}
-
 	}
 
 	/**
@@ -136,30 +142,28 @@ public class TextFragment {
 	public void setFontSize(String string) {
 		try {
 			double d = Double.parseDouble(string);
-			this.fontSize = d;
+			if (d > 0) {
+				this.fontSize = d;
+			}
 		} catch (Exception e) {
-			this.fontSize = Defaults.getFontSize();
+			/* Do Nothing */
 		}
 	}
 
 	/**
 	 * @return the color
 	 */
-	public String getColor() {
-		return color;
+	public String getFontColor() {
+		return fontColor;
 	}
 
 	/**
 	 * @param colour
 	 *            the colour to set
 	 */
-	public void setColor(String color) {
-		try {
-			if (color.matches("^([#]([0-9a-fA-F]{8}))$")) {
-				this.color = color;
-			}
-		} catch (NullPointerException npe) {
-			/* Do nothing */
+	public void setFontColor(String string) {
+		if (Utils.validARGB(string)) {
+			this.fontColor = string;
 		}
 	}
 
@@ -175,12 +179,7 @@ public class TextFragment {
 	 *            the bold to set
 	 */
 	public void setBold(String string) {
-		try {
-			boolean b = Boolean.parseBoolean(string);
-			this.bold = b;
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
+		this.bold = Boolean.parseBoolean(string);
 	}
 
 	/**
@@ -195,12 +194,7 @@ public class TextFragment {
 	 *            the underlined to set
 	 */
 	public void setUnderlined(String string) {
-		try {
-			boolean b = Boolean.parseBoolean(string);
-			this.underlined = b;
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
+		this.underlined = Boolean.parseBoolean(string);
 	}
 
 	/**
@@ -215,32 +209,7 @@ public class TextFragment {
 	 *            the italicised to set
 	 */
 	public void setItalicised(String string) {
-		try {
-			boolean b = Boolean.parseBoolean(string);
-			this.italicised = b;
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-	}
-
-	/**
-	 * @return the textCase
-	 */
-	public String getTextCase() {
-		return textCase;
-	}
-
-	/**
-	 * @param textCase
-	 *            the textCase to set
-	 */
-	public void setTextCase(String string) {
-		if (string.matches("upper|lower|camel|none")) {
-			this.textCase = string;
-		} else {
-			this.textCase = Defaults.getTextCase();
-		}
-
+		this.italicised = Boolean.parseBoolean(string);
 	}
 
 	/**
@@ -254,74 +223,89 @@ public class TextFragment {
 	 * @param highlightColor
 	 *            the highlightColor to set
 	 */
-	public void setHighlightColor(String highlightColor) {
-		try {
-			if (highlightColor.matches("^([#]([0-9a-fA-F]{8}))$")) {
-				this.highlightColor = highlightColor;
-			}
-		} catch (NullPointerException npe) {
-			/* Do nothing */
+	public void setHighlightColor(String string) {
+		if (Utils.validARGB(string)) {
+			this.highlightColor = string;
 		}
-
 	}
 
 	/**
-	 * @param fontSize the fontSize to set
+	 * @param fontSize
+	 *            the fontSize to set
 	 */
 	public void setFontSize(double fontSize) {
-		if(fontSize > 0) {
+		if (fontSize > 0) {
 			this.fontSize = fontSize;
 		}
 	}
 
 	/**
-	 * @param bold the bold to set
+	 * @param bold
+	 *            the bold to set
 	 */
 	public void setBold(boolean bold) {
 		this.bold = bold;
 	}
 
 	/**
-	 * @param underlined the underlined to set
+	 * @param underlined
+	 *            the underlined to set
 	 */
 	public void setUnderlined(boolean underlined) {
 		this.underlined = underlined;
 	}
 
 	/**
-	 * @param italicised the italicised to set
+	 * @param italicised
+	 *            the italicised to set
 	 */
 	public void setItalicised(boolean italicised) {
 		this.italicised = italicised;
 	}
 
 	/**
-	 * @param superscript the superscript to set
+	 * @param superscript
+	 *            the superscript to set
 	 */
 	public void setSuperscript(boolean superscript) {
 		this.superscript = superscript;
 	}
 
 	/**
-	 * @param subscript the subscript to set
+	 * @param subscript
+	 *            the subscript to set
 	 */
 	public void setSubscript(boolean subscript) {
 		this.subscript = subscript;
 	}
 
 	/**
-	 * @param strikethrough the strikethrough to set
+	 * @param strikethrough
+	 *            the strikethrough to set
 	 */
 	public void setStrikethrough(boolean strikethrough) {
 		this.strikethrough = strikethrough;
 	}
 
-	public boolean isNewLine() {
-		return newLine;
+	/**
+	 * @return the newline
+	 */
+	public boolean endsWithNewline() {
+		return newline;
 	}
 
-	public void setNewLine(boolean newLine) {
-		this.newLine = newLine;
+	/**
+	 * @param newline the newline to set
+	 */
+	public void setNewline(boolean newline) {
+		this.newline = newline;
+	}
+	
+	/**
+	 * @param newline the newline to set
+	 */
+	public void setNewline(String string) {
+		this.newline= Boolean.parseBoolean(string);
 	}
 
 }
