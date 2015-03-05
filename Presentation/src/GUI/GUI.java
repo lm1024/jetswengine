@@ -10,17 +10,9 @@
 package GUI;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import SwingGUI.Console;
-import XML.XMLReader;
-
-import Data.Slideshow;
-
 import javafx.application.Application;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -47,6 +39,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import Data.Slideshow;
+import XML.XMLReader;
 
 /**
  * @author Ashleyna Foo Inn Peng
@@ -60,13 +54,6 @@ public class GUI extends Application {
 	 * 
 	 */
 
-	// @Override
-	// public void init() throws Exception {
-	// super.init();
-	// Font font = Font.loadFont("file:resources/fonts/Roboto-Bold.ttf", 50);
-	// //Font.loadFont("file:resources/fonts/Roboto-Medium.ttf", 50);
-	// }
-
 	/* Global text area and array in which to save words */
 	private TextArea ta = new TextArea();
 	private String bannedWords[];
@@ -74,6 +61,7 @@ public class GUI extends Application {
 	private TextField userField = new TextField();// text field
 	private File initDir;
 	private String outputFile;
+	private int slideNo = 0;
 
 	private boolean isShadow = false;
 
@@ -81,11 +69,12 @@ public class GUI extends Application {
 
 	private Scene settingsScene;
 	private Scene mainScene;
-	private Scene slides;
+	private GridPane slidePane;
 
 	private Stage stageRef;
-	
+
 	final GridPane grid = new GridPane();
+	private Label lbl;
 
 	public GUI() {
 	}
@@ -103,11 +92,10 @@ public class GUI extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		/*
-		 * TODO Jake, please make a nice GUI. You are our only hope. Screen
-		 * resizing stuff!!
+		 * TODO Jake, please make a nice GUI. You are our only hope. text file
+		 * to make reference to image files and XML files
 		 */
 		stageRef = primaryStage;
-		stageRef.widthProperty().addListener(new widthSizeListener());
 
 		/* Set the title of the window */
 		primaryStage.setTitle("SmartSlides");
@@ -325,12 +313,12 @@ public class GUI extends Application {
 			shadow.setColor(Color.web("#33B5E5"));
 
 			if (!isShadow) {
-				isShadow = true;
 				btn.setEffect(shadow);
 			} else {
-				isShadow = false;
 				btn.setEffect(null);
 			}
+
+			isShadow = !isShadow;
 
 		}
 
@@ -346,8 +334,10 @@ public class GUI extends Application {
 		public void handle(ActionEvent e) {
 
 			CheckBox cbSelected = (CheckBox) e.getSource();
+			int i = Integer.parseInt(cbSelected.getId());// checkbox number as
+															// int
 
-			System.out.println(cbSelected.getId() + " was set to "
+			System.out.println("Check box" + i + " was set to "
 					+ cbSelected.isSelected());
 
 		}
@@ -357,26 +347,20 @@ public class GUI extends Application {
 	private class mouseClickHandler implements EventHandler<MouseEvent> {
 
 		public void handle(MouseEvent e) {
-
-			if (e.getX() > (slides.getWidth()) * 0.5) {
+			/* ID which side of the screen is clicked on */
+			if (e.getX() > (slidePane.getWidth()) * 0.5) {
 				System.out.println("right");
+				slideNo++;
 			} else {
+				if (slideNo > 0) {
+					slideNo--;
+				}
 				System.out.println("left");
 			}
 
+			lbl.setText(String.valueOf(slideNo));
+			System.out.println(slideNo);
 		}
-	}
-
-	private class widthSizeListener implements ChangeListener<Number> {
-
-		@Override
-		public void changed(ObservableValue<? extends Number> observableValue,
-				Number oldSceneWidth, Number newSceneWidth) {
-			System.out.println("Width: " + newSceneWidth);
-			
-
-		}
-
 	}
 
 	private void buildSettings() {
@@ -391,7 +375,7 @@ public class GUI extends Application {
 		// creates a scene within the stage of pixel size x by y
 		settingsScene = new Scene(settingsGrid, stageRef.getWidth(),
 				stageRef.getHeight());
-		settingsScene.getStylesheets().add("file:resources/styles/style1.css");
+		settingsScene.getStylesheets().add(styleSheet);
 
 		/* Set the layout as settingsGridpane */
 		settingsGrid.setPadding(new Insets(5, 5, 5, 5));
@@ -420,8 +404,8 @@ public class GUI extends Application {
 		 */
 
 		/* Add check boxes */
-		CheckBox cb1 = makeCheckBox("Slide Timer", "checkLight", "cb1", false);
-		CheckBox cb2 = makeCheckBox("Object Timer", "checkLight", "cb2", false);
+		CheckBox cb1 = makeCheckBox("Slide Timer", "checkLight", "0", false);
+		CheckBox cb2 = makeCheckBox("Object Timer", "checkLight", "1", false);
 
 		/* Vbox to contain check boses */
 		VBox vbox1 = makeVBox("clearBox", Pos.TOP_LEFT, 10);
@@ -496,24 +480,25 @@ public class GUI extends Application {
 		// primaryStage.setFullScreen(true);
 
 	}
-	
+
 	private void buildSlides() {
-		
+
 		Stage slideStage = new Stage();
 		slideStage.setTitle("SmartSlides");
-		GridPane slidePane = new GridPane();
-		settingsScene = new Scene(slidePane);
-		
-		
-	
-		slidePane.add(makeImageView("file:resources/error.png", 0), 0, 0);
-		
-		slideStage.setScene(settingsScene);
+		slidePane = new GridPane();
+		slidePane.setAlignment(Pos.CENTER);// set to center of screen
+		Scene slides = new Scene(slidePane);
+
+		/* Make and add a label */
+		lbl = makeLabel("Slide", 10, "");
+		slidePane.add(lbl, 0, 0);
+
+		slideStage.setScene(slides);
 		slideStage.setFullScreen(true);
-		slideStage.show();
-		
+
 		slides.setOnMouseClicked(new mouseClickHandler());
-		
+		slideStage.show();
+
 	}
 
 	/*
