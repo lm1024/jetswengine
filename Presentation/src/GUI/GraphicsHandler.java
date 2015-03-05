@@ -234,9 +234,9 @@ public class GraphicsHandler {
 	 * @param yEndPos
 	 *            y coordinate of the bottom right corner of the rectangle
 	 * @param arcWidth
-	 *            //TODO
+	 *             the vertical diameter of the arc at the four corners of the rectangle
 	 * @param arcHeight
-	 *            //TODO
+	 *            the horizontal diameter of the arc at the four corners of the rectangle
 	 * @param rectangleColor
 	 *            color of the rectangle
 	 * @param solid
@@ -260,11 +260,10 @@ public class GraphicsHandler {
 	public void drawRectangle(float xStartPos, float yStartPos, float xEndPos, float yEndPos, float arcWidth,
 			float arcHeight, Color rectangleColor, boolean solid, Color outlineColor, double outlineThickness,
 			Shadow shadowType, float rotation, Shading shadingType, Color... shadingColors) {
-		/*
-		 * TODO rounded corners (look up arkheight and arkwidth javafx)
-		 */
 		Rectangle rectangle = new Rectangle(xStartPos, yStartPos, xEndPos - xStartPos, yEndPos - yStartPos);
 		rectangle.setRotate(rotation);
+		rectangle.setArcWidth(arcWidth);
+		rectangle.setArcHeight(arcHeight);
 
 		colorShape(rectangle, solid, rectangleColor, outlineColor, outlineThickness, shadowType, shadingType,
 				shadingColors);
@@ -305,9 +304,6 @@ public class GraphicsHandler {
 	public void drawSquare(float xStartPos, float yStartPos, float length, Color squareColor, boolean solid,
 			Color outlineColor, double outlineThickness, Shadow shadowType, float rotation, Shading shadingType,
 			Color... shadingColors) {
-		/*
-		 * TODO rounded corners (look up arkheight and arkwidth javafx)
-		 */
 		drawRectangle(xStartPos, yStartPos, xStartPos + length, yStartPos + length, 0, 0, squareColor, solid,
 				outlineColor, outlineThickness, shadowType, rotation, shadingType, shadingColors);
 	}
@@ -492,10 +488,6 @@ public class GraphicsHandler {
 	public void drawTriangle(double x1, double y1, double x2, double y2, double x3, double y3, Color triangleColor,
 			boolean solid, Color outlineColor, double outlineThickness, Shadow shadowType, float rotation,
 			Shading shadingType, Color... shadingColors) {
-		/*
-		 * TODO Write a method that draws a triangle depending on params passed.
-		 * Takes 3 sets of coordinates so any triangle can be made.
-		 */
 		Polygon triangle = new Polygon();
 		colorShape(triangle, solid, triangleColor, outlineColor, outlineThickness, shadowType, shadingType,
 				shadingColors);
