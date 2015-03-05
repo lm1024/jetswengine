@@ -102,87 +102,22 @@ public class GUI extends Application {
 		readFile();
 
 		stageRef = primaryStage;
-
+		
 		/* Set the title of the window */
-		primaryStage.setTitle("SmartSlides");
+		stageRef.setTitle("SmartSlides");
 		Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
-		primaryStage.setWidth(primaryScreenBounds.getWidth());
-		primaryStage.setHeight(primaryScreenBounds.getHeight());
+		stageRef.setWidth(primaryScreenBounds.getWidth());
+		stageRef.setHeight(primaryScreenBounds.getHeight());
+		
+		/* sets the scale required to scale the height with change in width*/
+		sizescale = primaryScreenBounds.getWidth()/primaryScreenBounds.getHeight();
 
-		/* create a gridpane layout */
-		grid.setHgap(10);
-		grid.setVgap(10);
-		grid.setPadding(new Insets(5, 5, 5, 5));
-		grid.setAlignment(Pos.CENTER);
-
-		/* creates a scene within the stage of pixel size x by y */
-		mainScene = new Scene(grid, primaryStage.getWidth(),
-				primaryStage.getHeight());
-
-		/* Company icon in column 1-3, row 1-3 */
-		grid.add(makeImageView("file:WM_logo_transparent.png", 0.25), 0, 0, 3,
-				3);
-
-		/* Product name in column 2-5, row 3 */
-		Label titleLabel = makeLabel("     SmartSlides", 50, "#33B5E5");
-		grid.add(titleLabel, 1, 2, 4, 1);
-
-		/* Create first button for Slide Preview and add in column 1, row 4 */
-		Button one = makeButton("Presentation 1", "invisiButton", true, "0",
-				"file:me.png", 0.2);
-		grid.add(one, 0, 3);
-
-		/* Create second button for Slide Preview and add in column 3, row 4 */
-		Button two = makeButton("Presentation 2", "invisiButton", true, "1",
-				"file:me.png", 0.2);
-		grid.add(two, 2, 3);
-
-		/* Create third button for Slide Preview and add in column 5, row 4 */
-		Button three = makeButton("Presentation 3", "invisiButton", true, "2",
-				"file:me.png", 0.2);
-		grid.add(three, 4, 3);
-
-		/* Create forth button for Slide Preview and add in column 1, row 6 */
-		Button four = makeButton("Presentation 4", "invisiButton", true, "3",
-				"file:me.png", 0.2);
-		grid.add(four, 0, 5);
-
-		/* Create fifth button for Slide Preview and add in column 3, row 6 */
-		Button five = makeButton("Presentation 5", "invisiButton", true, "4",
-				"file:me.png", 0.2);
-		grid.add(five, 2, 5);
-
-		/* Create sixth button for Slide Preview and add in column 5, row 6 */
-		Button six = makeButton("Presentation 6", "invisiButton", true, "5",
-				"file:me.png", 0.2);
-		grid.add(six, 4, 5);
-
-		/* Insert blank in column 2 and 4, row 4-6 */
-		grid.add(makePane(), 1, 3, 1, 3);
-		grid.add(makePane(), 3, 3, 1, 3);
-
-		/* Insert blank in row 5 */
-		grid.add(makePane(), 0, 4, 5, 1);
-
-		/* Create Openfile button in column 2-3, row 7 */
-		Button openfile = makeButton("Open file", "darkButton", true,
-				"Openfile");
-		grid.add(openfile, 1, 6, 2, 1);
-
-		/* Create Settings button in column 4-5, row 7 */
-		Button settings = makeButton("Settings", "darkButton", true, "Settings");
-		grid.add(settings, 3, 6, 2, 1);
-
-		mainScene.getStylesheets().add(styleSheet);
-
-		primaryStage.setScene(mainScene);
-
-		/* Line sets the screen to fullscreen */
-		// primaryStage.setFullScreen(true);
-
-		// thisGraphicsHandler.drawRectangle();
+		buildmain();
 
 		primaryStage.show();
+
+
+
 	}
 
 	private void readFile() {
@@ -401,6 +336,96 @@ public class GUI extends Application {
 			lbl.setText(String.valueOf(slideNo));
 		}
 	}
+
+
+private void buildmain(){
+		
+		GridPane grid = new GridPane();
+
+		/* create a gridpane layout */
+		grid.setHgap(10);
+		grid.setVgap(10);
+		grid.setPadding(new Insets(5, 5, 5, 5));
+		grid.setAlignment(Pos.CENTER);
+
+		/* creates a stackpane to add the grid in for resizable option*/
+		StackPane rootpane = new StackPane();
+		rootpane.getChildren().add(grid);
+		
+		/* creates a scene within the stage of pixel size x by y */
+		mainScene = new Scene(rootpane, stageRef.getWidth(),
+				stageRef.getHeight());
+
+		/* Company icon in column 1-3, row 1-3 */
+		grid.add(makeImageView("file:WM_logo_transparent.png", 0.25), 0, 0, 3,
+				3);
+
+		/* Product name in column 2-5, row 3 */
+		Label titleLabel = makeLabel("     SmartSlides", 50, "#33B5E5");
+		grid.add(titleLabel, 1, 2, 4, 1);
+
+		/* Create first button for Slide Preview and add in column 1, row 4 */
+		Button one = makeButton("Presentation 1", "invisiButton", true, "0",
+				"file:me.png", 0.2);
+		grid.add(one, 0, 3);
+
+		/* Create second button for Slide Preview and add in column 3, row 4 */
+		Button two = makeButton("Presentation 2", "invisiButton", true, "1",
+				"file:me.png", 0.2);
+		grid.add(two, 2, 3);
+
+		/* Create third button for Slide Preview and add in column 5, row 4 */
+		Button three = makeButton("Presentation 3", "invisiButton", true, "2",
+				"file:me.png", 0.2);
+		grid.add(three, 4, 3);
+
+		/* Create forth button for Slide Preview and add in column 1, row 6 */
+		Button four = makeButton("Presentation 4", "invisiButton", true, "3",
+				"file:me.png", 0.2);
+		grid.add(four, 0, 5);
+
+		/* Create fifth button for Slide Preview and add in column 3, row 6 */
+		Button five = makeButton("Presentation 5", "invisiButton", true, "4",
+				"file:me.png", 0.2);
+		grid.add(five, 2, 5);
+
+		/* Create sixth button for Slide Preview and add in column 5, row 6 */
+		Button six = makeButton("Presentation 6", "invisiButton", true, "5",
+				"file:me.png", 0.2);
+		grid.add(six, 4, 5);
+
+		/* Insert blank in column 2 and 4, row 4-6 */
+		grid.add(makePane(), 1, 3, 1, 3);
+		grid.add(makePane(), 3, 3, 1, 3);
+
+		/* Insert blank in row 5 */
+		grid.add(makePane(), 0, 4, 5, 1);
+
+		/* Create Openfile button in column 2-3, row 7 */
+		Button openfile = makeButton("Open file", "darkButton", true,
+				"Openfile");
+		grid.add(openfile, 1, 6, 2, 1);
+
+		/* Create Settings button in column 4-5, row 7 */
+		Button settings = makeButton("Settings", "darkButton", true, "Settings");
+		grid.add(settings, 3, 6, 2, 1);
+
+		mainScene.getStylesheets().add(styleSheet);
+		stageRef.setScene(mainScene);
+		
+		/* set the grid and its contents to resize to the stage size*/
+		stageRef.maxHeightProperty().bind(mainScene.widthProperty().divide(sizescale));
+		stageRef.minHeightProperty().bind(mainScene.widthProperty().divide(sizescale));
+		grid.scaleXProperty().bind(mainScene.widthProperty().divide(stageRef.getWidth()));
+	    grid.scaleYProperty().bind(mainScene.heightProperty().divide(stageRef.getHeight()));
+
+		/* Line sets the screen to fullscreen */
+		// primaryStage.setFullScreen(true);
+
+		// thisGraphicsHandler.drawRectangle();
+		
+}
+	
 
 	private void buildSettings() {
 
