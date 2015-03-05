@@ -1,67 +1,124 @@
 package Data;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+
+import utils.Utils;
 import Data.Defaults;
 
 public class Text extends SlideItem {
 
 	private List<TextFragment> textFragments;
 	private TextFragment currentTextFragment;
-	private float xStart;
-	private float yStart;
-	private float startTime;
-	private float duration;
-	private String alignment; // left/right/center/justify /justified/centre
+	private String alignment; // left/right/center/justify
+								// /justified/centre
 	private String font;
-	private String fontcolor;
+	private String fontColor;
+	private double fontSize;
+	private String backgroundColor;
+	private float xEnd = -1;
+	private float yEnd = -1;
 
-	public Text() {
-		this.textFragments = new ArrayList<TextFragment>();
-		this.currentTextFragment = new TextFragment(this);
-	}
-
-	public void add(HashMap<String, String> hashMap) {
-		
-		if (hashMap.get("type").equals("richtext")) {
-			this.currentTextFragment = new TextFragment(this);
-			currentTextFragment.setFont(hashMap.get("font"));
-			currentTextFragment.setBold(hashMap.get("bold"));
-			currentTextFragment.setColor(hashMap.get("fontcolor"));
-			currentTextFragment.setFontSize(hashMap.get("fontsize"));
-			currentTextFragment.setItalicised(hashMap.get("italic"));
-			currentTextFragment.setStrikethrough(hashMap.get("strikethrough"));
-			currentTextFragment.setSubscript(hashMap.get("subscript"));
-			currentTextFragment.setSuperscript(hashMap.get("superscript"));
-			currentTextFragment.setUnderlined(hashMap.get("underlined"));
-			currentTextFragment.setTextCase(hashMap.get("case"));
-			currentTextFragment.setHighlightColor(hashMap.get("highlightcolor"));
-		} else {
-			currentTextFragment.setText(hashMap.get("text"));
-			this.textFragments.add(currentTextFragment);
-			
+	@Override
+	public void printItem() {
+		super.printItem();
+		System.out.println("xEnd: " + ((xEnd < 0) ? "None specified" : xEnd));
+		System.out.println("yEnd: " + ((yEnd < 0) ? "None specified" : yEnd));
+		System.out.println("Alignment: " + alignment);
+		System.out.println("Font: " + font);
+		System.out.println("FontColor: " + fontColor);
+		System.out.println("FontSize: " + fontSize);
+		System.out.println("BackgroundColor: " + backgroundColor);
+		System.out.println("Number of text fragments: " + textFragments.size());
+		int i = 1;
+		for (TextFragment tf : textFragments) {
+			System.out.println("Start of Text fragment (" + i + ")");
+			tf.printItem();
+			System.out.println("End of Text fragment (" + i + ")\n");
+			i++;
 		}
-
+		System.out.println("");
 	}
 
 	/**
 	 * @return the xStart
 	 */
-	public float getxStart() {
-		return xStart;
+	public float getXEnd() {
+		return this.xEnd;
 	}
 
 	/**
-	 * @param string
+	 * @param xStart
 	 *            the xStart to set
 	 */
-	public void setxStart(String xStart) {
+	public void setXEnd(String string) {
 		try {
-			float x = Float.parseFloat(xStart);
-			this.xStart = x;
+			float f = Float.parseFloat(string);
+			if (Utils.withinRangeInclusive(0, 1, f)) {
+				this.xEnd = f;
+			}
 		} catch (Exception e) {
-			// TODO: handle exception
+			/* Do Nothing */
+		}
+	}
+
+	/**
+	 * @return the yStart
+	 */
+	public float getYEnd() {
+		return this.yEnd;
+	}
+
+	/**
+	 * @param yStart
+	 *            the yStart to set
+	 */
+	public void setYEnd(String string) {
+		try {
+			float f = Float.parseFloat(string);
+			if (Utils.withinRangeExclusive(0, 1, f)) {
+				this.yEnd = f;
+			}
+		} catch (Exception e) {
+			/* Do Nothing */
+		}
+	}
+
+	public Text(Defaults defaults) {
+		super(defaults);
+		this.textFragments = new ArrayList<TextFragment>();
+		this.font = defaults.getFont();
+		this.fontColor = defaults.getFontColor();
+		this.fontSize = defaults.getFontSize();
+		this.backgroundColor = defaults.getBackgroundColor();
+		this.alignment = defaults.getAlignment();
+	}
+
+	public void addDefaults() {
+		currentTextFragment.setFontColor(this.getFontColor());
+		currentTextFragment.setFontSize(this.getFontSize());
+		currentTextFragment.setFont(this.getFont());
+	}
+
+	/**
+	 * @return the fontSize
+	 */
+	public double getFontSize() {
+		return fontSize;
+	}
+
+	/**
+	 * @param fontSize
+	 *            the fontSize to set
+	 */
+	public void setFontSize(String string) {
+		try {
+			double d = Double.parseDouble(string);
+			if (d > 0) {
+				this.fontSize = d;
+			}
+		} catch (Exception e) {
+			/* Do Nothing */
 		}
 	}
 
@@ -76,8 +133,9 @@ public class Text extends SlideItem {
 	 * @param text
 	 *            the Text to add
 	 */
-	public void addText(TextFragment text) {
-		this.textFragments.add(text);
+	public void addTextFragment(TextFragment text) {
+		this.currentTextFragment = text;
+		this.textFragments.add(currentTextFragment);
 	}
 
 	/**
@@ -88,73 +146,10 @@ public class Text extends SlideItem {
 	}
 
 	/**
-	 * @return the yStart
-	 */
-	public float getyStart() {
-		return yStart;
-	}
-
-	/**
-	 * @param string
-	 *            the yStart to set
-	 */
-	public void setyStart(String yStart) {
-		try {
-			float y = Float.parseFloat(yStart);
-			this.yStart = y;
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-	}
-
-	/**
-	 * @return the startTime
-	 */
-	public float getStartTime() {
-		return startTime;
-	}
-
-	/**
-	 * @param string
-	 *            the startTime to set
-	 */
-	public void setStartTime(String startTime) {
-		try {
-			Float s = Float.parseFloat(startTime);
-			this.startTime = s;
-		} catch (Exception e) {
-			this.startTime = Defaults.getStartTime();
-		}
-	}
-
-	/**
-	 * @return the duration
-	 */
-	public float getDuration() {
-		return duration;
-	}
-
-	/**
-	 * @param duration
-	 *            the duration to set
-	 */
-	public void setDuration(int duration) {
-		this.duration = duration;
-	}
-
-	/**
 	 * @return the currentTextFragment
 	 */
 	public TextFragment getCurrentTextFragment() {
 		return currentTextFragment;
-	}
-
-	/**
-	 * @param currentTextFragment
-	 *            the currentTextFragment to set
-	 */
-	public void setCurrentTextFragment(TextFragment currentTextFragment) {
-		this.currentTextFragment = currentTextFragment;
 	}
 
 	/**
@@ -168,8 +163,12 @@ public class Text extends SlideItem {
 	 * @param alignment
 	 *            the alignment to set
 	 */
-	public void setAlignment(String alignment) {
-		this.alignment = alignment;
+	public void setAlignment(String string) {
+		if (string != null) {
+			if (Utils.validAlignment(string)) {
+				this.alignment = string;
+			}
+		}
 	}
 
 	/**
@@ -183,22 +182,44 @@ public class Text extends SlideItem {
 	 * @param font
 	 *            the font to set
 	 */
-	public void setFont(String font) {
-		this.font = font;
+	public void setFont(String string) {
+		string = Utils.capitaliseEachFirstLetter(string);
+		if (Utils.validFont(string)) {
+			this.font = string;
+		}
 	}
 
 	/**
 	 * @return the fontcolor
 	 */
-	public String getFontcolor() {
-		return fontcolor;
+	public String getFontColor() {
+		return fontColor;
 	}
 
 	/**
-	 * @param fontcolor
-	 *            the fontcolor to set
+	 * @param colour
+	 *            the colour to set
 	 */
-	public void setFontcolor(String fontcolor) {
-		this.fontcolor = fontcolor;
+	public void setFontColor(String string) {
+		if (Utils.validARGB(string)) {
+			this.fontColor = string;
+		}
+	}
+
+	/**
+	 * @return the backgroundcolor
+	 */
+	public String getBackgroundColor() {
+		return backgroundColor;
+	}
+
+	/**
+	 * @param colour
+	 *            the colour to set
+	 */
+	public void setBackgroundColor(String string) {
+		if (Utils.validARGB(string)) {
+			this.backgroundColor = string;
+		}
 	}
 }

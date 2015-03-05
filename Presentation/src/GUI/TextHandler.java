@@ -10,8 +10,6 @@ import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
-
 import com.sun.webpane.platform.WebPage;
 
 import javafx.geometry.Rectangle2D;
@@ -19,6 +17,7 @@ import javafx.scene.Group;
 import javafx.scene.text.Font;
 import javafx.scene.web.WebView;
 import javafx.stage.Screen;
+import Data.Defaults;
 import Data.TextFragment;
 
 /**
@@ -90,7 +89,7 @@ public class TextHandler {
 	 * */
 	public void addStringToBuffer(String string, String fontName, int fontSize, String fontColor,
 			String highlightColor, boolean newLine, TextAttribute... TextAttributes) {
-		TextFragment currentString = new TextFragment();
+		TextFragment currentString = new TextFragment(new Defaults());
 		
 		currentString.setText(string);
 		
@@ -119,7 +118,7 @@ public class TextHandler {
 			}
 		}
 		
-		currentString.setNewLine(newLine);
+		//currentString.setNewLine(newLine); // TODO
 
 		/* Error checking for fontName */
 		String capitalisedFontName = capitaliseEachFirstLetter(fontName);
@@ -137,11 +136,11 @@ public class TextHandler {
 
 		/* Sets fontColor to blank if the fontColor is not a valid hex string */
 		if (verifyColor(fontColor))
-			currentString.setColor(fontColor);
+			currentString.setFontColor(fontColor);
 		else {
 			System.err.println("The fontColor string \"" + highlightColor
 					+ "\" is in an incorrect format. Setting it to blank.");
-			currentString.setColor("#00000000");
+			currentString.setFontColor("#00000000");
 		}
 
 		/*
@@ -204,7 +203,6 @@ public class TextHandler {
 			stringBuffer.clear();
 			return;
 		}
-		long startTime = System.nanoTime();
 		/* Instantiate the WebView that will be used to display the text */
 		WebView webView = new WebView();
 		
@@ -270,8 +268,6 @@ public class TextHandler {
 		}
 
 		group.getChildren().addAll(webView);
-		long endTime = System.nanoTime();
-		System.out.println("Execution time: " + TimeUnit.NANOSECONDS.toMillis(endTime - startTime) + "ms");
 	}
 
 	/**
@@ -412,7 +408,7 @@ public class TextHandler {
 			}
 
 			/* Section for font, font size and font color. */
-			String colorString = currentString.getColor();
+			String colorString = currentString.getFontColor();
 
 			/* Initialise new string to store the preBody font size information */
 			String fontSizeString = "<span style=\"font-size:" + currentString.getFontSize() + "px\">";
@@ -480,8 +476,8 @@ public class TextHandler {
 			postBodyAttributes = postBodyAttributes + "</font>" + "</span>" + "</span>" + "</span>";
 
 			/* Add a new line tag if required */
-			if (currentString.isNewLine())
-				postBodyAttributes = postBodyAttributes + "<br>";
+			/*if (currentString.isNewLine())
+				postBodyAttributes = postBodyAttributes + "<br>";*/ //TODO
 			
 			/*
 			 * Replaces the < character with the html expression for a <

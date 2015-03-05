@@ -1,45 +1,42 @@
-/**
- * 
- */
 package Data;
 
-/**
- * @author dk666
- *
- */
+import utils.Utils;
+
 public class CommonShapes extends Graphic {
 
-	public CommonShapes() {
+	public CommonShapes(Defaults defaults) {
+		super(defaults);
 	}
 
 	private float xEnd;
 	private float yEnd;
 	private boolean solid;
 
-	/**
-	 * @return the xEnd
-	 */
-	public float getxEnd() {
+	@Override
+	public void printItem() {
+		super.printItem();
+		System.out.println("xEnd: " + xEnd);
+		System.out.println("yEnd: " + yEnd);
+		System.out.println("Solid: " + solid);
+		System.out.println("");
+	}
+
+	public float getXEnd() {
 		return xEnd;
 	}
 
-	/**
-	 * @param xEnd
-	 *            the xEnd to set
-	 */
-	public void setxEnd(String string) {
+	public void setXEnd(String string) {
 		try {
 			float f = Float.parseFloat(string);
-			this.xEnd = f;
+			if (Utils.withinRangeInclusive(0, 1, f)) {
+				this.xEnd = f;
+			}
 		} catch (Exception e) {
-			// TODO: handle exception
+			/* Do Nothing */
 		}
 	}
 
-	/**
-	 * @return the yEnd
-	 */
-	public float getyEnd() {
+	public float getYEnd() {
 		return yEnd;
 	}
 
@@ -47,33 +44,50 @@ public class CommonShapes extends Graphic {
 	 * @param yEnd
 	 *            the yEnd to set
 	 */
-	public void setyEnd(String string) {
+	public void setYEnd(String string) {
 		try {
 			float f = Float.parseFloat(string);
-			this.yEnd = f;
+			if (Utils.withinRangeInclusive(0, 1, f)) {
+				this.yEnd = f;
+			}
 		} catch (Exception e) {
-			// TODO: handle exception
+			/* Do Nothing */
 		}
 	}
 
 	/**
-	 * @return the solid
+	 * @return {@code true} if shape is solid
 	 */
 	public boolean isSolid() {
 		return solid;
 	}
 
-	/**
-	 * @param solid
-	 *            the solid to set
-	 */
 	public void setSolid(String string) {
-		try {
-			boolean b = Boolean.parseBoolean(string);
-			this.solid = b;
-		} catch (Exception e) {
-			// TODO: handle exception
+		boolean b = Boolean.parseBoolean(string);
+		this.solid = b;
+	}
+
+	public class Rectangle extends CommonShapes {
+		public Rectangle(Defaults defaults) {
+			super(defaults);
 		}
 	}
 
+	public class Oval extends CommonShapes {
+		public Oval(Defaults defaults) {
+			super(defaults);
+		}
+	}
+
+	public class Line extends CommonShapes {
+		public Line(Defaults defaults) {
+			super(defaults);
+		}
+	}
+
+	public class IsoscelesTriangle extends CommonShapes {
+		public IsoscelesTriangle(Defaults defaults) {
+			super(defaults);
+		}
+	}
 }

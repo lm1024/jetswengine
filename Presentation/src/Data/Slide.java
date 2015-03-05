@@ -1,7 +1,6 @@
 package Data;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class Slide {
@@ -20,105 +19,13 @@ public class Slide {
 	private Video currentVideo;
 	private Audio currentAudio;
 
-	public Slide() {
+	public Slide(Defaults defaults) {
 		this.textList = new ArrayList<Text>();
 		this.audioList = new ArrayList<Audio>();
 		this.graphicsList = new ArrayList<Graphic>();
 		this.videoList = new ArrayList<Video>();
 		this.imagesList = new ArrayList<Image>();
-	}
-
-	public Slide(float duration) {
-		this.duration = duration;
-		this.textList = new ArrayList<Text>();
-		this.audioList = new ArrayList<Audio>();
-		this.graphicsList = new ArrayList<Graphic>();
-		this.videoList = new ArrayList<Video>();
-		this.imagesList = new ArrayList<Image>();
-	}
-
-	public void add(HashMap<String, String> hashMap) {
-		switch (hashMap.get("type")) {
-		case "image":
-			this.currentImage = new Image(hashMap.get("sourcefile"));
-			currentImage.setCropX1(hashMap.get("cropx1"));
-			currentImage.setCropX2(hashMap.get("cropx2"));
-			currentImage.setCropY1(hashMap.get("cropy1"));
-			currentImage.setCropY2(hashMap.get("cropy2"));
-			currentImage.setDuration(hashMap.get("duration"));
-			currentImage.setFlipHorizontal(hashMap.get("fliphorizontal"));
-			currentImage.setFlipVertical(hashMap.get("flipvertical"));
-			currentImage.setRotation(hashMap.get("rotate"));
-			currentImage.setScale(hashMap.get("scale"));
-			currentImage.setStartTime(hashMap.get("starttime"));
-			currentImage.setxStart(hashMap.get("xstart"));
-			currentImage.setyStart(hashMap.get("ystart"));
-			this.imagesList.add(currentImage);
-			break;
-		case "audio":
-			this.currentAudio = new Audio(hashMap.get("sourcefile"));
-			currentAudio.setStartTime(hashMap.get("starttime"));
-			currentAudio.setXStart(hashMap.get("xstart"));
-			currentAudio.setXStart(hashMap.get("ystart"));
-			this.audioList.add(currentAudio);
-			break;
-		case "video":
-			this.currentVideo = new Video(hashMap.get("sourcefile"));
-			currentVideo.setStartTime(hashMap.get("starttime"));
-			currentVideo.setXStart(hashMap.get("xstart"));
-			currentVideo.setXStart(hashMap.get("ystart"));
-			this.videoList.add(currentVideo);
-			break;
-		case "graphic":
-			break;
-		case "text":
-			this.currentText = new Text();
-			currentText.setStartTime(hashMap.get("starttime"));
-			currentText.setxStart(hashMap.get("xstart"));
-			currentText.setyStart(hashMap.get("ystart"));
-			currentText.setFont(hashMap.get("font"));
-			currentText.setAlignment(hashMap.get("alignment"));
-			break;
-		case "textend":
-			textList.add(currentText);
-			break;
-		case "richtext":
-			/* intentional fall through */
-		case "textfragmentend":
-			currentText.add(hashMap);
-			break;
-		case "rectangle":
-			/* intentional fall through */
-		case "line":
-			/* intentional fall through */
-		case "itriangle":
-			/* intentional fall through */
-		case "oval":
-			this.currentGraphic = Graphic.makeGraphic(hashMap);
-			this.graphicsList.add(currentGraphic);
-			break;
-		default:
-			break;
-		}
-	}
-
-	public void add(SlideItem obj) {
-		if (obj instanceof Text) {
-			this.currentText = (Text) obj;
-			this.textList.add(currentText);
-		} else if (obj instanceof Graphic) {
-			this.currentGraphic = (Graphic) obj;
-			this.graphicsList.add(currentGraphic);
-		} else if (obj instanceof Image) {
-			this.currentImage = (Image) obj;
-			this.imagesList.add(currentImage);
-		} else if (obj instanceof Video) {
-			this.currentVideo = (Video) obj;
-			this.videoList.add(currentVideo);
-		} else if (obj instanceof Audio) {
-			this.currentAudio = (Audio) obj;
-			this.audioList.add(currentAudio);
-		}
+		this.duration = defaults.getDuration();
 	}
 
 	/**
@@ -145,7 +52,7 @@ public class Slide {
 	/**
 	 * @return the currentVideo
 	 */
-	public Video getCurrentMovie() {
+	public Video getCurrentVideo() {
 		return currentVideo;
 	}
 
@@ -157,10 +64,60 @@ public class Slide {
 	}
 
 	/**
-	 * @return The slide duration
+	 * @return the currentText
+	 */
+	public Text getText(int index) {
+		return textList.get(index);
+	}
+
+	/**
+	 * @return the currentGraphic
+	 */
+	public Graphic getGraphic(int index) {
+		return graphicsList.get(index);
+	}
+
+	/**
+	 * @return the currentImage
+	 */
+	public Image getImage(int index) {
+		return imagesList.get(index);
+	}
+
+	/**
+	 * @return the currentVideo
+	 */
+	public Video getVideo(int index) {
+		return videoList.get(index);
+	}
+
+	/**
+	 * @return the currentSound
+	 */
+	public Audio getAudio(int index) {
+		return audioList.get(index);
+	}
+
+	/**
+	 * @return the duration
 	 */
 	public float getDuration() {
 		return duration;
+	}
+
+	/**
+	 * @param duration
+	 *            the duration to set
+	 */
+	public void setDuration(String string) {
+		try {
+			float f = Float.parseFloat(string);
+			if (f > 0) {
+				this.duration = f;
+			}
+		} catch (Exception e) {
+			/* Do Nothing */
+		}
 	}
 
 	/**
@@ -180,7 +137,7 @@ public class Slide {
 	/**
 	 * @return the soundsList
 	 */
-	public List<Audio> getAudioList() {
+	public List<Audio> getAudiosList() {
 		return audioList;
 	}
 
@@ -194,8 +151,32 @@ public class Slide {
 	/**
 	 * @return the videoList
 	 */
-	public List<Video> getMoviesList() {
+	public List<Video> getVideosList() {
 		return videoList;
 	}
 
+	public void addImage(Image image) {
+		this.currentImage = image;
+		imagesList.add(currentImage);
+	}
+
+	public void addVideo(Video video) {
+		this.currentVideo = video;
+		videoList.add(currentVideo);
+	}
+
+	public void addAudio(Audio audio) {
+		this.currentAudio = audio;
+		audioList.add(currentAudio);
+	}
+
+	public void addText(Text text) {
+		this.currentText = text;
+		textList.add(currentText);
+	}
+
+	public void addGraphic(Graphic graphic) {
+		this.currentGraphic = graphic;
+		graphicsList.add(currentGraphic);
+	}
 }

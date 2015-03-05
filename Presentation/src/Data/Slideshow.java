@@ -1,33 +1,50 @@
 package Data;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class Slideshow {
 
-	private List<Slide> slides;
-	private static DocumentInfo info;
-	private static Defaults defaults;
+	private List<Slide> slides = new ArrayList<Slide>();
+	protected DocumentInfo info = new DocumentInfo();
+	protected Defaults defaults = new Defaults();
 	private Slide currentSlide;
 
 	public Slideshow() {
-		this.slides = new ArrayList<Slide>();
-		info = new DocumentInfo();
-		defaults = new Defaults();
+		
 	}
 
-	public void add(HashMap<String, String> hashMap) {
+	public void printSlideshow() {
 		
-			if (hashMap.get("type") == null) {
-				
-			} else if (hashMap.get("type").equals("documentinfo")) {
-				info.add(hashMap);
-			} else if (hashMap.get("type").equals("defaultsettings")) {
-				defaults.add(hashMap);
-			} else {
-				currentSlide.add(hashMap);
+		info.printInfo();
+		defaults.printDefaults();
+		System.out.println("Listing contents of slides:\n");
+		int i = 1;
+		for (Slide slide : slides) {
+			System.out.println("Start of slide (" + i + ") contents:\n");
+			for (Text item : slide.getTextList()) {
+				item.printItem();
 			}
+			for (Graphic item : slide.getGraphicsList()) {
+				try {
+					item.printItem();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			for (Image item : slide.getImagesList()) {
+				item.printItem();
+			}
+			for (Audio item : slide.getAudiosList()) {
+				item.printItem();
+			}
+			for (Video item : slide.getVideosList()) {
+				item.printItem();
+			}
+			System.out.println("End of slide (" + i + ") contents:\n");
+			i++;
+		}
+
 	}
 
 	/**
@@ -36,22 +53,22 @@ public class Slideshow {
 	public List<Slide> getSlides() {
 		return slides;
 	}
-
+	
 	/**
-	 * @param slides
-	 *            the slides to set
+	 * @return the slide
 	 */
-	public void addSlide(float duration) {
-		this.currentSlide = new Slide(duration);
-		this.slides.add(currentSlide);
+	public Slide getSlide(int index) {
+		this.currentSlide = slides.get(index);
+		return currentSlide;
 	}
 
+
 	/**
 	 * @param slides
 	 *            the slides to set
 	 */
-	public void addSlide() {
-		this.currentSlide = new Slide();
+	public void addSlide(Slide slide) {
+		this.currentSlide = slide;
 		this.slides.add(currentSlide);
 	}
 
@@ -63,26 +80,10 @@ public class Slideshow {
 	}
 
 	/**
-	 * @param defaults
-	 *            the defaults to set
-	 */
-	public void setDefaults(Defaults defaults) {
-		this.defaults = defaults;
-	}
-
-	/**
 	 * @return the info
 	 */
 	public DocumentInfo getInfo() {
 		return info;
-	}
-
-	/**
-	 * @param info
-	 *            the info to set
-	 */
-	public void setInfo(DocumentInfo info) {
-		this.info = info;
 	}
 
 	/**
@@ -98,6 +99,20 @@ public class Slideshow {
 	 */
 	public void setCurrentSlide(Slide currentSlide) {
 		this.currentSlide = currentSlide;
+	}
+	
+	/**
+	 * @param info the info to set
+	 */
+	public void setInfo(DocumentInfo info) {
+		this.info = info;
+	}
+
+	/**
+	 * @param defaults the defaults to set
+	 */
+	public void setDefaults(Defaults defaults) {
+		this.defaults = defaults;
 	}
 
 }
