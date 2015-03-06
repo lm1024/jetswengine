@@ -43,6 +43,7 @@ public class ImageHandler extends DefaultHandler {
 		}
 		if(elementName.equals("image")) {
 			image = new Image(parentHandler.getDefaults());
+			image.setSourceFile(attributes.getValue("sourcefile"));
 			image.setCropX1(attributes.getValue("cropx1"));
 			image.setCropX2(attributes.getValue("cropx2"));
 			image.setCropY1(attributes.getValue("cropy1"));

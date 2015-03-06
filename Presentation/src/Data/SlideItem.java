@@ -3,13 +3,13 @@ package Data;
 import utils.Utils;
 
 public abstract class SlideItem {
-	
+
 	private String sourceFile = null;
 	private float xStart;
 	private float yStart;
 	private float startTime;
 	private float duration;
-	
+
 	public void printItem() {
 		System.out.println("Class name:" + this.getClass().getSimpleName());
 		System.out.println("Sourcefile: " + sourceFile);
@@ -18,12 +18,12 @@ public abstract class SlideItem {
 		System.out.println("startTime: " + startTime);
 		System.out.println("duration: " + duration);
 	}
-	
+
 	public SlideItem(Defaults defaults) {
 		this.startTime = defaults.getStartTime();
 		this.duration = defaults.getDuration();
 	}
-	
+
 	/**
 	 * @return the sourceFile
 	 */
@@ -55,7 +55,7 @@ public abstract class SlideItem {
 	public void setXStart(String string) {
 		try {
 			float f = Float.parseFloat(string);
-			if(Utils.withinRangeInclusive(0, 1, f)) {
+			if (Utils.withinRangeInclusive(0, 1, f)) {
 				this.xStart = f;
 			}
 		} catch (Exception e) {
@@ -77,7 +77,7 @@ public abstract class SlideItem {
 	public void setYStart(String string) {
 		try {
 			float f = Float.parseFloat(string);
-			if(Utils.withinRangeExclusive(0, 1, f)) {
+			if (Utils.withinRangeExclusive(0, 1, f)) {
 				this.yStart = f;
 			}
 		} catch (Exception e) {
@@ -99,14 +99,14 @@ public abstract class SlideItem {
 	public void setStartTime(String string) {
 		try {
 			float f = Float.parseFloat(string);
-			if(f >= 0) {
+			if (f >= 0) {
 				this.startTime = f;
 			}
 		} catch (Exception e) {
 			/* Do Nothing */
 		}
 	}
-	
+
 	/**
 	 * @return the duration
 	 */
@@ -121,12 +121,16 @@ public abstract class SlideItem {
 	public void setDuration(String string) {
 		try {
 			float f = Float.parseFloat(string);
-			if(f > 0) {
+			if (f > 0) {
 				this.duration = f;
 			}
 		} catch (Exception e) {
 			/* Do Nothing */
 		}
+	}
+
+	public String getType() {
+		return this.getClass().getSimpleName();
 	}
 
 }

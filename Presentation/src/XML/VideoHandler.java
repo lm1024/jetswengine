@@ -31,6 +31,7 @@ public class VideoHandler extends DefaultHandler {
 		}
 		if(elementName.equals("video")) {
 			video = new Video(parentHandler.getDefaults());
+			video.setSourceFile(attributes.getValue("sourcefile"));
 			video.setDuration(attributes.getValue("duration"));
 			video.setStartTime(attributes.getValue("starttime"));
 			video.setXStart(attributes.getValue("xstart"));

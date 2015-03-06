@@ -850,6 +850,7 @@ public class GraphicsHandler {
 		bChart.setLayoutY(y);
 		bChart.setScaleX(size);
 		bChart.setScaleY(size);
+		bChart.setRotate(90);
 		group.getChildren().add(bChart);
 	}
 

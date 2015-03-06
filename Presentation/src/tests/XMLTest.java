@@ -62,7 +62,7 @@ public class XMLTest {
 		assertTrue(currentSlideshow.getDefaults().getBackgroundColor().equals("#ff00ff00"));
 		assertFalse(currentSlideshow.getDefaults().getFont().equals("times new roman"));
 		assertTrue(currentSlideshow.getDefaults().getFont().equals("Times New Roman"));
-		assertTrue(currentSlideshow.getDefaults().getFontSize() == 24.8);
+		assertTrue(currentSlideshow.getDefaults().getFontSize() == 24);
 		assertTrue(currentSlideshow.getDefaults().getFontColor().equals("#ffcccc00"));
 		assertTrue(currentSlideshow.getDefaults().getGraphicColor().equals("#ffaaaa00"));
 	}
@@ -123,8 +123,10 @@ public class XMLTest {
 	@Test
 	public void testSlideOneTextOne() {
 		Text text = currentSlideshow.getSlides().get(1).getTextList().get(0);
+		System.out.println(" HAHAHSHSA " + currentSlideshow.getSlide(1).getImage(1).getSourceFile());
 		assertTrue(text.getAlignment().equals("none"));
 		/* Needs Finishing */
+		assertTrue(currentSlideshow.getSlide(1).getImage(1).getSourceFile() != null);
 	}
 
 }

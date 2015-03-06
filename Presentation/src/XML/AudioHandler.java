@@ -43,6 +43,7 @@ public class AudioHandler extends DefaultHandler {
 		}
 		if(elementName.equals("audio")) {
 			audio = new Audio(parentHandler.getDefaults());
+			audio.setSourceFile(attributes.getValue("sourcefile"));
 			audio.setDuration(attributes.getValue("duration"));
 			audio.setStartTime(attributes.getValue("starttime"));
 			audio.setXStart(attributes.getValue("xstart"));
