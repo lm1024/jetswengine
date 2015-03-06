@@ -33,18 +33,19 @@
 		<!-- Our Images -->
 		<image sourcefile="selfie.jpg" xstart="0.5" ystart="0.5" vscale="1.0" hscale="1.0" rotation="0" fliphorizontal="true" flipvertical="true" cropx1="0.0" cropy1="0.0" cropx2="0.5" cropy2="0.5" duration="1.5" starttime="2.0"/>
 		
+		
 		<!-- PWS Audio -->
 		<audio sourcefile="gavel.wav" starttime="2.5" />
 		
 		<!-- sofia Audio -->
-		<audio sourcefile="gavel.wav" xstart="0.5" ystart="0.5" width="0.2" autoPlay="true" visibleControls="true" playButtonOnly="false" duration="1.5" starttime="2.5"/>
+		<audio sourcefile="gavel.wav" xstart="0.5" ystart="0.5" width="0.2" autoplay="true" visiblecontrols="true" playbuttononly="false" duration="1.5" starttime="2.5"/>
 
 		
 		<!-- PWS Video -->
 		<video sourcefile="avengers.mkv" xstart="0.5" ystart="0.5" />
 		
 		<!-- sofia Video -->
-		<video sourcefile="avengers.mkv" xstart="0.5" ystart="0.5" width="0.1" autoplay="true" loop="true"/>
+		<video sourcefile="avengers.mkv" xstart="0.5" ystart="0.5" width="0.1" autoplay="true" loop="true" duration="1.5" starttime="2.5"/>
 
 		<!-- PWS Shapes -->
 		<graphic type="oval" xstart="0.5" ystart="0.5" xend="0.7" yend="0.7" solid="true" graphiccolor="#11223344" duration="1.5">
@@ -102,7 +103,11 @@
 		</graphic>
 		
 		<graphic graphiccolor="#11223344" duration="1.5" starttime="2.0">
-			<triangle x1="0" y1="0.1" x2="0.1" y2="0.2" x3="0.2" y3="0.3" solid="true" outlinecolor="#00000000" outlinethickness="1.0" rotation="0"/>
+			<triangle solid="true" outlinecolor="#00000000" outlinethickness="1.0" rotation="0">
+				<point x="0.1" y="0.5"/>
+				<point x="0.25" y="0.6"/>
+				<point x="0.2" y="0.7"/>
+			</triangle>
 		</graphic>
 		
 		<graphic graphiccolor="#11223344" duration="1.5" starttime="2.0">
@@ -110,10 +115,11 @@
 		</graphic>
 		
 		<graphic graphiccolor="#11223344" duration="1.5" starttime="2.0">
-			<polygon xstart="0.1" ystart="0.1" solid="true" outlinecolor="#00000000" outlinethickness="1.0" rotation="0"/>
+			<polygon xstart="0.1" ystart="0.1" solid="true" outlinecolor="#00000000" outlinethickness="1.0" rotation="0">
 				<point x="0.1" y="0.5"/>
 				<point x="0.25" y="0.6"/>
 				<point x="0.2" y="0.7"/>
+			</polygon>
 		</graphic>
 		
 		<graphic graphiccolor="#11223344" duration="1.5" starttime="2.0">
