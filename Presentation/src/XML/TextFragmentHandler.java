@@ -1,5 +1,7 @@
 package XML;
 
+import java.util.regex.Pattern;
+
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
@@ -65,21 +67,17 @@ public class TextFragmentHandler extends DefaultHandler {
 			elementName = qName;
 		}
 		if (elementName.equals("richtext")) {
-			if (contentBuffer.toString().trim().contains("\n")) {
-				System.out.println("Found newline character in:");
+			if (contentBuffer.toString().trim().contains("\\n")) {
 				TextFragment temp;
-				for (String string : contentBuffer.toString().trim()
-						.split("\n")) {
+				for (String string : contentBuffer.toString().trim().split(Pattern.quote("\\n"))) {
 					temp = tf.clone();
 					temp.setText(string);
 					text.addTextFragment(temp);
 				}
 			} else {
-				System.out.println("Didn't find newline character in:");
 				tf.setText(contentBuffer.toString().trim());
 				text.addTextFragment(tf);
 			}
-			System.out.println("Text in buffer: " + contentBuffer.toString().trim());
 			reader.setContentHandler(parentHandler);
 		} else {
 			System.err
@@ -87,5 +85,4 @@ public class TextFragmentHandler extends DefaultHandler {
 							+ elementName);
 		}
 	}
-
 }
