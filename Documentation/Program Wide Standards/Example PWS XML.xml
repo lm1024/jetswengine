@@ -37,7 +37,7 @@
 		<audio sourcefile="gavel.wav" starttime="2.5" />
 		
 		<!-- sofia Audio -->
-		<audio sourcefile="gavel.wav" xstart="0.5" ystart="0.5" width="0.2" autoPlay="true" visibleControls="true" playButtonOnly="false" starttime="2.5"/>
+		<audio sourcefile="gavel.wav" xstart="0.5" ystart="0.5" width="0.2" autoPlay="true" visibleControls="true" playButtonOnly="false" duration="1.5" starttime="2.5"/>
 
 		
 		<!-- PWS Video -->
