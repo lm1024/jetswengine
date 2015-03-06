@@ -13,6 +13,7 @@
 		<fontsize>24</fontsize>
 		<fontcolor>#ffcccc00</fontcolor>
 		<graphiccolor>#ffaaaa00</graphiccolor>
+		<duration>Float.MAX_VALUE</duration>
 	</defaultsettings>
 	
 	<slide>

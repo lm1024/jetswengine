@@ -12,7 +12,7 @@ public class Defaults {
 	private String graphicColor = "#FF000000";
 	private String highlightColor = "#FFFF0000";
 	private float startTime = 0;
-	private float duration = Float.MAX_VALUE;
+	private float duration = 10;
 	private String alignment = "left";
 	private float scale = 1;
 	private int rotation = 0;
@@ -22,7 +22,7 @@ public class Defaults {
 	private float cropY2 = 1;
 
 	public Defaults() {
-		
+
 	}
 
 	public void printDefaults() {
@@ -187,10 +187,15 @@ public class Defaults {
 	 *            the duration to set
 	 */
 	public void setDuration(String string) {
+		System.out.println(string);
 		try {
-			float f = Float.parseFloat(string);
-			if (f > 0) {
-				this.duration = f;
+			if (string.equals("Float.MAX_VALUE")) {
+				this.duration = Float.MAX_VALUE;
+			} else {
+				float f = Float.parseFloat(string);
+				if (f > 0) {
+					this.duration = f;
+				}
 			}
 		} catch (Exception e) {
 			/* Do Nothing */
@@ -213,7 +218,7 @@ public class Defaults {
 			this.alignment = string;
 		}
 	}
-	
+
 	/**
 	 * @return the scale
 	 */
