@@ -13,6 +13,16 @@
 		<fontsize>24</fontsize>
 		<fontcolor>#ffcccc00</fontcolor>
 		<graphiccolor>#ffaaaa00</graphiccolor>
+		<highlightcolor>#ffaaaa00</highlightcolor>
+		<starttime>0</starttime>
+		<duration>Float.MAX_VALUE</duration>
+		<alignment>left</alignment>
+		<scale>1</scale>
+		<rotation>0</rotation>
+		<cropx1>0</cropx1>
+		<cropy1>0</cropy1>
+		<cropx2>1</cropx2>
+		<cropy2>1</cropy2>
 	</defaultsettings>
 	<slide backgroundcolor="#ffaaff00" duration="10"> 
 		<!-- PWS Text -->
