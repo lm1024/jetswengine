@@ -16,6 +16,7 @@ public class Text extends SlideItem {
 	private String fontColor;
 	private double fontSize;
 	private String backgroundColor;
+	private String highlightColor;
 	private float xEnd = -1;
 	private float yEnd = -1;
 
@@ -38,6 +39,23 @@ public class Text extends SlideItem {
 			i++;
 		}
 		System.out.println("");
+	}
+	
+	/**
+	 * @return the highlightColor
+	 */
+	public String getHighlightColor() {
+		return highlightColor;
+	}
+
+	/**
+	 * @param highlightColor
+	 *            the highlightColor to set
+	 */
+	public void setHighlightColor(String string) {
+		if (Utils.validARGB(string)) {
+			this.highlightColor = string;
+		}
 	}
 
 	/**

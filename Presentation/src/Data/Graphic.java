@@ -16,28 +16,27 @@ public class Graphic extends SlideItem {
 
 	public static Graphic makeGraphic(HashMap<String, String> hashMap, Defaults defaults) {
 		Graphic g;
-		CommonShapes c = new CommonShapes(defaults);
 		switch (hashMap.get("type")) {
 		case "oval":
-			g = c.new Oval(defaults);
+			g = new CommonShapes(defaults).new Oval(defaults);
 			((Oval) g).setSolid(hashMap.get("solid"));
 			((Oval) g).setXEnd(hashMap.get("xend"));
 			((Oval) g).setYEnd(hashMap.get("yend"));
 			break;
 		case "rectangle":
-			g = c.new Rectangle(defaults);
+			g = new CommonShapes(defaults).new Rectangle(defaults);
 			((Rectangle) g).setSolid(hashMap.get("solid"));
 			((Rectangle) g).setXEnd(hashMap.get("xend"));
 			((Rectangle) g).setYEnd(hashMap.get("yend"));
 			break;
 		case "itriangle":
-			g = c.new IsoscelesTriangle(defaults);
+			g = new CommonShapes(defaults).new IsoscelesTriangle(defaults);
 			((IsoscelesTriangle) g).setSolid(hashMap.get("solid"));
 			((IsoscelesTriangle) g).setXEnd(hashMap.get("xend"));
 			((IsoscelesTriangle) g).setYEnd(hashMap.get("yend"));
 			break;
 		case "line":
-			g = c.new Line(defaults);
+			g = new CommonShapes(defaults).new Line(defaults);
 			((Line) g).setXEnd(hashMap.get("xend"));
 			((Line) g).setYEnd(hashMap.get("yend"));
 			break;

@@ -3,11 +3,14 @@ package Data;
 import java.util.ArrayList;
 import java.util.List;
 
+import utils.Utils;
+
 public class Slide {
 	/**
 	 * 
 	 */
 	private float duration;
+	private String backgroundColor;
 	private List<Text> textList;
 	private List<Graphic> graphicsList;
 	private List<Audio> audioList;
@@ -26,6 +29,24 @@ public class Slide {
 		this.videoList = new ArrayList<Video>();
 		this.imagesList = new ArrayList<Image>();
 		this.duration = defaults.getDuration();
+		this.backgroundColor = defaults.getBackgroundColor();
+	}
+	
+	/**
+	 * @return the backgroundColour
+	 */
+	public String getBackgroundColor() {
+		return this.backgroundColor;
+	}
+
+	/**
+	 * @param backgroundColour
+	 *            the backgroundColour to set
+	 */
+	public void setBackgroundColor(String string) {
+		if (Utils.validARGB(string)) {
+			this.backgroundColor = string;
+		}
 	}
 
 	/**
