@@ -22,22 +22,22 @@
 		
 		<!-- Our Text --> <!-- Removed the set case, moved alignment to text level -->
 		<text xstart="0.5" ystart="0.5" font="arial" fontsize="24" fontcolor="#00112233" alignment="left" duration="1.5" starttime="2.0">
-			<richtext font="arial" fontsize="26" fontcolor="#11223344" newline="true" b="true" i="true" u="true" strikethrough="true" superscript="true" subscript="true" >Example text!</richtext>
-			<richtext font="arial" fontsize="26" fontcolor="#11223344" newline="true" b="true" i="true" u="true" strikethrough="true" superscript="true" subscript="true" >Example \n text!</richtext>
-			<richtext font="arial" fontsize="26" fontcolor="#11223344" newline="true" b="true" i="true" u="true" strikethrough="true" superscript="true" subscript="true" >Example text!</richtext>
+			<richtext font="arial" fontsize="26" fontcolor="#11223344" highlightcolor="#00000000" newline="true" b="true" i="true" u="true" strikethrough="true" superscript="true" subscript="true" >Example text!</richtext>
+			<richtext font="arial" fontsize="26" fontcolor="#11223344" highlightcolor="#00000000" newline="true" b="true" i="true" u="true" strikethrough="true" superscript="true" subscript="true" >Example \n text!</richtext>
+			<richtext font="arial" fontsize="26" fontcolor="#11223344" highlightcolor="#00000000" newline="true" b="true" i="true" u="true" strikethrough="true" superscript="true" subscript="true" >Example text!</richtext>
 		</text>
 
 		<!-- PWS Images -->
 		<image sourcefile="cat.jpg" xstart="0.5" ystart="0.5" scale="1.0" duration="1.5" starttime="2.0" />
 		
 		<!-- Our Images -->
-		<image sourcefile="selfie.jpg" xstart="0.5" ystart="0.5" vscale="1.0"  hscale="1.0" duration="1.5" starttime="2.0" rotate="90" fliphorizontal="true" flipvertical="true" cropx1="0.0" cropy1="0.0" cropx2="0.5" cropy2="0.5"/>
+		<image sourcefile="selfie.jpg" xstart="0.5" ystart="0.5" vscale="1.0" hscale="1.0" rotation="0" fliphorizontal="true" flipvertical="true" cropx1="0.0" cropy1="0.0" cropx2="0.5" cropy2="0.5" duration="1.5" starttime="2.0"/>
 		
 		<!-- PWS Audio -->
 		<audio sourcefile="gavel.wav" starttime="2.5" />
 		
 		<!-- sofia Audio -->
-		<audio sourcefile="gavel.wav" xstart="0.5" ystart="0.5" width="0.2" starttime="2.5" autoPlay="true" visibleControls="true" playButtonOnly="false"/>
+		<audio sourcefile="gavel.wav" xstart="0.5" ystart="0.5" width="0.2" autoPlay="true" visibleControls="true" playButtonOnly="false" starttime="2.5"/>
 
 		
 		<!-- PWS Video -->
