@@ -89,14 +89,6 @@ public final class Utils {
 			return false;
 		}
 	}
-	
-	public static boolean validTextCase(String string) {
-		try {
-			return string.matches("upper|lower|camel|none");
-		} catch (Exception e) {
-			return false;
-		}
-	}
 
 	public static boolean validFont(String string) {
 		try {

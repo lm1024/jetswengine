@@ -13,8 +13,7 @@ public class Defaults {
 	private String highlightColor = "#FFFF0000";
 	private float startTime = 0;
 	private float duration = Float.MAX_VALUE;
-	private String alignment = "none";
-	private String textCase = "none";
+	private String alignment = "left";
 	private float scale = 1;
 	private int rotation = 0;
 	private float cropX1 = 0;
@@ -37,7 +36,6 @@ public class Defaults {
 		System.out.println("StartTime: " + startTime);
 		System.out.println("Duration: " + duration);
 		System.out.println("Alignment: " + alignment);
-		System.out.println("TextCase: " + textCase);
 		System.out.println("Scale: " + scale);
 		System.out.println("Rotation: " + rotation);
 		System.out.println("CropX1: " + cropX1);
@@ -215,24 +213,7 @@ public class Defaults {
 			this.alignment = string;
 		}
 	}
-
-	/**
-	 * @return the textCase
-	 */
-	public String getTextCase() {
-		return this.textCase;
-	}
-
-	/**
-	 * @param textCase
-	 *            the textCase to set
-	 */
-	public void setTextCase(String string) {
-		if (Utils.validTextCase(string)) {
-			this.textCase = string;
-		}
-	}
-
+	
 	/**
 	 * @return the scale
 	 */
