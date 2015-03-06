@@ -3,11 +3,14 @@
  */
 package server;
 
+import java.io.File;
 import java.util.List;
 
+import sofia.AudioHandler;
 import sofia.VideoHandler;
 
 import XML.ImprovedXMLReader;
+import Data.Audio;
 import Data.Graphic;
 import Data.Image;
 import Data.Slide;
@@ -44,6 +47,7 @@ public class PresentationDisplayerTest extends Application {
 	private TextHandler thisTextHandler;
 	private ImageHandler thisImageHandler;
 	private VideoHandler thisVideoHandler;
+	private AudioHandler thisAudioHandler;
 
 	private List<Slide> slides;
 	private int currentSlideInt = 1;
@@ -74,7 +78,7 @@ public class PresentationDisplayerTest extends Application {
 		xSize = primaryScreenBounds.getWidth();
 		ySize = primaryScreenBounds.getHeight();
 
-		Scene scene = new Scene(group, xSize, ySize);
+		Scene scene = new Scene(group, xSize-100, ySize-100);
 		primaryStage.setScene(scene);
 		/* Line sets the screen to fullscreen */
 		// primaryStage.setFullScreen(true);
@@ -84,6 +88,7 @@ public class PresentationDisplayerTest extends Application {
 		thisTextHandler = new TextHandler(group);
 		thisGraphicsHandler = new GraphicsHandler(group);
 		thisVideoHandler = new VideoHandler(group);
+		thisAudioHandler = new AudioHandler(group);
 
 		Slideshow currentSlideshow = new ImprovedXMLReader(filename).getSlideshow();
 
@@ -123,8 +128,10 @@ public class PresentationDisplayerTest extends Application {
 
 	/** Method draws slide based upon what is in the datastructure */
 	private void drawSlide(Slide currentSlide) {
+		thisVideoHandler.clearVideos();
+		thisAudioHandler.clearAudios();
 		group.getChildren().clear();
-
+		
 		/* Text section */
 		for (Text currentText : currentSlide.getTextList()) {
 			System.out.println("	Current Text: " + currentText);
@@ -186,6 +193,16 @@ public class PresentationDisplayerTest extends Application {
 			System.out.println(absXStart + " " + absYStart + " " + currentVideo.getYStart());
 
 			thisVideoHandler.createVideo(absXStart, absYStart, 500, currentVideo.getSourceFile(), true, true);
+		}
+		
+		/* Audio section */
+		for (Audio currentAudio : currentSlide.getAudiosList()) {
+			System.out.println("	Current Graphic: " + currentAudio.getSourceFile());
+			int absXStart = convertXRelToAbs(currentAudio.getXStart());
+			int absYStart = convertYRelToAbs(currentAudio.getYStart());
+			System.out.println(absXStart + " " + absYStart + " " + currentAudio.getYStart());
+			
+			thisAudioHandler.createAudio(absXStart, absYStart, 300, new File(currentAudio.getSourceFile()), false, true, true);
 		}
 
 		Button b1 = makeButton(200, 800, "Next");
