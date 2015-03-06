@@ -5,6 +5,7 @@ package server;
 
 import java.io.File;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import sofia.AudioHandler;
 import sofia.VideoHandler;
@@ -78,7 +79,7 @@ public class PresentationDisplayerTest extends Application {
 		xSize = primaryScreenBounds.getWidth();
 		ySize = primaryScreenBounds.getHeight();
 
-		Scene scene = new Scene(group, xSize-100, ySize-100);
+		Scene scene = new Scene(group, xSize - 100, ySize - 100);
 		primaryStage.setScene(scene);
 		/* Line sets the screen to fullscreen */
 		// primaryStage.setFullScreen(true);
@@ -131,12 +132,15 @@ public class PresentationDisplayerTest extends Application {
 		thisVideoHandler.clearVideos();
 		thisAudioHandler.clearAudios();
 		group.getChildren().clear();
+		System.out.println("");
+		System.out.println("	New slide!");
+		long startTextTime = System.nanoTime();
 		
 		/* Text section */
 		for (Text currentText : currentSlide.getTextList()) {
-			System.out.println("	Current Text: " + currentText);
+			//System.out.println("	Current Text: " + currentText);
 			for (TextFragment currentTextFragment : currentText.getTextFragments()) {
-				System.out.println("		Current Text Fragment: " + currentTextFragment.getFontColor());
+				//System.out.println("		Current Text Fragment: " + currentTextFragment.getFontColor());
 				thisTextHandler
 						.addStringToBuffer(currentTextFragment.getText(), currentTextFragment.getFont(),
 								(int) currentTextFragment.getFontSize(), currentTextFragment.getFontColor(),
@@ -150,32 +154,40 @@ public class PresentationDisplayerTest extends Application {
 
 			thisTextHandler.drawBuffer(absXStart, absYStart, absXEnd, absYEnd, "#ffaa0000", Alignment.LEFT);
 		}
+		long endTextTime = System.nanoTime();
+		System.out.println("Text Execution time: " + TimeUnit.NANOSECONDS.toMillis(endTextTime - startTextTime) + "ms");
 
+		long startImageTime = System.nanoTime();
 		/* Image section */
 		for (Image currentImage : currentSlide.getImagesList()) {
-			System.out.println("	Current Image: " + currentImage.getSourceFile());
-			thisImageHandler.drawImage(currentImage.getXStart(), currentImage.getXStart(),
-					currentImage.getSourceFile(), currentImage.getScale(), currentImage.getScale(),
-					currentImage.getRotation(), currentImage.getFlipVertical(), currentImage.getFlipHorizontal(),
-					currentImage.getCropX1(), currentImage.getCropX2(), currentImage.getCropY1(),
-					currentImage.getCropY2());
-		}
+			//System.out.println("	Current Image: " + currentImage.getSourceFile());
 
+			int absXStart = convertXRelToAbs(currentImage.getXStart());
+			int absYStart = convertYRelToAbs(currentImage.getYStart());
+
+			thisImageHandler.drawImage(absXStart, absYStart, currentImage.getSourceFile(), currentImage.getScale(),
+					currentImage.getScale(), currentImage.getRotation(), currentImage.getFlipVertical(),
+					currentImage.getFlipHorizontal(), currentImage.getCropX1(), currentImage.getCropX2(),
+					currentImage.getCropY1(), currentImage.getCropY2());
+		}
+		long endImageTime = System.nanoTime();
+		System.out.println("Image Execution time: " + TimeUnit.NANOSECONDS.toMillis(endImageTime - startImageTime) + "ms");
+
+		long startGraphicTime = System.nanoTime();
 		/* Graphics section */
 		for (Graphic currentGraphic : currentSlide.getGraphicsList()) {
-			System.out.println("	Current Graphic: " + currentGraphic.getType());
+			//System.out.println("	Current Graphic: " + currentGraphic.getType());
 
 			switch (currentGraphic.getType()) {
 			case "Oval":
 				break;
 			case "Rectangle":
-				
 				int absXStart = convertXRelToAbs(currentGraphic.getXStart());
 				int absYStart = convertYRelToAbs(currentGraphic.getYStart());
 				int absXEnd = convertXRelToAbs(currentGraphic.getXStart() * 1.5); // TODO
 				int absYEnd = convertYRelToAbs(currentGraphic.getYStart() * 1.4); // TODO
-				
-				thisGraphicsHandler.drawRectangle(absXStart, absYStart, absXEnd, absYEnd, 0, 0, currentGraphic.getGraphicColor(), true, "#00000000", 1, Shadow.NORMAL, 0, Shading.NONE);
+				thisGraphicsHandler.drawRectangle(absXStart, absYStart, absXEnd, absYEnd, 0, 0,
+						currentGraphic.getGraphicColor(), true, "#00000000", 1, Shadow.NORMAL, 0, Shading.NONE);
 				break;
 			case "Line":
 				break;
@@ -184,27 +196,32 @@ public class PresentationDisplayerTest extends Application {
 			}
 
 		}
-
+		long endGraphicsTime = System.nanoTime();
+		System.out.println("Graphic Execution time: " + TimeUnit.NANOSECONDS.toMillis(endGraphicsTime - startGraphicTime) + "ms");
+		
+		long startVideoTime = System.nanoTime();
 		/* Video section */
 		for (Video currentVideo : currentSlide.getVideosList()) {
-			System.out.println("	Current Image: " + currentVideo);
+			//System.out.println("	Current Image: " + currentVideo);
 			int absXStart = convertXRelToAbs(currentVideo.getXStart());
 			int absYStart = convertYRelToAbs(currentVideo.getYStart());
-			System.out.println(absXStart + " " + absYStart + " " + currentVideo.getYStart());
-
 			thisVideoHandler.createVideo(absXStart, absYStart, 500, currentVideo.getSourceFile(), true, true);
 		}
+		long endVideoTime = System.nanoTime();
+		System.out.println("Video Execution time: " + TimeUnit.NANOSECONDS.toMillis(endVideoTime - startVideoTime) + "ms");
 		
+		long startAudioTime = System.nanoTime();
 		/* Audio section */
 		for (Audio currentAudio : currentSlide.getAudiosList()) {
-			System.out.println("	Current Graphic: " + currentAudio.getSourceFile());
+			//System.out.println("	Current Audio: " + currentAudio.getSourceFile());
 			int absXStart = convertXRelToAbs(currentAudio.getXStart());
 			int absYStart = convertYRelToAbs(currentAudio.getYStart());
-			System.out.println(absXStart + " " + absYStart + " " + currentAudio.getYStart());
-			
-			thisAudioHandler.createAudio(absXStart, absYStart, 300, new File(currentAudio.getSourceFile()), false, true, true);
+			thisAudioHandler.createAudio(absXStart, absYStart, 200, new File(currentAudio.getSourceFile()), false,
+					true, true);
 		}
-
+		long endAudioTime = System.nanoTime();
+		System.out.println("Audio Execution time: " + TimeUnit.NANOSECONDS.toMillis(endAudioTime - startAudioTime) + "ms");
+		
 		Button b1 = makeButton(200, 800, "Next");
 		b1.setId("next");
 		Button b2 = makeButton(100, 800, "Back");
@@ -230,7 +247,6 @@ public class PresentationDisplayerTest extends Application {
 		@Override
 		public void handle(ActionEvent e) {
 			Button buttonPressed = (Button) e.getSource();
-			System.out.println("Current position: " + currentSlideInt);
 			if (buttonPressed.getId() == "next") {
 				if (currentSlideInt < numberOfSlides) {
 					currentSlideInt++;
@@ -240,8 +256,6 @@ public class PresentationDisplayerTest extends Application {
 					currentSlideInt--;
 				}
 			}
-			System.out.println("Next position: " + currentSlideInt);
-
 			drawSlide(slides.get(currentSlideInt - 1));
 		}
 	}
