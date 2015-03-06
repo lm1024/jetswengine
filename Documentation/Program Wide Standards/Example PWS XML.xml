@@ -5,7 +5,7 @@
 		<author>Tom Davidson</author>
 		<version>1.0</version>
 		<comment>this is a comment</comment>
-		<groupid>2</groupid>
+		<groupid>2</groupid> <!-- need to use this on xml level? -->
 	</documentinfo>
 	<defaultsettings>
 		<backgroundcolor>#ff00ff00</backgroundcolor>
@@ -14,51 +14,67 @@
 		<fontcolor>#ffcccc00</fontcolor>
 		<graphiccolor>#ffaaaa00</graphiccolor>
 	</defaultsettings>
-	<slide>
+	<slide backgroundcolor="#ffaaff00" duration="10"> 
+		<!-- PWS Text -->
 		<text sourcefile="null" xstart="0.5" ystart="0.5" font="arial" fontsize="24" fontcolor="#00112233"  duration="1.5">
 			Some Text.
 		</text>
 		
-		<text xstart="0.5" ystart="0.5" font="arial" fontsize="24" fontcolor="#00112233" duration="1.5" starttime="2.0">
-			<richtext font="arial" fontsize="26" fontcolor="#11223344" newline="true" b="true" i="true" u="true" strikethrough="true" superscript="true" subscript="true" case="upper/lower/camel" alignment="left/right/centre">Example text!</richtext>
-			<richtext font="arial" fontsize="26" fontcolor="#11223344" newline="true" b="true" i="true" u="true" strikethrough="true" superscript="true" subscript="true" case="upper/lower/camel" alignment="left">Example text!</richtext>
-			<richtext font="arial" fontsize="26" fontcolor="#11223344" newline="true" b="true" i="true" u="true" strikethrough="true" superscript="true" subscript="true" case="upper/lower/camel" alignment="left">Example text!</richtext>
-		</text>
-		
-		<text xstart="0.5" ystart="0.5" font="arial" fontsize="24" fontcolor="#00112233" duration="1.5" starttime="2.0">
-			<richtext font="arial" fontsize="26" fontcolor="#11223344" newline="true" b="true" i="true" u="true" strikethrough="true" superscript="true" subscript="true" case="upper/lower/camel" alignment="left">Example text!</richtext>
-			<richtext font="arial" fontsize="26" fontcolor="#11223344" newline="true" b="true" i="true" u="true" strikethrough="true" superscript="true" subscript="true" case="upper/lower/camel" alignment="left">Example text!</richtext>
+		<!-- Our Text --> <!-- Removed the set case, moved alignment to text level -->
+		<text xstart="0.5" ystart="0.5" font="arial" fontsize="24" fontcolor="#00112233" alignment="left" duration="1.5" starttime="2.0">
+			<richtext font="arial" fontsize="26" fontcolor="#11223344" newline="true" b="true" i="true" u="true" strikethrough="true" superscript="true" subscript="true" >Example text!</richtext>
+			<richtext font="arial" fontsize="26" fontcolor="#11223344" newline="true" b="true" i="true" u="true" strikethrough="true" superscript="true" subscript="true" >Example \n text!</richtext>
+			<richtext font="arial" fontsize="26" fontcolor="#11223344" newline="true" b="true" i="true" u="true" strikethrough="true" superscript="true" subscript="true" >Example text!</richtext>
 		</text>
 
+		<!-- PWS Images -->
 		<image sourcefile="cat.jpg" xstart="0.5" ystart="0.5" scale="1.0" duration="1.5" starttime="2.0" />
 		
-		<image sourcefile="selfie.jpg" xstart="0.5" ystart="0.5" scale="1.0" duration="1.5" starttime="2.0" rotate="90" fliphorizontal="true" flipvertical="true" cropx1="0.0" cropy1="0.0" cropx2="0.5" cropy2="0.5"/>
+		<!-- Our Images -->
+		<image sourcefile="selfie.jpg" xstart="0.5" ystart="0.5" vscale="1.0"  hscale="1.0" duration="1.5" starttime="2.0" rotate="90" fliphorizontal="true" flipvertical="true" cropx1="0.0" cropy1="0.0" cropx2="0.5" cropy2="0.5"/>
 		
+		<!-- PWS Audio -->
 		<audio sourcefile="gavel.wav" starttime="2.5" />
+		
+		<!-- sofia Audio -->
+		<audio sourcefile="gavel.wav" xstart="0.5" ystart="0.5" width="0.2" starttime="2.5" autoPlay="true" visibleControls="true" playButtonOnly="false"/>
+
+		
+		<!-- PWS Video -->
 		<video sourcefile="avengers.mkv" xstart="0.5" ystart="0.5" />
 		
+		<!-- sofia Video -->
+		<video sourcefile="avengers.mkv" xstart="0.5" ystart="0.5" width="0.1" autoplay="true" loop="true"/>
+
 		<!-- PWS Shapes -->
-		<graphic type="oval/rectangle/line" xstart="0.5" ystart="0.5" xend="0.7" yend="0.7" solid="true" graphiccolor="#11223344" duration="1.5">
+		<graphic type="oval" xstart="0.5" ystart="0.5" xend="0.7" yend="0.7" solid="true" graphiccolor="#11223344" duration="1.5">
 			<cyclicshading shadingcolor="#88776655" />
 		</graphic>		
-		
 
+		<graphic type="rectangle" xstart="0.5" ystart="0.5" xend="0.7" yend="0.7" solid="true" graphiccolor="#11223344" duration="1.5"/>
+		
+		<graphic type="line" xstart="0.5" ystart="0.5" xend="0.7" yend="0.7" solid="true" graphiccolor="#11223344" duration="1.5"/>	
+		
 		<!-- Our Expanded PWS Shapes -->
 		<graphic graphiccolor="#11223344" duration="1.5" starttime="2.0">
 			<oval xstart="0.5" ystart="0.5" xend="0.7" yend="0.7" solid="true" outlinecolor="#00000000" outlinethickness="1.0" rotation="45"/>
 			<shadow weight="heavy/normal/light"/>
-			<cyclicshading shadingcolor="#88776655">
+			<horizontalshading shadingcolor="#88776655">
 				<shading shadingcolor="#00aabbcc"/>
-				<shading shadingcolor="#00aabbcc"/>
-			<cyclicshading/>
+				<shading shadingcolor="#00aabbcc"/> <!-- Any number of these. Could contain a stop value (between 0 and 1) as well. -->
+			</horizontalshading>
 		</graphic>
 		
 		<graphic graphiccolor="#11223344" duration="1.5" starttime="2.0">
 			<rectangle xstart="0.5" ystart="0.5" xend="0.7" yend="0.7" arcwidth="10" archeight="10" solid="true" outlinecolor="#00000000" outlinethickness="1.0" rotation="45"/>
+			<verticalshading shadingcolor="#88776655">
+				<shading shadingcolor="#00aabbcc"/>
+				<shading shadingcolor="#00aabbcc"/>
+			</verticalshading>
 		</graphic>
 		
-		<graphic graphiccolor="#11223344" duration="1.5" starttime="2.0">
-			<line xstart="0.5" ystart="0.5" xend="0.7" yend="0.7" outlinethickness="1.0"/> <!-- I'm happy with calling this outline thickness... -->
+		<graphic graphiccolor="#11223344" duration="1.5" starttime="2.0"> <!-- Can't have shadow -->
+			<line xstart="0.5" ystart="0.5" xend="0.7" yend="0.7" outlinethickness="1.0"/> <!-- okay with calling this outline thickness? -->
 		</graphic>
 		
 		
@@ -70,15 +86,49 @@
 			<cyclicshading shadingcolor="#88776655">
 				<shading shadingcolor="#00aabbcc"/>
 				<shading shadingcolor="#00aabbcc"/>
-			<cyclicshading/>
+			</cyclicshading>
 		</graphic>
 		
 		<graphic graphiccolor="#11223344" duration="1.5" starttime="2.0">
-			<square xstart="0.5" ystart="0.5" size="10" solid="true" outlinecolor="#00000000" outlinethickness="1.0">
+			<square xstart="0.5" ystart="0.5" size="10" solid="true" outlinecolor="#00000000" outlinethickness="1.0" rotation="0"/>
+		</graphic>
+		
+		<graphic graphiccolor="#11223344" duration="1.5" starttime="2.0"> <!-- Again, no shadow -->
+			<arrow xstart="0.5" ystart="0.5" xend="0.7" yend="0.7"/>
 		</graphic>
 		
 		<graphic graphiccolor="#11223344" duration="1.5" starttime="2.0">
-			<itriangle xstart="0.5" ystart="0.5" xend="0.7" yend="0.7" solid="true"/>
+			<equitriangle xstart="0.5" ystart="0.5" size="10" solid="true" outlinecolor="#00000000" outlinethickness="1.0" rotation="0"/>
 		</graphic>
+		
+		<graphic graphiccolor="#11223344" duration="1.5" starttime="2.0">
+			<triangle x1="0" y1="0.1" x2="0.1" y2="0.2" x3="0.2" y3="0.3" solid="true" outlinecolor="#00000000" outlinethickness="1.0" rotation="0"/>
+		</graphic>
+		
+		<graphic graphiccolor="#11223344" duration="1.5" starttime="2.0">
+			<regpolygon xstart="0.5" ystart="0.5" width="10" height="10" numberofsides="5" solid="true" outlinecolor="#00000000" outlinethickness="1.0" rotation="0"/>
+		</graphic>
+		
+		<graphic graphiccolor="#11223344" duration="1.5" starttime="2.0">
+			<polygon xstart="0.1" ystart="0.1" solid="true" outlinecolor="#00000000" outlinethickness="1.0" rotation="0"/>
+				<point x="0.1" y="0.5"/>
+				<point x="0.25" y="0.6"/>
+				<point x="0.2" y="0.7"/>
+		</graphic>
+		
+		<graphic graphiccolor="#11223344" duration="1.5" starttime="2.0">
+			<star xstart="0.5" ystart="0.5" size="10" numberofpoints="5" solid="true" outlinecolor="#00000000" outlinethickness="1.0" rotation="0"/>
+		</graphic>
+		
+		<graphic graphiccolor="#11223344" duration="1.5" starttime="2.0">
+			<chord xstart="0.5" ystart="0.5" width="10" height="10" arcangle="5" length="10" solid="true" outlinecolor="#00000000" outlinethickness="1.0" rotation="0"/>
+		</graphic>
+		
+		<graphic graphiccolor="#11223344" duration="1.5" starttime="2.0">
+			<arc xstart="0.5" ystart="0.5" width="10" height="10" arcangle="5" length="10" solid="true" outlinecolor="#00000000" outlinethickness="1.0" rotation="0"/>
+		</graphic>
+		
+		<!-- Charts? -->
+		
 	</slide>
 </slideshow>
