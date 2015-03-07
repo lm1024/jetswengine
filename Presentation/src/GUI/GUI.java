@@ -81,6 +81,7 @@ public class GUI extends Application {
 	final GridPane grid = new GridPane();
 	private Label lbl;
 
+
 	public GUI() {
 	}
 
@@ -101,8 +102,8 @@ public class GUI extends Application {
 		 * to make reference to image files and XML files. Move back to CSS
 		 */
 
-		// readFile("resources/files.csv", fileArray);
-		// readFile("resources/images.csv", pictureArray);
+		readFile("resources/files.csv", fileArray);
+		readFile("resources/images.csv", pictureArray);
 
 		stageRef = primaryStage;
 
@@ -113,7 +114,8 @@ public class GUI extends Application {
 		stageRef.setHeight(primaryScreenBounds.getHeight());
 
 		/* sets the scale required to scale the height with change in width */
-		sizescale = primaryScreenBounds.getWidth() / primaryScreenBounds.getHeight();
+		sizescale = primaryScreenBounds.getWidth()
+				/ primaryScreenBounds.getHeight();
 
 		buildmain();
 
@@ -121,7 +123,7 @@ public class GUI extends Application {
 
 	}
 
-	private void readFile(String file, String[] array) {
+	private void readFile(String file, String []array) {
 		// TODO Auto-generated method stub
 		int i = 0;
 		BufferedReader br = null;
@@ -133,7 +135,7 @@ public class GUI extends Application {
 
 				// use comma as separator
 				array = line.split(",");
-				// fileArray[i] = s[0];
+				//fileArray[i] = s[0];
 				System.out.println("line: " + i + " Files: " + array[0]);
 
 				i++;
@@ -176,7 +178,8 @@ public class GUI extends Application {
 				fileChooser.setInitialDirectory(initDir);
 
 				/* Add filters to file chooser */
-				fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("XML files ", "*.xml"),
+				fileChooser.getExtensionFilters().addAll(
+						new FileChooser.ExtensionFilter("XML files ", "*.xml"),
 						new FileChooser.ExtensionFilter("All files", "*.*"));
 
 				File file = fileChooser.showOpenDialog(stageRef);
@@ -184,7 +187,8 @@ public class GUI extends Application {
 				/* Check that a file was selected */
 				if (file != null) {
 					try {
-						currentSlideshow = new XMLReader(file.getAbsolutePath()).getSlideshow();
+						currentSlideshow = new XMLReader(file.getAbsolutePath())
+								.getSlideshow();
 					} catch (IOException e1) {
 					}
 					initDir = file.getParentFile();
@@ -197,7 +201,6 @@ public class GUI extends Application {
 
 						System.out.println("Null slideshow");
 					}
-					buildSlides();
 				} else {
 					System.out.println("No file");
 				}
@@ -219,20 +222,19 @@ public class GUI extends Application {
 				Slideshow currentSlideshow1 = null;
 				int i = Integer.parseInt(buttonPressed.getId());
 				System.out.println("Open pres. " + i);
-				// outputFile = fileArray[i];
-				// System.out.println(outputFile);
-				if (outputFile != null) {
-					try {
-						currentSlideshow1 = new XMLReader(outputFile).getSlideshow();
-					} catch (IOException e1) {
-					}
-				} else {
-					currentSlideshow1 = null;
-				}
+				outputFile = fileArray[i];
+				System.out.println(outputFile);
 
+				try {
+					currentSlideshow1 = new XMLReader(outputFile)
+							.getSlideshow();
+				} catch (IOException e1) {
+
+				}
 				if (currentSlideshow1 != null) {
 					/* Only build if there is a slideshow */
 					buildSlides();
+
 				} else {
 					/* Display error scene */
 					dispError();
@@ -256,7 +258,7 @@ public class GUI extends Application {
 
 			case "home":
 				buildmain();
-
+				
 				break;
 
 			case "submit":
@@ -314,7 +316,8 @@ public class GUI extends Application {
 			int i = Integer.parseInt(cbSelected.getId());// checkbox number as
 															// int
 
-			System.out.println("Check box" + i + " was set to " + cbSelected.isSelected());
+			System.out.println("Check box" + i + " was set to "
+					+ cbSelected.isSelected());
 
 		}
 
@@ -353,37 +356,45 @@ public class GUI extends Application {
 		rootpane.getChildren().add(grid);
 
 		/* creates a scene within the stage of pixel size x by y */
-		mainScene = new Scene(rootpane, stageRef.getWidth(), stageRef.getHeight());
+		mainScene = new Scene(rootpane, stageRef.getWidth(),
+				stageRef.getHeight());
 
 		/* Company icon in column 1-3, row 1-3 */
-		grid.add(makeImageView("file:WM_logo_transparent.png", 0.25), 0, 0, 3, 3);
+		grid.add(makeImageView("file:WM_logo_transparent.png", 0.25), 0, 0, 3,
+				3);
 
 		/* Product name in column 2-5, row 3 */
 		Label titleLabel = makeLabel("     SmartSlides", 50, "#33B5E5");
 		grid.add(titleLabel, 1, 2, 4, 1);
 
 		/* Create first button for Slide Preview and add in column 1, row 4 */
-		Button one = makeButton("Presentation 1", "invisiButton", true, "0", "file:logo.png", 0.2);
+		Button one = makeButton("Presentation 1", "invisiButton", true, "0",
+				"file:logo.png", 0.2);
 		grid.add(one, 0, 3);
 
 		/* Create second button for Slide Preview and add in column 3, row 4 */
-		Button two = makeButton("Presentation 2", "invisiButton", true, "1", "file:logo.png", 0.2);
+		Button two = makeButton("Presentation 2", "invisiButton", true, "1",
+				"file:logo.png", 0.2);
 		grid.add(two, 2, 3);
 
 		/* Create third button for Slide Preview and add in column 5, row 4 */
-		Button three = makeButton("Presentation 3", "invisiButton", true, "2", "file:logo.png", 0.2);
+		Button three = makeButton("Presentation 3", "invisiButton", true, "2",
+				"file:logo.png", 0.2);
 		grid.add(three, 4, 3);
 
 		/* Create forth button for Slide Preview and add in column 1, row 6 */
-		Button four = makeButton("Presentation 4", "invisiButton", true, "3", "file:logo.png", 0.2);
+		Button four = makeButton("Presentation 4", "invisiButton", true, "3",
+				"file:logo.png", 0.2);
 		grid.add(four, 0, 5);
 
 		/* Create fifth button for Slide Preview and add in column 3, row 6 */
-		Button five = makeButton("Presentation 5", "invisiButton", true, "4", "file:logo.png", 0.2);
+		Button five = makeButton("Presentation 5", "invisiButton", true, "4",
+				"file:logo.png", 0.2);
 		grid.add(five, 2, 5);
 
 		/* Create sixth button for Slide Preview and add in column 5, row 6 */
-		Button six = makeButton("Presentation 6", "invisiButton", true, "5", "file:logo.png", 0.2);
+		Button six = makeButton("Presentation 6", "invisiButton", true, "5",
+				"file:logo.png", 0.2);
 		grid.add(six, 4, 5);
 
 		/* Insert blank in column 2 and 4, row 4-6 */
@@ -394,7 +405,8 @@ public class GUI extends Application {
 		grid.add(makePane(), 0, 4, 5, 1);
 
 		/* Create Openfile button in column 2-3, row 7 */
-		Button openfile = makeButton("Open file", "darkButton", true, "Openfile");
+		Button openfile = makeButton("Open file", "darkButton", true,
+				"Openfile");
 		grid.add(openfile, 1, 6, 2, 1);
 
 		/* Create Settings button in column 4-5, row 7 */
@@ -405,10 +417,14 @@ public class GUI extends Application {
 		stageRef.setScene(mainScene);
 
 		/* set the grid and its contents to resize to the stage size */
-		stageRef.maxHeightProperty().bind(mainScene.widthProperty().divide(sizescale));
-		stageRef.minHeightProperty().bind(mainScene.widthProperty().divide(sizescale));
-		grid.scaleXProperty().bind(mainScene.widthProperty().divide(stageRef.getWidth()));
-		grid.scaleYProperty().bind(mainScene.heightProperty().divide(stageRef.getHeight()));
+		stageRef.maxHeightProperty().bind(
+				mainScene.widthProperty().divide(sizescale));
+		stageRef.minHeightProperty().bind(
+				mainScene.widthProperty().divide(sizescale));
+		grid.scaleXProperty().bind(
+				mainScene.widthProperty().divide(stageRef.getWidth()));
+		grid.scaleYProperty().bind(
+				mainScene.heightProperty().divide(stageRef.getHeight()));
 
 		/* Line sets the screen to fullscreen */
 		// primaryStage.setFullScreen(true);
@@ -431,7 +447,8 @@ public class GUI extends Application {
 		settingsrootpane.getChildren().add(settingsGrid);
 
 		// creates a scene within the stage of pixel size x by y
-		settingsScene = new Scene(settingsrootpane, stageRef.getWidth(), stageRef.getHeight());
+		settingsScene = new Scene(settingsrootpane, stageRef.getWidth(),
+				stageRef.getHeight());
 		settingsScene.getStylesheets().add(styleSheet);
 
 		/* Set the layout as settingsGridpane */
@@ -445,7 +462,8 @@ public class GUI extends Application {
 		 */
 
 		/* Wavemedia logo Home button */
-		Button homeBtn = makeButton("", "invisiButton", true, "home", "file:WM_logo_transparent.png", 0.2);
+		Button homeBtn = makeButton("", "invisiButton", true, "home",
+				"file:WM_logo_transparent.png", 0.2);
 		settingsGrid.add(homeBtn, 0, 0);
 
 		/* Create a HBox to put title in */
@@ -465,7 +483,8 @@ public class GUI extends Application {
 
 		/* Vbox to contain check boses */
 		VBox vbox1 = makeVBox("clearBox", Pos.TOP_LEFT, 10);
-		vbox1.getChildren().addAll(makeLabel("Auto-Next:", 16, "#313131"), cb1, cb2);
+		vbox1.getChildren().addAll(makeLabel("Auto-Next:", 16, "#313131"), cb1,
+				cb2);
 		settingsGrid.add(vbox1, 0, 2, 1, 2);
 
 		/*
@@ -495,7 +514,8 @@ public class GUI extends Application {
 		userButtons.getChildren().addAll(userSubmit, userClr);
 
 		/* Add everything to the box */
-		userBox.getChildren().addAll(makeLabel("Username:", 16, "#313131"), userField, userButtons);// add
+		userBox.getChildren().addAll(makeLabel("Username:", 16, "#313131"),
+				userField, userButtons);// add
 		// to
 		// box
 		settingsGrid.add(userBox, 1, 2);// add box to settingsGrid
@@ -511,7 +531,8 @@ public class GUI extends Application {
 		ta.getStyleClass().add("textArea");
 
 		/* Add items to banned words VBox */
-		bannedBox.getChildren().addAll(makeLabel("Banned Words:", 16, "#313131"), ta);
+		bannedBox.getChildren().addAll(
+				makeLabel("Banned Words:", 16, "#313131"), ta);
 		settingsGrid.add(bannedBox, 2, 2);
 
 		/* HBox to put buttons controlling banned words in */
@@ -528,10 +549,14 @@ public class GUI extends Application {
 		settingsGrid.add(btnBox, 2, 3);
 
 		/* set the settings grid and its contents to resize to the stage size */
-		stageRef.maxHeightProperty().bind(settingsScene.widthProperty().divide(sizescale));
-		stageRef.minHeightProperty().bind(settingsScene.widthProperty().divide(sizescale));
-		settingsGrid.scaleXProperty().bind(settingsScene.widthProperty().divide(stageRef.getWidth()));
-		settingsGrid.scaleYProperty().bind(settingsScene.heightProperty().divide(stageRef.getHeight()));
+		stageRef.maxHeightProperty().bind(
+				settingsScene.widthProperty().divide(sizescale));
+		stageRef.minHeightProperty().bind(
+				settingsScene.widthProperty().divide(sizescale));
+		settingsGrid.scaleXProperty().bind(
+				settingsScene.widthProperty().divide(stageRef.getWidth()));
+		settingsGrid.scaleYProperty().bind(
+				settingsScene.heightProperty().divide(stageRef.getHeight()));
 
 		stageRef.setScene(mainScene);
 
@@ -602,9 +627,9 @@ public class GUI extends Application {
 		Label lbl = new Label(labelText);// create new instance of label
 		lbl.setFont(bold);
 		lbl.setStyle("-fx-text-fill:" + colour);// add
-												// colour
-												// to
-												// label
+																			// colour
+																			// to
+																			// label
 
 		return lbl;
 	}
@@ -628,7 +653,8 @@ public class GUI extends Application {
 	}
 
 	/** Utility function for adding a CheckBox **/
-	private CheckBox makeCheckBox(String text, String style, String id, boolean selected) {
+	private CheckBox makeCheckBox(String text, String style, String id,
+			boolean selected) {
 		CheckBox cb = new CheckBox();// new instance of CheckBox
 		cb.setText(text);// Text for box
 		cb.setId(id);// give the box an id
@@ -639,9 +665,11 @@ public class GUI extends Application {
 	}
 
 	/** Utility function for adding button */
-	private Button makeButton(String buttonText, String styleClass, boolean hover, String id) {
+	private Button makeButton(String buttonText, String styleClass,
+			boolean hover, String id) {
 
-		Font medium = Font.loadFont("file:resources/fonts/Roboto-Bold.ttf", 15);
+		Font medium = Font.loadFont("file:resources/fonts/Roboto-Bold.ttf",
+				15);
 		Button btn = new Button();// new instance of button
 		btn.setText(buttonText);// add text
 		btn.getStyleClass().add(styleClass);// add style
@@ -660,7 +688,8 @@ public class GUI extends Application {
 	/**
 	 * Utility function to make a button with an image and label
 	 */
-	private Button makeButton(String buttonText, String styleClass, boolean hover, String id, String file, double size) {
+	private Button makeButton(String buttonText, String styleClass,
+			boolean hover, String id, String file, double size) {
 
 		ImageView image = makeImageView(file, size);// make an ImageView
 		Button btn = makeButton(buttonText, styleClass, hover, id);// make a
