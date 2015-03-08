@@ -50,10 +50,11 @@ public class DummyGUI extends Application {
 
 		/* Calls to add items to screen */
 		ImageHandler thisImageHandler = new ImageHandler(group);
-		thisImageHandler.drawImage(1100, 200, "file:me.png", 0.4, 0.4, 0, false, false, 0, 0, 0, 0,
-				ImageEffect.REFLECTION, ImageEffect.SEPIA);
+		//thisImageHandler.drawImage(1100, 200, "file:me.png", 0.4, 0.4, 0, false, false, 0, 0, 0, 0,
+		//		ImageEffect.REFLECTION, ImageEffect.SEPIA);
+		thisImageHandler.drawImage(new ImageHandler.ImageBuilder("file:me.png", 500, 200).scaleX(0.4).scaleX(0.4).rotation(0).vFlip(false).hFlip(false).cropLeft(0).cropRight(0).cropDown(0).cropUp(0));
 
-		GraphicsHandler thisGraphicsHandler = new GraphicsHandler(group);
+		/*GraphicsHandler thisGraphicsHandler = new GraphicsHandler(group);
 
 		thisGraphicsHandler.drawOval(100f, 100f, 150f, 150f, "#ffff0000", true, "#ff0000ff", 1, Shadow.HEAVY, 0,
 				Shading.CYCLIC, "#ffff00ff", "#ff00ffff", "#ffffffff", "#ff000000");
@@ -120,7 +121,7 @@ public class DummyGUI extends Application {
 		
 		VideoHandler thisVideoHandler = new VideoHandler(group);
 		thisVideoHandler.createVideo(50, 700, 400, "M:/Sweng/avengers-featurehp.mp4", true, true);
-		
+		*/
 		primaryStage.show();
 	}
 
