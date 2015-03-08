@@ -8,6 +8,7 @@ import Data.CommonShapes.*;
 public class Graphic extends SlideItem {
 
 	private String graphicColor;
+	private String shadow;
 
 	public Graphic(Defaults defaults) {
 		super(defaults);
@@ -67,6 +68,16 @@ public class Graphic extends SlideItem {
 	public void setGraphicColor(String string) {
 		if (Utils.validARGB(string)) {
 			this.graphicColor = string;
+		}
+	}
+
+	public String getShadow() {
+		return shadow;
+	}
+
+	public void setShadow(String string) {
+		if(Utils.validShadow(string)) {
+			this.shadow = string;
 		}
 	}
 

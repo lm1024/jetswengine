@@ -81,6 +81,14 @@ public final class Utils {
 			return false;
 		}
 	}
+	
+	public static boolean validShadow(String string) {
+		try {
+			return string.matches("heavy|normal|light");
+		} catch (Exception e) {
+			return false;
+		}
+	}
 
 	public static boolean validAlignment(String string) {
 		try {

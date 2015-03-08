@@ -23,6 +23,7 @@ public class GraphicHandler extends DefaultHandler {
 	private Slide slide;
 	private XMLReader reader;
 	private SlideHandler parentHandler;
+	private Graphic graphic;
 	private HashMap<String,String> currentObject = new HashMap<String,String>();
 
 	/**
@@ -42,10 +43,46 @@ public class GraphicHandler extends DefaultHandler {
 		if ("".equals(elementName)) {
 			elementName = qName;
 		}
+		switch(elementName) {
+		case "graphic":
+			Utils.parse(currentObject, attributes, "type", "xstart", "ystart",
+					"yend", "xend", "solid", "graphiccolor", "duration",
+					"sourcefile", "starttime");
+			break;
+		case "shadow":
+			reader.setContentHandler(new ShadowHandler(reader, this, graphic));
+			reader.getContentHandler().startElement(uri, localName, qName,
+					attributes);
+			break;
+		case "cyclicshading":
+			break;
+		case "horizontalshading":
+			break;
+		case "verticalshading":
+			break;
+		case "oval":
+		case "rectangle":
+		case "line":
+		case "circle":
+		case "square":
+		case "arrow":
+		case "equitriangle":
+		case "triangle":
+		case "regpolygon":
+		case "polygon":
+		case "star":
+		case "chord":
+		case "arc":
+			Utils.parse(currentObject, attributes, "xstart", "ystart",
+					"yend", "xend", "solid", "graphiccolor", "duration",
+					"sourcefile", "starttime");
+			currentObject.put("type", elementName);
+			break;
+			
+			
+			
+		}
 		currentObject.put("type", Utils.validShape(elementName) ? elementName : currentObject.get("type"));
-		Utils.parse(currentObject, attributes, "type", "xstart", "ystart",
-				"yend", "xend", "solid", "graphiccolor", "duration",
-				"sourcefile", "starttime");
 	}
 
 	public void endElement(String uri, String localName, String qName)
@@ -57,7 +94,8 @@ public class GraphicHandler extends DefaultHandler {
 		}
 		if (elementName.equals("graphic")) {
 			System.out.println(currentObject.get("type"));
-			slide.add(Graphic.makeGraphic(currentObject,parentHandler.getDefaults()));
+			this.graphic = Graphic.makeGraphic(currentObject,parentHandler.getDefaults());
+			slide.add(graphic);
 			reader.setContentHandler(parentHandler);
 		}
 	}
