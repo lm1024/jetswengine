@@ -43,10 +43,9 @@ public class ImageHandler {
 		double cropRight = image.getCropRight();
 		double cropDown = image.getCropDown();
 		double cropUp = image.getCropUp();
-		ImageEffectsList imageEffects = image.getImageEffects();
-		//System.out.println(imageEffects.getList());
+		ArrayList<ImageEffect> imageEffects = image.getImageEffects();
 		drawImage(xPos, yPos, filepath, scaleX, scaleY, rotation, vFlip, hFlip, cropLeft, cropRight, cropDown, cropUp,
-				imageEffects.getList());
+				imageEffects);
 	}
 
 	/**

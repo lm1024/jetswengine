@@ -17,7 +17,7 @@ public class SlideshowImage {
 	private final double cropDown;
 	private final double cropUp;
 	
-	private final ImageEffectsList imageEffects;
+	private final ArrayList<ImageEffect> imageEffects;
 
 	private SlideshowImage(ImageBuilder builder) {
 		this.xPos = builder.xPos;
@@ -83,7 +83,7 @@ public class SlideshowImage {
 		return cropUp;
 	}
 	
-	public ImageEffectsList getImageEffects() {
+	public ArrayList<ImageEffect> getImageEffects() {
 		return imageEffects;
 	}
 
@@ -92,16 +92,16 @@ public class SlideshowImage {
 		private final float xPos;
 		private final float yPos;
 
-		private double scaleX;
-		private double scaleY;
-		private float rotation;
+		private double scaleX = 1;
+		private double scaleY = 1;
+		private float rotation = 0;
 		private boolean vFlip;
 		private boolean hFlip;
 		private double cropLeft;
 		private double cropRight;
 		private double cropDown;
 		private double cropUp;
-		private ImageEffectsList imageEffects;
+		private ArrayList<ImageEffect> imageEffects = new ArrayList<ImageEffect>();
 
 		public ImageBuilder(String filepath, float xPos, float yPos) {
 			this.filepath = filepath;
@@ -155,7 +155,7 @@ public class SlideshowImage {
 		}
 		
 		public ImageBuilder imageEffects(ImageEffectsList imageEffects) {
-			this.imageEffects = imageEffects;
+			this.imageEffects = imageEffects.getList();
 			return this;
 		}
 

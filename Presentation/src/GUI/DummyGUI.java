@@ -57,9 +57,9 @@ public class DummyGUI extends Application {
 		imageEffects.add(ImageEffect.REFLECTION);
 		imageEffects.add(ImageEffect.SEPIA);
 
-		thisImageHandler.drawImage(new SlideshowImage.ImageBuilder("file:me.png", 500, 200).build());/*.scaleX(0.4).scaleX(0.4)
+		thisImageHandler.drawImage(new SlideshowImage.ImageBuilder("file:me.png", 500, 200).scaleX(0.4).scaleY(0.4)
 				.rotation(0).vFlip(false).hFlip(false).cropLeft(0).cropRight(0).cropDown(0).cropUp(0)
-				.imageEffects(imageEffects).build());*/
+				.imageEffects(imageEffects).build());
 
 		/*
 		 * GraphicsHandler thisGraphicsHandler = new GraphicsHandler(group);
