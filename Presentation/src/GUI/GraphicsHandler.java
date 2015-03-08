@@ -65,11 +65,10 @@ public class GraphicsHandler {
 		GraphicType graphicType = graphic.getGraphic();
 		float xStartPos = graphic.getxStartPos();
 		float yStartPos = graphic.getyStartPos();
-		String graphicColor = graphic.getGraphicColor();
+		String color = graphic.getColor();
 		float xEndPos = graphic.getxEndPos();
 		float yEndPos = graphic.getyEndPos();
 		boolean solid = graphic.isSolid();
-		System.out.println(solid);
 		String outlineColor = graphic.getOutlineColor();
 		double outlineThickness = graphic.getOutlineThickness();
 		float rotation = graphic.getRotation();
@@ -94,39 +93,39 @@ public class GraphicsHandler {
 		Shadow shadowType = graphic.getShadow();
 		Shading shadingType = graphic.getShadingType();
 		String[] shadingColors = graphic.getShadingColors().toArray(new String[graphic.getShadingColors().size()]);
-		ArrayList<Float> stops = graphic.getStops();
+		ArrayList<Float> stops = graphic.getStops(); //TODO
 
 		switch (graphicType) {
 		case ARC:
 			// TODO center
 			float centerX = xStartPos;
 			float centerY = yStartPos;
-			drawArc(centerX, centerY, width, height, arcAngle, length, graphicColor, solid, outlineColor,
+			drawArc(centerX, centerY, width, height, arcAngle, length, color, solid, outlineColor,
 					outlineThickness, shadowType, rotation, shadingType, shadingColors);
 			break;
 		case ARROW:
-			drawArrow(xStartPos, yStartPos, xEndPos, yEndPos, graphicColor, shadingType, shadingColors);
+			drawArrow(xStartPos, yStartPos, xEndPos, yEndPos, color, shadingType, shadingColors);
 			break;
 		case CHORD:
 			// TODO center
 			float centerX1 = xStartPos;
 			float centerY1 = yStartPos;
-			drawChord(centerX1, centerY1, width, height, arcAngle, length, graphicColor, solid, outlineColor,
+			drawChord(centerX1, centerY1, width, height, arcAngle, length, color, solid, outlineColor,
 					outlineThickness, shadowType, rotation, shadingType, shadingColors);
 			break;
 		case CIRCLE:
-			drawCircle(xStartPos, yStartPos, radius, graphicColor, solid, outlineColor, outlineThickness, shadowType,
+			drawCircle(xStartPos, yStartPos, radius, color, solid, outlineColor, outlineThickness, shadowType,
 					shadingType, shadingColors);
 			break;
 		case EQUITRIANGLE:
-			drawEquiTriangle(xStartPos, yStartPos, length, graphicColor, solid, outlineColor, outlineThickness,
+			drawEquiTriangle(xStartPos, yStartPos, length, color, solid, outlineColor, outlineThickness,
 					shadowType, rotation, shadingType, shadingColors);
 			break;
 		case LINE:
-			drawLine(xStartPos, yStartPos, xEndPos, yEndPos, graphicColor, outlineThickness, shadingType, shadingColors);
+			drawLine(xStartPos, yStartPos, xEndPos, yEndPos, color, outlineThickness, shadingType, shadingColors);
 			break;
 		case OVAL:
-			drawOval(xStartPos, yStartPos, xEndPos, yEndPos, graphicColor, solid, outlineColor, outlineThickness,
+			drawOval(xStartPos, yStartPos, xEndPos, yEndPos, color, solid, outlineColor, outlineThickness,
 					shadowType, rotation, shadingType, shadingColors);
 			break;
 		case POLYGON:
@@ -137,30 +136,30 @@ public class GraphicsHandler {
 				combinedCoordinates[i*2+1] = Double.valueOf(yCoordinates.get(i));
 			}
 			
-			drawPolygon(combinedCoordinates, xStartPos, yStartPos, graphicColor, solid, outlineColor, outlineThickness, shadowType, rotation,
+			drawPolygon(combinedCoordinates, xStartPos, yStartPos, color, solid, outlineColor, outlineThickness, shadowType, rotation,
 					shadingType, shadingColors);
 			break;
 		case RECTANGLE:
-			drawRectangle(xStartPos, yStartPos, xEndPos, yEndPos, arcWidth, arcHeight, graphicColor, solid,
+			drawRectangle(xStartPos, yStartPos, xEndPos, yEndPos, arcWidth, arcHeight, color, solid,
 					outlineColor, outlineThickness, shadowType, rotation, shadingType, shadingColors);
 			break;
 		case REGULARPOLYGON:
-			drawRegularPolygon(xStartPos, yStartPos, width, height, numberOfSides, graphicColor, solid, outlineColor,
+			drawRegularPolygon(xStartPos, yStartPos, width, height, numberOfSides, color, solid, outlineColor,
 					outlineThickness, shadowType, rotation, shadingType, shadingColors);
 			break;
 		case SQUARE:
-			drawSquare(xStartPos, yStartPos, length, graphicColor, solid, outlineColor, outlineThickness, shadowType,
+			drawSquare(xStartPos, yStartPos, length, color, solid, outlineColor, outlineThickness, shadowType,
 					rotation, shadingType, shadingColors);
 			break;
 		case STAR:
 			// TODO mid
 			double midX = xStartPos;
 			double midY = yStartPos;
-			drawStar(midX, midY, numberOfPoints, size, graphicColor, solid, outlineColor, outlineThickness, shadowType,
+			drawStar(midX, midY, numberOfPoints, size, color, solid, outlineColor, outlineThickness, shadowType,
 					rotation, shadingType, shadingColors);
 			break;
 		case TRIANGLE:
-			drawTriangle(x1, y1, x2, y2, x3, y3, graphicColor, solid, outlineColor, outlineThickness, shadowType,
+			drawTriangle(x1, y1, x2, y2, x3, y3, color, solid, outlineColor, outlineThickness, shadowType,
 					rotation, shadingType, shadingColors);
 			break;
 		default:

@@ -3,11 +3,13 @@ package GUI;
 import java.util.ArrayList;
 
 public class Graphic {
+	protected final static float defaultSize = 200;
+
 	private GraphicType graphic;
 	private float xStartPos;
 	private float yStartPos;
 
-	private String graphicColor;
+	private String color;
 	private float xEndPos;
 	private float yEndPos;
 	private boolean solid;
@@ -41,7 +43,7 @@ public class Graphic {
 		graphic = builder.graphic;
 		xStartPos = builder.xStartPos;
 		yStartPos = builder.yStartPos;
-		graphicColor = builder.graphicColor;
+		color = builder.color;
 		xEndPos = builder.xEndPos;
 		yEndPos = builder.yEndPos;
 		solid = builder.solid;
@@ -85,8 +87,8 @@ public class Graphic {
 		return yStartPos;
 	}
 
-	public String getGraphicColor() {
-		return graphicColor;
+	public String getColor() {
+		return color;
 	}
 
 	public float getxEndPos() {
@@ -112,7 +114,7 @@ public class Graphic {
 	public float getRotation() {
 		return rotation;
 	}
-	
+
 	public float getRadius() {
 		return radius;
 	}
@@ -206,19 +208,19 @@ public class Graphic {
 		private final float xStartPos;
 		private final float yStartPos;
 
-		private String graphicColor = "#ffffffff";
+		private String color = "#ffffffff";
 		private float xEndPos;
 		private float yEndPos;
 		private boolean solid;
 		private String outlineColor = "#00000000";
-		private double outlineThickness;
+		private double outlineThickness = 1;
 		private float rotation;
-		private float radius;
+		private float radius = defaultSize;
 		private float arcWidth;
 		private float arcHeight;
-		private float size;
-		private float width;
-		private float height;
+		private float size = defaultSize;
+		private float width = defaultSize;
+		private float height = defaultSize;
 		private int numberOfSides;
 		private int numberOfPoints;
 
@@ -255,19 +257,22 @@ public class Graphic {
 			this.graphic = graphic;
 			this.xStartPos = xStartPos;
 			this.yStartPos = yStartPos;
+
+			this.xEndPos = xStartPos + defaultSize;
+			this.yEndPos = yStartPos + defaultSize;
 		}
 
-		public GraphicBuilder graphicColor(String graphicColor) {
-			this.graphicColor = graphicColor;
+		public GraphicBuilder color(String color) {
+			this.color = color;
 			return this;
 		}
 
-		public GraphicBuilder xEnd(Float xEndPos) {
+		public GraphicBuilder xEndPos(Float xEndPos) {
 			this.xEndPos = xEndPos;
 			return this;
 		}
 
-		public GraphicBuilder yEnd(Float yEndPos) {
+		public GraphicBuilder yEndPos(Float yEndPos) {
 			this.yEndPos = yEndPos;
 			return this;
 		}
@@ -291,7 +296,7 @@ public class Graphic {
 			this.rotation = rotation;
 			return this;
 		}
-		
+
 		public GraphicBuilder radius(float radius) {
 			this.radius = radius;
 			return this;
