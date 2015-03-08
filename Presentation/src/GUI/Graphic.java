@@ -4,99 +4,218 @@ import java.util.ArrayList;
 
 public class Graphic {
 	private GraphicType graphic;
-	private float xStart;
-	private float yStart;
+	private float xStartPos;
+	private float yStartPos;
 
 	private String graphicColor;
-	private float xEnd;
-	private float yEnd;
+	private float xEndPos;
+	private float yEndPos;
 	private boolean solid;
 	private String outlineColor;
 	private double outlineThickness;
 	private float rotation;
-	private float arcwidth;
-	private float archeight;
+	private float radius;
+	private float arcWidth;
+	private float arcHeight;
 	private float size;
 	private float width;
 	private float height;
 	private int numberOfSides;
 	private int numberOfPoints;
-
-	// Setcoordinates
 	private float x1;
 	private float x2;
 	private float x3;
 	private float y1;
 	private float y2;
 	private float y3;
-
-	// Any number of points
-	ArrayList<Float> xCoordinates;
-	ArrayList<Float> yCoordinates;
-
-	private float arcangle;
+	private ArrayList<Float> xCoordinates;
+	private ArrayList<Float> yCoordinates;
+	private float arcAngle;
 	private float length;
-
 	private Shadow shadow;
-
 	private Shading shadingType;
-
-	ArrayList<String> shadingColors;
-	ArrayList<Float> stops;
-
-	// Any number of colors
+	private ArrayList<String> shadingColors;
+	private ArrayList<Float> stops;
 
 	private Graphic(GraphicBuilder builder) {
-		GraphicType graphic = builder.graphic;
-		float xStart = builder.xStart;
-		float yStart = builder.yStart;
-		String graphicColor = builder.graphicColor;
-		float xEnd = builder.xEnd;
-		float yEnd = builder.yEnd;
-		boolean solid = builder.solid;
-		String outlineColor = builder.outlineColor;;
-		double outlineThickness = builder.outlineThickness;
-		float rotation = builder.rotation;
-		float arcwidth = builder.arcwidth;
-		float archeight = builder.archeight;
-		float size = builder.size;
-		float width = builder.width;
-		float height = builder.height;
-		int numberOfSides = builder.numberOfSides;
-		int numberOfPoints = builder.numberOfPoints;
-		// Setcoordinates
-		float x1 = builder.x1;
-		float x2 = builder.x2;
-		float x3 = builder.x3;
-		float y1 = builder.y1;
-		float y2 = builder.y2;
-		float y3 = builder.y3;
+		graphic = builder.graphic;
+		xStartPos = builder.xStartPos;
+		yStartPos = builder.yStartPos;
+		graphicColor = builder.graphicColor;
+		xEndPos = builder.xEndPos;
+		yEndPos = builder.yEndPos;
+		solid = builder.solid;
+		outlineColor = builder.outlineColor;
+		outlineThickness = builder.outlineThickness;
+		rotation = builder.rotation;
+		radius = builder.radius;
+		arcWidth = builder.arcWidth;
+		arcHeight = builder.arcHeight;
+		size = builder.size;
+		width = builder.width;
+		height = builder.height;
+		numberOfSides = builder.numberOfSides;
+		numberOfPoints = builder.numberOfPoints;
+		x1 = builder.x1;
+		x2 = builder.x2;
+		x3 = builder.x3;
+		y1 = builder.y1;
+		y2 = builder.y2;
+		y3 = builder.y3;
 		// Any number of points
-		ArrayList<Float> xCoordinates = builder.xCoordinates;
-		ArrayList<Float> yCoordinates = builder.yCoordinates;
-		float arcangle = builder.arcangle;
-		float length = builder.length;
-		Shadow shadow = builder.shadow;
-		Shading shadingType = builder.shadingType;
-		ArrayList<String> shadingColors = builder.shadingColors;
-		ArrayList<Float> stops = builder.stops;
-		// Any number of colors
+		xCoordinates = builder.xCoordinates;
+		yCoordinates = builder.yCoordinates;
+		arcAngle = builder.arcAngle;
+		length = builder.length;
+		shadow = builder.shadow;
+		shadingType = builder.shadingType;
+		shadingColors = builder.shadingColors;
+		stops = builder.stops;
+	}
+
+	public GraphicType getGraphic() {
+		return graphic;
+	}
+
+	public float getxStartPos() {
+		return xStartPos;
+	}
+
+	public float getyStartPos() {
+		return yStartPos;
+	}
+
+	public String getGraphicColor() {
+		return graphicColor;
+	}
+
+	public float getxEndPos() {
+		return xEndPos;
+	}
+
+	public float getyEndPos() {
+		return yEndPos;
+	}
+
+	public boolean isSolid() {
+		return solid;
+	}
+
+	public String getOutlineColor() {
+		return outlineColor;
+	}
+
+	public double getOutlineThickness() {
+		return outlineThickness;
+	}
+
+	public float getRotation() {
+		return rotation;
+	}
+	
+	public float getRadius() {
+		return radius;
+	}
+
+	public float getArcWidth() {
+		return arcWidth;
+	}
+
+	public float getArcHeight() {
+		return arcHeight;
+	}
+
+	public float getSize() {
+		return size;
+	}
+
+	public float getWidth() {
+		return width;
+	}
+
+	public float getHeight() {
+		return height;
+	}
+
+	public int getNumberOfSides() {
+		return numberOfSides;
+	}
+
+	public int getNumberOfPoints() {
+		return numberOfPoints;
+	}
+
+	public float getX1() {
+		return x1;
+	}
+
+	public float getX2() {
+		return x2;
+	}
+
+	public float getX3() {
+		return x3;
+	}
+
+	public float getY1() {
+		return y1;
+	}
+
+	public float getY2() {
+		return y2;
+	}
+
+	public float getY3() {
+		return y3;
+	}
+
+	public ArrayList<Float> getxCoordinates() {
+		return xCoordinates;
+	}
+
+	public ArrayList<Float> getyCoordinates() {
+		return yCoordinates;
+	}
+
+	public float getArcAngle() {
+		return arcAngle;
+	}
+
+	public float getLength() {
+		return length;
+	}
+
+	public Shadow getShadow() {
+		return shadow;
+	}
+
+	public Shading getShadingType() {
+		return shadingType;
+	}
+
+	public ArrayList<String> getShadingColors() {
+		return shadingColors;
+	}
+
+	public ArrayList<Float> getStops() {
+		return stops;
 	}
 
 	public static class GraphicBuilder {
 		private final GraphicType graphic;
-		private final float xStart;
-		private final float yStart;
+		private final float xStartPos;
+		private final float yStartPos;
 
-		private String graphicColor;
-		private float xEnd;
-		private float yEnd;
+		private String graphicColor = "#ffffffff";
+		private float xEndPos;
+		private float yEndPos;
 		private boolean solid;
-		private String outlineColor;
+		private String outlineColor = "#00000000";
 		private double outlineThickness;
 		private float rotation;
-		private float arcwidth;
-		private float archeight;
+		private float radius;
+		private float arcWidth;
+		private float arcHeight;
 		private float size;
 		private float width;
 		private float height;
@@ -115,27 +234,27 @@ public class Graphic {
 		ArrayList<Float> xCoordinates;
 		ArrayList<Float> yCoordinates;
 
-		private float arcangle;
+		private float arcAngle;
 		private float length;
 
-		private Shadow shadow;
+		private Shadow shadow = Shadow.NONE;
 
-		private Shading shadingType;
+		private Shading shadingType = Shading.NONE;
 
 		ArrayList<String> shadingColors;
 		ArrayList<Float> stops;
 
 		// Any number of colors
 
-		public GraphicBuilder(GraphicType graphic, float xStart, float yStart) {
+		public GraphicBuilder(GraphicType graphic, float xStartPos, float yStartPos) {
 			shadingColors = new ArrayList<String>();
 			stops = new ArrayList<Float>();
 			xCoordinates = new ArrayList<Float>();
 			yCoordinates = new ArrayList<Float>();
 
 			this.graphic = graphic;
-			this.xStart = xStart;
-			this.yStart = yStart;
+			this.xStartPos = xStartPos;
+			this.yStartPos = yStartPos;
 		}
 
 		public GraphicBuilder graphicColor(String graphicColor) {
@@ -143,13 +262,13 @@ public class Graphic {
 			return this;
 		}
 
-		public GraphicBuilder xEnd(Float xEnd) {
-			this.xEnd = xEnd;
+		public GraphicBuilder xEnd(Float xEndPos) {
+			this.xEndPos = xEndPos;
 			return this;
 		}
 
-		public GraphicBuilder yEnd(Float yEnd) {
-			this.yEnd = yEnd;
+		public GraphicBuilder yEnd(Float yEndPos) {
+			this.yEndPos = yEndPos;
 			return this;
 		}
 
@@ -172,14 +291,19 @@ public class Graphic {
 			this.rotation = rotation;
 			return this;
 		}
-
-		public GraphicBuilder arcwidth(float arcwidth) {
-			this.arcwidth = arcwidth;
+		
+		public GraphicBuilder radius(float radius) {
+			this.radius = radius;
 			return this;
 		}
 
-		public GraphicBuilder archeight(float archeight) {
-			this.archeight = archeight;
+		public GraphicBuilder arcWidth(float arcWidth) {
+			this.arcWidth = arcWidth;
+			return this;
+		}
+
+		public GraphicBuilder arcHeight(float arcHeight) {
+			this.arcHeight = arcHeight;
 			return this;
 		}
 
@@ -224,8 +348,8 @@ public class Graphic {
 			return this;
 		}
 
-		public GraphicBuilder arcangle(float arcangle) {
-			this.arcangle = arcangle;
+		public GraphicBuilder arcAngle(float arcAngle) {
+			this.arcAngle = arcAngle;
 			return this;
 		}
 

@@ -3,6 +3,8 @@
  */
 package GUI;
 
+import java.util.ArrayList;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Group;
@@ -57,6 +59,114 @@ public class GraphicsHandler {
 
 		// TODO Auto-generated constructor stub
 		this.group = group;
+	}
+
+	public void drawShape(Graphic graphic) {
+		GraphicType graphicType = graphic.getGraphic();
+		float xStartPos = graphic.getxStartPos();
+		float yStartPos = graphic.getyStartPos();
+		String graphicColor = graphic.getGraphicColor();
+		float xEndPos = graphic.getxEndPos();
+		float yEndPos = graphic.getyEndPos();
+		boolean solid = graphic.isSolid();
+		String outlineColor = graphic.getOutlineColor();
+		double outlineThickness = graphic.getOutlineThickness();
+		float rotation = graphic.getRotation();
+		float radius = graphic.getRadius();
+		float arcWidth = graphic.getArcWidth();
+		float arcHeight = graphic.getArcHeight();
+		float size = graphic.getSize();
+		float width = graphic.getWidth();
+		float height = graphic.getHeight();
+		int numberOfSides = graphic.getNumberOfSides();
+		int numberOfPoints = graphic.getNumberOfPoints();
+		float x1 = graphic.getX1();
+		float x2 = graphic.getX2();
+		float x3 = graphic.getX3();
+		float y1 = graphic.getY1();
+		float y2 = graphic.getY2();
+		float y3 = graphic.getY3();
+		ArrayList<Float> xCoordinates = graphic.getxCoordinates();
+		ArrayList<Float> yCoordinates = graphic.getyCoordinates();
+		float arcAngle = graphic.getArcAngle();
+		float length = graphic.getLength();
+		Shadow shadowType = graphic.getShadow();
+		Shading shadingType = graphic.getShadingType();
+		String[] shadingColors = graphic.getShadingColors().toArray(new String[graphic.getShadingColors().size()]);
+		ArrayList<Float> stops = graphic.getStops();
+
+		switch (graphicType) {
+		case ARC:
+			// TODO center
+			float centerX = xStartPos;
+			float centerY = yStartPos;
+			drawArc(centerX, centerY, width, height, arcAngle, length, graphicColor, solid, outlineColor,
+					outlineThickness, shadowType, rotation, shadingType, shadingColors);
+			break;
+		case ARROW:
+			drawArrow(xStartPos, yStartPos, xEndPos, yEndPos, graphicColor, shadingType, shadingColors);
+			break;
+		case CHORD:
+			// TODO center
+			float centerX1 = xStartPos;
+			float centerY1 = yStartPos;
+			drawChord(centerX1, centerY1, width, height, arcAngle, length, graphicColor, solid, outlineColor,
+					outlineThickness, shadowType, rotation, shadingType, shadingColors);
+			break;
+		case CIRCLE:
+			drawCircle(xStartPos, yStartPos, radius, graphicColor, solid, outlineColor, outlineThickness, shadowType,
+					shadingType, shadingColors);
+			break;
+		case EQUITRIANGLE:
+			drawEquiTriangle(xStartPos, yStartPos, length, graphicColor, solid, outlineColor, outlineThickness,
+					shadowType, rotation, shadingType, shadingColors);
+			break;
+		case LINE:
+			drawLine(xStartPos, yStartPos, xEndPos, yEndPos, graphicColor, outlineThickness, shadingType, shadingColors);
+			break;
+		case OVAL:
+			drawOval(xStartPos, yStartPos, xEndPos, yEndPos, graphicColor, solid, outlineColor, outlineThickness,
+					shadowType, rotation, shadingType, shadingColors);
+			break;
+		case POLYGON:
+			Double []combinedCoordinates;
+			combinedCoordinates= new Double[xCoordinates.size()*2];
+			for (int i = 0; i < xCoordinates.size(); i++) {
+				combinedCoordinates[i*2] = Double.valueOf(xCoordinates.get(i));
+				combinedCoordinates[i*2+1] = Double.valueOf(yCoordinates.get(i));
+			}
+			
+			drawPolygon(combinedCoordinates, xStartPos, yStartPos, graphicColor, solid, outlineColor, outlineThickness, shadowType, rotation,
+					shadingType, shadingColors);
+			break;
+		case RECTANGLE:
+			drawRectangle(xStartPos, yStartPos, xEndPos, yEndPos, arcWidth, arcHeight, graphicColor, solid,
+					outlineColor, outlineThickness, shadowType, rotation, shadingType, shadingColors);
+			break;
+		case REGULARPOLYGON:
+			drawRegularPolygon(xStartPos, yStartPos, width, height, numberOfSides, graphicColor, solid, outlineColor,
+					outlineThickness, shadowType, rotation, shadingType, shadingColors);
+			break;
+		case SQUARE:
+			drawSquare(xStartPos, yStartPos, length, graphicColor, solid, outlineColor, outlineThickness, shadowType,
+					rotation, shadingType, shadingColors);
+			break;
+		case STAR:
+			// TODO mid
+			double midX = xStartPos;
+			double midY = yStartPos;
+			drawStar(midX, midY, numberOfPoints, size, graphicColor, solid, outlineColor, outlineThickness, shadowType,
+					rotation, shadingType, shadingColors);
+			break;
+		case TRIANGLE:
+			drawTriangle(x1, y1, x2, y2, x3, y3, graphicColor, solid, outlineColor, outlineThickness, shadowType,
+					rotation, shadingType, shadingColors);
+			break;
+		default:
+			break;
+
+		}
+
 	}
 
 	/**
@@ -602,7 +712,7 @@ public class GraphicsHandler {
 	 *            varargs of type Color that contains all of the shapes shaded
 	 *            colors.
 	 */
-	public void drawRegularPolygon(double xPos, double yPos, float width, float height, int numberOfSides,
+	public void drawRegularPolygon(double xStartPos, double yStartPos, float width, float height, int numberOfSides,
 			String regPolColor, boolean solid, String outlineColor, double outlineThickness, Shadow shadowType,
 			float rotation, Shading shadingType, String... shadingColors) {
 		Polygon regPolygon = new Polygon();
@@ -612,8 +722,8 @@ public class GraphicsHandler {
 		double z;
 		for (int i = 0; i < numberOfSides; i++) {
 			z = ((i * 2 * Math.PI) / numberOfSides);
-			regPolygon.getPoints().add(((double) Math.round((xPos + (radius) * Math.sin(z)) + (radius))));
-			regPolygon.getPoints().add(((double) Math.round((yPos + (-radius) * Math.cos(z)) + (radius))));
+			regPolygon.getPoints().add(((double) Math.round((xStartPos + (radius) * Math.sin(z)) + (radius))));
+			regPolygon.getPoints().add(((double) Math.round((yStartPos + (-radius) * Math.cos(z)) + (radius))));
 
 		}
 		regPolygon.setRotate(rotation);

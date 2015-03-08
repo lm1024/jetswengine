@@ -52,8 +52,10 @@ public class DummyGUI extends Application {
 		/*ImageHandler thisImageHandler = new ImageHandler(group);
 		thisImageHandler.drawImage(1100, 200, "file:me.png", 0.4, 0.4, 0, false, false, 0, 0, 0, 0,
 				ImageEffect.REFLECTION, ImageEffect.SEPIA);*/
-
+		
 		GraphicsHandler thisGraphicsHandler = new GraphicsHandler(group);
+		
+		thisGraphicsHandler.drawShape(new Graphic.GraphicBuilder(GraphicType.RECTANGLE, 100, 100).build());
 
 		/*thisGraphicsHandler.drawOval(100f, 100f, 150f, 150f, "#ffff0000", true, "#ff0000ff", 1, Shadow.HEAVY, 0,
 				Shading.CYCLIC, "#ffff00ff", "#ff00ffff", "#ffffffff", "#ff000000");
