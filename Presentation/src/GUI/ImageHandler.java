@@ -30,22 +30,23 @@ public class ImageHandler {
 		this.group = group;
 	}
 
-	public void drawImage(ImageBuilder builder) {
-		float xPos = builder.xPos;
-		float yPos = builder.yPos;
-		String filepath = builder.filepath; 
-		double scaleX = builder.scaleX;
-		double scaleY = builder.scaleY; 
-		float rotation = builder.rotation;
-		boolean vFlip = builder.vFlip; 
-		boolean hFlip = builder.hFlip; 
-		double cropLeft = builder.cropLeft; 
-		double cropRight = builder.cropRight; 
-		double cropDown = builder.cropDown; 
-		double cropUp = builder.cropUp;
-		ArrayList<ImageEffect> imageEffects;
-	
-		drawImage(xPos, yPos, filepath, scaleX, scaleY, rotation, vFlip, hFlip, cropLeft, cropRight, cropDown, cropUp);
+	public void drawImage(SlideshowImage image) {
+		float xPos = image.getxPos();
+		float yPos = image.getyPos();
+		String filepath = image.getFilepath();
+		double scaleX = image.getScaleX();
+		double scaleY = image.getScaleY();
+		float rotation = image.getRotation();
+		boolean vFlip = image.isvFlip();
+		boolean hFlip = image.ishFlip();
+		double cropLeft = image.getCropLeft();
+		double cropRight = image.getCropRight();
+		double cropDown = image.getCropDown();
+		double cropUp = image.getCropUp();
+		ImageEffectsList imageEffects = image.getImageEffects();
+		//System.out.println(imageEffects.getList());
+		drawImage(xPos, yPos, filepath, scaleX, scaleY, rotation, vFlip, hFlip, cropLeft, cropRight, cropDown, cropUp,
+				imageEffects.getList());
 	}
 
 	/**
@@ -84,7 +85,7 @@ public class ImageHandler {
 	 */
 	private void drawImage(float xPos, float yPos, String filepath, double scaleX, double scaleY, float rotation,
 			boolean vFlip, boolean hFlip, double cropLeft, double cropRight, double cropDown, double cropUp,
-			ImageEffect... imageEffects) {
+			ArrayList<ImageEffect> imageEffects) {
 		/* Create image variable */
 		Image image;
 		try {
@@ -198,78 +199,5 @@ public class ImageHandler {
 
 		/* Add the imageview to the group */
 		group.getChildren().add(imageView);
-	}
-
-	public static class ImageBuilder {
-		private final String filepath;
-		private final float xPos;
-		private final float yPos;
-		
-		private double scaleX;
-		private double scaleY;
-		private float rotation;
-		private boolean vFlip;
-		private boolean hFlip;
-		private double cropLeft;
-		private double cropRight;
-		private double cropDown;
-		private double cropUp;
-		
-		private ArrayList<ImageEffect> imageEffects;
-
-		public ImageBuilder(String filepath, float xPos, float yPos) {
-			this.filepath = filepath;
-			this.xPos = xPos;
-			this.yPos = yPos;
-		}
-		
-		public ImageBuilder scaleX(double scaleX) {
-			this.scaleX = scaleX;
-			return this;
-		}
-		
-		public ImageBuilder scaleY(double scaleY) {
-			this.scaleY = scaleY;
-			return this;
-		}
-		
-		public ImageBuilder rotation(float rotation) {
-			this.rotation = rotation;
-			return this;
-		}
-		
-		public ImageBuilder vFlip(boolean vFlip) {
-			this.vFlip = vFlip;
-			return this;
-		}
-		
-		public ImageBuilder hFlip(boolean hFlip) {
-			this.hFlip = hFlip;
-			return this;
-		}
-		
-		public ImageBuilder cropLeft(double cropLeft) {
-			this.cropLeft = cropLeft;
-			return this;
-		}
-		
-		public ImageBuilder cropRight(double cropRight) {
-			this.cropRight = cropRight;
-			return this;
-		}
-		
-		public ImageBuilder cropDown(double cropDown) {
-			this.cropDown = cropDown;
-			return this;
-		}
-		
-		public ImageBuilder cropUp(double cropUp) {
-			this.cropUp = cropUp;
-			return this;
-		}
-				
-		public void build() {
-			drawImage(this);
-		}
 	}
 }
