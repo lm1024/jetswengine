@@ -69,7 +69,6 @@ public class TextFragmentHandler extends DefaultHandler {
 		}
 		if (elementName.equals("richtext")) {
 			if (contentBuffer.toString().trim().contains("\\n")) {
-				System.out.println(contentBuffer.toString().trim());
 				TextFragment temp;
 				String strings[] = contentBuffer.toString().trim().split(Pattern.quote("\\n"));
 				for (int i = 0; i < strings.length - 1; i++) {

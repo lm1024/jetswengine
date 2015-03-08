@@ -70,7 +70,7 @@ public class ImageHandler extends DefaultHandler {
 		}
 
 		if (elementName.equals("image")) {
-			slide.addImage(image);
+			slide.add(image);
 			reader.setContentHandler(parentHandler);
 		} else {
 			System.err.println("Unknown element found");

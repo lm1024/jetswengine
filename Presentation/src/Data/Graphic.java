@@ -41,7 +41,7 @@ public class Graphic extends SlideItem {
 			((Line) g).setYEnd(hashMap.get("yend"));
 			break;
 		default:
-			System.out.println("Unknown graphic. Returning Null");
+			System.out.println("Unknown graphic: " + hashMap.get("type") + ". Returning Null");
 			return null;
 
 		}

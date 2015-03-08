@@ -31,7 +31,7 @@
 		</text>
 		
 		<!-- Our Text --> <!-- Removed the set case, moved alignment to text level -->
-		<text xstart="0.1" ystart="0.1" xend="0.9" xend="0.9" font="arial" fontsize="24" fontcolor="#00112233" alignment="left" duration="1.5" starttime="2.0" backgroundcolor="#12345678" highlightcolor="#87654321">
+		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.9" font="arial" fontsize="24" fontcolor="#00112233" alignment="left" duration="1.5" starttime="2.0" backgroundcolor="#12345678" highlightcolor="#87654321">
 			<richtext font="arial" fontsize="26" fontcolor="#11223344" highlightcolor="#00000000" newline="true" b="true" i="true" u="true" strikethrough="true" superscript="true" subscript="true" >Example text!</richtext>
 			<richtext font="arial" fontsize="26" fontcolor="#11223344" highlightcolor="#00000000" newline="true" b="true" i="true" u="true" strikethrough="true" superscript="true" subscript="true" >Example \n text!</richtext>
 			<richtext font="arial" fontsize="26" fontcolor="#11223344" highlightcolor="#00000000" newline="true" b="true" i="true" u="true" strikethrough="true" superscript="true" subscript="true" >Example text!</richtext>

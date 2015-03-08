@@ -12,7 +12,7 @@ public class Defaults {
 	private String graphicColor = "#FF000000";
 	private String highlightColor = "#FFFF0000";
 	private float startTime = 0;
-	private float duration = 10;
+	private float duration = Float.MAX_VALUE;
 	private String alignment = "left";
 	private float scale = 1;
 	private int rotation = 0;
@@ -20,6 +20,7 @@ public class Defaults {
 	private float cropY1 = 0;
 	private float cropX2 = 1;
 	private float cropY2 = 1;
+	private boolean shapeSolidity = true;
 
 	public Defaults() {
 
@@ -187,9 +188,8 @@ public class Defaults {
 	 *            the duration to set
 	 */
 	public void setDuration(String string) {
-		System.out.println(string);
 		try {
-			if (string.equals("Float.MAX_VALUE")) {
+			if (string.toLowerCase().matches("float.max_value|infinite")) {
 				this.duration = Float.MAX_VALUE;
 			} else {
 				float f = Float.parseFloat(string);
@@ -349,5 +349,19 @@ public class Defaults {
 		} catch (Exception e) {
 			/* Do Nothing */
 		}
+	}
+
+	/**
+	 * @return the shapeSolidity
+	 */
+	public boolean getShapeSolidity() {
+		return shapeSolidity;
+	}
+
+	/**
+	 * @param string the shapeSolidity to set
+	 */
+	public void setShapeSolidity(String string) {
+		this.shapeSolidity = Boolean.parseBoolean(string);
 	}
 }

@@ -73,7 +73,6 @@ public class DefaultSettingsHandler extends DefaultHandler {
 			defaults.setStartTime(contentBuffer.toString().trim());
 			break;
 		case "duration":
-			System.out.println(contentBuffer.toString().trim());
 			defaults.setDuration(contentBuffer.toString().trim());
 			break;
 		case "alignment":

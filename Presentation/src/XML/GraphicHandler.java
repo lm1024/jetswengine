@@ -42,7 +42,7 @@ public class GraphicHandler extends DefaultHandler {
 		if ("".equals(elementName)) {
 			elementName = qName;
 		}
-		currentObject.put("type", elementName.equals("cyclicshading") ? currentObject.get("type") : elementName);
+		currentObject.put("type", Utils.validShape(elementName) ? elementName : currentObject.get("type"));
 		Utils.parse(currentObject, attributes, "type", "xstart", "ystart",
 				"yend", "xend", "solid", "graphiccolor", "duration",
 				"sourcefile", "starttime");
@@ -56,7 +56,8 @@ public class GraphicHandler extends DefaultHandler {
 			elementName = qName;
 		}
 		if (elementName.equals("graphic")) {
-			slide.addGraphic(Graphic.makeGraphic(currentObject,parentHandler.getDefaults()));
+			System.out.println(currentObject.get("type"));
+			slide.add(Graphic.makeGraphic(currentObject,parentHandler.getDefaults()));
 			reader.setContentHandler(parentHandler);
 		}
 	}

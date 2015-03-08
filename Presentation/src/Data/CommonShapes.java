@@ -4,13 +4,14 @@ import utils.Utils;
 
 public class CommonShapes extends Graphic {
 
-	public CommonShapes(Defaults defaults) {
-		super(defaults);
-	}
-
 	private float xEnd;
 	private float yEnd;
 	private boolean solid;
+
+	public CommonShapes(Defaults defaults) {
+		super(defaults);
+		this.solid = defaults.getShapeSolidity();
+	}
 
 	@Override
 	public void printItem() {

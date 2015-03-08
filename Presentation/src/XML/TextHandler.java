@@ -80,7 +80,7 @@ public class TextHandler extends DefaultHandler {
 				tf.setText(contentBuffer.toString().trim());
 				text.addTextFragment(tf);
 			}
-			slide.addText(text);
+			slide.add(text);
 			reader.setContentHandler(parentHandler);
 		} else {
 			System.err.println("Unknown Text end element encountered: " + elementName);

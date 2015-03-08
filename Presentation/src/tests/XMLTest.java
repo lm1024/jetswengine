@@ -74,59 +74,24 @@ public class XMLTest {
 	
 	@Test
 	public void testSlideshowSlidesListCorrectSize() {
-		assertTrue(currentSlideshow.getSlides().size() == 2);
+		assertTrue(currentSlideshow.getSlides().size() == 1);
 	}
 	
 	@Test
-	public void testSlideshowSlideOneContainsAllLists() {
-		assertTrue(currentSlideshow.getSlides().get(0).getAudiosList() != null);
-		assertTrue(currentSlideshow.getSlides().get(0).getVideosList() != null);
-		assertTrue(currentSlideshow.getSlides().get(0).getImagesList() != null);
-		assertTrue(currentSlideshow.getSlides().get(0).getGraphicsList() != null);
-		assertTrue(currentSlideshow.getSlides().get(0).getTextList() != null);
+	public void testSlideshowSlideOneContainsList() {
+		assertTrue(currentSlideshow.getSlides().get(0).getAll() != null);
 	}
-	
+
 	@Test
-	public void testSlideshowSlideTwoContainsAllLists() {
-		assertTrue(currentSlideshow.getSlides().get(1).getAudiosList() != null);
-		assertTrue(currentSlideshow.getSlides().get(1).getVideosList() != null);
-		assertTrue(currentSlideshow.getSlides().get(1).getImagesList() != null);
-		assertTrue(currentSlideshow.getSlides().get(1).getGraphicsList() != null);
-		assertTrue(currentSlideshow.getSlides().get(1).getTextList() != null);
-	}
-	
-	@Test
-	public void testSlideOneTextListCorrectSize() {
-		assertTrue(currentSlideshow.getSlides().get(1).getTextList().size() == 3);
-	}
-	
-	@Test
-	public void testSlideOneGraphicsListCorrectSize() {
-		assertTrue(currentSlideshow.getSlides().get(1).getGraphicsList().size() == 6);
-	}
-	
-	@Test
-	public void testSlideOneImagesListCorrectSize() {
-		assertTrue(currentSlideshow.getSlides().get(1).getImagesList().size() == 2);
-	}
-	
-	@Test
-	public void testSlideOneAudiosListCorrectSize() {
-		assertTrue(currentSlideshow.getSlides().get(1).getAudiosList().size() == 1);
-	}
-	
-	@Test
-	public void testSlideOneVideosListCorrectSize() {
-		assertTrue(currentSlideshow.getSlides().get(1).getVideosList().size() == 1);
+	public void testSlideOneListCorrectSize() {
+		assertTrue(currentSlideshow.getSlides().get(0).getAll().size() == 13);
 	}
 	
 	@Test
 	public void testSlideOneTextOne() {
-		Text text = currentSlideshow.getSlides().get(1).getTextList().get(0);
-		System.out.println(" HAHAHSHSA " + currentSlideshow.getSlide(1).getImage(1).getSourceFile());
-		assertTrue(text.getAlignment().equals("none"));
+		Text text = (Text)currentSlideshow.getSlides().get(0).get(0);
+		assertTrue(text.getAlignment().equals("left"));
 		/* Needs Finishing */
-		assertTrue(currentSlideshow.getSlide(1).getImage(1).getSourceFile() != null);
 	}
 
 }
