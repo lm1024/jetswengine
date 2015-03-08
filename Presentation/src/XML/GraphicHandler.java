@@ -55,10 +55,13 @@ public class GraphicHandler extends DefaultHandler {
 					attributes);
 			break;
 		case "cyclicshading":
-			break;
+			/* Intentional fall through */
 		case "horizontalshading":
-			break;
+			/* Intentional fall through */
 		case "verticalshading":
+			reader.setContentHandler(new ShadingHandler(reader, this, graphic));
+			reader.getContentHandler().startElement(uri, localName, qName,
+					attributes);
 			break;
 		case "oval":
 		case "rectangle":
