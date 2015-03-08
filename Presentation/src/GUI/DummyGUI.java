@@ -49,13 +49,13 @@ public class DummyGUI extends Application {
 		// primaryStage.setFullScreen(true);
 
 		/* Calls to add items to screen */
-		ImageHandler thisImageHandler = new ImageHandler(group);
+		/*ImageHandler thisImageHandler = new ImageHandler(group);
 		thisImageHandler.drawImage(1100, 200, "file:me.png", 0.4, 0.4, 0, false, false, 0, 0, 0, 0,
-				ImageEffect.REFLECTION, ImageEffect.SEPIA);
+				ImageEffect.REFLECTION, ImageEffect.SEPIA);*/
 
 		GraphicsHandler thisGraphicsHandler = new GraphicsHandler(group);
 
-		thisGraphicsHandler.drawOval(100f, 100f, 150f, 150f, "#ffff0000", true, "#ff0000ff", 1, Shadow.HEAVY, 0,
+		/*thisGraphicsHandler.drawOval(100f, 100f, 150f, 150f, "#ffff0000", true, "#ff0000ff", 1, Shadow.HEAVY, 0,
 				Shading.CYCLIC, "#ffff00ff", "#ff00ffff", "#ffffffff", "#ff000000");
 
 		thisGraphicsHandler.drawCircle(200f, 100f, 25f, "#ffff0000", true, "#ff0000ff", 1.0, Shadow.NONE, Shading.NONE,
@@ -119,7 +119,7 @@ public class DummyGUI extends Application {
 		thisGraphicsHandler.drawPieChart(1700, 500, 1, "Pacman", dataNames2, dataValues2);
 		
 		VideoHandler thisVideoHandler = new VideoHandler(group);
-		thisVideoHandler.createVideo(50, 700, 400, "M:/Sweng/avengers-featurehp.mp4", true, true);
+		thisVideoHandler.createVideo(50, 700, 400, "M:/Sweng/avengers-featurehp.mp4", true, true);*/
 		
 		primaryStage.show();
 	}
