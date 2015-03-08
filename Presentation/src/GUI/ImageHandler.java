@@ -12,6 +12,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.image.PixelReader;
+import javax.swing.JOptionPane;
 
 /**
  * Class for handling images on a JavaFX group.
@@ -64,22 +65,39 @@ public class ImageHandler {
 			boolean vFlip, boolean hFlip, double cropLeft, double cropRight, double cropDown, double cropUp,
 			ImageEffect... imageEffects) {
 		/* Create image variable */
-		Image image = new Image(filepath);
+		Image image;
+		try {
+			/* Attempt to load image. (Takes a while... should be preloaded) */
+			image = new Image(filepath);
+		}
+		/* Exception handling for simple URL/Image type errors */
+		catch (IllegalArgumentException WrongURL) {
+			/* Display an error message to the user */
+			String errorMessage = "Could not locate/open image file at " + filepath;
+			JOptionPane.showMessageDialog(null, errorMessage, "ERROR", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
 		ImageView imageView = new ImageView();
+
 		/* Get height and width of image */
 		double imageWidth = image.getWidth();
 		double imageHeight = image.getHeight();
+
 		/* Define coordinates for cropping the image */
 		int xStart = (int) cropLeft;
 		int yStart = (int) cropDown;
 		int cropWidth = (int) (imageWidth - cropRight - cropLeft - 1);
 		int cropHeight = (int) (imageHeight - cropUp - cropDown - 1);
+
 		/* Define a pixel reader of the image so that it can be cropped */
 		PixelReader reader = image.getPixelReader();
+
 		/* Make a new cropped image using the coordinates calculated */
 		WritableImage croppedImage = new WritableImage(reader, xStart, yStart, cropWidth, cropHeight);
+
 		/* Assign the image to be the new cropped image */
 		image = croppedImage;
+
 		/* Flip image vertically and horizontally if required */
 		if (vFlip) {
 			scaleY *= -1;
@@ -87,17 +105,21 @@ public class ImageHandler {
 		if (hFlip) {
 			scaleX *= -1;
 		}
+
 		/* Set rotation and horizontal and vertical scale of image */
 		imageView.setRotate(rotation);
 		imageView.setScaleX(scaleX);
 		imageView.setScaleY(scaleY);
+
 		/* Get the new dimensions of the cropped image */
 		imageWidth = image.getWidth();
 		imageHeight = image.getHeight();
+
 		/* Move the image to a new position */
 		double newXPos = xPos - (imageWidth - imageWidth * scaleX) / 2;
 		double newYPos = yPos - (imageHeight - imageHeight * scaleY) / 2;
 		imageView.relocate(newXPos, newYPos);
+
 		/* Set the imageview to show the cropped image */
 		imageView.setImage(image);
 		/*
@@ -152,6 +174,7 @@ public class ImageHandler {
 			}
 			imageView.setEffect(bottomEffect);
 		}
+
 		/* Add the imageview to the group */
 		group.getChildren().add(imageView);
 	}
