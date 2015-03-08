@@ -58,7 +58,44 @@ public class TextHandler {
 	 */
 	public TextHandler(Group group) {
 		this.group = group;
-		WebView initialWebViewInstantiation = new WebView(); //TODO 
+		WebView initialWebViewInstantiation = new WebView(); // TODO
+	}
+
+	public void drawTextTest(TextBox textBox) {
+		for (TextFragment currentFragment : textBox.getStringBuffer()) {
+			String string = currentFragment.getText();
+			String fontName = currentFragment.getFont();
+			double fontSize = currentFragment.getFontSize();
+			String fontColor = currentFragment.getFontColor();
+			String highlightColor = currentFragment.getHighlightColor();
+			boolean newLine = currentFragment.endsWithNewline();
+
+			ArrayList<TextAttribute> textAttributes = new ArrayList<TextAttribute>();
+			if (currentFragment.isBold())
+				textAttributes.add(TextAttribute.BOLD);
+			if (currentFragment.isItalicised())
+				textAttributes.add(TextAttribute.ITALIC);
+			if (currentFragment.isUnderlined())
+				textAttributes.add(TextAttribute.UNDERLINE);
+			if (currentFragment.isSubscript())
+				textAttributes.add(TextAttribute.SUBSCRIPT);
+			if (currentFragment.isSuperscript())
+				textAttributes.add(TextAttribute.SUPERSCRIPT);
+			if (currentFragment.isStrikethrough())
+				textAttributes.add(TextAttribute.STRIKETHROUGH);
+
+			addStringToBuffer(string, fontName, (int) fontSize, fontColor, highlightColor, newLine,
+					textAttributes.toArray(new TextAttribute[textAttributes.size()]));
+		}
+
+		int xStartPos = textBox.getXStart();
+		int yStartPos = textBox.getYStart();
+		int xEndPos = textBox.getXEnd();
+		int yEndPos = textBox.getYEnd();
+		String backgroundColor = textBox.getBackgroundColor();
+		Alignment alignment = textBox.getAlignment();
+
+		drawBuffer(xStartPos, yStartPos, xEndPos, yEndPos, backgroundColor, alignment);
 	}
 
 	/**
@@ -90,9 +127,8 @@ public class TextHandler {
 	public void addStringToBuffer(String string, String fontName, int fontSize, String fontColor,
 			String highlightColor, boolean newLine, TextAttribute... TextAttributes) {
 		TextFragment currentString = new TextFragment(new Defaults());
-		
+
 		currentString.setText(string);
-		
 
 		/* Set all parameters that do not require error checking */
 		for (TextAttribute currentAttribute : TextAttributes) {
@@ -117,7 +153,7 @@ public class TextHandler {
 				break;
 			}
 		}
-		
+
 		currentString.setNewline(newLine);
 
 		/* Error checking for fontName */
@@ -183,7 +219,7 @@ public class TextHandler {
 	 * */
 	public void drawBuffer(int xStartPos, int yStartPos, int xEndPos, int yEndPos, String backgroundColor,
 			Alignment alignment) {
-		
+
 		/* Swaps around coordinates if incorrectly passed in */
 		if (xStartPos > xEndPos) {
 			int temp = xStartPos;
@@ -205,7 +241,7 @@ public class TextHandler {
 		}
 		/* Instantiate the WebView that will be used to display the text */
 		WebView webView = new WebView();
-		
+
 		/* Set starting position and width of the panel */
 		webView.relocate(xStartPos, yStartPos);
 		webView.setPrefWidth(xEndPos - xStartPos);
@@ -341,7 +377,7 @@ public class TextHandler {
 		drawBuffer(xStartPos, yStartPos, (int) primaryScreenBounds.getWidth() - xStartPos,
 				(int) primaryScreenBounds.getHeight() - yStartPos, "#00000000", Alignment.LEFT);
 	}
-	
+
 	/**
 	 * Formats a HTML string in order to display a rich text box full with the
 	 * fragments from the buffer.
@@ -477,8 +513,8 @@ public class TextHandler {
 
 			/* Add a new line tag if required */
 			if (currentString.endsWithNewline())
-				postBodyAttributes = postBodyAttributes + "<br>"; 
-			
+				postBodyAttributes = postBodyAttributes + "<br>";
+
 			/*
 			 * Replaces the < character with the html expression for a <
 			 * character, "%lt". This is to prevent html tags within the entered
