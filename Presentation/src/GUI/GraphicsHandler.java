@@ -69,6 +69,7 @@ public class GraphicsHandler {
 		float xEndPos = graphic.getxEndPos();
 		float yEndPos = graphic.getyEndPos();
 		boolean solid = graphic.isSolid();
+		System.out.println(solid);
 		String outlineColor = graphic.getOutlineColor();
 		double outlineThickness = graphic.getOutlineThickness();
 		float rotation = graphic.getRotation();
@@ -199,7 +200,7 @@ public class GraphicsHandler {
 		/* Set the outline parameters */
 		shape.setStroke(convertStringToColor(outlineColor));
 		shape.setStrokeWidth(outlineThickness);
-
+		
 		if (solid) {
 			Stop[] stops = null;
 			/* Code to generate stops for if a shading type is to be used. */
@@ -242,6 +243,9 @@ public class GraphicsHandler {
 				shape.setFill(convertStringToColor(shapeColor));
 				break;
 			}
+		}
+		else {
+			shape.setFill(Color.TRANSPARENT);
 		}
 
 		/* Switch for the different allowed types of shadow */
