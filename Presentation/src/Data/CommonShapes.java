@@ -85,9 +85,9 @@ public class CommonShapes extends Graphic {
 			super(defaults);
 		}
 	}
-
-	public class IsoscelesTriangle extends CommonShapes {
-		public IsoscelesTriangle(Defaults defaults) {
+	
+	public class Arrow extends CommonShapes {
+		public Arrow(Defaults defaults) {
 			super(defaults);
 		}
 	}

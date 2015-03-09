@@ -21,6 +21,7 @@ public class Defaults {
 	private float cropX2 = 1;
 	private float cropY2 = 1;
 	private boolean shapeSolidity = true;
+	private float stopValue = 0.5f;
 
 	public Defaults() {
 
@@ -363,5 +364,27 @@ public class Defaults {
 	 */
 	public void setShapeSolidity(String string) {
 		this.shapeSolidity = Boolean.parseBoolean(string);
+	}
+
+	/**
+	 * @return the stopValue
+	 */
+	public float getStopValue() {
+		return stopValue;
+	}
+	
+	/**
+	 * @param cropX1
+	 *            the cropX1 to set
+	 */
+	public void setStopValue(String string) {
+		try {
+			float f = Float.parseFloat(string);
+			if (Utils.withinRangeInclusive(0, 1, f)) {
+				this.stopValue = f;
+			}
+		} catch (Exception e) {
+			/* Do Nothing */
+		}
 	}
 }

@@ -4,6 +4,7 @@
 package XML;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -11,7 +12,10 @@ import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 
 import utils.Utils;
+import Data.Defaults;
 import Data.Graphic;
+import Data.OtherShapes.Polygon;
+import Data.OtherShapes.Triangle;
 import Data.Slide;
 
 /**
@@ -24,16 +28,22 @@ public class GraphicHandler extends DefaultHandler {
 	private XMLReader reader;
 	private SlideHandler parentHandler;
 	private Graphic graphic;
-	private HashMap<String,String> currentObject = new HashMap<String,String>();
+	private HashMap<String, String> currentObject = new HashMap<String, String>();
+	private List<Float> xPoints;
+	private List<Float> yPoints;
 
 	/**
 	 * 
 	 */
-	public GraphicHandler(XMLReader reader, SlideHandler parent,
-			Slide slide) {
+	public GraphicHandler(XMLReader reader, SlideHandler parent, Slide slide) {
 		this.parentHandler = parent;
 		this.slide = slide;
 		this.reader = reader;
+		this.graphic = new Graphic(getDefaults());
+	}
+
+	public Defaults getDefaults() {
+		return parentHandler.getDefaults();
 	}
 
 	public void startElement(String uri, String localName, String qName,
@@ -43,11 +53,13 @@ public class GraphicHandler extends DefaultHandler {
 		if ("".equals(elementName)) {
 			elementName = qName;
 		}
-		switch(elementName) {
+		switch (elementName) {
 		case "graphic":
 			Utils.parse(currentObject, attributes, "type", "xstart", "ystart",
 					"yend", "xend", "solid", "graphiccolor", "duration",
-					"sourcefile", "starttime");
+					"starttime", "outlinecolor", "outlinethickness", "size",
+					"radius", "numberofsides", "numberofpoints", "length",
+					"arcangle");
 			break;
 		case "shadow":
 			reader.setContentHandler(new ShadowHandler(reader, this, graphic));
@@ -76,16 +88,16 @@ public class GraphicHandler extends DefaultHandler {
 		case "star":
 		case "chord":
 		case "arc":
-			Utils.parse(currentObject, attributes, "xstart", "ystart",
+			Utils.parse(currentObject, attributes, "type", "xstart", "ystart",
 					"yend", "xend", "solid", "graphiccolor", "duration",
-					"sourcefile", "starttime");
+					"starttime", "outlinecolor", "outlinethickness", "size",
+					"radius", "numberofsides", "numberofpoints", "length",
+					"arcangle");
 			currentObject.put("type", elementName);
 			break;
-			
-			
-			
 		}
-		currentObject.put("type", Utils.validShape(elementName) ? elementName : currentObject.get("type"));
+		currentObject.put("type", Utils.validShape(elementName) ? elementName
+				: currentObject.get("type"));
 	}
 
 	public void endElement(String uri, String localName, String qName)
@@ -97,8 +109,18 @@ public class GraphicHandler extends DefaultHandler {
 		}
 		if (elementName.equals("graphic")) {
 			System.out.println(currentObject.get("type"));
-			this.graphic = Graphic.makeGraphic(currentObject,parentHandler.getDefaults());
-			slide.add(graphic);
+			Graphic temp = Graphic.makeGraphic(currentObject, getDefaults());
+			temp.setShadingList(this.graphic.getShadingList());
+			temp.setShadingType(this.graphic.getShadingType());
+			temp.setShadow(this.graphic.getShadow());
+			if(temp.getClass().getSimpleName().equals("Triangle")) {
+				((Triangle)temp).setxPoints(xPoints);
+				((Triangle)temp).setyPoints(yPoints);
+			} else if(temp.getClass().getSimpleName().equals("Polygon")) {
+				((Polygon)temp).setxPoints(xPoints);
+				((Polygon)temp).setyPoints(yPoints);
+			}
+			slide.add(temp);
 			reader.setContentHandler(parentHandler);
 		}
 	}

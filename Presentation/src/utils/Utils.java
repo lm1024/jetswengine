@@ -19,19 +19,15 @@ public final class Utils {
 
 	}
 	
-	public static boolean parse(HashMap<String, String> hashMap,
+	public static void parse(HashMap<String, String> hashMap,
 			Attributes attributes, String... strings) {
-		boolean errors = false;
 		String temp;
 		for (String string : strings) {
 			temp = attributes.getValue(string);
 			if (temp != null) {
 				hashMap.put(string, temp);
-			} else {
-				errors = true;
 			}
 		}
-		return errors;
 	}
 
 	public static String capitaliseEachFirstLetter(String s) {
@@ -101,6 +97,15 @@ public final class Utils {
 	public static boolean validFont(String string) {
 		try {
 			return Font.getFontNames().contains(string);
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	
+	public static boolean validShadingType(String string) {
+		try {
+			System.out.println("Replace this util function with enum");
+			return string.toLowerCase().matches("cyclic|horizontal|vertical");
 		} catch (Exception e) {
 			return false;
 		}

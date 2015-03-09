@@ -30,7 +30,7 @@ public class ShadowHandler extends DefaultHandler {
 			graphic.setShadow(attributes.getValue("weight"));
 			reader.setContentHandler(parentHandler);
 		} else {
-			System.err.println("Unknown start element encountered: "
+			System.err.println("Unknown Shadow start element encountered: "
 					+ elementName);
 		}
 	}
