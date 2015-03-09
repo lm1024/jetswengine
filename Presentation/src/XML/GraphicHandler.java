@@ -108,7 +108,6 @@ public class GraphicHandler extends DefaultHandler {
 			elementName = qName;
 		}
 		if (elementName.equals("graphic")) {
-			System.out.println(currentObject.get("type"));
 			Graphic temp = Graphic.makeGraphic(currentObject, getDefaults());
 			temp.setShadingList(this.graphic.getShadingList());
 			temp.setShadingType(this.graphic.getShadingType());

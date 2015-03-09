@@ -18,7 +18,8 @@ public class ShadingHandler extends DefaultHandler {
 	private List<String> shadingList = new ArrayList<String>();
 	private List<Float> stopValuesList = new ArrayList<Float>();
 
-	public ShadingHandler(XMLReader reader, GraphicHandler parent, Graphic graphic) {
+	public ShadingHandler(XMLReader reader, GraphicHandler parent,
+			Graphic graphic) {
 		this.parentHandler = parent;
 		this.graphic = graphic;
 		this.reader = reader;
@@ -38,8 +39,8 @@ public class ShadingHandler extends DefaultHandler {
 		} else if (elementName.equals("horizontalshading")) {
 			graphic.setShadingType("horizontal");
 		} else if (elementName.equals("shading")) {
-			
-		}else {
+
+		} else {
 			System.err.println("Unknown start element encountered: "
 					+ elementName);
 		}
@@ -60,14 +61,16 @@ public class ShadingHandler extends DefaultHandler {
 		if ("".equals(elementName)) {
 			elementName = qName;
 		}
-		if (elementName.matches("cyclicshading|horizontalshading|verticalshading")) {
+		if (elementName
+				.matches("cyclicshading|horizontalshading|verticalshading")) {
 			graphic.setShadingList(shadingList);
 			graphic.setStopValuesList(stopValuesList);
 			reader.setContentHandler(parentHandler);
+		} else if (elementName.equals("shading")) {
+
 		} else {
-			System.err
-					.println("Unknown Shading end element encountered: "
-							+ elementName);
+			System.err.println("Unknown Shading end element encountered: "
+					+ elementName);
 		}
 	}
 }
