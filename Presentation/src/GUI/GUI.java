@@ -115,11 +115,14 @@ public class GUI extends Application {
 		/* Set the title of the window */
 		stageRef.setTitle("SmartSlides");
 		Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
-		stageRef.setWidth(primaryScreenBounds.getWidth());
-		stageRef.setHeight(primaryScreenBounds.getHeight());
+		//stageRef.setWidth(primaryScreenBounds.getWidth());
+		//stageRef.setHeight(primaryScreenBounds.getHeight());
+		stageRef.setWidth(900);
+		stageRef.setHeight(900);
 		
 		/* sets the scale required to scale the height with change in width*/
 		sizescale = primaryScreenBounds.getWidth()/primaryScreenBounds.getHeight();
+		sizescale = 900/900;
 
 		buildmain();
 
@@ -339,7 +342,7 @@ public class GUI extends Application {
 				3);
 
 		/* Product name in column 2-5, row 3 */
-		Label titleLabel = makeLabel("     SmartSlides", 50, "#33B5E5");
+		Label titleLabel = makeLabel("     SmartSlides", 0.04, "#33B5E5");
 		grid.add(titleLabel, 1, 2, 4, 1);
 
 		/* Create first button for Slide Preview and add in column 1, row 4 */
@@ -412,7 +415,7 @@ public class GUI extends Application {
 
 		/* Create gridpane in which to put objects */
 		GridPane settingsGrid = new GridPane();
-		
+		settingsGrid.setGridLinesVisible(true);
 		/* creates a stackpane to add the grid in for resizable option*/
 		StackPane settingsrootpane = new StackPane();
 		settingsrootpane.getChildren().add(settingsGrid);
@@ -435,14 +438,11 @@ public class GUI extends Application {
 		/* Wavemedia logo Home button */
 		Button homeBtn = makeButton("", "invisiButton", true, "home",
 				"file:WM_logo_transparent.png", 0.2);
-		settingsGrid.add(homeBtn, 0, 0);
+		settingsGrid.add(homeBtn, 0, 0, 1, 1);
 
-		/* Create a HBox to put title in */
-		HBox titleBox = makeHBox("clearBox", Pos.CENTER, 10);
-
-		/* Add Logo and Title to titleBox */
-		titleBox.getChildren().addAll(makeLabel("Settings", 50, "#33B5E5"));
-		settingsGrid.add(titleBox, 1, 0, 2, 1);
+		/*  Create settings page title */
+		Label titleLabel = makeLabel("     Settings", 0.04, "#33B5E5");
+		settingsGrid.add(titleLabel, 1, 0, 1, 1);
 
 		/*
 		 * Checkbox options:
@@ -454,16 +454,16 @@ public class GUI extends Application {
 
 		/* Vbox to contain check boses */
 		VBox vbox1 = makeVBox("clearBox", Pos.TOP_LEFT, 10);
-		vbox1.getChildren().addAll(makeLabel("Auto-Next:", 16, "#313131"), cb1,
+		vbox1.getChildren().addAll(makeLabel("Auto-Next:", 0.0125, "#313131"), cb1,
 				cb2);
-		settingsGrid.add(vbox1, 0, 2, 1, 2);
+		settingsGrid.add(vbox1, 0, 1, 1, 1);
 
 		/*
 		 * Back to main screen
 		 */
 		Button back = makeButton("Back", "lightButton", true, "home");
-		back.setPrefSize(100, 50);
-		settingsGrid.add(back, 0, 3);
+		back.setPrefSize(stageRef.getWidth()*0.08, stageRef.getWidth()*0.04);
+		settingsGrid.add(back, 0, 3, 1, 1);
 
 		/*
 		 * Username input
@@ -471,10 +471,12 @@ public class GUI extends Application {
 
 		/* Add user name submission */
 		VBox userBox = makeVBox("clearBox", Pos.TOP_CENTER, 5);// holding box
-
+		userBox.setPrefSize(stageRef.getWidth()*0.15, stageRef.getWidth()*0.1);
+		
 		/* Text field declared outside the main so can be accessed elsewhere */
 		userField.getStyleClass().add("textArea");
 		userField.setPromptText("Username");
+	
 
 		/* Add buttons and add to a box */
 		Button userSubmit = makeButton("Submit", "darkButton", true, "submit");
@@ -482,18 +484,20 @@ public class GUI extends Application {
 
 		/* Hbox for username Buttons */
 		HBox userButtons = makeHBox("clearBox", Pos.CENTER, 10);
+		//userButtons.setPrefSize(stageRef.getWidth()*0.2, stageRef.getWidth()*0.01);
 		userButtons.getChildren().addAll(userSubmit, userClr);
 
 		/* Add everything to the box */
-		userBox.getChildren().addAll(makeLabel("Username:", 16, "#313131"),
+		userBox.getChildren().addAll(makeLabel("Username:", 0.0125, "#313131"),
 				userField, userButtons);// add
 		// to
 		// box
-		settingsGrid.add(userBox, 1, 2);// add box to settingsGrid
+		settingsGrid.add(userBox, 1, 1, 1, 1);// add box to settingsGrid
 
 		/* VBox to put banned words title and text box in */
 		VBox bannedBox = makeVBox("clearBox", Pos.CENTER, 10);
-
+		bannedBox.setPrefSize(stageRef.getWidth()*0.2, stageRef.getWidth()*0.25);
+		
 		/* Editable text area for banned words */
 		/* Defined outside of main class */
 		ta.setPrefRowCount(12);
@@ -503,11 +507,12 @@ public class GUI extends Application {
 
 		/* Add items to banned words VBox */
 		bannedBox.getChildren().addAll(
-				makeLabel("Banned Words:", 16, "#313131"), ta);
-		settingsGrid.add(bannedBox, 2, 2);
+				makeLabel("Banned Words:", 0.0125, "#313131"), ta);
+		settingsGrid.add(bannedBox, 3, 1, 1, 2);
 
 		/* HBox to put buttons controlling banned words in */
 		HBox btnBox = makeHBox("clearBox", Pos.CENTER, 10);
+		btnBox.setPrefSize(stageRef.getWidth()*0.15, stageRef.getWidth()*0.1);
 
 		/* Save and Clear buttons */
 		Button clrBtn = makeButton("Clear", "darkButton", true, "clr");
@@ -517,7 +522,7 @@ public class GUI extends Application {
 		btnBox.getChildren().addAll(saveBtn, clrBtn);
 
 		/* Add box to the settingsGrid */
-		settingsGrid.add(btnBox, 2, 3);
+		settingsGrid.add(btnBox, 3, 3, 1, 1);
 		
 		/* set the settings grid and its contents to resize to the stage size*/
 		stageRef.maxHeightProperty().bind(settingsScene.widthProperty().divide(sizescale));
@@ -588,11 +593,11 @@ public class GUI extends Application {
 	 */
 
 	/** Utility function for adding labels **/
-	private Label makeLabel(String labelText, int size, String colour) {
-		Font bold = Font.loadFont("file:resources/fonts/Roboto-Bold.ttf", 10);
+	private Label makeLabel(String labelText, double d, String colour) {
+		Font bold = Font.loadFont("file:resources/fonts/Roboto-Bold.ttf", stageRef.getWidth()*d);
 		Label lbl = new Label(labelText);// create new instance of label
 		lbl.setFont(bold);
-		lbl.setStyle("-fx-text-fill:" + colour + ";-fx-font-size:" + size);// add
+		lbl.setStyle("-fx-text-fill:" + colour);// add
 																			// colour
 																			// to
 																			// label
@@ -635,11 +640,11 @@ public class GUI extends Application {
 			boolean hover, String id) {
 
 		Font medium = Font.loadFont("file:resources/fonts/Roboto-Regular.ttf",
-				15);
+				stageRef.getWidth()*0.012);
 		Button btn = new Button();// new instance of button
 		btn.setText(buttonText);// add text
 		btn.getStyleClass().add(styleClass);// add style
-		btn.setPrefHeight(10);// button height
+		btn.setPrefHeight(stageRef.getWidth()*0.008);// button height
 		btn.setId(id);// give it an ID
 		/* Hover functionality */
 		if (hover) {
