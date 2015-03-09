@@ -31,6 +31,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -81,7 +83,6 @@ public class GUI extends Application {
 	final GridPane grid = new GridPane();
 	private Label lbl;
 
-
 	public GUI() {
 	}
 
@@ -123,7 +124,7 @@ public class GUI extends Application {
 
 	}
 
-	private void readFile(String file, String []array) {
+	private void readFile(String file, String[] array) {
 		// TODO Auto-generated method stub
 		int i = 0;
 		BufferedReader br = null;
@@ -135,7 +136,7 @@ public class GUI extends Application {
 
 				// use comma as separator
 				array = line.split(",");
-				//fileArray[i] = s[0];
+				// fileArray[i] = s[0];
 				System.out.println("line: " + i + " Files: " + array[0]);
 
 				i++;
@@ -219,36 +220,41 @@ public class GUI extends Application {
 			case "3":
 			case "4":
 			case "5":
+				buildSlides();
 				Slideshow currentSlideshow1 = null;
 				int i = Integer.parseInt(buttonPressed.getId());
 				System.out.println("Open pres. " + i);
 				outputFile = fileArray[i];
 				System.out.println(outputFile);
 
-				try {
-					currentSlideshow1 = new XMLReader(outputFile)
-							.getSlideshow();
-				} catch (IOException e1) {
+				if (outputFile != null) {
+					try {
+						currentSlideshow1 = new XMLReader(outputFile)
+								.getSlideshow();
+					} catch (IOException e1) {
 
-				}
-				if (currentSlideshow1 != null) {
-					/* Only build if there is a slideshow */
-					buildSlides();
+					}
+					if (currentSlideshow1 != null) {
+						/* Only build if there is a slideshow */
+						buildSlides();
 
+					} else {
+						/* Display error scene */
+						dispError();
+
+						System.out.println("Null slideshow");
+					}
+					break;
 				} else {
-					/* Display error scene */
 					dispError();
-
-					System.out.println("Null slideshow");
 				}
-				break;
 
 			case "clr":
 				ta.clear();
 				break;
 
 			case "saveWords":
-				bannedWords = ta.getText().split("\n");
+				bannedWords = ta.getText().split(", ");
 				if (!bannedWords[0].isEmpty()) {
 					for (String string : bannedWords) {
 						System.out.println(string);
@@ -258,7 +264,7 @@ public class GUI extends Application {
 
 			case "home":
 				buildmain();
-				
+
 				break;
 
 			case "submit":
@@ -321,6 +327,47 @@ public class GUI extends Application {
 
 		}
 
+	}
+
+	private class keyPressedHandler implements EventHandler<KeyEvent> {
+
+		@Override
+		public void handle(KeyEvent e) {
+			Object key = e.getCode();
+			
+			if (key.equals(KeyCode.ENTER)) {
+				if (e.getSource().equals(userField)) {
+					System.out.println("User name is: " + userField.getText());
+				} else if (e.getSource().equals(ta)) {
+					bannedWords = ta.getText().split(", ");
+					if (!bannedWords[0].isEmpty()) {
+						for (String string : bannedWords) {
+							System.out.println(string);
+						}
+					}
+				}
+			} else if(e.getClass().equals(slidePane)) {
+				switch (key.toString()) {
+				case "RIGHT":
+				case "SPACE":
+					System.out.println("right");
+					slideNo++;
+					break;
+				case "LEFT":
+					if (slideNo > 0) {
+						slideNo--;
+					}
+					break;
+				case "B":
+				case "W":
+				case "DOWN":
+				case "UP":
+					System.out.println("blank");
+					break;
+				}
+				lbl.setText(String.valueOf(slideNo));
+			}
+		}
 	}
 
 	private class mouseClickHandler implements EventHandler<MouseEvent> {
@@ -503,6 +550,7 @@ public class GUI extends Application {
 
 		/* Text field declared outside the main so can be accessed elsewhere */
 		userField.getStyleClass().add("textArea");
+		userField.setOnKeyPressed(new keyPressedHandler());
 		userField.setPromptText("Username");
 
 		/* Add buttons and add to a box */
@@ -527,8 +575,11 @@ public class GUI extends Application {
 		/* Defined outside of main class */
 		ta.setPrefRowCount(12);
 		ta.setPrefColumnCount(15);
+		ta.setWrapText(true);
+		ta.setOnKeyPressed(new keyPressedHandler());
 		ta.setPromptText("Banned Words Here");
 		ta.getStyleClass().add("textArea");
+		
 
 		/* Add items to banned words VBox */
 		bannedBox.getChildren().addAll(
@@ -581,6 +632,7 @@ public class GUI extends Application {
 		slideStage.setFullScreen(true);
 
 		slides.setOnMouseClicked(new mouseClickHandler());
+		slides.setOnKeyReleased(new keyPressedHandler());
 		slideStage.show();
 
 	}
@@ -627,9 +679,9 @@ public class GUI extends Application {
 		Label lbl = new Label(labelText);// create new instance of label
 		lbl.setFont(bold);
 		lbl.setStyle("-fx-text-fill:" + colour);// add
-																			// colour
-																			// to
-																			// label
+												// colour
+												// to
+												// label
 
 		return lbl;
 	}
@@ -668,8 +720,7 @@ public class GUI extends Application {
 	private Button makeButton(String buttonText, String styleClass,
 			boolean hover, String id) {
 
-		Font medium = Font.loadFont("file:resources/fonts/Roboto-Bold.ttf",
-				15);
+		Font medium = Font.loadFont("file:resources/fonts/Roboto-Bold.ttf", 15);
 		Button btn = new Button();// new instance of button
 		btn.setText(buttonText);// add text
 		btn.getStyleClass().add(styleClass);// add style
