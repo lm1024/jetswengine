@@ -100,7 +100,8 @@ public class GUI extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		/*
 		 * TODO Jake, please make a nice GUI. You are our only hope. text file
-		 * to make reference to image files and XML files. Move back to CSS
+		 * to reference image files and XML files, method to read exists but
+		 * reading from string arrays isn't happy... Move back to CSS
 		 */
 
 		readFile("resources/files.csv", fileArray);
@@ -125,7 +126,6 @@ public class GUI extends Application {
 	}
 
 	private void readFile(String file, String[] array) {
-		// TODO Auto-generated method stub
 		int i = 0;
 		BufferedReader br = null;
 		try {
@@ -334,7 +334,7 @@ public class GUI extends Application {
 		@Override
 		public void handle(KeyEvent e) {
 			Object key = e.getCode();
-			
+
 			if (key.equals(KeyCode.ENTER)) {
 				if (e.getSource().equals(userField)) {
 					System.out.println("User name is: " + userField.getText());
@@ -346,7 +346,7 @@ public class GUI extends Application {
 						}
 					}
 				}
-			} else if(e.getClass().equals(slidePane)) {
+			} else if (e.getClass().equals(slidePane)) {
 				switch (key.toString()) {
 				case "RIGHT":
 				case "SPACE":
@@ -579,7 +579,6 @@ public class GUI extends Application {
 		ta.setOnKeyPressed(new keyPressedHandler());
 		ta.setPromptText("Banned Words Here");
 		ta.getStyleClass().add("textArea");
-		
 
 		/* Add items to banned words VBox */
 		bannedBox.getChildren().addAll(
