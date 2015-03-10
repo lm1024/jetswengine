@@ -1,5 +1,5 @@
 /** (c) Copyright by Wave Media. */
-package GUI;
+package textHandler;
 
 import java.io.BufferedWriter;
 import java.io.File;

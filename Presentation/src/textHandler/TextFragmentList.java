@@ -1,9 +1,10 @@
-package GUI;
+package textHandler;
 
 import java.util.ArrayList;
 
+import textHandler.TextBox.TextFragmentBuilder;
+
 import Data.TextFragment;
-import GUI.TextBox.TextFragmentBuilder;
 
 public class TextFragmentList {
 

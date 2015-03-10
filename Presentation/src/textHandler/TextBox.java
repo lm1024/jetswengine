@@ -1,10 +1,8 @@
-package GUI;
+package textHandler;
 
 import java.util.ArrayList;
 
 import javafx.scene.text.Font;
-
-import com.sun.prism.paint.Color;
 
 import Data.Defaults;
 import Data.TextFragment;
@@ -18,7 +16,7 @@ public class TextBox {
 	private final Alignment alignment;
 	private ArrayList<TextFragment> stringBuffer = new ArrayList<TextFragment>();
 
-	private TextBox(TextBuilder builder) {
+	private TextBox(TextBoxBuilder builder) {
 		this.xStart = builder.xStart;
 		this.yStart = builder.yStart;
 		this.xEnd = builder.xEnd;
@@ -56,7 +54,7 @@ public class TextBox {
 		return stringBuffer;
 	}
 
-	public static class TextBuilder {
+	public static class TextBoxBuilder {
 		private final int xStart;
 		private final int yStart;
 
@@ -67,34 +65,34 @@ public class TextBox {
 		private String backgroundColor = "#00000000";
 		private Alignment alignment = Alignment.LEFT;
 
-		public TextBuilder(int xStart, int yStart) {
+		public TextBoxBuilder(int xStart, int yStart) {
 			this.xStart = xStart;
 			this.yStart = yStart;
 			this.xEnd = xStart + 200;
 			this.yEnd = yStart + 200;
 		}
 
-		public TextBuilder xEnd(int xEnd) {
+		public TextBoxBuilder xEnd(int xEnd) {
 			this.xEnd = xEnd;
 			return this;
 		}
 
-		public TextBuilder yEnd(int yEnd) {
+		public TextBoxBuilder yEnd(int yEnd) {
 			this.yEnd = yEnd;
 			return this;
 		}
 
-		public TextBuilder backgroundColor(String backgroundColor) {
+		public TextBoxBuilder backgroundColor(String backgroundColor) {
 			this.backgroundColor = backgroundColor;
 			return this;
 		}
 
-		public TextBuilder alignment(Alignment alignment) {
+		public TextBoxBuilder alignment(Alignment alignment) {
 			this.alignment = alignment;
 			return this;
 		}
 
-		public TextBuilder textFragmentList(TextFragmentList textFragmentList) {
+		public TextBoxBuilder textFragmentList(TextFragmentList textFragmentList) {
 			this.stringBuffer = textFragmentList.getList();
 			return this;
 		}
@@ -198,15 +196,5 @@ public class TextBox {
 			return textFragment;
 		}
 
-	}
-
-	public static TextBuilder TextBuilder(int xStart, int yStart) {
-		return new TextBuilder(xStart, yStart);
-	}
-	
-	public static TextFragmentBuilder TextFragmentBuilder(String string) {
-		return new TextFragmentBuilder(string);
-	}
-
-	
+	}	
 }

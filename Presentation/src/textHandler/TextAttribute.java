@@ -1,7 +1,7 @@
 /**
  * 
  */
-package GUI;
+package textHandler;
 
 /**
  * @author tjd511

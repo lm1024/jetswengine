@@ -5,8 +5,10 @@ package GUI;
 
 import java.util.ArrayList;
 
-import Data.TextFragment;
 import sofia.VideoHandler;
+import textHandler.TextBox;
+import textHandler.TextFragmentList;
+import textHandler.TextHandler;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -48,15 +50,16 @@ public class DummyGUI extends Application {
 		Scene scene = new Scene(group, 1600, 900);
 		primaryStage.setScene(scene);
 		TextHandler thisTextHandler = new TextHandler(group);
-		
+
 		TextFragmentList textFragmentList = new TextFragmentList();
-		textFragmentList.add(TextBox.TextFragmentBuilder("Hello World "));
-		textFragmentList.add(TextBox.TextFragmentBuilder("Hello World2 ").bold(true).fontName("Arial").fontSize(20).highlightColor("#ffaaffff"));
-		textFragmentList.add(TextBox.TextFragmentBuilder("Hello World2 ").bold(true).fontName("Arial").fontSize(20).highlightColor("#ffaaffff"));
-		
 		textFragmentList.add(new TextBox.TextFragmentBuilder("Hello World "));
-		
-		thisTextHandler.drawTextTest(TextBox.TextBuilder(400, 400).textFragmentList(textFragmentList).build());
+		textFragmentList.add(new TextBox.TextFragmentBuilder("Hello World2 ").bold(true).fontName("Arial").fontSize(20)
+				.highlightColor("#ffaaffff"));
+		textFragmentList.add(new TextBox.TextFragmentBuilder("Hello World2 ").bold(true).fontName("Arial").fontSize(20)
+				.highlightColor("#ffaaffff"));
+		textFragmentList.add(new TextBox.TextFragmentBuilder("Hello World "));
+
+		thisTextHandler.drawTextTest(new TextBox.TextBoxBuilder(400, 400).textFragmentList(textFragmentList).build());
 
 		primaryStage.show();
 	}
