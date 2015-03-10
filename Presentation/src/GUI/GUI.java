@@ -11,9 +11,9 @@ package GUI;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -64,8 +64,8 @@ public class GUI extends Application {
 	private TextArea ta = new TextArea();
 	private String bannedWords[];
 	private TextField userField = new TextField();// text field
-	private String fileArray[] = null;
-	private String pictureArray[] = null;
+	private ArrayList<String> fileList = new ArrayList<String>();
+	// private String pictureArray[] = null;
 	private File initDir;
 	private String outputFile;
 	private int slideNo = 0;
@@ -99,13 +99,25 @@ public class GUI extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		/*
-		 * TODO Jake, please make a nice GUI. You are our only hope. text file
-		 * to reference image files and XML files, method to read exists but
-		 * reading from string arrays isn't happy... Move back to CSS
+		 * TODO Jake, please make a nice GUI. You are our only hope. CSV reading
+		 * for images. CSV wriing. Move back to CSS
 		 */
 
-		readFile("resources/files.csv", fileArray);
-		readFile("resources/images.csv", pictureArray);
+		/* Read CSV into an array list */
+		String theLine;
+		BufferedReader br;
+		try {
+			br = new BufferedReader(new FileReader("resources/files.csv"));
+			while ((theLine = br.readLine()) != null) {
+				fileList.add(theLine);
+			}
+			br.close();
+		} catch (IOException e) {
+			System.out.println(e.toString());
+		} catch (Exception e) {
+			System.out.println("It ain't worked!");
+			System.out.println(e.toString());
+		}
 
 		stageRef = primaryStage;
 
@@ -122,39 +134,6 @@ public class GUI extends Application {
 		buildmain();
 
 		primaryStage.show();
-
-	}
-
-	private void readFile(String file, String[] array) {
-		int i = 0;
-		BufferedReader br = null;
-		try {
-
-			br = new BufferedReader(new FileReader(file));
-			String line;
-			while ((line = br.readLine()) != null) {
-
-				// use comma as separator
-				array = line.split(",");
-				// fileArray[i] = s[0];
-				System.out.println("line: " + i + " Files: " + array[0]);
-
-				i++;
-			}
-
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (br != null) {
-				try {
-					br.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
 
 	}
 
@@ -192,6 +171,7 @@ public class GUI extends Application {
 								.getSlideshow();
 					} catch (IOException e1) {
 					}
+					/* Get the directory of the last opened file */
 					initDir = file.getParentFile();
 					System.out.println(initDir);
 
@@ -202,6 +182,9 @@ public class GUI extends Application {
 
 						System.out.println("Null slideshow");
 					}
+
+					/* Write new file to CSV */
+
 				} else {
 					System.out.println("No file");
 				}
@@ -224,7 +207,7 @@ public class GUI extends Application {
 				Slideshow currentSlideshow1 = null;
 				int i = Integer.parseInt(buttonPressed.getId());
 				System.out.println("Open pres. " + i);
-				outputFile = fileArray[i];
+				outputFile = fileList.get(i);
 				System.out.println(outputFile);
 
 				if (outputFile != null) {
