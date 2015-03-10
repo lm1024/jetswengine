@@ -20,7 +20,7 @@ import Data.TextFragment;
  * Class for handling text and text boxes on a javafx group.
  * 
  * @author tjd511
- * @version 1.0 02/03/2015
+ * @version 2.0 02/03/2015
  */
 public class TextHandler {
 
@@ -54,9 +54,19 @@ public class TextHandler {
 	 */
 	public TextHandler(Group group) {
 		this.group = group;
-		WebView initialWebViewInstantiation = new WebView(); // TODO
+		/*
+		 * Create a new WebView to move lag on opening first WebView to handler
+		 * instantiation instead of on first draw of a text box.
+		 */
+		new WebView();
 	}
 
+	/**
+	 * Method for forming and drawing a text box. 
+	 * 
+	 * @param textBox the text box to be drawn. Must be formed using the TextBox builder.
+	 * @see {@link textHandler.TextBox} 
+	 */
 	public void drawTextTest(TextBox textBox) {
 		stringBuffer = textBox.getStringBuffer();
 
@@ -342,7 +352,7 @@ public class TextHandler {
 	 * Method to format a string in the style rgba(r,g,b,a) for html styling
 	 * 
 	 * @param colorString
-	 *            8 digit hex string specifying a color in ARGB format
+	 *            8 digit hex string specifying a color in ARGB format.
 	 */
 	private String formatColorHTMLString(String colorString) {
 		String formattedColorString = "rgba(";
@@ -385,7 +395,7 @@ public class TextHandler {
 	}
 
 	/**
-	 * Method to create the customcss file used for removing the background and
+	 * Method to create the custom.css file used for removing the background and
 	 * scrollbars of the WebView.
 	 */
 	private void createCustomCss() {

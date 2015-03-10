@@ -12,7 +12,7 @@ import Data.TextFragment;
  * Text Box object class for passing to the textHandler to draw to screen.
  * 
  * @author tjd511
- * @version 0.4 10/03/2015
+ * @version 1.0 10/03/2015
  */
 public class TextBox {
 	private final int xStart;
@@ -184,7 +184,7 @@ public class TextBox {
 	 * Class to contain the builder for the textFragment.
 	 * 
 	 * @author tjd511
-	 * @version 0.5 10/03/2015
+	 * @version 1.0 10/03/2015
 	 */
 	public static class TextFragmentBuilder {
 		/* Required fields in the text fragment */
