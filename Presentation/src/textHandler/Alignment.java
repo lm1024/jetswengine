@@ -1,6 +1,4 @@
-/**
- * 
- */
+/** (c) Copyright by WaveMedia. */
 package textHandler;
 
 /**

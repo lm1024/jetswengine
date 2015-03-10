@@ -1,3 +1,4 @@
+/** (c) Copyright by WaveMedia. */
 package textHandler;
 
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ public class TextFragmentList {
 		textFragmentList.add(textFragmentBuilder.build());
 	}
 	
-	public ArrayList<TextFragment> getList() {
+	ArrayList<TextFragment> getList() {
 		return textFragmentList;
 	}
 	

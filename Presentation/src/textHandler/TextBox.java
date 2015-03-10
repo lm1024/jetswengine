@@ -1,3 +1,4 @@
+/** (c) Copyright by WaveMedia. */
 package textHandler;
 
 import java.util.ArrayList;
@@ -7,6 +8,12 @@ import javafx.scene.text.Font;
 import Data.Defaults;
 import Data.TextFragment;
 
+/**
+ * Text Box object class for passing to the textHandler to draw to screen.
+ * 
+ * @author tjd511
+ * @version 0.4 10/03/2015
+ */
 public class TextBox {
 	private final int xStart;
 	private final int yStart;
@@ -26,45 +33,80 @@ public class TextBox {
 		this.stringBuffer = builder.stringBuffer;
 	}
 
+	/**
+	 * @return the starting x coordinate of the text box
+	 */
 	public int getXStart() {
 		return xStart;
 	}
 
+	/**
+	 * @return the starting y coordinate of the text box
+	 */
 	public int getYStart() {
 		return yStart;
 	}
 
+	/**
+	 * @return the ending x coordinate of the text box
+	 */
 	public int getXEnd() {
 		return xEnd;
 	}
 
+	/**
+	 * @return the ending y coordinate of the text box
+	 */
 	public int getYEnd() {
 		return yEnd;
 	}
 
+	/**
+	 * @return the background color of the text box
+	 */
 	public String getBackgroundColor() {
 		return backgroundColor;
 	}
 
+	/**
+	 * @return the alignment of the text in the text box
+	 */
 	public Alignment getAlignment() {
 		return alignment;
 	}
-	
-	public ArrayList<TextFragment> getStringBuffer() {
+
+	/**
+	 * @return the arraylist of text fragments within the text box
+	 */
+	ArrayList<TextFragment> getStringBuffer() {
 		return stringBuffer;
 	}
 
+	/**
+	 * Builder for the text box object.
+	 * 
+	 * @author tjd511
+	 * @version 0.4 10/03/2015
+	 */
 	public static class TextBoxBuilder {
+		/* Required fields in the text fragment */
 		private final int xStart;
 		private final int yStart;
-
-		private ArrayList<TextFragment> stringBuffer = new ArrayList<TextFragment>();
-
+		/* Optional fields in the text fragment */
 		private int xEnd;
 		private int yEnd;
 		private String backgroundColor = "#00000000";
 		private Alignment alignment = Alignment.LEFT;
+		private ArrayList<TextFragment> stringBuffer = new ArrayList<TextFragment>();
 
+		/**
+		 * Constructor for the text box builder.
+		 * 
+		 * @param xStart
+		 *            the starting x coordinate of the text box
+		 * @param yStart
+		 *            the starting y coordinate of the text box
+		 */
 		public TextBoxBuilder(int xStart, int yStart) {
 			this.xStart = xStart;
 			this.yStart = yStart;
@@ -72,41 +114,83 @@ public class TextBox {
 			this.yEnd = yStart + 200;
 		}
 
+		/**
+		 * Method sets the ending x coordinate of the text box
+		 * 
+		 * @param xEnd
+		 *            the ending x coordinate of the text box
+		 */
 		public TextBoxBuilder xEnd(int xEnd) {
 			this.xEnd = xEnd;
 			return this;
 		}
 
+		/**
+		 * Method sets the ending y coordinate of the text box
+		 * 
+		 * @param yEnd
+		 *            the ending y coordinate of the text box
+		 */
 		public TextBoxBuilder yEnd(int yEnd) {
 			this.yEnd = yEnd;
 			return this;
 		}
 
+		/**
+		 * Method sets the background color of the text box
+		 * 
+		 * @param backgroundColor
+		 *            the background color of the text box
+		 */
 		public TextBoxBuilder backgroundColor(String backgroundColor) {
 			this.backgroundColor = backgroundColor;
 			return this;
 		}
 
+		/**
+		 * Method sets the alignment of the text in the text box
+		 * 
+		 * @param alignment
+		 *            the alignment of the text in the text box
+		 */
 		public TextBoxBuilder alignment(Alignment alignment) {
 			this.alignment = alignment;
 			return this;
 		}
 
+		/**
+		 * Method sets the text fragments list to be drawn within the text box
+		 * 
+		 * @param textFragmentList
+		 *            the list of text fragments within the text box
+		 */
 		public TextBoxBuilder textFragmentList(TextFragmentList textFragmentList) {
 			this.stringBuffer = textFragmentList.getList();
 			return this;
 		}
 
+		/**
+		 * Method builds the text box object.
+		 * 
+		 * @return the new textBox object.
+		 */
 		public TextBox build() {
 			return new TextBox(this);
 		}
 
 	}
-	
-	public static class TextFragmentBuilder {
 
+	/**
+	 * Class to contain the builder for the textFragment.
+	 * 
+	 * @author tjd511
+	 * @version 0.5 10/03/2015
+	 */
+	public static class TextFragmentBuilder {
+		/* Required fields in the text fragment */
 		private final String string;
 
+		/* Optional fields in the text fragment */
 		private String fontName = Font.getDefault().getName();
 		private String fontColor = "#ff000000";
 		private int fontSize = 20;
@@ -119,65 +203,137 @@ public class TextBox {
 		private boolean superscript;
 		private boolean subscript;
 
+		/**
+		 * Constructor for the TextFragmentBuilder object.
+		 * 
+		 * @param string
+		 *            the text to be stored in the text fragment.
+		 */
 		public TextFragmentBuilder(String string) {
 			this.string = string;
 		}
 
+		/**
+		 * @param fontName
+		 *            the name of the font for the text to be drawn as.
+		 */
 		public TextFragmentBuilder fontName(String fontName) {
-			this.fontName = fontName;
+			/* Error checking for fontName */
+			String capitalisedFontName = capitaliseEachFirstLetter(fontName);
+
+			/* Loops through the installed fonts and looks for a match */
+			if (Font.getFontNames().contains(capitalisedFontName)) {
+				this.fontName = fontName;
+			}
 			return this;
 		}
 
+		/**
+		 * @param fontColor
+		 *            the color of the text
+		 */
 		public TextFragmentBuilder fontColor(String fontColor) {
-			this.fontColor = fontColor;
+			if (verifyColor(fontColor)) {
+				this.fontColor = fontColor;
+			}
 			return this;
 		}
 
+		/**
+		 * @param fontSize
+		 *            the size of the font in pt.
+		 */
 		public TextFragmentBuilder fontSize(int fontSize) {
-			this.fontSize = fontSize;
+			if (fontSize > 0) {
+				this.fontSize = fontSize;
+			}
 			return this;
 		}
 
+		/**
+		 * @param highlightColor
+		 *            the color of the text highlight
+		 */
 		public TextFragmentBuilder highlightColor(String highlightColor) {
-			this.highlightColor = highlightColor;
+			if (verifyColor(highlightColor)) {
+				this.highlightColor = highlightColor;
+			}
 			return this;
 		}
 
+		/**
+		 * @param newline
+		 *            boolean value for if the text should end in a newline
+		 */
 		public TextFragmentBuilder newline(boolean newline) {
 			this.newline = newline;
 			return this;
 		}
 
+		/**
+		 * @param bold
+		 *            boolean value for if the text should be bold
+		 */
 		public TextFragmentBuilder bold(boolean bold) {
 			this.bold = bold;
 			return this;
 		}
 
+		/**
+		 * @param italic
+		 *            boolean value for if the text should be italic
+		 */
 		public TextFragmentBuilder italic(boolean italic) {
 			this.italic = italic;
 			return this;
 		}
 
+		/**
+		 * @param underline
+		 *            boolean value for if the text should be underlined
+		 */
 		public TextFragmentBuilder underline(boolean underline) {
 			this.underline = underline;
 			return this;
 		}
 
+		/**
+		 * @param strikethrough
+		 *            boolean value for if the text should be strikethrough
+		 */
 		public TextFragmentBuilder strikethrough(boolean strikethrough) {
 			this.strikethrough = strikethrough;
 			return this;
 		}
 
+		/**
+		 * @param superscript
+		 *            boolean value for if the text should be superscript
+		 */
 		public TextFragmentBuilder superscript(boolean superscript) {
 			this.superscript = superscript;
 			return this;
 		}
 
+		/**
+		 * @param subscript
+		 *            boolean value for if the text should be subscript
+		 */
 		public TextFragmentBuilder subscript(boolean subscript) {
 			this.subscript = subscript;
 			return this;
 		}
 
+		/**
+		 * Method builds the text fragment.
+		 * 
+		 * Defaults:
+		 * 
+		 * Font size: 20. Font color: "#ff000000" Highlight color: "#00000000"
+		 * 
+		 * @return a text fragment comprising of all the set parameters for the
+		 *         text.
+		 */
 		public TextFragment build() {
 			TextFragment textFragment = new TextFragment(new Defaults());
 			textFragment.setText(string);
@@ -196,5 +352,28 @@ public class TextBox {
 			return textFragment;
 		}
 
-	}	
+		/**
+		 * Method to check validity of any color string
+		 * 
+		 * @param color
+		 *            string to be verified
+		 */
+		private boolean verifyColor(String color) {
+			/*
+			 * Checking that color is a 8 digit long hex string starting with a
+			 * #
+			 */
+			return (color.matches("^([#]([0-9a-fA-F]{8}))$"));
+		}
+
+		/** Method to capitalise the first letter of each word in a string */
+		private String capitaliseEachFirstLetter(String s) {
+			String[] words = s.split(" ");
+			String finalString = "";
+			for (String word : words) {
+				finalString += word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase() + " ";
+			}
+			return finalString.substring(0, finalString.length() - 1);
+		}
+	}
 }

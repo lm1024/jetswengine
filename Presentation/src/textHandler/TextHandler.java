@@ -1,4 +1,4 @@
-/** (c) Copyright by Wave Media. */
+/** (c) Copyright by WaveMedia. */
 package textHandler;
 
 import java.io.BufferedWriter;
@@ -12,12 +12,8 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import com.sun.webpane.platform.WebPage;
 
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
-import javafx.scene.text.Font;
 import javafx.scene.web.WebView;
-import javafx.stage.Screen;
-import Data.Defaults;
 import Data.TextFragment;
 
 /**
@@ -62,31 +58,7 @@ public class TextHandler {
 	}
 
 	public void drawTextTest(TextBox textBox) {
-		for (TextFragment currentFragment : textBox.getStringBuffer()) {
-			String string = currentFragment.getText();
-			String fontName = currentFragment.getFont();
-			double fontSize = currentFragment.getFontSize();
-			String fontColor = currentFragment.getFontColor();
-			String highlightColor = currentFragment.getHighlightColor();
-			boolean newLine = currentFragment.endsWithNewline();
-
-			ArrayList<TextAttribute> textAttributes = new ArrayList<TextAttribute>();
-			if (currentFragment.isBold())
-				textAttributes.add(TextAttribute.BOLD);
-			if (currentFragment.isItalicised())
-				textAttributes.add(TextAttribute.ITALIC);
-			if (currentFragment.isUnderlined())
-				textAttributes.add(TextAttribute.UNDERLINE);
-			if (currentFragment.isSubscript())
-				textAttributes.add(TextAttribute.SUBSCRIPT);
-			if (currentFragment.isSuperscript())
-				textAttributes.add(TextAttribute.SUPERSCRIPT);
-			if (currentFragment.isStrikethrough())
-				textAttributes.add(TextAttribute.STRIKETHROUGH);
-
-			addStringToBuffer(string, fontName, (int) fontSize, fontColor, highlightColor, newLine,
-					textAttributes.toArray(new TextAttribute[textAttributes.size()]));
-		}
+		stringBuffer = textBox.getStringBuffer();
 
 		int xStartPos = textBox.getXStart();
 		int yStartPos = textBox.getYStart();
@@ -96,102 +68,6 @@ public class TextHandler {
 		Alignment alignment = textBox.getAlignment();
 
 		drawBuffer(xStartPos, yStartPos, xEndPos, yEndPos, backgroundColor, alignment);
-	}
-
-	/**
-	 * Method adds a string to the buffer for later drawing on the screen. A
-	 * text box can be formed and printed on the screen by calling the
-	 * drawBuffer(int xStartPos, int yStartPos, int xEndPos, int yEndPos, String
-	 * alignment) method.
-	 * 
-	 * @param string
-	 *            the string to be added to the buffer
-	 * @param fontName
-	 *            the name of the font for the string
-	 * @param fontSize
-	 *            the size of the font in pt
-	 * @param fontColor
-	 *            the color for the string to be drawn in, in the form of a 8
-	 *            digit hex number, ARGB.
-	 * @param highlightColor
-	 *            the color of the highlighting around the text, in the form of
-	 *            a 8 digit hex humber, ARGB.
-	 * @param TextAttributes
-	 *            varargs of TextAttribute enum that controls what effects are
-	 *            applied to the string. Options are TextAttribute.BOLD,
-	 *            TextAttribute.ITALIC, TextAttribute.UNDERLINE,
-	 *            TextAttribute.STRIKETHROUGH, TextAttribute.SUPERSCRIPT and
-	 *            TextAttribute.SUBSCRIPT. If both SUPERSCRIPT and SUBSCRIPT,
-	 *            the text is displayed as SUPERSCRIPT.
-	 * */
-	public void addStringToBuffer(String string, String fontName, int fontSize, String fontColor,
-			String highlightColor, boolean newLine, TextAttribute... TextAttributes) {
-		TextFragment currentString = new TextFragment(new Defaults());
-
-		currentString.setText(string);
-
-		/* Set all parameters that do not require error checking */
-		for (TextAttribute currentAttribute : TextAttributes) {
-			switch (currentAttribute) {
-			case BOLD:
-				currentString.setBold(true);
-				break;
-			case ITALIC:
-				currentString.setItalicised(true);
-				break;
-			case UNDERLINE:
-				currentString.setUnderlined(true);
-				break;
-			case STRIKETHROUGH:
-				currentString.setStrikethrough(true);
-				break;
-			case SUPERSCRIPT:
-				currentString.setSuperscript(true);
-				break;
-			case SUBSCRIPT:
-				currentString.setSubscript(true);
-				break;
-			}
-		}
-
-		currentString.setNewline(newLine);
-
-		/* Error checking for fontName */
-		String capitalisedFontName = capitaliseEachFirstLetter(fontName);
-
-		/* Set the default font to be the system default font */
-		currentString.setFont(Font.getDefault().getName());
-
-		/* Loops through the installed fonts and looks for a match */
-		if (Font.getFontNames().contains(capitalisedFontName)) {
-			currentString.setFont(fontName);
-		}
-
-		/* Error checking for fontSize */
-		currentString.setFontSize(Math.abs(fontSize));
-
-		/* Sets fontColor to blank if the fontColor is not a valid hex string */
-		if (verifyColor(fontColor))
-			currentString.setFontColor(fontColor);
-		else {
-			System.err.println("The fontColor string \"" + highlightColor
-					+ "\" is in an incorrect format. Setting it to blank.");
-			currentString.setFontColor("#00000000");
-		}
-
-		/*
-		 * Sets highlightColor to blank if the fontColor is not a valid hex
-		 * string
-		 */
-		if (verifyColor(highlightColor))
-			currentString.setHighlightColor(highlightColor);
-		else {
-			System.err.println("The highlightColor string \"" + highlightColor
-					+ "\" is in an incorrect format. Setting it to blank.");
-			currentString.setHighlightColor("#00000000");
-		}
-
-		stringBuffer.add(currentString);
 	}
 
 	/**
@@ -211,13 +87,11 @@ public class TextHandler {
 	 *            the color for the background of the text box, in the form of a
 	 *            8 digit hex number, ARGB.
 	 * @param alignment
-	 *            a string that can be used to control the alignment of the text
-	 *            within the text box. Options: "centre" - centres the text.
-	 *            "right" - sets the text to be right aligned. "justify" -
-	 *            justifies the text. "left" - sets the text to be left aligned.
+	 *            an alignment enum that sets the alignment of the text in the
+	 *            text box.
 	 * 
-	 * */
-	public void drawBuffer(int xStartPos, int yStartPos, int xEndPos, int yEndPos, String backgroundColor,
+	 */
+	private void drawBuffer(int xStartPos, int yStartPos, int xEndPos, int yEndPos, String backgroundColor,
 			Alignment alignment) {
 
 		/* Swaps around coordinates if incorrectly passed in */
@@ -234,17 +108,16 @@ public class TextHandler {
 
 		/* Checking that backgroundColor is a 8 digit long hex string */
 		if (!verifyColor(backgroundColor)) {
-			System.err
-					.println("The backgroundColor string is in an incorrect format. Buffer has been cleared, text box will not be displayed. ");
-			stringBuffer.clear();
-			return;
+			backgroundColor = "#00000000";
 		}
+
 		/* Instantiate the WebView that will be used to display the text */
 		WebView webView = new WebView();
 
-		/* Set starting position and width of the panel */
+		/* Set starting position, height and width of the panel */
 		webView.relocate(xStartPos, yStartPos);
 		webView.setPrefWidth(xEndPos - xStartPos);
+		webView.setPrefHeight(yEndPos - yStartPos);
 
 		/* Load a css file that hides the scrollbar added by webView */
 		File f = new File("custom.css");
@@ -269,9 +142,6 @@ public class TextHandler {
 		 * the webView
 		 */
 		webView.getEngine().loadContent(createHTMLStringFromBuffer(backgroundColor, alignment));
-
-		/* Section for resizing the text to fit in the box. */
-		webView.setPrefHeight(yEndPos - yStartPos);
 
 		/*
 		 * Remove the background from the webView panel. Adapted from
@@ -304,78 +174,6 @@ public class TextHandler {
 		}
 
 		group.getChildren().addAll(webView);
-	}
-
-	/**
-	 * Method draws a string on the group set by the constructor.
-	 * 
-	 * @param string
-	 *            the string to be drawn to the group
-	 * @param xPos
-	 *            the starting x coordinate of the string
-	 * @param yPos
-	 *            the starting y coordinate of the string
-	 * @param fontName
-	 *            a string containing the font of the string. If font is not
-	 *            recognised, it defaults to the system default font.
-	 * @param fontSize
-	 *            the size of the font in pt
-	 * @param fontColor
-	 *            8 bit hex string specifying the font color in ARGB format
-	 * @param highlightColor
-	 *            8 bit hex string specifying the highlight color in ARGB format
-	 * @param TextAttributes
-	 *            varargs of TextAttribute enum that controls what effects are
-	 *            applied to the string. Options are TextAttribute.BOLD,
-	 *            TextAttribute.ITALIC, TextAttribute.UNDERLINE,
-	 *            TextAttribute.STRIKETHROUGH, TextAttribute.SUPERSCRIPT and
-	 *            TextAttribute.SUBSCRIPT. If both SUPERSCRIPT and SUBSCRIPT,
-	 *            the text is displayed as SUPERSCRIPT
-	 */
-	public void drawString(String string, int xPos, int yPos, String fontName, int fontSize, String fontColor,
-			String highlightColor, TextAttribute... TextAttributes) {
-		ArrayList<TextFragment> tempBuffer = new ArrayList<TextFragment>(stringBuffer);
-		stringBuffer.clear();
-
-		addStringToBuffer(string, fontName, fontSize, fontColor, highlightColor, false, TextAttributes);
-		drawBuffer(xPos, yPos);
-
-		/* Store stringBuffer back */
-		stringBuffer = tempBuffer;
-	}
-
-	/**
-	 * Method drawString for not specifying font name, size, color and highlight
-	 * color
-	 */
-	public void drawString(String string, int xPos, int yPos) {
-		drawString(string, xPos, yPos, Font.getDefault().getName(), 16, "#ff000000", "#00000000");
-	}
-
-	/** Error checking method for printing all the stored strings in the buffer. */
-	public void printBuffer() {
-		for (int i = 0; i < stringBuffer.size(); i++)
-			System.out.println(stringBuffer.get(i).getText());
-	}
-
-	/** Method for clearing the string buffer */
-	public void clearBuffer() {
-		stringBuffer.clear();
-	}
-
-	/**
-	 * Method forms a transparent text box of a large size to display a single
-	 * string at one point. Wraps at edge of screen.
-	 * 
-	 * @param xStartPos
-	 *            the starting x coordinate of the text box
-	 * @param yStartPos
-	 *            the starting y coordinate of the text box
-	 */
-	private void drawBuffer(int xStartPos, int yStartPos) {
-		Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
-		drawBuffer(xStartPos, yStartPos, (int) primaryScreenBounds.getWidth() - xStartPos,
-				(int) primaryScreenBounds.getHeight() - yStartPos, "#00000000", Alignment.LEFT);
 	}
 
 	/**
@@ -582,18 +380,8 @@ public class TextHandler {
 	 *            string to be verified
 	 */
 	private boolean verifyColor(String color) {
-		/* Checking that color is a 8 digit long hex string */
+		/* Checking that color is a 8 digit long hex string starting with a # */
 		return (color.matches("^([#]([0-9a-fA-F]{8}))$"));
-	}
-
-	/** Method to capitalise the first letter of each word in a string */
-	private static String capitaliseEachFirstLetter(String s) {
-		String[] words = s.split(" ");
-		String finalString = "";
-		for (String word : words) {
-			finalString += word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase() + " ";
-		}
-		return finalString.substring(0, finalString.length() - 1);
 	}
 
 	/**
