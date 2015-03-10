@@ -3,6 +3,11 @@
  */
 package GUI;
 
+import graphicsHandler.GraphicType;
+import graphicsHandler.GraphicsHandler;
+import graphicsHandler.Graphic;
+import graphicsHandler.Shading;
+import graphicsHandler.Shadow;
 import sofia.VideoHandler;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -60,10 +65,13 @@ public class DummyGUI extends Application {
 		thisGraphicsHandler.drawShape(new Graphic.GraphicBuilder(GraphicType.RECTANGLE, 100, 100).xEndPos(150f)
 				.yEndPos(150f).build());
 
-		thisGraphicsHandler.drawShape(new Graphic.GraphicBuilder(GraphicType.RECTANGLE, 200, 200).xEndPos(250f)
-				.yEndPos(250f).color("#ffff0000").solid(true).outlineColor("#ff0000ff").shadow(Shadow.HEAVY)
+		thisGraphicsHandler.drawShape(new Graphic.GraphicBuilder(GraphicType.RECTANGLE, 100, 400).xEndPos(150f)
+				.yEndPos(450f).color("#ffff0000").solid(true).outlineColor("#ff0000ff").shadow(Shadow.HEAVY)
 				.shadingType(Shading.CYCLIC).shadingElement("#ffff00ff", 0.2f).shadingElement("#ffffffff", 0.4f).build());
 
+		thisGraphicsHandler.drawShape(new Graphic.GraphicBuilder(GraphicType.STAR, 200, 400).size(50).numberOfPoints(10).solid(true)
+				.build());
+		thisGraphicsHandler.drawShape(new Graphic.GraphicBuilder(GraphicType.CHORD,200, 400).width(25).height(25).arcAngle(90).length(100).build());
 		/*
 		 * thisGraphicsHandler.drawOval(100f, 100f, 150f, 150f, "#ffff0000",
 		 * true, "#ff0000ff", 1, Shadow.HEAVY, 0, Shading.CYCLIC, "#ffff00ff",
