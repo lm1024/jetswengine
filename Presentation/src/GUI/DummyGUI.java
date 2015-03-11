@@ -3,15 +3,16 @@
  */
 package GUI;
 
-import sofia.VideoHandler;
+import imageHandler.ImageEffect;
+import imageHandler.ImageEffectsList;
+import imageHandler.ImageHandler;
+import imageHandler.ImageObject;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 /**
@@ -57,7 +58,7 @@ public class DummyGUI extends Application {
 		imageEffects.add(ImageEffect.REFLECTION);
 		imageEffects.add(ImageEffect.SEPIA);
 
-		thisImageHandler.drawImage(new SlideshowImage.ImageBuilder("file:me.png", 500, 200).scaleX(0.4).scaleY(0.4)
+		thisImageHandler.drawImage(new ImageObject.ImageBuilder("file:me.png", 500, 200).scaleX(0.4).scaleY(0.4)
 				.rotation(0).vFlip(false).hFlip(false).cropLeft(0).cropRight(0).cropDown(0).cropUp(0)
 				.imageEffects(imageEffects).build());
 

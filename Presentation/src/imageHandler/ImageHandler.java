@@ -1,4 +1,5 @@
-package GUI;
+/** (c) Copyright by WaveMedia. */
+package imageHandler;
 
 import java.util.ArrayList;
 
@@ -30,9 +31,17 @@ public class ImageHandler {
 		this.group = group;
 	}
 
-	public void drawImage(SlideshowImage image) {
-		float xPos = image.getxPos();
-		float yPos = image.getyPos();
+	/**
+	* Method for drawing a image on the screen.
+	*
+	* @param image
+	* a image object containing all the information about the
+	* image to be drawn. Must be formed using the ImageBuilder.
+	* @see {@link imageHandler.ImageObject}
+	*/
+	public void drawImage(ImageObject image) {
+		float xPos = image.getXStartPos();
+		float yPos = image.getYStartPos();
 		String filepath = image.getFilepath();
 		double scaleX = image.getScaleX();
 		double scaleY = image.getScaleY();
