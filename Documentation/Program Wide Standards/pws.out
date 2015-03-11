@@ -7,6 +7,20 @@
 \BOOKMARK [2][-]{subsection.2.3}{Text from sourcefile}{section.2}% 7
 \BOOKMARK [2][-]{subsection.2.4}{Text from list of richtext elements}{section.2}% 8
 \BOOKMARK [1][-]{section.3}{Graphics Handler}{}% 9
-\BOOKMARK [1][-]{section.4}{Image Handler}{}% 10
-\BOOKMARK [1][-]{section.5}{Example XML file}{}% 11
-\BOOKMARK [1][-]{section.6}{Schema}{}% 12
+\BOOKMARK [2][-]{subsection.3.1}{Common Parameters}{section.3}% 10
+\BOOKMARK [2][-]{subsection.3.2}{Oval}{section.3}% 11
+\BOOKMARK [2][-]{subsection.3.3}{Circle}{section.3}% 12
+\BOOKMARK [2][-]{subsection.3.4}{Rectangle}{section.3}% 13
+\BOOKMARK [2][-]{subsection.3.5}{Square}{section.3}% 14
+\BOOKMARK [2][-]{subsection.3.6}{Line}{section.3}% 15
+\BOOKMARK [2][-]{subsection.3.7}{Arrow}{section.3}% 16
+\BOOKMARK [2][-]{subsection.3.8}{Equilateral Triangle}{section.3}% 17
+\BOOKMARK [2][-]{subsection.3.9}{Triangle}{section.3}% 18
+\BOOKMARK [2][-]{subsection.3.10}{N Sided Regular Polygon}{section.3}% 19
+\BOOKMARK [2][-]{subsection.3.11}{Polygon}{section.3}% 20
+\BOOKMARK [2][-]{subsection.3.12}{Star}{section.3}% 21
+\BOOKMARK [2][-]{subsection.3.13}{Chord}{section.3}% 22
+\BOOKMARK [2][-]{subsection.3.14}{Arc}{section.3}% 23
+\BOOKMARK [1][-]{section.4}{Image Handler}{}% 24
+\BOOKMARK [1][-]{section.5}{Example XML file}{}% 25
+\BOOKMARK [1][-]{section.6}{Schema}{}% 26
