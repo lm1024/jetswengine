@@ -26,7 +26,7 @@
 	</defaultsettings>
 	<slide backgroundcolor="#ffaaff00" duration="10"> 
 		<!-- PWS Text -->
-		<text sourcefile="null" xstart="0.5" ystart="0.5" font="arial" fontsize="24" fontcolor="#00112233"  duration="1.5">
+		<text sourcefile="null" xstart="0.5" ystart="0.5" font="arial" fontsize="26" fontcolor="#00112233"  duration="1.5">
 			Some Text.
 		</text>
 		

@@ -4,13 +4,14 @@ import utils.Utils;
 
 public class CommonShapes extends Graphic {
 
-	public CommonShapes(Defaults defaults) {
-		super(defaults);
-	}
-
 	private float xEnd;
 	private float yEnd;
 	private boolean solid;
+
+	public CommonShapes(Defaults defaults) {
+		super(defaults);
+		this.solid = defaults.getShapeSolidity();
+	}
 
 	@Override
 	public void printItem() {
@@ -84,9 +85,9 @@ public class CommonShapes extends Graphic {
 			super(defaults);
 		}
 	}
-
-	public class IsoscelesTriangle extends CommonShapes {
-		public IsoscelesTriangle(Defaults defaults) {
+	
+	public class Arrow extends CommonShapes {
+		public Arrow(Defaults defaults) {
 			super(defaults);
 		}
 	}

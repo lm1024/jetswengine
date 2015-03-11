@@ -97,7 +97,7 @@ public class PresentationDisplayerTest extends Application {
 
 		for (Slide currentSlide : currentSlideshow.getSlides()) {
 			System.out.println("Current Slide: " + currentSlide);
-			for (Text currentText : currentSlide.getTextList()) {
+			/*for (Text currentText : currentSlide.getTextList()) {
 				System.out.println("	Current Text: " + currentText);
 				for (TextFragment currentTextFragment : currentText.getTextFragments()) {
 					System.out.println("		Current Text Fragment: " + currentTextFragment.getText());
@@ -109,12 +109,12 @@ public class PresentationDisplayerTest extends Application {
 			for (Graphic currentGraphic : currentSlide.getGraphicsList()) {
 				System.out.println("	Current Graphic Coordinates: " + currentGraphic.getXStart() + " "
 						+ currentGraphic.getYStart());
-			}
+			}*/
 		}
 		slides = currentSlideshow.getSlides();
 		numberOfSlides = slides.size();
 
-		drawSlide(slides.get(0));
+		//drawSlide(slides.get(0));
 
 		primaryStage.show();
 	}
@@ -128,7 +128,7 @@ public class PresentationDisplayerTest extends Application {
 	}
 
 	/** Method draws slide based upon what is in the datastructure */
-	private void drawSlide(Slide currentSlide) {
+	/*private void drawSlide(Slide currentSlide) {
 		thisVideoHandler.clearVideos();
 		thisAudioHandler.clearAudios();
 		group.getChildren().clear();
@@ -136,7 +136,7 @@ public class PresentationDisplayerTest extends Application {
 		System.out.println("	New slide!");
 		long startTextTime = System.nanoTime();
 
-		/* Text section */
+		 Text section 
 		for (Text currentText : currentSlide.getTextList()) {
 			// System.out.println("	Current Text: " + currentText);
 			for (TextFragment currentTextFragment : currentText.getTextFragments()) {
@@ -159,7 +159,7 @@ public class PresentationDisplayerTest extends Application {
 		System.out.println("Text Execution time: " + TimeUnit.NANOSECONDS.toMillis(endTextTime - startTextTime) + "ms");
 
 		long startImageTime = System.nanoTime();
-		/* Image section */
+		 Image section 
 		for (Image currentImage : currentSlide.getImagesList()) {
 			// System.out.println("	Current Image: " +
 			// currentImage.getSourceFile());
@@ -177,7 +177,7 @@ public class PresentationDisplayerTest extends Application {
 				+ "ms");
 
 		long startGraphicTime = System.nanoTime();
-		/* Graphics section */
+		 Graphics section 
 		for (Graphic currentGraphic : currentSlide.getGraphicsList()) {
 			// System.out.println("	Current Graphic: " +
 			// currentGraphic.getType());
@@ -205,7 +205,7 @@ public class PresentationDisplayerTest extends Application {
 				+ TimeUnit.NANOSECONDS.toMillis(endGraphicsTime - startGraphicTime) + "ms");
 
 		long startVideoTime = System.nanoTime();
-		/* Video section */
+		 Video section 
 		for (Video currentVideo : currentSlide.getVideosList()) {
 			// System.out.println("	Current Image: " + currentVideo);
 			int absXStart = convertXRelToAbs(currentVideo.getXStart());
@@ -217,7 +217,7 @@ public class PresentationDisplayerTest extends Application {
 				+ "ms");
 
 		long startAudioTime = System.nanoTime();
-		/* Audio section */
+		 Audio section 
 		for (Audio currentAudio : currentSlide.getAudiosList()) {
 			// System.out.println("	Current Audio: " +
 			// currentAudio.getSourceFile());
@@ -235,7 +235,7 @@ public class PresentationDisplayerTest extends Application {
 		Button b2 = makeButton(100, 800, "Back");
 		b2.setId("back");
 		group.getChildren().addAll(b1, b2);
-	}
+	}*/
 
 	/** Utility function for adding button */
 	private Button makeButton(double xPos, double yPos, String buttonText) {
@@ -264,7 +264,7 @@ public class PresentationDisplayerTest extends Application {
 					currentSlideInt--;
 				}
 			}
-			drawSlide(slides.get(currentSlideInt - 1));
+			//drawSlide(slides.get(currentSlideInt - 1));
 		}
 	}
 }
