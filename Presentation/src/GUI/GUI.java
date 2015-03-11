@@ -10,9 +10,11 @@
 package GUI;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import javafx.application.Application;
@@ -83,6 +85,9 @@ public class GUI extends Application {
 	final GridPane grid = new GridPane();
 	private Label lbl;
 
+	private File inputFile = new File("resources/files.csv");
+	private BufferedReader br;
+
 	public GUI() {
 	}
 
@@ -100,24 +105,11 @@ public class GUI extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		/*
 		 * TODO Jake, please make a nice GUI. You are our only hope. CSV reading
-		 * for images. CSV wriing. Move back to CSS
+		 * for images. CSV writing. Move back to CSS. Windows gestures.
 		 */
 
 		/* Read CSV into an array list */
-		String theLine;
-		BufferedReader br;
-		try {
-			br = new BufferedReader(new FileReader("resources/files.csv"));
-			while ((theLine = br.readLine()) != null) {
-				fileList.add(theLine);
-			}
-			br.close();
-		} catch (IOException e) {
-			System.out.println(e.toString());
-		} catch (Exception e) {
-			System.out.println("It ain't worked!");
-			System.out.println(e.toString());
-		}
+		parseFiles();
 
 		stageRef = primaryStage;
 
@@ -135,6 +127,24 @@ public class GUI extends Application {
 
 		primaryStage.show();
 
+	}
+
+	private void parseFiles() {
+		// TODO Auto-generated method stub
+		String theLine;
+		try {
+			br = new BufferedReader(new FileReader(inputFile));
+			while ((theLine = br.readLine()) != null) {
+				fileList.add(theLine);
+			}
+			br.close();
+		} catch (IOException e) {
+			System.out.println(e.toString());
+		} catch (Exception e) {
+			System.out.println("It ain't worked!");
+			System.out.println(e.toString());
+		}
+		System.out.println(fileList.get(0) + "  " + fileList.get(5));
 	}
 
 	/**
@@ -166,11 +176,11 @@ public class GUI extends Application {
 
 				/* Check that a file was selected */
 				if (file != null) {
-					try {
+					/*try {
 						currentSlideshow = new XMLReader(file.getAbsolutePath())
 								.getSlideshow();
 					} catch (IOException e1) {
-					}
+					}*/
 					/* Get the directory of the last opened file */
 					initDir = file.getParentFile();
 					System.out.println(initDir);
@@ -178,37 +188,62 @@ public class GUI extends Application {
 					if (currentSlideshow == null) {
 
 						/* Display error scene */
-						dispError();
+						//dispError();
 
-						System.out.println("Null slideshow");
+						//System.out.println("Null slideshow");
 					}
 
-					/* Write new file to CSV */
+					/*
+					 *  Write new file to CSV
+					 */
+					/* Shift values of filelist down */
+					for (int i = 4; i > -1 ; i--) {
+						fileList.set(i+1, fileList.get(i));
+					}
+					/* add new file to start of list */
+					fileList.set(0, file.getName());
+					
+					try (BufferedWriter bw = new BufferedWriter(
+							new PrintWriter(inputFile))) {
+						/* loop though values in the file list */
+						for (int i = 0; i < 6; i++) {
+							/* Write pos. i in filelist to the .csv */
+							bw.write(fileList.get(i));
+							bw.newLine();
+						}
+					} catch (IOException n) {
+						n.printStackTrace();
+					}
 
 				} else {
+					/* If no file is selected do nothing */
 					System.out.println("No file");
 				}
 
 				break;
 
 			case "Settings":
+				/* Build the settings scene */
 				buildSettings();
-				System.out.println("building");
+				/* set settings Scene as the scene */
 				stageRef.setScene(settingsScene);
 				break;
 
+				/* If any open button is pressed */
 			case "0":
 			case "1":
 			case "2":
 			case "3":
 			case "4":
 			case "5":
+				/* Build the slide show */
 				buildSlides();
 				Slideshow currentSlideshow1 = null;
+				/* Get ID of button as an int */
 				int i = Integer.parseInt(buttonPressed.getId());
 				System.out.println("Open pres. " + i);
+				/* open file at apropriate position in fileList */
 				outputFile = fileList.get(i);
-				System.out.println(outputFile);
 
 				if (outputFile != null) {
 					try {
@@ -237,6 +272,7 @@ public class GUI extends Application {
 				break;
 
 			case "saveWords":
+				/* Save words in the text box into BannedWords */
 				bannedWords = ta.getText().split(", ");
 				if (!bannedWords[0].isEmpty()) {
 					for (String string : bannedWords) {
@@ -246,6 +282,7 @@ public class GUI extends Application {
 				break;
 
 			case "home":
+				/* Build the scene for the main */
 				buildmain();
 
 				break;
@@ -255,6 +292,7 @@ public class GUI extends Application {
 
 				break;
 			case "userClr":
+				/* Clear the text field */
 				userField.clear();
 				break;
 
