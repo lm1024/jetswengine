@@ -11,7 +11,7 @@ import javafx.scene.paint.Stop;
  * screen.
  * 
  * @author tjd511
- * @version 0.2 10/03/2015
+ * @version 1.0 11/03/2015
  */
 public class Graphic {
 	protected final static float defaultSize = 200;
@@ -95,7 +95,7 @@ public class Graphic {
 		shadow = builder.shadow;
 		shadingType = builder.shadingType;
 		ArrayList<String> shadingColors = builder.shadingColors;
-		ArrayList<Float> stopOffset = builder.stops;
+		ArrayList<Float> stopOffset = builder.offsets;
 
 		/* Populate an array list of stops from the already verified data */
 		for (int i = 0; i < shadingColors.size(); i++) {
@@ -392,7 +392,7 @@ public class Graphic {
 		private Shadow shadow = Shadow.NONE;
 		private Shading shadingType = Shading.NONE;
 		private ArrayList<String> shadingColors;
-		private ArrayList<Float> stops;
+		private ArrayList<Float> offsets;
 
 		/**
 		 * Constructor for GraphicBuilder takes the 3 required values for each
@@ -408,7 +408,7 @@ public class Graphic {
 		 */
 		public GraphicBuilder(GraphicType graphic, float xStartPos, float yStartPos) {
 			shadingColors = new ArrayList<String>();
-			stops = new ArrayList<Float>();
+			offsets = new ArrayList<Float>();
 			xCoordinates = new ArrayList<Float>();
 			yCoordinates = new ArrayList<Float>();
 
@@ -684,15 +684,15 @@ public class Graphic {
 		 * 
 		 * @param shadingColor
 		 *            a #, followed by a 8 bit hex string of format ARGB
-		 * @param stop
+		 * @param offset
 		 *            the relative distance through the shape that the color
 		 *            should appear.
 		 * @see {@link graphicsHandler.Shading}
 		 */
-		public GraphicBuilder shadingElement(String shadingColor, float stop) {
-			if (verifyColor(shadingColor) && (stop >= 0) && (stop <= 1)) {
+		public GraphicBuilder shadingElement(String shadingColor, float offset) {
+			if (verifyColor(shadingColor) && (offset >= 0) && (offset <= 1)) {
 				shadingColors.add(shadingColor);
-				stops.add(stop);
+				offsets.add(offset);
 			}
 			return this;
 		}
