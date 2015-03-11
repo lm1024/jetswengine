@@ -22,19 +22,17 @@ public class SlideRendererDemo extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		/* Set the title of the window */
+		Slideshow slideshow = new ImprovedXMLReader("test.xml").getSlideshow();
 		primaryStage.setTitle("Slide Renderer Demo");
 		Group group = new Group();
 		Scene scene = new Scene(group, 500, 500);
 		primaryStage.setScene(scene);
 		
-		Slideshow slideshow = new ImprovedXMLReader("test.xml").getSlideshow();
+		
 		
 		SlideRenderer slideRenderer = new SlideRenderer(group);
-		slideRenderer.drawSlide(slideshow.getSlide(0));
-		slideRenderer.drawSlide(slideshow.getSlide(1));
-		slideRenderer.drawSlide(slideshow.getSlide(2));
-		slideRenderer.drawSlide(slideshow.getSlide(3));
 		slideRenderer.drawSlide(slideshow.getSlide(4));
+		
 		primaryStage.show();
 	}
 }
