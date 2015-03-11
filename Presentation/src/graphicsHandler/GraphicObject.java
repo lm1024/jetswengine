@@ -13,7 +13,7 @@ import javafx.scene.paint.Stop;
  * @author tjd511
  * @version 1.0 11/03/2015
  */
-public class Graphic {
+public class GraphicObject {
 	protected final static float defaultSize = 200;
 
 	/*
@@ -63,7 +63,7 @@ public class Graphic {
 	private ArrayList<Stop> stops = new ArrayList<Stop>();
 
 	/* Constructor must be called using the builder */
-	private Graphic(GraphicBuilder builder) {
+	private GraphicObject(GraphicBuilder builder) {
 		graphic = builder.graphic;
 		xStartPos = builder.xStartPos;
 		yStartPos = builder.yStartPos;
@@ -708,8 +708,8 @@ public class Graphic {
 		 * @return a graphics object containing all the paramaters about the
 		 *         graphic.
 		 */
-		public Graphic build() {
-			return new Graphic(this);
+		public GraphicObject build() {
+			return new GraphicObject(this);
 		}
 	}
 }
