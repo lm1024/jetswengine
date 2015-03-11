@@ -3,7 +3,7 @@ package textHandler;
 
 import java.util.ArrayList;
 
-import textHandler.TextBox.TextFragmentBuilder;
+import textHandler.TextObject.TextFragmentBuilder;
 
 import Data.TextFragment;
 

@@ -9,12 +9,12 @@ import Data.Defaults;
 import Data.TextFragment;
 
 /**
- * Text Box object class for passing to the textHandler to draw to screen.
+ * Text object class for passing to the textHandler to draw to screen.
  * 
  * @author tjd511
  * @version 1.0 10/03/2015
  */
-public class TextBox {
+public class TextObject {
 	private final int xStart;
 	private final int yStart;
 	private final int xEnd;
@@ -23,7 +23,7 @@ public class TextBox {
 	private final Alignment alignment;
 	private ArrayList<TextFragment> stringBuffer = new ArrayList<TextFragment>();
 
-	private TextBox(TextBoxBuilder builder) {
+	private TextObject(TextBoxBuilder builder) {
 		this.xStart = builder.xStart;
 		this.yStart = builder.yStart;
 		this.xEnd = builder.xEnd;
@@ -174,8 +174,8 @@ public class TextBox {
 		 * 
 		 * @return the new textBox object.
 		 */
-		public TextBox build() {
-			return new TextBox(this);
+		public TextObject build() {
+			return new TextObject(this);
 		}
 
 	}

@@ -67,7 +67,7 @@ public class TextHandler {
 	 * @param textBox the text box to be drawn. Must be formed using the TextBox builder.
 	 * @see {@link textHandler.TextBox} 
 	 */
-	public void drawTextTest(TextBox textBox) {
+	public void drawText(TextObject textBox) {
 		stringBuffer = textBox.getStringBuffer();
 
 		int xStartPos = textBox.getXStart();
