@@ -304,7 +304,8 @@ public class Graphic {
 	}
 
 	/**
-	 * @return an enum containing the amount of shadow the graphic should be drawn with
+	 * @return an enum containing the amount of shadow the graphic should be
+	 *         drawn with
 	 */
 	public Shadow getShadow() {
 		return shadow;
@@ -419,81 +420,193 @@ public class Graphic {
 			this.yEndPos = yStartPos + defaultSize;
 		}
 
+		/**
+		 * Method sets the color of the graphic
+		 * 
+		 * @param color
+		 *            a #, followed by a 8 bit hex string of format ARGB
+		 */
 		public GraphicBuilder color(String color) {
-			this.color = color;
+			if (verifyColor(color)) {
+				this.color = color;
+			}
 			return this;
 		}
 
+		/**
+		 * Method sets the x end coordinate of the graphic
+		 * 
+		 * @param xEndPos
+		 *            the ending x coordinate of the graphic
+		 */
 		public GraphicBuilder xEndPos(Float xEndPos) {
 			this.xEndPos = xEndPos;
 			return this;
 		}
 
+		/**
+		 * Method sets the y end coordinate of the graphic
+		 * 
+		 * @param yEndPos
+		 *            the ending y coordinate of the graphic
+		 */
 		public GraphicBuilder yEndPos(Float yEndPos) {
 			this.yEndPos = yEndPos;
 			return this;
 		}
 
+		/**
+		 * Method sets if the shape is solid or not
+		 * 
+		 * @param solid
+		 *            a boolean containing if the shape is solid or not
+		 */
 		public GraphicBuilder solid(boolean solid) {
 			this.solid = solid;
 			return this;
 		}
 
+		/**
+		 * Method sets the outline color of the graphic
+		 * 
+		 * @param outlineColor
+		 *            a #, followed by a 8 bit hex string of format ARGB
+		 */
 		public GraphicBuilder outlineColor(String outlineColor) {
-			this.outlineColor = outlineColor;
+			if (verifyColor(outlineColor)) {
+				this.outlineColor = outlineColor;
+			}
 			return this;
 		}
 
+		/**
+		 * Method sets the outline thickness of the shape
+		 * 
+		 * @param outlineThickness
+		 *            a float for the thickness of the outline
+		 */
 		public GraphicBuilder outlineThickness(float outlineThickness) {
-			this.outlineThickness = outlineThickness;
+			if (outlineThickness <= 0) {
+				this.outlineThickness = outlineThickness;
+			}
 			return this;
 		}
 
+		/**
+		 * Method sets the amount of rotation around the center for the shape
+		 * 
+		 * @param rotation
+		 *            the amount of rotation around the center in degrees
+		 */
 		public GraphicBuilder rotation(float rotation) {
 			this.rotation = rotation;
 			return this;
 		}
 
+		/**
+		 * Method sets the radius of the shape
+		 * 
+		 * @param radius
+		 *            the radius of the shape
+		 */
 		public GraphicBuilder radius(float radius) {
 			this.radius = radius;
 			return this;
 		}
 
+		/**
+		 * Method sets the arc width of the shape
+		 * 
+		 * @param arcWidth
+		 *            the arc width of the shape
+		 */
 		public GraphicBuilder arcWidth(float arcWidth) {
 			this.arcWidth = arcWidth;
 			return this;
 		}
 
+		/**
+		 * Method sets the arc height of the shape
+		 * 
+		 * @param arcHeight
+		 *            the arc height of the shape
+		 */
 		public GraphicBuilder arcHeight(float arcHeight) {
 			this.arcHeight = arcHeight;
 			return this;
 		}
 
+		/**
+		 * Method sets the size of the shape
+		 * 
+		 * @param size
+		 *            the size of the shape
+		 */
 		public GraphicBuilder size(float size) {
 			this.size = size;
 			return this;
 		}
 
+		/**
+		 * Method sets the width of the shape
+		 * 
+		 * @param width
+		 *            the width of the shape
+		 */
 		public GraphicBuilder width(float width) {
 			this.width = width;
 			return this;
 		}
 
+		/**
+		 * Method sets the height of the shape
+		 * 
+		 * @param height
+		 *            the height of the shape
+		 */
 		public GraphicBuilder height(float height) {
 			this.height = height;
 			return this;
 		}
 
+		/**
+		 * Method sets the number of sides of the regular polygon
+		 * 
+		 * @param numberOfSides
+		 *            the number of sides
+		 */
 		public GraphicBuilder numberOfSides(int numberOfSides) {
 			this.numberOfSides = numberOfSides;
 			return this;
 		}
 
+		/**
+		 * The number of points on the star
+		 * 
+		 * @param numberOfPoints
+		 *            the number of points on the star
+		 */
 		public GraphicBuilder numberOfPoints(int numberOfPoints) {
 			this.numberOfPoints = numberOfPoints;
 			return this;
 		}
 
+		/**
+		 * Method sets all the coordinates of the triangle.
+		 * 
+		 * @param x1
+		 *            the x coordinate of the first point of the triangle
+		 * @param y1
+		 *            the y coordinate of the first point of the triangle
+		 * @param x2
+		 *            the x coordinate of the second point of the triangle
+		 * @param y2
+		 *            the y coordinate of the second point of the triangle
+		 * @param x3
+		 *            the x coordinate of the third point of the triangle
+		 * @param y3
+		 *            the y coordinate of the third point of the triangle
+		 */
 		public GraphicBuilder triangleCoordinates(float x1, float y1, float x2, float y2, float x3, float y3) {
 			this.x1 = x1;
 			this.y1 = y1;
@@ -504,32 +617,78 @@ public class Graphic {
 			return this;
 		}
 
+		/**
+		 * Method sets the coordinates of one of the corner of the polygon.
+		 * 
+		 * @param xCoordinate
+		 *            the x coordinate of the corner
+		 * @param yCoordinate
+		 *            the y coordinate of the corner
+		 */
 		public GraphicBuilder polygonCoordinate(float xCoordinate, float yCoordinate) {
 			xCoordinates.add(xCoordinate);
 			yCoordinates.add(yCoordinate);
 			return this;
 		}
 
+		/**
+		 * Method sets the arc angle of the shape
+		 * 
+		 * @param arcAngle
+		 *            the arc angle of the shape in degrees
+		 */
 		public GraphicBuilder arcAngle(float arcAngle) {
 			this.arcAngle = arcAngle;
 			return this;
 		}
 
+		/**
+		 * Method sets the length of the shape
+		 * 
+		 * @param length
+		 *            the length of the shape
+		 */
 		public GraphicBuilder length(float length) {
 			this.length = length;
 			return this;
 		}
 
+		/**
+		 * Method sets the amount of shadow to be applied to each shape.
+		 * 
+		 * @param shadow
+		 *            an enum containing the amount of shadow.
+		 * @see {@link graphicsHandler.Shadow}
+		 */
 		public GraphicBuilder shadow(Shadow shadow) {
 			this.shadow = shadow;
 			return this;
 		}
 
+		/**
+		 * Method sets the type of shading to be applied to the shape.
+		 * 
+		 * @param shadingType
+		 *            an enum containing the type of shading to be applied to
+		 *            the shape.
+		 * 
+		 * @see {@link graphicsHandler.Shading}
+		 */
 		public GraphicBuilder shadingType(Shading shadingType) {
 			this.shadingType = shadingType;
 			return this;
 		}
 
+		/**
+		 * Method sets one of the shading values for the shape.
+		 * 
+		 * @param shadingColor
+		 *            a #, followed by a 8 bit hex string of format ARGB
+		 * @param stop
+		 *            the relative distance through the shape that the color
+		 *            should appear.
+		 * @see {@link graphicsHandler.Shading}
+		 */
 		public GraphicBuilder shadingElement(String shadingColor, float stop) {
 			if (verifyColor(shadingColor) && (stop >= 0) && (stop <= 1)) {
 				shadingColors.add(shadingColor);
@@ -538,6 +697,17 @@ public class Graphic {
 			return this;
 		}
 
+		/**
+		 * Method builds the graphics object.
+		 * 
+		 * Defaults:
+		 * 
+		 * Color: "#ff000000". Outline color: "#00000000". Outline thickness: 1.
+		 * Shading: Shading.NONE. Shadow: Shadow.NONE.
+		 * 
+		 * @return a graphics object containing all the paramaters about the
+		 *         graphic.
+		 */
 		public Graphic build() {
 			return new Graphic(this);
 		}
