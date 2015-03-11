@@ -1,4 +1,7 @@
-package GUI;
+/** (c) Copyright by WaveMedia. */
+package imageHandler;
+
+import java.util.ArrayList;
 
 import javafx.scene.Group;
 import javafx.scene.effect.Bloom;
@@ -12,6 +15,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.image.PixelReader;
+
 import javax.swing.JOptionPane;
 
 /**
@@ -25,6 +29,32 @@ public class ImageHandler {
 
 	public ImageHandler(Group group) {
 		this.group = group;
+	}
+
+	/**
+	* Method for drawing a image on the screen.
+	*
+	* @param image
+	* a image object containing all the information about the
+	* image to be drawn. Must be formed using the ImageBuilder.
+	* @see {@link imageHandler.ImageObject}
+	*/
+	public void drawImage(ImageObject image) {
+		float xPos = image.getXStartPos();
+		float yPos = image.getYStartPos();
+		String filepath = image.getFilepath();
+		double scaleX = image.getScaleX();
+		double scaleY = image.getScaleY();
+		float rotation = image.getRotation();
+		boolean vFlip = image.isvFlip();
+		boolean hFlip = image.ishFlip();
+		double cropLeft = image.getCropLeft();
+		double cropRight = image.getCropRight();
+		double cropDown = image.getCropDown();
+		double cropUp = image.getCropUp();
+		ArrayList<ImageEffect> imageEffects = image.getImageEffects();
+		drawImage(xPos, yPos, filepath, scaleX, scaleY, rotation, vFlip, hFlip, cropLeft, cropRight, cropDown, cropUp,
+				imageEffects);
 	}
 
 	/**
@@ -61,9 +91,9 @@ public class ImageHandler {
 	 *            to the image. The first one in the list is the primary effect,
 	 *            the effect following uses the previous effect as an input.
 	 */
-	public void drawImage(float xPos, float yPos, String filepath, double scaleX, double scaleY, float rotation,
+	private void drawImage(float xPos, float yPos, String filepath, double scaleX, double scaleY, float rotation,
 			boolean vFlip, boolean hFlip, double cropLeft, double cropRight, double cropDown, double cropUp,
-			ImageEffect... imageEffects) {
+			ArrayList<ImageEffect> imageEffects) {
 		/* Create image variable */
 		Image image;
 		try {
