@@ -86,7 +86,6 @@ public class GUI extends Application {
 	private Label lbl;
 
 	private File inputFile = new File("resources/files.csv");
-	private BufferedReader br;
 
 	public GUI() {
 	}
@@ -130,21 +129,19 @@ public class GUI extends Application {
 	}
 
 	private void parseFiles() {
-		// TODO Auto-generated method stub
 		String theLine;
-		try {
-			br = new BufferedReader(new FileReader(inputFile));
+		try (BufferedReader br = new BufferedReader(new FileReader(inputFile))) {
+			/* Loop through each line of the CSV */
 			while ((theLine = br.readLine()) != null) {
+				/* Add each line to the fileList */
 				fileList.add(theLine);
 			}
-			br.close();
+			/* Catch exceptions */
 		} catch (IOException e) {
 			System.out.println(e.toString());
 		} catch (Exception e) {
-			System.out.println("It ain't worked!");
 			System.out.println(e.toString());
 		}
-		System.out.println(fileList.get(0) + "  " + fileList.get(5));
 	}
 
 	/**
@@ -154,17 +151,21 @@ public class GUI extends Application {
 	private class buttonEventHandler implements EventHandler<ActionEvent> {
 		@Override
 		public void handle(ActionEvent e) {
+			/* get the source of the handler caller */
 			Button buttonPressed = (Button) e.getSource();
 
+			/* Print out ID of the button pressed */
 			System.out.println(buttonPressed.getId() + " pressed");
 
-			/* Switch statement for multiple buttons */
+			/* Switch statement for multiple buttons using their IDs */
 			switch (buttonPressed.getId()) {
 
 			case "Openfile":
 				Slideshow currentSlideshow = null;
+				/* Open a file chooser and give it a name */
 				FileChooser fileChooser = new FileChooser();
 				fileChooser.setTitle("Open Resource File");
+				/* Set initial directory as parent of last opened file */
 				fileChooser.setInitialDirectory(initDir);
 
 				/* Add filters to file chooser */
@@ -172,15 +173,16 @@ public class GUI extends Application {
 						new FileChooser.ExtensionFilter("XML files ", "*.xml"),
 						new FileChooser.ExtensionFilter("All files", "*.*"));
 
+				/* File chooser is a dialog box on the home screen */
 				File file = fileChooser.showOpenDialog(stageRef);
 
 				/* Check that a file was selected */
 				if (file != null) {
-					/*try {
+					try {
 						currentSlideshow = new XMLReader(file.getAbsolutePath())
 								.getSlideshow();
 					} catch (IOException e1) {
-					}*/
+					}
 					/* Get the directory of the last opened file */
 					initDir = file.getParentFile();
 					System.out.println(initDir);
@@ -188,26 +190,26 @@ public class GUI extends Application {
 					if (currentSlideshow == null) {
 
 						/* Display error scene */
-						//dispError();
+						dispError();
 
-						//System.out.println("Null slideshow");
+						System.out.println("Null slideshow");
 					}
 
 					/*
-					 *  Write new file to CSV
+					 * Write new file to CSV
 					 */
-					/* Shift values of filelist down */
-					for (int i = 4; i > -1 ; i--) {
-						fileList.set(i+1, fileList.get(i));
+					/* Shift values of fileList down */
+					for (int i = 4; i > -1; i--) {
+						fileList.set(i + 1, fileList.get(i));
 					}
 					/* add new file to start of list */
 					fileList.set(0, file.getName());
-					
+
 					try (BufferedWriter bw = new BufferedWriter(
 							new PrintWriter(inputFile))) {
 						/* loop though values in the file list */
 						for (int i = 0; i < 6; i++) {
-							/* Write pos. i in filelist to the .csv */
+							/* Write pos. i in fileList to the .csv */
 							bw.write(fileList.get(i));
 							bw.newLine();
 						}
@@ -229,7 +231,7 @@ public class GUI extends Application {
 				stageRef.setScene(settingsScene);
 				break;
 
-				/* If any open button is pressed */
+			/* If any open button is pressed */
 			case "0":
 			case "1":
 			case "2":
@@ -264,10 +266,12 @@ public class GUI extends Application {
 					}
 					break;
 				} else {
+					/* Display the error message */
 					dispError();
 				}
 
 			case "clr":
+				/* Clear text area */
 				ta.clear();
 				break;
 
@@ -313,19 +317,22 @@ public class GUI extends Application {
 
 		@Override
 		public void handle(MouseEvent e) {
-
+			/* Get handler source */
 			Button btn = (Button) e.getSource();
+			/* new instance of a drop shadow and its colour */
 			DropShadow shadow = new DropShadow();
 			shadow.setColor(Color.web("#33B5E5"));
 
+			/* if there is no shadow add it */
 			if (!isShadow) {
 				btn.setEffect(shadow);
 			} else {
+				/* If there is a shadow then remove it */
 				btn.setEffect(null);
 			}
 
+			/* invert isShadow boolean */
 			isShadow = !isShadow;
-
 		}
 
 	}
@@ -340,9 +347,10 @@ public class GUI extends Application {
 		public void handle(ActionEvent e) {
 
 			CheckBox cbSelected = (CheckBox) e.getSource();
-			int i = Integer.parseInt(cbSelected.getId());// checkbox number as
-															// int
+			/* Get ID as an int */
+			int i = Integer.parseInt(cbSelected.getId());
 
+			/* Print the Id int */
 			System.out.println("Check box" + i + " was set to "
 					+ cbSelected.isSelected());
 
@@ -350,8 +358,14 @@ public class GUI extends Application {
 
 	}
 
+	/**
+	 * 
+	 * private class so that key press Events can be handled for the text boxes
+	 *
+	 */
 	private class keyPressedHandler implements EventHandler<KeyEvent> {
-
+		//TODO neaten up and comment, possibly use nested switch?
+		
 		@Override
 		public void handle(KeyEvent e) {
 			Object key = e.getCode();
@@ -391,24 +405,34 @@ public class GUI extends Application {
 		}
 	}
 
+	/**
+	 * 
+	 * private class so that mouse click Events can be handled
+	 *
+	 */
 	private class mouseClickHandler implements EventHandler<MouseEvent> {
 
 		public void handle(MouseEvent e) {
 			/* ID which side of the screen is clicked on */
 			if (e.getX() > (slidePane.getWidth()) * 0.5) {
-				System.out.println("right");
+				/* Change the value of slideNo accordingly */
 				slideNo++;
 			} else {
 				if (slideNo > 0) {
 					slideNo--;
 				}
-				System.out.println("left");
 			}
 
+			/* update the text in label */
 			lbl.setText(String.valueOf(slideNo));
 		}
 	}
 
+	/**
+	 * 
+	 * private method to build the main screen
+	 * 
+	 */
 	private void buildmain() {
 
 		GridPane grid = new GridPane();
