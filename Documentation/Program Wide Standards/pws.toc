@@ -8,6 +8,20 @@
 \contentsline {subsection}{\numberline {2.3}Text from sourcefile}{5}{subsection.2.3}
 \contentsline {subsection}{\numberline {2.4}Text from list of richtext elements}{5}{subsection.2.4}
 \contentsline {section}{\numberline {3}Graphics Handler}{6}{section.3}
-\contentsline {section}{\numberline {4}Image Handler}{7}{section.4}
-\contentsline {section}{\numberline {5}Example XML file}{8}{section.5}
-\contentsline {section}{\numberline {6}Schema}{10}{section.6}
+\contentsline {subsection}{\numberline {3.1}Common Parameters}{6}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}Oval}{6}{subsection.3.2}
+\contentsline {subsection}{\numberline {3.3}Circle}{6}{subsection.3.3}
+\contentsline {subsection}{\numberline {3.4}Rectangle}{7}{subsection.3.4}
+\contentsline {subsection}{\numberline {3.5}Square}{7}{subsection.3.5}
+\contentsline {subsection}{\numberline {3.6}Line}{8}{subsection.3.6}
+\contentsline {subsection}{\numberline {3.7}Arrow}{8}{subsection.3.7}
+\contentsline {subsection}{\numberline {3.8}Equilateral Triangle}{8}{subsection.3.8}
+\contentsline {subsection}{\numberline {3.9}Triangle}{9}{subsection.3.9}
+\contentsline {subsection}{\numberline {3.10}N Sided Regular Polygon}{9}{subsection.3.10}
+\contentsline {subsection}{\numberline {3.11}Polygon}{10}{subsection.3.11}
+\contentsline {subsection}{\numberline {3.12}Star}{10}{subsection.3.12}
+\contentsline {subsection}{\numberline {3.13}Chord}{11}{subsection.3.13}
+\contentsline {subsection}{\numberline {3.14}Arc}{11}{subsection.3.14}
+\contentsline {section}{\numberline {4}Image Handler}{12}{section.4}
+\contentsline {section}{\numberline {5}Example XML file}{13}{section.5}
+\contentsline {section}{\numberline {6}Schema}{16}{section.6}

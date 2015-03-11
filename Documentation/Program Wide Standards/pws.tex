@@ -158,7 +158,203 @@ The hierarchy for what text is printed is text from sourcefile, then text within
 \clearpage
 
 \section{Graphics Handler}
-\clearpage
+Below is a list of all shapes supported by the Graphics Handler, and the parameters that can be varied on each shape. 
+
+\subsection{Common Parameters}
+Each shape requires these values specified. 
+\begin{itemize}
+\item xStartPos - x coordinate of the top left corner of the bounding box around the shape.
+\item yStartPos - y coordinate of the top left corner of the bounding box around the shape.
+\end{itemize}
+
+
+\subsection{Oval}
+\begin{itemize}
+\item xEndPos - x coordinate of the bottom right corner of the bounding box around the oval.
+\item yEndPos - y coordinate of the bottom right corner of the bounding box around the oval.
+\item color - color of the oval. The accepted string format is a \#, followed by a 8 bit hex number in ARGB format.
+\item solid - boolean value of if the oval is an outline or a solid shape.
+\item outlineColor - outline color of the oval. The accepted string format is a \#, followed by a 8 bit hex number in ARGB format.
+\item outlineThickness - thickness of the oval outline.
+\item shadowType - the amount of shadow on the oval.\newline  Options: Shadow.NONE, Shadow.LIGHT, Shadow.NORMAL and Shadow.HEAVY.
+\item rotation - amount of rotation about the center in degrees. 
+\item shadingType - the type of shading to be applied to the oval.\newline  Options: Shading.NONE, Shading.CYCLIC, Shading.HORIZONTAL, Shading.VERTICAL.
+\item shadingElement - a element that describes the color at a position in the shape. Contains a shadingColor in the regular color string format, and a offset that is a relative (0 to 1) distance through the shape that the color should appear. This element can occur multiple times per shape.
+\end{itemize}
+
+
+\subsection{Circle}
+\begin{itemize}
+\item radius - the radius of the circle.
+\item color - color of the circle. The accepted string format is a \#, followed by a 8 bit hex number in ARGB format.
+\item solid - boolean value of if the circle is an outline or a solid shape.
+\item outlineColor - outline color of the circle. The accepted string format is a \#, followed by a 8 bit hex number in ARGB format.
+\item outlineThickness - thickness of the circle outline.
+\item shadowType - the amount of shadow on the circle.\newline  Options: Shadow.NONE, Shadow.LIGHT, Shadow.NORMAL and Shadow.HEAVY.
+\item shadingType - the type of shading to be applied to the circle.\newline  Options: Shading.NONE, Shading.CYCLIC, Shading.HORIZONTAL, Shading.VERTICAL.
+\item shadingElement - a element that describes the color at a position in the shape. Contains a shadingColor in the regular color string format, and a offset that is a relative (0 to 1) distance through the shape that the color should appear. This element can occur multiple times per shape.
+\end{itemize}
+
+\subsection{Rectangle}
+\begin{itemize}
+\item xEndPos - x coordinate of the bottom right corner of the bounding box around the rectangle.
+\item yEndPos - y coordinate of the bottom right corner of the bounding box around the rectangle.
+\item arcWidth - the vertical diameter of the arc at the four corners of the rectangle.
+\item arcHeight - the horizontal diameter of the arc at the four corners of the rectangle.
+\item color - color of the rectangle. The accepted string format is a \#, followed by a 8 bit hex number in ARGB format.
+\item solid - boolean value of if the rectangle is an outline or a solid shape.
+\item outlineColor - outline color of the rectangle. The accepted string format is a \#, followed by a 8 bit hex number in ARGB format.
+\item outlineThickness - thickness of the rectangle outline.
+\item shadowType - the amount of shadow on the rectangle.\newline  Options: Shadow.NONE, Shadow.LIGHT, Shadow.NORMAL and Shadow.HEAVY.
+\item rotation - amount of rotation about the center in degrees. 
+\item shadingType - the type of shading to be applied to the rectangle. \newline Options: Shading.NONE, Shading.CYCLIC, Shading.HORIZONTAL, Shading.VERTICAL.
+\item shadingElement - a element that describes the color at a position in the shape. Contains a shadingColor in the regular color string format, and a offset that is a relative (0 to 1) distance through the shape that the color should appear. This element can occur multiple times per shape.
+\end{itemize}
+
+\subsection{Square}
+\begin{itemize}
+\item length - the length of each side of the square.
+\item color - color of the rectangle. The accepted string format is a \#, followed by a 8 bit hex number in ARGB format.
+\item solid - boolean value of if the square is an outline or a solid shape.
+\item outlineColor - outline color of the square. The accepted string format is a \#, followed by a 8 bit hex number in ARGB format.
+\item outlineThickness - thickness of the square outline.
+\item shadowType - the amount of shadow on the square.\newline  Options: Shadow.NONE, Shadow.LIGHT, Shadow.NORMAL and Shadow.HEAVY.
+\item rotation - amount of rotation about the center in degrees. 
+\item shadingType - the type of shading to be applied to the square. \newline  Options: Shading.NONE, Shading.CYCLIC, Shading.HORIZONTAL, Shading.VERTICAL.
+\item shadingElement - a element that describes the color at a position in the shape. Contains a shadingColor in the regular color string format, and a offset that is a relative (0 to 1) distance through the shape that the color should appear. This element can occur multiple times per shape.
+\end{itemize}
+
+\subsection{Line}
+\begin{itemize}
+\item xStartPos - x coordinate of the start of the line.
+\item yStartPos - y coordinate of the start of the line.
+\item xEndPos - x coordinate of the end of the line.
+\item yEndPos - y coordinate of the end of the line.
+\item color - color of the line. The accepted string format is a \#, followed by a 8 bit hex number in ARGB format.
+\item thickness - thickness of the line.
+\item shadingType - the type of shading to be applied to the line.\newline  Options: Shading.NONE, Shading.CYCLIC, Shading.HORIZONTAL, Shading.VERTICAL.
+\item shadingElement - a element that describes the color at a position in the shape. Contains a shadingColor in the regular color string format, and a offset that is a relative (0 to 1) distance through the shape that the color should appear. This element can occur multiple times per shape.
+\end{itemize}
+
+\subsection{Arrow}
+\begin{itemize}
+\item xStartPos - x coordinate of the start of the arrow.
+\item yStartPos - y coordinate of the start of the arrow.
+\item xEndPos - x coordinate of the end of the arrow.
+\item yEndPos - y coordinate of the end of the arrow.
+\item color - color of the arrow. The accepted string format is a \#, followed by a 8 bit hex number in ARGB format.
+\item shadingType - the type of shading to be applied to the arrow.\newline  Options: Shading.NONE, Shading.CYCLIC, Shading.HORIZONTAL, Shading.VERTICAL.
+\item shadingElement - a element that describes the color at a position in the shape. Contains a shadingColor in the regular color string format, and a offset that is a relative (0 to 1) distance through the shape that the color should appear. This element can occur multiple times per shape.
+\end{itemize}
+
+
+\subsection{Equilateral Triangle}
+\begin{itemize}
+\item length - the side length of the triangle
+\item color - color of the triangle. The accepted string format is a \#, followed by a 8 bit hex number in ARGB format.
+\item solid - boolean value of if the triangle is an outline or a solid shape.
+\item outlineColor - outline color of the triangle. The accepted string format is a \#, followed by a 8 bit hex number in ARGB format.
+\item outlineThickness - thickness of the triangle outline.
+\item shadowType - the amount of shadow on the triangle.\newline  Options: Shadow.NONE, Shadow.LIGHT, Shadow.NORMAL and Shadow.HEAVY.
+\item rotation - amount of rotation about the center in degrees. 
+\item shadingType - the type of shading to be applied to the equilateral triangle.\newline  Options: Shading.NONE, Shading.CYCLIC, Shading.HORIZONTAL, Shading.VERTICAL.
+\item shadingElement - a element that describes the color at a position in the shape. Contains a shadingColor in the regular color string format, and a offset that is a relative (0 to 1) distance through the shape that the color should appear. This element can occur multiple times per shape.
+\end{itemize}
+
+
+\subsection{Triangle}
+\begin{itemize}
+\item triangleCoordinates - all 6 coordinates of the 3 corners of the triangle.
+\item color - color of the triangle. The accepted string format is a \#, followed by a 8 bit hex number in ARGB format.
+\item solid - boolean value of if the triangle is an outline or a solid shape.
+\item outlineColor - outline color of the triangle. The accepted string format is a \#, followed by a 8 bit hex number in ARGB format.
+\item outlineThickness - thickness of the triangle outline.
+\item shadowType - the amount of shadow on the triangle.\newline  Options: Shadow.NONE, Shadow.LIGHT, Shadow.NORMAL and Shadow.HEAVY.
+\item rotation - amount of rotation about the center in degrees. 
+\item shadingType - the type of shading to be applied to the triangle.\newline  Options: Shading.NONE, Shading.CYCLIC, Shading.HORIZONTAL, Shading.VERTICAL.
+\item shadingElement - a element that describes the color at a position in the shape. Contains a shadingColor in the regular color string format, and a offset that is a relative (0 to 1) distance through the shape that the color should appear. This element can occur multiple times per shape.
+\end{itemize}
+
+
+\subsection{N Sided Regular Polygon}
+\begin{itemize}
+\item width - the width of the polygon.
+\item height - the height of the polygon.
+\item numberOfSides - the number of sides of the polygon.
+\item color - color of the polygon. The accepted string format is a \#, followed by a 8 bit hex number in ARGB format.
+\item solid - boolean value of if the polygon is an outline or a solid shape.
+\item outlineColor - outline color of the polygon. The accepted string format is a \#, followed by a 8 bit hex number in ARGB format.
+\item outlineThickness - thickness of the polygon outline.
+\item shadowType - the amount of shadow on the polygon.\newline  Options: Shadow.NONE, Shadow.LIGHT, Shadow.NORMAL and Shadow.HEAVY.
+\item rotation - amount of rotation about the center in degrees. 
+\item shadingType - the type of shading to be applied to the polygon.\newline  Options: Shading.NONE, Shading.CYCLIC, Shading.HORIZONTAL, Shading.VERTICAL.
+\item shadingElement - a element that describes the color at a position in the shape. Contains a shadingColor in the regular color string format, and a offset that is a relative (0 to 1) distance through the shape that the color should appear. This element can occur multiple times per shape.
+\end{itemize}
+
+
+\subsection{Polygon}
+\begin{itemize}
+\item polygonCoordinate - coordinates of one of the corners of the polygon.
+\item xStartPos - x coordinate of the top left corner of the bounding box around the polygon. All the x coordinates are relative to this position.
+\item yStartPos - y coordinate of the top left corner of the bounding box around the polygon. All the y coordinates are relative to this position.
+\item color - color of the polygon. The accepted string format is a \#, followed by a 8 bit hex number in ARGB format.
+\item solid - boolean value of if the polygon is an outline or a solid shape.
+\item outlineColor - outline color of the polygon. The accepted string format is a \#, followed by a 8 bit hex number in ARGB format.
+\item outlineThickness - thickness of the polygon outline.
+\item shadowType - the amount of shadow on the polygon.\newline  Options: Shadow.NONE, Shadow.LIGHT, Shadow.NORMAL and Shadow.HEAVY.
+\item rotation - amount of rotation about the center in degrees. 
+\item shadingType - the type of shading to be applied to the polygon.\newline  Options: Shading.NONE, Shading.CYCLIC, Shading.HORIZONTAL, Shading.VERTICAL.
+\item shadingElement - a element that describes the color at a position in the shape. Contains a shadingColor in the regular color string format, and a offset that is a relative (0 to 1) distance through the shape that the color should appear. This element can occur multiple times per shape.
+\end{itemize}
+
+
+\subsection{Star}
+\begin{itemize}
+\item numberOfPoints - the number of points of the star. 
+\item color - color of the star. The accepted string format is a \#, followed by a 8 bit hex number in ARGB format.
+\item solid - boolean value of if the star is an outline or a solid shape.
+\item outlineColor - outline color of the star. The accepted string format is a \#, followed by a 8 bit hex number in ARGB format.
+\item outlineThickness - thickness of the star outline.
+\item shadowType - the amount of shadow on the star.\newline  Options: Shadow.NONE, Shadow.LIGHT, Shadow.NORMAL and Shadow.HEAVY.
+\item rotation - amount of rotation about the center in degrees. 
+\item shadingType - the type of shading to be applied to the star.\newline  Options: Shading.NONE, Shading.CYCLIC, Shading.HORIZONTAL, Shading.VERTICAL.
+\item shadingElement - a element that describes the color at a position in the shape. Contains a shadingColor in the regular color string format, and a offset that is a relative (0 to 1) distance through the shape that the color should appear. This element can occur multiple times per shape.
+\end{itemize}
+
+
+\subsection{Chord}
+\begin{itemize}
+\item width - the overall width (horizontal radius) of the full ellipse of which the arc in the chord is a partial section. 
+\item height - the overall height (vertical radius) of the full ellipse of which the arc in the chord is a partial section.
+\item arcAngle - the starting angle of the arc in the chord in degrees.
+\item length - the angular extent of the arc in the chord in degrees.
+\item color - color of the chord. The accepted string format is a \#, followed by a 8 bit hex number in ARGB format.
+\item solid - boolean value of if the chord is an outline or a solid shape.
+\item outlineColor - outline color of the chord. The accepted string format is a \#, followed by a 8 bit hex number in ARGB format.
+\item outlineThickness - thickness of the chord outline.
+\item shadowType - the amount of shadow on the chord.\newline  Options: Shadow.NONE, Shadow.LIGHT, Shadow.NORMAL and Shadow.HEAVY.
+\item rotation - amount of rotation about the center in degrees. 
+\item shadingType - the type of shading to be applied to the chord.\newline  Options: Shading.NONE, Shading.CYCLIC, Shading.HORIZONTAL, Shading.VERTICAL.
+\item shadingElement - a element that describes the color at a position in the shape. Contains a shadingColor in the regular color string format, and a offset that is a relative (0 to 1) distance through the shape that the color should appear. This element can occur multiple times per shape.
+\end{itemize}
+
+
+\subsection{Arc}
+\begin{itemize}
+\item width - the overall width (horizontal radius) of the full ellipse of which this arc is a partial section. 
+\item height - the overall height (vertical radius) of the full ellipse of which this arc is a partial section.
+\item arcAngle - the starting angle of the arc in degrees.
+\item length - the angular extent of the arc in degrees.
+\item color - color of the arc. The accepted string format is a \#, followed by a 8 bit hex number in ARGB format.
+\item solid - boolean value of if the arc is an outline or a solid shape.
+\item outlineColor - outline color of the arc. The accepted string format is a \#, followed by a 8 bit hex number in ARGB format.
+\item outlineThickness - thickness of the arc outline.
+\item shadowType - the amount of shadow on the arc.\newline  Options: Shadow.NONE, Shadow.LIGHT, Shadow.NORMAL and Shadow.HEAVY.
+\item rotation - amount of rotation about the center in degrees. 
+\item shadingType - the type of shading to be applied to the rectangle. Options: Shading.NONE, Shading.CYCLIC, Shading.HORIZONTAL, Shading.VERTICAL.
+\item shadingElement - a element that describes the color at a position in the shape. Contains a shadingColor in the regular color string format, and a offset that is a relative (0 to 1) distance through the shape that the color should appear. This element can occur multiple times per shape.
+\end{itemize}
+
 
 \section{Image Handler}
 \clearpage

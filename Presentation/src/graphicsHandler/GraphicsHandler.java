@@ -1,17 +1,9 @@
-/**
- * 
- */
-package GUI;
+/** (c) Copyright by WaveMedia. */
+package graphicsHandler;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import java.util.ArrayList;
+
 import javafx.scene.Group;
-import javafx.scene.chart.BarChart;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.PieChart;
-import javafx.scene.chart.XYChart;
-import javafx.scene.chart.XYChart.Series;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
@@ -21,14 +13,10 @@ import javafx.scene.paint.Stop;
 import javafx.scene.shape.*;
 
 /**
- * Class for handling shapes and graphs on a javafx group.
+ * Class for handling shapes on a javafx group.
  * 
  * @author tjd511, jod512, lmo1024
- * @version 0.4 02/03/2015
- */
-/**
- * @author tjd511
- * 
+ * @version 1.0 11/03/2015
  */
 public class GraphicsHandler {
 
@@ -54,9 +42,113 @@ public class GraphicsHandler {
 	 *            The group that all of the graphics are to be drawn to.
 	 */
 	public GraphicsHandler(Group group) {
-
-		// TODO Auto-generated constructor stub
 		this.group = group;
+	}
+
+	/**
+	 * Method for drawing a graphic on the screen.
+	 * 
+	 * @param graphic
+	 *            a graphics object containing all the information about the
+	 *            graphic to be drawn. Must be formed using the GraphicBuilder.
+	 * @see {@link graphicsHandler.Graphic}
+	 */
+	public void drawShape(GraphicObject graphic) {
+		GraphicType graphicType = graphic.getGraphic();
+		float xStartPos = graphic.getXStartPos();
+		float yStartPos = graphic.getYStartPos();
+		String color = graphic.getColor();
+		float xEndPos = graphic.getXEndPos();
+		float yEndPos = graphic.getYEndPos();
+		boolean solid = graphic.isSolid();
+		String outlineColor = graphic.getOutlineColor();
+		float outlineThickness = graphic.getOutlineThickness();
+		float rotation = graphic.getRotation();
+		float radius = graphic.getRadius();
+		float arcWidth = graphic.getArcWidth();
+		float arcHeight = graphic.getArcHeight();
+		float size = graphic.getSize();
+		float width = graphic.getWidth();
+		float height = graphic.getHeight();
+		int numberOfSides = graphic.getNumberOfSides();
+		int numberOfPoints = graphic.getNumberOfPoints();
+		float x1 = graphic.getX1();
+		float x2 = graphic.getX2();
+		float x3 = graphic.getX3();
+		float y1 = graphic.getY1();
+		float y2 = graphic.getY2();
+		float y3 = graphic.getY3();
+		ArrayList<Float> xCoordinates = graphic.getXCoordinates();
+		ArrayList<Float> yCoordinates = graphic.getYCoordinates();
+		float arcAngle = graphic.getArcAngle();
+		float length = graphic.getLength();
+		Shadow shadowType = graphic.getShadow();
+		Shading shadingType = graphic.getShadingType();
+		ArrayList<Stop> shadingStops = graphic.getStops();
+
+		switch (graphicType) {
+		case ARC:
+			drawArc(xStartPos, yStartPos, width, height, arcAngle, length, color, solid, outlineColor,
+					outlineThickness, shadowType, rotation, shadingType, shadingStops);
+			break;
+		case ARROW:
+			drawArrow(xStartPos, yStartPos, xEndPos, yEndPos, color, shadingType, shadingStops);
+			break;
+		case CHORD:
+			drawChord(xStartPos, yStartPos, width, height, arcAngle, length, color, solid, outlineColor,
+					outlineThickness, shadowType, rotation, shadingType, shadingStops);
+			break;
+		case CIRCLE:
+			drawCircle(xStartPos, yStartPos, radius, color, solid, outlineColor, outlineThickness, shadowType,
+					shadingType, shadingStops);
+			break;
+		case EQUITRIANGLE:
+			drawEquiTriangle(xStartPos, yStartPos, length, color, solid, outlineColor, outlineThickness, shadowType,
+					rotation, shadingType, shadingStops);
+			break;
+		case LINE:
+			drawLine(xStartPos, yStartPos, xEndPos, yEndPos, color, outlineThickness, shadingType, shadingStops);
+			break;
+		case OVAL:
+			drawOval(xStartPos, yStartPos, xEndPos, yEndPos, color, solid, outlineColor, outlineThickness, shadowType,
+					rotation, shadingType, shadingStops);
+			break;
+		case POLYGON:
+			Double[] combinedCoordinates;
+			combinedCoordinates = new Double[xCoordinates.size() * 2];
+			for (int i = 0; i < xCoordinates.size(); i++) {
+				combinedCoordinates[i * 2] = Double.valueOf(xCoordinates.get(i));
+				combinedCoordinates[i * 2 + 1] = Double.valueOf(yCoordinates.get(i));
+			}
+
+			drawPolygon(combinedCoordinates, xStartPos, yStartPos, color, solid, outlineColor, outlineThickness,
+					shadowType, rotation, shadingType, shadingStops);
+			break;
+		case RECTANGLE:
+			drawRectangle(xStartPos, yStartPos, xEndPos, yEndPos, arcWidth, arcHeight, color, solid, outlineColor,
+					outlineThickness, shadowType, rotation, shadingType, shadingStops);
+			break;
+		case REGULARPOLYGON:
+			drawRegularPolygon(xStartPos, yStartPos, width, height, numberOfSides, color, solid, outlineColor,
+					outlineThickness, shadowType, rotation, shadingType, shadingStops);
+			break;
+		case SQUARE:
+			drawSquare(xStartPos, yStartPos, length, color, solid, outlineColor, outlineThickness, shadowType,
+					rotation, shadingType, shadingStops);
+			break;
+		case STAR:
+			drawStar(xStartPos, yStartPos, numberOfPoints, size, color, solid, outlineColor, outlineThickness,
+					shadowType, rotation, shadingType, shadingStops);
+			break;
+		case TRIANGLE:
+			drawTriangle(x1, y1, x2, y2, x3, y3, color, solid, outlineColor, outlineThickness, shadowType, rotation,
+					shadingType, shadingStops);
+			break;
+		default:
+			break;
+
+		}
+
 	}
 
 	/**
@@ -80,51 +172,35 @@ public class GraphicsHandler {
 	 * @param shadingType
 	 *            enum for type of shading. Options: Shading.NONE,
 	 *            Shading.CYCLIC, Shading.HORIZONTAL, Shading.VERTICAL.
-	 * @param shadingColors
-	 *            varargs of type Color that contains all of the shapes shaded
-	 *            colors.
+	 * @param shadingStops
+	 *            ArrayList of stops that contains the information for the
+	 *            shading colors.
 	 */
-	private void colorShape(Shape shape, boolean solid, String shapeColor, String outlineColor,
-			double outlineThickness, Shadow shadowType, Shading shadingType, String... shadingColors) {
+	private void colorShape(Shape shape, boolean solid, String shapeColor, String outlineColor, float outlineThickness,
+			Shadow shadowType, Shading shadingType, ArrayList<Stop> shadingStops) {
 		/* Set the outline parameters */
 		shape.setStroke(convertStringToColor(outlineColor));
 		shape.setStrokeWidth(outlineThickness);
 
 		if (solid) {
-			Stop[] stops = null;
-			/* Code to generate stops for if a shading type is to be used. */
-			if (shadingType != Shading.NONE) {
-				/*
-				 * Builds an array of stops evenly spaced through the shape
-				 * consisting of the varargs of shadingColors. The last color in
-				 * the varargs is the outer shading color for radial gradient.
-				 */
-				stops = new Stop[shadingColors.length + 1];
-				/* Add the shape color as the central color */
-				stops[0] = new Stop(0, convertStringToColor(shapeColor));
-				/* Loop through the varargs adding the colors to the stop array */
-				for (int i = 1; i <= shadingColors.length; i++)
-					stops[i] = (new Stop((float) i / shadingColors.length, convertStringToColor(shadingColors[i - 1])));
-			}
-
 			/*
-			 * Switch to set different types of shading using the stops created
-			 * above
+			 * Switch to set different types of shading using the shadingStops
+			 * created above
 			 */
 			switch (shadingType) {
 			case CYCLIC:
-				shape.setFill(new RadialGradient(0, 0, 0.5, 0.5, 0.5, true, CycleMethod.NO_CYCLE, stops));
+				shape.setFill(new RadialGradient(0, 0, 0.5, 0.5, 0.5, true, CycleMethod.NO_CYCLE, shadingStops));
 				break;
 			case HORIZONTAL:
 				/* If statement to handle shaded lines */
 				if (shape.getClass().equals(new Line().getClass())) {
-					shape.setStroke(new LinearGradient(0, 0.5, 1, 0.5, true, CycleMethod.NO_CYCLE, stops));
+					shape.setStroke(new LinearGradient(0, 0.5, 1, 0.5, true, CycleMethod.NO_CYCLE, shadingStops));
 				} else {
-					shape.setFill(new LinearGradient(0, 0.5, 1, 0.5, true, CycleMethod.NO_CYCLE, stops));
+					shape.setFill(new LinearGradient(0, 0.5, 1, 0.5, true, CycleMethod.NO_CYCLE, shadingStops));
 				}
 				break;
 			case VERTICAL:
-				shape.setFill(new LinearGradient(0.5, 0, 0.5, 1, true, CycleMethod.NO_CYCLE, stops));
+				shape.setFill(new LinearGradient(0.5, 0, 0.5, 1, true, CycleMethod.NO_CYCLE, shadingStops));
 				break;
 			case NONE:
 				/* Falls through */
@@ -132,6 +208,8 @@ public class GraphicsHandler {
 				shape.setFill(convertStringToColor(shapeColor));
 				break;
 			}
+		} else {
+			shape.setFill(Color.TRANSPARENT);
 		}
 
 		/* Switch for the different allowed types of shadow */
@@ -186,22 +264,22 @@ public class GraphicsHandler {
 	 * @param shadingType
 	 *            enum for type of shading. Options: Shading.NONE,
 	 *            Shading.CYCLIC, Shading.HORIZONTAL, Shading.VERTICAL.
-	 * @param shadingColors
-	 *            varargs of type Color that contains all of the shapes shaded
-	 *            colors.
+	 * @param shadingStops
+	 *            ArrayList of stops that contains the information for the
+	 *            shaded colors.
 	 */
-	public void drawOval(float xStartPos, float yStartPos, float xEndPos, float yEndPos, String ovalColor,
-			boolean solid, String outlineColor, double outlineThickness, Shadow shadowType, float rotation,
-			Shading shadingType, String... shadingColors) {
-		double xCenter = (xEndPos + xStartPos) / 2;
-		double yCenter = (yEndPos + yStartPos) / 2;
-		double xRad = (xEndPos - xStartPos) / 2;
-		double yRad = (yEndPos - yStartPos) / 2;
+	private void drawOval(float xStartPos, float yStartPos, float xEndPos, float yEndPos, String ovalColor,
+			boolean solid, String outlineColor, float outlineThickness, Shadow shadowType, float rotation,
+			Shading shadingType, ArrayList<Stop> shadingStops) {
+		float xCenter = (xEndPos + xStartPos) / 2;
+		float yCenter = (yEndPos + yStartPos) / 2;
+		float xRad = (xEndPos - xStartPos) / 2;
+		float yRad = (yEndPos - yStartPos) / 2;
 
 		Ellipse oval = new Ellipse(xCenter, yCenter, xRad, yRad);
 		oval.setRotate(rotation);
 
-		colorShape(oval, solid, ovalColor, outlineColor, outlineThickness, shadowType, shadingType, shadingColors);
+		colorShape(oval, solid, ovalColor, outlineColor, outlineThickness, shadowType, shadingType, shadingStops);
 
 		group.getChildren().add(oval);
 	}
@@ -231,19 +309,19 @@ public class GraphicsHandler {
 	 * @param shadingType
 	 *            enum for type of shading. Options: Shading.NONE,
 	 *            Shading.CYCLIC, Shading.HORIZONTAL, Shading.VERTICAL.
-	 * @param shadingColors
-	 *            varargs of type Color that contains all of the shapes shaded
-	 *            colors.
+	 * @param shadingStops
+	 *            ArrayList of stops that contains the information for the
+	 *            shaded colors.
 	 */
-	public void drawCircle(float xStartPos, float yStartPos, float radius, String circleColor, boolean solid,
-			String outlineColor, double outlineThickness, Shadow shadowType, Shading shadingType,
-			String... shadingColors) {
-		double xCenter = (xStartPos + radius);
-		double yCenter = (yStartPos + radius);
+	private void drawCircle(float xStartPos, float yStartPos, float radius, String circleColor, boolean solid,
+			String outlineColor, float outlineThickness, Shadow shadowType, Shading shadingType,
+			ArrayList<Stop> shadingStops) {
+		float xCenter = (xStartPos + radius);
+		float yCenter = (yStartPos + radius);
 
 		Circle circle = new Circle(xCenter, yCenter, radius);
 
-		colorShape(circle, solid, circleColor, outlineColor, outlineThickness, shadowType, shadingType, shadingColors);
+		colorShape(circle, solid, circleColor, outlineColor, outlineThickness, shadowType, shadingType, shadingStops);
 
 		group.getChildren().add(circle);
 	}
@@ -281,20 +359,20 @@ public class GraphicsHandler {
 	 * @param shadingType
 	 *            enum for type of shading. Options: Shading.NONE,
 	 *            Shading.CYCLIC, Shading.HORIZONTAL, Shading.VERTICAL.
-	 * @param shadingColors
-	 *            varargs of type Color that contains all of the shapes shaded
-	 *            colors.
+	 * @param shadingStops
+	 *            ArrayList of stops that contains the information for the
+	 *            shaded colors.
 	 */
-	public void drawRectangle(float xStartPos, float yStartPos, float xEndPos, float yEndPos, float arcWidth,
-			float arcHeight, String rectangleColor, boolean solid, String outlineColor, double outlineThickness,
-			Shadow shadowType, float rotation, Shading shadingType, String... shadingColors) {
+	private void drawRectangle(float xStartPos, float yStartPos, float xEndPos, float yEndPos, float arcWidth,
+			float arcHeight, String rectangleColor, boolean solid, String outlineColor, float outlineThickness,
+			Shadow shadowType, float rotation, Shading shadingType, ArrayList<Stop> shadingStops) {
 		Rectangle rectangle = new Rectangle(xStartPos, yStartPos, xEndPos - xStartPos, yEndPos - yStartPos);
 		rectangle.setRotate(rotation);
 		rectangle.setArcWidth(arcWidth);
 		rectangle.setArcHeight(arcHeight);
 
 		colorShape(rectangle, solid, rectangleColor, outlineColor, outlineThickness, shadowType, shadingType,
-				shadingColors);
+				shadingStops);
 
 		group.getChildren().add(rectangle);
 
@@ -325,15 +403,15 @@ public class GraphicsHandler {
 	 * @param shadingType
 	 *            enum for type of shading. Options: Shading.NONE,
 	 *            Shading.CYCLIC, Shading.HORIZONTAL, Shading.VERTICAL.
-	 * @param shadingColors
-	 *            varargs of type Color that contains all of the shapes shaded
-	 *            colors.
+	 * @param shadingStops
+	 *            ArrayList of stops that contains the information for the
+	 *            shaded colors.
 	 */
-	public void drawSquare(float xStartPos, float yStartPos, float length, String squareColor, boolean solid,
-			String outlineColor, double outlineThickness, Shadow shadowType, float rotation, Shading shadingType,
-			String... shadingColors) {
+	private void drawSquare(float xStartPos, float yStartPos, float length, String squareColor, boolean solid,
+			String outlineColor, float outlineThickness, Shadow shadowType, float rotation, Shading shadingType,
+			ArrayList<Stop> shadingStops) {
 		drawRectangle(xStartPos, yStartPos, xStartPos + length, yStartPos + length, 0, 0, squareColor, solid,
-				outlineColor, outlineThickness, shadowType, rotation, shadingType, shadingColors);
+				outlineColor, outlineThickness, shadowType, rotation, shadingType, shadingStops);
 	}
 
 	/**
@@ -360,24 +438,24 @@ public class GraphicsHandler {
 	 *            Shading.CYCLIC, Shading.HORIZONTAL, Shading.VERTICAL. If a
 	 *            shading type is selected, shading will default to
 	 *            Shading.HORIZONTAL.
-	 * @param shadingColors
-	 *            varargs of type Color that contains all of the shapes shaded
-	 *            colors.
+	 * @param shadingStops
+	 *            ArrayList of stops that contains the information for the
+	 *            shaded colors.
 	 */
-	public void drawLine(float xStartPos, float yStartPos, float xEndPos, float yEndPos, String lineColor,
-			double thickness, Shading shadingType, String... shadingColors) {
+	private void drawLine(float xStartPos, float yStartPos, float xEndPos, float yEndPos, String lineColor,
+			float thickness, Shading shadingType, ArrayList<Stop> shadingStops) {
 		Line line = new Line(xStartPos, yStartPos, xEndPos, yEndPos);
 
 		if (shadingType != Shading.NONE)
 			shadingType = Shading.HORIZONTAL;
 
-		colorShape(line, true, lineColor, lineColor, thickness, Shadow.NONE, shadingType, shadingColors);
+		colorShape(line, true, lineColor, lineColor, thickness, Shadow.NONE, shadingType, shadingStops);
 
 		group.getChildren().add(line);
 	}
 
 	/**
-	 * Method to draw an oval.
+	 * Method to draw an arrow.
 	 * 
 	 * @param xStartPos
 	 *            x coordinate of the start of the arrow
@@ -392,19 +470,19 @@ public class GraphicsHandler {
 	 * @param shadingType
 	 *            enum for type of shading. Options: Shading.NONE,
 	 *            Shading.CYCLIC, Shading.HORIZONTAL, Shading.VERTICAL.
-	 * @param shadingColors
-	 *            varargs of type Color that contains all of the shapes shaded
-	 *            colors.
+	 * @param shadingStops
+	 *            ArrayList of stops that contains the information for the
+	 *            shaded colors.
 	 */
-	public void drawArrow(float xStartPos, float yStartPos, float xEndPos, float yEndPos, String arrowColor,
-			Shading shadingType, String... shadingColors) {
+	private void drawArrow(float xStartPos, float yStartPos, float xEndPos, float yEndPos, String arrowColor,
+			Shading shadingType, ArrayList<Stop> shadingStops) {
 
 		int arrowHeadSide = 15;
-		double arrowHeadHeight = (arrowHeadSide * (Math.sqrt(3) / (2.0)));
+		float arrowHeadHeight = (float) (arrowHeadSide * (Math.sqrt(3) / (2.0)));
 
 		// to work out the angle of rotation
-		double dx = Math.abs(xEndPos - xStartPos);
-		double dy = Math.abs(yEndPos - yStartPos);
+		float dx = Math.abs(xEndPos - xStartPos);
+		float dy = Math.abs(yEndPos - yStartPos);
 		int length = (int) Math.sqrt((dx * dx + dy * dy));
 
 		double x1 = xEndPos;
@@ -413,7 +491,6 @@ public class GraphicsHandler {
 		double y2 = yEndPos + (arrowHeadHeight / 2);
 		double x3 = xEndPos - (arrowHeadSide / 2);
 		double y3 = yEndPos + (arrowHeadHeight / 2);
-		;
 
 		// new arrow
 		Line arrow = new Line(xStartPos, yStartPos, xEndPos, yEndPos);
@@ -424,9 +501,9 @@ public class GraphicsHandler {
 		// arrowHead.setFill(arrowColor);
 		arrowHead.getPoints().addAll(new Double[] { x1, y1, x2, y2, x3, y3 });
 
-		double rotation = 0.0;
+		float rotation = 0;
 		if ((xEndPos > xStartPos) && (yEndPos > yStartPos)) { // bottom right
-			rotation = (90 + Math.toDegrees(Math.asin(dy / length)));
+			rotation = (float) (90 + Math.toDegrees(Math.asin(dy / length)));
 		} else if ((xEndPos == xStartPos) && (yEndPos > yStartPos)) {
 			rotation = 180;
 		} else if ((xEndPos < xStartPos) && (yEndPos == yStartPos)) {
@@ -435,32 +512,20 @@ public class GraphicsHandler {
 			rotation = 90;
 		} else if ((xEndPos < xStartPos) && (yEndPos > yStartPos)) { // bottom
 																		// left
-			rotation = (180 + Math.toDegrees(Math.asin(dx / length)));
+			rotation = (float) (180 + Math.toDegrees(Math.asin(dx / length)));
 		} else if ((xEndPos < xStartPos) && (yEndPos < yStartPos)) { // top
 																		// right
-			rotation = (270 + Math.toDegrees(Math.asin(dy / length)));
+			rotation = (float) (270 + Math.toDegrees(Math.asin(dy / length)));
 		} else if ((xEndPos > xStartPos) && (yEndPos < yStartPos)) { // top left
-			rotation = (Math.toDegrees(Math.asin(dx / length)));
+			rotation = (float) (Math.toDegrees(Math.asin(dx / length)));
 		}
 
 		arrowHead.setRotate(rotation);
 
-		Stop[] stops = null;
-		/* Code to generate stops for if a shading type is to be used. */
+		/* Code to generate shadingStops for if a shading type is to be used. */
 		if (shadingType != Shading.NONE) {
-			/*
-			 * Builds an array of stops evenly spaced through the shape
-			 * consisting of the varargs of shadingColors. The last color in the
-			 * varargs is the outer shading color.
-			 */
-			stops = new Stop[shadingColors.length + 1];
-			/* Add the shape color as the central color */
-			stops[0] = new Stop(0, convertStringToColor(arrowColor));
-			/* Loop through the varargs adding the colors to the stop array */
-			for (int i = 1; i <= shadingColors.length; i++)
-				stops[i] = (new Stop((float) i / shadingColors.length, convertStringToColor(shadingColors[i - 1])));
-			arrow.setStroke(new LinearGradient(0, 0.5, 1, 0.5, true, CycleMethod.NO_CYCLE, stops));
-			arrowHead.setFill(new LinearGradient(0.5, 0, 0.5, 1, true, CycleMethod.NO_CYCLE, stops));
+			arrow.setStroke(new LinearGradient(0, 0.5, 1, 0.5, true, CycleMethod.NO_CYCLE, shadingStops));
+			arrowHead.setFill(new LinearGradient(0.5, 0, 0.5, 1, true, CycleMethod.NO_CYCLE, shadingStops));
 		} else {
 			arrow.setStroke(convertStringToColor(arrowColor));
 			arrowHead.setFill(convertStringToColor(arrowColor));
@@ -497,29 +562,29 @@ public class GraphicsHandler {
 	 * @param shadingType
 	 *            enum for type of shading. Options: Shading.NONE,
 	 *            Shading.CYCLIC, Shading.HORIZONTAL, Shading.VERTICAL.
-	 * @param shadingColors
-	 *            varargs of type Color that contains all of the shapes shaded
-	 *            colors.
+	 * @param shadingStops
+	 *            ArrayList of stops that contains the information for the
+	 *            shaded colors.
 	 */
-	public void drawEquiTriangle(float xStartPos, float yStartPos, float length, String equiTriangleColor,
-			boolean solid, String outlineColor, double outlineThickness, Shadow shadowType, float rotation,
-			Shading shadingType, String... shadingColors) {
+	private void drawEquiTriangle(float xStartPos, float yStartPos, float length, String equiTriangleColor,
+			boolean solid, String outlineColor, float outlineThickness, Shadow shadowType, float rotation,
+			Shading shadingType, ArrayList<Stop> shadingStops) {
 		/* Calculate new coordinates for all the corners */
 
 		/* Bottom left */
-		double x1 = xStartPos;
-		double y1 = yStartPos + (length * (Math.sqrt(3) / (2.0)));
+		float x1 = xStartPos;
+		float y1 = (float) (yStartPos + (length * (Math.sqrt(3) / (2.0))));
 
 		/* Top */
-		double x2 = xStartPos + (length / 2);
-		double y2 = yStartPos;
+		float x2 = xStartPos + (length / 2);
+		float y2 = yStartPos;
 
 		/* Bottom right */
-		double x3 = xStartPos + length;
-		double y3 = yStartPos + (length * (Math.sqrt(3) / (2.0)));
+		float x3 = xStartPos + length;
+		float y3 = (float) (yStartPos + (length * (Math.sqrt(3) / (2.0))));
 
 		drawTriangle(x1, y1, x2, y2, x3, y3, equiTriangleColor, solid, outlineColor, outlineThickness, shadowType,
-				rotation, shadingType, shadingColors);
+				rotation, shadingType, shadingStops);
 	}
 
 	/**
@@ -553,17 +618,18 @@ public class GraphicsHandler {
 	 * @param shadingType
 	 *            enum for type of shading. Options: Shading.NONE,
 	 *            Shading.CYCLIC, Shading.HORIZONTAL, Shading.VERTICAL.
-	 * @param shadingColors
-	 *            varargs of type Color that contains all of the shapes shaded
-	 *            colors.
+	 * @param shadingStops
+	 *            ArrayList of stops that contains the information for the
+	 *            shaded colors.
 	 */
-	public void drawTriangle(double x1, double y1, double x2, double y2, double x3, double y3, String triangleColor,
-			boolean solid, String outlineColor, double outlineThickness, Shadow shadowType, float rotation,
-			Shading shadingType, String... shadingColors) {
+	private void drawTriangle(float x1, float y1, float x2, float y2, float x3, float y3, String triangleColor,
+			boolean solid, String outlineColor, float outlineThickness, Shadow shadowType, float rotation,
+			Shading shadingType, ArrayList<Stop> shadingStops) {
 		Polygon triangle = new Polygon();
 		colorShape(triangle, solid, triangleColor, outlineColor, outlineThickness, shadowType, shadingType,
-				shadingColors);
-		triangle.getPoints().addAll(new Double[] { x1, y1, x2, y2, x3, y3 });
+				shadingStops);
+		triangle.getPoints().addAll(
+				new Double[] { (double) x1, (double) y1, (double) x2, (double) y2, (double) x3, (double) y3 });
 		triangle.setRotate(rotation);
 
 		group.getChildren().add(triangle);
@@ -572,10 +638,10 @@ public class GraphicsHandler {
 	/**
 	 * Method to draw a n sided regular polygon.
 	 * 
-	 * @param xPos
-	 *            the x coordinate of the polygon //TODO
-	 * @param yPos
-	 *            the y coordinate of the polygon //TODO
+	 * @param xStartPos
+	 *            the x coordinate of the polygon
+	 * @param yStartPos
+	 *            the y coordinate of the polygon
 	 * @param width
 	 *            the width of the shape
 	 * @param height
@@ -598,22 +664,25 @@ public class GraphicsHandler {
 	 * @param shadingType
 	 *            enum for type of shading. Options: Shading.NONE,
 	 *            Shading.CYCLIC, Shading.HORIZONTAL, Shading.VERTICAL.
-	 * @param shadingColors
-	 *            varargs of type Color that contains all of the shapes shaded
-	 *            colors.
+	 * @param shadingStops
+	 *            ArrayList of stops that contains the information for the
+	 *            shaded colors.
 	 */
-	public void drawRegularPolygon(double xPos, double yPos, float width, float height, int numberOfSides,
-			String regPolColor, boolean solid, String outlineColor, double outlineThickness, Shadow shadowType,
-			float rotation, Shading shadingType, String... shadingColors) {
+	private void drawRegularPolygon(float xStartPos, float yStartPos, float width, float height, int numberOfSides,
+			String regPolColor, boolean solid, String outlineColor, float outlineThickness, Shadow shadowType,
+			float rotation, Shading shadingType, ArrayList<Stop> shadingStops) {
+		float centerXPoint = xStartPos + width / 2;
+		float centerYPoint = yStartPos + height / 2;
+
 		Polygon regPolygon = new Polygon();
 		colorShape(regPolygon, solid, regPolColor, outlineColor, outlineThickness, shadowType, shadingType,
-				shadingColors);
-		double radius = (double) (Math.min(0.5 * width, height * 0.5));
+				shadingStops);
+		float radius = (float) (Math.min(0.5 * width, height * 0.5));
 		double z;
 		for (int i = 0; i < numberOfSides; i++) {
 			z = ((i * 2 * Math.PI) / numberOfSides);
-			regPolygon.getPoints().add(((double) Math.round((xPos + (radius) * Math.sin(z)) + (radius))));
-			regPolygon.getPoints().add(((double) Math.round((yPos + (-radius) * Math.cos(z)) + (radius))));
+			regPolygon.getPoints().add((double) (Math.round((centerXPoint + (radius) * Math.sin(z)) + (radius))));
+			regPolygon.getPoints().add((double) (Math.round((centerYPoint + (-radius) * Math.cos(z)) + (radius))));
 
 		}
 		regPolygon.setRotate(rotation);
@@ -626,10 +695,10 @@ public class GraphicsHandler {
 	 * @param points
 	 *            an array of all of the coordinates of the polygon. [x1, y1 ...
 	 *            xN, yN]
-	 * @param x
+	 * @param xStartPos
 	 *            the x position of the polygon. All x coordinates are relative
 	 *            to this position
-	 * @param y
+	 * @param yStartPos
 	 *            the y position of the polygon. All y coordinates are relative
 	 *            to this position
 	 * @param polygonColor
@@ -648,18 +717,19 @@ public class GraphicsHandler {
 	 * @param shadingType
 	 *            enum for type of shading. Options: Shading.NONE,
 	 *            Shading.CYCLIC, Shading.HORIZONTAL, Shading.VERTICAL.
-	 * @param shadingColors
-	 *            varargs of type Color that contains all of the shapes shaded
-	 *            colors.
+	 * @param shadingStops
+	 *            ArrayList of stops that contains the information for the
+	 *            shaded colors.
 	 */
-	public void drawPolygon(Double points[], float x, float y, String polygonColor, boolean solid, String outlineColor,
-			double outlineThickness, Shadow shadowType, float rotation, Shading shadingType, String... shadingColors) {
+	private void drawPolygon(Double[] points, float xStartPos, float yStartPos, String polygonColor, boolean solid,
+			String outlineColor, float outlineThickness, Shadow shadowType, float rotation, Shading shadingType,
+			ArrayList<Stop> shadingStops) {
 		Polygon polygon = new Polygon();
-		colorShape(polygon, solid, polygonColor, outlineColor, outlineThickness, shadowType, shadingType, shadingColors);
+		colorShape(polygon, solid, polygonColor, outlineColor, outlineThickness, shadowType, shadingType, shadingStops);
 		for (int i = 0; i < points.length; i++) {
-			points[i] += x;
+			points[i] += xStartPos;
 			i++;
-			points[i] += y;
+			points[i] += yStartPos;
 		}
 		polygon.getPoints().addAll(points);
 		group.getChildren().add(polygon);
@@ -668,10 +738,10 @@ public class GraphicsHandler {
 	/**
 	 * Method to draw a star of n points
 	 * 
-	 * @param midX
-	 *            the middle x position of the star
-	 * @param midY
-	 *            the middle y position of the star
+	 * @param xStartPos
+	 *            the top left x position of the star
+	 * @param yStartPos
+	 *            the top left y position of the star
 	 * @param numberOfPoints
 	 *            the number of points of the star
 	 * @param starColor
@@ -690,30 +760,29 @@ public class GraphicsHandler {
 	 * @param shadingType
 	 *            enum for type of shading. Options: Shading.NONE,
 	 *            Shading.CYCLIC, Shading.HORIZONTAL, Shading.VERTICAL.
-	 * @param shadingColors
-	 *            varargs of type Color that contains all of the shapes shaded
-	 *            colors.
+	 * @param shadingStops
+	 *            ArrayList of stops that contains the information for the
+	 *            shaded colors.
 	 */
-	public void drawStar(double midX, double midY, int numberOfPoints, float size, String starColor, boolean solid,
-			String outlineColor, double outlineThickness, Shadow shadowType, float rotation, Shading shadingType,
-			String... shadingColors) {
+	private void drawStar(float xStartPos, float yStartPos, int numberOfPoints, float size, String starColor,
+			boolean solid, String outlineColor, float outlineThickness, Shadow shadowType, float rotation,
+			Shading shadingType, ArrayList<Stop> shadingStops) {
 		int a = 0;
 		double z = 0;
-
 		Polygon star = new Polygon();
-		colorShape(star, solid, starColor, outlineColor, outlineThickness, shadowType, shadingType, shadingColors);
+		colorShape(star, solid, starColor, outlineColor, outlineThickness, shadowType, shadingType, shadingStops);
 
 		while (a < ((2 * numberOfPoints) + 1)) {
 			z = ((a * Math.PI) / numberOfPoints);
 			if ((a % 2 == 0)) {
-				star.getPoints().add((double) Math.round(((size / 2) * Math.sin(z)) + midX + (size / 2)));
-				star.getPoints().add((double) Math.round(((-size / 2) * Math.cos(z)) + midY + (size / 2)));
+				star.getPoints().add((double) Math.round(((size / 2) * Math.sin(z)) + xStartPos + (size / 2)));
+				star.getPoints().add((double) Math.round(((-size / 2) * Math.cos(z)) + yStartPos + (size / 2)));
 			} else {
 				star.getPoints().add(
-						(double) Math.round(((size / (2 * Math.pow(numberOfPoints, 0.5))) * Math.sin(z)) + midX
+						(double) Math.round(((size / (2 * Math.pow(numberOfPoints, 0.5))) * Math.sin(z)) + xStartPos
 								+ (size / 2)));
 				star.getPoints().add(
-						(double) Math.round(((-size / (2 * Math.pow(numberOfPoints, 0.5))) * Math.cos(z)) + midY
+						(double) Math.round(((-size / (2 * Math.pow(numberOfPoints, 0.5))) * Math.cos(z)) + yStartPos
 								+ (size / 2)));
 			}
 			a++;
@@ -725,10 +794,10 @@ public class GraphicsHandler {
 	/**
 	 * Method to draw a chord.
 	 * 
-	 * @param centerX
-	 *            the center x position of the chord
-	 * @param centerY
-	 *            the center y position of the chord
+	 * @param xStartPos
+	 *            the top left x position of the chord
+	 * @param yStartPos
+	 *            the top left y position of the chord
 	 * @param width
 	 *            the width of the chord
 	 * @param height
@@ -753,17 +822,20 @@ public class GraphicsHandler {
 	 * @param shadingType
 	 *            enum for type of shading. Options: Shading.NONE,
 	 *            Shading.CYCLIC, Shading.HORIZONTAL, Shading.VERTICAL.
-	 * @param shadingColors
-	 *            varargs of type Color that contains all of the shapes shaded
-	 *            colors.
+	 * @param shadingStops
+	 *            ArrayList of stops that contains the information for the
+	 *            shaded colors.
 	 */
-	public void drawChord(float centerX, float centerY, float width, float height, float arcAngle, float length,
-			String chordColor, boolean solid, String outlineColor, double outlineThickness, Shadow shadowType,
-			float rotation, Shading shadingType, String... shadingColors) {
+	private void drawChord(float xStartPos, float yStartPos, float width, float height, float arcAngle, float length,
+			String chordColor, boolean solid, String outlineColor, float outlineThickness, Shadow shadowType,
+			float rotation, Shading shadingType, ArrayList<Stop> shadingStops) {
+		/* Calculate center coordinates from inputs */
+		float centerXPos = xStartPos + width;
+		float centerYPos = yStartPos + height;
 
-		Arc chord = new Arc(centerX, centerY, width, height, arcAngle, length);
+		Arc chord = new Arc(centerXPos, centerYPos, width, height, arcAngle, length);
 		chord.setType(ArcType.CHORD);
-		colorShape(chord, solid, chordColor, outlineColor, outlineThickness, shadowType, shadingType, shadingColors);
+		colorShape(chord, solid, chordColor, outlineColor, outlineThickness, shadowType, shadingType, shadingStops);
 
 		group.getChildren().add(chord);
 
@@ -772,10 +844,10 @@ public class GraphicsHandler {
 	/**
 	 * Method to draw a arc.
 	 * 
-	 * @param centerX
-	 *            the center x position of the arc
-	 * @param centerY
-	 *            the center y position of the arc
+	 * @param xStartPos
+	 *            the top left x position of the arc
+	 * @param yStartPos
+	 *            the top left y position of the arc
 	 * @param width
 	 *            the width of the arc
 	 * @param height
@@ -800,69 +872,23 @@ public class GraphicsHandler {
 	 * @param shadingType
 	 *            enum for type of shading. Options: Shading.NONE,
 	 *            Shading.CYCLIC, Shading.HORIZONTAL, Shading.VERTICAL.
-	 * @param shadingColors
-	 *            varargs of type Color that contains all of the shapes shaded
-	 *            colors.
+	 * @param shadingStops
+	 *            ArrayList of stops that contains the information for the
+	 *            shaded colors.
 	 */
-	public void drawArc(float centerX, float centerY, float width, float height, float arcAngle, float length,
-			String arcColor, boolean solid, String outlineColor, double outlineThickness, Shadow shadowType,
-			float rotation, Shading shadingType, String... shadingColors) {
+	private void drawArc(float xStartPos, float yStartPos, float width, float height, float arcAngle, float length,
+			String arcColor, boolean solid, String outlineColor, float outlineThickness, Shadow shadowType,
+			float rotation, Shading shadingType, ArrayList<Stop> shadingStops) {
+		/* Calculate center coordinates from inputs */
+		float centerXPos = xStartPos + width;
+		float centerYPos = yStartPos + height;
 
-		Arc arc = new Arc(centerX, centerY, width, height, arcAngle, length);
+		Arc arc = new Arc(centerXPos, centerYPos, width, height, arcAngle, length);
 		arc.setType(ArcType.ROUND);
-		colorShape(arc, solid, arcColor, outlineColor, outlineThickness, shadowType, shadingType, shadingColors);
+		colorShape(arc, solid, arcColor, outlineColor, outlineThickness, shadowType, shadingType, shadingStops);
 
 		group.getChildren().add(arc);
 
-	}
-
-	public void drawPieChart(int x, int y, double size, String title, String[] dataNames, Double[] dataValues) {
-		ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
-		for (int i = 0; i < dataValues.length; i++) {
-			pieChartData.add(new PieChart.Data(dataNames[i], dataValues[i]));
-		}
-		PieChart pChart = new PieChart(pieChartData);
-		pChart.setTitle(title);
-		pChart.setLayoutX(x);
-		pChart.setLayoutY(y);
-		pChart.setScaleX(size);
-		pChart.setScaleY(size);
-		group.getChildren().add(pChart);
-	}
-
-	@SuppressWarnings("unchecked")
-	// safe
-	public void drawBarChart(int x, int y, double size, String title, String xLabel, String yLabel, String[] xLabels,
-			Double[] yValues) {
-		CategoryAxis xAxis = new CategoryAxis();
-		NumberAxis yAxis = new NumberAxis();
-		BarChart<String, Number> bChart = new BarChart<String, Number>(xAxis, yAxis);
-		bChart.setTitle(title);
-		xAxis.setLabel(xLabel);
-		yAxis.setLabel(yLabel);
-		XYChart.Series<String, Number> series1 = new Series<String, Number>();
-		series1.setName("series1");
-		for (int i = 0; i < yValues.length; i++) {
-			series1.getData().add(new XYChart.Data<String, Number>(xLabels[i], yValues[i]));
-		}
-		bChart.getData().addAll(series1);
-		bChart.setLayoutX(x);
-		bChart.setLayoutY(y);
-		bChart.setScaleX(size);
-		bChart.setScaleY(size);
-		bChart.setRotate(90);
-		group.getChildren().add(bChart);
-	}
-
-	/**
-	 * Method to check validity of any color string
-	 * 
-	 * @param color
-	 *            string to be verified
-	 */
-	private boolean verifyColor(String color) {
-		/* Checking that color is a 8 digit long hex string */
-		return (color.matches("^([#]([0-9a-fA-F]{8}))$"));
 	}
 
 	/**
@@ -872,11 +898,6 @@ public class GraphicsHandler {
 	 * @return new color made from the string entered
 	 */
 	private Color convertStringToColor(String colorString) {
-		if (!verifyColor(colorString)) {
-			System.err.println("Color " + colorString + " is not a valid color string.");
-			System.err.println("Color strings should comprise of a hash (#) followed by an 8 bit hexedecimal number.");
-			return null;
-		}
 		double a = Integer.parseInt(colorString.substring(alphaStartChar, alphaEndChar), 16) / 255.0;
 		double r = Integer.parseInt(colorString.substring(rStartChar, rEndChar), 16) / 255.0;
 		double b = Integer.parseInt(colorString.substring(gStartChar, gEndChar), 16) / 255.0;
