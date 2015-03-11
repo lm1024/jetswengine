@@ -70,10 +70,10 @@ public class TextHandler {
 	public void drawText(TextObject textBox) {
 		stringBuffer = textBox.getStringBuffer();
 
-		int xStartPos = textBox.getXStart();
-		int yStartPos = textBox.getYStart();
-		int xEndPos = textBox.getXEnd();
-		int yEndPos = textBox.getYEnd();
+		float xStartPos = textBox.getXStart();
+		float yStartPos = textBox.getYStart();
+		float xEndPos = textBox.getXEnd();
+		float yEndPos = textBox.getYEnd();
 		String backgroundColor = textBox.getBackgroundColor();
 		Alignment alignment = textBox.getAlignment();
 
@@ -101,17 +101,17 @@ public class TextHandler {
 	 *            text box.
 	 * 
 	 */
-	private void drawBuffer(int xStartPos, int yStartPos, int xEndPos, int yEndPos, String backgroundColor,
+	private void drawBuffer(float xStartPos, float yStartPos, float xEndPos, float yEndPos, String backgroundColor,
 			Alignment alignment) {
 
 		/* Swaps around coordinates if incorrectly passed in */
 		if (xStartPos > xEndPos) {
-			int temp = xStartPos;
+			float temp = xStartPos;
 			xStartPos = xEndPos;
 			xEndPos = temp;
 		}
 		if (yStartPos > yEndPos) {
-			int temp = yStartPos;
+			float temp = yStartPos;
 			yStartPos = yEndPos;
 			yEndPos = temp;
 		}
