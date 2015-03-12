@@ -327,7 +327,8 @@ public class GUI extends Application {
 		/* create a gridpane layout */
 		grid.setHgap(10);
 		grid.setVgap(10);
-		grid.setPadding(new Insets(5, 5, 5, 5));
+		int gridpaddingsize = (int) (0.048*gridHeightRef);
+		grid.setPadding(new Insets(gridpaddingsize, gridpaddingsize, gridpaddingsize, gridpaddingsize));
 		grid.setAlignment(Pos.CENTER);
 		grid.setGridLinesVisible(true);
 		
