@@ -496,8 +496,8 @@ public class GUI extends Application {
 		grid.add(six, 4, 5);
 
 		/* Insert blank in column 2 and 4, row 4-6 */
-		grid.add(makePane(), 1, 3, 1, 3);
-		grid.add(makePane(), 3, 3, 1, 3);
+		/*grid.add(makePane(), 1, 3, 1, 3);
+		grid.add(makePane(), 3, 3, 1, 3);*/
 
 		/* Insert blank in row 5 */
 		grid.add(makePane(), 0, 4, 5, 1);
@@ -515,7 +515,7 @@ public class GUI extends Application {
 
 		/* add buttons to box and box to grid */
 		buttons.getChildren().addAll(openFile, settings);
-		grid.add(buttons, 1, 6, 3, 1);
+		grid.add(buttons, 0, 6, 5, 1);
 
 		/* Add the style sheet to the mainScene and set the scene */
 		mainScene.getStylesheets().add(styleSheet);
