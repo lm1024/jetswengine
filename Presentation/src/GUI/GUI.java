@@ -104,7 +104,7 @@ public class GUI extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		/*
 		 * TODO Jake, please make a nice GUI. You are our only hope. CSV reading
-		 * for images. CSV writing. Move back to CSS. Windows gestures.
+		 * for images. Move fonts back to CSS. Windows gestures.
 		 */
 
 		/* Read CSV into an array list */
@@ -361,11 +361,13 @@ public class GUI extends Application {
 	/**
 	 * 
 	 * private class so that key press Events can be handled for the text boxes
-	 *
+	 * 
 	 */
 	private class keyPressedHandler implements EventHandler<KeyEvent> {
-		//TODO neaten up and comment, possibly use nested switch?
-		
+		/*
+		 * TODO neaten up and comment, possibly use nested switch?
+		 */
+
 		@Override
 		public void handle(KeyEvent e) {
 			Object key = e.getCode();
@@ -408,7 +410,7 @@ public class GUI extends Application {
 	/**
 	 * 
 	 * private class so that mouse click Events can be handled
-	 *
+	 * 
 	 */
 	private class mouseClickHandler implements EventHandler<MouseEvent> {
 
@@ -434,6 +436,9 @@ public class GUI extends Application {
 	 * 
 	 */
 	private void buildmain() {
+		/*
+		 * TODO: build buttons using a loop, maybe in a boxes/a box...
+		 */
 
 		GridPane grid = new GridPane();
 
@@ -452,12 +457,13 @@ public class GUI extends Application {
 				stageRef.getHeight());
 
 		/* Company icon in column 1-3, row 1-3 */
-		grid.add(makeImageView("file:WM_logo_transparent.png", 0.25), 0, 0, 3,
-				3);
 
 		/* Product name in column 2-5, row 3 */
-		Label titleLabel = makeLabel("     SmartSlides", 50, "#33B5E5");
-		grid.add(titleLabel, 1, 2, 4, 1);
+		HBox titleBox = makeHBox("box", Pos.CENTER, 75);
+		titleBox.getChildren().addAll(
+				makeImageView("file:WM_logo_transparent.png", 0.25),
+				makeImageView("file:Smartslides_DarkText.png", 0.35));
+		grid.add(titleBox, 0, 0, 6, 1);
 
 		/* Create first button for Slide Preview and add in column 1, row 4 */
 		Button one = makeButton("Presentation 1", "invisiButton", true, "0",
@@ -496,15 +502,22 @@ public class GUI extends Application {
 		/* Insert blank in row 5 */
 		grid.add(makePane(), 0, 4, 5, 1);
 
-		/* Create Openfile button in column 2-3, row 7 */
-		Button openfile = makeButton("Open file", "darkButton", true,
+		/* HBox for openFile and settings buttons */
+		HBox buttons = makeHBox("hbox", Pos.CENTER, 150);
+		/* Create openFile button in column 2-3, row 7 */
+		Button openFile = makeButton("Open file", "darkButton", true,
 				"Openfile");
-		grid.add(openfile, 1, 6, 2, 1);
+		openFile.setMinSize(10, 40);
 
 		/* Create Settings button in column 4-5, row 7 */
 		Button settings = makeButton("Settings", "darkButton", true, "Settings");
-		grid.add(settings, 3, 6, 2, 1);
+		settings.setMinSize(10, 40);
 
+		/* add buttons to box and box to grid */
+		buttons.getChildren().addAll(openFile, settings);
+		grid.add(buttons, 1, 6, 3, 1);
+
+		/* Add the style sheet to the mainScene and set the scene */
 		mainScene.getStylesheets().add(styleSheet);
 		stageRef.setScene(mainScene);
 
@@ -520,8 +533,6 @@ public class GUI extends Application {
 
 		/* Line sets the screen to fullscreen */
 		// primaryStage.setFullScreen(true);
-
-		// thisGraphicsHandler.drawRectangle();
 
 	}
 
@@ -608,16 +619,15 @@ public class GUI extends Application {
 
 		/* Add everything to the box */
 		userBox.getChildren().addAll(makeLabel("Username:", 16, "#313131"),
-				userField, userButtons);// add
-		// to
-		// box
+				userField, userButtons);
+
 		settingsGrid.add(userBox, 1, 2);// add box to settingsGrid
 
 		/* VBox to put banned words title and text box in */
 		VBox bannedBox = makeVBox("clearBox", Pos.CENTER, 10);
 
-		/* Editable text area for banned words */
-		/* Defined outside of main class */
+		/* Editable text area for banned words Defined outside of main class */
+
 		ta.setPrefRowCount(12);
 		ta.setPrefColumnCount(15);
 		ta.setWrapText(true);
@@ -660,6 +670,11 @@ public class GUI extends Application {
 
 	}
 
+	/**
+	 * Method to build a basic 'slides' stage etc. This is for debug purposes
+	 * and will be replaced when interface is integrated.
+	 */
+
 	private void buildSlides() {
 
 		Stage slideStage = new Stage();
@@ -681,12 +696,12 @@ public class GUI extends Application {
 
 	}
 
-	/*
-	 * Method to build and display error screne
+	/**
+	 * Method to build and display error screen
 	 */
 	private void dispError() {
 
-		/* Create new stage and scene with gridpane */
+		/* Create new stage and scene with GridPane */
 		Stage errorStage = new Stage();
 		errorStage.setTitle("Error!");
 		GridPane errorGrid = new GridPane();
@@ -699,13 +714,15 @@ public class GUI extends Application {
 		/* Add image and label */
 		errorGrid.add(makeImageView("file:resources/error.png", 0), 0, 0);
 
+		/* Make a box and add things to it */
 		HBox errBox = makeHBox("clearBox", Pos.CENTER, 5);
 		errBox.getChildren().addAll(makeLabel("Error!", 16, "#313131"));
 		errorGrid.add(errBox, 0, 1);
 
 		/* Add scene to stage and make window Modal */
 		errorStage.setScene(errorScene);
-		/* User has to close window */
+
+		/* Modality means the user has to close window */
 		errorStage.initModality(Modality.WINDOW_MODAL);
 		errorStage.initOwner(stageRef);
 
@@ -722,10 +739,7 @@ public class GUI extends Application {
 		Font bold = Font.loadFont("file:resources/fonts/Roboto-Bold.ttf", size);
 		Label lbl = new Label(labelText);// create new instance of label
 		lbl.setFont(bold);
-		lbl.setStyle("-fx-text-fill:" + colour);// add
-												// colour
-												// to
-												// label
+		lbl.setStyle("-fx-text-fill:" + colour);// add colour to label
 
 		return lbl;
 	}
@@ -764,19 +778,22 @@ public class GUI extends Application {
 	private Button makeButton(String buttonText, String styleClass,
 			boolean hover, String id) {
 
-		Font medium = Font.loadFont("file:resources/fonts/Roboto-Bold.ttf", 15);
 		Button btn = new Button();// new instance of button
+		Font medium = Font.loadFont("file:resources/fonts/Roboto-Bold.ttf", 20);
+		btn.setFont(medium);// add font
 		btn.setText(buttonText);// add text
 		btn.getStyleClass().add(styleClass);// add style
 		btn.setPrefHeight(10);// button height
 		btn.setId(id);// give it an ID
 		/* Hover functionality */
 		if (hover) {
+			/* Handlers for when a mouse enters or exits */
 			btn.setOnMouseEntered(new hoverHandler());
 			btn.setOnMouseExited(new hoverHandler());
 		}
-		btn.setOnAction(new buttonEventHandler());// event handler for buttons
-		btn.setFont(medium);
+		/* Add an event handler for button presses */
+		btn.setOnAction(new buttonEventHandler());
+
 		return btn;
 	}
 
@@ -785,10 +802,9 @@ public class GUI extends Application {
 	 */
 	private Button makeButton(String buttonText, String styleClass,
 			boolean hover, String id, String file, double size) {
-
-		ImageView image = makeImageView(file, size);// make an ImageView
-		Button btn = makeButton(buttonText, styleClass, hover, id);// make a
-																	// button
+		/* Make a button and an ImageView using utilities */
+		ImageView image = makeImageView(file, size);
+		Button btn = makeButton(buttonText, styleClass, hover, id);
 		btn.setGraphic(image);// add image to button
 		btn.setContentDisplay(ContentDisplay.TOP);// put image at the top
 		return btn;
@@ -798,14 +814,10 @@ public class GUI extends Application {
 	 * Utility function for making an ImageView
 	 */
 	private ImageView makeImageView(String file, double width) {
-		ImageView iv = new ImageView();// new instance of ImageView
-		iv.setImage(new Image(file, stageRef.getWidth() * width, 0, true, true));// set
-																					// the
-																					// image
-																					// in
-		// the ImageView to
-		// the Image in the
-		// file 'File'
+		/* Create new instance of ImageView */
+		ImageView iv = new ImageView();
+		/* Set the image in the ImageView to the Image in 'File' */
+		iv.setImage(new Image(file, stageRef.getWidth() * width, 0, true, true));
 
 		return iv;
 	}
@@ -814,9 +826,10 @@ public class GUI extends Application {
 	 * Utility function for making a clear pane
 	 */
 	private Pane makePane() {
-		Pane pane = new Pane();
-		pane.setStyle("-fx-background-color: #F0F0F0;");
-		pane.setMinHeight(20);
+		Pane pane = new Pane();// new pane
+		pane.setStyle("-fx-background-color: #F0F0F0;");// same as background
+														// colour
+		pane.setMinHeight(20);// set its height
 		return pane;
 	}
 
