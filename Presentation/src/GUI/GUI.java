@@ -83,6 +83,7 @@ public class GUI extends Application {
 
 	final GridPane grid = new GridPane();
 	private Label lbl;
+	private double gridHeightRef;
 
 	private File inputFile = new File("resources/files.csv");
 
@@ -102,8 +103,9 @@ public class GUI extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		/*
-		 * TODO Jake, please make a nice GUI. You are our only hope. CSV reading
-		 * for images. Move fonts back to CSS. Windows gestures.
+		 * TODO Jake, please make a nice GUI. You are our only hope. CSV
+		 * checking and absolute file paths CSV reading for images. Move fonts
+		 * back to CSS. Windows gestures.
 		 */
 
 		/* Read CSV into an array list */
@@ -433,17 +435,17 @@ public class GUI extends Application {
 	 * 
 	 */
 	private void buildmain() {
-		/*
-		 * TODO: build buttons using a loop, maybe in a boxes/a box...
-		 */
 
 		GridPane grid = new GridPane();
 
+		gridHeightRef = 0.62 * stageRef.getHeight();
+
 		/* create a gridpane layout */
-		grid.setHgap(10);
-		grid.setVgap(10);
+		grid.setHgap(0.02 * gridHeightRef);
+		grid.setVgap(0.02 * gridHeightRef);
 		grid.setPadding(new Insets(5, 5, 5, 5));
 		grid.setAlignment(Pos.CENTER);
+		// grid.setGridLinesVisible(true);
 
 		/* creates a stackpane to add the grid in for resizable option */
 		StackPane rootpane = new StackPane();
@@ -453,62 +455,60 @@ public class GUI extends Application {
 		mainScene = new Scene(rootpane, stageRef.getWidth(),
 				stageRef.getHeight());
 
-		/* Company icon in column 1-3, row 1-3 */
-
-		/* Product name in column 2-5, row 3 */
-		HBox titleBox = makeHBox("box", Pos.CENTER, 75);
+		/* Company logo and product logo in column 1-5, row 1 */
+		HBox titleBox = makeHBox("box", Pos.CENTER_LEFT,
+				(int) Math.round(0.5 * gridHeightRef));
 		titleBox.getChildren().addAll(
-				makeImageView("file:WM_logo_transparent.png", 0.25),
-				makeImageView("file:Smartslides_DarkText.png", 0.35));
-		grid.add(titleBox, 0, 0, 6, 1);
+				makeImageView("file:Smartslides_DarkText.png", 0.56),
+				makeImageView("file:WM_logo_transparent.png", 0.4));
+		grid.add(titleBox, 0, 0, 5, 1);
 
-		/* Create first button for Slide Preview and add in column 1, row 4 */
+		/* Create first button for Slide Preview and add in column 1, row 2 */
 		Button one = makeButton("Presentation 1", "invisiButton", true, "0",
-				"file:logo.png", 0.2);
-		grid.add(one, 0, 3);
+				"file:me.png", 0.4);
+		grid.add(one, 0, 1);
 
-		/* Create second button for Slide Preview and add in column 3, row 4 */
+		/* Create second button for Slide Preview and add in column 3, row 2 */
 		Button two = makeButton("Presentation 2", "invisiButton", true, "1",
-				"file:logo.png", 0.2);
-		grid.add(two, 2, 3);
+				"file:me.png", 0.4);
+		grid.add(two, 2, 1);
 
-		/* Create third button for Slide Preview and add in column 5, row 4 */
+		/* Create third button for Slide Preview and add in column 5, row 2 */
 		Button three = makeButton("Presentation 3", "invisiButton", true, "2",
-				"file:logo.png", 0.2);
-		grid.add(three, 4, 3);
+				"file:me.png", 0.4);
+		grid.add(three, 4, 1);
 
-		/* Create forth button for Slide Preview and add in column 1, row 6 */
+		/* Create forth button for Slide Preview and add in column 1, row 4 */
 		Button four = makeButton("Presentation 4", "invisiButton", true, "3",
-				"file:logo.png", 0.2);
-		grid.add(four, 0, 5);
+				"file:me.png", 0.4);
+		grid.add(four, 0, 3);
 
-		/* Create fifth button for Slide Preview and add in column 3, row 6 */
+		/* Create fifth button for Slide Preview and add in column 3, row 4 */
 		Button five = makeButton("Presentation 5", "invisiButton", true, "4",
-				"file:logo.png", 0.2);
-		grid.add(five, 2, 5);
+				"file:me.png", 0.4);
+		grid.add(five, 2, 3);
 
-		/* Create sixth button for Slide Preview and add in column 5, row 6 */
+		/* Create sixth button for Slide Preview and add in column 5, row 4 */
 		Button six = makeButton("Presentation 6", "invisiButton", true, "5",
-				"file:logo.png", 0.2);
-		grid.add(six, 4, 5);
-
+				"file:me.png", 0.4);
+		grid.add(six, 4, 3);
 
 		/* HBox for openFile and settings buttons */
-		HBox buttons = makeHBox("hbox", Pos.CENTER, 150);
+		HBox buttons = makeHBox("hbox", Pos.CENTER,
+				(int) Math.round(0.14 * gridHeightRef));
 		/* Create openFile button in column 2-3, row 7 */
 		Button openFile = makeButton("Open file", "darkButton", true,
 				"Openfile");
-		openFile.setMinSize(10, 40);
+		openFile.setMinSize(0.01 * gridHeightRef, 0.04 * gridHeightRef);
 
 		/* Create Settings button in column 4-5, row 7 */
 		Button settings = makeButton("Settings", "darkButton", true, "Settings");
-		settings.setMinSize(10, 40);
+		settings.setMinSize(0.01 * gridHeightRef, 0.04 * gridHeightRef);
 
 		/* add buttons to box and box to grid */
 		buttons.getChildren().addAll(openFile, settings);
-		grid.add(buttons, 0, 6, 5, 1);
+		grid.add(buttons, 0, 5, 5, 1);
 
-		/* Add the style sheet to the mainScene and set the scene */
 		mainScene.getStylesheets().add(styleSheet);
 		stageRef.setScene(mainScene);
 
@@ -525,16 +525,20 @@ public class GUI extends Application {
 		/* Line sets the screen to fullscreen */
 		// primaryStage.setFullScreen(true);
 
+		// thisGraphicsHandler.drawRectangle();
+
 	}
 
 	private void buildSettings() {
 
-		/**
+		/*
 		 * TODO Find more settings options to add
 		 */
 
 		/* Create gridpane in which to put objects */
 		GridPane settingsGrid = new GridPane();
+
+		gridHeightRef = 0.49 * stageRef.getHeight();
 
 		/* creates a stackpane to add the grid in for resizable option */
 		StackPane settingsrootpane = new StackPane();
@@ -543,13 +547,14 @@ public class GUI extends Application {
 		// creates a scene within the stage of pixel size x by y
 		settingsScene = new Scene(settingsrootpane, stageRef.getWidth(),
 				stageRef.getHeight());
-		settingsScene.getStylesheets().add(styleSheet);
+		settingsScene.getStylesheets().add("file:resources/styles/style1.css");
 
 		/* Set the layout as settingsGridpane */
 		settingsGrid.setPadding(new Insets(5, 5, 5, 5));
 		settingsGrid.setAlignment(Pos.CENTER);
-		settingsGrid.setHgap(10);
-		settingsGrid.setVgap(10);
+		settingsGrid.setHgap(0.02 * gridHeightRef);
+		settingsGrid.setVgap(0.02 * gridHeightRef);
+		// settingsGrid.setGridLinesVisible(true);
 
 		/*
 		 * Logo button and Title
@@ -557,36 +562,35 @@ public class GUI extends Application {
 
 		/* Wavemedia logo Home button */
 		Button homeBtn = makeButton("", "invisiButton", true, "home",
-				"file:WM_logo_transparent.png", 0.2);
-		settingsGrid.add(homeBtn, 0, 0);
+				"file:WM_logo_transparent.png", 0.5);
+		settingsGrid.add(homeBtn, 0, 0, 1, 1);
 
-		/* Create a HBox to put title in */
-		HBox titleBox = makeHBox("clearBox", Pos.CENTER, 10);
-
-		/* Add Logo and Title to titleBox */
-		titleBox.getChildren().addAll(makeLabel("Settings", 50, "#33B5E5"));
-		settingsGrid.add(titleBox, 1, 0, 2, 1);
+		/* Create settings page title */
+		Label titleLabel = makeLabel("     Settings", 0.15, "#33B5E5");
+		settingsGrid.add(titleLabel, 2, 0, 1, 1);
 
 		/*
 		 * Checkbox options:
 		 */
 
 		/* Add check boxes */
-		CheckBox cb1 = makeCheckBox("Slide Timer", "checkLight", "0", false);
-		CheckBox cb2 = makeCheckBox("Object Timer", "checkLight", "1", false);
+		CheckBox cb1 = makeCheckBox("Slide Timer", "checkLight", "cb1", false);
+		CheckBox cb2 = makeCheckBox("Object Timer", "checkLight", "cb2", false);
+		cb1.setStyle("-fx-font-size:" + 0.03 * gridHeightRef);
+		cb2.setStyle("-fx-font-size:" + 0.03 * gridHeightRef);
 
 		/* Vbox to contain check boses */
 		VBox vbox1 = makeVBox("clearBox", Pos.TOP_LEFT, 10);
-		vbox1.getChildren().addAll(makeLabel("Auto-Next:", 16, "#313131"), cb1,
-				cb2);
-		settingsGrid.add(vbox1, 0, 2, 1, 2);
+		vbox1.getChildren().addAll(makeLabel("Auto-Next:", 0.05, "#313131"),
+				cb1, cb2);
+		settingsGrid.add(vbox1, 0, 1, 1, 1);
 
 		/*
 		 * Back to main screen
 		 */
 		Button back = makeButton("Back", "lightButton", true, "home");
-		back.setPrefSize(100, 50);
-		settingsGrid.add(back, 0, 3);
+		back.setPrefSize(gridHeightRef * 0.16, gridHeightRef * 0.08);
+		settingsGrid.add(back, 0, 3, 1, 1);
 
 		/*
 		 * Username input
@@ -597,8 +601,12 @@ public class GUI extends Application {
 
 		/* Text field declared outside the main so can be accessed elsewhere */
 		userField.getStyleClass().add("textArea");
-		userField.setOnKeyPressed(new keyPressedHandler());
 		userField.setPromptText("Username");
+		userField.setStyle("-fx-font-size:" + gridHeightRef * 0.09);
+		userField.setMinWidth(gridHeightRef * 0.5);
+		userField.setMinHeight(gridHeightRef * 0.08);
+		userField.setMaxWidth(gridHeightRef * 0.5);
+		userField.setMaxHeight(gridHeightRef * 0.08);
 
 		/* Add buttons and add to a box */
 		Button userSubmit = makeButton("Submit", "darkButton", true, "submit");
@@ -609,27 +617,31 @@ public class GUI extends Application {
 		userButtons.getChildren().addAll(userSubmit, userClr);
 
 		/* Add everything to the box */
-		userBox.getChildren().addAll(makeLabel("Username:", 16, "#313131"),
-				userField, userButtons);
-
-		settingsGrid.add(userBox, 1, 2);// add box to settingsGrid
+		userBox.getChildren().addAll(makeLabel("Username:", 0.05, "#313131"),
+				userField, userButtons);// add
+		// to
+		// box
+		settingsGrid.add(userBox, 2, 1, 1, 1);// add box to settingsGrid
 
 		/* VBox to put banned words title and text box in */
-		VBox bannedBox = makeVBox("clearBox", Pos.CENTER, 10);
+		VBox bannedBox = makeVBox("clearBox", Pos.CENTER, 5);
 
-		/* Editable text area for banned words Defined outside of main class */
-
+		/* Editable text area for banned words */
+		/* Defined outside of main class */
 		ta.setPrefRowCount(12);
 		ta.setPrefColumnCount(15);
-		ta.setWrapText(true);
-		ta.setOnKeyPressed(new keyPressedHandler());
 		ta.setPromptText("Banned Words Here");
 		ta.getStyleClass().add("textArea");
+		ta.setStyle("-fx-font-size:" + gridHeightRef * 0.09);
+		ta.setMinWidth(gridHeightRef * 0.55);
+		ta.setMinHeight(gridHeightRef * 0.75);
+		ta.setMaxWidth(gridHeightRef * 0.55);
+		ta.setMaxHeight(gridHeightRef * 0.75);
 
 		/* Add items to banned words VBox */
 		bannedBox.getChildren().addAll(
-				makeLabel("Banned Words:", 16, "#313131"), ta);
-		settingsGrid.add(bannedBox, 2, 2);
+				makeLabel("Banned Words:", 0.05, "#313131"), ta);
+		settingsGrid.add(bannedBox, 4, 1, 1, 2);
 
 		/* HBox to put buttons controlling banned words in */
 		HBox btnBox = makeHBox("clearBox", Pos.CENTER, 10);
@@ -642,7 +654,7 @@ public class GUI extends Application {
 		btnBox.getChildren().addAll(saveBtn, clrBtn);
 
 		/* Add box to the settingsGrid */
-		settingsGrid.add(btnBox, 2, 3);
+		settingsGrid.add(btnBox, 4, 3, 1, 1);
 
 		/* set the settings grid and its contents to resize to the stage size */
 		stageRef.maxHeightProperty().bind(
@@ -653,8 +665,6 @@ public class GUI extends Application {
 				settingsScene.widthProperty().divide(stageRef.getWidth()));
 		settingsGrid.scaleYProperty().bind(
 				settingsScene.heightProperty().divide(stageRef.getHeight()));
-
-		stageRef.setScene(mainScene);
 
 		/* Line sets the screen to full screen */
 		// primaryStage.setFullScreen(true);
@@ -727,8 +737,9 @@ public class GUI extends Application {
 	 */
 
 	/** Utility function for adding labels **/
-	private Label makeLabel(String labelText, int size, String colour) {
-		Font bold = Font.loadFont("file:resources/fonts/Roboto-Bold.ttf", size);
+	private Label makeLabel(String labelText, double d, String colour) {
+		Font bold = Font.loadFont("file:resources/fonts/Roboto-Bold.ttf",
+				gridHeightRef * d);
 		Label lbl = new Label(labelText);// create new instance of label
 		lbl.setFont(bold);
 		lbl.setStyle("-fx-text-fill:" + colour);// add colour to label
@@ -771,11 +782,12 @@ public class GUI extends Application {
 			boolean hover, String id) {
 
 		Button btn = new Button();// new instance of button
-		Font medium = Font.loadFont("file:resources/fonts/Roboto-Bold.ttf", 20);
+		Font medium = Font.loadFont("file:resources/fonts/Roboto-Bold.ttf",
+				gridHeightRef * 0.035);
 		btn.setFont(medium);// add font
 		btn.setText(buttonText);// add text
 		btn.getStyleClass().add(styleClass);// add style
-		btn.setPrefHeight(10);// button height
+		btn.setPrefHeight(gridHeightRef * 0.06);// button height
 		btn.setId(id);// give it an ID
 		/* Hover functionality */
 		if (hover) {
@@ -809,7 +821,7 @@ public class GUI extends Application {
 		/* Create new instance of ImageView */
 		ImageView iv = new ImageView();
 		/* Set the image in the ImageView to the Image in 'File' */
-		iv.setImage(new Image(file, stageRef.getWidth() * width, 0, true, true));
+		iv.setImage(new Image(file, gridHeightRef * width, 0, true, true));
 
 		return iv;
 	}
