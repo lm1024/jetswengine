@@ -120,7 +120,7 @@
 
 /* Dark text, blue box*/
 .checkLight {
-	-fx-font: 16pt RobotoMedium;
+	/*-fx-font: 16pt RobotoMedium;*/
 	-fx-text-fill: #313131;
 	-fx-body-color: #33B5E5;
 }

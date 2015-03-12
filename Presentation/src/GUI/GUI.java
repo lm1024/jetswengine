@@ -321,16 +321,14 @@ public class GUI extends Application {
 		
 		GridPane grid = new GridPane();
 		
-		double gridHeight = 0.62*stageRef.getHeight();
-		gridHeightRef = gridHeight;
+		gridHeightRef = 0.62*stageRef.getHeight();
 		
 		/* create a gridpane layout */
-		grid.setHgap(10);
-		grid.setVgap(10);
-		int gridpaddingsize = (int) (0.048*gridHeightRef);
-		grid.setPadding(new Insets(gridpaddingsize, gridpaddingsize, gridpaddingsize, gridpaddingsize));
+		grid.setHgap(0.02*gridHeightRef);
+		grid.setVgap(0.02*gridHeightRef);
+		grid.setPadding(new Insets(5,5,5,5));
 		grid.setAlignment(Pos.CENTER);
-		grid.setGridLinesVisible(true);
+		//grid.setGridLinesVisible(true);
 		
 		/* creates a stackpane to add the grid in for resizable option*/
 		StackPane rootpane = new StackPane();
@@ -340,13 +338,12 @@ public class GUI extends Application {
 		mainScene = new Scene(rootpane, stageRef.getWidth(),
 				stageRef.getHeight());
 
-		/* Company icon in column 1-3, row 1 */
-		grid.add(makeImageView("file:WM_logo_transparent.png", 0.4), 0, 0, 3,
-				1);
-
-		/* Product name in column 2-5, row 1 */
-		Label titleLabel = makeLabel("     SmartSlides", 0.08, "#33B5E5");
-		grid.add(titleLabel, 1, 0, 4, 1);
+		/* Company logo and product logo in column 1-5, row 1 */
+		HBox titleBox = makeHBox("box", Pos.CENTER, (int)Math.round(0.07*gridHeightRef));
+		titleBox.getChildren().addAll(
+				makeImageView("file:WM_logo_transparent.png", 0.4),
+				makeImageView("file:Smartslides_DarkText.png", 0.56));
+		grid.add(titleBox, 0, 0, 5, 1);
 
 		/* Create first button for Slide Preview and add in column 1, row 2 */
 		Button one = makeButton("Presentation 1", "invisiButton", true, "0",
@@ -377,17 +374,21 @@ public class GUI extends Application {
 		Button six = makeButton("Presentation 6", "invisiButton", true, "5",
 				"file:me.png", 0.32);
 		grid.add(six, 4, 3);
-
-		/* Create Openfile button in column 1, row 6 */
-		Button openfile = makeButton("Open file", "darkButton", true,
+		
+		/* HBox for openFile and settings buttons */
+		HBox buttons = makeHBox("hbox", Pos.CENTER, (int)Math.round(0.14*gridHeightRef));
+		/* Create openFile button in column 2-3, row 7 */
+		Button openFile = makeButton("Open file", "darkButton", true,
 				"Openfile");
-		grid.setHalignment(openfile,HPos.RIGHT);
-		grid.add(openfile, 0, 5);
+		openFile.setMinSize(0.01*gridHeightRef, 0.04*gridHeightRef);
 
-		/* Create Settings button in column 5, row 6 */
+		/* Create Settings button in column 4-5, row 7 */
 		Button settings = makeButton("Settings", "darkButton", true, "Settings");
-		grid.setHalignment(settings,HPos.LEFT);
-		grid.add(settings, 4, 5);
+		settings.setMinSize(0.01*gridHeightRef, 0.04*gridHeightRef);
+
+		/* add buttons to box and box to grid */
+		buttons.getChildren().addAll(openFile, settings);
+		grid.add(buttons, 0, 5, 5, 1);
 
 		mainScene.getStylesheets().add(styleSheet);
 		stageRef.setScene(mainScene);
@@ -415,8 +416,7 @@ public class GUI extends Application {
 		/* Create gridpane in which to put objects */
 		GridPane settingsGrid = new GridPane();
 		
-		double settingsGridHeight = 0.49*stageRef.getHeight();
-		gridHeightRef = settingsGridHeight;
+		gridHeightRef = 0.49*stageRef.getHeight();
 		
 		/* creates a stackpane to add the grid in for resizable option*/
 		StackPane settingsrootpane = new StackPane();
@@ -430,9 +430,9 @@ public class GUI extends Application {
 		/* Set the layout as settingsGridpane */
 		settingsGrid.setPadding(new Insets(5, 5, 5, 5));
 		settingsGrid.setAlignment(Pos.CENTER);
-		settingsGrid.setHgap(10);
-		settingsGrid.setVgap(10);
-		settingsGrid.setGridLinesVisible(true);
+		settingsGrid.setHgap(0.02*gridHeightRef);
+		settingsGrid.setVgap(0.02*gridHeightRef);
+		//settingsGrid.setGridLinesVisible(true);
 
 		/*
 		 * Logo button and Title
@@ -454,6 +454,8 @@ public class GUI extends Application {
 		/* Add check boxes */
 		CheckBox cb1 = makeCheckBox("Slide Timer", "checkLight", "cb1", false);
 		CheckBox cb2 = makeCheckBox("Object Timer", "checkLight", "cb2", false);
+		cb1.setStyle("-fx-font-size:" + 0.03*gridHeightRef);
+		cb2.setStyle("-fx-font-size:" + 0.03*gridHeightRef);
 
 		/* Vbox to contain check boses */
 		VBox vbox1 = makeVBox("clearBox", Pos.TOP_LEFT, 10);
@@ -477,8 +479,8 @@ public class GUI extends Application {
 		
 		/* Text field declared outside the main so can be accessed elsewhere */
 		userField.getStyleClass().add("textArea");
-		userField.setStyle("-fx-font-size:" + gridHeightRef*0.04);
 		userField.setPromptText("Username");
+		userField.setStyle("-fx-font-size:" + gridHeightRef*0.03);
 		userField.setMinWidth(gridHeightRef*0.5);
 		userField.setMinHeight(gridHeightRef*0.04);
 		userField.setMaxWidth(gridHeightRef*0.5);
@@ -508,7 +510,7 @@ public class GUI extends Application {
 		ta.setPrefColumnCount(15);
 		ta.setPromptText("Banned Words Here");
 		ta.getStyleClass().add("textArea");
-		ta.setStyle("-fx-font-size:" + gridHeightRef*0.04);
+		ta.setStyle("-fx-font-size:" + gridHeightRef*0.03);
 		ta.setMinWidth(gridHeightRef*0.56);
 		ta.setMinHeight(gridHeightRef*0.6);
 		ta.setMaxWidth(gridHeightRef*0.56);
