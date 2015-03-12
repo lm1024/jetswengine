@@ -38,7 +38,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -238,8 +237,6 @@ public class GUI extends Application {
 			case "3":
 			case "4":
 			case "5":
-				/* Build the slide show */
-				buildSlides();
 				Slideshow currentSlideshow1 = null;
 				/* Get ID of button as an int */
 				int i = Integer.parseInt(buttonPressed.getId());
@@ -495,12 +492,6 @@ public class GUI extends Application {
 				"file:logo.png", 0.2);
 		grid.add(six, 4, 5);
 
-		/* Insert blank in column 2 and 4, row 4-6 */
-		/*grid.add(makePane(), 1, 3, 1, 3);
-		grid.add(makePane(), 3, 3, 1, 3);*/
-
-		/* Insert blank in row 5 */
-		grid.add(makePane(), 0, 4, 5, 1);
 
 		/* HBox for openFile and settings buttons */
 		HBox buttons = makeHBox("hbox", Pos.CENTER, 150);
@@ -538,7 +529,7 @@ public class GUI extends Application {
 
 	private void buildSettings() {
 
-		/*
+		/**
 		 * TODO Find more settings options to add
 		 */
 
@@ -677,6 +668,7 @@ public class GUI extends Application {
 
 	private void buildSlides() {
 
+		slideNo = 0;
 		Stage slideStage = new Stage();
 		slideStage.setTitle("SmartSlides");
 		slidePane = new GridPane();
@@ -820,17 +812,6 @@ public class GUI extends Application {
 		iv.setImage(new Image(file, stageRef.getWidth() * width, 0, true, true));
 
 		return iv;
-	}
-
-	/**
-	 * Utility function for making a clear pane
-	 */
-	private Pane makePane() {
-		Pane pane = new Pane();// new pane
-		pane.setStyle("-fx-background-color: #F0F0F0;");// same as background
-														// colour
-		pane.setMinHeight(20);// set its height
-		return pane;
 	}
 
 }
