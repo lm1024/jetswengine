@@ -54,11 +54,11 @@ public class SlideRenderer {
 		this.audioHandler = new AudioHandler(group);
 	}
 
-	public void updateSlideDimentions(double xSlideStart, double ySlideStart, double xSlideEnd, double ySlideEnd) {
+	public void updateSlideDimentions(double xSlideStart, double ySlideStart, double slideWidth, double slideHeight) {
 		this.xSlideStart = (float) xSlideStart;
 		this.ySlideStart = (float) ySlideStart;
-		this.slideWidth = (float) (xSlideEnd - xSlideStart);
-		this.slideHeight = (float) (ySlideEnd - ySlideStart);
+		this.slideWidth = (float) slideWidth;
+		this.slideHeight = (float) slideHeight;
 	}
 
 	public void drawSlide(Slide currentSlide) {
@@ -90,8 +90,9 @@ public class SlideRenderer {
 		float xStartPos = convXRelCoordToAbsCoord(currentGraphic.getXStart());
 		float yStartPos = convYRelCoordToAbsCoord(currentGraphic.getYStart());
 
-		GraphicBuilder graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos);
-		System.out.println(currentGraphic.getClass());
+		
+		
+		GraphicBuilder graphicBuilder = new GraphicBuilder(GraphicType.RECTANGLE, xStartPos, yStartPos).xEndPos(convXRelCoordToAbsCoord(1f)).yEndPos(convYRelCoordToAbsCoord(1f));
 
 		switch (graphicType) {
 		case ARC:
@@ -128,20 +129,18 @@ public class SlideRenderer {
 			break;
 
 		}
-
+		
 		graphicsHandler.drawShape(graphicBuilder.build());
 	}
 
 	private void addText(Text currentText) {
 		float xStart = convXRelCoordToAbsCoord(currentText.getXStart());
-		System.out.println(currentText.getXEnd());
+		System.out.println(currentText.getXStart());
 		float yStart = convYRelCoordToAbsCoord(currentText.getYStart());
 		float xEnd = convXRelCoordToAbsCoord(currentText.getXEnd());
 		float yEnd = convYRelCoordToAbsCoord(currentText.getYEnd());
 		String backgroundColor = currentText.getBackgroundColor();
 		Alignment alignment = Alignment.valueOf(currentText.getAlignment().toUpperCase());
-
-		System.out.println(xStart + " " + xEnd + " " + yStart + " " + yEnd);
 
 		TextFragmentList textFragmentList = new TextFragmentList();
 

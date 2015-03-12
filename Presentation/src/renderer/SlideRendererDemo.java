@@ -25,13 +25,12 @@ public class SlideRendererDemo extends Application {
 		Slideshow slideshow = new ImprovedXMLReader("test.xml").getSlideshow();
 		primaryStage.setTitle("Slide Renderer Demo");
 		Group group = new Group();
-		Scene scene = new Scene(group, 500, 500);
+		Scene scene = new Scene(group, 1000, 800);
 		primaryStage.setScene(scene);
 		
-		
-		
 		SlideRenderer slideRenderer = new SlideRenderer(group);
-		slideRenderer.drawSlide(slideshow.getSlide(4));
+		slideRenderer.updateSlideDimentions(0, 0, 1000, 800);
+		slideRenderer.drawSlide(slideshow.getSlide(0));
 		
 		primaryStage.show();
 	}

@@ -8,29 +8,33 @@
 		<groupid>2</groupid>
 	</documentinfo>
 	<defaultsettings>
-		<backgroundcolor>#ff00ff00</backgroundcolor>
+		<backgroundcolor>#10ff0000</backgroundcolor>
 		<font>times new roman</font>
 		<fontsize>24</fontsize>
 		<fontcolor>#ffff00ff</fontcolor>
 		<graphiccolor>#ffaaaa00</graphiccolor>
 	</defaultsettings>
 	<slide>
-		<text xstart="0.1" ystart="0.1" font="arial" fontsize="24"
+		<graphic graphiccolor="#ff000000" duration="1.5" starttime="2.0">
+			<rectangle xstart="0" ystart="0" xend="1" yend="1"
+				solid="true" />
+		</graphic>
+		<text xstart="0.1" ystart="0.1" xend="0.3" yend="0.3" font="arial" fontsize="24"
 			fontcolor="#ff112233" duration="1.5">
 			Hello World! This is a test.
 		</text>
-		<text xstart="0.35" ystart="0.1" font="times new roman" fontsize="24"
+		<text xstart="0.35" ystart="0.1" xend="0.55" yend="0.3" font="times new roman" fontsize="24"
 			fontcolor="#ffff11ff" duration="1.5">
 			Hello World!
 		</text>
-		<text xstart="0.6" ystart="0.1" font="arial" fontsize="24"
+		<text xstart="0.6" ystart="0.1" xend="0.9" yend="0.3" font="arial" fontsize="24"
 			fontcolor="#ff00ff00" duration="1.5" starttime="2.0" alignment="left/right/centre">
 			<richtext font="times new roman" fontsize="26" fontcolor="#ff00ff00"
 				newline="true" b="true" i="true" u="true" strikethrough="true"
 				superscript="true" subscript="true" case="upper">Example text1! </richtext>
 			<richtext font="arial" fontsize="26" fontcolor="#ff00ff00"
 				newline="true" b="true" i="true" u="true" strikethrough="true"
-				superscript="true" subscript="true" case="lower">Example\ntext2! </richtext>
+				superscript="true" subscript="true" case="lower">Example text2! </richtext>
 			<richtext font="arial" fontsize="26" fontcolor="#ff00ffff"
 				newline="true" b="true" i="true" u="true" strikethrough="true"
 				superscript="true" subscript="true" case="camel">Example text3! </richtext>
