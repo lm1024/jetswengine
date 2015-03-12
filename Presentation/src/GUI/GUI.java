@@ -23,10 +23,10 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -38,10 +38,9 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -89,6 +88,9 @@ public class GUI extends Application {
 	private Stage stageRef;
 	
 	private double sizescale;
+	
+	private GridPane gridRef;
+	
 
 	public GUI() {
 	}
@@ -109,20 +111,18 @@ public class GUI extends Application {
 		 * TODO Jake, please make a nice GUI. You are our only hope. Screen
 		 * resizing stuff!!
 		 */
+		
 		stageRef = primaryStage;
 		stageRef.widthProperty().addListener(new widthSizeListener());
 		
 		/* Set the title of the window */
 		stageRef.setTitle("SmartSlides");
 		Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
-		//stageRef.setWidth(primaryScreenBounds.getWidth());
-		//stageRef.setHeight(primaryScreenBounds.getHeight());
-		stageRef.setWidth(900);
-		stageRef.setHeight(900);
+		stageRef.setWidth(primaryScreenBounds.getWidth());
+		stageRef.setHeight(primaryScreenBounds.getHeight());
 		
 		/* sets the scale required to scale the height with change in width*/
 		sizescale = primaryScreenBounds.getWidth()/primaryScreenBounds.getHeight();
-		sizescale = 900/900;
 
 		buildmain();
 
@@ -182,6 +182,8 @@ public class GUI extends Application {
 			case "Settings":
 				buildSettings();
 				System.out.println("building");
+				System.out.println(gridRef.getWidth());
+				System.out.println(gridRef.getHeight());
 				stageRef.setScene(settingsScene);
 				break;
 
@@ -313,7 +315,6 @@ public class GUI extends Application {
 		public void changed(ObservableValue<? extends Number> observableValue,
 				Number oldSceneWidth, Number newSceneWidth) {
 			System.out.println("Width: " + newSceneWidth);	
-			
 
 		}
 
@@ -322,13 +323,17 @@ public class GUI extends Application {
 	private void buildmain(){
 		
 		GridPane grid = new GridPane();
-
+		
+		gridRef = grid;
+		
 		/* create a gridpane layout */
 		grid.setHgap(10);
 		grid.setVgap(10);
 		grid.setPadding(new Insets(5, 5, 5, 5));
 		grid.setAlignment(Pos.CENTER);
-
+		grid.setGridLinesVisible(true);
+		grid.setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
+		
 		/* creates a stackpane to add the grid in for resizable option*/
 		StackPane rootpane = new StackPane();
 		rootpane.getChildren().add(grid);
@@ -337,59 +342,54 @@ public class GUI extends Application {
 		mainScene = new Scene(rootpane, stageRef.getWidth(),
 				stageRef.getHeight());
 
-		/* Company icon in column 1-3, row 1-3 */
+		/* Company icon in column 1-3, row 1 */
 		grid.add(makeImageView("file:WM_logo_transparent.png", 0.25), 0, 0, 3,
-				3);
+				1);
 
-		/* Product name in column 2-5, row 3 */
-		Label titleLabel = makeLabel("     SmartSlides", 0.04, "#33B5E5");
-		grid.add(titleLabel, 1, 2, 4, 1);
+		/* Product name in column 2-5, row 1 */
+		Label titleLabel = makeLabel("     SmartSlides", 0.05, "#33B5E5");
+		grid.add(titleLabel, 1, 0, 4, 1);
 
-		/* Create first button for Slide Preview and add in column 1, row 4 */
+		/* Create first button for Slide Preview and add in column 1, row 2 */
 		Button one = makeButton("Presentation 1", "invisiButton", true, "0",
 				"file:me.png", 0.2);
-		grid.add(one, 0, 3);
+		grid.add(one, 0, 1);
 
-		/* Create second button for Slide Preview and add in column 3, row 4 */
+		/* Create second button for Slide Preview and add in column 3, row 2 */
 		Button two = makeButton("Presentation 2", "invisiButton", true, "1",
 				"file:me.png", 0.2);
-		grid.add(two, 2, 3);
+		grid.add(two, 2, 1);
 
-		/* Create third button for Slide Preview and add in column 5, row 4 */
+		/* Create third button for Slide Preview and add in column 5, row 2 */
 		Button three = makeButton("Presentation 3", "invisiButton", true, "2",
 				"file:me.png", 0.2);
-		grid.add(three, 4, 3);
+		grid.add(three, 4, 1);
 
-		/* Create forth button for Slide Preview and add in column 1, row 6 */
+		/* Create forth button for Slide Preview and add in column 1, row 4 */
 		Button four = makeButton("Presentation 4", "invisiButton", true, "3",
 				"file:me.png", 0.2);
-		grid.add(four, 0, 5);
+		grid.add(four, 0, 3);
 
-		/* Create fifth button for Slide Preview and add in column 3, row 6 */
+		/* Create fifth button for Slide Preview and add in column 3, row 4 */
 		Button five = makeButton("Presentation 5", "invisiButton", true, "4",
 				"file:me.png", 0.2);
-		grid.add(five, 2, 5);
+		grid.add(five, 2, 3);
 
-		/* Create sixth button for Slide Preview and add in column 5, row 6 */
+		/* Create sixth button for Slide Preview and add in column 5, row 4 */
 		Button six = makeButton("Presentation 6", "invisiButton", true, "5",
 				"file:me.png", 0.2);
-		grid.add(six, 4, 5);
+		grid.add(six, 4, 3);
 
-		/* Insert blank in column 2 and 4, row 4-6 */
-		grid.add(makePane(), 1, 3, 1, 3);
-		grid.add(makePane(), 3, 3, 1, 3);
-
-		/* Insert blank in row 5 */
-		grid.add(makePane(), 0, 4, 5, 1);
-
-		/* Create Openfile button in column 2-3, row 7 */
+		/* Create Openfile button in column 1, row 6 */
 		Button openfile = makeButton("Open file", "darkButton", true,
 				"Openfile");
-		grid.add(openfile, 1, 6, 2, 1);
+		grid.setHalignment(openfile,HPos.RIGHT);
+		grid.add(openfile, 0, 5);
 
-		/* Create Settings button in column 4-5, row 7 */
+		/* Create Settings button in column 5, row 6 */
 		Button settings = makeButton("Settings", "darkButton", true, "Settings");
-		grid.add(settings, 3, 6, 2, 1);
+		grid.setHalignment(settings,HPos.LEFT);
+		grid.add(settings, 4, 5);
 
 		mainScene.getStylesheets().add(styleSheet);
 		stageRef.setScene(mainScene);
@@ -399,6 +399,7 @@ public class GUI extends Application {
 		stageRef.minHeightProperty().bind(mainScene.widthProperty().divide(sizescale));
 		grid.scaleXProperty().bind(mainScene.widthProperty().divide(stageRef.getWidth()));
 	    grid.scaleYProperty().bind(mainScene.heightProperty().divide(stageRef.getHeight()));
+	    
 
 		/* Line sets the screen to fullscreen */
 		// primaryStage.setFullScreen(true);
@@ -415,7 +416,7 @@ public class GUI extends Application {
 
 		/* Create gridpane in which to put objects */
 		GridPane settingsGrid = new GridPane();
-		settingsGrid.setGridLinesVisible(true);
+		
 		/* creates a stackpane to add the grid in for resizable option*/
 		StackPane settingsrootpane = new StackPane();
 		settingsrootpane.getChildren().add(settingsGrid);
@@ -441,8 +442,8 @@ public class GUI extends Application {
 		settingsGrid.add(homeBtn, 0, 0, 1, 1);
 
 		/*  Create settings page title */
-		Label titleLabel = makeLabel("     Settings", 0.04, "#33B5E5");
-		settingsGrid.add(titleLabel, 1, 0, 1, 1);
+		Label titleLabel = makeLabel("     Settings", 0.05, "#33B5E5");
+		settingsGrid.add(titleLabel, 2, 0, 1, 1);
 
 		/*
 		 * Checkbox options:
@@ -462,7 +463,7 @@ public class GUI extends Application {
 		 * Back to main screen
 		 */
 		Button back = makeButton("Back", "lightButton", true, "home");
-		back.setPrefSize(stageRef.getWidth()*0.08, stageRef.getWidth()*0.04);
+		back.setPrefSize(stageRef.getHeight()*0.08, stageRef.getHeight()*0.04);
 		settingsGrid.add(back, 0, 3, 1, 1);
 
 		/*
@@ -471,20 +472,21 @@ public class GUI extends Application {
 
 		/* Add user name submission */
 		VBox userBox = makeVBox("clearBox", Pos.TOP_CENTER, 5);// holding box
-		userBox.setPrefSize(stageRef.getWidth()*0.15, stageRef.getWidth()*0.1);
 		
 		/* Text field declared outside the main so can be accessed elsewhere */
 		userField.getStyleClass().add("textArea");
 		userField.setPromptText("Username");
-	
-
+		userField.setMinWidth(stageRef.getHeight()*0.25);
+		userField.setMinHeight(stageRef.getHeight()*0.02);
+		userField.setMaxWidth(stageRef.getHeight()*0.25);
+		userField.setMaxHeight(stageRef.getHeight()*0.02);
+		
 		/* Add buttons and add to a box */
 		Button userSubmit = makeButton("Submit", "darkButton", true, "submit");
 		Button userClr = makeButton("Clear", "darkButton", true, "userClr");
 
 		/* Hbox for username Buttons */
 		HBox userButtons = makeHBox("clearBox", Pos.CENTER, 10);
-		//userButtons.setPrefSize(stageRef.getWidth()*0.2, stageRef.getWidth()*0.01);
 		userButtons.getChildren().addAll(userSubmit, userClr);
 
 		/* Add everything to the box */
@@ -492,11 +494,10 @@ public class GUI extends Application {
 				userField, userButtons);// add
 		// to
 		// box
-		settingsGrid.add(userBox, 1, 1, 1, 1);// add box to settingsGrid
+		settingsGrid.add(userBox, 2, 1, 1, 1);// add box to settingsGrid
 
 		/* VBox to put banned words title and text box in */
-		VBox bannedBox = makeVBox("clearBox", Pos.CENTER, 10);
-		bannedBox.setPrefSize(stageRef.getWidth()*0.2, stageRef.getWidth()*0.25);
+		VBox bannedBox = makeVBox("clearBox", Pos.CENTER, 5);
 		
 		/* Editable text area for banned words */
 		/* Defined outside of main class */
@@ -504,15 +505,18 @@ public class GUI extends Application {
 		ta.setPrefColumnCount(15);
 		ta.setPromptText("Banned Words Here");
 		ta.getStyleClass().add("textArea");
+		ta.setMinWidth(stageRef.getHeight()*0.28);
+		ta.setMinHeight(stageRef.getHeight()*0.3);
+		ta.setMaxWidth(stageRef.getHeight()*0.28);
+		ta.setMaxHeight(stageRef.getHeight()*0.3);
 
 		/* Add items to banned words VBox */
 		bannedBox.getChildren().addAll(
 				makeLabel("Banned Words:", 0.0125, "#313131"), ta);
-		settingsGrid.add(bannedBox, 3, 1, 1, 2);
+		settingsGrid.add(bannedBox, 4, 1, 1, 2);
 
 		/* HBox to put buttons controlling banned words in */
 		HBox btnBox = makeHBox("clearBox", Pos.CENTER, 10);
-		btnBox.setPrefSize(stageRef.getWidth()*0.15, stageRef.getWidth()*0.1);
 
 		/* Save and Clear buttons */
 		Button clrBtn = makeButton("Clear", "darkButton", true, "clr");
@@ -522,7 +526,7 @@ public class GUI extends Application {
 		btnBox.getChildren().addAll(saveBtn, clrBtn);
 
 		/* Add box to the settingsGrid */
-		settingsGrid.add(btnBox, 3, 3, 1, 1);
+		settingsGrid.add(btnBox, 4, 3, 1, 1);
 		
 		/* set the settings grid and its contents to resize to the stage size*/
 		stageRef.maxHeightProperty().bind(settingsScene.widthProperty().divide(sizescale));
@@ -530,7 +534,6 @@ public class GUI extends Application {
 		settingsGrid.scaleXProperty().bind(settingsScene.widthProperty().divide(stageRef.getWidth()));
 		settingsGrid.scaleYProperty().bind(settingsScene.heightProperty().divide(stageRef.getHeight()));
 
-		stageRef.setScene(mainScene);
 
 		/* Line sets the screen to full screen */
 		// primaryStage.setFullScreen(true);
@@ -594,7 +597,7 @@ public class GUI extends Application {
 
 	/** Utility function for adding labels **/
 	private Label makeLabel(String labelText, double d, String colour) {
-		Font bold = Font.loadFont("file:resources/fonts/Roboto-Bold.ttf", stageRef.getWidth()*d);
+		Font bold = Font.loadFont("file:resources/fonts/Roboto-Bold.ttf", stageRef.getHeight()*d);
 		Label lbl = new Label(labelText);// create new instance of label
 		lbl.setFont(bold);
 		lbl.setStyle("-fx-text-fill:" + colour);// add
@@ -640,11 +643,11 @@ public class GUI extends Application {
 			boolean hover, String id) {
 
 		Font medium = Font.loadFont("file:resources/fonts/Roboto-Regular.ttf",
-				stageRef.getWidth()*0.012);
+				stageRef.getHeight()*0.012);
 		Button btn = new Button();// new instance of button
 		btn.setText(buttonText);// add text
 		btn.getStyleClass().add(styleClass);// add style
-		btn.setPrefHeight(stageRef.getWidth()*0.008);// button height
+		btn.setPrefHeight(stageRef.getHeight()*0.008);// button height
 		btn.setId(id);// give it an ID
 		/* Hover functionality */
 		if (hover) {
@@ -675,7 +678,7 @@ public class GUI extends Application {
 	 */
 	private ImageView makeImageView(String file, double width) {
 		ImageView iv = new ImageView();// new instance of ImageView
-		iv.setImage(new Image(file, stageRef.getWidth() * width, 0, true, true));// set
+		iv.setImage(new Image(file, stageRef.getHeight() * width, 0, true, true));// set
 																					// the
 																					// image
 																					// in
@@ -684,16 +687,6 @@ public class GUI extends Application {
 		// file 'File'
 
 		return iv;
-	}
-
-	/**
-	 * Utility function for making a clear pane
-	 */
-	private Pane makePane() {
-		Pane pane = new Pane();
-		pane.setStyle("-fx-background-color: #F0F0F0;");
-		pane.setMinHeight(20);
-		return pane;
 	}
 
 }
