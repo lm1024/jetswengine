@@ -40,6 +40,11 @@ public class SlideRenderer {
 	private VideoHandler videoHandler;
 	private AudioHandler audioHandler;
 
+	private float xSlideStart;
+	private float ySlideStart;
+	private float slideWidth;
+	private float slideHeight;
+
 	public SlideRenderer(Group group) {
 		this.group = group;
 		this.graphicsHandler = new GraphicsHandler(group);
@@ -47,6 +52,13 @@ public class SlideRenderer {
 		this.textHandler = new TextHandler(group);
 		this.videoHandler = new VideoHandler(group);
 		this.audioHandler = new AudioHandler(group);
+	}
+
+	public void updateSlideDimentions(double xSlideStart, double ySlideStart, double xSlideEnd, double ySlideEnd) {
+		this.xSlideStart = (float) xSlideStart;
+		this.ySlideStart = (float) ySlideStart;
+		this.slideWidth = (float) (xSlideEnd - xSlideStart);
+		this.slideHeight = (float) (ySlideEnd - ySlideStart);
 	}
 
 	public void drawSlide(Slide currentSlide) {
@@ -75,8 +87,10 @@ public class SlideRenderer {
 		/* */
 		GraphicType graphicType = GraphicType.valueOf(currentGraphic.getType().toUpperCase());
 
-		GraphicBuilder graphicBuilder = new GraphicBuilder(graphicType, currentGraphic.getXStart(),
-				currentGraphic.getYStart());
+		float xStartPos = convXRelCoordToAbsCoord(currentGraphic.getXStart());
+		float yStartPos = convYRelCoordToAbsCoord(currentGraphic.getYStart());
+
+		GraphicBuilder graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos);
 		System.out.println(currentGraphic.getClass());
 
 		switch (graphicType) {
@@ -119,14 +133,15 @@ public class SlideRenderer {
 	}
 
 	private void addText(Text currentText) {
-		float xStart = currentText.getXStart();
-		float yStart = currentText.getYStart();
-		float xEnd = currentText.getXEnd();
-		float yEnd = currentText.getYEnd();
+		float xStart = convXRelCoordToAbsCoord(currentText.getXStart());
+		System.out.println(currentText.getXEnd());
+		float yStart = convYRelCoordToAbsCoord(currentText.getYStart());
+		float xEnd = convXRelCoordToAbsCoord(currentText.getXEnd());
+		float yEnd = convYRelCoordToAbsCoord(currentText.getYEnd());
 		String backgroundColor = currentText.getBackgroundColor();
 		Alignment alignment = Alignment.valueOf(currentText.getAlignment().toUpperCase());
 
-		System.out.println(xStart);
+		System.out.println(xStart + " " + xEnd + " " + yStart + " " + yEnd);
 
 		TextFragmentList textFragmentList = new TextFragmentList();
 
@@ -149,6 +164,8 @@ public class SlideRenderer {
 			double fontSize = currentFragment.getFontSize();
 			String text = currentFragment.getText();
 
+			System.out.println(text);
+
 			textFragmentList.add(new TextObject.TextFragmentBuilder(text).bold(bold).underline(underline)
 					.italic(italic).superscript(superscript).subscript(subscript).strikethrough(strikethrough)
 					.newline(newline).fontColor(fontColor).highlightColor(highlightColor).fontName(font)
@@ -156,13 +173,13 @@ public class SlideRenderer {
 		}
 
 		textHandler.drawText(new TextObject.TextBoxBuilder(xStart, yStart).xEnd(xEnd).yEnd(yEnd)
-				.backgroundColor(backgroundColor).alignment(alignment).build());
+				.backgroundColor(backgroundColor).alignment(alignment).textFragmentList(textFragmentList).build());
 	}
 
 	private void addImage(Image currentImage) {
 		String filepath = currentImage.getSourceFile();
-		float xStartPos = currentImage.getXStart();
-		float yStartPos = currentImage.getYStart();
+		float xStartPos = convXRelCoordToAbsCoord(currentImage.getXStart());
+		float yStartPos = convYRelCoordToAbsCoord(currentImage.getYStart());
 		int rotation = currentImage.getRotation(); // TODO should be float
 		float scale = currentImage.getScale();
 		float cropX1 = currentImage.getCropX1();
@@ -180,29 +197,37 @@ public class SlideRenderer {
 	}
 
 	private void addAudio(Audio currentAudio) {
-		float x = currentAudio.getXStart();
-		float y = currentAudio.getYStart();
+		float x = convXRelCoordToAbsCoord(currentAudio.getXStart());
+		float y = convYRelCoordToAbsCoord(currentAudio.getYStart());
 		float width = 400; // TODO currentAudio.getWidth();
-		
+
 		// String sourceFile = currentAudio.getSourceFile(); //TODO
 		File sourceFile = new File(currentAudio.getSourceFile());
 
 		boolean autoPlay = false;// TODO currentAudio.isAutoPlay();
 		boolean visibleControls = true;// TODO currentAudio.isVisibleControls();
 		boolean playButtonOnly = false;// TODO currentAudio.isPlayButtonOnly();
-		
+
 		audioHandler.createAudio(x, y, width, sourceFile, autoPlay, visibleControls, playButtonOnly);
 	}
 
 	private void addVideo(Video currentVideo) {
-		float x = currentVideo.getXStart();
-		float y = currentVideo.getYStart();
+		float x = convXRelCoordToAbsCoord(currentVideo.getXStart());
+		float y = convYRelCoordToAbsCoord(currentVideo.getYStart());
 		float width = 400; // TODO currentVideo.getWidth();
 		String sourceFile = currentVideo.getSourceFile();
 		boolean autoPlay = true; // TODO currentVideo.isAutoPlay();
 		boolean loop = false; // TODO currentVideo.isLoop();
 
 		videoHandler.createVideo(x, y, width, sourceFile, autoPlay, loop);
+	}
+
+	private float convXRelCoordToAbsCoord(float x) {
+		return (xSlideStart + x * slideWidth);
+	}
+
+	private float convYRelCoordToAbsCoord(float y) {
+		return (ySlideStart + y * slideHeight);
 	}
 
 	public void clear() {
