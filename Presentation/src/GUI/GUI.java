@@ -476,11 +476,12 @@ public class GUI extends Application {
 		
 		/* Text field declared outside the main so can be accessed elsewhere */
 		userField.getStyleClass().add("textArea");
+		userField.setStyle("-fx-font-size:" + gridHeightRef*0.04);
 		userField.setPromptText("Username");
 		userField.setMinWidth(gridHeightRef*0.5);
 		userField.setMinHeight(gridHeightRef*0.04);
 		userField.setMaxWidth(gridHeightRef*0.5);
-		userField.setMaxHeight(gridHeightRef*0.4);
+		userField.setMaxHeight(gridHeightRef*0.04);
 		
 		/* Add buttons and add to a box */
 		Button userSubmit = makeButton("Submit", "darkButton", true, "submit");
@@ -506,6 +507,7 @@ public class GUI extends Application {
 		ta.setPrefColumnCount(15);
 		ta.setPromptText("Banned Words Here");
 		ta.getStyleClass().add("textArea");
+		ta.setStyle("-fx-font-size:" + gridHeightRef*0.04);
 		ta.setMinWidth(gridHeightRef*0.56);
 		ta.setMinHeight(gridHeightRef*0.6);
 		ta.setMaxWidth(gridHeightRef*0.56);
