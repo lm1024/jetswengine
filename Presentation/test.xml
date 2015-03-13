@@ -8,7 +8,7 @@
 		<groupid>2</groupid>
 	</documentinfo>
 	<defaultsettings>
-		<backgroundcolor>#10ff0000</backgroundcolor>
+		<backgroundcolor>#ffffffff</backgroundcolor>
 		<font>times new roman</font>
 		<fontsize>24</fontsize>
 		<fontcolor>#ffff00ff</fontcolor>
