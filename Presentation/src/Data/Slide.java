@@ -88,4 +88,22 @@ public class Slide {
 		this.currentItem = item;
 		itemList.add(currentItem);
 	}
+	
+	public void remove(int index) {
+		itemList.remove(index);
+	}
+	
+	public Slide copySlide() {
+		Slide slide = new Slide(new Defaults());
+		Slide slideToBeCopied = this;
+		
+		slide.setBackgroundColor(slideToBeCopied.getBackgroundColor());
+		slide.setDuration(((Float)slideToBeCopied.getDuration()).toString());
+		
+		for (SlideItem item : slideToBeCopied.getAll()) {
+			slide.add(item);
+		}
+		
+		return slide;
+	}
 }
