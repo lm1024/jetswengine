@@ -15,6 +15,15 @@
 		<graphiccolor>#ffaaaa00</graphiccolor>
 	</defaultsettings>
 	<slide>
+	<graphic graphiccolor="#ff000000">
+			<rectangle xstart="0" ystart="0" xend="1" yend="1"
+				solid="true" />
+		</graphic>
+		<video sourcefile="M:\Sweng\avengers-featurehp.mp4" starttime="2.5" duration="5.0"
+			xstart="0" ystart="0" />
+	</slide>
+	
+	<slide>
 		<graphic graphiccolor="#ff000000" starttime="1.0">
 			<rectangle xstart="0" ystart="0" xend="1" yend="1"
 				solid="true" />
@@ -45,11 +54,6 @@
 		<image sourcefile="file:Desert.jpg" xstart="0.1" ystart="0.1"
 			scale="0.4" rotate="0" fliphorizontal="false" flipvertical="false"
 			cropx1="0.0" cropy1="0.0" cropx2="0.0" cropy2="0.0" />
-	</slide>
-
-	<slide>
-		<video sourcefile="M:\Sweng\avengers-featurehp.mp4" starttime="2.5"
-			xstart="0.1" ystart="0.1" />
 	</slide>
 
 	<slide>

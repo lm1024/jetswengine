@@ -222,12 +222,12 @@ public class Video {
     
     /** Programmatically relocates this video */
     public void relocate(float x, float y) {
-        video.relocate(x, y);
+    	videoFrame.relocate(x, y);
     }
     
     /** Programmatically sets this videos visibility */
     public void setVisible(boolean visible) {
-        video.setVisible(visible);
+    	videoFrame.setVisible(visible);
     }
     
     /** Adds the controls to a video frame */

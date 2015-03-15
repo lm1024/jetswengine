@@ -1,6 +1,9 @@
 package runtime;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import javafx.beans.value.ChangeListener;
@@ -32,41 +35,29 @@ public class SlideshowRuntimeData {
 
 	private ArrayList<Long> timingList;
 
+	protected final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+
 	public SlideshowRuntimeData(Slideshow slideshow, Group group) {
 		this.slideshow = slideshow;
-
-		currentXAspectRatio = 16;// slideshow.getInfo().getXAspectRatio()
-		currentYAspectRatio = 9;// slideshow.getInfo().getYAspectRatio()
+		this.currentXAspectRatio = 16;// slideshow.getInfo().getXAspectRatio()
+		this.currentYAspectRatio = 9;// slideshow.getInfo().getYAspectRatio()
 
 		this.slideRenderer = new SlideRenderer(group);
 		this.scene = group.getScene();
-		updateScreenBoundaries();
 
-		scene.setOnMouseClicked(new mouseClickHandler());
+		scene.setOnMouseClicked(new MouseClickHandler());
+
+		scene.widthProperty().addListener(new WindowResizeHandler());
+		scene.heightProperty().addListener(new WindowResizeHandler());
 
 		currentSlide = slideshow.getSlide(0);
-		slideRenderer.drawSlide(currentSlide);
-
-		scene.widthProperty().addListener(new ChangeListener<Number>() {
-			@Override
-			public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth,
-					Number newSceneWidth) {
-				updateScreenBoundaries();
-			}
-		});
-
-		scene.heightProperty().addListener(new ChangeListener<Number>() {
-			@Override
-			public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight,
-					Number newSceneHeight) {
-				updateScreenBoundaries();
-			}
-		});
+		buildCurrentSlide();
+		updateScreenBoundaries();
+		slideRenderer.relocateSlideObjects();
 
 	}
 
 	private void updateScreenBoundaries() {
-		// screenBoundaries = Screen.get
 		double sceneHeight = scene.getHeight();
 		double sceneWidth = scene.getWidth();
 
@@ -88,51 +79,58 @@ public class SlideshowRuntimeData {
 		}
 
 		slideRenderer.updateSlideDimentions(xSlideStart, ySlideStart, slideWidth, slideHeight);
-		updateSlide();
+		slideRenderer.relocateSlideObjects();
+	}
+
+	private void buildCurrentSlide() {
+		slideRenderer.drawSlide(currentSlide);
+		buildTimingList();
+		scheduleNextUpdate();
 	}
 
 	private void updateSlide() {
-		slideRenderer.clear();
-
-		currentSlide = slideshow.getSlide(slideNumber);
-		/*
-		 * .copySlide();
-		 * 
-		 * System.out.println( slideshow .getSlide(slideNumber
-		 * ).get(0).toString()); currentSlide .remove(0); System.out
-		 * .println(slideshow .getSlide (slideNumber) .get(0).toString());
-		 */
-
-		slideRenderer.drawSlide(currentSlide);
-		currentSlideStartTime = getCurrentTime();
-		buildTimingList();
-		System.out.println("StartingTime: " + TimeUnit.MILLISECONDS.toSeconds(currentSlideStartTime));
-		for (int i = 0; i < timingList.size(); i++) {
-			System.out.println("Next update: " + TimeUnit.MILLISECONDS.toSeconds(timingList.get(i).longValue()));
-			System.out.println("   Difference: "
-					+ ((TimeUnit.MILLISECONDS.toSeconds(timingList.get(i).longValue())) - (TimeUnit.MILLISECONDS
-							.toSeconds(currentSlideStartTime))));
-		}
+		System.out.println("Update at " + timingList.get(0));
+		slideRenderer.updateSlide(timingList.get(0));
 	}
 
 	private void buildTimingList() {
 		timingList = new ArrayList<Long>();
-		for (SlideItem currentItem : currentSlide.getAll()) {
-			long currentItemStartTime = (long) (currentSlideStartTime + TimeUnit.SECONDS.toMillis((long) currentItem
-					.getStartTime()));
-			long currentItemDuration = TimeUnit.SECONDS.toMillis((long) currentItem.getDuration());
+		for (SlideItem slideItem : currentSlide.getAll()) {
 
-			if (currentItemStartTime > currentSlideStartTime) {
-				timingList.add(currentItemStartTime);
+			if (Math.abs(slideItem.getStartTime()) > 0.001) {
+				System.out.println("Adding start update at : " + (long) ((double)slideItem.getStartTime()*1000));
+				timingList.add((long) ((double)slideItem.getStartTime()*1000));
 			}
 
-			if (currentItemDuration != Long.MAX_VALUE) {
-				timingList.add(currentItemDuration + currentSlideStartTime);
+			if ((Math.abs((slideItem.getStartTime() + slideItem.getDuration())) > 0.001)
+					&& (slideItem.getDuration() != Float.MAX_VALUE)) {
+				System.out.println("Adding end update at : " + (long) (((double)slideItem.getStartTime() + slideItem.getDuration())*1000));
+				timingList.add((long) (((double)slideItem.getStartTime() + slideItem.getDuration())*1000));
 			}
+
 		}
+		Collections.sort(timingList);
 	}
 
-	private class mouseClickHandler implements EventHandler<MouseEvent> {
+	private void scheduleNextUpdate() {
+		System.out.println("Next update: " + timingList.get(0));
+		scheduler.schedule(new Runnable() {
+			@Override
+			public void run() {
+				updateSlide();
+				timingList.remove(0);
+				if (!timingList.isEmpty()) {
+					scheduleNextUpdate();
+				}
+				else {
+					System.out.println("End of schedule");
+					scheduler.shutdown();
+				}
+			}
+		}, timingList.get(0), TimeUnit.MILLISECONDS);
+	}
+
+	private class MouseClickHandler implements EventHandler<MouseEvent> {
 		public void handle(MouseEvent e) {
 			/* ID which side of the screen is clicked on */
 			if (e.getX() > (scene.getWidth()) * 0.5) {
@@ -143,9 +141,20 @@ public class SlideshowRuntimeData {
 					slideNumber--;
 				}
 			}
-			updateSlide();
-			System.out.println("Current slide: " + slideNumber);
+
+			currentSlide = slideshow.getSlide(slideNumber);
+			buildCurrentSlide();
 		}
+	}
+
+	private class WindowResizeHandler implements ChangeListener<Number> {
+		@Override
+		public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight,
+				Number newSceneHeight) {
+			updateScreenBoundaries();
+			slideRenderer.relocateSlideObjects();
+		}
+
 	}
 
 	private long getCurrentTime() {

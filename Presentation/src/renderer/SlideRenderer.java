@@ -64,10 +64,9 @@ public class SlideRenderer {
 	}
 
 	public void drawSlide(Slide currentSlide) {
+		clear();
 		this.currentSlide = currentSlide;
 		for (SlideItem currentSlideItem : currentSlide.getAll()) {
-			System.out.println("Start time: " + currentSlideItem.getStartTime() + " Duration: "
-					+ currentSlideItem.getDuration());
 			switch (currentSlideItem.getType()) {
 			case "Text":
 				addText((Text) currentSlideItem);
@@ -88,62 +87,90 @@ public class SlideRenderer {
 		}
 	}
 
-	public void updateSlide(float currentTimeIntoSlide) {
-		int numberOfTextObjects = 0;
-		int numberOfImageObjects = 0;
-		int numberOfGraphicObjects = 0;
-		int numberOfAudioObjects = 0;
-		int numberOfVideoObjects = 0;
-		
-		int numberOfCurrentObjects;
-
+	public void relocateSlideObjects() {
 		for (SlideItem currentSlideItem : currentSlide.getAll()) {
+			int currentTextNumber = 0;
+			int currentImageNumber = 0;
+			int currentGraphicNumber = 0;
+			int currentAudioNumber = 0;
+			int currentVideoNumber = 0;
+
 			switch (currentSlideItem.getType()) {
 			case "Text":
-				numberOfTextObjects++;
-				numberOfCurrentObjects = numberOfTextObjects;
+
 				break;
 			case "Image":
-				numberOfImageObjects++;
-				numberOfCurrentObjects = numberOfImageObjects;
+
 				break;
 			case "Audio":
-				numberOfAudioObjects++;
-				numberOfCurrentObjects = numberOfAudioObjects;
+
 				break;
 			case "Video":
-				numberOfVideoObjects++;
-				numberOfCurrentObjects = numberOfVideoObjects;
+				videoHandler.relocateVideo(currentVideoNumber,
+						convXRelCoordToAbsCoord(((Video) currentSlideItem).getXStart()),
+						convYRelCoordToAbsCoord(((Video) currentSlideItem).getYStart()));
+				currentVideoNumber++;
 				break;
 			default:
-				numberOfGraphicObjects++;
-				numberOfCurrentObjects = numberOfGraphicObjects;
 				/* Graphics */
+
+			}
+		}
+	}
+
+	public void updateSlide(long currentTimeIntoSlide) {
+		for (SlideItem currentSlideItem : currentSlide.getAll()) {
+			int currentTextNumber = 0;
+			int currentImageNumber = 0;
+			int currentGraphicNumber = 0;
+			int currentAudioNumber = 0;
+			int currentVideoNumber = 0;
+			int currentObjectNumber;
+
+			switch (currentSlideItem.getType()) {
+			case "Text":
+				currentObjectNumber = currentTextNumber;
+				break;
+			case "Image":
+
+				currentObjectNumber = currentImageNumber;
+				break;
+			case "Audio":
+
+				currentObjectNumber = currentAudioNumber;
+				break;
+			case "Video":
+				currentVideoNumber++;
+				currentObjectNumber = currentVideoNumber;
+				break;
+			default:
+				/* Graphics */
+				currentObjectNumber = currentGraphicNumber;
+
 			}
 
-			if (currentSlideItem.getType() == "Video") {
-				if (Math.abs(currentSlideItem.getStartTime() - currentTimeIntoSlide) < 0.001) {
-					
-				} else if (Math.abs((currentSlideItem.getDuration() + currentSlideItem.getStartTime())
-						- currentTimeIntoSlide) < 0.001) {
-
-				}
+			if (currentSlideItem.getStartTime() == (float) currentTimeIntoSlide / 1000f) {
+				updateVisibilityOfObject(currentSlideItem.getType(), currentObjectNumber-1, true);
+				System.out.println("Showing an object!");
+			} else if (currentSlideItem.getDuration() + currentSlideItem.getStartTime() == (float) currentTimeIntoSlide / 1000f) {
+				updateVisibilityOfObject(currentSlideItem.getType(), currentObjectNumber-1, false);
+				System.out.println("Removing an object!");
 			}
 
 		}
 	}
-	
-	private void updateVisibilityOfObject(String objectType, int numberOfObject) {
+
+	private void updateVisibilityOfObject(String objectType, int numberOfObject, boolean visible) {
 		switch (objectType) {
 		case "Text":
-			
 			break;
 		case "Image":
 			break;
 		case "Audio":
 			break;
 		case "Video":
-			//videoHandler.
+			videoHandler.setVisible(numberOfObject, visible);
+			videoHandler.playVideo(numberOfObject);
 			break;
 		default:
 			/* Graphics */
@@ -280,10 +307,17 @@ public class SlideRenderer {
 		float y = convYRelCoordToAbsCoord(currentVideo.getYStart());
 		float width = 400; // TODO currentVideo.getWidth();
 		String sourceFile = currentVideo.getSourceFile();
-		boolean autoPlay = true; // TODO currentVideo.isAutoPlay();
+		boolean autoPlay = false; // TODO currentVideo.isAutoPlay();
 		boolean loop = false; // TODO currentVideo.isLoop();
 
 		videoHandler.createVideo(x, y, width, sourceFile, autoPlay, loop);
+
+		if (currentVideo.getStartTime() != 0) {
+			System.out.println("DOING IT");
+			videoHandler.pauseVideo(videoHandler.getVideoCount());
+			videoHandler.setVisible(videoHandler.getVideoCount() - 1, false);
+		}
+
 	}
 
 	private float convXRelCoordToAbsCoord(float x) {
