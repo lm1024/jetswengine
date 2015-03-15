@@ -10,33 +10,16 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.Orientation;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import javafx.scene.media.MediaPlayer.Status;
-import javafx.scene.media.MediaView;
+import sofia.Audio;
+
 import javafx.scene.*;
-import javafx.stage.Stage;
-import javafx.util.Duration;
 
 /**
  * This class is the handler for audio
  * 
  * @author Alex Cash 
  * @author Calum Armstrong
- * @version 1.0 4 Mar 2015
+ * @version 1.5 4 Mar 2015
  */
 
 public class AudioHandler {
