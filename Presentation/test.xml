@@ -15,7 +15,7 @@
 		<graphiccolor>#ffaaaa00</graphiccolor>
 	</defaultsettings>
 	<slide>
-		<graphic graphiccolor="#ff000000" duration="1.5" starttime="2.0">
+		<graphic graphiccolor="#ff000000" starttime="1.0">
 			<rectangle xstart="0" ystart="0" xend="1" yend="1"
 				solid="true" />
 		</graphic>
@@ -24,11 +24,11 @@
 			Hello World! This is a test.
 		</text>
 		<text xstart="0.35" ystart="0.1" xend="0.55" yend="0.3" font="times new roman" fontsize="24"
-			fontcolor="#ffff11ff" duration="1.5">
+			fontcolor="#ffff11ff">
 			Hello World!
 		</text>
 		<text xstart="0.6" ystart="0.1" xend="0.9" yend="0.3" font="arial" fontsize="24"
-			fontcolor="#ff00ff00" duration="1.5" starttime="2.0" alignment="left/right/centre">
+			fontcolor="#ff00ff00" starttime="2.0" alignment="left/right/centre">
 			<richtext font="times new roman" fontsize="26" fontcolor="#ff00ff00"
 				newline="true" b="true" i="true" u="true" strikethrough="true"
 				superscript="true" subscript="true" case="upper">Example text1! </richtext>

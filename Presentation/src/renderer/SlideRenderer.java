@@ -45,6 +45,8 @@ public class SlideRenderer {
 	private float slideWidth;
 	private float slideHeight;
 
+	private Slide currentSlide;
+
 	public SlideRenderer(Group group) {
 		this.group = group;
 		this.graphicsHandler = new GraphicsHandler(group);
@@ -62,24 +64,89 @@ public class SlideRenderer {
 	}
 
 	public void drawSlide(Slide currentSlide) {
-		for (SlideItem currentItem : currentSlide.getAll()) {
-			switch (currentItem.getType()) {
+		this.currentSlide = currentSlide;
+		for (SlideItem currentSlideItem : currentSlide.getAll()) {
+			System.out.println("Start time: " + currentSlideItem.getStartTime() + " Duration: "
+					+ currentSlideItem.getDuration());
+			switch (currentSlideItem.getType()) {
 			case "Text":
-				addText((Text) currentItem);
+				addText((Text) currentSlideItem);
 				break;
 			case "Image":
-				addImage((Image) currentItem);
+				addImage((Image) currentSlideItem);
 				break;
 			case "Audio":
-				addAudio((Audio) currentItem);
+				addAudio((Audio) currentSlideItem);
 				break;
 			case "Video":
-				addVideo((Video) currentItem);
+				addVideo((Video) currentSlideItem);
 				break;
 			default:
 				/* Graphics */
-				addGraphic((Graphic) currentItem);
+				addGraphic((Graphic) currentSlideItem);
 			}
+		}
+	}
+
+	public void updateSlide(float currentTimeIntoSlide) {
+		int numberOfTextObjects = 0;
+		int numberOfImageObjects = 0;
+		int numberOfGraphicObjects = 0;
+		int numberOfAudioObjects = 0;
+		int numberOfVideoObjects = 0;
+		
+		int numberOfCurrentObjects;
+
+		for (SlideItem currentSlideItem : currentSlide.getAll()) {
+			switch (currentSlideItem.getType()) {
+			case "Text":
+				numberOfTextObjects++;
+				numberOfCurrentObjects = numberOfTextObjects;
+				break;
+			case "Image":
+				numberOfImageObjects++;
+				numberOfCurrentObjects = numberOfImageObjects;
+				break;
+			case "Audio":
+				numberOfAudioObjects++;
+				numberOfCurrentObjects = numberOfAudioObjects;
+				break;
+			case "Video":
+				numberOfVideoObjects++;
+				numberOfCurrentObjects = numberOfVideoObjects;
+				break;
+			default:
+				numberOfGraphicObjects++;
+				numberOfCurrentObjects = numberOfGraphicObjects;
+				/* Graphics */
+			}
+
+			if (currentSlideItem.getType() == "Video") {
+				if (Math.abs(currentSlideItem.getStartTime() - currentTimeIntoSlide) < 0.001) {
+					
+				} else if (Math.abs((currentSlideItem.getDuration() + currentSlideItem.getStartTime())
+						- currentTimeIntoSlide) < 0.001) {
+
+				}
+			}
+
+		}
+	}
+	
+	private void updateVisibilityOfObject(String objectType, int numberOfObject) {
+		switch (objectType) {
+		case "Text":
+			
+			break;
+		case "Image":
+			break;
+		case "Audio":
+			break;
+		case "Video":
+			//videoHandler.
+			break;
+		default:
+			/* Graphics */
 		}
 	}
 
@@ -90,9 +157,8 @@ public class SlideRenderer {
 		float xStartPos = convXRelCoordToAbsCoord(currentGraphic.getXStart());
 		float yStartPos = convYRelCoordToAbsCoord(currentGraphic.getYStart());
 
-		
-		
-		GraphicBuilder graphicBuilder = new GraphicBuilder(GraphicType.RECTANGLE, xStartPos, yStartPos).xEndPos(convXRelCoordToAbsCoord(1f)).yEndPos(convYRelCoordToAbsCoord(1f));
+		GraphicBuilder graphicBuilder = new GraphicBuilder(GraphicType.RECTANGLE, xStartPos, yStartPos).xEndPos(
+				convXRelCoordToAbsCoord(1f)).yEndPos(convYRelCoordToAbsCoord(1f));
 
 		switch (graphicType) {
 		case ARC:
@@ -129,13 +195,14 @@ public class SlideRenderer {
 			break;
 
 		}
-		
+
 		graphicsHandler.drawShape(graphicBuilder.build());
+
+		// TODO if hidden, hide
 	}
 
 	private void addText(Text currentText) {
 		float xStart = convXRelCoordToAbsCoord(currentText.getXStart());
-		System.out.println(currentText.getXStart());
 		float yStart = convYRelCoordToAbsCoord(currentText.getYStart());
 		float xEnd = convXRelCoordToAbsCoord(currentText.getXEnd());
 		float yEnd = convYRelCoordToAbsCoord(currentText.getYEnd());
@@ -162,8 +229,6 @@ public class SlideRenderer {
 			String font = currentFragment.getFont();
 			double fontSize = currentFragment.getFontSize();
 			String text = currentFragment.getText();
-
-			System.out.println(text);
 
 			textFragmentList.add(new TextObject.TextFragmentBuilder(text).bold(bold).underline(underline)
 					.italic(italic).superscript(superscript).subscript(subscript).strikethrough(strikethrough)
