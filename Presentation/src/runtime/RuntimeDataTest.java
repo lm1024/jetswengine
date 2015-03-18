@@ -3,9 +3,12 @@ package runtime;
 import Data.Slideshow;
 import XML.ImprovedXMLReader;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class RuntimeDataTest extends Application {
 
@@ -27,11 +30,22 @@ public class RuntimeDataTest extends Application {
 		Group group = new Group();
 		Scene scene = new Scene(group, 500, 500);
 		primaryStage.setScene(scene);
+
+		Slideshow slideshow = new ImprovedXMLReader("test.xml").getSlideshow();
+
+		final SlideshowRuntimeData slideshowRuntimeData = new SlideshowRuntimeData(slideshow, group);
+		
+		primaryStage.setOnHiding(new EventHandler<WindowEvent>() {
+
+			@Override
+			public void handle(WindowEvent event) {
+				slideshowRuntimeData.closeSlideshow();
+			}
+		});
+
 		primaryStage.show();
+
 		
-		Slideshow slideshow = new ImprovedXMLReader("test.xml").getSlideshow(); 
-		
-		SlideshowRuntimeData slideshowRuntimeData = new SlideshowRuntimeData(slideshow, group);
 	}
 
 }

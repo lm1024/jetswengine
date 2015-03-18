@@ -85,7 +85,9 @@ public class SlideshowRuntimeData {
 	private void buildCurrentSlide() {
 		slideRenderer.drawSlide(currentSlide);
 		buildTimingList();
-		scheduleNextUpdate();
+		if (!timingList.isEmpty()) {
+			scheduleNextUpdate();
+		}
 	}
 
 	private void updateSlide() {
@@ -98,14 +100,15 @@ public class SlideshowRuntimeData {
 		for (SlideItem slideItem : currentSlide.getAll()) {
 
 			if (Math.abs(slideItem.getStartTime()) > 0.001) {
-				System.out.println("Adding start update at : " + (long) ((double)slideItem.getStartTime()*1000));
-				timingList.add((long) ((double)slideItem.getStartTime()*1000));
+				System.out.println("Adding start update at : " + (long) ((double) slideItem.getStartTime() * 1000));
+				timingList.add((long) ((double) slideItem.getStartTime() * 1000));
 			}
 
 			if ((Math.abs((slideItem.getStartTime() + slideItem.getDuration())) > 0.001)
 					&& (slideItem.getDuration() != Float.MAX_VALUE)) {
-				System.out.println("Adding end update at : " + (long) (((double)slideItem.getStartTime() + slideItem.getDuration())*1000));
-				timingList.add((long) (((double)slideItem.getStartTime() + slideItem.getDuration())*1000));
+				System.out.println("Adding end update at : "
+						+ (long) (((double) slideItem.getStartTime() + slideItem.getDuration()) * 1000));
+				timingList.add((long) (((double) slideItem.getStartTime() + slideItem.getDuration()) * 1000));
 			}
 
 		}
@@ -121,10 +124,9 @@ public class SlideshowRuntimeData {
 				timingList.remove(0);
 				if (!timingList.isEmpty()) {
 					scheduleNextUpdate();
-				}
-				else {
+				} else {
 					System.out.println("End of schedule");
-					scheduler.shutdown();
+					// scheduler.shutdown();
 				}
 			}
 		}, timingList.get(0), TimeUnit.MILLISECONDS);
@@ -159,6 +161,11 @@ public class SlideshowRuntimeData {
 
 	private long getCurrentTime() {
 		return System.currentTimeMillis();
+	}
+
+	public void closeSlideshow() {
+		System.out.println("Shutting down schedular");
+		System.out.println(scheduler.shutdownNow().toString());
 	}
 
 }
