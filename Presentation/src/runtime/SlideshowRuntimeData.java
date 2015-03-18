@@ -102,6 +102,7 @@ public class SlideshowRuntimeData {
 			if (Math.abs(slideItem.getStartTime()) > 0.001) {
 				System.out.println("Adding start update at : " + (long) ((double) slideItem.getStartTime() * 1000));
 				timingList.add((long) ((double) slideItem.getStartTime() * 1000));
+				System.out.println("For item " + slideItem.getType());
 			}
 
 			if ((Math.abs((slideItem.getStartTime() + slideItem.getDuration())) > 0.001)

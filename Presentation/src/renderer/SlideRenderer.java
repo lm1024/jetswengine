@@ -88,13 +88,13 @@ public class SlideRenderer {
 	}
 
 	public void relocateSlideObjects() {
+		int currentTextNumber = 0;
+		int currentImageNumber = 0;
+		int currentGraphicNumber = 0;
+		int currentAudioNumber = 0;
+		int currentVideoNumber = 0;
+		
 		for (SlideItem currentSlideItem : currentSlide.getAll()) {
-			int currentTextNumber = 0;
-			int currentImageNumber = 0;
-			int currentGraphicNumber = 0;
-			int currentAudioNumber = 0;
-			int currentVideoNumber = 0;
-
 			switch (currentSlideItem.getType()) {
 			case "Text":
 
@@ -119,14 +119,13 @@ public class SlideRenderer {
 	}
 
 	public void updateSlide(long currentTimeIntoSlide) {
-		for (SlideItem currentSlideItem : currentSlide.getAll()) {
-			int currentTextNumber = 0;
-			int currentImageNumber = 0;
-			int currentGraphicNumber = 0;
-			int currentAudioNumber = 0;
-			int currentVideoNumber = 0;
-			int currentObjectNumber;
-
+		int currentTextNumber = 0;
+		int currentImageNumber = 0;
+		int currentGraphicNumber = 0;
+		int currentAudioNumber = 0;
+		int currentVideoNumber = 0;
+		int currentObjectNumber;
+		for (SlideItem currentSlideItem : currentSlide.getAll()) {			
 			switch (currentSlideItem.getType()) {
 			case "Text":
 				currentObjectNumber = currentTextNumber;
@@ -148,7 +147,7 @@ public class SlideRenderer {
 				currentObjectNumber = currentGraphicNumber;
 
 			}
-
+			System.out.println("Object " + currentSlideItem.getType() + " " + currentObjectNumber);
 			if (currentSlideItem.getStartTime() == (float) currentTimeIntoSlide / 1000f) {
 				updateVisibilityOfObject(currentSlideItem.getType(), currentObjectNumber-1, true);
 				System.out.println("Showing an object!");
