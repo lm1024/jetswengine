@@ -55,6 +55,14 @@ public class GraphicHandler extends DefaultHandler {
 		}
 		switch (elementName) {
 		case "graphic":
+			graphic.setDuration(attributes.getValue("duration"));
+			graphic.setGraphicColor(attributes.getValue("graphiccolor"));
+			graphic.setStartTime(attributes.getValue("starttime"));
+			graphic.setXStart(attributes.getValue("xstart"));
+			graphic.setYStart(attributes.getValue("ystart"));
+			if(attributes.getValue("type") != null) {
+				startElement(uri,attributes.getValue("type"),attributes.getValue("type"),attributes);
+			}
 			Utils.parse(currentObject, attributes, "type", "xstart", "ystart",
 					"yend", "xend", "solid", "graphiccolor", "duration",
 					"starttime", "outlinecolor", "outlinethickness", "size",
@@ -62,9 +70,10 @@ public class GraphicHandler extends DefaultHandler {
 					"arcangle");
 			break;
 		case "shadow":
-			reader.setContentHandler(new ShadowHandler(reader, this, graphic));
-			reader.getContentHandler().startElement(uri, localName, qName,
-					attributes);
+			graphic.setShadow(attributes.getValue("weight"));
+//			reader.setContentHandler(new ShadowHandler(reader, this, graphic));
+//			reader.getContentHandler().startElement(uri, localName, qName,
+//					attributes);
 			break;
 		case "cyclicshading":
 			/* Intentional fall through */
@@ -76,6 +85,7 @@ public class GraphicHandler extends DefaultHandler {
 					attributes);
 			break;
 		case "oval":
+			
 		case "rectangle":
 		case "line":
 		case "circle":
