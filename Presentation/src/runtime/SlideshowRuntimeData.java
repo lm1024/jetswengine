@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import javafx.beans.value.ChangeListener;
@@ -34,8 +35,11 @@ public class SlideshowRuntimeData {
 	private int slideNumber;
 
 	private ArrayList<Long> timingList;
+	private Long lastEventTime;
 
 	protected final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+
+	private ScheduledFuture<?> currentTask;
 
 	public SlideshowRuntimeData(Slideshow slideshow, Group group) {
 		this.slideshow = slideshow;
@@ -83,6 +87,11 @@ public class SlideshowRuntimeData {
 	}
 
 	private void buildCurrentSlide() {
+		/* Cancel all pending timing tasks */
+		if (currentTask != null && !currentTask.isDone()) {
+			currentTask.cancel(true);
+		}
+
 		slideRenderer.drawSlide(currentSlide);
 		buildTimingList();
 		if (!timingList.isEmpty()) {
@@ -96,6 +105,7 @@ public class SlideshowRuntimeData {
 	}
 
 	private void buildTimingList() {
+		lastEventTime = 0l;
 		timingList = new ArrayList<Long>();
 		for (SlideItem slideItem : currentSlide.getAll()) {
 
@@ -114,14 +124,16 @@ public class SlideshowRuntimeData {
 
 		}
 		Collections.sort(timingList);
+		System.out.println(timingList.toString());
 	}
 
 	private void scheduleNextUpdate() {
 		System.out.println("Next update: " + timingList.get(0));
-		scheduler.schedule(new Runnable() {
+		currentTask = scheduler.schedule(new Runnable() {
 			@Override
 			public void run() {
 				updateSlide();
+				lastEventTime = timingList.get(0);
 				timingList.remove(0);
 				if (!timingList.isEmpty()) {
 					scheduleNextUpdate();
@@ -130,7 +142,7 @@ public class SlideshowRuntimeData {
 					// scheduler.shutdown();
 				}
 			}
-		}, timingList.get(0), TimeUnit.MILLISECONDS);
+		}, timingList.get(0) - lastEventTime, TimeUnit.MILLISECONDS);
 	}
 
 	private class MouseClickHandler implements EventHandler<MouseEvent> {
@@ -138,7 +150,9 @@ public class SlideshowRuntimeData {
 			/* ID which side of the screen is clicked on */
 			if (e.getX() > (scene.getWidth()) * 0.5) {
 				/* Change the value of slideNo accordingly */
-				slideNumber++;
+				if (slideNumber < slideshow.getSlides().size()-1){
+					slideNumber++;
+				}
 			} else {
 				if (slideNumber > 0) {
 					slideNumber--;

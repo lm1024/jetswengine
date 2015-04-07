@@ -7,6 +7,7 @@ import java.io.File;
 
 import imageHandler.ImageHandler;
 import imageHandler.ImageObject;
+import imageHandler.NewImageHandler;
 import graphicsHandler.GraphicObject.GraphicBuilder;
 import graphicsHandler.GraphicType;
 import graphicsHandler.GraphicsHandler;
@@ -25,6 +26,8 @@ import Data.Text;
 import Data.TextFragment;
 import Data.Video;
 import javafx.scene.Group;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 /**
  * @author Fiery
@@ -35,7 +38,7 @@ public class SlideRenderer {
 	private Group group;
 
 	private GraphicsHandler graphicsHandler;
-	private ImageHandler imageHandler;
+	private NewImageHandler imageHandler;
 	private TextHandler textHandler;
 	private VideoHandler videoHandler;
 	private AudioHandler audioHandler;
@@ -47,10 +50,12 @@ public class SlideRenderer {
 
 	private Slide currentSlide;
 
+	private Rectangle boundaryRect;
+
 	public SlideRenderer(Group group) {
 		this.group = group;
 		this.graphicsHandler = new GraphicsHandler(group);
-		this.imageHandler = new ImageHandler(group);
+		this.imageHandler = new NewImageHandler(group);
 		this.textHandler = new TextHandler(group);
 		this.videoHandler = new VideoHandler(group);
 		this.audioHandler = new AudioHandler(group);
@@ -65,6 +70,8 @@ public class SlideRenderer {
 
 	public void drawSlide(Slide currentSlide) {
 		clear();
+		System.out.println("");
+		System.out.println("");
 		this.currentSlide = currentSlide;
 		for (SlideItem currentSlideItem : currentSlide.getAll()) {
 			switch (currentSlideItem.getType()) {
@@ -93,14 +100,17 @@ public class SlideRenderer {
 		int currentGraphicNumber = 0;
 		int currentAudioNumber = 0;
 		int currentVideoNumber = 0;
-		
+
 		for (SlideItem currentSlideItem : currentSlide.getAll()) {
 			switch (currentSlideItem.getType()) {
 			case "Text":
 
 				break;
 			case "Image":
-
+				imageHandler.relocate(currentImageNumber,
+						convXRelCoordToAbsCoord(((Image) currentSlideItem).getXStart()),
+						convYRelCoordToAbsCoord(((Image) currentSlideItem).getYStart()));
+				currentImageNumber++;
 				break;
 			case "Audio":
 
@@ -116,6 +126,14 @@ public class SlideRenderer {
 
 			}
 		}
+		
+		if (boundaryRect != null)
+			boundaryRect.relocate(10000, 10000);
+		
+		boundaryRect = new Rectangle(xSlideStart, ySlideStart, slideWidth, slideHeight);
+		boundaryRect.setStroke(Color.RED);
+		boundaryRect.setFill(Color.TRANSPARENT);
+		group.getChildren().add(boundaryRect);
 	}
 
 	public void updateSlide(long currentTimeIntoSlide) {
@@ -125,17 +143,18 @@ public class SlideRenderer {
 		int currentAudioNumber = 0;
 		int currentVideoNumber = 0;
 		int currentObjectNumber;
-		for (SlideItem currentSlideItem : currentSlide.getAll()) {			
+		for (SlideItem currentSlideItem : currentSlide.getAll()) {
 			switch (currentSlideItem.getType()) {
 			case "Text":
+				currentTextNumber++;
 				currentObjectNumber = currentTextNumber;
 				break;
 			case "Image":
-
+				currentImageNumber++;
 				currentObjectNumber = currentImageNumber;
 				break;
 			case "Audio":
-
+				currentAudioNumber++;
 				currentObjectNumber = currentAudioNumber;
 				break;
 			case "Video":
@@ -144,16 +163,17 @@ public class SlideRenderer {
 				break;
 			default:
 				/* Graphics */
+				currentGraphicNumber++;
 				currentObjectNumber = currentGraphicNumber;
 
 			}
-			System.out.println("Object " + currentSlideItem.getType() + " " + currentObjectNumber);
+
 			if (currentSlideItem.getStartTime() == (float) currentTimeIntoSlide / 1000f) {
-				updateVisibilityOfObject(currentSlideItem.getType(), currentObjectNumber-1, true);
-				System.out.println("Showing an object!");
+				updateVisibilityOfObject(currentSlideItem.getType(), currentObjectNumber - 1, true);
+				System.out.println("Showing a " + currentSlideItem.getType() + " object!");
 			} else if (currentSlideItem.getDuration() + currentSlideItem.getStartTime() == (float) currentTimeIntoSlide / 1000f) {
-				updateVisibilityOfObject(currentSlideItem.getType(), currentObjectNumber-1, false);
-				System.out.println("Removing an object!");
+				updateVisibilityOfObject(currentSlideItem.getType(), currentObjectNumber - 1, false);
+				System.out.println("Removing a " + currentSlideItem.getType() + " object!");
 			}
 
 		}
@@ -164,6 +184,8 @@ public class SlideRenderer {
 		case "Text":
 			break;
 		case "Image":
+			System.out.println("   Setting image to visible: " + visible);
+			imageHandler.setVisible(numberOfObject, visible);
 			break;
 		case "Audio":
 			break;
@@ -281,9 +303,14 @@ public class SlideRenderer {
 
 		// TODO Image effects, and scale in 2 directions.
 
-		imageHandler.drawImage(new ImageObject.ImageBuilder(filepath, xStartPos, yStartPos).rotation(rotation)
+		imageHandler.createImage(new ImageObject.ImageBuilder(filepath, xStartPos, yStartPos).rotation(rotation)
 				.scaleX(scale).scaleY(scale).cropLeft(cropX1).cropRight(cropX2).cropDown(cropY1).cropUp(cropY2)
 				.hFlip(flipHorizontal).vFlip(flipVertical).build());
+
+		if (currentImage.getStartTime() != 0) {
+			System.out.println("DOING IT");
+			imageHandler.setVisible(imageHandler.getImageCount() - 1, false);
+		}
 	}
 
 	private void addAudio(Audio currentAudio) {
@@ -331,6 +358,7 @@ public class SlideRenderer {
 		// clear videos and audio
 		audioHandler.clearAudios();
 		videoHandler.clearVideos();
+		imageHandler.clearImages();
 		group.getChildren().clear();
 	}
 }
