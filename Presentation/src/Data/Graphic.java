@@ -64,7 +64,7 @@ public class Graphic extends SlideItem {
 			((Rectangle) g).setYEnd(hashMap.get("yend"));
 			break;
 		case "line":
-			g = new CommonShapes(defaults).new Line(defaults);
+			g = new OtherShapes(defaults).new Line(defaults);
 			((Line) g).setXEnd(hashMap.get("xend"));
 			((Line) g).setYEnd(hashMap.get("yend"));
 			break;
@@ -80,7 +80,7 @@ public class Graphic extends SlideItem {
 			((Square) g).setSize(hashMap.get("size"));
 			break;
 		case "arrow":
-			g = new CommonShapes(defaults).new Arrow(defaults);
+			g = new OtherShapes(defaults).new Arrow(defaults);
 			((Arrow) g).setSolid(hashMap.get("solid"));
 			((Arrow) g).setXEnd(hashMap.get("xend"));
 			((Arrow) g).setYEnd(hashMap.get("yend"));

@@ -5,6 +5,7 @@ package Data;
 
 import java.util.ArrayList;
 import java.util.List;
+import utils.Utils;
 
 /**
  * @author dk666
@@ -39,11 +40,48 @@ public class OtherShapes extends Graphic {
 	}
 	
 	public class Triangle extends OtherShapes {
+		
+		private float outlineThickness;
+		private String outlineColor;
 		private List<Float> xPoints = new ArrayList<Float>();
 		private List<Float> yPoints = new ArrayList<Float>();
 		
 		public Triangle(Defaults defaults) {
 			super(defaults);
+			this.outlineColor = defaults.getOutlineColor();
+			this.outlineThickness = defaults.getOutlineThickness();
+		}
+		
+		/**
+		 * @return the outlineColor
+		 */
+		public String getOutlineColor() {
+			return this.outlineColor;
+		}
+
+		/**
+		 * @param string
+		 *            the outlineColor to set
+		 */
+		public void setOutlineColor(String string) {
+			if (Utils.validARGB(string)) {
+				this.outlineColor = string;
+			}
+		}
+		
+		public float getOutlineThickness() {
+			return this.outlineThickness;
+		}
+
+		public void setOutlineThickness(String string) {
+			try {
+				float f = Float.parseFloat(string);
+				if (Utils.withinRangeInclusive(0, 1, f)) {
+					this.outlineThickness = f;
+				}
+			} catch (Exception e) {
+				/* Do Nothing */
+			}
 		}
 
 		/**
@@ -76,11 +114,48 @@ public class OtherShapes extends Graphic {
 	}
 	
 	public class Polygon extends OtherShapes {
+		
+		private float outlineThickness;
+		private String outlineColor;
 		private List<Float> xPoints = new ArrayList<Float>();
 		private List<Float> yPoints = new ArrayList<Float>();
 		
 		public Polygon(Defaults defaults) {
 			super(defaults);
+			this.outlineColor = defaults.getOutlineColor();
+			this.outlineThickness = defaults.getOutlineThickness();
+		}
+		
+		/**
+		 * @return the outlineColor
+		 */
+		public String getOutlineColor() {
+			return this.outlineColor;
+		}
+
+		/**
+		 * @param string
+		 *            the outlineColor to set
+		 */
+		public void setOutlineColor(String string) {
+			if (Utils.validARGB(string)) {
+				this.outlineColor = string;
+			}
+		}
+		
+		public float getOutlineThickness() {
+			return this.outlineThickness;
+		}
+
+		public void setOutlineThickness(String string) {
+			try {
+				float f = Float.parseFloat(string);
+				if (Utils.withinRangeInclusive(0, 1, f)) {
+					this.outlineThickness = f;
+				}
+			} catch (Exception e) {
+				/* Do Nothing */
+			}
 		}
 
 		/**
@@ -113,6 +188,9 @@ public class OtherShapes extends Graphic {
 	}
 	
 	public class Chord extends OtherShapes {
+		
+		private float outlineThickness;
+		private String outlineColor;
 		private float width;
 		private float height;
 		private float length;
@@ -120,6 +198,40 @@ public class OtherShapes extends Graphic {
 		
 		public Chord(Defaults defaults) {
 			super(defaults);
+			this.outlineColor = defaults.getOutlineColor();
+			this.outlineThickness = defaults.getOutlineThickness();
+		}
+		
+		/**
+		 * @return the outlineColor
+		 */
+		public String getOutlineColor() {
+			return this.outlineColor;
+		}
+
+		/**
+		 * @param string
+		 *            the outlineColor to set
+		 */
+		public void setOutlineColor(String string) {
+			if (Utils.validARGB(string)) {
+				this.outlineColor = string;
+			}
+		}
+		
+		public float getOutlineThickness() {
+			return this.outlineThickness;
+		}
+
+		public void setOutlineThickness(String string) {
+			try {
+				float f = Float.parseFloat(string);
+				if (Utils.withinRangeInclusive(0, 1, f)) {
+					this.outlineThickness = f;
+				}
+			} catch (Exception e) {
+				/* Do Nothing */
+			}
 		}
 
 		public float getWidth() {
@@ -183,6 +295,9 @@ public class OtherShapes extends Graphic {
 	}
 	
 	public class Arc extends OtherShapes {
+		
+		private float outlineThickness;
+		private String outlineColor;
 		private float width;
 		private float height;
 		private float length;
@@ -190,6 +305,40 @@ public class OtherShapes extends Graphic {
 		
 		public Arc(Defaults defaults) {
 			super(defaults);
+			this.outlineColor = defaults.getOutlineColor();
+			this.outlineThickness = defaults.getOutlineThickness();
+		}
+		
+		/**
+		 * @return the outlineColor
+		 */
+		public String getOutlineColor() {
+			return this.outlineColor;
+		}
+
+		/**
+		 * @param string
+		 *            the outlineColor to set
+		 */
+		public void setOutlineColor(String string) {
+			if (Utils.validARGB(string)) {
+				this.outlineColor = string;
+			}
+		}
+		
+		public float getOutlineThickness() {
+			return this.outlineThickness;
+		}
+
+		public void setOutlineThickness(String string) {
+			try {
+				float f = Float.parseFloat(string);
+				if (Utils.withinRangeInclusive(0, 1, f)) {
+					this.outlineThickness = f;
+				}
+			} catch (Exception e) {
+				/* Do Nothing */
+			}
 		}
 
 		public float getWidth() {
@@ -245,6 +394,96 @@ public class OtherShapes extends Graphic {
 				float f = Float.parseFloat(string);
 				if(f > 0) {
 					this.arcAngle = f;
+				}
+			} catch (Exception e) {
+				/* Do Nothing */
+			}
+		}
+	}
+	
+	public class Line extends OtherShapes {
+		
+		private float xEnd;
+		private float yEnd;
+		
+		public Line(Defaults defaults) {
+			super(defaults);
+		}
+		
+		public float getXEnd() {
+			return xEnd;
+		}
+
+		public void setXEnd(String string) {
+			try {
+				float f = Float.parseFloat(string);
+				if (Utils.withinRangeInclusive(0, 1, f)) {
+					this.xEnd = f;
+				}
+			} catch (Exception e) {
+				/* Do Nothing */
+			}
+		}
+
+		public float getYEnd() {
+			return yEnd;
+		}
+
+		/**
+		 * @param yEnd
+		 *            the yEnd to set
+		 */
+		public void setYEnd(String string) {
+			try {
+				float f = Float.parseFloat(string);
+				if (Utils.withinRangeInclusive(0, 1, f)) {
+					this.yEnd = f;
+				}
+			} catch (Exception e) {
+				/* Do Nothing */
+			}
+		}
+
+
+	}
+	
+	public class Arrow extends OtherShapes {
+		
+		private float xEnd;
+		private float yEnd;
+		
+		public Arrow(Defaults defaults) {
+			super(defaults);
+		}
+		
+		public float getXEnd() {
+			return xEnd;
+		}
+
+		public void setXEnd(String string) {
+			try {
+				float f = Float.parseFloat(string);
+				if (Utils.withinRangeInclusive(0, 1, f)) {
+					this.xEnd = f;
+				}
+			} catch (Exception e) {
+				/* Do Nothing */
+			}
+		}
+
+		public float getYEnd() {
+			return yEnd;
+		}
+
+		/**
+		 * @param yEnd
+		 *            the yEnd to set
+		 */
+		public void setYEnd(String string) {
+			try {
+				float f = Float.parseFloat(string);
+				if (Utils.withinRangeInclusive(0, 1, f)) {
+					this.yEnd = f;
 				}
 			} catch (Exception e) {
 				/* Do Nothing */

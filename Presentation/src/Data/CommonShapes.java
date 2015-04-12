@@ -7,6 +7,8 @@ public class CommonShapes extends Graphic {
 	private float xEnd;
 	private float yEnd;
 	private boolean solid;
+	private String outlineColor;
+	private float outlineThickness;
 
 	public CommonShapes(Defaults defaults) {
 		super(defaults);
@@ -79,16 +81,37 @@ public class CommonShapes extends Graphic {
 			super(defaults);
 		}
 	}
+	
+	/**
+	 * @return the outlineColor
+	 */
+	public String getOutlineColor() {
+		return this.outlineColor;
+	}
 
-	public class Line extends CommonShapes {
-		public Line(Defaults defaults) {
-			super(defaults);
+	/**
+	 * @param string
+	 *            the outlineColor to set
+	 */
+	public void setOutlineColor(String string) {
+		if (Utils.validARGB(string)) {
+			this.outlineColor = string;
 		}
 	}
 	
-	public class Arrow extends CommonShapes {
-		public Arrow(Defaults defaults) {
-			super(defaults);
+	public float getOutlineThickness() {
+		return this.outlineThickness;
+	}
+
+	public void setOutlineThickness(String string) {
+		try {
+			float f = Float.parseFloat(string);
+			if (Utils.withinRangeInclusive(0, 1, f)) {
+				this.outlineThickness = f;
+			}
+		} catch (Exception e) {
+			/* Do Nothing */
 		}
 	}
+
 }
