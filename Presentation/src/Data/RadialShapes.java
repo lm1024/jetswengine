@@ -3,6 +3,8 @@
  */
 package Data;
 
+import utils.Utils;
+
 /**
  * @author dk666
  *
@@ -10,7 +12,11 @@ package Data;
 public class RadialShapes extends Graphic {
 	
 	private boolean solid;
-	private float size = 0.5f;
+	private float size;
+	private float rotation;
+	private String outlineColor;
+	private float outlineThickness;
+	
 
 	public RadialShapes(Defaults defaults) {
 		super(defaults);
@@ -25,6 +31,38 @@ public class RadialShapes extends Graphic {
 	}
 	
 	/**
+	 * @return the outlineColor
+	 */
+	public String getOutlineColor() {
+		return this.outlineColor;
+	}
+
+	/**
+	 * @param string
+	 *            the outlineColor to set
+	 */
+	public void setOutlineColor(String string) {
+		if (Utils.validARGB(string)) {
+			this.outlineColor = string;
+		}
+	}
+	
+	public float getOutlineThickness() {
+		return this.outlineThickness;
+	}
+
+	public void setOutlineThickness(String string) {
+		try {
+			float f = Float.parseFloat(string);
+			if (Utils.withinRangeInclusive(0, 1, f)) {
+				this.outlineThickness = f;
+			}
+		} catch (Exception e) {
+			/* Do Nothing */
+		}
+	}
+	
+	/**
 	 * @return {@code true} if shape is solid
 	 */
 	public boolean isSolid() {
@@ -34,6 +72,25 @@ public class RadialShapes extends Graphic {
 	public void setSolid(String string) {
 		boolean b = Boolean.parseBoolean(string);
 		this.solid = b;
+	}
+	
+	/**
+	 * @return the rotation
+	 */
+	public float getRotation() {
+		return this.rotation;
+	}
+
+	/**
+	 * @param string the rotation to set
+	 */
+	public void setRotation(String string) {
+		try {
+			float f = Float.parseFloat(string);
+			this.rotation = f;
+		} catch (Exception e) {
+			/* Do Nothing */
+		}
 	}
 	
 	/**
@@ -64,8 +121,42 @@ public class RadialShapes extends Graphic {
 	}
 	
 	public class Square extends RadialShapes {
+		
+		private float arcHeight;
+		private float arcWidth;
+		
 		public Square(Defaults defaults) {
 			super(defaults);
+		}
+		
+		public float getArcWidth() {
+			return this.arcWidth;
+		}
+
+		public void setArcWidth(String string) {
+			try {
+				float f = Float.parseFloat(string);
+				if (Utils.withinRangeInclusive(0, 1, f)) {
+					this.arcWidth = f;
+				}
+			} catch (Exception e) {
+				/* Do Nothing */
+			}
+		}
+		
+		public float getArcHeight() {
+			return this.arcHeight;
+		}
+
+		public void setArcHeight(String string) {
+			try {
+				float f = Float.parseFloat(string);
+				if (Utils.withinRangeInclusive(0, 1, f)) {
+					this.arcHeight = f;
+				}
+			} catch (Exception e) {
+				/* Do Nothing */
+			}
 		}
 	}
 	

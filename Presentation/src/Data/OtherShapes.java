@@ -27,6 +27,8 @@ public class OtherShapes extends Graphic {
 		System.out.println("");
 	}
 	
+	
+	
 	/**
 	 * @return {@code true} if shape is solid
 	 */
@@ -42,6 +44,7 @@ public class OtherShapes extends Graphic {
 	public class Triangle extends OtherShapes {
 		
 		private float outlineThickness;
+		private float rotation;
 		private String outlineColor;
 		private List<Float> xPoints = new ArrayList<Float>();
 		private List<Float> yPoints = new ArrayList<Float>();
@@ -50,6 +53,25 @@ public class OtherShapes extends Graphic {
 			super(defaults);
 			this.outlineColor = defaults.getOutlineColor();
 			this.outlineThickness = defaults.getOutlineThickness();
+		}
+		
+		/**
+		 * @return the rotation
+		 */
+		public float getRotation() {
+			return this.rotation;
+		}
+
+		/**
+		 * @param string the rotation to set
+		 */
+		public void setRotation(String string) {
+			try {
+				float f = Float.parseFloat(string);
+				this.rotation = f;
+			} catch (Exception e) {
+				/* Do Nothing */
+			}
 		}
 		
 		/**
@@ -117,6 +139,7 @@ public class OtherShapes extends Graphic {
 		
 		private float outlineThickness;
 		private String outlineColor;
+		private float rotation;
 		private List<Float> xPoints = new ArrayList<Float>();
 		private List<Float> yPoints = new ArrayList<Float>();
 		
@@ -124,6 +147,25 @@ public class OtherShapes extends Graphic {
 			super(defaults);
 			this.outlineColor = defaults.getOutlineColor();
 			this.outlineThickness = defaults.getOutlineThickness();
+		}
+		
+		/**
+		 * @return the rotation
+		 */
+		public float getRotation() {
+			return this.rotation;
+		}
+
+		/**
+		 * @param string the rotation to set
+		 */
+		public void setRotation(String string) {
+			try {
+				float f = Float.parseFloat(string);
+				this.rotation = f;
+			} catch (Exception e) {
+				/* Do Nothing */
+			}
 		}
 		
 		/**
@@ -195,11 +237,31 @@ public class OtherShapes extends Graphic {
 		private float height;
 		private float length;
 		private float arcAngle;
+		private float rotation;
 		
 		public Chord(Defaults defaults) {
 			super(defaults);
 			this.outlineColor = defaults.getOutlineColor();
 			this.outlineThickness = defaults.getOutlineThickness();
+		}
+		
+		/**
+		 * @return the rotation
+		 */
+		public float getRotation() {
+			return this.rotation;
+		}
+
+		/**
+		 * @param string the rotation to set
+		 */
+		public void setRotation(String string) {
+			try {
+				float f = Float.parseFloat(string);
+				this.rotation = f;
+			} catch (Exception e) {
+				/* Do Nothing */
+			}
 		}
 		
 		/**
@@ -302,11 +364,31 @@ public class OtherShapes extends Graphic {
 		private float height;
 		private float length;
 		private float arcAngle;
+		private float rotation;
 		
 		public Arc(Defaults defaults) {
 			super(defaults);
 			this.outlineColor = defaults.getOutlineColor();
 			this.outlineThickness = defaults.getOutlineThickness();
+		}
+		
+		/**
+		 * @return the rotation
+		 */
+		public float getRotation() {
+			return this.rotation;
+		}
+
+		/**
+		 * @param string the rotation to set
+		 */
+		public void setRotation(String string) {
+			try {
+				float f = Float.parseFloat(string);
+				this.rotation = f;
+			} catch (Exception e) {
+				/* Do Nothing */
+			}
 		}
 		
 		/**
@@ -405,9 +487,25 @@ public class OtherShapes extends Graphic {
 		
 		private float xEnd;
 		private float yEnd;
+		private float thickness;
 		
 		public Line(Defaults defaults) {
 			super(defaults);
+		}
+		
+		public float getThickness() {
+			return this.thickness;
+		}
+
+		public void setThickness(String string) {
+			try {
+				float f = Float.parseFloat(string);
+				if (f > 0) {
+					this.thickness = f;
+				}
+			} catch (Exception e) {
+				/* Do Nothing */
+			}
 		}
 		
 		public float getXEnd() {
@@ -451,9 +549,25 @@ public class OtherShapes extends Graphic {
 		
 		private float xEnd;
 		private float yEnd;
+		private float thickness;
 		
 		public Arrow(Defaults defaults) {
 			super(defaults);
+		}
+		
+		public float getThickness() {
+			return this.thickness;
+		}
+
+		public void setThickness(String string) {
+			try {
+				float f = Float.parseFloat(string);
+				if (f > 0) {
+					this.thickness = f;
+				}
+			} catch (Exception e) {
+				/* Do Nothing */
+			}
 		}
 		
 		public float getXEnd() {
