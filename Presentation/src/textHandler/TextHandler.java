@@ -32,7 +32,7 @@ public class TextHandler {
 	 *            textBox to be drawn. Must be formed using the TextBuilder.
 	 * @see {@link textHandler.TextObject}
 	 */
-	public void createGraphic(TextObject textBox) {
+	public void createTextbox(TextObject textBox) {
 		texts.add(new Text(group));
 		texts.get(texts.size() - 1).drawText(textBox);
 	}
@@ -45,9 +45,9 @@ public class TextHandler {
 	 * @param visible
 	 *            boolean containing the state of the visibility of the textbox
 	 */
-	public void setVisible(int graphicNumber, boolean visible) {
-		if (graphicNumber < texts.size() && graphicNumber >= 0) {
-			texts.get(graphicNumber).setVisible(visible);
+	public void setVisible(int textNumber, boolean visible) {
+		if (textNumber < texts.size() && textNumber >= 0) {
+			texts.get(textNumber).setVisible(visible);
 		}
 	}
 
@@ -57,9 +57,9 @@ public class TextHandler {
 	 * @param graphicNumber
 	 *            the index of the textbox to be sent to back
 	 */
-	public void sendToBack(int graphicNumber) {
-		if (graphicNumber < texts.size() && graphicNumber >= 0) {
-			texts.get(graphicNumber).toBack();
+	public void sendToBack(int textNumber) {
+		if (textNumber < texts.size() && textNumber >= 0) {
+			texts.get(textNumber).toBack();
 		}
 	}
 
@@ -69,9 +69,9 @@ public class TextHandler {
 	 * @param graphicNumber
 	 *            the index of the textbox to be sent to front
 	 */
-	public void sendToFront(int graphicNumber) {
-		if (graphicNumber < texts.size() && graphicNumber >= 0) {
-			texts.get(graphicNumber).toFront();
+	public void sendToFront(int textNumber) {
+		if (textNumber < texts.size() && textNumber >= 0) {
+			texts.get(textNumber).toFront();
 		}
 	}
 
