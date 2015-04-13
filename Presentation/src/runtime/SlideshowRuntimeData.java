@@ -10,7 +10,6 @@ import java.util.concurrent.TimeUnit;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
@@ -55,10 +54,10 @@ public class SlideshowRuntimeData {
 		scene.heightProperty().addListener(new WindowResizeHandler());
 
 		currentSlide = slideshow.getSlide(0);
-		buildCurrentSlide();
+		
 		updateScreenBoundaries();
-		slideRenderer.relocateSlideObjects();
-
+		
+		buildCurrentSlide();
 	}
 
 	private void updateScreenBoundaries() {
@@ -83,7 +82,6 @@ public class SlideshowRuntimeData {
 		}
 
 		slideRenderer.updateSlideDimentions(xSlideStart, ySlideStart, slideWidth, slideHeight);
-		slideRenderer.relocateSlideObjects();
 	}
 
 	private void buildCurrentSlide() {
@@ -169,7 +167,6 @@ public class SlideshowRuntimeData {
 		public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight,
 				Number newSceneHeight) {
 			updateScreenBoundaries();
-			slideRenderer.relocateSlideObjects();
 		}
 
 	}

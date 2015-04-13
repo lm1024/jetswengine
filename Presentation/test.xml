@@ -15,29 +15,25 @@
 		<graphiccolor>#ffaaaa00</graphiccolor>
 	</defaultsettings>
 	<slide>
-	<graphic graphiccolor="#ff000000">
-			<rectangle xstart="0" ystart="0" xend="1" yend="1"
-				solid="true" />
-		</graphic>
-		<video sourcefile="M:\Sweng\avengers-featurehp.mp4" starttime="2.5" duration="5.0"
-			xstart="0" ystart="0" />
+		<video sourcefile="M:\Sweng\avengers-featurehp.mp4" starttime="2.5"
+			duration="5.0" xstart="0" ystart="0" />
 	</slide>
-	
+
 	<slide>
 		<graphic graphiccolor="#ff000000" starttime="1.0">
-			<rectangle xstart="0" ystart="0" xend="1" yend="1"
-				solid="true" />
+			<rectangle xstart="0" ystart="0" xend="1" yend="1" solid="true" />
 		</graphic>
-		<text xstart="0.1" ystart="0.1" xend="0.3" yend="0.3" font="arial" fontsize="24"
-			fontcolor="#ff112233" duration="1.5">
-			Hello World! This is a test.
+		<text xstart="0.1" ystart="0.1" xend="0.3" yend="0.3" font="arial"
+			fontsize="24" fontcolor="#ff112233" duration="1.5">
+			Hello World! This is a
+			test.
 		</text>
-		<text xstart="0.35" ystart="0.1" xend="0.55" yend="0.3" font="times new roman" fontsize="24"
-			fontcolor="#ffff11ff">
+		<text xstart="0.35" ystart="0.1" xend="0.55" yend="0.3"
+			font="times new roman" fontsize="24" fontcolor="#ffff11ff">
 			Hello World!
 		</text>
-		<text xstart="0.6" ystart="0.1" xend="0.9" yend="0.3" font="arial" fontsize="24"
-			fontcolor="#ff00ff00" starttime="2.0" alignment="left/right/centre">
+		<text xstart="0.6" ystart="0.1" xend="0.9" yend="0.3" font="arial"
+			fontsize="24" fontcolor="#ff00ff00" starttime="2.0" alignment="left/right/centre">
 			<richtext font="times new roman" fontsize="26" fontcolor="#ff00ff00"
 				newline="true" b="true" i="true" u="true" strikethrough="true"
 				superscript="true" subscript="true" case="upper">Example text1! </richtext>
@@ -53,7 +49,7 @@
 	<slide>
 		<image sourcefile="file:Desert.jpg" xstart="0.1" ystart="0.1"
 			scale="0.4" rotate="0" fliphorizontal="false" flipvertical="false"
-			cropx1="0.0" cropy1="0.0" cropx2="0.0" cropy2="0.0" />
+			cropx1="0.0" cropy1="0.0" cropx2="0.0" cropy2="0.0" starttime="0.5" duration="1.5"/>
 	</slide>
 
 	<slide>
@@ -71,13 +67,26 @@
 	<slide>
 		<video sourcefile="M:\Sweng\avengers-featurehp.mp4" starttime="2.4"
 			xstart="0.5" ystart="0.5" />
-		
-		<text xstart="0.5" ystart="0.5" font="arial" fontsize="24"
-			fontcolor="#ff112233" duration="1.5">
-			Hello World! This is a test.
+			<text xstart="0.6" ystart="0.1" xend="0.9" yend="0.3" font="arial"
+			fontsize="24" fontcolor="#ff00ff00" starttime="0" alignment="left/right/centre">
+			<richtext font="times new roman" fontsize="26" fontcolor="#ff00ff00"
+				newline="true" b="true" i="true" u="true" strikethrough="true"
+				superscript="true" subscript="true" case="upper">Example text1! </richtext>
+			<richtext font="arial" fontsize="26" fontcolor="#ff00ff00"
+				newline="true" b="true" i="true" u="true" strikethrough="true"
+				superscript="true" subscript="true" case="lower">Example text2! </richtext>
+			<richtext font="arial" fontsize="26" fontcolor="#ff00ffff"
+				newline="true" b="true" i="true" u="true" strikethrough="true"
+				superscript="true" subscript="true" case="camel">Example text3! </richtext>
 		</text>
-		<text xstart="0.2" ystart="0.2" font="times new roman" fontsize="24"
-			fontcolor="#ffff11ff" duration="1.5">
+
+		<text xstart="0.1" ystart="0.1" xend="0.3" yend="0.3" font="arial"
+			fontsize="24" fontcolor="#ff112233" duration="1.5">
+			Hello World! This is a
+			test.
+		</text>
+		<text xstart="0.35" ystart="0.1" xend="0.55" yend="0.3"
+			font="times new roman" fontsize="24" fontcolor="#ffff11ff">
 			Hello World!
 		</text>
 		<image sourcefile="file:Desert.jpg" xstart="0.1" ystart="0.1"

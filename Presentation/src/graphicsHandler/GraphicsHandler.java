@@ -89,7 +89,7 @@ public class GraphicsHandler {
 	/**
 	 * Method clears the current array of graphics
 	 */
-	public void clearGraphicss() {
+	public void clearGraphics() {
 		graphics.clear();
 	}
 }

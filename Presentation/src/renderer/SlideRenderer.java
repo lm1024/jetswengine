@@ -7,7 +7,6 @@ import java.io.File;
 
 import imageHandler.ImageHandler;
 import imageHandler.ImageObject;
-import imageHandler.NewImageHandler;
 import graphicsHandler.GraphicObject.GraphicBuilder;
 import graphicsHandler.GraphicType;
 import graphicsHandler.GraphicsHandler;
@@ -38,7 +37,7 @@ public class SlideRenderer {
 	private Group group;
 
 	private GraphicsHandler graphicsHandler;
-	private NewImageHandler imageHandler;
+	private ImageHandler imageHandler;
 	private TextHandler textHandler;
 	private VideoHandler videoHandler;
 	private AudioHandler audioHandler;
@@ -55,13 +54,14 @@ public class SlideRenderer {
 	public SlideRenderer(Group group) {
 		this.group = group;
 		this.graphicsHandler = new GraphicsHandler(group);
-		this.imageHandler = new NewImageHandler(group);
+		this.imageHandler = new ImageHandler(group);
 		this.textHandler = new TextHandler(group);
 		this.videoHandler = new VideoHandler(group);
 		this.audioHandler = new AudioHandler(group);
 	}
 
 	public void updateSlideDimentions(double xSlideStart, double ySlideStart, double slideWidth, double slideHeight) {
+		System.out.println(xSlideStart + " " + ySlideStart + " " + slideWidth + " " + slideHeight);
 		this.xSlideStart = (float) xSlideStart;
 		this.ySlideStart = (float) ySlideStart;
 		this.slideWidth = (float) slideWidth;
@@ -93,49 +93,7 @@ public class SlideRenderer {
 			}
 		}
 	}
-
-	public void relocateSlideObjects() {
-		int currentTextNumber = 0;
-		int currentImageNumber = 0;
-		int currentGraphicNumber = 0;
-		int currentAudioNumber = 0;
-		int currentVideoNumber = 0;
-
-		for (SlideItem currentSlideItem : currentSlide.getAll()) {
-			switch (currentSlideItem.getType()) {
-			case "Text":
-
-				break;
-			case "Image":
-				imageHandler.relocate(currentImageNumber,
-						convXRelCoordToAbsCoord(((Image) currentSlideItem).getXStart()),
-						convYRelCoordToAbsCoord(((Image) currentSlideItem).getYStart()));
-				currentImageNumber++;
-				break;
-			case "Audio":
-
-				break;
-			case "Video":
-				videoHandler.relocateVideo(currentVideoNumber,
-						convXRelCoordToAbsCoord(((Video) currentSlideItem).getXStart()),
-						convYRelCoordToAbsCoord(((Video) currentSlideItem).getYStart()));
-				currentVideoNumber++;
-				break;
-			default:
-				/* Graphics */
-
-			}
-		}
-		
-		if (boundaryRect != null)
-			boundaryRect.relocate(10000, 10000);
-		
-		boundaryRect = new Rectangle(xSlideStart, ySlideStart, slideWidth, slideHeight);
-		boundaryRect.setStroke(Color.RED);
-		boundaryRect.setFill(Color.TRANSPARENT);
-		group.getChildren().add(boundaryRect);
-	}
-
+	
 	public void updateSlide(long currentTimeIntoSlide) {
 		int currentTextNumber = 0;
 		int currentImageNumber = 0;
@@ -182,19 +140,21 @@ public class SlideRenderer {
 	private void updateVisibilityOfObject(String objectType, int numberOfObject, boolean visible) {
 		switch (objectType) {
 		case "Text":
+			textHandler.setVisible(numberOfObject, visible);
 			break;
 		case "Image":
 			System.out.println("   Setting image to visible: " + visible);
 			imageHandler.setVisible(numberOfObject, visible);
 			break;
 		case "Audio":
+			//audioHandler.setVisible(numberOfObject, visible); //TODO
 			break;
 		case "Video":
 			videoHandler.setVisible(numberOfObject, visible);
 			videoHandler.playVideo(numberOfObject);
 			break;
 		default:
-			/* Graphics */
+			graphicsHandler.setVisible(numberOfObject, visible);		
 		}
 	}
 
@@ -244,9 +204,11 @@ public class SlideRenderer {
 
 		}
 
-		graphicsHandler.drawShape(graphicBuilder.build());
+		graphicsHandler.createGraphic(graphicBuilder.build());
 
-		// TODO if hidden, hide
+		if (currentGraphic.getStartTime() != 0) {
+			graphicsHandler.setVisible(graphicsHandler.getGraphicCount() - 1, false);
+		}
 	}
 
 	private void addText(Text currentText) {
@@ -284,8 +246,12 @@ public class SlideRenderer {
 					.fontSize((int) fontSize).build());
 		}
 
-		textHandler.drawText(new TextObject.TextBoxBuilder(xStart, yStart).xEnd(xEnd).yEnd(yEnd)
+		textHandler.createTextbox(new TextObject.TextBoxBuilder(xStart, yStart).xEnd(xEnd).yEnd(yEnd)
 				.backgroundColor(backgroundColor).alignment(alignment).textFragmentList(textFragmentList).build());
+		
+		if (currentText.getStartTime() != 0) {
+			textHandler.setVisible(textHandler.getTextCount() - 1, false);
+		}
 	}
 
 	private void addImage(Image currentImage) {
@@ -308,7 +274,6 @@ public class SlideRenderer {
 				.hFlip(flipHorizontal).vFlip(flipVertical).build());
 
 		if (currentImage.getStartTime() != 0) {
-			System.out.println("DOING IT");
 			imageHandler.setVisible(imageHandler.getImageCount() - 1, false);
 		}
 	}
@@ -339,7 +304,6 @@ public class SlideRenderer {
 		videoHandler.createVideo(x, y, width, sourceFile, autoPlay, loop);
 
 		if (currentVideo.getStartTime() != 0) {
-			System.out.println("DOING IT");
 			videoHandler.pauseVideo(videoHandler.getVideoCount());
 			videoHandler.setVisible(videoHandler.getVideoCount() - 1, false);
 		}
@@ -359,6 +323,8 @@ public class SlideRenderer {
 		audioHandler.clearAudios();
 		videoHandler.clearVideos();
 		imageHandler.clearImages();
+		textHandler.clearTexts();
+		graphicsHandler.clearGraphics();
 		group.getChildren().clear();
 	}
 }

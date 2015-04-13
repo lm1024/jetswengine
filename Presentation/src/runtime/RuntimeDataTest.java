@@ -28,7 +28,7 @@ public class RuntimeDataTest extends Application {
 		/* Set the title of the window */
 		primaryStage.setTitle(this.getClass().getSimpleName());
 		Group group = new Group();
-		Scene scene = new Scene(group, 500, 500);
+		Scene scene = new Scene(group, 800, 800);
 		primaryStage.setScene(scene);
 
 		Slideshow slideshow = new ImprovedXMLReader("test.xml").getSlideshow();
