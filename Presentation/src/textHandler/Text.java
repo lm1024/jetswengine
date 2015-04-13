@@ -22,7 +22,7 @@ import Data.TextFragment;
  * @author tjd511
  * @version 3.0 07/04/2015
  */
-public class NewTextHandler {
+public class Text {
 
 	/*
 	 * Constants for where in the string "#00112233" the A, R, G and B portions
@@ -46,26 +46,28 @@ public class NewTextHandler {
 	/* Group onto which the text boxes are drawn. */
 	private Group group;
 
+	private WebView webView;
+
 	/**
 	 * Constructor for the textHandler.
 	 * 
 	 * @param group
 	 *            The group that all of the text is to be drawn to.
 	 */
-	public NewTextHandler(Group group) {
+	public Text(Group group) {
 		this.group = group;
-		/*
-		 * Create a new WebView to move lag on opening first WebView to handler
-		 * instantiation instead of on first draw of a text box.
-		 */
-		new WebView();
+		
+		/* Instantiate the WebView that will be used to display the text */
+		webView = new WebView();
 	}
 
 	/**
-	 * Method for forming and drawing a text box. 
+	 * Method for forming and drawing a text box.
 	 * 
-	 * @param textBox the text box to be drawn. Must be formed using the TextBox builder.
-	 * @see {@link textHandler.TextBox} 
+	 * @param textBox
+	 *            the text box to be drawn. Must be formed using the TextBox
+	 *            builder.
+	 * @see {@link textHandler.TextObject}
 	 */
 	public void drawText(TextObject textBox) {
 		stringBuffer = textBox.getStringBuffer();
@@ -78,6 +80,32 @@ public class NewTextHandler {
 		Alignment alignment = textBox.getAlignment();
 
 		drawBuffer(xStartPos, yStartPos, xEndPos, yEndPos, backgroundColor, alignment);
+	}
+
+	/**
+	 * Method to set the visibility of the textbox.
+	 * 
+	 * @param visible
+	 *            boolean containing if the textbox should be visible or not
+	 */
+	public void setVisible(boolean visible) {
+		if (webView != null) {
+			webView.setVisible(visible);
+		}
+	}
+
+	/** Method to send the textbox to the back of the group. */
+	public void toBack() {
+		if (webView != null) {
+			webView.toBack();
+		}
+	}
+
+	/** Method to send the textbox to the back of the group. */
+	public void toFront() {
+		if (webView != null) {
+			webView.toFront();
+		}
 	}
 
 	/**
@@ -120,9 +148,6 @@ public class NewTextHandler {
 		if (!verifyColor(backgroundColor)) {
 			backgroundColor = "#00000000";
 		}
-
-		/* Instantiate the WebView that will be used to display the text */
-		WebView webView = new WebView();
 
 		/* Set starting position, height and width of the panel */
 		webView.relocate(xStartPos, yStartPos);
