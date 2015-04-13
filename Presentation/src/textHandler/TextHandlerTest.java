@@ -44,7 +44,7 @@ public class TextHandlerTest extends Application {
 				
 		textFragList.add(new TextObject.TextFragmentBuilder("Hello World!").build());
 		
-		textHandler.createGraphic(new TextObject.TextBoxBuilder(100, 200).textFragmentList(textFragList).build());
+		textHandler.createTextbox(new TextObject.TextBoxBuilder(100, 200).textFragmentList(textFragList).build());
 
 		Button button1 = makeButton(200, 100, "1");
 		Button button2 = makeButton(250, 100, "2");
