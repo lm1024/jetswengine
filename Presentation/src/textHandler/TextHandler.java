@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import javafx.scene.Group;
 
 /**
- * Class for handling text and text boxes on a javafx group.
+ * Class for handling multiple textboxes on a javafx group.
  * 
  * @author tjd511
  * @version 2.0 02/03/2015

@@ -5,6 +5,12 @@ import java.util.ArrayList;
 
 import javafx.scene.Group;
 
+/**
+ * Class to handle multiple graphics at once. 
+ * 
+ * @author tjd511
+ * @version 1.0 13/04/2015
+ */
 public class GraphicsHandler {
 
 	private Group group;
