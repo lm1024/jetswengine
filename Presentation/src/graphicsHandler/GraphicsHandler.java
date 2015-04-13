@@ -26,7 +26,7 @@ public class GraphicsHandler {
 	 * @param graphicObject
 	 *            a graphics object containing all the information about the
 	 *            graphic to be drawn. Must be formed using the GraphicBuilder.
-	 * @see {@link graphicsHandler.Graphic}
+	 * @see {@link graphicsHandler.GraphicObject}
 	 */
 	public void createGraphic(GraphicObject graphicObject) {
 		graphics.add(new Graphic(group));
@@ -72,16 +72,18 @@ public class GraphicsHandler {
 	}
 
 	/**
-	 * @return
+	 * Method gets the number of graphics.
+	 * 
+	 * @return the current number of instantiated graphics
 	 */
 	public int getGraphicCount() {
 		return graphics.size();
 	}
 
 	/**
-	 * 
+	 * Method clears the current array of graphics
 	 */
-	public void clearImages() {
+	public void clearGraphicss() {
 		graphics.clear();
 	}
 }
