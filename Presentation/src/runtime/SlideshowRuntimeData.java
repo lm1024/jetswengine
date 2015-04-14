@@ -54,9 +54,9 @@ public class SlideshowRuntimeData {
 		scene.heightProperty().addListener(new WindowResizeHandler());
 
 		currentSlide = slideshow.getSlide(0);
-		
+
 		updateScreenBoundaries();
-		
+
 		buildCurrentSlide();
 	}
 
@@ -69,7 +69,7 @@ public class SlideshowRuntimeData {
 		double slideWidth;
 		double slideHeight;
 
-		if (sceneWidth / currentXAspectRatio < sceneHeight / currentYAspectRatio) {
+		if ((sceneWidth / currentXAspectRatio) < (sceneHeight / currentYAspectRatio)) {
 			slideWidth = sceneWidth;
 			slideHeight = ((sceneWidth / currentXAspectRatio) * currentYAspectRatio);
 			xSlideStart = 0;
@@ -148,7 +148,7 @@ public class SlideshowRuntimeData {
 			/* ID which side of the screen is clicked on */
 			if (e.getX() > (scene.getWidth()) * 0.5) {
 				/* Change the value of slideNo accordingly */
-				if (slideNumber < slideshow.getSlides().size()-1){
+				if (slideNumber < slideshow.getSlides().size() - 1) {
 					slideNumber++;
 				}
 			} else {
