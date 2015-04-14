@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 public class GraphsHandlerTest extends Application {
 
 	private Group group;
-	private GraphsHandler graphsHandler;
+	private GraphHandler graphHandler;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -23,7 +23,7 @@ public class GraphsHandlerTest extends Application {
 		Scene scene = new Scene(group, 500, 500);
 		primaryStage.setScene(scene);
 
-		graphsHandler = new GraphsHandler(group);
+		graphHandler = new GraphHandler(group);
 		
 		PieChartObject pieChartObject = new PieChartObject();
 		pieChartObject.setTitle("Graph");
@@ -43,7 +43,7 @@ public class GraphsHandlerTest extends Application {
 
 		pieChartObject.setPieChartData(dataNames, dataValues);
 
-		graphsHandler.drawPieChart(pieChartObject);
+		graphHandler.drawPieChart(pieChartObject);
 		
 		primaryStage.show();
 	}

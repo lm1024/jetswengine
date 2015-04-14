@@ -43,6 +43,10 @@ public class Question {
 	public Answer getAnswer(int index) {
 		return answers.get(index);
 	}
+	
+	public ArrayList<Answer> getAnswers() {
+		return answers;
+	}
 
 	/**
 	 * @param answers
@@ -51,6 +55,10 @@ public class Question {
 	public void addAnswer(String answerId, boolean correct) {
 		/* Make a new answer and add it to the list of answers */
 		answers.add(new Answer(answerId, correct));
+	}
+	
+	public int getNumberOfAnswers() {
+		return answers.size();
 	}
 
 	public void increaseAnswerCount(int index) {
