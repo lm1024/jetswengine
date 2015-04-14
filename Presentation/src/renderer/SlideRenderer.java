@@ -327,4 +327,9 @@ public class SlideRenderer {
 		graphicsHandler.clearGraphics();
 		group.getChildren().clear();
 	}
+
+	public void buildAnswerSlide(/* Question question, Answers answers */) {
+		// TODO Auto-generated method stub
+		
+	}
 }

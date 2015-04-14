@@ -1,8 +1,5 @@
 package graphsHandler;
 
-import java.util.ArrayList;
-
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Group;
 import javafx.scene.chart.BarChart;

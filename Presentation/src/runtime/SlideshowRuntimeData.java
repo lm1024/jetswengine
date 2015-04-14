@@ -147,16 +147,20 @@ public class SlideshowRuntimeData {
 		public void handle(MouseEvent e) {
 			/* ID which side of the screen is clicked on */
 			if (e.getX() > (scene.getWidth()) * 0.5) {
-				/* Change the value of slideNo accordingly */
-				if (slideNumber < slideshow.getSlides().size() - 1) {
-					slideNumber++;
-				}
-			} else {
-				if (slideNumber > 0) {
-					slideNumber--;
-				}
-			}
+				/* if (currentSlide.getQuestion != null) { */
 
+				// }
+
+				/*
+				 * else if (!slideRenderer.isAnswerSlide()) {
+				 * 
+				 * } else {
+				 */
+				moveForwards();
+				// }
+			} else {
+				moveBackwards();
+			}
 			currentSlide = slideshow.getSlide(slideNumber);
 			buildCurrentSlide();
 		}
@@ -169,6 +173,26 @@ public class SlideshowRuntimeData {
 			updateScreenBoundaries();
 		}
 
+	}
+
+	private void moveForwards() {
+		/* Change the value of slideNo accordingly */
+		if (slideNumber < slideshow.getSlides().size() - 1) {
+			slideNumber++;
+		}
+	}
+
+	private void moveBackwards() {
+		/* Change the value of slideNo accordingly */
+		if (slideNumber > 0) {
+			slideNumber--;
+		}
+	}
+
+	// TODO
+	private void buildAnswerSlide(/* Question question */) {
+		slideRenderer.clear();
+		slideRenderer.buildAnswerSlide(/* question, *//* TODO comms.getAnswers */);
 	}
 
 	private long getCurrentTime() {
