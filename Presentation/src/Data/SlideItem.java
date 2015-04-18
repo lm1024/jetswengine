@@ -120,13 +120,9 @@ public abstract class SlideItem {
 	 */
 	public void setDuration(String string) {
 		try {
-			if (string.toLowerCase().matches("float.max_value|infinite")) {
-				this.duration = Float.MAX_VALUE;
-			} else {
-				float f = Float.parseFloat(string);
-				if (f > 0) {
-					this.duration = f;
-				}
+			float f = Float.parseFloat(string);
+			if (f > 0) {
+				this.duration = f;
 			}
 		} catch (Exception e) {
 			/* Do Nothing */

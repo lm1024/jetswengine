@@ -13,18 +13,17 @@ public class Defaults {
 	private String highlightColor = "#FFFF0000";
 	private float startTime = 0;
 	private float duration = Float.MAX_VALUE;
-	private String alignment = "left";
+	private String alignment = "none";
+	private String textCase = "none";
 	private float scale = 1;
 	private int rotation = 0;
 	private float cropX1 = 0;
 	private float cropY1 = 0;
 	private float cropX2 = 1;
 	private float cropY2 = 1;
-	private boolean shapeSolidity = true;
-	private float stopValue = 0.5f;
 
 	public Defaults() {
-
+		
 	}
 
 	public void printDefaults() {
@@ -38,6 +37,7 @@ public class Defaults {
 		System.out.println("StartTime: " + startTime);
 		System.out.println("Duration: " + duration);
 		System.out.println("Alignment: " + alignment);
+		System.out.println("TextCase: " + textCase);
 		System.out.println("Scale: " + scale);
 		System.out.println("Rotation: " + rotation);
 		System.out.println("CropX1: " + cropX1);
@@ -190,13 +190,9 @@ public class Defaults {
 	 */
 	public void setDuration(String string) {
 		try {
-			if (string.toLowerCase().matches("float.max_value|infinite")) {
-				this.duration = Float.MAX_VALUE;
-			} else {
-				float f = Float.parseFloat(string);
-				if (f > 0) {
-					this.duration = f;
-				}
+			float f = Float.parseFloat(string);
+			if (f > 0) {
+				this.duration = f;
 			}
 		} catch (Exception e) {
 			/* Do Nothing */
@@ -217,6 +213,23 @@ public class Defaults {
 	public void setAlignment(String string) {
 		if (Utils.validAlignment(string)) {
 			this.alignment = string;
+		}
+	}
+
+	/**
+	 * @return the textCase
+	 */
+	public String getTextCase() {
+		return this.textCase;
+	}
+
+	/**
+	 * @param textCase
+	 *            the textCase to set
+	 */
+	public void setTextCase(String string) {
+		if (Utils.validTextCase(string)) {
+			this.textCase = string;
 		}
 	}
 
@@ -346,42 +359,6 @@ public class Defaults {
 			float f = Float.parseFloat(string);
 			if (Utils.withinRangeInclusive(0, 1, f)) {
 				this.cropY2 = f;
-			}
-		} catch (Exception e) {
-			/* Do Nothing */
-		}
-	}
-
-	/**
-	 * @return the shapeSolidity
-	 */
-	public boolean getShapeSolidity() {
-		return shapeSolidity;
-	}
-
-	/**
-	 * @param string the shapeSolidity to set
-	 */
-	public void setShapeSolidity(String string) {
-		this.shapeSolidity = Boolean.parseBoolean(string);
-	}
-
-	/**
-	 * @return the stopValue
-	 */
-	public float getStopValue() {
-		return stopValue;
-	}
-	
-	/**
-	 * @param cropX1
-	 *            the cropX1 to set
-	 */
-	public void setStopValue(String string) {
-		try {
-			float f = Float.parseFloat(string);
-			if (Utils.withinRangeInclusive(0, 1, f)) {
-				this.stopValue = f;
 			}
 		} catch (Exception e) {
 			/* Do Nothing */

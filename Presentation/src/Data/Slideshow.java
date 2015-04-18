@@ -22,7 +22,23 @@ public class Slideshow {
 		int i = 1;
 		for (Slide slide : slides) {
 			System.out.println("Start of slide (" + i + ") contents:\n");
-			for(SlideItem item : slide.getAll()) {
+			for (Text item : slide.getTextList()) {
+				item.printItem();
+			}
+			for (Graphic item : slide.getGraphicsList()) {
+				try {
+					item.printItem();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			for (Image item : slide.getImagesList()) {
+				item.printItem();
+			}
+			for (Audio item : slide.getAudiosList()) {
+				item.printItem();
+			}
+			for (Video item : slide.getVideosList()) {
 				item.printItem();
 			}
 			System.out.println("End of slide (" + i + ") contents:\n");

@@ -15,10 +15,10 @@ import Data.TextFragment;
  * @version 1.0 10/03/2015
  */
 public class TextObject {
-	private final float xStart;
-	private final float yStart;
-	private final float xEnd;
-	private final float yEnd;
+	private final int xStart;
+	private final int yStart;
+	private final int xEnd;
+	private final int yEnd;
 	private final String backgroundColor;
 	private final Alignment alignment;
 	private ArrayList<TextFragment> stringBuffer = new ArrayList<TextFragment>();
@@ -36,28 +36,28 @@ public class TextObject {
 	/**
 	 * @return the starting x coordinate of the text box
 	 */
-	public float getXStart() {
+	public int getXStart() {
 		return xStart;
 	}
 
 	/**
 	 * @return the starting y coordinate of the text box
 	 */
-	public float getYStart() {
+	public int getYStart() {
 		return yStart;
 	}
 
 	/**
 	 * @return the ending x coordinate of the text box
 	 */
-	public float getXEnd() {
+	public int getXEnd() {
 		return xEnd;
 	}
 
 	/**
 	 * @return the ending y coordinate of the text box
 	 */
-	public float getYEnd() {
+	public int getYEnd() {
 		return yEnd;
 	}
 
@@ -90,11 +90,11 @@ public class TextObject {
 	 */
 	public static class TextBoxBuilder {
 		/* Required fields in the text fragment */
-		private final float xStart;
-		private final float yStart;
+		private final int xStart;
+		private final int yStart;
 		/* Optional fields in the text fragment */
-		private float xEnd;
-		private float yEnd;
+		private int xEnd;
+		private int yEnd;
 		private String backgroundColor = "#00000000";
 		private Alignment alignment = Alignment.LEFT;
 		private ArrayList<TextFragment> stringBuffer = new ArrayList<TextFragment>();
@@ -107,7 +107,7 @@ public class TextObject {
 		 * @param yStart
 		 *            the starting y coordinate of the text box
 		 */
-		public TextBoxBuilder(float xStart, float yStart) {
+		public TextBoxBuilder(int xStart, int yStart) {
 			this.xStart = xStart;
 			this.yStart = yStart;
 			this.xEnd = xStart + 200;
@@ -120,7 +120,7 @@ public class TextObject {
 		 * @param xEnd
 		 *            the ending x coordinate of the text box
 		 */
-		public TextBoxBuilder xEnd(float xEnd) {
+		public TextBoxBuilder xEnd(int xEnd) {
 			this.xEnd = xEnd;
 			return this;
 		}
@@ -131,7 +131,7 @@ public class TextObject {
 		 * @param yEnd
 		 *            the ending y coordinate of the text box
 		 */
-		public TextBoxBuilder yEnd(float yEnd) {
+		public TextBoxBuilder yEnd(int yEnd) {
 			this.yEnd = yEnd;
 			return this;
 		}

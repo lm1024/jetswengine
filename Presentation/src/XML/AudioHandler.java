@@ -48,7 +48,7 @@ public class AudioHandler extends DefaultHandler {
 			audio.setStartTime(attributes.getValue("starttime"));
 			audio.setXStart(attributes.getValue("xstart"));
 			audio.setYStart(attributes.getValue("ystart"));
-			slide.add(audio);
+			slide.addAudio(audio);
 			reader.setContentHandler(parentHandler);
 		} else {
 			System.err.println("Unknown Audio element encountered: " + elementName);
