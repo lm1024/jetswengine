@@ -4,21 +4,26 @@
 package renderer;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import imageHandler.ImageHandler;
 import imageHandler.ImageObject;
 import graphicsHandler.GraphicObject.GraphicBuilder;
 import graphicsHandler.GraphicType;
 import graphicsHandler.GraphicsHandler;
+import graphsHandler.PieChartObject;
+import graphsHandler.GraphHandler;
 import sofia.AudioHandler;
 import sofia.VideoHandler;
 import textHandler.Alignment;
 import textHandler.TextFragmentList;
 import textHandler.TextHandler;
 import textHandler.TextObject;
+import Data.Answer;
 import Data.Audio;
 import Data.Graphic;
 import Data.Image;
+import Data.Question;
 import Data.Slide;
 import Data.SlideItem;
 import Data.Text;
@@ -41,6 +46,7 @@ public class SlideRenderer {
 	private TextHandler textHandler;
 	private VideoHandler videoHandler;
 	private AudioHandler audioHandler;
+	private GraphHandler graphHandler;
 
 	private float xSlideStart;
 	private float ySlideStart;
@@ -58,6 +64,7 @@ public class SlideRenderer {
 		this.textHandler = new TextHandler(group);
 		this.videoHandler = new VideoHandler(group);
 		this.audioHandler = new AudioHandler(group);
+		this.graphHandler = new GraphHandler(group);
 	}
 
 	public void updateSlideDimentions(double xSlideStart, double ySlideStart, double slideWidth, double slideHeight) {
@@ -326,5 +333,27 @@ public class SlideRenderer {
 		textHandler.clearTexts();
 		graphicsHandler.clearGraphics();
 		group.getChildren().clear();
+	}
+
+	public void buildAnswerSlide(Question question) {
+		System.out.println("Building graph");
+		
+		PieChartObject answerChart = new PieChartObject();
+		answerChart.setTitle(question.getId());
+		answerChart.setxStartPos(0);
+		answerChart.setyStartPos(0);
+		answerChart.setScale(1);
+		
+		ArrayList<String> answerNames = new ArrayList<String>();
+		ArrayList<Float> answerValues = new ArrayList<Float>();
+		
+		for(Answer tempAnswer : question.getAnswers()) {
+			answerNames.add(tempAnswer.getId());
+			answerValues.add((float)tempAnswer.getAnswerCount());
+		}
+		
+		answerChart.setPieChartData(answerNames, answerValues);
+		
+		graphHandler.drawPieChart(answerChart);	
 	}
 }

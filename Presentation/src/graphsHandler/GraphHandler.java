@@ -1,8 +1,5 @@
 package graphsHandler;
 
-import java.util.ArrayList;
-
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Group;
 import javafx.scene.chart.BarChart;
@@ -12,7 +9,7 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Series;
 
-public class GraphsHandler {
+public class GraphHandler {
 	
 	private Group group;
 	
@@ -22,7 +19,7 @@ public class GraphsHandler {
 	 * @param group
 	 *            The group that all of the graphs are to be drawn to.
 	 */
-	public GraphsHandler(Group group) {
+	public GraphHandler(Group group) {
 		this.group = group;
 	}
 	
@@ -39,8 +36,8 @@ public class GraphsHandler {
 		pChart.setLayoutY(yStartPos);
 		pChart.setScaleX(scale);
 		pChart.setScaleY(scale);
+		System.out.println("Adding graph");
 		group.getChildren().add(pChart);
-		
 	}
 
 	@SuppressWarnings("unchecked")

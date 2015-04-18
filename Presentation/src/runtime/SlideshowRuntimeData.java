@@ -14,6 +14,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import renderer.SlideRenderer;
+import Data.Question;
 import Data.Slide;
 import Data.SlideItem;
 import Data.Slideshow;
@@ -147,18 +148,30 @@ public class SlideshowRuntimeData {
 		public void handle(MouseEvent e) {
 			/* ID which side of the screen is clicked on */
 			if (e.getX() > (scene.getWidth()) * 0.5) {
-				/* Change the value of slideNo accordingly */
-				if (slideNumber < slideshow.getSlides().size() - 1) {
-					slideNumber++;
+				/* If we are currently on a graph slide */
+				if (currentSlide == null) {
+					moveForwards();
+					currentSlide = slideshow.getSlide(slideNumber);
+					buildCurrentSlide();
+				}
+				/* If we need to draw a graph */
+				else if (currentSlide.containsQuestion() == true) {
+					slideRenderer.clear();
+					slideRenderer.buildAnswerSlide(currentSlide.getQuestion());
+					currentSlide = null;
+				} 
+				/* If we just need to move forwards a slide*/
+				else {
+					moveForwards();
+					currentSlide = slideshow.getSlide(slideNumber);
+					buildCurrentSlide();
 				}
 			} else {
-				if (slideNumber > 0) {
-					slideNumber--;
-				}
+				moveBackwards();
+				currentSlide = slideshow.getSlide(slideNumber);
+				buildCurrentSlide();
 			}
 
-			currentSlide = slideshow.getSlide(slideNumber);
-			buildCurrentSlide();
 		}
 	}
 
@@ -169,6 +182,20 @@ public class SlideshowRuntimeData {
 			updateScreenBoundaries();
 		}
 
+	}
+
+	private void moveForwards() {
+		/* Change the value of slideNo accordingly */
+		if (slideNumber < slideshow.getSlides().size() - 1) {
+			slideNumber++;
+		}
+	}
+
+	private void moveBackwards() {
+		/* Change the value of slideNo accordingly */
+		if (slideNumber > 0) {
+			slideNumber--;
+		}
 	}
 
 	private long getCurrentTime() {

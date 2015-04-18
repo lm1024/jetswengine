@@ -13,6 +13,7 @@ public class Slide {
 	private String backgroundColor;
 	private List<SlideItem> itemList;
 	private SlideItem currentItem;
+	private Question slideQuestion;
 
 	public Slide(Defaults defaults) {
 		this.itemList = new ArrayList<SlideItem>();
@@ -91,6 +92,18 @@ public class Slide {
 	
 	public void remove(int index) {
 		itemList.remove(index);
+	}
+	
+	public void addQuestion(Question question) {
+		this.slideQuestion = question;
+	}
+	
+	public boolean containsQuestion() {
+		return slideQuestion != null;
+	}
+	
+	public Question getQuestion() {
+		return slideQuestion;
 	}
 	
 	public Slide copySlide() {

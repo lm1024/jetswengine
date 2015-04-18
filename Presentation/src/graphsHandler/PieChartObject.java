@@ -8,6 +8,8 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.chart.PieChart.Data;
 
 public class PieChartObject {
+	
+	private final int maxDataNameLength = 70;
 
 	private String title;
 
@@ -56,7 +58,7 @@ public class PieChartObject {
 	public void setPieChartData(String dataName, float dataValue) {
 		if ((dataValue != Float.NaN) && (dataValue != Float.POSITIVE_INFINITY)
 									 && (dataValue != Float.NEGATIVE_INFINITY) 
-									 && (dataName.length() <= 70)) {
+									 && (dataName.length() <= maxDataNameLength)) {
 			pieChartData.add(new PieChart.Data(dataName, dataValue));
 		}
 	}
