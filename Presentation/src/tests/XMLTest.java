@@ -6,8 +6,11 @@ package tests;
 import static org.junit.Assert.*;
 
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
+import Data.Defaults;
+import Data.DocumentInfo;
 import Data.Slideshow;
 import Data.Text;
 import XML.ImprovedXMLReader;
@@ -18,14 +21,31 @@ import XML.ImprovedXMLReader;
  */
 public class XMLTest {
 
-	private Slideshow currentSlideshow;
+	private static final String defaultBackgroundColor = "#ff00ff00";
+	private static final String defaultFontName = "Times New Roman";
+	private static final double defaultFontSize = 24;
+	private static final String defaultFontColor = "#ffcccc00";
+	private static final String defaultGraphicColor = "#ffaaaa00";
+	private static final String defaultHighlightColor = "#ffaaaa00";
+	private static final float defaultStartTime = 0;
+	private static final float defaultDuration = Float.MAX_VALUE;
+	private static final String defaultAlignment = "left";
+	private static final float defaultScale = 1;
+	private static final float defaultRotation = 0;
+	private static final float defaultCropx1 = 0;
+	private static final float defaultCropy1 = 0;
+	private static final float defaultCropx2 = 1;
+	private static final float defaultCropy2 = 1;
+	
+	
+	private static Slideshow currentSlideshow;
 
 	/**
 	 * @throws java.lang.Exception
 	 */
-	@Before
-	public void setUp() throws Exception {
-		this.currentSlideshow = new ImprovedXMLReader("pws.xml").getSlideshow();
+	@BeforeClass
+	public static void setUp() throws Exception {
+		currentSlideshow = new ImprovedXMLReader("testingXMLParser.xml").getSlideshow();
 	}
 
 	@Test
@@ -46,10 +66,11 @@ public class XMLTest {
 	
 	@Test
 	public void testSlideshowDocInfoCorrectReturns() {
-		assertTrue(currentSlideshow.getInfo().getAuthor().equals("Tom Davidson"));
-		assertTrue(currentSlideshow.getInfo().getVersion().equals("1.0"));
-		assertTrue(currentSlideshow.getInfo().getComment().equals("this is a comment"));
-		assertTrue(currentSlideshow.getInfo().getGroupID().equals("2"));
+		DocumentInfo info = currentSlideshow.getInfo();
+		assertTrue(info.getAuthor().equals("Tom Davidson"));
+		assertTrue(info.getVersion().equals("1.0"));
+		assertTrue(info.getComment().equals("this is a comment"));
+		assertTrue(info.getGroupID().equals("2"));
 	}
 	
 	@Test
@@ -59,12 +80,23 @@ public class XMLTest {
 	
 	@Test
 	public void testSlideshowDefaultSettingsCorrectReturns() {
-		assertTrue(currentSlideshow.getDefaults().getBackgroundColor().equals("#ff00ff00"));
-		assertFalse(currentSlideshow.getDefaults().getFont().equals("times new roman"));
-		assertTrue(currentSlideshow.getDefaults().getFont().equals("Times New Roman"));
-		assertTrue(currentSlideshow.getDefaults().getFontSize() == 24);
-		assertTrue(currentSlideshow.getDefaults().getFontColor().equals("#ffcccc00"));
-		assertTrue(currentSlideshow.getDefaults().getGraphicColor().equals("#ffaaaa00"));
+		Defaults defaults = currentSlideshow.getDefaults();
+		assertTrue(defaults.getBackgroundColor().equals(defaultBackgroundColor));
+		assertFalse(defaults.getFont().equals("times new roman"));
+		assertTrue(defaults.getFont().equals(defaultFontName));
+		assertTrue(defaults.getFontSize() == defaultFontSize);
+		assertTrue(defaults.getFontColor().equals(defaultFontColor));
+		assertTrue(defaults.getGraphicColor().equals(defaultGraphicColor));
+		assertTrue(defaults.getHighlightColor().equals(defaultHighlightColor));
+		assertTrue(defaults.getStartTime() == defaultStartTime);
+		assertTrue(defaults.getDuration() == defaultDuration);
+		assertTrue(defaults.getAlignment().equals(defaultAlignment));
+		assertTrue(defaults.getScale() == defaultScale);
+		assertTrue(defaults.getRotation() == defaultRotation);
+		assertTrue(defaults.getCropX1() == defaultCropx1);
+		assertTrue(defaults.getCropY1() == defaultCropy1);
+		assertTrue(defaults.getCropX2() == defaultCropx2);
+		assertTrue(defaults.getCropY2() == defaultCropy2);
 	}
 	
 	@Test
@@ -74,59 +106,35 @@ public class XMLTest {
 	
 	@Test
 	public void testSlideshowSlidesListCorrectSize() {
-		assertTrue(currentSlideshow.getSlides().size() == 2);
+		assertTrue(currentSlideshow.getSlides().size() == 1);
 	}
 	
 	@Test
-	public void testSlideshowSlideOneContainsAllLists() {
-		assertTrue(currentSlideshow.getSlides().get(0).getAudiosList() != null);
-		assertTrue(currentSlideshow.getSlides().get(0).getVideosList() != null);
-		assertTrue(currentSlideshow.getSlides().get(0).getImagesList() != null);
-		assertTrue(currentSlideshow.getSlides().get(0).getGraphicsList() != null);
-		assertTrue(currentSlideshow.getSlides().get(0).getTextList() != null);
+	public void testSlideshowSlideOneContainsList() {
+		assertTrue(currentSlideshow.getSlides().get(0).getAll() != null);
 	}
-	
+
 	@Test
-	public void testSlideshowSlideTwoContainsAllLists() {
-		assertTrue(currentSlideshow.getSlides().get(1).getAudiosList() != null);
-		assertTrue(currentSlideshow.getSlides().get(1).getVideosList() != null);
-		assertTrue(currentSlideshow.getSlides().get(1).getImagesList() != null);
-		assertTrue(currentSlideshow.getSlides().get(1).getGraphicsList() != null);
-		assertTrue(currentSlideshow.getSlides().get(1).getTextList() != null);
-	}
-	
-	@Test
-	public void testSlideOneTextListCorrectSize() {
-		assertTrue(currentSlideshow.getSlides().get(1).getTextList().size() == 3);
-	}
-	
-	@Test
-	public void testSlideOneGraphicsListCorrectSize() {
-		assertTrue(currentSlideshow.getSlides().get(1).getGraphicsList().size() == 6);
-	}
-	
-	@Test
-	public void testSlideOneImagesListCorrectSize() {
-		assertTrue(currentSlideshow.getSlides().get(1).getImagesList().size() == 2);
-	}
-	
-	@Test
-	public void testSlideOneAudiosListCorrectSize() {
-		assertTrue(currentSlideshow.getSlides().get(1).getAudiosList().size() == 1);
-	}
-	
-	@Test
-	public void testSlideOneVideosListCorrectSize() {
-		assertTrue(currentSlideshow.getSlides().get(1).getVideosList().size() == 1);
+	public void testSlideOneListCorrectSize() {
+		assertTrue(currentSlideshow.getSlide(0).getAll().size() == 24);
 	}
 	
 	@Test
 	public void testSlideOneTextOne() {
-		Text text = currentSlideshow.getSlides().get(1).getTextList().get(0);
-		System.out.println(" HAHAHSHSA " + currentSlideshow.getSlide(1).getImage(1).getSourceFile());
-		assertTrue(text.getAlignment().equals("none"));
+		Text text = (Text)currentSlideshow.getSlides().get(0).get(0);
+		assertTrue(text.getAlignment().equals(defaultAlignment));
+		assertTrue(text.getBackgroundColor().equals(defaultBackgroundColor));
+		assertTrue(text.getDuration() == 1.5);
+		assertTrue(text.getTextFragment(0).getFont().equals("Arial"));
+		assertTrue(text.getTextFragment(0).getFontColor().equals("#00112233"));
+		assertTrue(text.getTextFragment(0).getFontSize() == 26);
+		assertTrue(text.getTextFragment(0).getHighlightColor().equals(defaultHighlightColor));
+		assertTrue(text.getSourceFile() == null);
+		assertTrue(text.getStartTime() == defaultStartTime);
+		assertTrue(text.getXStart() == 0.5);
+		assertTrue(text.getYStart() == 0.5);
+		assertTrue(text.getTextFragment(0).getText().equals("Some Text."));
 		/* Needs Finishing */
-		assertTrue(currentSlideshow.getSlide(1).getImage(1).getSourceFile() != null);
 	}
 
 }

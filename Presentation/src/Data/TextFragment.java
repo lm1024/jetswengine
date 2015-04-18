@@ -17,6 +17,16 @@ public class TextFragment implements Cloneable {
 	private double fontSize;
 	private String text;
 	
+	/**
+	 * @Initialises a new text fragment
+	 */
+	public TextFragment(Defaults defaults) {
+		this.font = defaults.getFont();
+		this.fontColor = defaults.getFontColor();
+		this.fontSize = defaults.getFontSize();
+		this.highlightColor = defaults.getHighlightColor();
+	}
+	
 	public TextFragment clone(){  
 	    try{  
 	        return (TextFragment)super.clone();  
@@ -36,18 +46,9 @@ public class TextFragment implements Cloneable {
 		System.out.println("Highlight Color: " + highlightColor);
 		System.out.println("Font: " + font);
 		System.out.println("Font Size: " + fontSize);
+		System.out.println("Newline: " + newline);
 		System.out.println("Text: \"" + text + "\"");
 		System.out.println("");
-	}
-
-	/**
-	 * @Initialises a new text fragment
-	 */
-	public TextFragment(Defaults defaults) {
-		this.font = defaults.getFont();
-		this.fontColor = defaults.getFontColor();
-		this.fontSize = defaults.getFontSize();
-		this.highlightColor = defaults.getHighlightColor();
 	}
 
 	/**

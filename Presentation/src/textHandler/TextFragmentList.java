@@ -3,8 +3,6 @@ package textHandler;
 
 import java.util.ArrayList;
 
-import textHandler.TextObject.TextFragmentBuilder;
-
 import Data.TextFragment;
 
 /**
@@ -21,8 +19,8 @@ public class TextFragmentList {
 		textFragmentList = new ArrayList<TextFragment>();
 	}
 
-	public void add(TextFragmentBuilder textFragmentBuilder) {
-		textFragmentList.add(textFragmentBuilder.build());
+	public void add(TextFragment textFragment) {
+		textFragmentList.add(textFragment);
 	}
 
 	ArrayList<TextFragment> getList() {
