@@ -11,6 +11,8 @@ import imageHandler.ImageObject;
 import graphicsHandler.GraphicObject.GraphicBuilder;
 import graphicsHandler.GraphicType;
 import graphicsHandler.GraphicsHandler;
+import graphicsHandler.Shading;
+import graphicsHandler.Shadow;
 import graphsHandler.PieChartObject;
 import graphsHandler.GraphHandler;
 import sofia.AudioHandler;
@@ -21,6 +23,7 @@ import textHandler.TextHandler;
 import textHandler.TextObject;
 import Data.Answer;
 import Data.Audio;
+import Data.CommonShapes.Oval;
 import Data.Graphic;
 import Data.Image;
 import Data.Question;
@@ -54,8 +57,6 @@ public class SlideRenderer {
 	private float slideHeight;
 
 	private Slide currentSlide;
-
-	private Rectangle boundaryRect;
 
 	public SlideRenderer(Group group) {
 		this.group = group;
@@ -100,7 +101,7 @@ public class SlideRenderer {
 			}
 		}
 	}
-	
+
 	public void updateSlide(long currentTimeIntoSlide) {
 		int currentTextNumber = 0;
 		int currentImageNumber = 0;
@@ -154,14 +155,14 @@ public class SlideRenderer {
 			imageHandler.setVisible(numberOfObject, visible);
 			break;
 		case "Audio":
-			//audioHandler.setVisible(numberOfObject, visible); //TODO
+			// audioHandler.setVisible(numberOfObject, visible); //TODO
 			break;
 		case "Video":
 			videoHandler.setVisible(numberOfObject, visible);
 			videoHandler.playVideo(numberOfObject);
 			break;
 		default:
-			graphicsHandler.setVisible(numberOfObject, visible);		
+			graphicsHandler.setVisible(numberOfObject, visible);
 		}
 	}
 
@@ -172,8 +173,10 @@ public class SlideRenderer {
 		float xStartPos = convXRelCoordToAbsCoord(currentGraphic.getXStart());
 		float yStartPos = convYRelCoordToAbsCoord(currentGraphic.getYStart());
 
-		GraphicBuilder graphicBuilder = new GraphicBuilder(GraphicType.RECTANGLE, xStartPos, yStartPos).xEndPos(
-				convXRelCoordToAbsCoord(1f)).yEndPos(convYRelCoordToAbsCoord(1f));
+		GraphicBuilder graphicBuilder;// = new
+										// GraphicBuilder(GraphicType.RECTANGLE,
+										// xStartPos, yStartPos).xEndPos(
+		// convXRelCoordToAbsCoord(1f)).yEndPos(convYRelCoordToAbsCoord(1f));
 
 		switch (graphicType) {
 		case ARC:
@@ -191,6 +194,9 @@ public class SlideRenderer {
 		case LINE:
 			break;
 		case OVAL:
+			Oval oval = (Oval) currentGraphic;
+			graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos).color(oval.getGraphicColor()).solid(
+					true/* oval.getSolid() TODO */).outlineColor("#00000000"/* TODO oval.getOutlineColor()*/).outlineThickness(0 /*oval.getThickness()*/).shadow(Shadow.NONE/*TODO turn string to enum oval.getShadow()*/).rotation(0/* oval.getRotation() */).shadingType(Shading.NONE/* TODO change string to enum oval.getShadingType()*/);
 			break;
 		case POLYGON:
 			break;
@@ -255,7 +261,7 @@ public class SlideRenderer {
 
 		textHandler.createTextbox(new TextObject.TextBoxBuilder(xStart, yStart).xEnd(xEnd).yEnd(yEnd)
 				.backgroundColor(backgroundColor).alignment(alignment).textFragmentList(textFragmentList).build());
-		
+
 		if (currentText.getStartTime() != 0) {
 			textHandler.setVisible(textHandler.getTextCount() - 1, false);
 		}
@@ -337,23 +343,23 @@ public class SlideRenderer {
 
 	public void buildAnswerSlide(Question question) {
 		System.out.println("Building graph");
-		
+
 		PieChartObject answerChart = new PieChartObject();
 		answerChart.setTitle(question.getId());
 		answerChart.setxStartPos(0);
 		answerChart.setyStartPos(0);
 		answerChart.setScale(1);
-		
+
 		ArrayList<String> answerNames = new ArrayList<String>();
 		ArrayList<Float> answerValues = new ArrayList<Float>();
-		
-		for(Answer tempAnswer : question.getAnswers()) {
+
+		for (Answer tempAnswer : question.getAnswers()) {
 			answerNames.add(tempAnswer.getId());
-			answerValues.add((float)tempAnswer.getAnswerCount());
+			answerValues.add((float) tempAnswer.getAnswerCount());
 		}
-		
+
 		answerChart.setPieChartData(answerNames, answerValues);
-		
-		graphHandler.drawPieChart(answerChart);	
+
+		graphHandler.drawPieChart(answerChart);
 	}
 }
