@@ -20,7 +20,7 @@
 	</slide>
 
 	<slide>
-		<graphic graphiccolor="#ff000000" starttime="1.0">
+		<graphic graphiccolor="#ff000000">
 			<rectangle xstart="0" ystart="0" xend="1" yend="1" solid="true" />
 		</graphic>
 		<text xstart="0.1" ystart="0.1" xend="0.3" yend="0.3" font="arial"
@@ -69,7 +69,8 @@
 		<video sourcefile="M:\Sweng\avengers-featurehp.mp4" starttime="2.4"
 			xstart="0.5" ystart="0.5" />
 		<text xstart="0.6" ystart="0.1" xend="0.9" yend="0.3" font="arial"
-			fontsize="24" fontcolor="#ff00ff00" starttime="0" duration="5" alignment="left/right/centre">
+			fontsize="24" fontcolor="#ff00ff00" starttime="0" duration="5"
+			alignment="left/right/centre">
 			<richtext font="times new roman" fontsize="26" fontcolor="#ff00ff00"
 				newline="true" b="true" i="true" u="true" strikethrough="true"
 				superscript="true" subscript="true" case="upper">Example text1! </richtext>
@@ -101,5 +102,78 @@
 		</graphic>
 		<audio sourcefile="Uppermost - Flow.mp3" starttime="2.5" xstart="0.4"
 			ystart="0.4" />
+	</slide>
+
+	<slide>
+		<graphic graphiccolor="#11223344" starttime="2.0">
+			<circle xstart="0.5" ystart="0.5" size="10" solid="true"
+				outlinecolor="#00000000" outlinethickness="1.0" rotation="0" />
+			<shadow weight="heavy/normal/light" />
+			<cyclicshading shadingcolor="#88776655">
+				<shading shadingcolor="#00aabbcc" />
+				<shading shadingcolor="#00aabbcc" />
+			</cyclicshading>
+		</graphic>
+
+		<graphic graphiccolor="#11223344" starttime="2.0">
+			<square xstart="0.5" ystart="0.5" size="10" solid="true"
+				arcwidth="10" archeight="10" outlinecolor="#00000000"
+				outlinethickness="1.0" rotation="0" />
+		</graphic>
+
+
+		<!-- Arrowhead size parameter ? -->
+		<graphic graphiccolor="#11223344" starttime="2.0"> <!-- Again, no shadow -->
+			<arrow xstart="0.5" ystart="0.5" xend="0.7" yend="0.7"
+				thickness="1.0" />
+		</graphic>
+
+		<graphic graphiccolor="#11223344" starttime="2.0">
+			<equitriangle xstart="0.5" ystart="0.5" size="10" solid="true"
+				outlinecolor="#00000000" outlinethickness="1.0" rotation="0" />
+		</graphic>
+
+		<graphic graphiccolor="#11223344" starttime="2.0">
+			<triangle xstart="0.1" ystart="0.1" solid="true"
+				outlinecolor="#00000000" outlinethickness="1.0" rotation="0">
+				<point x="0.1" y="0.5" />
+				<point x="0.25" y="0.6" />
+				<point x="0.2" y="0.7" />
+			</triangle>
+		</graphic>
+
+		<!-- Removed width and height and added size, else it wouldn't be regular -->
+		<graphic graphiccolor="#11223344" starttime="2.0">
+			<regpolygon xstart="0.5" ystart="0.5" size="10"
+				numberofsides="5" solid="true" outlinecolor="#00000000"
+				outlinethickness="1.0" rotation="0" />
+		</graphic>
+
+		<graphic graphiccolor="#11223344" starttime="2.0">
+			<polygon xstart="0.1" ystart="0.1" solid="true" outlinecolor="#00000000"
+				outlinethickness="1.0" rotation="0">
+				<point x="0.1" y="0.5" />
+				<point x="0.25" y="0.6" />
+				<point x="0.2" y="0.7" />
+			</polygon>
+		</graphic>
+
+		<graphic graphiccolor="#11223344" starttime="2.0">
+			<star xstart="0.5" ystart="0.5" size="10" numberofpoints="5"
+				solid="true" outlinecolor="#00000000" outlinethickness="1.0"
+				rotation="0" />
+		</graphic>
+
+		<graphic graphiccolor="#11223344" starttime="2.0">
+			<chord xstart="0.5" ystart="0.5" width="10" height="10"
+				arcangle="5" length="10" solid="true" outlinecolor="#00000000"
+				outlinethickness="1.0" rotation="0" />
+		</graphic>
+
+		<graphic graphiccolor="#11223344" starttime="2.0">
+			<arc xstart="0.5" ystart="0.5" width="10" height="10" arcangle="5"
+				length="10" solid="true" outlinecolor="#00000000" outlinethickness="1.0"
+				rotation="0" />
+		</graphic>
 	</slide>
 </slideshow>

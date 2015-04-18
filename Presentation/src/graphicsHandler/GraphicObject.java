@@ -333,7 +333,11 @@ public class GraphicObject {
 	 */
 	protected static boolean verifyColor(String color) {
 		/* Checking that color is a 8 digit long hex string */
-		return (color.matches("^([#]([0-9a-fA-F]{8}))$"));
+		try {
+			return color.matches("^([#]([0-9a-fA-F]{8}))$");
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 	/**

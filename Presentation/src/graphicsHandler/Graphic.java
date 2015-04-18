@@ -110,7 +110,7 @@ public class Graphic {
 			drawCircle(xStartPos, yStartPos, radius, color, solid, outlineColor, outlineThickness, shadowType,
 					shadingType, shadingStops);
 			break;
-		case EQUITRIANGLE:
+		case EQUILATERALTRIANGLE:
 			drawEquiTriangle(xStartPos, yStartPos, length, color, solid, outlineColor, outlineThickness, shadowType,
 					rotation, shadingType, shadingStops);
 			break;

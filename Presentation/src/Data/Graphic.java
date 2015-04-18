@@ -11,10 +11,10 @@ import Data.OtherShapes.*;
 public class Graphic extends SlideItem {
 
 	private String graphicColor;
-	private String shadow;
+	private String shadow = "None";
 	private List<String> shadingList;
 	private List<Float> stopValuesList;
-	private String shadingType;
+	private String shadingType = "None";
 
 	public Graphic(Defaults defaults) {
 		super(defaults);

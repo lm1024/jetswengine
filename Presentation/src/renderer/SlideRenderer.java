@@ -24,9 +24,21 @@ import textHandler.TextObject;
 import Data.Answer;
 import Data.Audio;
 import Data.CommonShapes.Oval;
+import Data.CommonShapes.Rectangle;
 import Data.Graphic;
 import Data.Image;
+import Data.OtherShapes.Arc;
+import Data.OtherShapes.Arrow;
+import Data.OtherShapes.Chord;
+import Data.OtherShapes.Line;
+import Data.OtherShapes.Polygon;
+import Data.OtherShapes.Triangle;
 import Data.Question;
+import Data.RadialShapes.Circle;
+import Data.RadialShapes.EquilateralTriangle;
+import Data.RadialShapes.RegularPolygon;
+import Data.RadialShapes.Square;
+import Data.RadialShapes.Star;
 import Data.Slide;
 import Data.SlideItem;
 import Data.Text;
@@ -34,7 +46,6 @@ import Data.TextFragment;
 import Data.Video;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
 /**
  * @author Fiery
@@ -173,48 +184,135 @@ public class SlideRenderer {
 		float xStartPos = convXRelCoordToAbsCoord(currentGraphic.getXStart());
 		float yStartPos = convYRelCoordToAbsCoord(currentGraphic.getYStart());
 
-		GraphicBuilder graphicBuilder;// = new
-										// GraphicBuilder(GraphicType.RECTANGLE,
-										// xStartPos, yStartPos).xEndPos(
-		// convXRelCoordToAbsCoord(1f)).yEndPos(convYRelCoordToAbsCoord(1f));
+		GraphicBuilder graphicBuilder;
 
 		switch (graphicType) {
 		case ARC:
-
-			// graphicBuilder.
+			Arc arc = (Arc) currentGraphic;
+			graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos).width(arc.getWidth())
+					.height(arc.getHeight()).arcAngle(arc.getArcAngle()).length(arc.getLength())
+					.color(arc.getGraphicColor()).solid(arc.isSolid()).outlineColor(arc.getOutlineColor())
+					.outlineThickness(arc.getOutlineThickness()).shadow(arc.getShadow()).rotation(arc.getRotation())
+					.shadingType(arc.getShadingType());
 			break;
 		case ARROW:
+			Arrow arrow = (Arrow) currentGraphic;
+			graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos).xEndPos(convXRelCoordToAbsCoord(arrow.getXEnd()))
+					.yEndPos(convYRelCoordToAbsCoord(arrow.getYEnd())).color(arrow.getGraphicColor()).shadingType(arrow.getShadingType());
 			break;
 		case CHORD:
+			Chord chord = (Chord) currentGraphic;
+			graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos).width(chord.getWidth())
+					.height(chord.getHeight()).arcAngle(chord.getArcAngle()).length(chord.getLength())
+					.color(chord.getGraphicColor()).solid(chord.isSolid()).outlineColor(chord.getOutlineColor())
+					.outlineThickness(chord.getOutlineThickness()).shadow(chord.getShadow())
+					.rotation(chord.getRotation()).shadingType(chord.getShadingType());
 			break;
 		case CIRCLE:
+			Circle circle = (Circle) currentGraphic;
+			/*
+			 * TODO circle . getRadius ( )
+			 */
+			graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos).radius(10)
+					.color(circle.getGraphicColor()).solid(circle.isSolid()).outlineColor(circle.getOutlineColor())
+					.outlineThickness(circle.getOutlineThickness()).shadow(circle.getShadow())
+					.rotation(circle.getRotation()).shadingType(circle.getShadingType());
 			break;
-		case EQUITRIANGLE:
+		case EQUILATERALTRIANGLE:
+			EquilateralTriangle eTri = (EquilateralTriangle) currentGraphic;
+			graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos).length(eTri.getSize())
+					.color(eTri.getGraphicColor()).solid(eTri.isSolid()).outlineColor(eTri.getOutlineColor())
+					.outlineThickness(eTri.getOutlineThickness()).shadow(eTri.getShadow()).rotation(eTri.getRotation())
+					.shadingType(eTri.getShadingType());
 			break;
 		case LINE:
+			Line line = (Line) currentGraphic;
+			graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos).xEndPos(convXRelCoordToAbsCoord(line.getXEnd()))
+					.yEndPos(convYRelCoordToAbsCoord(line.getYEnd())).color(line.getGraphicColor()).outlineThickness(line.getThickness())
+					.shadow(line.getShadow()).shadingType(line.getShadingType());
 			break;
 		case OVAL:
 			Oval oval = (Oval) currentGraphic;
-			graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos).color(oval.getGraphicColor()).solid(
-					true/* oval.getSolid() TODO */).outlineColor("#00000000"/* TODO oval.getOutlineColor()*/).outlineThickness(0 /*oval.getThickness()*/).shadow(Shadow.NONE/*TODO turn string to enum oval.getShadow()*/).rotation(0/* oval.getRotation() */).shadingType(Shading.NONE/* TODO change string to enum oval.getShadingType()*/);
+			graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos).color(oval.getGraphicColor())
+					.solid(oval.isSolid()).outlineColor(oval.getOutlineColor())
+					.outlineThickness(oval.getOutlineThickness()).shadow(oval.getShadow()).rotation(oval.getRotation())
+					.shadingType(oval.getShadingType());
 			break;
 		case POLYGON:
-			break;
-		case RECTANGLE:
-			/* TODO rect.getArcWidth() */
-			/* TODO rect.getArcHeight() */
+			Polygon pol = (Polygon) currentGraphic;
+			graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos).color(pol.getGraphicColor())
+					.solid(pol.isSolid()).outlineColor(pol.getOutlineColor())
+					.outlineThickness(pol.getOutlineThickness()).shadow(pol.getShadow()).rotation(pol.getRotation())
+					.shadingType(pol.getShadingType());
+
+			/* Add all the points of the polygon to the graphic builder */
+			for (int i = 0; i < pol.getxPoints().size(); i++) {
+				graphicBuilder.polygonCoordinate(convXRelCoordToAbsCoord(pol.getxPoints().get(i)), convYRelCoordToAbsCoord(pol.getyPoints().get(i)));
+			}
+
 			break;
 		case REGULARPOLYGON:
+			RegularPolygon regPol = (RegularPolygon) currentGraphic;
+			graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos)
+					.numberOfSides(regPol.getNumberOfSides()).color(regPol.getGraphicColor()).solid(regPol.isSolid())
+					.outlineColor(regPol.getOutlineColor()).outlineThickness(regPol.getOutlineThickness())
+					.shadow(regPol.getShadow()).rotation(regPol.getRotation()).shadingType(regPol.getShadingType());
+
 			break;
 		case SQUARE:
+			Square square = (Square) currentGraphic;
+			/*
+			 * TODO square . getLength ( )
+			 */
+			graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos).length(10)
+					.color(square.getGraphicColor()).solid(square.isSolid()).outlineColor(square.getOutlineColor())
+					.outlineThickness(square.getOutlineThickness()).shadow(square.getShadow())
+					.rotation(square.getRotation()).shadingType(square.getShadingType());
 			break;
 		case STAR:
+			Star star = (Star) currentGraphic;
+			/*
+			 * TODO this needs fixing star . getNumberOfPoints ( )
+			 */
+			graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos).numberOfPoints(5)
+					.color(star.getGraphicColor()).solid(star.isSolid()).outlineColor(star.getOutlineColor())
+					.outlineThickness(star.getOutlineThickness()).shadow(star.getShadow()).rotation(star.getRotation())
+					.shadingType(star.getShadingType());
 			break;
 		case TRIANGLE:
+			Triangle triangle = (Triangle) currentGraphic;
+			graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos)
+					.triangleCoordinates(convXRelCoordToAbsCoord(triangle.getxPoints().get(0)), convYRelCoordToAbsCoord(triangle.getyPoints().get(0)),
+							convXRelCoordToAbsCoord(triangle.getxPoints().get(1)), convYRelCoordToAbsCoord(triangle.getyPoints().get(1)), convXRelCoordToAbsCoord(triangle.getxPoints().get(2)),
+							convYRelCoordToAbsCoord(triangle.getyPoints().get(2))).color(triangle.getGraphicColor()).solid(triangle.isSolid())
+					.outlineColor(triangle.getOutlineColor()).outlineThickness(triangle.getOutlineThickness())
+					.shadow(triangle.getShadow()).rotation(triangle.getRotation())
+					.shadingType(triangle.getShadingType());
+
 			break;
 		default:
+			/* For any other shape, by default make a rectangle */
+			Rectangle rectangle = (Rectangle) currentGraphic;
+			rectangle.printItem();
+			graphicBuilder = new GraphicBuilder(GraphicType.RECTANGLE, xStartPos, yStartPos)
+					.xEndPos(convXRelCoordToAbsCoord(rectangle.getXEnd())).yEndPos(convYRelCoordToAbsCoord(rectangle.getYEnd())).arcWidth(rectangle.getArcWidth())
+					.arcHeight(rectangle.getArcHeight()).color(rectangle.getGraphicColor()).solid(rectangle.isSolid())
+					.outlineColor(rectangle.getOutlineColor()).outlineThickness(rectangle.getOutlineThickness())
+					.shadow(rectangle.getShadow()).rotation(rectangle.getRotation())
+					.shadingType(rectangle.getShadingType());
 			break;
 
+		}
+
+		/*
+		 * Loop through all the stops for the current graphic and add them to
+		 * the graphicHandler
+		 */
+		if (currentGraphic.getStopValuesList() != null) {
+			for (int i = 0; i < currentGraphic.getStopValuesList().size(); i++) {
+				graphicBuilder.shadingElement(currentGraphic.getShadingList().get(i), currentGraphic.getStopValuesList()
+						.get(i));
+			}
 		}
 
 		graphicsHandler.createGraphic(graphicBuilder.build());
@@ -332,7 +430,7 @@ public class SlideRenderer {
 	}
 
 	public void clear() {
-		// clear videos and audio
+		/* Clear all the handlers */
 		audioHandler.clearAudios();
 		videoHandler.clearVideos();
 		imageHandler.clearImages();
