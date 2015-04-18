@@ -49,7 +49,6 @@ public class SlideHandler extends DefaultHandler {
 		switch (elementName) {
 		case "slide":
 			slide.setDuration(attributes.getValue("duration"));
-			slide.setBackgroundColor(attributes.getValue("backgroundcolor"));
 			break;
 		case "text":
 			reader.setContentHandler(new TextHandler(reader, this, slide));
@@ -99,5 +98,7 @@ public class SlideHandler extends DefaultHandler {
 			System.err.println("Unknown end element encountered: "
 					+ elementName);
 		}
+
 	}
+
 }

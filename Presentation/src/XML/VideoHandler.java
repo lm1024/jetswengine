@@ -36,7 +36,7 @@ public class VideoHandler extends DefaultHandler {
 			video.setStartTime(attributes.getValue("starttime"));
 			video.setXStart(attributes.getValue("xstart"));
 			video.setYStart(attributes.getValue("ystart"));
-			slide.add(video);
+			slide.addVideo(video);
 			reader.setContentHandler(parentHandler);
 		} else {
 			System.err.println("Unknown Video start element encountered: " + elementName);

@@ -1,5 +1,6 @@
 package graphsHandler;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Group;
 import javafx.scene.chart.BarChart;
@@ -9,34 +10,31 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Series;
 
-public class GraphHandler {
+public class GraphsHandler {
 	
 	private Group group;
 	
 	/**
-	 * Constructor for the graphsHandler.
+	 * Constructor for the graphicsHandler.
 	 * 
 	 * @param group
-	 *            The group that all of the graphs are to be drawn to.
+	 *            The group that all of the graphics are to be drawn to.
 	 */
-	public GraphHandler(Group group) {
+	public GraphsHandler(Group group) {
 		this.group = group;
 	}
 	
-	public void drawPieChart(PieChartObject pieChartObject) {
-		ObservableList<PieChart.Data> pieChartData = pieChartObject.getPieChartData();
-		String title = pieChartObject.getTitle();
-		float xStartPos = pieChartObject.getxStartPos();
-		float yStartPos = pieChartObject.getyStartPos();
-		float scale = pieChartObject.getScale();
-		
+	public void drawPieChart(int x, int y, float size, String title, String[] dataNames, float[] dataValues) {
+		ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
+		for (int i = 0; i < dataValues.length; i++) {
+			pieChartData.add(new PieChart.Data(dataNames[i], dataValues[i]));
+		}
 		PieChart pChart = new PieChart(pieChartData);
 		pChart.setTitle(title);
-		pChart.setLayoutX(xStartPos);
-		pChart.setLayoutY(yStartPos);
-		pChart.setScaleX(scale);
-		pChart.setScaleY(scale);
-		System.out.println("Adding graph");
+		pChart.setLayoutX(x);
+		pChart.setLayoutY(y);
+		pChart.setScaleX(size);
+		pChart.setScaleY(size);
 		group.getChildren().add(pChart);
 	}
 
