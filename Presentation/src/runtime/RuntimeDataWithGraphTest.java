@@ -48,7 +48,7 @@ public class RuntimeDataWithGraphTest extends Application {
 		Slide slide2 = new Slide(slideshow.getDefaults());
 		slideshow.addSlide(slide2);
 
-		final SlideshowRuntimeData slideshowRuntimeData = new SlideshowRuntimeData(slideshow, group);
+		final SlideshowRuntimeData slideshowRuntimeData = new SlideshowRuntimeData(slideshow);
 
 		primaryStage.setOnHiding(new EventHandler<WindowEvent>() {
 

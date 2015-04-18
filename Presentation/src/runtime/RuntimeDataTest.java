@@ -33,7 +33,7 @@ public class RuntimeDataTest extends Application {
 
 		Slideshow slideshow = new ImprovedXMLReader("test.xml").getSlideshow();
 
-		final SlideshowRuntimeData slideshowRuntimeData = new SlideshowRuntimeData(slideshow, group);
+		final SlideshowRuntimeData slideshowRuntimeData = new SlideshowRuntimeData(slideshow);
 		
 		primaryStage.setOnHiding(new EventHandler<WindowEvent>() {
 
@@ -43,7 +43,7 @@ public class RuntimeDataTest extends Application {
 			}
 		});
 
-		primaryStage.show();
+		//primaryStage.show();
 
 		
 	}
