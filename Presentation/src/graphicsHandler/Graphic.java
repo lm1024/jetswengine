@@ -106,7 +106,7 @@ public class Graphic {
 			drawChord(xStartPos, yStartPos, width, height, arcAngle, length, color, solid, outlineColor,
 					outlineThickness, shadowType, rotation, shadingType, shadingStops);
 			break;
-		case CIRCLE:
+		case CIRCLE: //TODO circle rotation
 			drawCircle(xStartPos, yStartPos, radius, color, solid, outlineColor, outlineThickness, shadowType,
 					shadingType, shadingStops);
 			break;
@@ -115,7 +115,7 @@ public class Graphic {
 					rotation, shadingType, shadingStops);
 			break;
 		case LINE:
-			drawLine(xStartPos, yStartPos, xEndPos, yEndPos, color, width, shadingType, shadingStops);
+			drawLine(xStartPos, yStartPos, xEndPos, yEndPos, color, outlineThickness, shadingType, shadingStops);
 			break;
 		case OVAL:
 			drawOval(xStartPos, yStartPos, xEndPos, yEndPos, color, solid, outlineColor, outlineThickness, shadowType,
