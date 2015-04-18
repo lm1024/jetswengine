@@ -12,7 +12,10 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 import renderer.SlideRenderer;
 import Data.Question;
 import Data.Slide;
@@ -26,6 +29,7 @@ public class SlideshowRuntimeData {
 	private SlideRenderer slideRenderer;
 
 	private Scene scene;
+	private Stage secondaryStage;
 
 	private long currentSlideStartTime;
 
@@ -41,18 +45,27 @@ public class SlideshowRuntimeData {
 
 	private ScheduledFuture<?> currentTask;
 
-	public SlideshowRuntimeData(Slideshow slideshow, Group group) {
+	public SlideshowRuntimeData(Slideshow slideshow) {
 		this.slideshow = slideshow;
 		this.currentXAspectRatio = 16;// slideshow.getInfo().getXAspectRatio()
 		this.currentYAspectRatio = 9;// slideshow.getInfo().getYAspectRatio()
 
+		Group group = new Group();
+		secondaryStage = new Stage();
+
+		this.scene = new Scene(group, 10, 10);
+		secondaryStage.setScene(scene);
+
+		secondaryStage.setFullScreen(true);
+		secondaryStage.show();
+
 		this.slideRenderer = new SlideRenderer(group);
-		this.scene = group.getScene();
 
 		scene.setOnMouseClicked(new MouseClickHandler());
 
 		scene.widthProperty().addListener(new WindowResizeHandler());
 		scene.heightProperty().addListener(new WindowResizeHandler());
+		scene.setOnKeyPressed(new KeyboardHandler());
 
 		currentSlide = slideshow.getSlide(0);
 
@@ -159,8 +172,8 @@ public class SlideshowRuntimeData {
 					slideRenderer.clear();
 					slideRenderer.buildAnswerSlide(currentSlide.getQuestion());
 					currentSlide = null;
-				} 
-				/* If we just need to move forwards a slide*/
+				}
+				/* If we just need to move forwards a slide */
 				else {
 					moveForwards();
 					currentSlide = slideshow.getSlide(slideNumber);
@@ -181,9 +194,38 @@ public class SlideshowRuntimeData {
 				Number newSceneHeight) {
 			updateScreenBoundaries();
 		}
-
 	}
 
+	/*
+	 * Custom keyboard handler to handle keypresses. Handled events: Pressing
+	 * escape closes the window.
+	 */
+	private class KeyboardHandler implements EventHandler<KeyEvent> {
+		@Override
+		public void handle(KeyEvent keyEvent) {
+			
+			switch (keyEvent.getCode()) {
+			/* Close the screen if fullscreen is closed using the escape button */
+			case ESCAPE:
+				secondaryStage.close();
+				closeSlideshow();
+				break;
+			default:
+				break;
+			}
+
+			/*if (keyEvent.getCode() == KeyCode.ESCAPE) {
+				secondaryStage.close();
+				closeSlideshow();
+			}*/
+
+		}
+	}
+
+	/*
+	 * Method to increase the slide number if the current slide number is under
+	 * the number of slides in the slideshow.
+	 */
 	private void moveForwards() {
 		/* Change the value of slideNo accordingly */
 		if (slideNumber < slideshow.getSlides().size() - 1) {
@@ -191,6 +233,10 @@ public class SlideshowRuntimeData {
 		}
 	}
 
+	/*
+	 * Method to decrease the slide number if the current slide number is larger
+	 * than 0.
+	 */
 	private void moveBackwards() {
 		/* Change the value of slideNo accordingly */
 		if (slideNumber > 0) {
@@ -202,9 +248,12 @@ public class SlideshowRuntimeData {
 		return System.currentTimeMillis();
 	}
 
+	/*
+	 * Shuts down the scheduler so that events do not happen after the window
+	 * has been closed.
+	 */
 	public void closeSlideshow() {
-		System.out.println("Shutting down schedular");
-		System.out.println(scheduler.shutdownNow().toString());
+		scheduler.shutdownNow();
 	}
 
 }
