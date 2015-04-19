@@ -227,12 +227,12 @@ public class Graphic {
 		/* Set the outline parameters */
 		shape.setStroke(convertStringToColor(outlineColor));
 		shape.setStrokeWidth(outlineThickness);
-
 		if (solid) {
 			/*
 			 * Switch to set different types of shading using the shadingStops
 			 * created above
 			 */
+			System.err.println(shadingType.toString() + " " + shadingStops.toString());
 			switch (shadingType) {
 			case CYCLIC:
 				shape.setFill(new RadialGradient(0, 0, 0.5, 0.5, 0.5, true, CycleMethod.NO_CYCLE, shadingStops));

@@ -40,8 +40,8 @@ public class GraphicsHandlerTest extends Application {
 
 		graphicsHandler = new GraphicsHandler(group);
 
-		graphicsHandler.createGraphic(new GraphicObject.GraphicBuilder(GraphicType.SQUARE, 100, 100).length(50).color("#ffffff00")
-				.build());
+		graphicsHandler.createGraphic(new GraphicObject.GraphicBuilder(GraphicType.SQUARE, 100, 100).length(50).color("#ffffff00").outlineColor("#ffff0000").outlineThickness(2f)
+				.shadingType("Cyclic").shadingElement("#ff00ff00", 0.7f).build());
 
 		Button button1 = makeButton(200, 100, "1");
 		Button button2 = makeButton(250, 100, "2");

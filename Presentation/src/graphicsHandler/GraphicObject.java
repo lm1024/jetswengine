@@ -100,7 +100,6 @@ public class GraphicObject {
 		/* Populate an array list of stops from the already verified data */
 		for (int i = 0; i < shadingColors.size(); i++) {
 			if (verifyColor(shadingColors.get(i))) {
-				System.err.println("Stop: " + shadingColors.get(i));
 				stops.add(new Stop((double) stopOffset.get(i), convertStringToColor(shadingColors.get(i))));
 			}
 		}
@@ -698,7 +697,6 @@ public class GraphicObject {
 		 */
 		public GraphicBuilder shadingElement(String shadingColor, float offset) {
 			if (verifyColor(shadingColor) && (offset >= 0) && (offset <= 1)) {
-				System.err.println(shadingColor + " " + offset);
 				shadingColors.add(shadingColor);
 				offsets.add(offset);
 			}
