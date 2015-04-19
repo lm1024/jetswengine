@@ -33,6 +33,10 @@ public class GraphHandler {
 		
 		PieChart pChart = new PieChart(pieChartData);
 		pChart.setTitle(title);
+		
+		pChart.setStyle(".chart-title { -fx-text-fill: #ffffff; -fx-font-size: 2em; }");
+		
+		
 		pChart.setLayoutX(xStartPos);
 		pChart.setLayoutY(yStartPos);
 		

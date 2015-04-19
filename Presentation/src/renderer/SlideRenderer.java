@@ -442,8 +442,8 @@ public class SlideRenderer {
 	public void buildAnswerSlide(Question question) {
 		PieChartObject answerChart = new PieChartObject();
 
-		double chartWidth = convXRelCoordToAbsCoord(0.5f);
-		double chartHeight = convYRelCoordToAbsCoord(0.5f);
+		double chartWidth = convXRelCoordToAbsCoord(0.7f);
+		double chartHeight = convYRelCoordToAbsCoord(0.7f);
 
 		answerChart.setTitle(question.getId());
 
@@ -463,6 +463,11 @@ public class SlideRenderer {
 		answerChart.setPieChartData(answerNames, answerValues);
 
 		graphHandler.drawPieChart(answerChart);
+		
+		/* Section for printing the title */
+		
+		
+		
 	}
 
 	public class FullscreenEventHandler implements EventHandler<WindowEvent> {
