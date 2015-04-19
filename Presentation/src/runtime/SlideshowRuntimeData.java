@@ -12,12 +12,10 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import renderer.SlideRenderer;
-import Data.Question;
 import Data.Slide;
 import Data.SlideItem;
 import Data.Slideshow;
@@ -30,8 +28,6 @@ public class SlideshowRuntimeData {
 
 	private Scene scene;
 	private Stage secondaryStage;
-
-	private long currentSlideStartTime;
 
 	private double currentXAspectRatio;
 	private double currentYAspectRatio;
@@ -47,8 +43,8 @@ public class SlideshowRuntimeData {
 
 	public SlideshowRuntimeData(Slideshow slideshow) {
 		this.slideshow = slideshow;
-		this.currentXAspectRatio = 16;// slideshow.getInfo().getXAspectRatio()
-		this.currentYAspectRatio = 9;// slideshow.getInfo().getYAspectRatio()
+		this.currentXAspectRatio = 16;//TODO slideshow.getInfo().getXAspectRatio()
+		this.currentYAspectRatio = 9;//TODO slideshow.getInfo().getYAspectRatio()
 
 		Group group = new Group();
 		secondaryStage = new Stage();
@@ -193,6 +189,7 @@ public class SlideshowRuntimeData {
 		public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight,
 				Number newSceneHeight) {
 			updateScreenBoundaries();
+			secondaryStage.setFullScreen(true);
 		}
 	}
 
@@ -242,10 +239,6 @@ public class SlideshowRuntimeData {
 		if (slideNumber > 0) {
 			slideNumber--;
 		}
-	}
-
-	private long getCurrentTime() {
-		return System.currentTimeMillis();
 	}
 
 	/*

@@ -15,8 +15,8 @@ import graphicsHandler.Shading;
 import graphicsHandler.Shadow;
 import graphsHandler.PieChartObject;
 import graphsHandler.GraphHandler;
-import sofia.AudioHandler;
-import sofia.VideoHandler;
+import sofia.audio.AudioHandler;
+import sofia.video.VideoHandler;
 import textHandler.Alignment;
 import textHandler.TextFragmentList;
 import textHandler.TextHandler;
@@ -162,11 +162,10 @@ public class SlideRenderer {
 			textHandler.setVisible(numberOfObject, visible);
 			break;
 		case "Image":
-			System.out.println("   Setting image to visible: " + visible);
 			imageHandler.setVisible(numberOfObject, visible);
 			break;
 		case "Audio":
-			// audioHandler.setVisible(numberOfObject, visible); //TODO
+			audioHandler.setVisible(numberOfObject, visible); //TODO
 			break;
 		case "Video":
 			videoHandler.setVisible(numberOfObject, visible);
@@ -394,14 +393,15 @@ public class SlideRenderer {
 		float y = convYRelCoordToAbsCoord(currentAudio.getYStart());
 		float width = 400; // TODO currentAudio.getWidth();
 
-		// String sourceFile = currentAudio.getSourceFile(); //TODO
-		File sourceFile = new File(currentAudio.getSourceFile());
-
+		String sourceFile = currentAudio.getSourceFile(); //TODO
+		//File sourceFile = new File(currentAudio.getSourceFile());
+		
+		boolean loop = false;// TODO currentAudio.isLoop();
 		boolean autoPlay = false;// TODO currentAudio.isAutoPlay();
 		boolean visibleControls = true;// TODO currentAudio.isVisibleControls();
 		boolean playButtonOnly = false;// TODO currentAudio.isPlayButtonOnly();
 
-		audioHandler.createAudio(x, y, width, sourceFile, autoPlay, visibleControls, playButtonOnly);
+		audioHandler.createAudio(x, y, width, sourceFile, loop, autoPlay, visibleControls, playButtonOnly);
 	}
 
 	private void addVideo(Video currentVideo) {

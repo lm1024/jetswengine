@@ -433,6 +433,9 @@ public class GraphicObject {
 		public GraphicBuilder color(String color) {
 			if (verifyColor(color)) {
 				this.color = color;
+				
+				/* Also adds the first stop color value to the list */
+				shadingElement(color, 0);
 			}
 			return this;
 		}
@@ -490,7 +493,7 @@ public class GraphicObject {
 		 *            a float for the thickness of the outline
 		 */
 		public GraphicBuilder outlineThickness(float outlineThickness) {
-			if (outlineThickness <= 0) {
+			if (outlineThickness >= 0) {
 				this.outlineThickness = outlineThickness;
 			}
 			return this;
