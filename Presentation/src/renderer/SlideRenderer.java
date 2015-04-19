@@ -463,11 +463,6 @@ public class SlideRenderer {
 		answerChart.setPieChartData(answerNames, answerValues);
 
 		graphHandler.drawPieChart(answerChart);
-		
-		/* Section for printing the title */
-		
-		
-		
 	}
 
 	public class FullscreenEventHandler implements EventHandler<WindowEvent> {

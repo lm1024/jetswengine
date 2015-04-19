@@ -706,7 +706,7 @@ public class Graphic {
 	 *            the height of the shape
 	 * @param numberOfSides
 	 *            the number of sides of the shape
-	 * @param regPolygonColor
+	 * @param regPolColor
 	 *            color of the regular polygon
 	 * @param solid
 	 *            boolean value of if the shape is an outline or a solid shape
