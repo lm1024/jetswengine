@@ -29,7 +29,6 @@ public class GraphsHandlerTest extends Application {
 		pieChartObject.setTitle("Graph");
 		pieChartObject.setxStartPos(100);
 		pieChartObject.setyStartPos(100);
-		pieChartObject.setScale(1);
 
 		ArrayList<String> dataNames = new ArrayList<String>();
 		dataNames.add("a");

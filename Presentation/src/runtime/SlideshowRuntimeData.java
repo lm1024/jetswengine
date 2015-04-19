@@ -13,6 +13,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import renderer.SlideRenderer;
@@ -43,17 +44,19 @@ public class SlideshowRuntimeData {
 
 	public SlideshowRuntimeData(Slideshow slideshow) {
 		this.slideshow = slideshow;
-		this.currentXAspectRatio = 16;//TODO slideshow.getInfo().getXAspectRatio()
-		this.currentYAspectRatio = 9;//TODO slideshow.getInfo().getYAspectRatio()
+		this.currentXAspectRatio = 16;// TODO
+										// slideshow.getInfo().getXAspectRatio()
+		this.currentYAspectRatio = 9;// TODO
+										// slideshow.getInfo().getYAspectRatio()
 
 		Group group = new Group();
 		secondaryStage = new Stage();
+		secondaryStage.setX(-200);
 
 		this.scene = new Scene(group, 10, 10);
 		secondaryStage.setScene(scene);
 
 		secondaryStage.setFullScreen(true);
-		secondaryStage.show();
 
 		this.slideRenderer = new SlideRenderer(group);
 
@@ -68,6 +71,8 @@ public class SlideshowRuntimeData {
 		updateScreenBoundaries();
 
 		buildCurrentSlide();
+
+		secondaryStage.show();
 	}
 
 	private void updateScreenBoundaries() {
@@ -101,7 +106,9 @@ public class SlideshowRuntimeData {
 		}
 
 		slideRenderer.drawSlide(currentSlide);
+
 		buildTimingList();
+
 		if (!timingList.isEmpty()) {
 			scheduleNextUpdate();
 		}
@@ -123,10 +130,9 @@ public class SlideshowRuntimeData {
 				System.out.println("For item " + slideItem.getType());
 			}
 
-			if ((Math.abs((slideItem.getStartTime() + slideItem.getDuration())) > 0.001)
-					&& (slideItem.getDuration() != Float.MAX_VALUE)) {
-				System.out.println("Adding end update at : "
-						+ (long) (((double) slideItem.getStartTime() + slideItem.getDuration()) * 1000));
+			if ((Math.abs((slideItem.getStartTime() + slideItem.getDuration())) > 0.001) && (slideItem.getDuration() != Float.MAX_VALUE)) {
+				System.out.println("Adding end update at : " + (long) (((double) slideItem.getStartTime() + slideItem
+						.getDuration()) * 1000));
 				timingList.add((long) (((double) slideItem.getStartTime() + slideItem.getDuration()) * 1000));
 			}
 
@@ -156,31 +162,32 @@ public class SlideshowRuntimeData {
 	private class MouseClickHandler implements EventHandler<MouseEvent> {
 		public void handle(MouseEvent e) {
 			/* ID which side of the screen is clicked on */
-			if (e.getX() > (scene.getWidth()) * 0.5) {
-				/* If we are currently on a graph slide */
-				if (currentSlide == null) {
-					moveForwards();
+			if (e.getButton() == MouseButton.PRIMARY) {
+				if (e.getX() > (scene.getWidth()) * 0.5) {
+					/* If we are currently on a graph slide */
+					if (currentSlide == null) {
+						moveForwards();
+						currentSlide = slideshow.getSlide(slideNumber);
+						buildCurrentSlide();
+					}
+					/* If we need to draw a graph */
+					else if (currentSlide.containsQuestion() == true) {
+						slideRenderer.clear();
+						slideRenderer.buildAnswerSlide(currentSlide.getQuestion());
+						currentSlide = null;
+					}
+					/* If we just need to move forwards a slide */
+					else {
+						moveForwards();
+						currentSlide = slideshow.getSlide(slideNumber);
+						buildCurrentSlide();
+					}
+				} else {
+					moveBackwards();
 					currentSlide = slideshow.getSlide(slideNumber);
 					buildCurrentSlide();
 				}
-				/* If we need to draw a graph */
-				else if (currentSlide.containsQuestion() == true) {
-					slideRenderer.clear();
-					slideRenderer.buildAnswerSlide(currentSlide.getQuestion());
-					currentSlide = null;
-				}
-				/* If we just need to move forwards a slide */
-				else {
-					moveForwards();
-					currentSlide = slideshow.getSlide(slideNumber);
-					buildCurrentSlide();
-				}
-			} else {
-				moveBackwards();
-				currentSlide = slideshow.getSlide(slideNumber);
-				buildCurrentSlide();
 			}
-
 		}
 	}
 
@@ -200,21 +207,31 @@ public class SlideshowRuntimeData {
 	private class KeyboardHandler implements EventHandler<KeyEvent> {
 		@Override
 		public void handle(KeyEvent keyEvent) {
-			
+
 			switch (keyEvent.getCode()) {
 			/* Close the screen if fullscreen is closed using the escape button */
 			case ESCAPE:
 				secondaryStage.close();
 				closeSlideshow();
 				break;
+			case RIGHT:
+				moveForwards();
+				currentSlide = slideshow.getSlide(slideNumber);
+				buildCurrentSlide();
+				break;
+			case LEFT:
+				moveBackwards();
+				currentSlide = slideshow.getSlide(slideNumber);
+				buildCurrentSlide();
+				break;
 			default:
 				break;
 			}
 
-			/*if (keyEvent.getCode() == KeyCode.ESCAPE) {
-				secondaryStage.close();
-				closeSlideshow();
-			}*/
+			/*
+			 * if (keyEvent.getCode() == KeyCode.ESCAPE) {
+			 * secondaryStage.close(); closeSlideshow(); }
+			 */
 
 		}
 	}

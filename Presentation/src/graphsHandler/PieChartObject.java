@@ -15,7 +15,9 @@ public class PieChartObject {
 
 	private float xStartPos;
 	private float yStartPos;
-	private float scale;
+	
+	private double prefWidth;
+	private double prefHeight;
 
 	private ObservableList<PieChart.Data> pieChartData;
 
@@ -46,13 +48,18 @@ public class PieChartObject {
 	public void setyStartPos(float yStartPos) {
 		this.yStartPos = yStartPos;
 	}
-
-	public float getScale() {
-		return scale;
+	
+	public double getPrefWidth() {
+		return prefWidth;
 	}
-
-	public void setScale(float scale) {
-		this.scale = scale;
+	
+	public double getPrefHeight() {
+		return prefHeight;
+	}
+	
+	public void setPrefSize(double prefWidth, double prefHeight) {
+		this.prefWidth = prefWidth;
+		this.prefHeight = prefHeight;
 	}
 
 	public void setPieChartData(String dataName, float dataValue) {
@@ -71,8 +78,8 @@ public class PieChartObject {
 		}
 	}
 
-	public  ObservableList<Data> getPieChartData() {
+	public ObservableList<Data> getPieChartData() {
 		return pieChartData;
 	}
-
+	
 }

@@ -58,7 +58,7 @@ public class RuntimeDataWithGraphTest extends Application {
 			}
 		});
 
-		primaryStage.show();
+		//primaryStage.show();
 
 	}
 

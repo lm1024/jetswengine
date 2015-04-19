@@ -28,15 +28,16 @@ public class GraphHandler {
 		String title = pieChartObject.getTitle();
 		float xStartPos = pieChartObject.getxStartPos();
 		float yStartPos = pieChartObject.getyStartPos();
-		float scale = pieChartObject.getScale();
+		double prefWidth = pieChartObject.getPrefWidth();
+		double prefHeight = pieChartObject.getPrefHeight();
 		
 		PieChart pChart = new PieChart(pieChartData);
 		pChart.setTitle(title);
 		pChart.setLayoutX(xStartPos);
 		pChart.setLayoutY(yStartPos);
-		pChart.setScaleX(scale);
-		pChart.setScaleY(scale);
-		System.out.println("Adding graph");
+		
+		pChart.setPrefSize(prefWidth, prefHeight);
+		
 		group.getChildren().add(pChart);
 	}
 
