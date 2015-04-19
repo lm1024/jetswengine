@@ -51,7 +51,7 @@ public class SlideshowRuntimeData {
 
 		Group group = new Group();
 		secondaryStage = new Stage();
-		secondaryStage.setX(-200);
+		secondaryStage.setX(200);
 
 		this.scene = new Scene(group, 10, 10);
 		secondaryStage.setScene(scene);

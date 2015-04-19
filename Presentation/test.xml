@@ -14,11 +14,17 @@
 		<fontcolor>#ffff00ff</fontcolor>
 		<graphiccolor>#ffaaaa00</graphiccolor>
 	</defaultsettings>
+	
+	<slide>
+		<video sourcefile="M:\Sweng\avengers-featurehp.mp4" duration="5.0"
+			xstart="0" ystart="0" />
+	</slide>
+	
 	<slide>
 		<video sourcefile="M:\Sweng\avengers-featurehp.mp4" starttime="2.5"
 			duration="5.0" xstart="0" ystart="0" />
 	</slide>
-
+	
 	<slide>
 		<graphic graphiccolor="#ff000000">
 			<rectangle xstart="0" ystart="0" xend="1" yend="1" solid="true" />

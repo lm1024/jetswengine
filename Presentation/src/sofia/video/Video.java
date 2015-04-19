@@ -36,6 +36,7 @@ import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 
 /**
@@ -96,6 +97,11 @@ public class Video {
     /** The minimum width a video can be whilst still accommodating the controls */
     private static final int MIN_WIDTH = 350;
     
+    /** Event handler for fullscreen exit */
+    private EventHandler<WindowEvent> fullScreenCloseHandler;
+    
+    VBox vBox;
+    
     /**
      * Constructs the video.
      * 
@@ -116,9 +122,12 @@ public class Video {
      * 
      * @param loop If true the video loops to the beginning when it ends
      */
-    public Video(Group nGroup, float x, float y, float width, String sourcefile, boolean autoPlay, boolean loop) {
+    public Video(Group nGroup, float x, float y, float width, String sourcefile, boolean autoPlay, boolean loop, EventHandler<WindowEvent> nFullScreenCloseHandler) {
         /* Set the group reference */
         this.group = nGroup;
+        
+        /* Set the full screen exit event handler reference */
+        this.fullScreenCloseHandler = nFullScreenCloseHandler;
         
         /* Load icon images */
         playImage = new ImageView(new Image(getClass().getResourceAsStream("Play_ST_CONTENT_RECT_Transparent_L-01.png")));
@@ -311,7 +320,9 @@ public class Video {
      */
     public void stop() {
         if(mediaPlayer != null) {
+        	System.out.println("got video");
             mediaPlayer.stop();
+            System.out.println("got hererer");
         }
     }
     
@@ -320,6 +331,10 @@ public class Video {
      */
     public void dispose() {
         if(mediaPlayer != null) {
+        	if(fsInfo.isFullscreen()) {
+        		fullscreen();
+        	}
+        	
             mediaPlayer.stop();
             mediaPlayer.dispose();
         }
@@ -347,8 +362,13 @@ public class Video {
      * Programmatically sets this videos visibility 
      */
     public void setVisible(boolean visible) {
-        if(videoFrame != null) {
-            videoFrame.setVisible(visible);
+        if(videoFrame != null && !fsInfo.isFullscreen()) {
+        	if(!visible) {
+        		/* Disappearing */
+        		mediaPlayer.pause();
+        	}
+        	
+        	videoFrame.setVisible(visible);
         }
     }
     
@@ -483,13 +503,13 @@ public class Video {
     public void fullscreen() {                
         /* If the video is already fullscreen, go back. If not, go fullscreen */
         if(fsInfo.isFullscreen()) {
-            /* Relocate to original position */
+        	/* Relocate to original position */
             videoFrame.relocate(fsInfo.getOriginalX(), fsInfo.getOriginalY());
             
             /* Set to original width */
             video.setFitWidth(fsInfo.getOriginalWidth());
-            
-            /* Add the video frame back to the main screen */
+        	
+        	/* Add the video frame back to the main screen */
             group.getChildren().add(videoFrame);
             
             /* Hide the fullscreen video stage */
@@ -505,7 +525,7 @@ public class Video {
             group.getChildren().remove(videoFrame);
             
             /* Setup the fullscreen root */
-            VBox vBox = new VBox();
+            vBox = new VBox();
             vBox.setAlignment(Pos.CENTER_LEFT);
             
             /* Set up the fullscreen scene */
@@ -526,6 +546,7 @@ public class Video {
             fsStage.setTitle("");
             fsStage.setFullScreen(true);
             fsStage.show();
+            fsStage.setOnHidden(fullScreenCloseHandler);
             
             /* Set the fullscreen flag true */
             fsInfo.setFullscreen(true);
@@ -702,6 +723,8 @@ public class Video {
         @Override
         public void handle(KeyEvent k) {
             if(k.getCode() == KeyCode.ESCAPE) {
+                fullscreen();
+            } else if(k.getCode() == KeyCode.F4 && k.isAltDown()) {
                 fullscreen();
             }
         }

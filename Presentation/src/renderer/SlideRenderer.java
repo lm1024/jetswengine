@@ -41,7 +41,11 @@ import Data.SlideItem;
 import Data.Text;
 import Data.TextFragment;
 import Data.Video;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.control.Button;
+import javafx.stage.WindowEvent;
 
 /**
  * @author Fiery
@@ -70,7 +74,7 @@ public class SlideRenderer {
 		this.graphicsHandler = new GraphicsHandler(group);
 		this.imageHandler = new ImageHandler(group);
 		this.textHandler = new TextHandler(group);
-		this.videoHandler = new VideoHandler(group);
+		this.videoHandler = new VideoHandler(group, new FullscreenEventHandler());
 		this.audioHandler = new AudioHandler(group);
 		this.graphHandler = new GraphHandler(group);
 	}
@@ -160,7 +164,6 @@ public class SlideRenderer {
 			break;
 		case "Video":
 			videoHandler.setVisible(numberOfObject, visible);
-			videoHandler.playVideo(numberOfObject);
 			break;
 		default:
 			graphicsHandler.setVisible(numberOfObject, visible);
@@ -391,8 +394,8 @@ public class SlideRenderer {
 		float y = convYRelCoordToAbsCoord(currentAudio.getYStart());
 		float width = 400; // TODO currentAudio.getWidth();
 
-		String sourceFile = currentAudio.getSourceFile(); 
-		
+		String sourceFile = currentAudio.getSourceFile();
+
 		boolean loop = false;// TODO currentAudio.isLoop();
 		boolean autoPlay = false;// TODO currentAudio.isAutoPlay();
 		boolean visibleControls = true;// TODO currentAudio.isVisibleControls();
@@ -408,7 +411,7 @@ public class SlideRenderer {
 		String sourceFile = currentVideo.getSourceFile();
 		boolean autoPlay = false; // TODO currentVideo.isAutoPlay();
 		boolean loop = false; // TODO currentVideo.isLoop();
-		
+
 		videoHandler.createVideo(x, y, width, sourceFile, autoPlay, loop);
 
 		if (currentVideo.getStartTime() != 0) {
@@ -460,5 +463,15 @@ public class SlideRenderer {
 		answerChart.setPieChartData(answerNames, answerValues);
 
 		graphHandler.drawPieChart(answerChart);
+	}
+
+	public class FullscreenEventHandler implements EventHandler<WindowEvent> {
+
+		@Override
+		public void handle(WindowEvent arg0) {
+			// TODO Auto-generated method stub
+			System.err.println("window event");
+		}
+
 	}
 }
