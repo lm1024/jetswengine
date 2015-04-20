@@ -37,5 +37,20 @@ public class QuestionTest {
 		assertTrue(question.getAnswer(1).getCorrect() == false);
 		assertTrue(question.getAnswer(1).getAnswerCount() == 0);
 	}
+	
+	@Test
+	public void testHasAnswerData() {
+		question = new Question("a", "a.txt");
+		assertFalse(question.hasAnswerData());
+		
+		question.addAnswer("1", true);
+		
+		assertFalse(question.hasAnswerData());
+		
+		question.increaseAnswerCount(0);
+		
+		assertTrue(question.hasAnswerData());
+		
+	}
 
 }

@@ -6,6 +6,10 @@ import java.util.ArrayList;
  * @author tjd511
  * @version 1.0 14/04/2015
  */
+/**
+ * @author tjd511
+ * 
+ */
 public class Question {
 	private String id = null;
 	private String logfile = null;
@@ -43,7 +47,7 @@ public class Question {
 	public Answer getAnswer(int index) {
 		return answers.get(index);
 	}
-	
+
 	public ArrayList<Answer> getAnswers() {
 		return answers;
 	}
@@ -56,11 +60,32 @@ public class Question {
 		/* Make a new answer and add it to the list of answers */
 		answers.add(new Answer(answerId, correct));
 	}
-	
+
+	/**
+	 * Validates that the question has answers stored inside of it.
+	 * 
+	 * @return a boolean containing if the question has at least one answer that
+	 *         is non zero.
+	 */
+	public boolean hasAnswerData() {
+		for (Answer answer : answers) {
+			if (answer.getAnswerCount() > 0) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * @return
+	 */
 	public int getNumberOfAnswers() {
 		return answers.size();
 	}
 
+	/**
+	 * @param index
+	 */
 	public void increaseAnswerCount(int index) {
 		if (index < answers.size() && index >= 0) {
 			answers.get(index).increaseAnswerCount();
