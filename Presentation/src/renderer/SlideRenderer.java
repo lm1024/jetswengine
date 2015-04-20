@@ -50,9 +50,11 @@ import javafx.stage.WindowEvent;
  */
 public class SlideRenderer {
 
+	/* Track the current stage and group. */
 	private Stage stage;
 	private Group group;
 
+	/* Class level variables for the different handlers. */
 	private GraphicsHandler graphicsHandler;
 	private ImageHandler imageHandler;
 	private TextHandler textHandler;
@@ -60,15 +62,38 @@ public class SlideRenderer {
 	private AudioHandler audioHandler;
 	private GraphHandler graphHandler;
 
+	/*
+	 * Class level variables to keep track of where the slide position is on the
+	 * scene.
+	 */
 	private float xSlideStart;
 	private float ySlideStart;
 	private float slideWidth;
 	private float slideHeight;
 
+	/* Class level slide to keep track of the currently drawn slide. */
 	private Slide currentSlide;
 
+	/**
+	 * Constructor method for the class.
+	 * 
+	 * @param stage
+	 *            the stage that includes a group which all of the elements are
+	 *            to be drawn on.
+	 */
 	public SlideRenderer(Stage stage) {
 		this.stage = stage;
+
+		/*
+		 * Ensures that the stage has a scene for all of slide objects to be
+		 * added to.
+		 */
+		if (stage.getScene() != null) {
+			System.err.println("Stage passed to the slideRenderer has no scene, quitting.");
+			System.exit(-1);
+		}
+
+		/* Gets the group of the stage. */
 		this.group = (Group) stage.getScene().getRoot();
 
 		this.graphicsHandler = new GraphicsHandler(group);
@@ -603,6 +628,10 @@ public class SlideRenderer {
 
 		audioHandler.createAudio(x, y, width, sourceFile, loop, autoPlay, visibleControls, playButtonOnly);
 
+		/*
+		 * Hides and pauses the audio if it has a start time tag. TODO
+		 * isautoplay??
+		 */
 		if (currentAudio.getStartTime() != 0) {
 			audioHandler.pauseAudio(audioHandler.getAudioCount() - 1);
 			audioHandler.setVisible(audioHandler.getAudioCount() - 1, false);
@@ -626,28 +655,40 @@ public class SlideRenderer {
 
 		videoHandler.createVideo(x, y, width, sourceFile, autoPlay, loop);
 
+		/* Hides and pauses the video if it has a start time tag. */
 		if (currentVideo.getStartTime() != 0) {
 			videoHandler.pauseVideo(videoHandler.getVideoCount() - 1);
 			videoHandler.setVisible(videoHandler.getVideoCount() - 1, false);
 		}
 	}
 
-	/*
+	/**
 	 * Converts a relative (0 to 1) coordinate in the x dimension to an absolute
 	 * slide position using the current slide size.
+	 * 
+	 * @param x
+	 *            the relative x position.
+	 * @return the absolute x position.
 	 */
 	private float convXRelCoordToAbsCoord(float x) {
 		return (xSlideStart + x * slideWidth);
 	}
 
-	/*
+	/**
 	 * Converts a relative (0 to 1) coordinate in the y dimension to an absolute
 	 * slide position using the current slide size.
+	 * 
+	 * @param y
+	 *            the relative y position.
+	 * @return the absolute y position.
 	 */
 	private float convYRelCoordToAbsCoord(float y) {
 		return (ySlideStart + y * slideHeight);
 	}
 
+	/**
+	 * Clears all of the handlers.
+	 */
 	public void clear() {
 		/* Clear all the handlers */
 		audioHandler.clearAudios();
