@@ -2,6 +2,7 @@
 package renderer;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import imageHandler.ImageHandler;
 import imageHandler.ImageObject;
@@ -88,7 +89,7 @@ public class SlideRenderer {
 		 * Ensures that the stage has a scene for all of slide objects to be
 		 * added to.
 		 */
-		if (stage.getScene() != null) {
+		if (stage.getScene() == null) {
 			System.err.println("Stage passed to the slideRenderer has no scene, quitting.");
 			System.exit(-1);
 		}
@@ -707,6 +708,7 @@ public class SlideRenderer {
 	 * @param question
 	 */
 	public void buildAnswerSlide(Question question) {
+		long startTime = System.nanoTime();
 		PieChartObject answerChart = new PieChartObject();
 
 		double chartWidth = convXRelCoordToAbsCoord(0.7f);
@@ -730,6 +732,9 @@ public class SlideRenderer {
 		answerChart.setPieChartData(answerNames, answerValues);
 
 		graphHandler.drawPieChart(answerChart);
+		
+		long endTime = System.nanoTime();
+		System.out.println("Execution time: " + TimeUnit.NANOSECONDS.toMillis(endTime - startTime) + "ms");
 	}
 
 	/**
