@@ -708,7 +708,7 @@ public class SlideRenderer {
 	 * @param question
 	 */
 	public void buildAnswerSlide(Question question) {
-		long startTime = System.nanoTime();
+		
 		PieChartObject answerChart = new PieChartObject();
 
 		double chartWidth = convXRelCoordToAbsCoord(0.7f);
@@ -730,11 +730,7 @@ public class SlideRenderer {
 		}
 
 		answerChart.setPieChartData(answerNames, answerValues);
-
 		graphHandler.drawPieChart(answerChart);
-		
-		long endTime = System.nanoTime();
-		System.out.println("Execution time: " + TimeUnit.NANOSECONDS.toMillis(endTime - startTime) + "ms");
 	}
 
 	/**

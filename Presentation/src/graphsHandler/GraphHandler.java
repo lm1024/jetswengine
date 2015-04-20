@@ -1,5 +1,7 @@
 package graphsHandler;
 
+import java.util.concurrent.TimeUnit;
+
 import javafx.collections.ObservableList;
 import javafx.scene.Group;
 import javafx.scene.chart.BarChart;
@@ -21,6 +23,12 @@ public class GraphHandler {
 	 */
 	public GraphHandler(Group group) {
 		this.group = group;
+		/*
+		 * Initialises a new pie chart. The first instantiate of a pie chart
+		 * takes 100ms, so this moves that delay to the start of the handler
+		 * instead of the first graph being drawn, which is preferential.
+		 */
+		new PieChart(null);
 	}
 
 	/**
@@ -41,12 +49,9 @@ public class GraphHandler {
 
 		PieChart pChart = new PieChart(pieChartData);
 		pChart.setTitle(title);
-
 		pChart.setStyle(".chart-title { -fx-text-fill: #ffffff; -fx-font-size: 2em; }");
-
 		pChart.setLayoutX(xStartPos);
 		pChart.setLayoutY(yStartPos);
-
 		pChart.setPrefSize(prefWidth, prefHeight);
 
 		group.getChildren().add(pChart);
