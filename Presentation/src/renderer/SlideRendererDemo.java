@@ -29,8 +29,8 @@ public class SlideRendererDemo extends Application {
 		Scene scene = new Scene(group, 1000, 800);
 		primaryStage.setScene(scene);
 		
-		SlideRenderer slideRenderer = new SlideRenderer(group);
-		slideRenderer.updateSlideDimentions(0, 0, 1000, 800);
+		SlideRenderer slideRenderer = new SlideRenderer(primaryStage);
+		slideRenderer.updateSlideDimensions(0, 0, 1000, 800);
 		slideRenderer.drawSlide(slideshow.getSlide(0));
 		
 		primaryStage.show();

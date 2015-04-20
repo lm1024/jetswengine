@@ -1,6 +1,4 @@
-/**
- * 
- */
+/** (c) Copyright by WaveMedia. */
 package renderer;
 
 import java.util.ArrayList;
@@ -41,18 +39,18 @@ import Data.SlideItem;
 import Data.Text;
 import Data.TextFragment;
 import Data.Video;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
-import javafx.scene.control.Button;
+import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 /**
- * @author Fiery
+ * @author tjd511
  * 
  */
 public class SlideRenderer {
 
+	private Stage stage;
 	private Group group;
 
 	private GraphicsHandler graphicsHandler;
@@ -69,8 +67,10 @@ public class SlideRenderer {
 
 	private Slide currentSlide;
 
-	public SlideRenderer(Group group) {
-		this.group = group;
+	public SlideRenderer(Stage stage) {
+		this.stage = stage;
+		this.group = (Group) stage.getScene().getRoot();
+
 		this.graphicsHandler = new GraphicsHandler(group);
 		this.imageHandler = new ImageHandler(group);
 		this.textHandler = new TextHandler(group);
@@ -79,13 +79,33 @@ public class SlideRenderer {
 		this.graphHandler = new GraphHandler(group);
 	}
 
-	public void updateSlideDimentions(double xSlideStart, double ySlideStart, double slideWidth, double slideHeight) {
+	/**
+	 * Updates the current dimensions for the slide.
+	 * 
+	 * @param xSlideStart
+	 *            the starting x position of the slide, relative to the top left
+	 *            of the scene.
+	 * @param ySlideStart
+	 *            the starting y position of the slide, relative to the top left
+	 *            of the scene.
+	 * @param slideWidth
+	 *            the width of the slide.
+	 * @param slideHeight
+	 *            the height of the slide.
+	 */
+	public void updateSlideDimensions(double xSlideStart, double ySlideStart, double slideWidth, double slideHeight) {
 		this.xSlideStart = (float) xSlideStart;
 		this.ySlideStart = (float) ySlideStart;
 		this.slideWidth = (float) slideWidth;
 		this.slideHeight = (float) slideHeight;
 	}
 
+	/**
+	 * Method clears the window, then draws the current slide.
+	 * 
+	 * @param currentSlide
+	 *            the slide to be drawn.
+	 */
 	public void drawSlide(Slide currentSlide) {
 		clear();
 		this.currentSlide = currentSlide;
@@ -110,6 +130,13 @@ public class SlideRenderer {
 		}
 	}
 
+	/**
+	 * Method updates the visibility of the required items upon the slide if the
+	 * update occurs at the time specified.
+	 * 
+	 * @param currentTimeIntoSlide
+	 *            the time of the update on the slide.
+	 */
 	public void updateSlide(long currentTimeIntoSlide) {
 		int currentTextNumber = 0;
 		int currentImageNumber = 0;
@@ -117,6 +144,12 @@ public class SlideRenderer {
 		int currentAudioNumber = 0;
 		int currentVideoNumber = 0;
 		int currentObjectNumber;
+
+		/*
+		 * Loops through all the slide items in the slide, keeping track of how
+		 * many of them there have been, then updates the visibility of them
+		 * depending upon if they have to be displayed or hidden.
+		 */
 		for (SlideItem currentSlideItem : currentSlide.getAll()) {
 			switch (currentSlideItem.getType()) {
 			case "Text":
@@ -142,15 +175,30 @@ public class SlideRenderer {
 
 			}
 
+			/* Displays the current item. */
 			if (currentSlideItem.getStartTime() == (float) currentTimeIntoSlide / 1000f) {
 				updateVisibilityOfObject(currentSlideItem.getType(), currentObjectNumber - 1, true);
-			} else if (currentSlideItem.getDuration() + currentSlideItem.getStartTime() == (float) currentTimeIntoSlide / 1000f) {
+			}
+			/* Hides the current item. */
+			else if (currentSlideItem.getDuration() + currentSlideItem.getStartTime() == (float) currentTimeIntoSlide / 1000f) {
 				updateVisibilityOfObject(currentSlideItem.getType(), currentObjectNumber - 1, false);
 			}
 
 		}
 	}
 
+	/**
+	 * Method either hides or shows a slide object based upon the boolean flag.
+	 * 
+	 * @param objectType
+	 *            a string containing the type of the object. TODO should be
+	 *            enum?
+	 * @param numberOfObject
+	 *            the object number of the object to be updated in the handler.
+	 * @param visible
+	 *            boolean containing if the object should be hidden or
+	 *            displayed.
+	 */
 	private void updateVisibilityOfObject(String objectType, int numberOfObject, boolean visible) {
 		switch (objectType) {
 		case "Text":
@@ -170,90 +218,153 @@ public class SlideRenderer {
 		}
 	}
 
+	/**
+	 * Adds a graphic to the screen using the graphics handler.
+	 * 
+	 * @param currentGraphic
+	 *            the graphic object containing the data about the shape to be
+	 *            drawn.
+	 */
 	private void addGraphic(Graphic currentGraphic) {
-		/* */
-		GraphicType graphicType = GraphicType.valueOf(currentGraphic.getType().toUpperCase());
-
+		/* Get the x and y start coordinates, which are common to all graphics. */
 		float xStartPos = convXRelCoordToAbsCoord(currentGraphic.getXStart());
 		float yStartPos = convYRelCoordToAbsCoord(currentGraphic.getYStart());
 
+		/*
+		 * The graphicsbuilder object to be used to create the graphics object
+		 * to be passed to the graphics handler.
+		 */
 		GraphicBuilder graphicBuilder;
+
+		/*
+		 * Converts the type of shape to an enum of all of the shape types to be
+		 * used in a switch case.
+		 */
+		GraphicType graphicType = GraphicType.valueOf(currentGraphic.getType().toUpperCase());
 
 		switch (graphicType) {
 		case ARC:
+			/*
+			 * Casts the graphic to the arc type to access the info specfic to
+			 * that type of shape.
+			 */
 			Arc arc = (Arc) currentGraphic;
-			graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos).width(arc.getWidth())
-					.height(arc.getHeight()).arcAngle(arc.getArcAngle()).length(arc.getLength())
-					.color(arc.getGraphicColor()).solid(arc.isSolid()).outlineColor(arc.getOutlineColor())
-					.outlineThickness(arc.getOutlineThickness()).shadow(arc.getShadow()).rotation(arc.getRotation())
-					.shadingType(arc.getShadingType());
+
+			/* Build the graphics builder object with all of the shape info. */
+			graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos)
+				.width(arc.getWidth())
+				.height(arc.getHeight())
+				.arcAngle(arc.getArcAngle())
+				.length(arc.getLength())
+				.color(arc.getGraphicColor())
+				.solid(arc.isSolid())
+				.outlineColor(arc.getOutlineColor())
+				.outlineThickness(arc.getOutlineThickness())
+				.shadow(arc.getShadow())
+				.rotation(arc.getRotation())
+				.shadingType(arc.getShadingType());
 			break;
 		case ARROW:
 			Arrow arrow = (Arrow) currentGraphic;
 			graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos)
-					.xEndPos(convXRelCoordToAbsCoord(arrow.getXEnd()))
-					.yEndPos(convYRelCoordToAbsCoord(arrow.getYEnd())).color(arrow.getGraphicColor())
-					.shadingType(arrow.getShadingType());
+				.xEndPos(convXRelCoordToAbsCoord(arrow.getXEnd()))
+				.yEndPos(convYRelCoordToAbsCoord(arrow.getYEnd()))
+				.color(arrow.getGraphicColor())
+				.shadingType(arrow.getShadingType());
 			break;
 		case CHORD:
 			Chord chord = (Chord) currentGraphic;
-			graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos).width(chord.getWidth())
-					.height(chord.getHeight()).arcAngle(chord.getArcAngle()).length(chord.getLength())
-					.color(chord.getGraphicColor()).solid(chord.isSolid()).outlineColor(chord.getOutlineColor())
-					.outlineThickness(chord.getOutlineThickness()).shadow(chord.getShadow())
-					.rotation(chord.getRotation()).shadingType(chord.getShadingType());
+			graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos)
+				.width(chord.getWidth())
+				.height(chord.getHeight())
+				.arcAngle(chord.getArcAngle())
+				.length(chord.getLength())
+				.color(chord.getGraphicColor())
+				.solid(chord.isSolid())
+				.outlineColor(chord.getOutlineColor())
+				.outlineThickness(chord.getOutlineThickness())
+				.shadow(chord.getShadow())
+				.rotation(chord.getRotation())
+				.shadingType(chord.getShadingType());
 			break;
 		case CIRCLE:
 			Circle circle = (Circle) currentGraphic;
 			/*
 			 * TODO circle . getRadius ( )
 			 */
-			graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos).radius(10)
-					.color(circle.getGraphicColor()).solid(circle.isSolid()).outlineColor(circle.getOutlineColor())
-					.outlineThickness(circle.getOutlineThickness()).shadow(circle.getShadow())
-					.rotation(circle.getRotation()).shadingType(circle.getShadingType());
+			graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos)
+				.radius(10)
+				.color(circle.getGraphicColor())
+				.solid(circle.isSolid())
+				.outlineColor(circle.getOutlineColor())
+				.outlineThickness(circle.getOutlineThickness())
+				.shadow(circle.getShadow())
+				.rotation(circle.getRotation())
+				.shadingType(circle.getShadingType());
 			break;
 		case EQUILATERALTRIANGLE:
 			EquilateralTriangle eTri = (EquilateralTriangle) currentGraphic;
-			graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos).length(eTri.getSize())
-					.color(eTri.getGraphicColor()).solid(eTri.isSolid()).outlineColor(eTri.getOutlineColor())
-					.outlineThickness(eTri.getOutlineThickness()).shadow(eTri.getShadow()).rotation(eTri.getRotation())
-					.shadingType(eTri.getShadingType());
+			graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos)
+				.length(eTri.getSize())
+				.color(eTri.getGraphicColor())
+				.solid(eTri.isSolid())
+				.outlineColor(eTri.getOutlineColor())
+				.outlineThickness(eTri.getOutlineThickness())
+				.shadow(eTri.getShadow())
+				.rotation(eTri.getRotation())
+				.shadingType(eTri.getShadingType());
 			break;
 		case LINE:
 			Line line = (Line) currentGraphic;
 			graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos)
-					.xEndPos(convXRelCoordToAbsCoord(line.getXEnd())).yEndPos(convYRelCoordToAbsCoord(line.getYEnd()))
-					.color(line.getGraphicColor()).outlineThickness(line.getThickness()).shadow(line.getShadow())
-					.shadingType(line.getShadingType());
+				.xEndPos(convXRelCoordToAbsCoord(line.getXEnd()))
+				.yEndPos(convYRelCoordToAbsCoord(line.getYEnd()))
+				.color(line.getGraphicColor())
+				.outlineThickness(line.getThickness())
+				.shadow(line.getShadow())
+				.shadingType(line.getShadingType());
 			break;
 		case OVAL:
 			Oval oval = (Oval) currentGraphic;
-			graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos).color(oval.getGraphicColor())
-					.solid(oval.isSolid()).outlineColor(oval.getOutlineColor())
-					.outlineThickness(oval.getOutlineThickness()).shadow(oval.getShadow()).rotation(oval.getRotation())
-					.shadingType(oval.getShadingType());
+			graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos)
+				.color(oval.getGraphicColor())
+				.solid(oval.isSolid())
+				.outlineColor(oval.getOutlineColor())
+				.outlineThickness(oval.getOutlineThickness())
+				.shadow(oval.getShadow())
+				.rotation(oval.getRotation())
+				.shadingType(oval.getShadingType());
 			break;
 		case POLYGON:
 			Polygon pol = (Polygon) currentGraphic;
-			graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos).color(pol.getGraphicColor())
-					.solid(pol.isSolid()).outlineColor(pol.getOutlineColor())
-					.outlineThickness(pol.getOutlineThickness()).shadow(pol.getShadow()).rotation(pol.getRotation())
-					.shadingType(pol.getShadingType());
+			graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos)
+				.color(pol.getGraphicColor())
+				.solid(pol.isSolid())
+				.outlineColor(pol.getOutlineColor())
+				.outlineThickness(pol.getOutlineThickness())
+				.shadow(pol.getShadow())
+				.rotation(pol.getRotation())
+				.shadingType(pol.getShadingType());
 
 			/* Add all the points of the polygon to the graphic builder */
 			for (int i = 0; i < pol.getxPoints().size(); i++) {
-				graphicBuilder.polygonCoordinate(convXRelCoordToAbsCoord(pol.getxPoints().get(i)),
-						convYRelCoordToAbsCoord(pol.getyPoints().get(i)));
+				graphicBuilder.polygonCoordinate(
+					convXRelCoordToAbsCoord(pol.getxPoints().get(i)),
+					convYRelCoordToAbsCoord(pol.getyPoints().get(i)));
 			}
 
 			break;
 		case REGULARPOLYGON:
 			RegularPolygon regPol = (RegularPolygon) currentGraphic;
 			graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos)
-					.numberOfSides(regPol.getNumberOfSides()).color(regPol.getGraphicColor()).solid(regPol.isSolid())
-					.outlineColor(regPol.getOutlineColor()).outlineThickness(regPol.getOutlineThickness())
-					.shadow(regPol.getShadow()).rotation(regPol.getRotation()).shadingType(regPol.getShadingType());
+				.numberOfSides(regPol.getNumberOfSides())
+				.color(regPol.getGraphicColor())
+				.solid(regPol.isSolid())
+				.outlineColor(regPol.getOutlineColor())
+				.outlineThickness(regPol.getOutlineThickness())
+				.shadow(regPol.getShadow())
+				.rotation(regPol.getRotation())
+				.shadingType(regPol.getShadingType());
 
 			break;
 		case SQUARE:
@@ -261,67 +372,100 @@ public class SlideRenderer {
 			/*
 			 * TODO square . getLength ( )
 			 */
-			graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos).length(10)
-					.color(square.getGraphicColor()).solid(square.isSolid()).outlineColor(square.getOutlineColor())
-					.outlineThickness(square.getOutlineThickness()).shadow(square.getShadow())
-					.rotation(square.getRotation()).shadingType(square.getShadingType());
+			graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos)
+				.length(10)
+				.color(square.getGraphicColor())
+				.solid(square.isSolid())
+				.outlineColor(square.getOutlineColor())
+				.outlineThickness(square.getOutlineThickness())
+				.shadow(square.getShadow())
+				.rotation(square.getRotation())
+				.shadingType(square.getShadingType());
 			break;
 		case STAR:
 			Star star = (Star) currentGraphic;
 			/*
 			 * TODO this needs fixing star . getNumberOfPoints ( )
 			 */
-			graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos).numberOfPoints(5)
-					.color(star.getGraphicColor()).solid(star.isSolid()).outlineColor(star.getOutlineColor())
-					.outlineThickness(star.getOutlineThickness()).shadow(star.getShadow()).rotation(star.getRotation())
-					.shadingType(star.getShadingType());
+			graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos)
+				.numberOfPoints(5)
+				.color(star.getGraphicColor())
+				.solid(star.isSolid())
+				.outlineColor(star.getOutlineColor())
+				.outlineThickness(star.getOutlineThickness())
+				.shadow(star.getShadow())
+				.rotation(star.getRotation())
+				.shadingType(star.getShadingType());
 			break;
 		case TRIANGLE:
 			Triangle triangle = (Triangle) currentGraphic;
 			graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos)
-					.triangleCoordinates(convXRelCoordToAbsCoord(triangle.getxPoints().get(0)),
-							convYRelCoordToAbsCoord(triangle.getyPoints().get(0)),
-							convXRelCoordToAbsCoord(triangle.getxPoints().get(1)),
-							convYRelCoordToAbsCoord(triangle.getyPoints().get(1)),
-							convXRelCoordToAbsCoord(triangle.getxPoints().get(2)),
-							convYRelCoordToAbsCoord(triangle.getyPoints().get(2))).color(triangle.getGraphicColor())
-					.solid(triangle.isSolid()).outlineColor(triangle.getOutlineColor())
-					.outlineThickness(triangle.getOutlineThickness()).shadow(triangle.getShadow())
-					.rotation(triangle.getRotation()).shadingType(triangle.getShadingType());
+				.triangleCoordinates(
+					convXRelCoordToAbsCoord(triangle.getxPoints().get(0)),
+					convYRelCoordToAbsCoord(triangle.getyPoints().get(0)),
+					convXRelCoordToAbsCoord(triangle.getxPoints().get(1)),
+					convYRelCoordToAbsCoord(triangle.getyPoints().get(1)),
+					convXRelCoordToAbsCoord(triangle.getxPoints().get(2)),
+					convYRelCoordToAbsCoord(triangle.getyPoints().get(2)))
+				.color(triangle.getGraphicColor())
+				.solid(triangle.isSolid())
+				.outlineColor(triangle.getOutlineColor())
+				.outlineThickness(triangle.getOutlineThickness())
+				.shadow(triangle.getShadow())
+				.rotation(triangle.getRotation())
+				.shadingType(triangle.getShadingType());
 			break;
 		default:
 			/* For any other shape, by default make a rectangle */
 			Rectangle rectangle = (Rectangle) currentGraphic;
 			rectangle.printItem();
 			graphicBuilder = new GraphicBuilder(GraphicType.RECTANGLE, xStartPos, yStartPos)
-					.xEndPos(convXRelCoordToAbsCoord(rectangle.getXEnd()))
-					.yEndPos(convYRelCoordToAbsCoord(rectangle.getYEnd())).arcWidth(rectangle.getArcWidth())
-					.arcHeight(rectangle.getArcHeight()).color(rectangle.getGraphicColor()).solid(rectangle.isSolid())
-					.outlineColor(rectangle.getOutlineColor()).outlineThickness(rectangle.getOutlineThickness())
-					.shadow(rectangle.getShadow()).rotation(rectangle.getRotation())
-					.shadingType(rectangle.getShadingType());
+				.xEndPos(convXRelCoordToAbsCoord(rectangle.getXEnd()))
+				.yEndPos(convYRelCoordToAbsCoord(rectangle.getYEnd()))
+				.arcWidth(rectangle.getArcWidth())
+				.arcHeight(rectangle.getArcHeight())
+				.color(rectangle.getGraphicColor())
+				.solid(rectangle.isSolid())
+				.outlineColor(rectangle.getOutlineColor())
+				.outlineThickness(rectangle.getOutlineThickness())
+				.shadow(rectangle.getShadow())
+				.rotation(rectangle.getRotation())
+				.shadingType(rectangle.getShadingType());
 			break;
 
 		}
 
 		/*
-		 * Loop through all the stops for the current graphic and add them to
-		 * the graphicHandler
+		 * Loop through all the stops (shading colors and distances) for the
+		 * current graphic and add them to the graphicHandler.
 		 */
 		if (currentGraphic.getStopValuesList() != null) {
 			for (int i = 0; i < currentGraphic.getStopValuesList().size(); i++) {
 				graphicBuilder.shadingElement(currentGraphic.getShadingList().get(i), currentGraphic
-						.getStopValuesList().get(i));
+					.getStopValuesList()
+					.get(i));
 			}
 		}
 
+		/* Create the shape using the graphics handler. */
 		graphicsHandler.createGraphic(graphicBuilder.build());
 
+		/*
+		 * If the graphic has a start time tag, hide the object. Will be shown
+		 * later by the updateSlide class.
+		 */
 		if (currentGraphic.getStartTime() != 0) {
 			graphicsHandler.setVisible(graphicsHandler.getGraphicCount() - 1, false);
 		}
 	}
 
+	/**
+	 * Method to add a text box to the screen using the text handler.
+	 * 
+	 * @param currentText
+	 *            the text object containing information about the text box to
+	 *            be drawn.
+	 */
 	private void addText(Text currentText) {
 		float xStart = convXRelCoordToAbsCoord(currentText.getXStart());
 		float yStart = convYRelCoordToAbsCoord(currentText.getYStart());
@@ -330,14 +474,17 @@ public class SlideRenderer {
 		String backgroundColor = currentText.getBackgroundColor();
 		Alignment alignment = Alignment.valueOf(currentText.getAlignment().toUpperCase());
 
+		/*
+		 * Initialise a new textFragmentList for passing to the text box
+		 * builder.
+		 */
 		TextFragmentList textFragmentList = new TextFragmentList();
 
 		/*
 		 * Loop through all the text fragments for the box, adding them to the
-		 * textFragmentList
+		 * textFragmentList.
 		 */
 		for (TextFragment currentFragment : currentText.getTextFragments()) {
-
 			boolean bold = currentFragment.isBold();
 			boolean underline = currentFragment.isUnderlined();
 			boolean italic = currentFragment.isItalicised();
@@ -351,20 +498,50 @@ public class SlideRenderer {
 			double fontSize = currentFragment.getFontSize();
 			String text = currentFragment.getText();
 
-			textFragmentList.add(new TextObject.TextFragmentBuilder(text).bold(bold).underline(underline)
-					.italic(italic).superscript(superscript).subscript(subscript).strikethrough(strikethrough)
-					.newline(newline).fontColor(fontColor).highlightColor(highlightColor).fontName(font)
-					.fontSize((int) fontSize).build());
+			/* Add the attributes to the list using the textFragmentBuilder. */
+			textFragmentList.add(new TextObject.TextFragmentBuilder(text)
+				.bold(bold)
+				.underline(underline)
+				.italic(italic)
+				.superscript(superscript)
+				.subscript(subscript)
+				.strikethrough(strikethrough)
+				.newline(newline)
+				.fontColor(fontColor)
+				.highlightColor(highlightColor)
+				.fontName(font)
+				.fontSize((int) fontSize)
+				.build());
 		}
 
-		textHandler.createTextbox(new TextObject.TextBoxBuilder(xStart, yStart).xEnd(xEnd).yEnd(yEnd)
-				.backgroundColor(backgroundColor).alignment(alignment).textFragmentList(textFragmentList).build());
+		/*
+		 * Create the text object using the text box builder and pass it to the
+		 * text handler to be drawn on screen.
+		 */
+		textHandler.createTextbox(new TextObject.TextBoxBuilder(xStart, yStart)
+			.xEnd(xEnd)
+			.yEnd(yEnd)
+			.backgroundColor(backgroundColor)
+			.alignment(alignment)
+			.textFragmentList(textFragmentList)
+			.build());
 
+		/*
+		 * If the text box has a start time tag, hide the object. Will be shown
+		 * later by the updateSlide class.
+		 */
 		if (currentText.getStartTime() != 0) {
 			textHandler.setVisible(textHandler.getTextCount() - 1, false);
 		}
 	}
 
+	/**
+	 * 
+	 * 
+	 * @param currentImage
+	 *            the image object containing information about the image to be
+	 *            drawn.
+	 */
 	private void addImage(Image currentImage) {
 		String filepath = currentImage.getSourceFile();
 		float xStartPos = convXRelCoordToAbsCoord(currentImage.getXStart());
@@ -380,15 +557,38 @@ public class SlideRenderer {
 
 		// TODO Image effects, and scale in 2 directions.
 
-		imageHandler.createImage(new ImageObject.ImageBuilder(filepath, xStartPos, yStartPos).rotation(rotation)
-				.scaleX(scale).scaleY(scale).cropLeft(cropX1).cropRight(cropX2).cropDown(cropY1).cropUp(cropY2)
-				.hFlip(flipHorizontal).vFlip(flipVertical).build());
+		/*
+		 * Build the image object using the builder and pass it to the handler
+		 * to be drawn to screen.
+		 */
+		imageHandler.createImage(new ImageObject.ImageBuilder(filepath, xStartPos, yStartPos)
+			.rotation(rotation)
+			.scaleX(scale)
+			.scaleY(scale)
+			.cropLeft(cropX1)
+			.cropRight(cropX2)
+			.cropDown(cropY1)
+			.cropUp(cropY2)
+			.hFlip(flipHorizontal)
+			.vFlip(flipVertical)
+			.build());
 
+		/*
+		 * If the image has a start time tag, hide it. Will be shown again later
+		 * by the updateSlide method.
+		 */
 		if (currentImage.getStartTime() != 0) {
 			imageHandler.setVisible(imageHandler.getImageCount() - 1, false);
 		}
 	}
 
+	/**
+	 * Method to add audio to the screen using sofia's audio handler.
+	 * 
+	 * @param currentAudio
+	 *            the audio object containing information about the object to be
+	 *            drawn.
+	 */
 	private void addAudio(Audio currentAudio) {
 		float x = convXRelCoordToAbsCoord(currentAudio.getXStart());
 		float y = convYRelCoordToAbsCoord(currentAudio.getYStart());
@@ -402,8 +602,20 @@ public class SlideRenderer {
 		boolean playButtonOnly = false;// TODO currentAudio.isPlayButtonOnly();
 
 		audioHandler.createAudio(x, y, width, sourceFile, loop, autoPlay, visibleControls, playButtonOnly);
+
+		if (currentAudio.getStartTime() != 0) {
+			audioHandler.pauseAudio(audioHandler.getAudioCount() - 1);
+			audioHandler.setVisible(audioHandler.getAudioCount() - 1, false);
+		}
 	}
 
+	/**
+	 * Method to add video to the screen using sofia's video handler.
+	 * 
+	 * @param currentVideo
+	 *            the video object containing information about the video object
+	 *            to be drawn.
+	 */
 	private void addVideo(Video currentVideo) {
 		float x = convXRelCoordToAbsCoord(currentVideo.getXStart());
 		float y = convYRelCoordToAbsCoord(currentVideo.getYStart());
@@ -415,16 +627,23 @@ public class SlideRenderer {
 		videoHandler.createVideo(x, y, width, sourceFile, autoPlay, loop);
 
 		if (currentVideo.getStartTime() != 0) {
-			videoHandler.pauseVideo(videoHandler.getVideoCount());
+			videoHandler.pauseVideo(videoHandler.getVideoCount() - 1);
 			videoHandler.setVisible(videoHandler.getVideoCount() - 1, false);
 		}
-
 	}
 
+	/*
+	 * Converts a relative (0 to 1) coordinate in the x dimension to an absolute
+	 * slide position using the current slide size.
+	 */
 	private float convXRelCoordToAbsCoord(float x) {
 		return (xSlideStart + x * slideWidth);
 	}
 
+	/*
+	 * Converts a relative (0 to 1) coordinate in the y dimension to an absolute
+	 * slide position using the current slide size.
+	 */
 	private float convYRelCoordToAbsCoord(float y) {
 		return (ySlideStart + y * slideHeight);
 	}
@@ -439,6 +658,13 @@ public class SlideRenderer {
 		group.getChildren().clear();
 	}
 
+	/**
+	 * Builds the answer slide from the data stored in a question. Should
+	 * validate that there is answer data in the question object by using the
+	 * method question.hasAnswerData() before using this method.
+	 * 
+	 * @param question
+	 */
 	public void buildAnswerSlide(Question question) {
 		PieChartObject answerChart = new PieChartObject();
 
@@ -465,13 +691,22 @@ public class SlideRenderer {
 		graphHandler.drawPieChart(answerChart);
 	}
 
-	public class FullscreenEventHandler implements EventHandler<WindowEvent> {
-
+	/**
+	 * EventHandler class for passing to the video handler, which sets the
+	 * slideshow to fullscreen after being changed by a video going fullscreen.
+	 * 
+	 * @author tjd511
+	 */
+	private class FullscreenEventHandler implements EventHandler<WindowEvent> {
 		@Override
 		public void handle(WindowEvent arg0) {
-			// TODO Auto-generated method stub
-			System.err.println("window event");
+			/*
+			 * Set the screen to fullscreen again. Just calling
+			 * setFullScreen(true) does not set the window fullscreen, even
+			 * though stage.isFullScreen() returns true.
+			 */
+			stage.setFullScreen(false);
+			stage.setFullScreen(true);
 		}
-
 	}
 }

@@ -58,7 +58,7 @@ public class SlideshowRuntimeData {
 
 		secondaryStage.setFullScreen(true);
 
-		this.slideRenderer = new SlideRenderer(group);
+		this.slideRenderer = new SlideRenderer(secondaryStage);
 
 		scene.setOnMouseClicked(new MouseClickHandler());
 
@@ -67,7 +67,7 @@ public class SlideshowRuntimeData {
 		scene.setOnKeyPressed(new KeyboardHandler());
 
 		currentSlide = slideshow.getSlide(0);
-
+		
 		updateScreenBoundaries();
 
 		buildCurrentSlide();
@@ -96,7 +96,7 @@ public class SlideshowRuntimeData {
 			ySlideStart = 0;
 		}
 
-		slideRenderer.updateSlideDimentions(xSlideStart, ySlideStart, slideWidth, slideHeight);
+		slideRenderer.updateSlideDimensions(xSlideStart, ySlideStart, slideWidth, slideHeight);
 	}
 
 	private void buildCurrentSlide() {
