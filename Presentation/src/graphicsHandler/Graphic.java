@@ -232,7 +232,6 @@ public class Graphic {
 			 * Switch to set different types of shading using the shadingStops
 			 * created above
 			 */
-			System.err.println(shadingType.toString() + " " + shadingStops.toString());
 			switch (shadingType) {
 			case CYCLIC:
 				shape.setFill(new RadialGradient(0, 0, 0.5, 0.5, 0.5, true, CycleMethod.NO_CYCLE, shadingStops));
@@ -707,7 +706,7 @@ public class Graphic {
 	 *            the height of the shape
 	 * @param numberOfSides
 	 *            the number of sides of the shape
-	 * @param regPolygonColor
+	 * @param regPolColor
 	 *            color of the regular polygon
 	 * @param solid
 	 *            boolean value of if the shape is an outline or a solid shape

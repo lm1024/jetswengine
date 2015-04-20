@@ -35,10 +35,10 @@ public class RuntimeDataWithGraphTest extends Application {
 		
 		Slide slide1 = new Slide(slideshow.getDefaults());
 		
-		Question question = new Question("a", "a");
-		question.addAnswer("a", true);
+		Question question = new Question("How many ducks are in York?", "ducks.txt");
+		question.addAnswer("10", true);
 		question.increaseAnswerCount(0);
-		question.addAnswer("b", false);
+		question.addAnswer("100000000000000", false);
 		question.increaseAnswerCount(1);
 		question.increaseAnswerCount(1);
 		
@@ -58,7 +58,7 @@ public class RuntimeDataWithGraphTest extends Application {
 			}
 		});
 
-		primaryStage.show();
+		//primaryStage.show();
 
 	}
 

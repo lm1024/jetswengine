@@ -10,9 +10,9 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Series;
 
 public class GraphHandler {
-	
+
 	private Group group;
-	
+
 	/**
 	 * Constructor for the graphsHandler.
 	 * 
@@ -22,21 +22,33 @@ public class GraphHandler {
 	public GraphHandler(Group group) {
 		this.group = group;
 	}
-	
+
+	/**
+	 * Draws a pie chart on the group passed to the constructor of the handler.
+	 * 
+	 * @param pieChartObject
+	 *            A PieChartObject containing all the data of the chart to be
+	 *            drawn.
+	 * @see {@link graphsHandler.PieChartObject}
+	 */
 	public void drawPieChart(PieChartObject pieChartObject) {
 		ObservableList<PieChart.Data> pieChartData = pieChartObject.getPieChartData();
 		String title = pieChartObject.getTitle();
 		float xStartPos = pieChartObject.getxStartPos();
 		float yStartPos = pieChartObject.getyStartPos();
-		float scale = pieChartObject.getScale();
-		
+		double prefWidth = pieChartObject.getPrefWidth();
+		double prefHeight = pieChartObject.getPrefHeight();
+
 		PieChart pChart = new PieChart(pieChartData);
 		pChart.setTitle(title);
+
+		pChart.setStyle(".chart-title { -fx-text-fill: #ffffff; -fx-font-size: 2em; }");
+
 		pChart.setLayoutX(xStartPos);
 		pChart.setLayoutY(yStartPos);
-		pChart.setScaleX(scale);
-		pChart.setScaleY(scale);
-		System.out.println("Adding graph");
+
+		pChart.setPrefSize(prefWidth, prefHeight);
+
 		group.getChildren().add(pChart);
 	}
 
@@ -63,5 +75,5 @@ public class GraphHandler {
 		bChart.setRotate(90);
 		group.getChildren().add(bChart);
 	}
-	
+
 }

@@ -3,7 +3,6 @@
  */
 package renderer;
 
-import java.io.File;
 import java.util.ArrayList;
 
 import imageHandler.ImageHandler;
@@ -11,8 +10,6 @@ import imageHandler.ImageObject;
 import graphicsHandler.GraphicObject.GraphicBuilder;
 import graphicsHandler.GraphicType;
 import graphicsHandler.GraphicsHandler;
-import graphicsHandler.Shading;
-import graphicsHandler.Shadow;
 import graphsHandler.PieChartObject;
 import graphsHandler.GraphHandler;
 import sofia.audio.AudioHandler;
@@ -44,8 +41,11 @@ import Data.SlideItem;
 import Data.Text;
 import Data.TextFragment;
 import Data.Video;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
-import javafx.scene.paint.Color;
+import javafx.scene.control.Button;
+import javafx.stage.WindowEvent;
 
 /**
  * @author Fiery
@@ -74,13 +74,12 @@ public class SlideRenderer {
 		this.graphicsHandler = new GraphicsHandler(group);
 		this.imageHandler = new ImageHandler(group);
 		this.textHandler = new TextHandler(group);
-		this.videoHandler = new VideoHandler(group);
+		this.videoHandler = new VideoHandler(group, new FullscreenEventHandler());
 		this.audioHandler = new AudioHandler(group);
 		this.graphHandler = new GraphHandler(group);
 	}
 
 	public void updateSlideDimentions(double xSlideStart, double ySlideStart, double slideWidth, double slideHeight) {
-		System.out.println(xSlideStart + " " + ySlideStart + " " + slideWidth + " " + slideHeight);
 		this.xSlideStart = (float) xSlideStart;
 		this.ySlideStart = (float) ySlideStart;
 		this.slideWidth = (float) slideWidth;
@@ -89,8 +88,6 @@ public class SlideRenderer {
 
 	public void drawSlide(Slide currentSlide) {
 		clear();
-		System.out.println("");
-		System.out.println("");
 		this.currentSlide = currentSlide;
 		for (SlideItem currentSlideItem : currentSlide.getAll()) {
 			switch (currentSlideItem.getType()) {
@@ -147,10 +144,8 @@ public class SlideRenderer {
 
 			if (currentSlideItem.getStartTime() == (float) currentTimeIntoSlide / 1000f) {
 				updateVisibilityOfObject(currentSlideItem.getType(), currentObjectNumber - 1, true);
-				System.out.println("Showing a " + currentSlideItem.getType() + " object!");
 			} else if (currentSlideItem.getDuration() + currentSlideItem.getStartTime() == (float) currentTimeIntoSlide / 1000f) {
 				updateVisibilityOfObject(currentSlideItem.getType(), currentObjectNumber - 1, false);
-				System.out.println("Removing a " + currentSlideItem.getType() + " object!");
 			}
 
 		}
@@ -165,11 +160,10 @@ public class SlideRenderer {
 			imageHandler.setVisible(numberOfObject, visible);
 			break;
 		case "Audio":
-			audioHandler.setVisible(numberOfObject, visible); //TODO
+			audioHandler.setVisible(numberOfObject, visible);
 			break;
 		case "Video":
 			videoHandler.setVisible(numberOfObject, visible);
-			videoHandler.playVideo(numberOfObject);
 			break;
 		default:
 			graphicsHandler.setVisible(numberOfObject, visible);
@@ -196,8 +190,10 @@ public class SlideRenderer {
 			break;
 		case ARROW:
 			Arrow arrow = (Arrow) currentGraphic;
-			graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos).xEndPos(convXRelCoordToAbsCoord(arrow.getXEnd()))
-					.yEndPos(convYRelCoordToAbsCoord(arrow.getYEnd())).color(arrow.getGraphicColor()).shadingType(arrow.getShadingType());
+			graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos)
+					.xEndPos(convXRelCoordToAbsCoord(arrow.getXEnd()))
+					.yEndPos(convYRelCoordToAbsCoord(arrow.getYEnd())).color(arrow.getGraphicColor())
+					.shadingType(arrow.getShadingType());
 			break;
 		case CHORD:
 			Chord chord = (Chord) currentGraphic;
@@ -226,9 +222,10 @@ public class SlideRenderer {
 			break;
 		case LINE:
 			Line line = (Line) currentGraphic;
-			graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos).xEndPos(convXRelCoordToAbsCoord(line.getXEnd()))
-					.yEndPos(convYRelCoordToAbsCoord(line.getYEnd())).color(line.getGraphicColor()).outlineThickness(line.getThickness())
-					.shadow(line.getShadow()).shadingType(line.getShadingType());
+			graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos)
+					.xEndPos(convXRelCoordToAbsCoord(line.getXEnd())).yEndPos(convYRelCoordToAbsCoord(line.getYEnd()))
+					.color(line.getGraphicColor()).outlineThickness(line.getThickness()).shadow(line.getShadow())
+					.shadingType(line.getShadingType());
 			break;
 		case OVAL:
 			Oval oval = (Oval) currentGraphic;
@@ -246,7 +243,8 @@ public class SlideRenderer {
 
 			/* Add all the points of the polygon to the graphic builder */
 			for (int i = 0; i < pol.getxPoints().size(); i++) {
-				graphicBuilder.polygonCoordinate(convXRelCoordToAbsCoord(pol.getxPoints().get(i)), convYRelCoordToAbsCoord(pol.getyPoints().get(i)));
+				graphicBuilder.polygonCoordinate(convXRelCoordToAbsCoord(pol.getxPoints().get(i)),
+						convYRelCoordToAbsCoord(pol.getyPoints().get(i)));
 			}
 
 			break;
@@ -281,20 +279,23 @@ public class SlideRenderer {
 		case TRIANGLE:
 			Triangle triangle = (Triangle) currentGraphic;
 			graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos)
-					.triangleCoordinates(convXRelCoordToAbsCoord(triangle.getxPoints().get(0)), convYRelCoordToAbsCoord(triangle.getyPoints().get(0)),
-							convXRelCoordToAbsCoord(triangle.getxPoints().get(1)), convYRelCoordToAbsCoord(triangle.getyPoints().get(1)), convXRelCoordToAbsCoord(triangle.getxPoints().get(2)),
-							convYRelCoordToAbsCoord(triangle.getyPoints().get(2))).color(triangle.getGraphicColor()).solid(triangle.isSolid())
-					.outlineColor(triangle.getOutlineColor()).outlineThickness(triangle.getOutlineThickness())
-					.shadow(triangle.getShadow()).rotation(triangle.getRotation())
-					.shadingType(triangle.getShadingType());
-
+					.triangleCoordinates(convXRelCoordToAbsCoord(triangle.getxPoints().get(0)),
+							convYRelCoordToAbsCoord(triangle.getyPoints().get(0)),
+							convXRelCoordToAbsCoord(triangle.getxPoints().get(1)),
+							convYRelCoordToAbsCoord(triangle.getyPoints().get(1)),
+							convXRelCoordToAbsCoord(triangle.getxPoints().get(2)),
+							convYRelCoordToAbsCoord(triangle.getyPoints().get(2))).color(triangle.getGraphicColor())
+					.solid(triangle.isSolid()).outlineColor(triangle.getOutlineColor())
+					.outlineThickness(triangle.getOutlineThickness()).shadow(triangle.getShadow())
+					.rotation(triangle.getRotation()).shadingType(triangle.getShadingType());
 			break;
 		default:
 			/* For any other shape, by default make a rectangle */
 			Rectangle rectangle = (Rectangle) currentGraphic;
 			rectangle.printItem();
 			graphicBuilder = new GraphicBuilder(GraphicType.RECTANGLE, xStartPos, yStartPos)
-					.xEndPos(convXRelCoordToAbsCoord(rectangle.getXEnd())).yEndPos(convYRelCoordToAbsCoord(rectangle.getYEnd())).arcWidth(rectangle.getArcWidth())
+					.xEndPos(convXRelCoordToAbsCoord(rectangle.getXEnd()))
+					.yEndPos(convYRelCoordToAbsCoord(rectangle.getYEnd())).arcWidth(rectangle.getArcWidth())
 					.arcHeight(rectangle.getArcHeight()).color(rectangle.getGraphicColor()).solid(rectangle.isSolid())
 					.outlineColor(rectangle.getOutlineColor()).outlineThickness(rectangle.getOutlineThickness())
 					.shadow(rectangle.getShadow()).rotation(rectangle.getRotation())
@@ -309,8 +310,8 @@ public class SlideRenderer {
 		 */
 		if (currentGraphic.getStopValuesList() != null) {
 			for (int i = 0; i < currentGraphic.getStopValuesList().size(); i++) {
-				graphicBuilder.shadingElement(currentGraphic.getShadingList().get(i), currentGraphic.getStopValuesList()
-						.get(i));
+				graphicBuilder.shadingElement(currentGraphic.getShadingList().get(i), currentGraphic
+						.getStopValuesList().get(i));
 			}
 		}
 
@@ -393,9 +394,8 @@ public class SlideRenderer {
 		float y = convYRelCoordToAbsCoord(currentAudio.getYStart());
 		float width = 400; // TODO currentAudio.getWidth();
 
-		String sourceFile = currentAudio.getSourceFile(); //TODO
-		//File sourceFile = new File(currentAudio.getSourceFile());
-		
+		String sourceFile = currentAudio.getSourceFile();
+
 		boolean loop = false;// TODO currentAudio.isLoop();
 		boolean autoPlay = false;// TODO currentAudio.isAutoPlay();
 		boolean visibleControls = true;// TODO currentAudio.isVisibleControls();
@@ -440,13 +440,17 @@ public class SlideRenderer {
 	}
 
 	public void buildAnswerSlide(Question question) {
-		System.out.println("Building graph");
-
 		PieChartObject answerChart = new PieChartObject();
+
+		double chartWidth = convXRelCoordToAbsCoord(0.7f);
+		double chartHeight = convYRelCoordToAbsCoord(0.7f);
+
 		answerChart.setTitle(question.getId());
-		answerChart.setxStartPos(0);
-		answerChart.setyStartPos(0);
-		answerChart.setScale(1);
+
+		answerChart.setPrefSize(chartWidth, chartHeight);
+
+		answerChart.setxStartPos((float) (convXRelCoordToAbsCoord(0.5f) - chartWidth / 2));
+		answerChart.setyStartPos((float) (convYRelCoordToAbsCoord(0.5f) - chartHeight / 2));
 
 		ArrayList<String> answerNames = new ArrayList<String>();
 		ArrayList<Float> answerValues = new ArrayList<Float>();
@@ -459,5 +463,15 @@ public class SlideRenderer {
 		answerChart.setPieChartData(answerNames, answerValues);
 
 		graphHandler.drawPieChart(answerChart);
+	}
+
+	public class FullscreenEventHandler implements EventHandler<WindowEvent> {
+
+		@Override
+		public void handle(WindowEvent arg0) {
+			// TODO Auto-generated method stub
+			System.err.println("window event");
+		}
+
 	}
 }
