@@ -50,6 +50,7 @@ public class TextHandler extends DefaultHandler {
 			text.setFontColor(attributes.getValue("fontcolor"));
 			text.setFontSize(attributes.getValue("fontsize"));
 			text.setBackgroundColor(attributes.getValue("backgroundcolor"));
+			text.setHighlightColor(attributes.getValue("highlightcolor"));
 		} else if(elementName.equals("richtext")) {
 			reader.setContentHandler(new TextFragmentHandler(reader,this,text));
 			reader.getContentHandler().startElement(uri, localName, qName, attributes);
@@ -79,7 +80,7 @@ public class TextHandler extends DefaultHandler {
 				tf.setText(contentBuffer.toString().trim());
 				text.addTextFragment(tf);
 			}
-			slide.addText(text);
+			slide.add(text);
 			reader.setContentHandler(parentHandler);
 		} else {
 			System.err.println("Unknown Text end element encountered: " + elementName);

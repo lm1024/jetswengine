@@ -100,8 +100,6 @@ public class Video {
     /** Event handler for fullscreen exit */
     private EventHandler<WindowEvent> fullScreenCloseHandler;
     
-    VBox vBox;
-    
     /**
      * Constructs the video.
      * 
@@ -320,9 +318,7 @@ public class Video {
      */
     public void stop() {
         if(mediaPlayer != null) {
-        	System.out.println("got video");
             mediaPlayer.stop();
-            System.out.println("got hererer");
         }
     }
     
@@ -331,10 +327,6 @@ public class Video {
      */
     public void dispose() {
         if(mediaPlayer != null) {
-        	if(fsInfo.isFullscreen()) {
-        		fullscreen();
-        	}
-        	
             mediaPlayer.stop();
             mediaPlayer.dispose();
         }
@@ -362,13 +354,12 @@ public class Video {
      * Programmatically sets this videos visibility 
      */
     public void setVisible(boolean visible) {
-        if(videoFrame != null && !fsInfo.isFullscreen()) {
-        	if(!visible) {
-        		/* Disappearing */
-        		mediaPlayer.pause();
-        	}
-        	
-        	videoFrame.setVisible(visible);
+        if(videoFrame != null) {
+            if(fsInfo.isFullscreen()) {
+                fullscreen();
+            }
+            
+            videoFrame.setVisible(visible);
         }
     }
     
@@ -503,17 +494,17 @@ public class Video {
     public void fullscreen() {                
         /* If the video is already fullscreen, go back. If not, go fullscreen */
         if(fsInfo.isFullscreen()) {
-        	/* Relocate to original position */
+            /* Relocate to original position */
             videoFrame.relocate(fsInfo.getOriginalX(), fsInfo.getOriginalY());
             
             /* Set to original width */
             video.setFitWidth(fsInfo.getOriginalWidth());
-        	
-        	/* Add the video frame back to the main screen */
+            
+            /* Add the video frame back to the main screen */
             group.getChildren().add(videoFrame);
             
             /* Hide the fullscreen video stage */
-            fsStage.hide();
+            fsStage.close();
             
             /* Set the fullscreen flag false */
             fsInfo.setFullscreen(false);
@@ -525,7 +516,7 @@ public class Video {
             group.getChildren().remove(videoFrame);
             
             /* Setup the fullscreen root */
-            vBox = new VBox();
+            VBox vBox = new VBox();
             vBox.setAlignment(Pos.CENTER_LEFT);
             
             /* Set up the fullscreen scene */
@@ -546,7 +537,7 @@ public class Video {
             fsStage.setTitle("");
             fsStage.setFullScreen(true);
             fsStage.show();
-            fsStage.setOnHidden(fullScreenCloseHandler);
+            fsStage.setOnCloseRequest(fullScreenCloseHandler);
             
             /* Set the fullscreen flag true */
             fsInfo.setFullscreen(true);

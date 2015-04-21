@@ -447,7 +447,6 @@ public class SlideRenderer {
 		default:
 			/* For any other shape, by default make a rectangle */
 			Rectangle rectangle = (Rectangle) currentGraphic;
-			rectangle.printItem();
 			graphicBuilder = new GraphicBuilder(GraphicType.RECTANGLE, xStartPos, yStartPos)
 				.xEndPos(convXRelCoordToAbsCoord(rectangle.getXEnd()))
 				.yEndPos(convYRelCoordToAbsCoord(rectangle.getYEnd()))

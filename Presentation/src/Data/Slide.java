@@ -3,99 +3,46 @@ package Data;
 import java.util.ArrayList;
 import java.util.List;
 
+import utils.Utils;
+
 public class Slide {
 	/**
 	 * 
 	 */
 	private float duration;
-	private List<Text> textList;
-	private List<Graphic> graphicsList;
-	private List<Audio> audioList;
-	private List<Image> imagesList;
-	private List<Video> videoList;
-	private Text currentText;
-	private Graphic currentGraphic;
-	private Image currentImage;
-	private Video currentVideo;
-	private Audio currentAudio;
+	private String backgroundColor;
+	private List<SlideItem> itemList;
+	private SlideItem currentItem;
+	private Question slideQuestion;
 
 	public Slide(Defaults defaults) {
-		this.textList = new ArrayList<Text>();
-		this.audioList = new ArrayList<Audio>();
-		this.graphicsList = new ArrayList<Graphic>();
-		this.videoList = new ArrayList<Video>();
-		this.imagesList = new ArrayList<Image>();
+		this.itemList = new ArrayList<SlideItem>();
 		this.duration = defaults.getDuration();
+		this.backgroundColor = defaults.getBackgroundColor();
+	}
+	
+	/**
+	 * @return the backgroundColour
+	 */
+	public String getBackgroundColor() {
+		return this.backgroundColor;
 	}
 
 	/**
-	 * @return the currentText
+	 * @param backgroundColour
+	 *            the backgroundColour to set
 	 */
-	public Text getCurrentText() {
-		return currentText;
+	public void setBackgroundColor(String string) {
+		if (Utils.validARGB(string)) {
+			this.backgroundColor = string;
+		}
 	}
-
+	
 	/**
-	 * @return the currentGraphic
+	 * @return the currentItem
 	 */
-	public Graphic getCurrentGraphic() {
-		return currentGraphic;
-	}
-
-	/**
-	 * @return the currentImage
-	 */
-	public Image getCurrentImage() {
-		return currentImage;
-	}
-
-	/**
-	 * @return the currentVideo
-	 */
-	public Video getCurrentVideo() {
-		return currentVideo;
-	}
-
-	/**
-	 * @return the currentSound
-	 */
-	public Audio getCurrentAudio() {
-		return currentAudio;
-	}
-
-	/**
-	 * @return the currentText
-	 */
-	public Text getText(int index) {
-		return textList.get(index);
-	}
-
-	/**
-	 * @return the currentGraphic
-	 */
-	public Graphic getGraphic(int index) {
-		return graphicsList.get(index);
-	}
-
-	/**
-	 * @return the currentImage
-	 */
-	public Image getImage(int index) {
-		return imagesList.get(index);
-	}
-
-	/**
-	 * @return the currentVideo
-	 */
-	public Video getVideo(int index) {
-		return videoList.get(index);
-	}
-
-	/**
-	 * @return the currentSound
-	 */
-	public Audio getAudio(int index) {
-		return audioList.get(index);
+	public SlideItem getCurrentItem() {
+		return this.currentItem;
 	}
 
 	/**
@@ -111,72 +58,65 @@ public class Slide {
 	 */
 	public void setDuration(String string) {
 		try {
-			float f = Float.parseFloat(string);
-			if (f > 0) {
-				this.duration = f;
+			if (string.toLowerCase().matches("float.max_value|infinite")) {
+				this.duration = Float.MAX_VALUE;
+			} else {
+				float f = Float.parseFloat(string);
+				if (f > 0) {
+					this.duration = f;
+				}
 			}
 		} catch (Exception e) {
 			/* Do Nothing */
 		}
 	}
-
+	
 	/**
-	 * @return the textList
+	 * @return the slideItems
 	 */
-	public List<Text> getTextList() {
-		return textList;
+	public List<SlideItem> getAll() {
+		return itemList;
 	}
-
+	
 	/**
-	 * @return the graphicsList
+	 * @return the slideItem
 	 */
-	public List<Graphic> getGraphicsList() {
-		return graphicsList;
+	public SlideItem get(int index) {
+		return itemList.get(index);
 	}
-
-	/**
-	 * @return the soundsList
-	 */
-	public List<Audio> getAudiosList() {
-		return audioList;
+	
+	public void add(SlideItem item) {
+		this.currentItem = item;
+		itemList.add(currentItem);
 	}
-
-	/**
-	 * @return the imagesList
-	 */
-	public List<Image> getImagesList() {
-		return imagesList;
+	
+	public void remove(int index) {
+		itemList.remove(index);
 	}
-
-	/**
-	 * @return the videoList
-	 */
-	public List<Video> getVideosList() {
-		return videoList;
+	
+	public void addQuestion(Question question) {
+		this.slideQuestion = question;
 	}
-
-	public void addImage(Image image) {
-		this.currentImage = image;
-		imagesList.add(currentImage);
+	
+	public boolean containsQuestion() {
+		return slideQuestion != null;
 	}
-
-	public void addVideo(Video video) {
-		this.currentVideo = video;
-		videoList.add(currentVideo);
+	
+	public Question getQuestion() {
+		return slideQuestion;
 	}
-
-	public void addAudio(Audio audio) {
-		this.currentAudio = audio;
-		audioList.add(currentAudio);
-	}
-
-	public void addText(Text text) {
-		this.currentText = text;
-		textList.add(currentText);
-	}
-
-	public void addGraphic(Graphic graphic) {
-		this.currentGraphic = graphic;
-		graphicsList.add(currentGraphic);
+	
+	public Slide copySlide() {
+		Slide slide = new Slide(new Defaults());
+		Slide slideToBeCopied = this;
+		
+		slide.setBackgroundColor(slideToBeCopied.getBackgroundColor());
+		slide.setDuration(((Float)slideToBeCopied.getDuration()).toString());
+		
+		for (SlideItem item : slideToBeCopied.getAll()) {
+			slide.add(item);
+		}
+		
+		return slide;
 	}
 }

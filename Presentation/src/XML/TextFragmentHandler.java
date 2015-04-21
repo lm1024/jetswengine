@@ -36,6 +36,7 @@ public class TextFragmentHandler extends DefaultHandler {
 			tf.setFont(text.getFont());
 			tf.setFontColor(text.getFontColor());
 			tf.setFontSize(text.getFontSize());
+			tf.setHighlightColor(text.getHighlightColor());
 			tf.setBold(attributes.getValue("bold"));
 			tf.setUnderlined(attributes.getValue("underlined"));
 			tf.setItalicised(attributes.getValue("italicised"));
@@ -69,11 +70,17 @@ public class TextFragmentHandler extends DefaultHandler {
 		if (elementName.equals("richtext")) {
 			if (contentBuffer.toString().trim().contains("\\n")) {
 				TextFragment temp;
-				for (String string : contentBuffer.toString().trim().split(Pattern.quote("\\n"))) {
+				String strings[] = contentBuffer.toString().trim().split(Pattern.quote("\\n"));
+				for (int i = 0; i < strings.length - 1; i++) {
 					temp = tf.clone();
-					temp.setText(string);
+					temp.setNewline(true);
+					temp.setText(strings[i]);
 					text.addTextFragment(temp);
 				}
+				temp = tf.clone();
+				temp.setNewline(contentBuffer.toString().trim().endsWith("\\n"));
+				temp.setText(strings[strings.length - 1]);
+				text.addTextFragment(temp);
 			} else {
 				tf.setText(contentBuffer.toString().trim());
 				text.addTextFragment(tf);

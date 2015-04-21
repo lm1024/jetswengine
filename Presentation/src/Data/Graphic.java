@@ -1,58 +1,73 @@
 package Data;
 
 import java.util.HashMap;
+import java.util.List;
 
 import utils.Utils;
 import Data.CommonShapes.*;
+import Data.RadialShapes.*;
+import Data.OtherShapes.*;
 
 public class Graphic extends SlideItem {
 
 	private String graphicColor;
-<<<<<<< HEAD
 	private String shadow = "None";
 	private List<String> shadingList;
 	private List<Float> stopValuesList;
 	private String shadingType = "None";
-=======
->>>>>>> refs/heads/master
 
 	public Graphic(Defaults defaults) {
 		super(defaults);
 		this.graphicColor = defaults.getGraphicColor();
 	}
+	
+	@Override
+	public void printItem() {
+		super.printItem();
+		System.out.println("Graphic Color: " + graphicColor);
+		if(shadow != null) {
+			System.out.println("Shadow Weight: " + shadow);
+		}
+		if(shadingType != null ) {
+			System.out.println("Shading Type: " + shadingType);
+		}
+		if(shadingList != null) {
+			int i = 1;
+			for(String string : shadingList) {
+				System.out.println("Shading Color " + i + ": " + string);
+				i++;
+			}
+		}
+		if(stopValuesList != null) {
+			int i = 1;
+			for(Float f : stopValuesList) {
+				System.out.println("Stop Value " + i + ": " + f.floatValue());
+				i++;
+			}
+		}
+		
+	}
 
 	public static Graphic makeGraphic(HashMap<String, String> hashMap, Defaults defaults) {
 		Graphic g;
-		CommonShapes c = new CommonShapes(defaults);
 		switch (hashMap.get("type")) {
 		case "oval":
-			g = c.new Oval(defaults);
+			g = new CommonShapes(defaults).new Oval(defaults);
 			((Oval) g).setSolid(hashMap.get("solid"));
 			((Oval) g).setXEnd(hashMap.get("xend"));
 			((Oval) g).setYEnd(hashMap.get("yend"));
 			break;
 		case "rectangle":
-			g = c.new Rectangle(defaults);
+			g = new CommonShapes(defaults).new Rectangle(defaults);
 			((Rectangle) g).setSolid(hashMap.get("solid"));
 			((Rectangle) g).setXEnd(hashMap.get("xend"));
 			((Rectangle) g).setYEnd(hashMap.get("yend"));
 			break;
-		case "itriangle":
-			g = c.new IsoscelesTriangle(defaults);
-			((IsoscelesTriangle) g).setSolid(hashMap.get("solid"));
-			((IsoscelesTriangle) g).setXEnd(hashMap.get("xend"));
-			((IsoscelesTriangle) g).setYEnd(hashMap.get("yend"));
-			break;
 		case "line":
-<<<<<<< HEAD
 			g = new OtherShapes(defaults).new Line(defaults);
-=======
-			g = c.new Line(defaults);
->>>>>>> refs/heads/master
 			((Line) g).setXEnd(hashMap.get("xend"));
 			((Line) g).setYEnd(hashMap.get("yend"));
 			break;
-<<<<<<< HEAD
 		case "circle":
 			g = new RadialShapes(defaults).new Circle(defaults);
 			((Circle) g).setSolid(hashMap.get("solid"));
@@ -111,10 +126,8 @@ public class Graphic extends SlideItem {
 			((Arc) g).setLength(hashMap.get("length"));
 			((Arc) g).setArcAngle(hashMap.get("arcangle"));
 			break;
-=======
->>>>>>> refs/heads/master
 		default:
-			System.out.println("Unknown graphic. Returning Null");
+			System.out.println("Unknown graphic: " + hashMap.get("type") + ". Returning Null");
 			return null;
 
 		}
@@ -143,10 +156,52 @@ public class Graphic extends SlideItem {
 		}
 	}
 
-	@Override
-	public void printItem() {
-		super.printItem();
-		System.out.println("Graphic Color: " + graphicColor);
+	public String getShadow() {
+		return shadow;
+	}
+
+	public void setShadow(String string) {
+		if(Utils.validShadow(string)) {
+			this.shadow = string;
+		}
+	}
+
+	/**
+	 * @return the shadingList
+	 */
+	public List<String> getShadingList() {
+		return shadingList;
+	}
+
+	/**
+	 * @param shadingList the shadingList to set
+	 */
+	public void setShadingList(List<String> shadingList) {
+		this.shadingList = shadingList;
+	}
+
+	/**
+	 * @return the shadingType
+	 */
+	public String getShadingType() {
+		return shadingType;
+	}
+
+	/**
+	 * @param shadingType the shadingType to set
+	 */
+	public void setShadingType(String string) {
+		if(Utils.validShadingType(string)) {
+			this.shadingType = string;
+		}
+	}
+
+	public List<Float> getStopValuesList() {
+		return stopValuesList;
+	}
+
+	public void setStopValuesList(List<Float> stopValuesList) {
+		this.stopValuesList = stopValuesList;
 	}
 
 }

@@ -100,7 +100,6 @@ public class VideoHandler {
      */
     public void stopVideo(int videoId) {
         if(videoId < videos.size() && videoId >= 0) {
-        	System.out.println("got handler");
             videos.get(videoId).stop();
         }
     }

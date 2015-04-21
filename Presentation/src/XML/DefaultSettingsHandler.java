@@ -78,9 +78,6 @@ public class DefaultSettingsHandler extends DefaultHandler {
 		case "alignment":
 			defaults.setAlignment(contentBuffer.toString().trim());
 			break;
-		case "textcase":
-			defaults.setTextCase(contentBuffer.toString().trim());
-			break;
 		case "scale":
 			defaults.setScale(contentBuffer.toString().trim());
 			break;

@@ -46,7 +46,7 @@ public class DummyGUI extends Application {
 		// primaryStage.setFullScreen(true);
 
 		/* Calls to add items to screen */
-		ImageHandler thisImageHandler = new ImageHandler(group);
+		/*ImageHandler thisImageHandler = new ImageHandler(group);
 		thisImageHandler.drawImage(1100, 200, "file:me.png", 0.4, 0.4, 0, false, false, 0, 0, 0, 0,
 				ImageEffect.REFLECTION, ImageEffect.SEPIA);
 
@@ -118,7 +118,7 @@ public class DummyGUI extends Application {
 		VideoHandler thisVideoHandler = new VideoHandler(group);
 		thisVideoHandler.createVideo(50, 700, 400, "M:/Sweng/avengers-featurehp.mp4", true, true);
 		
-		primaryStage.show();
+		primaryStage.show();*/
 	}
 
 	/** Utility function for adding button */
