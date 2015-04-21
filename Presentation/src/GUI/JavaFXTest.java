@@ -49,6 +49,7 @@ import javafx.stage.WindowEvent;
  */
 public class JavaFXTest extends Application {
 
+<<<<<<< HEAD
 	private Circle circle;
 	
 	private MediaView mediaView;
@@ -57,6 +58,8 @@ public class JavaFXTest extends Application {
 	
 	private ContextMenu contextMenu;
 	
+=======
+>>>>>>> refs/heads/master
 	/**
 	 * 
 	 */
@@ -78,7 +81,7 @@ public class JavaFXTest extends Application {
 		group.setStyle("-fx-background-color: white;");
 
 		/* Graphics Section */
-		circle = new Circle(150, 20, 50);
+		Circle circle = new Circle(150, 20, 50);
 		circle.relocate(250, 20);
 		circle.setFill(new Color(0, 1, 0, 1)); // RGBa!!!!!
 
@@ -129,7 +132,7 @@ public class JavaFXTest extends Application {
 		MediaPlayer mediaPlayer = new MediaPlayer(media);
 		mediaPlayer.setAutoPlay(true);
 		// create mediaView and add media player to the viewer
-		mediaView = new MediaView(mediaPlayer);
+		MediaView mediaView = new MediaView(mediaPlayer);
 		mediaView.relocate(50, 50);
 		// (scene.getRoot()).getChildren().add(mediaView);
 
@@ -243,9 +246,7 @@ public class JavaFXTest extends Application {
 		@Override
 		public void handle(ActionEvent e) {
 			Button buttonPressed = (Button) e.getSource();
-			//circle.setTranslateZ(circle.getTranslateZ()-0.1);
-			circle.toBack();
-			mediaView.toFront();			
+			System.out.println(buttonPressed.getId());
 		}
 	}
 

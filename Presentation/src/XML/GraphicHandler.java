@@ -5,7 +5,6 @@ package XML;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -13,14 +12,20 @@ import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 
 import utils.Utils;
+<<<<<<< HEAD
 import Data.CommonShapes;
 import Data.Defaults;
+=======
+>>>>>>> refs/heads/master
 import Data.Graphic;
+<<<<<<< HEAD
 import Data.OtherShapes;
 import Data.RadialShapes;
 import Data.CommonShapes.*;
 import Data.OtherShapes.*;
 import Data.RadialShapes.*;
+=======
+>>>>>>> refs/heads/master
 import Data.Slide;
 
 /**
@@ -32,24 +37,24 @@ public class GraphicHandler extends DefaultHandler {
 	private Slide slide;
 	private XMLReader reader;
 	private SlideHandler parentHandler;
+<<<<<<< HEAD
 	private Graphic graphic;
 	private HashMap<String, String> currentObject = new HashMap<String, String>();
 	private List<Float> xPoints;
 	private List<Float> yPoints;
 	private String tempDuration, tempStartTime, tempGraphicColor;
+=======
+	private HashMap<String,String> currentObject = new HashMap<String,String>();
+>>>>>>> refs/heads/master
 
 	/**
 	 * 
 	 */
-	public GraphicHandler(XMLReader reader, SlideHandler parent, Slide slide) {
+	public GraphicHandler(XMLReader reader, SlideHandler parent,
+			Slide slide) {
 		this.parentHandler = parent;
 		this.slide = slide;
 		this.reader = reader;
-		this.graphic = new Graphic(getDefaults());
-	}
-
-	public Defaults getDefaults() {
-		return parentHandler.getDefaults();
 	}
 	
 	private void updateGraphicType(String graphicType) {
@@ -105,6 +110,7 @@ public class GraphicHandler extends DefaultHandler {
 		if ("".equals(elementName)) {
 			elementName = qName;
 		}
+<<<<<<< HEAD
 		switch (elementName) {
 			case "graphic":
 				if(attributes.getValue("type") != null) {
@@ -371,6 +377,12 @@ public class GraphicHandler extends DefaultHandler {
 				break;
 		}
 
+=======
+		currentObject.put("type", elementName.equals("cyclicshading") ? currentObject.get("type") : elementName);
+		Utils.parse(currentObject, attributes, "type", "xstart", "ystart",
+				"yend", "xend", "solid", "graphiccolor", "duration",
+				"sourcefile", "starttime");
+>>>>>>> refs/heads/master
 	}
 
 	public void endElement(String uri, String localName, String qName)
@@ -381,6 +393,7 @@ public class GraphicHandler extends DefaultHandler {
 			elementName = qName;
 		}
 		if (elementName.equals("graphic")) {
+<<<<<<< HEAD
 			//Graphic temp = Graphic.makeGraphic(currentObject, getDefaults());
 			//graphic.setShadingList(this.graphic.getShadingList());
 			//temp.setShadingType(this.graphic.getShadingType());
@@ -393,6 +406,9 @@ public class GraphicHandler extends DefaultHandler {
 				((Polygon)graphic).setyPoints(yPoints);
 			}
 			slide.add(graphic);
+=======
+			slide.addGraphic(Graphic.makeGraphic(currentObject,parentHandler.getDefaults()));
+>>>>>>> refs/heads/master
 			reader.setContentHandler(parentHandler);
 		}
 	}

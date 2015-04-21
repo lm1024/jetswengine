@@ -10,25 +10,14 @@ public class Text extends SlideItem {
 
 	private List<TextFragment> textFragments;
 	private TextFragment currentTextFragment;
-	private String alignment; // left/right/center
+	private String alignment; // left/right/center/justify
+								// /justified/centre
 	private String font;
 	private String fontColor;
 	private double fontSize;
 	private String backgroundColor;
-	private String highlightColor;
 	private float xEnd = -1;
 	private float yEnd = -1;
-	
-	public Text(Defaults defaults) {
-		super(defaults);
-		this.textFragments = new ArrayList<TextFragment>();
-		this.font = defaults.getFont();
-		this.fontColor = defaults.getFontColor();
-		this.fontSize = defaults.getFontSize();
-		this.backgroundColor = defaults.getBackgroundColor();
-		this.alignment = defaults.getAlignment();
-		this.highlightColor = defaults.getHighlightColor();
-	}
 
 	@Override
 	public void printItem() {
@@ -49,23 +38,6 @@ public class Text extends SlideItem {
 			i++;
 		}
 		System.out.println("");
-	}
-	
-	/**
-	 * @return the highlightColor
-	 */
-	public String getHighlightColor() {
-		return highlightColor;
-	}
-
-	/**
-	 * @param highlightColor
-	 *            the highlightColor to set
-	 */
-	public void setHighlightColor(String string) {
-		if (Utils.validARGB(string)) {
-			this.highlightColor = string;
-		}
 	}
 
 	/**
@@ -110,6 +82,16 @@ public class Text extends SlideItem {
 		} catch (Exception e) {
 			/* Do Nothing */
 		}
+	}
+
+	public Text(Defaults defaults) {
+		super(defaults);
+		this.textFragments = new ArrayList<TextFragment>();
+		this.font = defaults.getFont();
+		this.fontColor = defaults.getFontColor();
+		this.fontSize = defaults.getFontSize();
+		this.backgroundColor = defaults.getBackgroundColor();
+		this.alignment = defaults.getAlignment();
 	}
 
 	public void addDefaults() {

@@ -19,15 +19,19 @@ public final class Utils {
 
 	}
 	
-	public static void parse(HashMap<String, String> hashMap,
+	public static boolean parse(HashMap<String, String> hashMap,
 			Attributes attributes, String... strings) {
+		boolean errors = false;
 		String temp;
 		for (String string : strings) {
 			temp = attributes.getValue(string);
 			if (temp != null) {
 				hashMap.put(string, temp);
+			} else {
+				errors = true;
 			}
 		}
+		return errors;
 	}
 
 	public static String capitaliseEachFirstLetter(String s) {
@@ -77,14 +81,6 @@ public final class Utils {
 			return false;
 		}
 	}
-	
-	public static boolean validShadow(String string) {
-		try {
-			return string.matches("heavy|normal|light");
-		} catch (Exception e) {
-			return false;
-		}
-	}
 
 	public static boolean validAlignment(String string) {
 		try {
@@ -93,28 +89,18 @@ public final class Utils {
 			return false;
 		}
 	}
+	
+	public static boolean validTextCase(String string) {
+		try {
+			return string.matches("upper|lower|camel|none");
+		} catch (Exception e) {
+			return false;
+		}
+	}
 
 	public static boolean validFont(String string) {
 		try {
 			return Font.getFontNames().contains(string);
-		} catch (Exception e) {
-			return false;
-		}
-	}
-	
-	public static boolean validShadingType(String string) {
-		try {
-			System.out.println("Replace this util function with enum");
-			return string.toLowerCase().matches("cyclic|horizontal|vertical");
-		} catch (Exception e) {
-			return false;
-		}
-	}
-	
-	public static boolean validShape(String string) {
-		try {
-			System.out.println("Replace this util function with enum");
-			return string.toLowerCase().matches("oval|rectangle|line|circle|square|arrow|equitriangle|triangle|regpolygon|polygon|star|chord|arc");
 		} catch (Exception e) {
 			return false;
 		}

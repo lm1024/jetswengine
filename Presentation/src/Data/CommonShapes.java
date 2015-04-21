@@ -4,9 +4,14 @@ import utils.Utils;
 
 public class CommonShapes extends Graphic {
 
+	public CommonShapes(Defaults defaults) {
+		super(defaults);
+	}
+
 	private float xEnd;
 	private float yEnd;
 	private boolean solid;
+<<<<<<< HEAD
 	private String outlineColor;
 	private float outlineThickness;
 	private float rotation;
@@ -15,6 +20,8 @@ public class CommonShapes extends Graphic {
 		super(defaults);
 		this.solid = defaults.getShapeSolidity();
 	}
+=======
+>>>>>>> refs/heads/master
 
 	@Override
 	public void printItem() {
@@ -152,6 +159,7 @@ public class CommonShapes extends Graphic {
 			this.outlineColor = string;
 		}
 	}
+<<<<<<< HEAD
 	
 	public float getOutlineThickness() {
 		return this.outlineThickness;
@@ -165,6 +173,12 @@ public class CommonShapes extends Graphic {
 			}
 		} catch (Exception e) {
 			/* Do Nothing */
+=======
+
+	public class IsoscelesTriangle extends CommonShapes {
+		public IsoscelesTriangle(Defaults defaults) {
+			super(defaults);
+>>>>>>> refs/heads/master
 		}
 	}
 
