@@ -1,19 +1,14 @@
 package Data;
 
+import imageHandler.ImageEffect;
+
+import java.util.ArrayList;
+
 public class Image extends SlideItem {
 	
-	public Image(Defaults defaults) {
-		super(defaults);
-		this.rotation = defaults.getRotation();
-		this.scale = defaults.getScale();
-		this.cropX1 = defaults.getCropX1();
-		this.cropX2 = defaults.getCropX2();
-		this.cropY1 = defaults.getCropY1();
-		this.cropY2 = defaults.getCropY2();
-	}
-
-	private int rotation;
-	private float scale;
+	private float rotation;
+	private float scaleX;
+	private float scaleY;
 	private float cropX1;
 	private float cropY1;
 	private float cropX2;
@@ -21,11 +16,27 @@ public class Image extends SlideItem {
 	private boolean flipHorizontal;
 	private boolean flipVertical;
 	
+	private ArrayList<ImageEffect> imageEffects;
+	
+	public Image(Defaults defaults) {
+		super(defaults);
+		this.rotation = defaults.getRotation();
+		this.scaleX = defaults.getScale();
+		this.scaleY = defaults.getScale();
+		this.cropX1 = defaults.getCropX1();
+		this.cropX2 = defaults.getCropX2();
+		this.cropY1 = defaults.getCropY1();
+		this.cropY2 = defaults.getCropY2();
+		
+		imageEffects = new ArrayList<ImageEffect>();
+	}	
+	
 	@Override
 	public void printItem() {
 		super.printItem();
 		System.out.println("Rotation: " + rotation);
-		System.out.println("Scale: " + scale);
+		System.out.println("Scale X: " + scaleX);
+		System.out.println("Scale X: " + scaleY);
 		System.out.println("CropX1: " + cropX1);
 		System.out.println("CropY1: " + cropY1);
 		System.out.println("CropX2: " + cropX2);
@@ -35,23 +46,53 @@ public class Image extends SlideItem {
 		System.out.println("FlipVertical: " + flipVertical);
 		System.out.println("");
 	}
-
-	/**
-	 * @return the scale
-	 */
-	public float getScale() {
-		return scale;
+	
+	public void addImageEffect(ImageEffect imageEffect) {
+		imageEffects.add(imageEffect);
+	}
+	
+	public ArrayList<ImageEffect> getImageEffects() {
+		return imageEffects;
 	}
 
 	/**
-	 * @param scale
-	 *            the scale to set
+	 * @return the scaleX
 	 */
-	public void setScale(String string) {
+	public float getScaleX() {
+		return scaleX;
+	}
+
+	/**
+	 * @param scalex
+	 *            the scalex to set
+	 */
+	public void setScaleX(String string) {
 		try {
 			float f = Float.parseFloat(string);
 			if (f > 0) {
-				this.scale = f;
+				this.scaleX = f;
+			}
+		} catch (Exception e) {
+			/* Do Nothing */
+		}
+	}
+	
+	/**
+	 * @return the scaleY
+	 */
+	public float getScaleY() {
+		return scaleY;
+	}
+	
+	/**
+	 * @param scaley
+	 *            the scaley to set
+	 */
+	public void setScaleY(String string) {
+		try {
+			float f = Float.parseFloat(string);
+			if (f > 0) {
+				this.scaleY = f;
 			}
 		} catch (Exception e) {
 			/* Do Nothing */
@@ -61,7 +102,7 @@ public class Image extends SlideItem {
 	/**
 	 * @return the rotation
 	 */
-	public int getRotation() {
+	public float getRotation() {
 		return rotation;
 	}
 

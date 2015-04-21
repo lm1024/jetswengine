@@ -192,7 +192,7 @@ public class RadialShapes extends Graphic {
 			super(defaults);
 		}
 		
-		public int getNumberOfSides() {
+		public int getNumberOfPoints() {
 			return numberOfPoints;
 		}
 		public void setNumberOfPoints(String string) {

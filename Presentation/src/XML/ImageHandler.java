@@ -52,7 +52,7 @@ public class ImageHandler extends DefaultHandler {
 			image.setFlipHorizontal(attributes.getValue("fliphorizontal"));
 			image.setFlipVertical(attributes.getValue("flipvertical"));
 			image.setRotation(attributes.getValue("rotation"));
-			image.setScale(attributes.getValue("scale"));
+			//image.setScale(attributes.getValue("scale")); TODO change to x and y
 			image.setStartTime(attributes.getValue("starttime"));
 			image.setXStart(attributes.getValue("xstart"));
 			image.setYStart(attributes.getValue("ystart"));

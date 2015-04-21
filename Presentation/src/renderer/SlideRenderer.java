@@ -2,6 +2,9 @@
 package renderer;
 
 import java.util.ArrayList;
+
+import imageHandler.ImageEffect;
+import imageHandler.ImageEffectsList;
 import imageHandler.ImageHandler;
 import imageHandler.ImageObject;
 import graphicsHandler.GraphicObject.GraphicBuilder;
@@ -316,11 +319,8 @@ public class SlideRenderer {
 			break;
 		case CIRCLE:
 			Circle circle = (Circle) currentGraphic;
-			/*
-			 * TODO circle . getRadius ( )
-			 */
 			graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos)
-				.radius(10)
+				.radius(circle.getSize())
 				.color(circle.getGraphicColor())
 				.solid(circle.isSolid())
 				.outlineColor(circle.getOutlineColor())
@@ -396,11 +396,8 @@ public class SlideRenderer {
 			break;
 		case SQUARE:
 			Square square = (Square) currentGraphic;
-			/*
-			 * TODO square . getLength ( )
-			 */
 			graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos)
-				.length(10)
+				.length(square.getSize())
 				.color(square.getGraphicColor())
 				.solid(square.isSolid())
 				.outlineColor(square.getOutlineColor())
@@ -411,11 +408,8 @@ public class SlideRenderer {
 			break;
 		case STAR:
 			Star star = (Star) currentGraphic;
-			/*
-			 * TODO this needs fixing star . getNumberOfPoints ( )
-			 */
 			graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos)
-				.numberOfPoints(5)
+				.numberOfPoints(star.getNumberOfPoints())
 				.color(star.getGraphicColor())
 				.solid(star.isSolid())
 				.outlineColor(star.getOutlineColor())
@@ -572,16 +566,26 @@ public class SlideRenderer {
 		String filepath = currentImage.getSourceFile();
 		float xStartPos = convXRelCoordToAbsCoord(currentImage.getXStart());
 		float yStartPos = convYRelCoordToAbsCoord(currentImage.getYStart());
-		int rotation = currentImage.getRotation(); // TODO should be float
-		float scale = currentImage.getScale();
+		float rotation = currentImage.getRotation();
+		float scaleX = currentImage.getScaleX();
+		float scaleY = currentImage.getScaleY();
 		float cropX1 = currentImage.getCropX1();
 		float cropY1 = currentImage.getCropY1();
 		float cropX2 = currentImage.getCropX2();
 		float cropY2 = currentImage.getCropY2();
 		boolean flipHorizontal = currentImage.getFlipHorizontal();
 		boolean flipVertical = currentImage.getFlipVertical();
+		ArrayList<ImageEffect> imageEffects = currentImage.getImageEffects();
 
-		// TODO Image effects, and scale in 2 directions.
+		/*
+		 * Initialise and populate a list of all the image effects to be applied
+		 * to the picture.
+		 */
+		ImageEffectsList imageEffectList = new ImageEffectsList();
+
+		for (ImageEffect currentEffect : imageEffects) {
+			imageEffectList.add(currentEffect);
+		}
 
 		/*
 		 * Build the image object using the builder and pass it to the handler
@@ -589,14 +593,15 @@ public class SlideRenderer {
 		 */
 		imageHandler.createImage(new ImageObject.ImageBuilder(filepath, xStartPos, yStartPos)
 			.rotation(rotation)
-			.scaleX(scale)
-			.scaleY(scale)
+			.scaleX(scaleX)
+			.scaleY(scaleY)
 			.cropLeft(cropX1)
 			.cropRight(cropX2)
 			.cropDown(cropY1)
 			.cropUp(cropY2)
 			.hFlip(flipHorizontal)
 			.vFlip(flipVertical)
+			.imageEffects(imageEffectList)
 			.build());
 
 		/*
@@ -618,14 +623,12 @@ public class SlideRenderer {
 	private void addAudio(Audio currentAudio) {
 		float x = convXRelCoordToAbsCoord(currentAudio.getXStart());
 		float y = convYRelCoordToAbsCoord(currentAudio.getYStart());
-		float width = 400; // TODO currentAudio.getWidth();
-
+		float width = convXRelCoordToAbsCoord(currentAudio.getWidth());
 		String sourceFile = currentAudio.getSourceFile();
-
-		boolean loop = false;// TODO currentAudio.isLoop();
-		boolean autoPlay = false;// TODO currentAudio.isAutoPlay();
-		boolean visibleControls = true;// TODO currentAudio.isVisibleControls();
-		boolean playButtonOnly = false;// TODO currentAudio.isPlayButtonOnly();
+		boolean loop = currentAudio.isLoop();
+		boolean autoPlay = currentAudio.isAutoplay();
+		boolean visibleControls = currentAudio.isVisibleControlsOnly();
+		boolean playButtonOnly = currentAudio.isPlayButtonOnly();
 
 		audioHandler.createAudio(x, y, width, sourceFile, loop, autoPlay, visibleControls, playButtonOnly);
 
@@ -649,10 +652,10 @@ public class SlideRenderer {
 	private void addVideo(Video currentVideo) {
 		float x = convXRelCoordToAbsCoord(currentVideo.getXStart());
 		float y = convYRelCoordToAbsCoord(currentVideo.getYStart());
-		float width = 400; // TODO currentVideo.getWidth();
+		float width = convXRelCoordToAbsCoord(currentVideo.getWidth());
 		String sourceFile = currentVideo.getSourceFile();
-		boolean autoPlay = false; // TODO currentVideo.isAutoPlay();
-		boolean loop = false; // TODO currentVideo.isLoop();
+		boolean autoPlay = currentVideo.isAutoplay();
+		boolean loop = currentVideo.isLoop();
 
 		videoHandler.createVideo(x, y, width, sourceFile, autoPlay, loop);
 
