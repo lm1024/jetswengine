@@ -15,7 +15,7 @@ public class Defaults {
 	private float duration = Float.MAX_VALUE;
 	private String alignment = "left";
 	private float scale = 1;
-	private int rotation = 0;
+	private float rotation = 0;
 	private float cropX1 = 0;
 	private float cropY1 = 0;
 	private float cropX2 = 1;
@@ -24,6 +24,10 @@ public class Defaults {
 	private float stopValue = 0.5f;
 	private float outlineThickness = 1;
 	private String outlineColor = "#FF000000";
+	private float audioWidth = 0.2f;
+	private float videoWidth = 0.2f;
+	
+	private boolean audioHasVisibleControls = true;
 
 	public Defaults() {
 
@@ -279,7 +283,7 @@ public class Defaults {
 	/**
 	 * @return the rotation
 	 */
-	public int getRotation() {
+	public float getRotation() {
 		return this.rotation;
 	}
 
@@ -420,5 +424,29 @@ public class Defaults {
 		} catch (Exception e) {
 			/* Do Nothing */
 		}
+	}
+
+	public float getAudioWidth() {
+		return audioWidth;
+	}
+
+	public void setAudioWidth(float audioWidth) {
+		this.audioWidth = audioWidth; //TODO
+	}
+	
+	public float getVideoWidth() {
+		return videoWidth;
+	}
+
+	public void setVideoWidth(float videoWidth) {
+		this.videoWidth = videoWidth; //TODO
+	}
+
+	public boolean isAudioHasVisibleControls() {
+		return audioHasVisibleControls;
+	}
+
+	public void setAudioHasVisibleControls(boolean audioHasVisibleControls) {
+		this.audioHasVisibleControls = audioHasVisibleControls; //TODO
 	}
 }
