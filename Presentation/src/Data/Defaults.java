@@ -21,6 +21,13 @@ public class Defaults {
 	private float cropY1 = 0;
 	private float cropX2 = 1;
 	private float cropY2 = 1;
+<<<<<<< HEAD
+	private boolean shapeSolidity = true;
+	private float stopValue = 0.5f;
+	private float outlineThickness = 1;
+	private String outlineColor = "#FF000000";
+=======
+>>>>>>> refs/heads/master
 
 	public Defaults() {
 		
@@ -61,6 +68,38 @@ public class Defaults {
 	public void setBackgroundColor(String string) {
 		if (Utils.validARGB(string)) {
 			this.backgroundColor = string;
+		}
+	}
+	
+	/**
+	 * @return the outlineColor
+	 */
+	public String getOutlineColor() {
+		return this.outlineColor;
+	}
+
+	/**
+	 * @param string
+	 *            the outlineColor to set
+	 */
+	public void setOutlineColor(String string) {
+		if (Utils.validARGB(string)) {
+			this.outlineColor = string;
+		}
+	}
+	
+	public float getOutlineThickness() {
+		return this.outlineThickness;
+	}
+
+	public void setOutlineThickness(String string) {
+		try {
+			float f = Float.parseFloat(string);
+			if (Utils.withinRangeInclusive(0, 1, f)) {
+				this.outlineThickness = f;
+			}
+		} catch (Exception e) {
+			/* Do Nothing */
 		}
 	}
 

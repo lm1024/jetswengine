@@ -1,4 +1,4 @@
-package sofia;
+package sofia.video;
 
 public class FullscreenInfo {
     private double originalX;

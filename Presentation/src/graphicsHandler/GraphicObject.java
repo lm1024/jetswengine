@@ -333,7 +333,11 @@ public class GraphicObject {
 	 */
 	protected static boolean verifyColor(String color) {
 		/* Checking that color is a 8 digit long hex string */
-		return (color.matches("^([#]([0-9a-fA-F]{8}))$"));
+		try {
+			return color.matches("^([#]([0-9a-fA-F]{8}))$");
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 	/**
@@ -429,6 +433,9 @@ public class GraphicObject {
 		public GraphicBuilder color(String color) {
 			if (verifyColor(color)) {
 				this.color = color;
+				
+				/* Also adds the first stop color value to the list */
+				shadingElement(color, 0);
 			}
 			return this;
 		}
@@ -486,7 +493,7 @@ public class GraphicObject {
 		 *            a float for the thickness of the outline
 		 */
 		public GraphicBuilder outlineThickness(float outlineThickness) {
-			if (outlineThickness <= 0) {
+			if (outlineThickness >= 0) {
 				this.outlineThickness = outlineThickness;
 			}
 			return this;
@@ -657,11 +664,11 @@ public class GraphicObject {
 		 * Method sets the amount of shadow to be applied to each shape.
 		 * 
 		 * @param shadow
-		 *            an enum containing the amount of shadow.
-		 * @see {@link graphicsHandler.Shadow}
+		 *            a string containing the amount of shadow. Options: None,
+		 *            Light, Normal, Heavy. Case insensitive.
 		 */
-		public GraphicBuilder shadow(Shadow shadow) {
-			this.shadow = shadow;
+		public GraphicBuilder shadow(String shadow) {
+			this.shadow = Shadow.valueOf(shadow.toUpperCase());
 			return this;
 		}
 
@@ -669,13 +676,12 @@ public class GraphicObject {
 		 * Method sets the type of shading to be applied to the shape.
 		 * 
 		 * @param shadingType
-		 *            an enum containing the type of shading to be applied to
-		 *            the shape.
-		 * 
-		 * @see {@link graphicsHandler.Shading}
+		 *            a string containing the type of shading to be applied to
+		 *            the shape. Options: None, Cyclic, Horizontal, Vertical.
+		 *            Case insensitive.
 		 */
-		public GraphicBuilder shadingType(Shading shadingType) {
-			this.shadingType = shadingType;
+		public GraphicBuilder shadingType(String shadingType) {
+			this.shadingType = Shading.valueOf(shadingType.toUpperCase());
 			return this;
 		}
 

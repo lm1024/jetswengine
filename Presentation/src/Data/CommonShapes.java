@@ -11,6 +11,17 @@ public class CommonShapes extends Graphic {
 	private float xEnd;
 	private float yEnd;
 	private boolean solid;
+<<<<<<< HEAD
+	private String outlineColor;
+	private float outlineThickness;
+	private float rotation;
+
+	public CommonShapes(Defaults defaults) {
+		super(defaults);
+		this.solid = defaults.getShapeSolidity();
+	}
+=======
+>>>>>>> refs/heads/master
 
 	@Override
 	public void printItem() {
@@ -19,6 +30,25 @@ public class CommonShapes extends Graphic {
 		System.out.println("yEnd: " + yEnd);
 		System.out.println("Solid: " + solid);
 		System.out.println("");
+	}
+	
+	/**
+	 * @return the rotation
+	 */
+	public float getRotation() {
+		return this.rotation;
+	}
+
+	/**
+	 * @param string the rotation to set
+	 */
+	public void setRotation(String string) {
+		try {
+			float f = Float.parseFloat(string);
+			this.rotation = f;
+		} catch (Exception e) {
+			/* Do Nothing */
+		}
 	}
 
 	public float getXEnd() {
@@ -68,8 +98,42 @@ public class CommonShapes extends Graphic {
 	}
 
 	public class Rectangle extends CommonShapes {
+		
+		private float arcWidth;
+		private float arcHeight;
+		
 		public Rectangle(Defaults defaults) {
 			super(defaults);
+		}
+		
+		public float getArcWidth() {
+			return this.arcWidth;
+		}
+
+		public void setArcWidth(String string) {
+			try {
+				float f = Float.parseFloat(string);
+				if (Utils.withinRangeInclusive(0, 1, f)) {
+					this.arcWidth = f;
+				}
+			} catch (Exception e) {
+				/* Do Nothing */
+			}
+		}
+		
+		public float getArcHeight() {
+			return this.arcHeight;
+		}
+
+		public void setArcHeight(String string) {
+			try {
+				float f = Float.parseFloat(string);
+				if (Utils.withinRangeInclusive(0, 1, f)) {
+					this.arcHeight = f;
+				}
+			} catch (Exception e) {
+				/* Do Nothing */
+			}
 		}
 	}
 
@@ -78,16 +142,44 @@ public class CommonShapes extends Graphic {
 			super(defaults);
 		}
 	}
+	
+	/**
+	 * @return the outlineColor
+	 */
+	public String getOutlineColor() {
+		return this.outlineColor;
+	}
 
-	public class Line extends CommonShapes {
-		public Line(Defaults defaults) {
-			super(defaults);
+	/**
+	 * @param string
+	 *            the outlineColor to set
+	 */
+	public void setOutlineColor(String string) {
+		if (Utils.validARGB(string)) {
+			this.outlineColor = string;
 		}
 	}
+<<<<<<< HEAD
+	
+	public float getOutlineThickness() {
+		return this.outlineThickness;
+	}
+
+	public void setOutlineThickness(String string) {
+		try {
+			float f = Float.parseFloat(string);
+			if (Utils.withinRangeInclusive(0, 1, f)) {
+				this.outlineThickness = f;
+			}
+		} catch (Exception e) {
+			/* Do Nothing */
+=======
 
 	public class IsoscelesTriangle extends CommonShapes {
 		public IsoscelesTriangle(Defaults defaults) {
 			super(defaults);
+>>>>>>> refs/heads/master
 		}
 	}
+
 }

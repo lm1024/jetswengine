@@ -14,7 +14,10 @@ import com.sun.webpane.platform.WebPage;
 
 import javafx.scene.Group;
 import javafx.scene.web.WebView;
+<<<<<<< HEAD
+=======
 import Data.TextFragment;
+>>>>>>> refs/heads/master
 
 /**
  * Class for handling text and text boxes on a javafx group.
@@ -54,11 +57,26 @@ public class TextHandler {
 	 */
 	public TextHandler(Group group) {
 		this.group = group;
+<<<<<<< HEAD
+
+		/*
+		 * This call is used as a small buxfix/workaround. The first webview
+		 * instantiation takes a much longer time than the successive webview
+		 * instantiations, so this is used to move the lag to the initialisation
+		 * of the handler (normally at the start of a slide show), instead of the
+		 * initialisation of the first text box.
+		 */
+		new WebView();
+
+		/* Initialise the list of all the graphics */
+		this.texts = new ArrayList<Text>();
+=======
 		/*
 		 * Create a new WebView to move lag on opening first WebView to handler
 		 * instantiation instead of on first draw of a text box.
 		 */
 		new WebView();
+>>>>>>> refs/heads/master
 	}
 
 	/**

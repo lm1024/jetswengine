@@ -7,13 +7,20 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Rectangle2D;
+import javafx.geometry.Side;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.SepiaTone;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
@@ -33,6 +40,8 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.Window;
+import javafx.stage.WindowEvent;
 
 /**
  * @author tjd511
@@ -40,17 +49,33 @@ import javafx.stage.Stage;
  */
 public class JavaFXTest extends Application {
 
+<<<<<<< HEAD
+	private Circle circle;
+	
+	private MediaView mediaView;
+	
+	private Stage stage;
+	
+	private ContextMenu contextMenu;
+	
+=======
+>>>>>>> refs/heads/master
 	/**
 	 * 
 	 */
 	public JavaFXTest() {
+		
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void start(Stage primaryStage) {
 		primaryStage.setTitle("JavaFX Welcome");
-
+		
+		this.stage = primaryStage;
+		
+		contextMenu = new ContextMenu();
+		
 		Group group = new Group();
 
 		group.setStyle("-fx-background-color: white;");
@@ -163,12 +188,49 @@ public class JavaFXTest extends Application {
 		}*/
 
 		// primaryStage.setFullScreen(true);
+		
+		
+		contextMenu.setOnShowing(new EventHandler<WindowEvent>() {
+		    public void handle(WindowEvent e) {
+		        System.out.println("showing");
+		    }
+		});
+		contextMenu.setOnShown(new EventHandler<WindowEvent>() {
+		    public void handle(WindowEvent e) {
+		        System.out.println("shown");
+		    }
+		});
+
+		MenuItem item1 = new MenuItem("About");
+		item1.setOnAction(new EventHandler<ActionEvent>() {
+		    public void handle(ActionEvent e) {
+		        System.out.println("About");
+		    }
+		});
+		MenuItem item2 = new MenuItem("Preferences");
+		item2.setOnAction(new EventHandler<ActionEvent>() {
+		    public void handle(ActionEvent e) {
+		        System.out.println("Preferences");
+		    }
+		});
+		contextMenu.getItems().addAll(item1, item2);
+
+		
+
 
 		Scene scene = new Scene(group, 800, 800);// primaryScreenBounds.getWidth(),primaryScreenBounds.getHeight());//500,
 													// 575);
-
+		
+		scene.setOnMouseClicked(new MouseClickHandler());
+		
 		primaryStage.setScene(scene);
 		primaryStage.show();
+	}
+	
+	private class MouseClickHandler implements EventHandler<MouseEvent> {
+		public void handle(MouseEvent e) {
+			contextMenu.show(stage, e.getScreenX(), e.getScreenY());
+		}
 	}
 
 	private Button addButton(double xPos, double yPos) {
