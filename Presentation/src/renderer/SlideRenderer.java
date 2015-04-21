@@ -46,8 +46,11 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 /**
- * @author tjd511
+ * Class for rendering slides to the screen, and updating the visibility of
+ * items on the slides.
  * 
+ * @author tjd511
+ * @version 1.0 21/04/2015
  */
 public class SlideRenderer {
 
@@ -708,28 +711,43 @@ public class SlideRenderer {
 	 * @param question
 	 */
 	public void buildAnswerSlide(Question question) {
-		
 		PieChartObject answerChart = new PieChartObject();
 
+		/*
+		 * Sets the width and the height of the chart to take up 70% of each
+		 * dimension.
+		 */
 		double chartWidth = convXRelCoordToAbsCoord(0.7f);
 		double chartHeight = convYRelCoordToAbsCoord(0.7f);
 
-		answerChart.setTitle(question.getId());
-
 		answerChart.setPrefSize(chartWidth, chartHeight);
 
+		/* Sets the title to be displayed above the data. */
+		answerChart.setTitle(question.getId());
+
+		/* Sets the chart to appear in the middle of the screen. */
 		answerChart.setxStartPos((float) (convXRelCoordToAbsCoord(0.5f) - chartWidth / 2));
 		answerChart.setyStartPos((float) (convYRelCoordToAbsCoord(0.5f) - chartHeight / 2));
 
+		/* Initialise the new arraylists for storing the answer data. */
 		ArrayList<String> answerNames = new ArrayList<String>();
 		ArrayList<Float> answerValues = new ArrayList<Float>();
 
+		/*
+		 * Loop through all the answers, adding them and their count to the
+		 * answer data arrays.
+		 */
 		for (Answer tempAnswer : question.getAnswers()) {
 			answerNames.add(tempAnswer.getId());
 			answerValues.add((float) tempAnswer.getAnswerCount());
 		}
-
+		/* Add the answer data to the pie charts. */
 		answerChart.setPieChartData(answerNames, answerValues);
+
+		/*
+		 * Pass the populated answerChart object to the graph handler to be
+		 * drawn.
+		 */
 		graphHandler.drawPieChart(answerChart);
 	}
 
