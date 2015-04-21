@@ -27,6 +27,9 @@ public class Defaults {
 	private float audioWidth = 0.2f;
 	private float videoWidth = 0.2f;
 	
+	private double xAspectRatio = 16;
+	private double yAspectRatio = 9;
+	
 	private boolean audioHasVisibleControls = true;
 
 	public Defaults() {
@@ -448,5 +451,33 @@ public class Defaults {
 
 	public void setAudioHasVisibleControls(boolean audioHasVisibleControls) {
 		this.audioHasVisibleControls = audioHasVisibleControls; //TODO
+	}
+
+	/**
+	 * @return the xAspectRatio
+	 */
+	public double getxAspectRatio() {
+		return xAspectRatio;
+	}
+
+	/**
+	 * @param xAspectRatio the xAspectRatio to set
+	 */
+	public void setxAspectRatio(double xAspectRatio) {
+		this.xAspectRatio = xAspectRatio;
+	}
+
+	/**
+	 * @return the yAspectRatio
+	 */
+	public double getyAspectRatio() {
+		return yAspectRatio;
+	}
+
+	/**
+	 * @param yAspectRatio the yAspectRatio to set
+	 */
+	public void setyAspectRatio(double yAspectRatio) {
+		this.yAspectRatio = yAspectRatio;
 	}
 }
