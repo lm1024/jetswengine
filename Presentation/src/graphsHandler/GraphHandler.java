@@ -1,7 +1,5 @@
 package graphsHandler;
 
-import java.util.concurrent.TimeUnit;
-
 import javafx.collections.ObservableList;
 import javafx.scene.Group;
 import javafx.scene.chart.BarChart;

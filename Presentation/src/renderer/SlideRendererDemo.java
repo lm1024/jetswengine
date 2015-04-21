@@ -1,6 +1,5 @@
 package renderer;
 
-import graphicsHandler.Shadow;
 import XML.ImprovedXMLReader;
 import Data.Slideshow;
 import javafx.application.Application;

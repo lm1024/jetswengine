@@ -2,8 +2,6 @@
 package renderer;
 
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
-
 import imageHandler.ImageHandler;
 import imageHandler.ImageObject;
 import graphicsHandler.GraphicObject.GraphicBuilder;
