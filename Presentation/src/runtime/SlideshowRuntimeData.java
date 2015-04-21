@@ -62,10 +62,8 @@ public class SlideshowRuntimeData {
 		 * dimentions of the slideshow
 		 */
 		this.slideshow = slideshow;
-		// TODO slideshow.getInfo().getXAspectRatio()
-		this.currentXAspectRatio = 16;
-		// TODO slideshow.getInfo().getYAspectRatio()
-		this.currentYAspectRatio = 9;
+		this.currentXAspectRatio = slideshow.getDefaults().getxAspectRatio();
+		this.currentYAspectRatio = slideshow.getDefaults().getyAspectRatio();
 
 		/*
 		 * Instantiates the new group, stage and scene that the slideshow will
