@@ -61,6 +61,9 @@ public class SlideshowRuntimeData {
 	private boolean screenHidden;
 	private Rectangle rect;
 
+	/* int for tracking the input from the number keys for jumping to a slide. */
+	private String numberInput;
+
 	/**
 	 * Constructor for the runtime class.
 	 * 
@@ -120,6 +123,9 @@ public class SlideshowRuntimeData {
 		 */
 		scene.widthProperty().addListener(new WindowResizeHandler());
 		scene.heightProperty().addListener(new WindowResizeHandler());
+
+		/* Instantiate the number input string. */
+		numberInput = "";
 
 		/*
 		 * Sets the current slide to be the initial slide in the slideshow and
@@ -300,31 +306,63 @@ public class SlideshowRuntimeData {
 	private class KeyboardHandler implements EventHandler<KeyEvent> {
 		@Override
 		public void handle(KeyEvent keyEvent) {
-			/* Switch through the different keyCodes that are handled. */
-			switch (keyEvent.getCode()) {
-			/* Close the screen if fullscreen is closed using the escape button */
-			case ESCAPE:
-				secondaryStage.close();
-				closeSlideshow();
-				break;
-			/* Arrow keys move the slides back and forwards. */
-			case RIGHT:
-				moveForwards();
-				break;
-			case LEFT:
-				moveBackwards();
-				break;
-			case W:
-				/* Intentionally falls through */
-			case B:
-				if (!screenHidden) {
-					hideScreen(keyEvent);
-				} else {
-					showScreen();
+			if (keyEvent.getCode().isDigitKey()) {
+				/* Add the digit to the end of the number input string. */
+				numberInput = numberInput.concat(keyEvent.getText());
+			} else {
+				/* Switch through the different keyCodes that are handled. */
+				switch (keyEvent.getCode()) {
+				/*
+				 * Close the screen if fullscreen is closed using the escape
+				 * button
+				 */
+				case ESCAPE:
+					secondaryStage.close();
+					closeSlideshow();
+					break;
+				/* Arrow keys move the slides back and forwards. */
+				case RIGHT:
+					moveForwards();
+					break;
+				case LEFT:
+					moveBackwards();
+					break;
+				case W:
+					/* Intentionally falls through */
+				case B:
+					if (!screenHidden) {
+						hideScreen(keyEvent);
+					} else {
+						showScreen();
+					}
+					break;
+				case ENTER:
+					int requestedSlide;
+					/* Catches if the numberInput has no numbers in the string. */
+					try {
+						requestedSlide = Integer.parseInt(numberInput);
+					} catch (NumberFormatException e) {
+						/* Reset the string and quit the case. */
+						numberInput = "";
+						break;
+					}
+					/* If the requested slide is in the slideshow, go to it. */
+					if (requestedSlide < slideshow.getSlides().size()) {
+						currentSlideNumber = requestedSlide;
+						currentSlide = slideshow.getSlide(currentSlideNumber);
+						buildCurrentSlide();
+					}
+					/* Else move to the last slide. */
+					else {
+						currentSlideNumber = slideshow.getSlides().size() - 1;
+						currentSlide = slideshow.getSlide(currentSlideNumber);
+						buildCurrentSlide();
+					}
+					/* Reset the string */
+					numberInput = "";
+				default:
+					break;
 				}
-				break;
-			default:
-				break;
 			}
 		}
 	}
