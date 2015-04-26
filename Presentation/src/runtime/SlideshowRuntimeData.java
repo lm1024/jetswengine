@@ -83,10 +83,10 @@ public class SlideshowRuntimeData {
 
 		/* Instantiates the slideRenderer for this slideshow. */
 		this.slideRenderer = new SlideRenderer(secondaryStage);
-		
+
 		/* Shows the screen so that the correct screen boundaries can be set. */
 		secondaryStage.show();
-		
+
 		/* Updates the screen boundaries for the first time. */
 		updateScreenBoundaries();
 
@@ -95,13 +95,13 @@ public class SlideshowRuntimeData {
 		 * the right click menu. TODO this commment
 		 */
 		scene.setOnMouseClicked(new MouseClickHandler());
-		
+
 		/*
 		 * Set the keypress handler. Handles all keyboard events including the
 		 * arrow keys moving slide.
 		 */
 		scene.setOnKeyPressed(new KeyboardHandler());
-		
+
 		secondaryStage.setOnCloseRequest(new ClosingWindowHandler());
 
 		/*
@@ -210,12 +210,8 @@ public class SlideshowRuntimeData {
 		/* Sort the list into ascending order. */
 		Collections.sort(timingList);
 
-		Set<Long> deDuplicatedTimingList = new LinkedHashSet<Long>(timingList);
-
-		System.out.println("Timing list: " + timingList.toString()); // TODO
-																		// remove
-		System.out.println("De Timing list: " + (deDuplicatedTimingList).toString()); // TODO
-																						// remove
+		/* Remove any duplicates from the list. */
+		timingList = new ArrayList<Long>(new LinkedHashSet<Long>(timingList));													// remove
 	}
 
 	/**
@@ -258,32 +254,10 @@ public class SlideshowRuntimeData {
 				/* ID which side of the screen is clicked on */
 				if (e.getX() > (secondaryStage.getScene().getWidth()) * 0.5) {
 					/* Right side of screen */
-					/* If we are currently on a graph slide */
-					if (currentSlide == null) {
-						moveForwards();
-						currentSlide = slideshow.getSlide(currentSlideNumber);
-						buildCurrentSlide();
-					}
-					/*
-					 * If we need to draw a answer slide (if the current slide
-					 * has a question and if the answer data is valid.
-					 */
-					else if (currentSlide.containsQuestion() && currentSlide.getQuestion().hasAnswerData()) {
-						slideRenderer.clear();
-						slideRenderer.buildAnswerSlide(currentSlide.getQuestion());
-						currentSlide = null;
-					}
-					/* If we just need to move forwards a slide */
-					else {
-						moveForwards();
-						currentSlide = slideshow.getSlide(currentSlideNumber);
-						buildCurrentSlide();
-					}
+					moveForwards();
 				} else {
 					/* Left side of screen */
 					moveBackwards();
-					currentSlide = slideshow.getSlide(currentSlideNumber);
-					buildCurrentSlide();
 				}
 			}
 		}
@@ -293,7 +267,6 @@ public class SlideshowRuntimeData {
 	 * Class for handling window resize events.
 	 * 
 	 * @author tjd511
-	 * 
 	 */
 	private class WindowResizeHandler implements ChangeListener<Number> {
 		@Override
@@ -324,34 +297,34 @@ public class SlideshowRuntimeData {
 				secondaryStage.close();
 				closeSlideshow();
 				break;
+			/* Arrow keys move the slides back and forwards. */
 			case RIGHT:
 				moveForwards();
-				currentSlide = slideshow.getSlide(currentSlideNumber);
-				buildCurrentSlide();
 				break;
 			case LEFT:
 				moveBackwards();
-				currentSlide = slideshow.getSlide(currentSlideNumber);
-				buildCurrentSlide();
 				break;
 			default:
 				break;
 			}
 		}
 	}
-	
+
 	/**
-	 * Custom keyboard handler to handle keypresses. Handled events: Pressing
-	 * escape closes the window, arrow keys change the current slide.
+	 * Window closing handler for if the window is closed by means other than
+	 * pressing the escape key.
 	 * 
 	 * @author tjd511
 	 */
 	private class ClosingWindowHandler implements EventHandler<WindowEvent> {
 		@Override
 		public void handle(WindowEvent arg0) {
-			// TODO Auto-generated method stub
+			/*
+			 * If the window is closed, close the slideshow and exit the
+			 * program.
+			 */
 			closeSlideshow();
-			System.exit(0);
+			System.exit(0); // not required
 		}
 	}
 
@@ -360,9 +333,32 @@ public class SlideshowRuntimeData {
 	 * the number of slides in the slideshow.
 	 */
 	private void moveForwards() {
-		/* Change the value of slideNo accordingly */
-		if (currentSlideNumber < slideshow.getSlides().size() - 1) {
-			currentSlideNumber++;
+		/* If we are currently on a graph slide */
+		if (currentSlide == null) {
+			/* Change the value of slideNo accordingly */
+			if (currentSlideNumber < slideshow.getSlides().size() - 1) {
+				currentSlideNumber++;
+				currentSlide = slideshow.getSlide(currentSlideNumber);
+				buildCurrentSlide();
+			}
+		}
+		/*
+		 * If we need to draw a answer slide (if the current slide has a
+		 * question and if the answer data is valid.
+		 */
+		else if (currentSlide.containsQuestion() && currentSlide.getQuestion().hasAnswerData()) {
+			slideRenderer.clear();
+			slideRenderer.buildAnswerSlide(currentSlide.getQuestion());
+			currentSlide = null;
+		}
+		/* If we just need to move forwards a slide */
+		else {
+			/* Change the value of slideNo accordingly */
+			if (currentSlideNumber < slideshow.getSlides().size() - 1) {
+				currentSlideNumber++;
+				currentSlide = slideshow.getSlide(currentSlideNumber);
+				buildCurrentSlide();
+			}
 		}
 	}
 
@@ -374,6 +370,8 @@ public class SlideshowRuntimeData {
 		/* Change the value of slideNo accordingly */
 		if (currentSlideNumber > 0) {
 			currentSlideNumber--;
+			currentSlide = slideshow.getSlide(currentSlideNumber);
+			buildCurrentSlide();
 		}
 	}
 
