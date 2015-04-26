@@ -211,7 +211,7 @@ public class SlideshowRuntimeData {
 		Collections.sort(timingList);
 
 		/* Remove any duplicates from the list. */
-		timingList = new ArrayList<Long>(new LinkedHashSet<Long>(timingList));													// remove
+		timingList = new ArrayList<Long>(new LinkedHashSet<Long>(timingList));
 	}
 
 	/**
