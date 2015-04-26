@@ -18,6 +18,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import renderer.SlideRenderer;
 import Data.Slide;
 import Data.SlideItem;
@@ -82,17 +83,26 @@ public class SlideshowRuntimeData {
 
 		/* Instantiates the slideRenderer for this slideshow. */
 		this.slideRenderer = new SlideRenderer(secondaryStage);
+		
+		/* Shows the screen so that the correct screen boundaries can be set. */
+		secondaryStage.show();
+		
+		/* Updates the screen boundaries for the first time. */
+		updateScreenBoundaries();
 
 		/*
 		 * Set the mouse click handler. Handles the clicking to move screen, and
-		 * the right click menu. TODO
+		 * the right click menu. TODO this commment
 		 */
 		scene.setOnMouseClicked(new MouseClickHandler());
+		
 		/*
 		 * Set the keypress handler. Handles all keyboard events including the
 		 * arrow keys moving slide.
 		 */
 		scene.setOnKeyPressed(new KeyboardHandler());
+		
+		secondaryStage.setOnCloseRequest(new ClosingWindowHandler());
 
 		/*
 		 * Set the listeners for changing widths and heights of the window.
@@ -107,9 +117,6 @@ public class SlideshowRuntimeData {
 		 */
 		currentSlide = slideshow.getSlide(0);
 		buildCurrentSlide();
-
-		/* Shows the screen after the first slide has been built. */
-		secondaryStage.show();
 	}
 
 	/**
@@ -330,6 +337,21 @@ public class SlideshowRuntimeData {
 			default:
 				break;
 			}
+		}
+	}
+	
+	/**
+	 * Custom keyboard handler to handle keypresses. Handled events: Pressing
+	 * escape closes the window, arrow keys change the current slide.
+	 * 
+	 * @author tjd511
+	 */
+	private class ClosingWindowHandler implements EventHandler<WindowEvent> {
+		@Override
+		public void handle(WindowEvent arg0) {
+			// TODO Auto-generated method stub
+			closeSlideshow();
+			System.exit(0);
 		}
 	}
 
