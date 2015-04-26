@@ -1,9 +1,10 @@
 package runtime;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashSet;
-import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -17,6 +18,8 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import renderer.SlideRenderer;
@@ -50,6 +53,13 @@ public class SlideshowRuntimeData {
 	/* Required for the scheduler. */
 	protected final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 	private ScheduledFuture<?> nextUpdate;
+
+	/*
+	 * Boolean for tracking if the screen has been hidden in black or white, and
+	 * the rectangle that is doing the hiding.
+	 */
+	private boolean screenHidden;
+	private Rectangle rect;
 
 	/**
 	 * Constructor for the runtime class.
@@ -304,6 +314,15 @@ public class SlideshowRuntimeData {
 			case LEFT:
 				moveBackwards();
 				break;
+			case W:
+				/* Intentionally falls through */
+			case B:
+				if (!screenHidden) {
+					hideScreen(keyEvent);
+				} else {
+					showScreen();
+				}
+				break;
 			default:
 				break;
 			}
@@ -333,8 +352,12 @@ public class SlideshowRuntimeData {
 	 * the number of slides in the slideshow.
 	 */
 	private void moveForwards() {
+		/* If the screen has been hidden (by the black or white rectangle). */
+		if (screenHidden) {
+			showScreen();
+		}
 		/* If we are currently on a graph slide */
-		if (currentSlide == null) {
+		else if (currentSlide == null) {
 			/* Change the value of slideNo accordingly */
 			if (currentSlideNumber < slideshow.getSlides().size() - 1) {
 				currentSlideNumber++;
@@ -367,8 +390,12 @@ public class SlideshowRuntimeData {
 	 * than 0.
 	 */
 	private void moveBackwards() {
+		/* If the screen has been hidden (by the black or white rectangle). */
+		if (screenHidden) {
+			showScreen();
+		}
 		/* Change the value of slideNo accordingly */
-		if (currentSlideNumber > 0) {
+		else if (currentSlideNumber > 0) {
 			currentSlideNumber--;
 			currentSlide = slideshow.getSlide(currentSlideNumber);
 			buildCurrentSlide();
@@ -381,6 +408,57 @@ public class SlideshowRuntimeData {
 	 */
 	public void closeSlideshow() {
 		scheduler.shutdownNow();
+	}
+
+	/**
+	 * @param keyEvent
+	 */
+	private void hideScreen(KeyEvent keyEvent) {
+		/* Get the screensize */
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		double screenWidth = screenSize.getWidth();
+		double screenHeight = screenSize.getHeight();
+
+		/* Get the current group that is being drawn on. */
+		Group group = (Group) secondaryStage.getScene().getRoot();
+
+		/* Instantiate a new rectangle that is the size of the screen. */
+		rect = new Rectangle(0, 0, screenWidth, screenHeight);
+
+		/*
+		 * Fill the rectangle with white if w is pressed or black if b is
+		 * pressed.
+		 */
+		switch (keyEvent.getCode()) {
+		case W:
+			rect.setFill(Color.WHITE);
+			break;
+		case B:
+			/* Falls through */
+		default:
+			rect.setFill(Color.BLACK);
+			break;
+		}
+
+		/* Add the rectangle to the group. */
+		group.getChildren().add(rect);
+
+		/*
+		 * This is used to see if the rectangle needs to be removed upon the
+		 * next event.
+		 */
+		screenHidden = true;
+	}
+
+	private void showScreen() {
+		/* Get the current group */
+		Group group = (Group) secondaryStage.getScene().getRoot();
+
+		/* Remove the rectangle from the screen. */
+		group.getChildren().remove(rect);
+
+		/* Reset the hidden tracker */
+		screenHidden = false;
 	}
 
 }
