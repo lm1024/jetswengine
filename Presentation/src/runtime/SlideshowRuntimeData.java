@@ -394,6 +394,13 @@ public class SlideshowRuntimeData {
 		if (screenHidden) {
 			showScreen();
 		}
+		/* If we are currently on a graph slide */
+		else if (currentSlide == null) {
+			/* Clear the answer slide and rebuild the previous slide. */
+			slideRenderer.clear();
+			currentSlide = slideshow.getSlide(currentSlideNumber);
+			buildCurrentSlide();
+		}
 		/* Change the value of slideNo accordingly */
 		else if (currentSlideNumber > 0) {
 			currentSlideNumber--;
