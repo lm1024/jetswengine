@@ -1,9 +1,10 @@
 package runtime;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashSet;
-import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -17,7 +18,10 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import renderer.SlideRenderer;
 import Data.Slide;
 import Data.SlideItem;
@@ -49,6 +53,16 @@ public class SlideshowRuntimeData {
 	/* Required for the scheduler. */
 	protected final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 	private ScheduledFuture<?> nextUpdate;
+
+	/*
+	 * Boolean for tracking if the screen has been hidden in black or white, and
+	 * the rectangle that is doing the hiding.
+	 */
+	private boolean screenHidden;
+	private Rectangle rect;
+
+	/* int for tracking the input from the number keys for jumping to a slide. */
+	private String numberInput;
 
 	/**
 	 * Constructor for the runtime class.
@@ -83,16 +97,25 @@ public class SlideshowRuntimeData {
 		/* Instantiates the slideRenderer for this slideshow. */
 		this.slideRenderer = new SlideRenderer(secondaryStage);
 
+		/* Shows the screen so that the correct screen boundaries can be set. */
+		secondaryStage.show();
+
+		/* Updates the screen boundaries for the first time. */
+		updateScreenBoundaries();
+
 		/*
 		 * Set the mouse click handler. Handles the clicking to move screen, and
-		 * the right click menu. TODO
+		 * the right click menu. TODO this commment
 		 */
 		scene.setOnMouseClicked(new MouseClickHandler());
+
 		/*
 		 * Set the keypress handler. Handles all keyboard events including the
 		 * arrow keys moving slide.
 		 */
 		scene.setOnKeyPressed(new KeyboardHandler());
+
+		secondaryStage.setOnCloseRequest(new ClosingWindowHandler());
 
 		/*
 		 * Set the listeners for changing widths and heights of the window.
@@ -101,15 +124,15 @@ public class SlideshowRuntimeData {
 		scene.widthProperty().addListener(new WindowResizeHandler());
 		scene.heightProperty().addListener(new WindowResizeHandler());
 
+		/* Instantiate the number input string. */
+		numberInput = "";
+
 		/*
 		 * Sets the current slide to be the initial slide in the slideshow and
 		 * displays it.
 		 */
 		currentSlide = slideshow.getSlide(0);
 		buildCurrentSlide();
-
-		/* Shows the screen after the first slide has been built. */
-		secondaryStage.show();
 	}
 
 	/**
@@ -203,12 +226,8 @@ public class SlideshowRuntimeData {
 		/* Sort the list into ascending order. */
 		Collections.sort(timingList);
 
-		Set<Long> deDuplicatedTimingList = new LinkedHashSet<Long>(timingList);
-
-		System.out.println("Timing list: " + timingList.toString()); // TODO
-																		// remove
-		System.out.println("De Timing list: " + (deDuplicatedTimingList).toString()); // TODO
-																						// remove
+		/* Remove any duplicates from the list. */
+		timingList = new ArrayList<Long>(new LinkedHashSet<Long>(timingList));
 	}
 
 	/**
@@ -251,32 +270,10 @@ public class SlideshowRuntimeData {
 				/* ID which side of the screen is clicked on */
 				if (e.getX() > (secondaryStage.getScene().getWidth()) * 0.5) {
 					/* Right side of screen */
-					/* If we are currently on a graph slide */
-					if (currentSlide == null) {
-						moveForwards();
-						currentSlide = slideshow.getSlide(currentSlideNumber);
-						buildCurrentSlide();
-					}
-					/*
-					 * If we need to draw a answer slide (if the current slide
-					 * has a question and if the answer data is valid.
-					 */
-					else if (currentSlide.containsQuestion() && currentSlide.getQuestion().hasAnswerData()) {
-						slideRenderer.clear();
-						slideRenderer.buildAnswerSlide(currentSlide.getQuestion());
-						currentSlide = null;
-					}
-					/* If we just need to move forwards a slide */
-					else {
-						moveForwards();
-						currentSlide = slideshow.getSlide(currentSlideNumber);
-						buildCurrentSlide();
-					}
+					moveForwards();
 				} else {
 					/* Left side of screen */
 					moveBackwards();
-					currentSlide = slideshow.getSlide(currentSlideNumber);
-					buildCurrentSlide();
 				}
 			}
 		}
@@ -286,7 +283,6 @@ public class SlideshowRuntimeData {
 	 * Class for handling window resize events.
 	 * 
 	 * @author tjd511
-	 * 
 	 */
 	private class WindowResizeHandler implements ChangeListener<Number> {
 		@Override
@@ -310,26 +306,82 @@ public class SlideshowRuntimeData {
 	private class KeyboardHandler implements EventHandler<KeyEvent> {
 		@Override
 		public void handle(KeyEvent keyEvent) {
-			/* Switch through the different keyCodes that are handled. */
-			switch (keyEvent.getCode()) {
-			/* Close the screen if fullscreen is closed using the escape button */
-			case ESCAPE:
-				secondaryStage.close();
-				closeSlideshow();
-				break;
-			case RIGHT:
-				moveForwards();
-				currentSlide = slideshow.getSlide(currentSlideNumber);
-				buildCurrentSlide();
-				break;
-			case LEFT:
-				moveBackwards();
-				currentSlide = slideshow.getSlide(currentSlideNumber);
-				buildCurrentSlide();
-				break;
-			default:
-				break;
+			if (keyEvent.getCode().isDigitKey()) {
+				/* Add the digit to the end of the number input string. */
+				numberInput = numberInput.concat(keyEvent.getText());
+			} else {
+				/* Switch through the different keyCodes that are handled. */
+				switch (keyEvent.getCode()) {
+				/*
+				 * Close the screen if fullscreen is closed using the escape
+				 * button
+				 */
+				case ESCAPE:
+					secondaryStage.close();
+					closeSlideshow();
+					break;
+				/* Arrow keys move the slides back and forwards. */
+				case RIGHT:
+					moveForwards();
+					break;
+				case LEFT:
+					moveBackwards();
+					break;
+				case W:
+					/* Intentionally falls through */
+				case B:
+					if (!screenHidden) {
+						hideScreen(keyEvent);
+					} else {
+						showScreen();
+					}
+					break;
+				case ENTER:
+					int requestedSlide;
+					/* Catches if the numberInput has no numbers in the string. */
+					try {
+						requestedSlide = Integer.parseInt(numberInput);
+					} catch (NumberFormatException e) {
+						/* Reset the string and quit the case. */
+						numberInput = "";
+						break;
+					}
+					/* If the requested slide is in the slideshow, go to it. */
+					if (requestedSlide < slideshow.getSlides().size()) {
+						currentSlideNumber = requestedSlide;
+						currentSlide = slideshow.getSlide(currentSlideNumber);
+						buildCurrentSlide();
+					}
+					/* Else move to the last slide. */
+					else {
+						currentSlideNumber = slideshow.getSlides().size() - 1;
+						currentSlide = slideshow.getSlide(currentSlideNumber);
+						buildCurrentSlide();
+					}
+					/* Reset the string */
+					numberInput = "";
+				default:
+					break;
+				}
 			}
+		}
+	}
+
+	/**
+	 * Window closing handler for if the window is closed by means other than
+	 * pressing the escape key.
+	 * 
+	 * @author tjd511
+	 */
+	private class ClosingWindowHandler implements EventHandler<WindowEvent> {
+		@Override
+		public void handle(WindowEvent arg0) {
+			/*
+			 * If the window is closed, close the slideshow and exit the
+			 * program.
+			 */
+			closeSlideshow();
+			System.exit(0); // not required
 		}
 	}
 
@@ -338,9 +390,36 @@ public class SlideshowRuntimeData {
 	 * the number of slides in the slideshow.
 	 */
 	private void moveForwards() {
-		/* Change the value of slideNo accordingly */
-		if (currentSlideNumber < slideshow.getSlides().size() - 1) {
-			currentSlideNumber++;
+		/* If the screen has been hidden (by the black or white rectangle). */
+		if (screenHidden) {
+			showScreen();
+		}
+		/* If we are currently on a graph slide */
+		else if (currentSlide == null) {
+			/* Change the value of slideNo accordingly */
+			if (currentSlideNumber < slideshow.getSlides().size() - 1) {
+				currentSlideNumber++;
+				currentSlide = slideshow.getSlide(currentSlideNumber);
+				buildCurrentSlide();
+			}
+		}
+		/*
+		 * If we need to draw a answer slide (if the current slide has a
+		 * question and if the answer data is valid.
+		 */
+		else if (currentSlide.containsQuestion() && currentSlide.getQuestion().hasAnswerData()) {
+			slideRenderer.clear();
+			slideRenderer.buildAnswerSlide(currentSlide.getQuestion());
+			currentSlide = null;
+		}
+		/* If we just need to move forwards a slide */
+		else {
+			/* Change the value of slideNo accordingly */
+			if (currentSlideNumber < slideshow.getSlides().size() - 1) {
+				currentSlideNumber++;
+				currentSlide = slideshow.getSlide(currentSlideNumber);
+				buildCurrentSlide();
+			}
 		}
 	}
 
@@ -349,9 +428,22 @@ public class SlideshowRuntimeData {
 	 * than 0.
 	 */
 	private void moveBackwards() {
+		/* If the screen has been hidden (by the black or white rectangle). */
+		if (screenHidden) {
+			showScreen();
+		}
+		/* If we are currently on a graph slide */
+		else if (currentSlide == null) {
+			/* Clear the answer slide and rebuild the previous slide. */
+			slideRenderer.clear();
+			currentSlide = slideshow.getSlide(currentSlideNumber);
+			buildCurrentSlide();
+		}
 		/* Change the value of slideNo accordingly */
-		if (currentSlideNumber > 0) {
+		else if (currentSlideNumber > 0) {
 			currentSlideNumber--;
+			currentSlide = slideshow.getSlide(currentSlideNumber);
+			buildCurrentSlide();
 		}
 	}
 
@@ -361,6 +453,57 @@ public class SlideshowRuntimeData {
 	 */
 	public void closeSlideshow() {
 		scheduler.shutdownNow();
+	}
+
+	/**
+	 * @param keyEvent
+	 */
+	private void hideScreen(KeyEvent keyEvent) {
+		/* Get the screensize */
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		double screenWidth = screenSize.getWidth();
+		double screenHeight = screenSize.getHeight();
+
+		/* Get the current group that is being drawn on. */
+		Group group = (Group) secondaryStage.getScene().getRoot();
+
+		/* Instantiate a new rectangle that is the size of the screen. */
+		rect = new Rectangle(0, 0, screenWidth, screenHeight);
+
+		/*
+		 * Fill the rectangle with white if w is pressed or black if b is
+		 * pressed.
+		 */
+		switch (keyEvent.getCode()) {
+		case W:
+			rect.setFill(Color.WHITE);
+			break;
+		case B:
+			/* Falls through */
+		default:
+			rect.setFill(Color.BLACK);
+			break;
+		}
+
+		/* Add the rectangle to the group. */
+		group.getChildren().add(rect);
+
+		/*
+		 * This is used to see if the rectangle needs to be removed upon the
+		 * next event.
+		 */
+		screenHidden = true;
+	}
+
+	private void showScreen() {
+		/* Get the current group */
+		Group group = (Group) secondaryStage.getScene().getRoot();
+
+		/* Remove the rectangle from the screen. */
+		group.getChildren().remove(rect);
+
+		/* Reset the hidden tracker */
+		screenHidden = false;
 	}
 
 }
