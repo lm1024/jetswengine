@@ -2,6 +2,8 @@ package tests;
 
 import static org.junit.Assert.*;
 
+import java.io.File;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -11,15 +13,19 @@ public class QuestionTest {
 
 	private Question question;
 	
+	private static final String filename = "test";
+	
+	private static final String questionID = "Example question ID";
+	
 	@Before
 	public void setUp() throws Exception {
-		question = new Question("a", "a.txt");
+		question = new Question(questionID, filename);
 	}
 
 	@Test
 	public void testIdAndLogfile() {
-		assertTrue(question.getId() == "a");
-		assertTrue(question.getLogfile() == "a.txt");
+		assertTrue(question.getId() == questionID);
+		assertTrue(question.getLogfile() == filename);
 	}
 	
 	@Test
@@ -39,8 +45,17 @@ public class QuestionTest {
 	}
 	
 	@Test
+	public void testCSVFileExists() {
+		question.addAnswer("1", true);
+		question.addAnswer("2", false);
+		question.increaseAnswerCount(0);
+		
+		question.writeLogfile();
+	}
+	
+	@Test
 	public void testHasAnswerData() {
-		question = new Question("a", "a.txt");
+		question = new Question(questionID, filename);
 		assertFalse(question.hasAnswerData());
 		
 		question.addAnswer("1", true);
@@ -50,7 +65,6 @@ public class QuestionTest {
 		question.increaseAnswerCount(0);
 		
 		assertTrue(question.hasAnswerData());
-		
 	}
 
 }
