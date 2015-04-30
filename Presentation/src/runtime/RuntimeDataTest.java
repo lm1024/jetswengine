@@ -24,7 +24,7 @@ public class RuntimeDataTest extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		Slideshow slideshow = new ImprovedXMLReader("test.xml").getSlideshow();
 
-		final SlideshowRuntimeData slideshowRuntimeData = new SlideshowRuntimeData(slideshow);
+		final SlideshowRuntimeData slideshowRuntimeData = new SlideshowRuntimeData(slideshow, 0, 0, false);
 		
 		primaryStage.setOnHiding(new EventHandler<WindowEvent>() {
 

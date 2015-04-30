@@ -64,13 +64,23 @@ public class SlideshowRuntimeData {
 	/* int for tracking the input from the number keys for jumping to a slide. */
 	private String numberInput;
 
+	/* Boolean for if the question/answer data should be logged on shutdown. */
+	private boolean logQuestionData;
+
 	/**
 	 * Constructor for the runtime class.
 	 * 
 	 * @param slideshow
 	 *            the slideshow to be displayed in the new fullscreen window.
+	 * @param xPos
+	 *            the upper left x position of the slideshow.
+	 * @param yPos
+	 *            the uppder left y position of the slideshow.
+	 * @param logQuestionData
+	 *            boolean containing if the question data should be logged or
+	 *            not.
 	 */
-	public SlideshowRuntimeData(Slideshow slideshow) {
+	public SlideshowRuntimeData(Slideshow slideshow, double xPos, double yPos, boolean logQuestionData) {
 		/*
 		 * Sets the current slideshow and the aspect ratio of both of the
 		 * dimentions of the slideshow
@@ -78,6 +88,8 @@ public class SlideshowRuntimeData {
 		this.slideshow = slideshow;
 		this.currentXAspectRatio = slideshow.getDefaults().getxAspectRatio();
 		this.currentYAspectRatio = slideshow.getDefaults().getyAspectRatio();
+
+		this.logQuestionData = logQuestionData;
 
 		/*
 		 * Instantiates the new group, stage and scene that the slideshow will
@@ -88,8 +100,12 @@ public class SlideshowRuntimeData {
 		secondaryStage = new Stage();
 		secondaryStage.setScene(scene);
 
-		/* Moves the window off screen, so that it is "hidden". */
-		secondaryStage.setX(-200);
+		/*
+		 * Moves the window to the window that the slideshow should be displayed
+		 * on.
+		 */
+		secondaryStage.setX(xPos);
+		secondaryStage.setY(yPos);
 
 		/* Set the stage to go fullscreen on the primary stage. */
 		secondaryStage.setFullScreen(true);
@@ -453,6 +469,10 @@ public class SlideshowRuntimeData {
 	 */
 	public void closeSlideshow() {
 		scheduler.shutdownNow();
+
+		if (logQuestionData) {
+			slideshow.saveQuestionData();
+		}
 	}
 
 	/**

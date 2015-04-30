@@ -11,18 +11,18 @@ public class Slideshow {
 	private Slide currentSlide;
 
 	public Slideshow() {
-		
+
 	}
 
 	public void printSlideshow() {
-		
+
 		info.printInfo();
 		defaults.printDefaults();
 		System.out.println("Listing contents of slides:\n");
 		int i = 1;
 		for (Slide slide : slides) {
 			System.out.println("Start of slide (" + i + ") contents:\n");
-			for(SlideItem item : slide.getAll()) {
+			for (SlideItem item : slide.getAll()) {
 				item.printItem();
 			}
 			System.out.println("End of slide (" + i + ") contents:\n");
@@ -37,7 +37,7 @@ public class Slideshow {
 	public List<Slide> getSlides() {
 		return slides;
 	}
-	
+
 	/**
 	 * @return the slide
 	 */
@@ -45,7 +45,6 @@ public class Slideshow {
 		this.currentSlide = slides.get(index);
 		return currentSlide;
 	}
-
 
 	/**
 	 * @param slides
@@ -84,19 +83,33 @@ public class Slideshow {
 	public void setCurrentSlide(Slide currentSlide) {
 		this.currentSlide = currentSlide;
 	}
-	
+
 	/**
-	 * @param info the info to set
+	 * @param info
+	 *            the info to set
 	 */
 	public void setInfo(DocumentInfo info) {
 		this.info = info;
 	}
 
 	/**
-	 * @param defaults the defaults to set
+	 * @param defaults
+	 *            the defaults to set
 	 */
 	public void setDefaults(Defaults defaults) {
 		this.defaults = defaults;
+	}
+
+	/**
+	 * Method saves all the question data to logfiles.
+	 */
+	public void saveQuestionData() {
+		/* Loop through all slides and save the question data. */
+		for (Slide slide : this.getSlides()) {
+			if (slide.containsQuestion()) {
+				slide.getQuestion().writeLogfile();
+			}
+		}
 	}
 
 }
