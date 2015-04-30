@@ -35,7 +35,7 @@ public class RuntimeDataWithGraphTest extends Application {
 		
 		Slide slide1 = new Slide(slideshow.getDefaults());
 		
-		Question question = new Question("How many ducks are in York?", "ducks.txt");
+		Question question = new Question("How many ducks are in York?", "ducks");
 		question.addAnswer("10", true);
 		question.increaseAnswerCount(0);
 		question.addAnswer("100000000000000", false);
@@ -48,7 +48,7 @@ public class RuntimeDataWithGraphTest extends Application {
 		Slide slide2 = new Slide(slideshow.getDefaults());
 		slideshow.addSlide(slide2);
 
-		final SlideshowRuntimeData slideshowRuntimeData = new SlideshowRuntimeData(slideshow);
+		final SlideshowRuntimeData slideshowRuntimeData = new SlideshowRuntimeData(slideshow, 0, 0, true);
 
 		primaryStage.setOnHiding(new EventHandler<WindowEvent>() {
 
