@@ -336,16 +336,21 @@ public class SlideshowRuntimeData {
 					secondaryStage.close();
 					closeSlideshow();
 					break;
-				/* Arrow keys move the slides back and forwards. */
+				/* Arrow keys and page up/down move the slides back and forwards. */
 				case RIGHT:
+					/* Intentionally falls through */
+				case PAGE_DOWN:
 					moveForwards();
 					break;
 				case LEFT:
+					/* Intentionally falls through */
+				case PAGE_UP:
 					moveBackwards();
 					break;
 				case W:
 					/* Intentionally falls through */
 				case B:
+					/* Hides the screen, passing the B or W keyEvent (for black or white screen) */
 					if (!screenHidden) {
 						hideScreen(keyEvent);
 					} else {
