@@ -126,11 +126,12 @@ public class SlideshowRuntimeData {
 		scene.setOnMouseClicked(new MouseClickHandler());
 
 		/*
-		 * Set the keypress handler. Handles all keyboard events including the
-		 * arrow keys moving slide.
+		 * Add an event filter for key pressed events so that keyboard presses
+		 * can be handled, and the events do not get passed to the handlers.
 		 */
-		scene.setOnKeyPressed(new KeyboardHandler());
+		scene.addEventFilter(KeyEvent.KEY_PRESSED, new KeyboardHandler());
 
+		/* Sets the handler for if the window is closed. */
 		secondaryStage.setOnCloseRequest(new ClosingWindowHandler());
 
 		/*
@@ -336,7 +337,10 @@ public class SlideshowRuntimeData {
 					secondaryStage.close();
 					closeSlideshow();
 					break;
-				/* Arrow keys and page up/down move the slides back and forwards. */
+				/*
+				 * Arrow keys and page up/down move the slides back and
+				 * forwards.
+				 */
 				case RIGHT:
 					/* Intentionally falls through */
 				case PAGE_DOWN:
@@ -350,7 +354,10 @@ public class SlideshowRuntimeData {
 				case W:
 					/* Intentionally falls through */
 				case B:
-					/* Hides the screen, passing the B or W keyEvent (for black or white screen) */
+					/*
+					 * Hides the screen, passing the B or W keyEvent (for black
+					 * or white screen)
+					 */
 					if (!screenHidden) {
 						hideScreen(keyEvent);
 					} else {
@@ -384,6 +391,10 @@ public class SlideshowRuntimeData {
 				default:
 					break;
 				}
+
+				/* Consume the event to stop the handlers using the event. */
+				keyEvent.consume();
+
 			}
 		}
 	}
