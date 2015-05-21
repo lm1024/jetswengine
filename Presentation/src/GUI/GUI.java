@@ -128,11 +128,11 @@ public class GUI extends Application {
 		buildSettings();
 		stageRef.setScene(settingsScene);
 		System.out.println("Settings Built");
-		
-		buildmain(); //Build main page
+
+		buildmain(); // Build main page
 		System.out.println("Main Built");
 
-		primaryStage.show(); //show main page
+		primaryStage.show(); // show main page
 
 	}
 
@@ -153,9 +153,9 @@ public class GUI extends Application {
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
-		
+
 		System.out.println("files.csv done");
-		
+
 		try (BufferedReader br = new BufferedReader(new FileReader(buttonscsv))) {
 			/* Loop through each line of the CSV */
 			while ((theLine = br.readLine()) != null) {
@@ -246,7 +246,8 @@ public class GUI extends Application {
 						}
 						/* add new line to start of lists */
 						fileList.set(0, file.getAbsolutePath());
-						buttonInfo.set(0, currentSlideshow.getInfo().getComment());
+						buttonInfo.set(0, currentSlideshow.getInfo()
+								.getComment());
 
 						/* rewrite csv files */
 						try (BufferedWriter bw = new BufferedWriter(
@@ -260,7 +261,7 @@ public class GUI extends Application {
 						} catch (IOException n) {
 							n.printStackTrace();
 						}
-						
+
 						try (BufferedWriter bw = new BufferedWriter(
 								new PrintWriter(buttonscsv))) {
 							/* loop though values in the file list */
@@ -272,7 +273,7 @@ public class GUI extends Application {
 						} catch (IOException n) {
 							n.printStackTrace();
 						}
-						
+
 						buildmain();
 					}
 
@@ -519,29 +520,47 @@ public class GUI extends Application {
 				makeImageView("file:Smartslides_DarkText.png", 0.56),
 				makeImageView("file:WM_logo_transparent.png", 0.4));
 		grid.add(titleBox, 0, 0, 5, 1);
-		
+
 		/* Create first button for Slide Preview and add in column 1, row 2 */
-		Button one = makeButton(buttonInfo.get(0), "invisiButton", true, "0");
+		Button one = makeButton(buttonInfo.get(0), "invisiButton", true, "0",
+				0.2);
+		one.setFont(Font.loadFont("file:resources/fonts/Roboto-Bold.ttf",
+				gridHeightRef * 0.02));// change font
 		grid.add(one, 0, 1);
 
 		/* Create second button for Slide Preview and add in column 3, row 2 */
-		Button two = makeButton(buttonInfo.get(1), "invisiButton", true, "1");
+		Button two = makeButton(buttonInfo.get(1), "invisiButton", true, "1",
+				0.2);
+		two.setFont(Font.loadFont("file:resources/fonts/Roboto-Bold.ttf",
+				gridHeightRef * 0.02));// change font
 		grid.add(two, 2, 1);
 
 		/* Create third button for Slide Preview and add in column 5, row 2 */
-		Button three = makeButton(buttonInfo.get(2), "invisiButton", true, "2");
+		Button three = makeButton(buttonInfo.get(2), "invisiButton", true, "2",
+				0.2);
+		three.setFont(Font.loadFont("file:resources/fonts/Roboto-Bold.ttf",
+				gridHeightRef * 0.02));// change font
 		grid.add(three, 4, 1);
 
 		/* Create forth button for Slide Preview and add in column 1, row 4 */
-		Button four = makeButton(buttonInfo.get(3), "invisiButton", true, "3");
+		Button four = makeButton(buttonInfo.get(3), "invisiButton", true, "3",
+				0.2);
+		four.setFont(Font.loadFont("file:resources/fonts/Roboto-Bold.ttf",
+				gridHeightRef * 0.02));// change font
 		grid.add(four, 0, 3);
 
 		/* Create fifth button for Slide Preview and add in column 3, row 4 */
-		Button five = makeButton(buttonInfo.get(4), "invisiButton", true, "4");
+		Button five = makeButton(buttonInfo.get(4), "invisiButton", true, "4",
+				0.2);
+		five.setFont(Font.loadFont("file:resources/fonts/Roboto-Bold.ttf",
+				gridHeightRef * 0.02));// change font
 		grid.add(five, 2, 3);
 
 		/* Create sixth button for Slide Preview and add in column 5, row 4 */
-		Button six = makeButton(buttonInfo.get(5), "invisiButton", true, "5");
+		Button six = makeButton(buttonInfo.get(5), "invisiButton", true, "5",
+				0.2);
+		six.setFont(Font.loadFont("file:resources/fonts/Roboto-Bold.ttf",
+				gridHeightRef * 0.02));// change font
 		grid.add(six, 4, 3);
 
 		/* HBox for openFile and settings buttons */
@@ -549,11 +568,12 @@ public class GUI extends Application {
 				(int) Math.round(0.14 * gridHeightRef));
 		/* Create openFile button in column 2-3, row 7 */
 		Button openFile = makeButton("Open file", "darkButton", true,
-				"Openfile");
+				"Openfile", 0.06);
 		openFile.setMinSize(0.01 * gridHeightRef, 0.04 * gridHeightRef);
 
 		/* Create Settings button in column 4-5, row 7 */
-		Button settings = makeButton("Settings", "darkButton", true, "Settings");
+		Button settings = makeButton("Settings", "darkButton", true,
+				"Settings", 0.06);
 		settings.setMinSize(0.01 * gridHeightRef, 0.04 * gridHeightRef);
 
 		/* add buttons to box and box to grid */
@@ -612,7 +632,7 @@ public class GUI extends Application {
 		 */
 
 		/* Wavemedia logo Home button */
-		Button homeBtn = makeButton("", "invisiButton", true, "home",
+		Button homeBtn = makeButton("", "invisiButton", true, "home", 0.06,
 				"file:WM_logo_transparent.png", 0.5);
 		settingsGrid.add(homeBtn, 0, 0, 1, 1);
 
@@ -639,7 +659,7 @@ public class GUI extends Application {
 		/*
 		 * Back to main screen
 		 */
-		Button back = makeButton("Back", "lightButton", true, "home");
+		Button back = makeButton("Back", "lightButton", true, "home", 0.06);
 		back.setPrefSize(gridHeightRef * 0.16, gridHeightRef * 0.08);
 		settingsGrid.add(back, 0, 3, 1, 1);
 
@@ -660,8 +680,10 @@ public class GUI extends Application {
 		userField.setMaxHeight(gridHeightRef * 0.08);
 
 		/* Add buttons and add to a box */
-		Button userSubmit = makeButton("Submit", "darkButton", true, "submit");
-		Button userClr = makeButton("Clear", "darkButton", true, "userClr");
+		Button userSubmit = makeButton("Submit", "darkButton", true, "submit",
+				0.06);
+		Button userClr = makeButton("Clear", "darkButton", true, "userClr",
+				0.06);
 
 		/* Hbox for username Buttons */
 		HBox userButtons = makeHBox("clearBox", Pos.CENTER, 10);
@@ -698,8 +720,9 @@ public class GUI extends Application {
 		HBox btnBox = makeHBox("clearBox", Pos.CENTER, 10);
 
 		/* Save and Clear buttons */
-		Button clrBtn = makeButton("Clear", "darkButton", true, "clr");
-		Button saveBtn = makeButton("Save", "darkButton", true, "saveWords");
+		Button clrBtn = makeButton("Clear", "darkButton", true, "clr", 0.06);
+		Button saveBtn = makeButton("Save", "darkButton", true, "saveWords",
+				0.06);
 
 		/* Add buttons to box */
 		btnBox.getChildren().addAll(saveBtn, clrBtn);
@@ -830,15 +853,15 @@ public class GUI extends Application {
 
 	/** Utility function for adding button */
 	private Button makeButton(String buttonText, String styleClass,
-			boolean hover, String id) {
-
+			boolean hover, String id, double height) {
+		
 		Button btn = new Button();// new instance of button
 		Font medium = Font.loadFont("file:resources/fonts/Roboto-Bold.ttf",
-				gridHeightRef * 0.035);
+				gridHeightRef * 0.04);
 		btn.setFont(medium);// add font
 		btn.setText(buttonText);// add text
 		btn.getStyleClass().add(styleClass);// add style
-		btn.setPrefHeight(gridHeightRef * 0.06);// button height
+		btn.setPrefHeight(gridHeightRef * height);// button height
 		btn.setId(id);// give it an ID
 		/* Hover functionality */
 		if (hover) {
@@ -856,10 +879,10 @@ public class GUI extends Application {
 	 * Utility function to make a button with an image and label
 	 */
 	private Button makeButton(String buttonText, String styleClass,
-			boolean hover, String id, String file, double size) {
+			boolean hover, String id, double height, String file, double size) {
 		/* Make a button and an ImageView using utilities */
 		ImageView image = makeImageView(file, size);
-		Button btn = makeButton(buttonText, styleClass, hover, id);
+		Button btn = makeButton(buttonText, styleClass, hover, id, height);
 		btn.setGraphic(image);// add image to button
 		btn.setContentDisplay(ContentDisplay.TOP);// put image at the top
 		return btn;
