@@ -26,8 +26,12 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
@@ -88,6 +92,9 @@ public class GUI extends Application {
 	private File xmlFiles = new File("resources/files.csv");
 	private File buttonscsv = new File("resources/buttons.csv");
 
+	private int numScreens = Screen.getScreens().size();
+	private Rectangle2D bounds = Screen.getPrimary().getBounds();
+
 	public GUI() {
 	}
 
@@ -116,13 +123,14 @@ public class GUI extends Application {
 
 		/* Set the title of the window */
 		stageRef.setTitle("SmartSlides");
-		Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
-		stageRef.setWidth(primaryScreenBounds.getWidth());
-		stageRef.setHeight(primaryScreenBounds.getHeight());
+		
+		/*set size of window*/
+		stageRef.setWidth(Screen.getPrimary().getBounds().getWidth());
+		stageRef.setHeight(Screen.getPrimary().getBounds().getHeight());
 
 		/* sets the scale required to scale the height with change in width */
-		sizescale = primaryScreenBounds.getWidth()
-				/ primaryScreenBounds.getHeight();
+		sizescale = Screen.getPrimary().getBounds().getWidth()
+				/ Screen.getPrimary().getBounds().getHeight();
 
 		/* initial build of settings */
 		buildSettings();
@@ -179,8 +187,6 @@ public class GUI extends Application {
 		@Override
 		public void handle(ActionEvent e) {
 
-			boolean isSameFile = false;
-
 			/* get the source of the handler caller */
 			Button buttonPressed = (Button) e.getSource();
 
@@ -189,105 +195,6 @@ public class GUI extends Application {
 
 			/* Switch statement for multiple buttons using their IDs */
 			switch (buttonPressed.getId()) {
-
-			case "Openfile":
-				Slideshow currentSlideshow = null;
-				/* Open a file chooser and give it a name */
-				FileChooser fileChooser = new FileChooser();
-				fileChooser.setTitle("Open Resource File");
-				/* Set initial directory as parent of last opened file */
-				fileChooser.setInitialDirectory(initDir);
-
-				/* Add filters to file chooser */
-				fileChooser.getExtensionFilters().addAll(
-						new FileChooser.ExtensionFilter("XML files ", "*.xml"),
-						new FileChooser.ExtensionFilter("All files", "*.*"));
-
-				/* File chooser is a dialog box on the home screen */
-				File file = fileChooser.showOpenDialog(stageRef);
-
-				/* Check that a file was selected */
-				if (file != null) {
-					try {
-						currentSlideshow = new ImprovedXMLReader(
-								file.getAbsolutePath()).getSlideshow();
-					} catch (IOException e1) {
-					}
-
-					/* Get the directory of the last opened file */
-					initDir = file.getParentFile();
-					System.out.println(initDir);
-
-					/* Show error if null slideshow is selected */
-					if (currentSlideshow == null) {
-
-						/* Display error scene */
-						dispError();
-						System.out.println("Null slideshow");
-					}
-
-					/*
-					 * Write new file to CSV if not already there
-					 */
-					/* Compare new file to those in csv */
-					for (int i = 0; i < 6; i++) {
-						if (file.getAbsolutePath().equals(fileList.get(i))) {
-							isSameFile = true;
-							System.out.println("Same file detected");
-						}
-					}
-
-					/* if not the same file then write to csv */
-					if (isSameFile == false) {
-						/* Shift values of csv's */
-						for (int i = 4; i > -1; i--) {
-							fileList.set(i + 1, fileList.get(i));
-							buttonInfo.set(i + 1, buttonInfo.get(i));
-						}
-						/* add new line to start of lists */
-						fileList.set(0, file.getAbsolutePath());
-						buttonInfo.set(0, currentSlideshow.getInfo()
-								.getComment());
-
-						/* rewrite csv files */
-						try (BufferedWriter bw = new BufferedWriter(
-								new PrintWriter(xmlFiles))) {
-							/* loop though values in the file list */
-							for (int i = 0; i < 6; i++) {
-								/* Write pos. i in fileList to the .csv */
-								bw.write(fileList.get(i));
-								bw.newLine();
-							}
-						} catch (IOException n) {
-							n.printStackTrace();
-						}
-
-						try (BufferedWriter bw = new BufferedWriter(
-								new PrintWriter(buttonscsv))) {
-							/* loop though values in the file list */
-							for (int i = 0; i < 6; i++) {
-								/* Write pos. i in fileList to the .csv */
-								bw.write(buttonInfo.get(i));
-								bw.newLine();
-							}
-						} catch (IOException n) {
-							n.printStackTrace();
-						}
-
-						buildmain();
-					}
-
-				} else {
-					/* If no file is selected do nothing */
-					System.out.println("No file");
-				}
-
-				break;
-
-			case "Settings":
-				/* set settings Scene as the scene */
-				stageRef.setScene(settingsScene);
-				break;
 
 			/* If any open button is pressed */
 			case "0":
@@ -489,6 +396,152 @@ public class GUI extends Application {
 
 	/**
 	 * 
+	 * 
+	 * 
+	 */
+
+	private class menuHandler implements EventHandler<ActionEvent> {
+
+		public void handle(ActionEvent t) {
+			MenuItem item = (MenuItem) t.getTarget();
+			System.out.println(item.getText());
+
+			boolean isSameFile = false;
+
+			switch (item.getText()) {
+
+			case "Exit":
+				System.exit(0);
+
+				break;
+
+			case "Open File":
+				Slideshow currentSlideshow = null;
+				/* Open a file chooser and give it a name */
+				FileChooser fileChooser = new FileChooser();
+				fileChooser.setTitle("Open Resource File");
+				/* Set initial directory as parent of last opened file */
+				fileChooser.setInitialDirectory(initDir);
+
+				/* Add filters to file chooser */
+				fileChooser.getExtensionFilters().addAll(
+						new FileChooser.ExtensionFilter("XML files ", "*.xml"),
+						new FileChooser.ExtensionFilter("All files", "*.*"));
+
+				/* File chooser is a dialog box on the home screen */
+				File file = fileChooser.showOpenDialog(stageRef);
+
+				/* Check that a file was selected */
+				if (file != null) {
+					try {
+						currentSlideshow = new ImprovedXMLReader(
+								file.getAbsolutePath()).getSlideshow();
+					} catch (IOException e1) {
+					}
+
+					/* Get the directory of the last opened file */
+					initDir = file.getParentFile();
+					System.out.println(initDir);
+
+					/* Show error if null slideshow is selected */
+					if (currentSlideshow == null) {
+
+						/* Display error scene */
+						dispError();
+						System.out.println("Null slideshow");
+					}
+
+					/*
+					 * Write new file to CSV if not already there
+					 */
+					/* Compare new file to those in csv */
+					for (int i = 0; i < 6; i++) {
+						if (file.getAbsolutePath().equals(fileList.get(i))) {
+							isSameFile = true;
+							System.out.println("Same file detected");
+						}
+					}
+
+					/* if not the same file then write to csv */
+					if (isSameFile == false) {
+						/* Shift values of csv's */
+						for (int i = 4; i > -1; i--) {
+							fileList.set(i + 1, fileList.get(i));
+							buttonInfo.set(i + 1, buttonInfo.get(i));
+						}
+						/* add new line to start of lists */
+						fileList.set(0, file.getAbsolutePath());
+						buttonInfo.set(0, currentSlideshow.getInfo()
+								.getComment());
+
+						/* rewrite csv files */
+						try (BufferedWriter bw = new BufferedWriter(
+								new PrintWriter(xmlFiles))) {
+							/* loop though values in the file list */
+							for (int i = 0; i < 6; i++) {
+								/* Write pos. i in fileList to the .csv */
+								bw.write(fileList.get(i));
+								bw.newLine();
+							}
+						} catch (IOException n) {
+							n.printStackTrace();
+						}
+
+						try (BufferedWriter bw = new BufferedWriter(
+								new PrintWriter(buttonscsv))) {
+							/* loop though values in the file list */
+							for (int i = 0; i < 6; i++) {
+								/* Write pos. i in fileList to the .csv */
+								bw.write(buttonInfo.get(i));
+								bw.newLine();
+							}
+						} catch (IOException n) {
+							n.printStackTrace();
+						}
+
+						buildmain();
+					}
+
+				} else {
+					/* If no file is selected do nothing */
+					System.out.println("No file");
+				}
+				break;
+
+			case "1":
+			case "2":
+			case "3":
+				int i = Integer.parseInt(item.getText()) - 1;
+				bounds = Screen.getScreens().get(i)
+						.getVisualBounds();
+				System.out.println("Screen " + i + " bound points: ("
+						+ bounds.getMinX() + "," + bounds.getMinY() + ") ("
+						+ bounds.getMaxX() + "," + bounds.getMaxY() + ")");
+				break;
+				
+			case "Auto Next":
+				/*turn auto-next on/off*/
+				break;
+				
+			case "More settings":
+				/* set settings Scene as the scene */
+				stageRef.setScene(settingsScene);
+				break;
+			
+			case "Help Document":
+				/*open help document pdf*/
+				break;
+				
+			case "Website":
+				/*attempt to open website*/
+				break;
+			
+			}
+		}
+	}
+
+	/**
+	 * 
 	 * private method to build the main screen
 	 * 
 	 */
@@ -499,54 +552,117 @@ public class GUI extends Application {
 		gridHeightRef = 0.62 * stageRef.getHeight();
 
 		/* create a gridpane layout */
-		grid.setHgap(0.02 * gridHeightRef);
+		grid.setHgap(0.02 * gridHeightRef);// gaps between cells
 		grid.setVgap(0.02 * gridHeightRef);
-		grid.setPadding(new Insets(5, 5, 5, 5));
-		grid.setAlignment(Pos.CENTER);
-		// grid.setGridLinesVisible(true);
+		grid.setPadding(new Insets(0, 50, 0, 50));
+		grid.setAlignment(Pos.TOP_CENTER); // alignment on screen
+		grid.setGridLinesVisible(true);
 
 		/* creates a stackpane to add the grid in for resizable option */
 		StackPane rootpane = new StackPane();
 		rootpane.getChildren().add(grid);
 
+		/* Menu bar at top of page */
+		MenuBar mainMenu = new MenuBar();
+
+		/* File section */
+		Menu menuFile = new Menu("File");
+
+		/* Create items for file */
+		MenuItem openFile = new MenuItem("Open File");
+		MenuItem exit = new MenuItem("Exit");
+
+		/* add items to File */
+		menuFile.getItems().addAll(openFile, exit);
+
+		/* Settings section */
+		Menu menuSettings = new Menu("Settings");
+
+		/* create items for settings */
+		Menu screenSelect = new Menu("Select Screen");// submenu
+		MenuItem screen1 = new MenuItem("1");
+		MenuItem screen2 = new MenuItem("2");
+		MenuItem screen3 = new MenuItem("3");
+		screenSelect.getItems().add(screen1);
+		switch (numScreens) {
+		case 2:
+			screenSelect.getItems().add(screen2);
+			break;
+		case 3:
+			screenSelect.getItems().addAll(screen2, screen3);
+			break;
+		}
+
+		CheckMenuItem autoNext = new CheckMenuItem("Auto Next");
+		autoNext.setSelected(false);
+		MenuItem settings = new MenuItem("More settings");
+
+		/* add items to settings */
+		menuSettings.getItems().addAll(screenSelect, autoNext, settings);
+
+		/* help section */
+		Menu menuHelp = new Menu("Help");
+
+		/* create items for help */
+		MenuItem help = new MenuItem("Help Document");
+		MenuItem website = new MenuItem("Website");
+
+		/* add items to help */
+		menuHelp.getItems().addAll(help, website);
+
+		/* Add listener to each section */
+		menuFile.setOnAction(new menuHandler());
+		screenSelect.setOnAction(new menuHandler());
+		menuSettings.setOnAction(new menuHandler());
+		menuHelp.setOnAction(new menuHandler());
+
+		/* add items to menu */
+		mainMenu.getMenus().addAll(menuFile, menuSettings, menuHelp);
+
+		grid.add(mainMenu, 0, 0, 3, 1);
+
 		/* creates a scene within the stage of pixel size x by y */
 		mainScene = new Scene(rootpane, stageRef.getWidth(),
 				stageRef.getHeight());
 
-		/* Company logo and product logo in column 1-5, row 1 */
+		/* Company logo and product logo in column 1-3, row 1 */
 		HBox titleBox = makeHBox("box", Pos.CENTER_LEFT,
 				(int) Math.round(0.5 * gridHeightRef));
 		titleBox.getChildren().addAll(
 				makeImageView("file:Smartslides_DarkText.png", 0.56),
 				makeImageView("file:WM_logo_transparent.png", 0.4));
-		grid.add(titleBox, 0, 0, 5, 1);
+		grid.add(titleBox, 0, 1, 3, 1);
 
 		/* Create first button for Slide Preview and add in column 1, row 2 */
 		Button one = makeButton(buttonInfo.get(0), "invisiButton", true, "0",
 				0.2);
 		one.setFont(Font.loadFont("file:resources/fonts/Roboto-Bold.ttf",
 				gridHeightRef * 0.02));// change font
-		grid.add(one, 0, 1);
+		one.setPrefWidth(stageRef.getWidth() * 0.3);// set width
+		grid.add(one, 0, 2);
 
 		/* Create second button for Slide Preview and add in column 3, row 2 */
 		Button two = makeButton(buttonInfo.get(1), "invisiButton", true, "1",
 				0.2);
 		two.setFont(Font.loadFont("file:resources/fonts/Roboto-Bold.ttf",
 				gridHeightRef * 0.02));// change font
-		grid.add(two, 2, 1);
+		two.setPrefWidth(stageRef.getWidth() * 0.3);// set width
+		grid.add(two, 1, 2);
 
 		/* Create third button for Slide Preview and add in column 5, row 2 */
 		Button three = makeButton(buttonInfo.get(2), "invisiButton", true, "2",
 				0.2);
 		three.setFont(Font.loadFont("file:resources/fonts/Roboto-Bold.ttf",
 				gridHeightRef * 0.02));// change font
-		grid.add(three, 4, 1);
+		three.setPrefWidth(stageRef.getWidth() * 0.3);// set width
+		grid.add(three, 2, 2);
 
 		/* Create forth button for Slide Preview and add in column 1, row 4 */
 		Button four = makeButton(buttonInfo.get(3), "invisiButton", true, "3",
 				0.2);
 		four.setFont(Font.loadFont("file:resources/fonts/Roboto-Bold.ttf",
 				gridHeightRef * 0.02));// change font
+		four.setPrefWidth(stageRef.getWidth() * 0.3);// set width
 		grid.add(four, 0, 3);
 
 		/* Create fifth button for Slide Preview and add in column 3, row 4 */
@@ -554,31 +670,16 @@ public class GUI extends Application {
 				0.2);
 		five.setFont(Font.loadFont("file:resources/fonts/Roboto-Bold.ttf",
 				gridHeightRef * 0.02));// change font
-		grid.add(five, 2, 3);
+		five.setPrefWidth(stageRef.getWidth() * 0.3);// set width
+		grid.add(five, 1, 3);
 
 		/* Create sixth button for Slide Preview and add in column 5, row 4 */
 		Button six = makeButton(buttonInfo.get(5), "invisiButton", true, "5",
 				0.2);
 		six.setFont(Font.loadFont("file:resources/fonts/Roboto-Bold.ttf",
 				gridHeightRef * 0.02));// change font
-		grid.add(six, 4, 3);
-
-		/* HBox for openFile and settings buttons */
-		HBox buttons = makeHBox("hbox", Pos.CENTER,
-				(int) Math.round(0.14 * gridHeightRef));
-		/* Create openFile button in column 2-3, row 7 */
-		Button openFile = makeButton("Open file", "darkButton", true,
-				"Openfile", 0.06);
-		openFile.setMinSize(0.01 * gridHeightRef, 0.04 * gridHeightRef);
-
-		/* Create Settings button in column 4-5, row 7 */
-		Button settings = makeButton("Settings", "darkButton", true,
-				"Settings", 0.06);
-		settings.setMinSize(0.01 * gridHeightRef, 0.04 * gridHeightRef);
-
-		/* add buttons to box and box to grid */
-		buttons.getChildren().addAll(openFile, settings);
-		grid.add(buttons, 0, 5, 5, 1);
+		six.setPrefWidth(stageRef.getWidth() * 0.3);// set width
+		grid.add(six, 2, 3);
 
 		mainScene.getStylesheets().add(styleSheet);
 		stageRef.setScene(mainScene);
@@ -622,7 +723,7 @@ public class GUI extends Application {
 
 		/* Set the layout as settingsGridpane */
 		settingsGrid.setPadding(new Insets(5, 5, 5, 5));
-		settingsGrid.setAlignment(Pos.CENTER);
+		settingsGrid.setAlignment(Pos.TOP_CENTER);
 		settingsGrid.setHgap(0.02 * gridHeightRef);
 		settingsGrid.setVgap(0.02 * gridHeightRef);
 		// settingsGrid.setGridLinesVisible(true);
@@ -854,7 +955,7 @@ public class GUI extends Application {
 	/** Utility function for adding button */
 	private Button makeButton(String buttonText, String styleClass,
 			boolean hover, String id, double height) {
-		
+
 		Button btn = new Button();// new instance of button
 		Font medium = Font.loadFont("file:resources/fonts/Roboto-Bold.ttf",
 				gridHeightRef * 0.04);
@@ -871,6 +972,8 @@ public class GUI extends Application {
 		}
 		/* Add an event handler for button presses */
 		btn.setOnAction(new buttonEventHandler());
+
+		btn.wrapTextProperty().setValue(true);
 
 		return btn;
 	}
