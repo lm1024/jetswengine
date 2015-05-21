@@ -66,7 +66,7 @@ public class GUI extends Application {
 	private String bannedWords[];
 	private TextField userField = new TextField();// text field
 	private ArrayList<String> fileList = new ArrayList<String>();
-	// private String pictureArray[] = null;
+	private ArrayList<String> buttonInfo = new ArrayList<String>();
 	private File initDir;
 	private String outputFile;
 	private int slideNo = 0;
@@ -85,7 +85,8 @@ public class GUI extends Application {
 	private Label lbl;
 	private double gridHeightRef;
 
-	private File inputFile = new File("resources/files.csv");
+	private File xmlFiles = new File("resources/files.csv");
+	private File buttonscsv = new File("resources/buttons.csv");
 
 	public GUI() {
 	}
@@ -123,18 +124,24 @@ public class GUI extends Application {
 		sizescale = primaryScreenBounds.getWidth()
 				/ primaryScreenBounds.getHeight();
 
-		buildmain();
+		/* initial build of settings */
+		buildSettings();
+		stageRef.setScene(settingsScene);
+		System.out.println("Settings Built");
+		
+		buildmain(); //Build main page
+		System.out.println("Main Built");
 
-		primaryStage.show();
+		primaryStage.show(); //show main page
 
 	}
 
 	/**
-	 * Creates csv for list of recently opened files
+	 * Fill arrayLists for CSV data
 	 */
 	private void parseFiles() {
 		String theLine;
-		try (BufferedReader br = new BufferedReader(new FileReader(inputFile))) {
+		try (BufferedReader br = new BufferedReader(new FileReader(xmlFiles))) {
 			/* Loop through each line of the CSV */
 			while ((theLine = br.readLine()) != null) {
 				/* Add each line to the fileList */
@@ -146,6 +153,22 @@ public class GUI extends Application {
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
+		
+		System.out.println("files.csv done");
+		
+		try (BufferedReader br = new BufferedReader(new FileReader(buttonscsv))) {
+			/* Loop through each line of the CSV */
+			while ((theLine = br.readLine()) != null) {
+				/* Add each line to the fileList */
+				buttonInfo.add(theLine);
+			}
+			/* Catch exceptions */
+		} catch (IOException e) {
+			System.out.println(e.toString());
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		System.out.println("buttons.csv done");
 	}
 
 	/**
@@ -224,7 +247,7 @@ public class GUI extends Application {
 						fileList.set(0, file.getAbsolutePath());
 
 						try (BufferedWriter bw = new BufferedWriter(
-								new PrintWriter(inputFile))) {
+								new PrintWriter(xmlFiles))) {
 							/* loop though values in the file list */
 							for (int i = 0; i < 6; i++) {
 								/* Write pos. i in fileList to the .csv */
@@ -244,8 +267,6 @@ public class GUI extends Application {
 				break;
 
 			case "Settings":
-				/* Build the settings scene */
-				buildSettings();
 				/* set settings Scene as the scene */
 				stageRef.setScene(settingsScene);
 				break;
@@ -480,35 +501,29 @@ public class GUI extends Application {
 				makeImageView("file:Smartslides_DarkText.png", 0.56),
 				makeImageView("file:WM_logo_transparent.png", 0.4));
 		grid.add(titleBox, 0, 0, 5, 1);
-
+		
 		/* Create first button for Slide Preview and add in column 1, row 2 */
-		Button one = makeButton("Presentation 1", "invisiButton", true, "0",
-				"file:me.png", 0.4);
+		Button one = makeButton(buttonInfo.get(0), "invisiButton", true, "0");
 		grid.add(one, 0, 1);
 
 		/* Create second button for Slide Preview and add in column 3, row 2 */
-		Button two = makeButton("Presentation 2", "invisiButton", true, "1",
-				"file:me.png", 0.4);
+		Button two = makeButton(buttonInfo.get(1), "invisiButton", true, "1");
 		grid.add(two, 2, 1);
 
 		/* Create third button for Slide Preview and add in column 5, row 2 */
-		Button three = makeButton("Presentation 3", "invisiButton", true, "2",
-				"file:me.png", 0.4);
+		Button three = makeButton(buttonInfo.get(2), "invisiButton", true, "2");
 		grid.add(three, 4, 1);
 
 		/* Create forth button for Slide Preview and add in column 1, row 4 */
-		Button four = makeButton("Presentation 4", "invisiButton", true, "3",
-				"file:me.png", 0.4);
+		Button four = makeButton(buttonInfo.get(3), "invisiButton", true, "3");
 		grid.add(four, 0, 3);
 
 		/* Create fifth button for Slide Preview and add in column 3, row 4 */
-		Button five = makeButton("Presentation 5", "invisiButton", true, "4",
-				"file:me.png", 0.4);
+		Button five = makeButton(buttonInfo.get(4), "invisiButton", true, "4");
 		grid.add(five, 2, 3);
 
 		/* Create sixth button for Slide Preview and add in column 5, row 4 */
-		Button six = makeButton("Presentation 6", "invisiButton", true, "5",
-				"file:me.png", 0.4);
+		Button six = makeButton(buttonInfo.get(5), "invisiButton", true, "5");
 		grid.add(six, 4, 3);
 
 		/* HBox for openFile and settings buttons */
