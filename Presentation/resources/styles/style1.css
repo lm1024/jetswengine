@@ -1,0 +1,132 @@
+
+/* 
+	Document	: Style1
+	Author		: J. Feasey
+	Date		: 25/02/2015
+*/
+
+
+/* load fonts */
+@font-face {
+    font-family: 'Roboto';
+    src: url('Roboto-Bold.ttf');
+}
+
+/*@font-face {
+    font-family: 'RobotoMedium';
+    src: url('Roboto-Medium.ttf');
+}
+*/
+
+/* set cream background colour */
+.root{
+	-fx-font-size: 16pt;
+	-fx-background-color: #F0F0F0;
+}
+
+
+
+/*----------------------------------------------------
+ *	Labels:
+ *---------------------------------------------------*/
+
+/* Blue text, RobotoBold/large font */
+.title {
+	//-fx-font-family: "Roboto";
+	-fx-text-fill: #33B5E5;
+	-fx-font-size: 50pt;
+}
+
+
+/* Dark text, RobotoMedium/smaller font */
+.headding {
+	//-fx-font-family: "Roboto";
+	-fx-font-size: 15pt;
+	-fx-text-fill: #313131;
+}
+
+.error {
+	//-fx-font-family: "Roboto";
+	-fx-font-size: 50pt;
+	-fx-text-fill: #FF0000;
+}
+
+
+
+/*----------------------------------------------------
+ *	Text areas/fields/etc.:
+ *---------------------------------------------------*/
+
+/* Dark background, blue writing, RobotoMedium font */
+.textArea {
+	-fx-background-color: #313131;
+	-fx-text-inner-color: #33B5E5;
+	-fx-prop-text-color: #33B5E5;
+	-fx-font: 16pt RobotoMedium;
+}
+
+
+
+/*----------------------------------------------------
+ *	VBox and HBox:
+ *---------------------------------------------------*/
+
+ /* Same colour as background */
+.clearBox {
+	-fx-background-color: #F0F0F0;
+}
+
+/* Dark background */
+.darkBox {
+	-fx-background-color: #313131;
+}
+
+
+
+/*----------------------------------------------------
+ *	Buttons:
+ *---------------------------------------------------*/
+
+/* Dark background, blue writing */
+.darkButton {
+	-fx-background-color: #313131;
+	-fx-text-fill: #33B5E5;
+	
+}
+
+
+/* Blue background, cream writing */
+.lightButton {
+	-fx-background-color: #33B5E5;
+	-fx-text-fill: #F0F0F0;
+	
+}
+
+
+/* Cream background, dark writing, with boarder */
+.invisiButton {
+	-fx-background-color: #F0F0F0;
+	-fx-text-fill: #313131;
+	-fx-border-width: 2;
+	-fx-border-color: #F0F0F0;
+	
+}
+
+
+
+/*----------------------------------------------------
+ *	Check Boxes:
+ *---------------------------------------------------*/
+
+/* Dark text, blue box*/
+.checkLight {
+	-fx-font: 16pt RobotoMedium;
+	-fx-text-fill: #313131;
+	-fx-body-color: #33B5E5;
+}
+
+
+
+
+
+
