@@ -47,7 +47,7 @@ import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import Data.Slideshow;
-import XML.XMLReader;
+import XML.ImprovedXMLReader;
 
 /**
  * @author Ashleyna Foo Inn Peng
@@ -129,6 +129,9 @@ public class GUI extends Application {
 
 	}
 
+	/**
+	 * Creates csv for list of recently opened files
+	 */
 	private void parseFiles() {
 		String theLine;
 		try (BufferedReader br = new BufferedReader(new FileReader(inputFile))) {
@@ -152,11 +155,14 @@ public class GUI extends Application {
 	private class buttonEventHandler implements EventHandler<ActionEvent> {
 		@Override
 		public void handle(ActionEvent e) {
+
+			boolean isSameFile = false;
+
 			/* get the source of the handler caller */
 			Button buttonPressed = (Button) e.getSource();
 
 			/* Print out ID of the button pressed */
-			System.out.println(buttonPressed.getId() + " pressed");
+			System.out.println("BUTTON: " + buttonPressed.getId() + " pressed");
 
 			/* Switch statement for multiple buttons using their IDs */
 			switch (buttonPressed.getId()) {
@@ -180,42 +186,54 @@ public class GUI extends Application {
 				/* Check that a file was selected */
 				if (file != null) {
 					try {
-						currentSlideshow = new XMLReader(file.getAbsolutePath())
-								.getSlideshow();
+						currentSlideshow = new ImprovedXMLReader(
+								file.getAbsolutePath()).getSlideshow();
 					} catch (IOException e1) {
 					}
+
 					/* Get the directory of the last opened file */
 					initDir = file.getParentFile();
 					System.out.println(initDir);
 
+					/* Show error if null slideshow is selected */
 					if (currentSlideshow == null) {
 
 						/* Display error scene */
 						dispError();
-
 						System.out.println("Null slideshow");
 					}
 
 					/*
-					 * Write new file to CSV
+					 * Write new file to CSV if not already there
 					 */
-					/* Shift values of fileList down */
-					for (int i = 4; i > -1; i--) {
-						fileList.set(i + 1, fileList.get(i));
-					}
-					/* add new file to start of list */
-					fileList.set(0, file.getName());
-
-					try (BufferedWriter bw = new BufferedWriter(
-							new PrintWriter(inputFile))) {
-						/* loop though values in the file list */
-						for (int i = 0; i < 6; i++) {
-							/* Write pos. i in fileList to the .csv */
-							bw.write(fileList.get(i));
-							bw.newLine();
+					/* Compare new file to those in csv */
+					for (int i = 0; i < 6; i++) {
+						if (file.getAbsolutePath().equals(fileList.get(i))) {
+							isSameFile = true;
+							System.out.println("Same file detected");
 						}
-					} catch (IOException n) {
-						n.printStackTrace();
+					}
+
+					/* if not the same file then write to csv */
+					if (isSameFile == false) {
+						/* Shift values of fileList down */
+						for (int i = 4; i > -1; i--) {
+							fileList.set(i + 1, fileList.get(i));
+						}
+						/* add new file to start of list */
+						fileList.set(0, file.getAbsolutePath());
+
+						try (BufferedWriter bw = new BufferedWriter(
+								new PrintWriter(inputFile))) {
+							/* loop though values in the file list */
+							for (int i = 0; i < 6; i++) {
+								/* Write pos. i in fileList to the .csv */
+								bw.write(fileList.get(i));
+								bw.newLine();
+							}
+						} catch (IOException n) {
+							n.printStackTrace();
+						}
 					}
 
 				} else {
@@ -243,12 +261,12 @@ public class GUI extends Application {
 				/* Get ID of button as an int */
 				int i = Integer.parseInt(buttonPressed.getId());
 				System.out.println("Open pres. " + i);
-				/* open file at apropriate position in fileList */
+				/* open file at appropriate position in fileList */
 				outputFile = fileList.get(i);
 
 				if (outputFile != null) {
 					try {
-						currentSlideshow1 = new XMLReader(outputFile)
+						currentSlideshow1 = new ImprovedXMLReader(outputFile)
 								.getSlideshow();
 					} catch (IOException e1) {
 
@@ -686,7 +704,7 @@ public class GUI extends Application {
 		Scene slides = new Scene(slidePane);
 
 		/* Make and add a label */
-		lbl = makeLabel("Slide", 10, "#313131");
+		lbl = makeLabel("Slide", 1, "#313131");
 		slidePane.add(lbl, 0, 0);
 
 		slideStage.setScene(slides);
