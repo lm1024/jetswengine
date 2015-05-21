@@ -239,13 +239,16 @@ public class GUI extends Application {
 
 					/* if not the same file then write to csv */
 					if (isSameFile == false) {
-						/* Shift values of fileList down */
+						/* Shift values of csv's */
 						for (int i = 4; i > -1; i--) {
 							fileList.set(i + 1, fileList.get(i));
+							buttonInfo.set(i + 1, buttonInfo.get(i));
 						}
-						/* add new file to start of list */
+						/* add new line to start of lists */
 						fileList.set(0, file.getAbsolutePath());
+						buttonInfo.set(0, currentSlideshow.getInfo().getComment());
 
+						/* rewrite csv files */
 						try (BufferedWriter bw = new BufferedWriter(
 								new PrintWriter(xmlFiles))) {
 							/* loop though values in the file list */
@@ -257,6 +260,20 @@ public class GUI extends Application {
 						} catch (IOException n) {
 							n.printStackTrace();
 						}
+						
+						try (BufferedWriter bw = new BufferedWriter(
+								new PrintWriter(buttonscsv))) {
+							/* loop though values in the file list */
+							for (int i = 0; i < 6; i++) {
+								/* Write pos. i in fileList to the .csv */
+								bw.write(buttonInfo.get(i));
+								bw.newLine();
+							}
+						} catch (IOException n) {
+							n.printStackTrace();
+						}
+						
+						buildmain();
 					}
 
 				} else {
@@ -284,6 +301,7 @@ public class GUI extends Application {
 				System.out.println("Open pres. " + i);
 				/* open file at appropriate position in fileList */
 				outputFile = fileList.get(i);
+				System.out.println(outputFile);
 
 				if (outputFile != null) {
 					try {
