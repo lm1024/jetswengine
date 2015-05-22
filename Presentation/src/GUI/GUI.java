@@ -1,9 +1,8 @@
 
-
 /**
  * 
- 
-* Jake Feasey
+
+ * Jake Feasey
  * Ashleyna Foo Inn Peng
  * 
  * Copyright (c) 2015 WaveMedia. All rights reserved.
@@ -108,6 +107,9 @@ public class GUI extends Application {
 	private MenuBar mainMenu = new MenuBar();
 	private MenuBar settingsMenu;
 
+	private MenuItem home = new MenuItem("Home");
+	private MenuItem settings = new MenuItem("More settings");
+
 	public GUI() {
 	}
 
@@ -148,9 +150,9 @@ public class GUI extends Application {
 		/* Create items for file */
 		MenuItem openFile = new MenuItem("Open File");
 		MenuItem exit = new MenuItem("Exit");
-
+		home.setDisable(true);
 		/* add items to File */
-		menuFile.getItems().addAll(openFile, exit);
+		menuFile.getItems().addAll(openFile, home, exit);
 
 		/* Settings section */
 		Menu menuSettings = new Menu("Settings");
@@ -184,7 +186,6 @@ public class GUI extends Application {
 
 		CheckMenuItem autoNext = new CheckMenuItem("Auto Next");
 		autoNext.setSelected(false); // initialise to false
-		MenuItem settings = new MenuItem("More settings");
 
 		/* add items to settings */
 		menuSettings.getItems().addAll(screenSelect, autoNext, settings);
@@ -332,7 +333,7 @@ public class GUI extends Application {
 			case "home":
 				/* Build the scene for the main */
 				buildmain();
-
+				settings.setDisable(false);
 				break;
 
 			case "submit":
@@ -494,6 +495,12 @@ public class GUI extends Application {
 
 			switch (item.getText()) {
 
+			case "Home":
+				settings.setDisable(true);
+				home.setDisable(false);
+				buildmain();
+				break;
+
 			case "Exit":
 				System.exit(0);
 
@@ -613,6 +620,8 @@ public class GUI extends Application {
 			case "More settings":
 				/* set settings Scene as the scene */
 				stageRef.setScene(settingsScene);
+				settings.setDisable(true);
+				home.setDisable(false);
 				break;
 
 			/* open Q and A document */
@@ -683,55 +692,24 @@ public class GUI extends Application {
 				makeImageView("file:WM_logo_transparent.png", 0.1));
 		grid.add(titleBox, 0, 1, 3, 1);
 
-		/* Create first button for Slide Preview and add in column 1, row 2 */
-		Button one = makeButton(buttonInfo.get(0).replace("," , "\n"), "invisiButton", true, "0",
-				0.2);
-		one.setFont(Font.loadFont("file:resources/fonts/Roboto-Bold.ttf", 15));// change
-																				// font
-		grid.add(one, 0, 2);
+		/* Make 6 buttons to open presentations */
+		Button[][] buttons = new Button[3][2];//2 rows of 3
+		int i = 0;
 
-		/* Create second button for Slide Preview and add in column 3, row 2 */
-		Button two = makeButton(buttonInfo.get(1).replace("," , "\n"), "invisiButton", true, "1",
-				0.2);
-		two.setFont(Font.loadFont("file:resources/fonts/Roboto-Bold.ttf", 15));// change
-																				// font
-		grid.add(two, 1, 2);
-
-		/* Create third button for Slide Preview and add in column 5, row 2 */
-		Button three = makeButton(buttonInfo.get(2).replace("," , "\n"), "invisiButton", true, "2",
-				0.2);
-		three.setFont(Font.loadFont("file:resources/fonts/Roboto-Bold.ttf", 15));// change
-																					// font
-		grid.add(three, 2, 2);
-
-		/* Create forth button for Slide Preview and add in column 1, row 4 */
-		Button four = makeButton(buttonInfo.get(3).replace("," , "\n"), "invisiButton", true, "3",
-				0.2);
-		four.setFont(Font.loadFont("file:resources/fonts/Roboto-Bold.ttf", 15));// change
-																				// font
-		grid.add(four, 0, 3);
-
-		/* Create fifth button for Slide Preview and add in column 3, row 4 */
-		Button five = makeButton(buttonInfo.get(4).replace("," , "\n"), "invisiButton", true, "4",
-				0.2);
-		five.setFont(Font.loadFont("file:resources/fonts/Roboto-Bold.ttf", 15));// change
-																				// font
-		grid.add(five, 1, 3);
-
-		/* Create sixth button for Slide Preview and add in column 5, row 4 */
-		Button six = makeButton(buttonInfo.get(5).replace("," , "\n"), "invisiButton", true, "5",
-				0.2);
-		six.setFont(Font.loadFont("file:resources/fonts/Roboto-Bold.ttf", 15));// change
-																				// font
-		grid.add(six, 2, 3);
+		for (int y = 0; y < 2; y++) {
+			for (int x = 0; x < 3; x++) {
+				buttons[x][y] = makeButton(
+						buttonInfo.get(i).replace(",", "\n"), "invisiButton",
+						true, String.valueOf(i), 0.2);
+				buttons[x][y].setFont(Font.loadFont(
+						"file:resources/fonts/Roboto-Bold.ttf", 15));// add font
+				grid.add(buttons[x][y], x, y + 2);// add to grid
+				i++;
+			}
+		}
 
 		mainScene.getStylesheets().add(styleSheet);
 		stageRef.setScene(mainScene);
-
-		/* Line sets the screen to fullscreen */
-		// primaryStage.setFullScreen(true);
-
-		// thisGraphicsHandler.drawRectangle();
 
 	}
 
