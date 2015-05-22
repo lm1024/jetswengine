@@ -9,6 +9,7 @@
 
 package GUI;
 
+import java.awt.Desktop;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -32,8 +33,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -111,8 +115,7 @@ public class GUI extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		/*
-		 * TODO Jake, please make a nice GUI. You are our only hope. CSV
-		 * checking and absolute file paths CSV reading for images. Move fonts
+		 * TODO Jake, please make a nice GUI. You are our only hope. Move fonts
 		 * back to CSS. Windows gestures.
 		 */
 
@@ -123,8 +126,8 @@ public class GUI extends Application {
 
 		/* Set the title of the window */
 		stageRef.setTitle("SmartSlides");
-		
-		/*set size of window*/
+
+		/* set size of window */
 		stageRef.setWidth(Screen.getPrimary().getBounds().getWidth());
 		stageRef.setHeight(Screen.getPrimary().getBounds().getHeight());
 
@@ -396,11 +399,15 @@ public class GUI extends Application {
 
 	/**
 	 * 
-	 * 
+	 * Handler for menu actions
 	 * 
 	 */
 
 	private class menuHandler implements EventHandler<ActionEvent> {
+
+		/**
+		 * TODO: cases at the bottom need completing
+		 */
 
 		public void handle(ActionEvent t) {
 			MenuItem item = (MenuItem) t.getTarget();
@@ -512,30 +519,41 @@ public class GUI extends Application {
 			case "2":
 			case "3":
 				int i = Integer.parseInt(item.getText()) - 1;
-				bounds = Screen.getScreens().get(i)
-						.getVisualBounds();
+				bounds = Screen.getScreens().get(i).getVisualBounds();
 				System.out.println("Screen " + i + " bound points: ("
 						+ bounds.getMinX() + "," + bounds.getMinY() + ") ("
 						+ bounds.getMaxX() + "," + bounds.getMaxY() + ")");
 				break;
-				
+
 			case "Auto Next":
-				/*turn auto-next on/off*/
+				/* turn auto-next on/off */
 				break;
-				
+
 			case "More settings":
 				/* set settings Scene as the scene */
 				stageRef.setScene(settingsScene);
 				break;
-			
+
 			case "Help Document":
-				/*open help document pdf*/
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						try {
+							Desktop.getDesktop().open(
+									new File("resources/helpDoc.pdf"));
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}).start();
+
 				break;
-				
+
 			case "Website":
-				/*attempt to open website*/
+				/* attempt to open website */
 				break;
-			
+
 			}
 		}
 	}
@@ -580,21 +598,33 @@ public class GUI extends Application {
 
 		/* create items for settings */
 		Menu screenSelect = new Menu("Select Screen");// submenu
-		MenuItem screen1 = new MenuItem("1");
-		MenuItem screen2 = new MenuItem("2");
-		MenuItem screen3 = new MenuItem("3");
-		screenSelect.getItems().add(screen1);
-		switch (numScreens) {
-		case 2:
-			screenSelect.getItems().add(screen2);
-			break;
-		case 3:
-			screenSelect.getItems().addAll(screen2, screen3);
-			break;
+
+		/* Determine how many screen options to show */
+		if (numScreens > 1) {
+			screenSelect.setDisable(false);// enable screen select
+			
+			/* Toggle group for screens */
+			ToggleGroup screens = new ToggleGroup();
+			RadioMenuItem screen1 = new RadioMenuItem("1");
+			screen1.setSelected(true);
+			screen1.setToggleGroup(screens);
+			screenSelect.getItems().add(screen1);
+			
+			RadioMenuItem screen2 = new RadioMenuItem("2");
+			screen2.setToggleGroup(screens);
+			screenSelect.getItems().add(screen2); // add screen 2
+			if (numScreens > 2) {
+				RadioMenuItem screen3 = new RadioMenuItem("3");
+				screen3.setToggleGroup(screens);
+				screenSelect.getItems().add(screen3);// add screen 3
+			}
+
+		} else {
+			screenSelect.setDisable(true);// disable screen select
 		}
 
 		CheckMenuItem autoNext = new CheckMenuItem("Auto Next");
-		autoNext.setSelected(false);
+		autoNext.setSelected(false); // initialise to false
 		MenuItem settings = new MenuItem("More settings");
 
 		/* add items to settings */
@@ -704,7 +734,8 @@ public class GUI extends Application {
 	private void buildSettings() {
 
 		/*
-		 * TODO Find more settings options to add
+		 * TODO: add a menu at the top of screen - make it public, don't allow
+		 * settings to be click when already in settings
 		 */
 
 		/* Create gridpane in which to put objects */
