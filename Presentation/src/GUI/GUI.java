@@ -98,6 +98,10 @@ public class GUI extends Application {
 
 	private int numScreens = Screen.getScreens().size();
 	private Rectangle2D bounds = Screen.getPrimary().getBounds();
+	
+	/* Menu bar at top of page */
+	private MenuBar mainMenu = new MenuBar();
+	private MenuBar settingsMenu;
 
 	public GUI() {
 	}
@@ -134,6 +138,75 @@ public class GUI extends Application {
 		/* sets the scale required to scale the height with change in width */
 		sizescale = Screen.getPrimary().getBounds().getWidth()
 				/ Screen.getPrimary().getBounds().getHeight();
+		
+		/* File section */
+		Menu menuFile = new Menu("File");
+
+		/* Create items for file */
+		MenuItem openFile = new MenuItem("Open File");
+		MenuItem exit = new MenuItem("Exit");
+
+		/* add items to File */
+		menuFile.getItems().addAll(openFile, exit);
+
+		/* Settings section */
+		Menu menuSettings = new Menu("Settings");
+
+		/* create items for settings */
+		Menu screenSelect = new Menu("Select Screen");// submenu
+
+		/* Determine how many screen options to show */
+		if (numScreens > 1) {
+			screenSelect.setDisable(false);// enable screen select
+
+			/* Toggle group for screens */
+			ToggleGroup screens = new ToggleGroup();
+			RadioMenuItem screen1 = new RadioMenuItem("1");
+			screen1.setSelected(true);
+			screen1.setToggleGroup(screens);
+			screenSelect.getItems().add(screen1);
+
+			RadioMenuItem screen2 = new RadioMenuItem("2");
+			screen2.setToggleGroup(screens);
+			screenSelect.getItems().add(screen2); // add screen 2
+			if (numScreens > 2) {
+				RadioMenuItem screen3 = new RadioMenuItem("3");
+				screen3.setToggleGroup(screens);
+				screenSelect.getItems().add(screen3);// add screen 3
+			}
+
+		} else {
+			screenSelect.setDisable(true);// disable screen select
+		}
+
+		CheckMenuItem autoNext = new CheckMenuItem("Auto Next");
+		autoNext.setSelected(false); // initialise to false
+		MenuItem settings = new MenuItem("More settings");
+
+		/* add items to settings */
+		menuSettings.getItems().addAll(screenSelect, autoNext, settings);
+
+		/* help section */
+		Menu menuHelp = new Menu("Help");
+
+		/* create items for help */
+		MenuItem qanda = new MenuItem("Quick Q & A");
+		MenuItem help = new MenuItem("User Manual");
+		MenuItem website = new MenuItem("Website");
+
+		/* add items to help */
+		menuHelp.getItems().addAll(qanda, help, website);
+
+		/* Action Listener to each section of the Menu */
+		menuFile.setOnAction(new menuHandler());
+		screenSelect.setOnAction(new menuHandler());
+		menuSettings.setOnAction(new menuHandler());
+		menuHelp.setOnAction(new menuHandler());
+
+		/* add items to menu */
+		mainMenu.getMenus().addAll(menuFile, menuSettings, menuHelp);	
+		
+		settingsMenu = mainMenu;
 
 		/* initial build of settings */
 		buildSettings();
@@ -411,7 +484,7 @@ public class GUI extends Application {
 
 		public void handle(ActionEvent t) {
 			MenuItem item = (MenuItem) t.getTarget();
-			System.out.println(item.getText());
+			System.out.println("MENU ITEM: " + item.getText() + "Pressed");
 
 			boolean isSameFile = false;
 
@@ -584,89 +657,20 @@ public class GUI extends Application {
 		/* create a gridpane layout */
 		grid.setHgap(0.02 * gridHeightRef);// gaps between cells
 		grid.setVgap(0.02 * gridHeightRef);
-		grid.setPadding(new Insets(0, 50, 0, 50));
 		grid.setAlignment(Pos.TOP_CENTER); // alignment on screen
-		grid.setGridLinesVisible(true);
+		//grid.setGridLinesVisible(true);
 
 		/* creates a stackpane to add the grid in for resizable option */
 		StackPane rootpane = new StackPane();
 		rootpane.getChildren().add(grid);
 
-		/* Menu bar at top of page */
-		MenuBar mainMenu = new MenuBar();
-
-		/* File section */
-		Menu menuFile = new Menu("File");
-
-		/* Create items for file */
-		MenuItem openFile = new MenuItem("Open File");
-		MenuItem exit = new MenuItem("Exit");
-
-		/* add items to File */
-		menuFile.getItems().addAll(openFile, exit);
-
-		/* Settings section */
-		Menu menuSettings = new Menu("Settings");
-
-		/* create items for settings */
-		Menu screenSelect = new Menu("Select Screen");// submenu
-
-		/* Determine how many screen options to show */
-		if (numScreens > 1) {
-			screenSelect.setDisable(false);// enable screen select
-
-			/* Toggle group for screens */
-			ToggleGroup screens = new ToggleGroup();
-			RadioMenuItem screen1 = new RadioMenuItem("1");
-			screen1.setSelected(true);
-			screen1.setToggleGroup(screens);
-			screenSelect.getItems().add(screen1);
-
-			RadioMenuItem screen2 = new RadioMenuItem("2");
-			screen2.setToggleGroup(screens);
-			screenSelect.getItems().add(screen2); // add screen 2
-			if (numScreens > 2) {
-				RadioMenuItem screen3 = new RadioMenuItem("3");
-				screen3.setToggleGroup(screens);
-				screenSelect.getItems().add(screen3);// add screen 3
-			}
-
-		} else {
-			screenSelect.setDisable(true);// disable screen select
-		}
-
-		CheckMenuItem autoNext = new CheckMenuItem("Auto Next");
-		autoNext.setSelected(false); // initialise to false
-		MenuItem settings = new MenuItem("More settings");
-
-		/* add items to settings */
-		menuSettings.getItems().addAll(screenSelect, autoNext, settings);
-
-		/* help section */
-		Menu menuHelp = new Menu("Help");
-
-		/* create items for help */
-		MenuItem qanda = new MenuItem("Quick Q & A");
-		MenuItem help = new MenuItem("User Manual");
-		MenuItem website = new MenuItem("Website");
-
-		/* add items to help */
-		menuHelp.getItems().addAll(qanda, help, website);
-
-		/* Action Listener to each section of the Menu */
-		menuFile.setOnAction(new menuHandler());
-		screenSelect.setOnAction(new menuHandler());
-		menuSettings.setOnAction(new menuHandler());
-		menuHelp.setOnAction(new menuHandler());
-
-		/* add items to menu */
-		mainMenu.getMenus().addAll(menuFile, menuSettings, menuHelp);
-
-		grid.add(mainMenu, 0, 0, 3, 1);
 
 		/* creates a scene within the stage of pixel size x by y */
 		mainScene = new Scene(rootpane, stageRef.getWidth(),
 				stageRef.getHeight());
+		
+		/*add menu bar to main page*/
+		grid.add(mainMenu, 0, 0, 3, 1);
 
 		/* Company logo and product logo in column 1-3, row 1 */
 		HBox titleBox = makeHBox("box", Pos.CENTER_LEFT,
@@ -681,7 +685,7 @@ public class GUI extends Application {
 				0.2);
 		one.setFont(Font.loadFont("file:resources/fonts/Roboto-Bold.ttf",
 				gridHeightRef * 0.02));// change font
-		one.setPrefWidth(stageRef.getWidth() * 0.3);// set width
+		one.setPrefWidth(bounds.getWidth() * 0.3);// set width
 		grid.add(one, 0, 2);
 
 		/* Create second button for Slide Preview and add in column 3, row 2 */
@@ -689,7 +693,7 @@ public class GUI extends Application {
 				0.2);
 		two.setFont(Font.loadFont("file:resources/fonts/Roboto-Bold.ttf",
 				gridHeightRef * 0.02));// change font
-		two.setPrefWidth(stageRef.getWidth() * 0.3);// set width
+		two.setPrefWidth(bounds.getWidth() * 0.3);// set width
 		grid.add(two, 1, 2);
 
 		/* Create third button for Slide Preview and add in column 5, row 2 */
@@ -697,7 +701,7 @@ public class GUI extends Application {
 				0.2);
 		three.setFont(Font.loadFont("file:resources/fonts/Roboto-Bold.ttf",
 				gridHeightRef * 0.02));// change font
-		three.setPrefWidth(stageRef.getWidth() * 0.3);// set width
+		three.setPrefWidth(bounds.getWidth() * 0.3);// set width
 		grid.add(three, 2, 2);
 
 		/* Create forth button for Slide Preview and add in column 1, row 4 */
@@ -705,7 +709,7 @@ public class GUI extends Application {
 				0.2);
 		four.setFont(Font.loadFont("file:resources/fonts/Roboto-Bold.ttf",
 				gridHeightRef * 0.02));// change font
-		four.setPrefWidth(stageRef.getWidth() * 0.3);// set width
+		four.setPrefWidth(bounds.getWidth() * 0.3);// set width
 		grid.add(four, 0, 3);
 
 		/* Create fifth button for Slide Preview and add in column 3, row 4 */
@@ -713,7 +717,7 @@ public class GUI extends Application {
 				0.2);
 		five.setFont(Font.loadFont("file:resources/fonts/Roboto-Bold.ttf",
 				gridHeightRef * 0.02));// change font
-		five.setPrefWidth(stageRef.getWidth() * 0.3);// set width
+		five.setPrefWidth(bounds.getWidth() * 0.3);// set width
 		grid.add(five, 1, 3);
 
 		/* Create sixth button for Slide Preview and add in column 5, row 4 */
@@ -721,7 +725,7 @@ public class GUI extends Application {
 				0.2);
 		six.setFont(Font.loadFont("file:resources/fonts/Roboto-Bold.ttf",
 				gridHeightRef * 0.02));// change font
-		six.setPrefWidth(stageRef.getWidth() * 0.3);// set width
+		six.setPrefWidth(bounds.getWidth() * 0.3);// set width
 		grid.add(six, 2, 3);
 
 		mainScene.getStylesheets().add(styleSheet);
@@ -771,6 +775,9 @@ public class GUI extends Application {
 		settingsGrid.setHgap(0.02 * gridHeightRef);
 		settingsGrid.setVgap(0.02 * gridHeightRef);
 		// settingsGrid.setGridLinesVisible(true);
+		
+		/*add menu bar to settings*/
+		settingsGrid.add(settingsMenu, 0, 0, 3, 1);
 
 		/*
 		 * Logo button and Title
@@ -779,11 +786,11 @@ public class GUI extends Application {
 		/* Wavemedia logo Home button */
 		Button homeBtn = makeButton("", "invisiButton", true, "home", 0.06,
 				"file:WM_logo_transparent.png", 0.5);
-		settingsGrid.add(homeBtn, 0, 0, 1, 1);
+		settingsGrid.add(homeBtn, 0, 1, 1, 1);
 
 		/* Create settings page title */
 		Label titleLabel = makeLabel("     Settings", 0.15, "#33B5E5");
-		settingsGrid.add(titleLabel, 2, 0, 1, 1);
+		settingsGrid.add(titleLabel, 2, 1, 1, 1);
 
 		/*
 		 * Checkbox options:
@@ -799,14 +806,14 @@ public class GUI extends Application {
 		VBox vbox1 = makeVBox("clearBox", Pos.TOP_LEFT, 10);
 		vbox1.getChildren().addAll(makeLabel("Auto-Next:", 0.05, "#313131"),
 				cb1, cb2);
-		settingsGrid.add(vbox1, 0, 1, 1, 1);
+		settingsGrid.add(vbox1, 0, 2, 1, 1);
 
 		/*
 		 * Back to main screen
 		 */
 		Button back = makeButton("Back", "lightButton", true, "home", 0.06);
 		back.setPrefSize(gridHeightRef * 0.16, gridHeightRef * 0.08);
-		settingsGrid.add(back, 0, 3, 1, 1);
+		settingsGrid.add(back, 0, 4, 1, 1);
 
 		/*
 		 * Username input
@@ -837,7 +844,7 @@ public class GUI extends Application {
 		/* Add everything to the box */
 		userBox.getChildren().addAll(makeLabel("Username:", 0.05, "#313131"),
 				userField, userButtons);
-		settingsGrid.add(userBox, 2, 1, 1, 1);
+		settingsGrid.add(userBox, 2, 2, 1, 1);
 
 		/* vbox to add screen settings */
 		VBox screenBox = makeVBox("clearBox", Pos.TOP_CENTER, 10);
@@ -873,7 +880,7 @@ public class GUI extends Application {
 				screen1, screen2, screen3); // add screens
 
 		/* add screenBox to grid */
-		settingsGrid.add(screenBox, 4, 1);
+		settingsGrid.add(screenBox, 4, 2);
 
 		/* set the settings grid and its contents to resize to the stage size */
 		stageRef.maxHeightProperty().bind(
