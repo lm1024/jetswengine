@@ -479,7 +479,12 @@ public class GUI extends Application {
 						/* add new line to start of lists */
 						fileList.set(0, file.getAbsolutePath());
 						buttonInfo.set(0, currentSlideshow.getInfo()
-								.getComment());
+								.getAuthor() // author
+								+ "\n"
+								+ currentSlideshow.getInfo().getVersion() // version
+								+ "\n"
+								+ currentSlideshow.getInfo().getComment() // comment
+								+ "\n" + file.getName()); // file name
 
 						/* rewrite csv files */
 						try (BufferedWriter bw = new BufferedWriter(
@@ -515,6 +520,7 @@ public class GUI extends Application {
 				}
 				break;
 
+			/* set bounds for selected screen */
 			case "1":
 			case "2":
 			case "3":
@@ -534,20 +540,23 @@ public class GUI extends Application {
 				stageRef.setScene(settingsScene);
 				break;
 
-			case "Help Document":
-				new Thread(new Runnable() {
-					@Override
-					public void run() {
-						try {
-							Desktop.getDesktop().open(
-									new File("resources/helpDoc.pdf"));
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-				}).start();
+			/* open Q and A document */
+			case "Quick Q & A":
+				try {
+					Desktop.getDesktop().open(new File("resources/QandA.pdf"));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				break;
 
+			/* open UserManual */
+			case "User Manual":
+				try {
+					Desktop.getDesktop()
+							.open(new File("resources/helpDoc.pdf"));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 				break;
 
 			case "Website":
@@ -564,6 +573,9 @@ public class GUI extends Application {
 	 * 
 	 */
 	private void buildmain() {
+		/**
+		 * TODO: main stuff
+		 */
 
 		GridPane grid = new GridPane();
 
@@ -634,13 +646,14 @@ public class GUI extends Application {
 		Menu menuHelp = new Menu("Help");
 
 		/* create items for help */
-		MenuItem help = new MenuItem("Help Document");
+		MenuItem qanda = new MenuItem("Quick Q & A");
+		MenuItem help = new MenuItem("User Manual");
 		MenuItem website = new MenuItem("Website");
 
 		/* add items to help */
-		menuHelp.getItems().addAll(help, website);
+		menuHelp.getItems().addAll(qanda, help, website);
 
-		/* Add listener to each section */
+		/* Action Listener to each section of the Menu */
 		menuFile.setOnAction(new menuHandler());
 		screenSelect.setOnAction(new menuHandler());
 		menuSettings.setOnAction(new menuHandler());
@@ -831,20 +844,23 @@ public class GUI extends Application {
 
 		/* Add check boxes */
 		ToggleButton screen1 = new ToggleButton("1");
+		screen1.getStyleClass().add("radioButton");
 		screen1.setSelected(true);
 		ToggleButton screen2 = new ToggleButton("2");
+		screen2.getStyleClass().add("radioButton");
 		ToggleButton screen3 = new ToggleButton("3");
+		screen3.getStyleClass().add("radioButton");
 		screen1.setStyle("-fx-font-size:" + 0.03 * gridHeightRef);// set font
 		screen2.setStyle("-fx-font-size:" + 0.03 * gridHeightRef);// size
 		screen3.setStyle("-fx-font-size:" + 0.03 * gridHeightRef);
 
-		if(numScreens < 3){
+		if (numScreens < 3) {
 			screen3.setDisable(true);
-			if(numScreens < 2){
+			if (numScreens < 2) {
 				screen2.setDisable(true);
 			}
 		}
-		
+
 		/* ToggleGroup for CheckBoxes */
 		ToggleGroup screenGroup = new ToggleGroup();
 		screen1.setToggleGroup(screenGroup);
