@@ -30,7 +30,7 @@ public class Defaults {
 	private double xAspectRatio = 16;
 	private double yAspectRatio = 9;
 	
-	private boolean audioHasVisibleControls = true;
+	private boolean audioHasVisibleControls = false;
 
 	public Defaults() {
 
