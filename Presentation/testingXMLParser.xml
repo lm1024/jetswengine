@@ -23,6 +23,8 @@
 		<cropy1>0</cropy1>
 		<cropx2>1</cropx2>
 		<cropy2>1</cropy2>
+		<xAspectRatio>4</xAspectRatio>
+		<yAspectRatio>3</yAspectRatio>
 	</defaultsettings>
 	<slide backgroundcolor="#ffaaff00" duration="10"> 
 		<!-- PWS Text -->
