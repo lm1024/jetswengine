@@ -602,14 +602,14 @@ public class GUI extends Application {
 		/* Determine how many screen options to show */
 		if (numScreens > 1) {
 			screenSelect.setDisable(false);// enable screen select
-			
+
 			/* Toggle group for screens */
 			ToggleGroup screens = new ToggleGroup();
 			RadioMenuItem screen1 = new RadioMenuItem("1");
 			screen1.setSelected(true);
 			screen1.setToggleGroup(screens);
 			screenSelect.getItems().add(screen1);
-			
+
 			RadioMenuItem screen2 = new RadioMenuItem("2");
 			screen2.setToggleGroup(screens);
 			screenSelect.getItems().add(screen2); // add screen 2
@@ -823,44 +823,41 @@ public class GUI extends Application {
 
 		/* Add everything to the box */
 		userBox.getChildren().addAll(makeLabel("Username:", 0.05, "#313131"),
-				userField, userButtons);// add
-		// to
-		// box
-		settingsGrid.add(userBox, 2, 1, 1, 1);// add box to settingsGrid
+				userField, userButtons);
+		settingsGrid.add(userBox, 2, 1, 1, 1);
 
-		/* VBox to put banned words title and text box in */
-		VBox bannedBox = makeVBox("clearBox", Pos.CENTER, 5);
+		/* vbox to add screen settings */
+		VBox screenBox = makeVBox("clearBox", Pos.TOP_CENTER, 10);
 
-		/* Editable text area for banned words */
-		/* Defined outside of main class */
-		ta.setPrefRowCount(12);
-		ta.setPrefColumnCount(15);
-		ta.setPromptText("Banned Words Here");
-		ta.getStyleClass().add("textArea");
-		ta.setStyle("-fx-font-size:" + gridHeightRef * 0.09);
-		ta.setMinWidth(gridHeightRef * 0.55);
-		ta.setMinHeight(gridHeightRef * 0.75);
-		ta.setMaxWidth(gridHeightRef * 0.55);
-		ta.setMaxHeight(gridHeightRef * 0.75);
+		/* Add check boxes */
+		ToggleButton screen1 = new ToggleButton("1");
+		screen1.setSelected(true);
+		ToggleButton screen2 = new ToggleButton("2");
+		ToggleButton screen3 = new ToggleButton("3");
+		screen1.setStyle("-fx-font-size:" + 0.03 * gridHeightRef);// set font
+		screen2.setStyle("-fx-font-size:" + 0.03 * gridHeightRef);// size
+		screen3.setStyle("-fx-font-size:" + 0.03 * gridHeightRef);
 
-		/* Add items to banned words VBox */
-		bannedBox.getChildren().addAll(
-				makeLabel("Banned Words:", 0.05, "#313131"), ta);
-		settingsGrid.add(bannedBox, 4, 1, 1, 2);
+		if(numScreens < 3){
+			screen3.setDisable(true);
+			if(numScreens < 2){
+				screen2.setDisable(true);
+			}
+		}
+		
+		/* ToggleGroup for CheckBoxes */
+		ToggleGroup screenGroup = new ToggleGroup();
+		screen1.setToggleGroup(screenGroup);
+		screen2.setToggleGroup(screenGroup);
+		screen3.setToggleGroup(screenGroup);
 
-		/* HBox to put buttons controlling banned words in */
-		HBox btnBox = makeHBox("clearBox", Pos.CENTER, 10);
+		/* add checkboxes to screenBox */
+		screenBox.getChildren().addAll(
+				makeLabel("Screen Select:", 0.05, "#313131"), // add title label
+				screen1, screen2, screen3); // add screens
 
-		/* Save and Clear buttons */
-		Button clrBtn = makeButton("Clear", "darkButton", true, "clr", 0.06);
-		Button saveBtn = makeButton("Save", "darkButton", true, "saveWords",
-				0.06);
-
-		/* Add buttons to box */
-		btnBox.getChildren().addAll(saveBtn, clrBtn);
-
-		/* Add box to the settingsGrid */
-		settingsGrid.add(btnBox, 4, 3, 1, 1);
+		/* add screenBox to grid */
+		settingsGrid.add(screenBox, 4, 1);
 
 		/* set the settings grid and its contents to resize to the stage size */
 		stageRef.maxHeightProperty().bind(
