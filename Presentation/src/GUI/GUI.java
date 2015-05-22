@@ -1,4 +1,3 @@
-
 /**
  * 
 
@@ -209,13 +208,9 @@ public class GUI extends Application {
 
 		/* add items to menu */
 		mainMenu.getMenus().addAll(menuFile, menuSettings, menuHelp);
-
+		
+		/*Duplicate menu for settings*/
 		settingsMenu = mainMenu;
-
-		/* initial build of settings */
-		buildSettings();
-		primaryStage.setScene(settingsScene);
-		System.out.println("Settings Built");
 
 		buildmain(); // Build main page
 		System.out.println("Main Built");
@@ -334,6 +329,7 @@ public class GUI extends Application {
 				/* Build the scene for the main */
 				buildmain();
 				settings.setDisable(false);
+				home.setDisable(true);
 				break;
 
 			case "submit":
@@ -496,8 +492,8 @@ public class GUI extends Application {
 			switch (item.getText()) {
 
 			case "Home":
-				settings.setDisable(true);
-				home.setDisable(false);
+				settings.setDisable(false);
+				home.setDisable(true);
 				buildmain();
 				break;
 
@@ -619,6 +615,7 @@ public class GUI extends Application {
 
 			case "More settings":
 				/* set settings Scene as the scene */
+				buildSettings();
 				stageRef.setScene(settingsScene);
 				settings.setDisable(true);
 				home.setDisable(false);
@@ -668,32 +665,41 @@ public class GUI extends Application {
 		grid.setVgap(5);
 		grid.setPadding(new Insets(0, 5, 5, 5));
 		grid.setAlignment(Pos.TOP_CENTER); // alignment on screen
-		grid.setGridLinesVisible(true);
+		// grid.setGridLinesVisible(true);
 		grid.getColumnConstraints().addAll(
 				new ColumnConstraints(windowWidth / 3),
 				new ColumnConstraints(windowWidth / 3),
 				new ColumnConstraints(windowWidth / 3));
 
 		/* creates a stackpane to add the grid in for resizable option */
-		StackPane rootpane = new StackPane();
-		rootpane.getChildren().add(grid);
+		/*
+		 * StackPane rootpane = new StackPane();
+		 * rootpane.getChildren().add(grid);
+		 */
 
 		/* creates a scene within the stage of pixel size x by y */
-		mainScene = new Scene(rootpane, stageRef.getWidth(),
-				stageRef.getHeight());
+		mainScene = new Scene(grid, stageRef.getWidth(), stageRef.getHeight());
 
 		/* add menu bar to main page */
 		grid.add(mainMenu, 0, 0, 3, 1);
 
+		HBox ssText = makeHBox("", Pos.CENTER, 5);
+		HBox wmLogo = makeHBox("", Pos.CENTER, 5);
+
 		/* Company logo and product logo in column 1-3, row 1 */
-		HBox titleBox = makeHBox("box", Pos.CENTER_LEFT, 5);
-		titleBox.getChildren().addAll(
-				makeImageView("file:Smartslides_DarkText.png", 0.5),
-				makeImageView("file:WM_logo_transparent.png", 0.1));
-		grid.add(titleBox, 0, 1, 3, 1);
+		ssText.getChildren().add(
+				makeImageView("file:Smartslides_DarkText.png",
+						2 * windowWidth * 0.3, 0));
+		wmLogo.getChildren().add(
+				makeImageView("file:WM_logo_transparent.png",
+						windowWidth * 0.3, 0));
+
+		/* add images to grid */
+		grid.add(ssText, 0, 1, 2, 1);
+		grid.add(wmLogo, 2, 1);
 
 		/* Make 6 buttons to open presentations */
-		Button[][] buttons = new Button[3][2];//2 rows of 3
+		Button[][] buttons = new Button[3][2];// 2 rows of 3
 		int i = 0;
 
 		for (int y = 0; y < 2; y++) {
@@ -703,6 +709,8 @@ public class GUI extends Application {
 						true, String.valueOf(i), 0.2);
 				buttons[x][y].setFont(Font.loadFont(
 						"file:resources/fonts/Roboto-Bold.ttf", 15));// add font
+				buttons[x][y].setPrefWidth(windowWidth * 0.3);
+				// buttons[x][y].setPrefHeight(windowHeight*0.3);
 				grid.add(buttons[x][y], x, y + 2);// add to grid
 				i++;
 			}
@@ -737,7 +745,8 @@ public class GUI extends Application {
 		settingsGrid.setAlignment(Pos.TOP_CENTER);
 		settingsGrid.setHgap(5);
 		settingsGrid.setVgap(5);
-		settingsGrid.setGridLinesVisible(true);
+		//settingsGrid.setGridLinesVisible(true);
+		/* each column to be a third of the page */
 		settingsGrid.getColumnConstraints().addAll(
 				new ColumnConstraints(windowWidth / 3),
 				new ColumnConstraints(windowWidth / 3),
@@ -752,12 +761,12 @@ public class GUI extends Application {
 
 		/* Wavemedia logo Home button */
 		Button homeBtn = makeButton("", "invisiButton", true, "home", 0.3,
-				"file:WM_logo_transparent.png", 0.05);
-		settingsGrid.add(homeBtn, 0, 1);
+				"file:WM_logo_transparent.png", windowWidth * 0.15);
 
+		HBox titleBox = makeHBox("", Pos.TOP_LEFT, 5);
 		/* Create settings page title */
-		Label titleLabel = makeLabel("     Settings", 50, "#33B5E5");
-		settingsGrid.add(titleLabel, 2, 1);
+		titleBox.getChildren().addAll(homeBtn, makeLabel("Settings", 75, "#33B5E5"));
+		settingsGrid.add(titleBox, 0, 1, 3, 1);
 
 		/*
 		 * Checkbox options:
@@ -770,16 +779,16 @@ public class GUI extends Application {
 		cb2.setStyle("-fx-font-size:" + 15);
 
 		/* Vbox to contain check boses */
-		VBox vbox1 = makeVBox("clearBox", Pos.TOP_LEFT, 10);
+		VBox vbox1 = makeVBox("clearBox", Pos.TOP_CENTER, 10);
 		vbox1.getChildren().addAll(makeLabel("Auto-Next:", 20, "#313131"), cb1,
 				cb2);
-		settingsGrid.add(vbox1, 0, 2, 1, 1);
+		settingsGrid.add(vbox1, 0, 2);
 
 		/*
 		 * Back to main screen
 		 */
 		Button back = makeButton("Back", "lightButton", true, "home", 0.06);
-		settingsGrid.add(back, 0, 4, 1, 1);
+		settingsGrid.add(back, 0, 3);
 
 		/*
 		 * Username input
@@ -892,7 +901,7 @@ public class GUI extends Application {
 		errorScene.getStylesheets().add(styleSheet);
 
 		/* Add image and label */
-		errorGrid.add(makeImageView("file:resources/error.png", 0), 0, 0);
+		errorGrid.add(makeImageView("file:resources/error.png", 0, 0), 0, 0);
 
 		/* Make a box and add things to it */
 		HBox errBox = makeHBox("clearBox", Pos.CENTER, 5);
@@ -985,7 +994,7 @@ public class GUI extends Application {
 	private Button makeButton(String buttonText, String styleClass,
 			boolean hover, String id, double height, String file, double size) {
 		/* Make a button and an ImageView using utilities */
-		ImageView image = makeImageView(file, size);
+		ImageView image = makeImageView(file, size, 0);
 		Button btn = makeButton(buttonText, styleClass, hover, id, height);
 		btn.setGraphic(image);// add image to button
 		btn.setContentDisplay(ContentDisplay.TOP);// put image at the top
@@ -995,12 +1004,12 @@ public class GUI extends Application {
 	/**
 	 * Utility function for making an ImageView
 	 */
-	private ImageView makeImageView(String file, double width) {
+	private ImageView makeImageView(String file, double width, double height) {
 		/* Create new instance of ImageView */
 		ImageView iv = new ImageView();
+		Image image = new Image(file, width, height, true, true);
 		/* Set the image in the ImageView to the Image in 'File' */
-		iv.setImage(new Image(file, width, 0, true, true));
-
+		iv.setImage(image);
 		return iv;
 	}
 
