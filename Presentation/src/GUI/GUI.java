@@ -1,6 +1,9 @@
+
+
 /**
  * 
- * Jake Feasey
+ 
+* Jake Feasey
  * Ashleyna Foo Inn Peng
  * 
  * Copyright (c) 2015 WaveMedia. All rights reserved.
@@ -44,6 +47,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -87,18 +91,19 @@ public class GUI extends Application {
 	private Scene mainScene;
 	private GridPane slidePane;
 	private Stage stageRef;
-	private double sizescale;
 
 	final GridPane grid = new GridPane();
 	private Label lbl;
-	private double gridHeightRef;
 
 	private File xmlFiles = new File("resources/files.csv");
 	private File buttonscsv = new File("resources/buttons.csv");
 
 	private int numScreens = Screen.getScreens().size();
-	private Rectangle2D bounds = Screen.getPrimary().getBounds();
-	
+	private final Rectangle2D primeBounds = Screen.getPrimary().getBounds();
+	private Rectangle2D bounds = primeBounds;
+	private double windowWidth;
+	private double windowHeight;
+
 	/* Menu bar at top of page */
 	private MenuBar mainMenu = new MenuBar();
 	private MenuBar settingsMenu;
@@ -129,16 +134,14 @@ public class GUI extends Application {
 		stageRef = primaryStage;
 
 		/* Set the title of the window */
-		stageRef.setTitle("SmartSlides");
+		primaryStage.setTitle("SmartSlides");
 
 		/* set size of window */
-		stageRef.setWidth(Screen.getPrimary().getBounds().getWidth());
-		stageRef.setHeight(Screen.getPrimary().getBounds().getHeight());
+		windowWidth = primeBounds.getWidth() * 0.6;
+		windowHeight = primeBounds.getHeight() * 0.6;
+		primaryStage.setWidth(windowWidth);
+		primaryStage.setHeight(windowHeight);
 
-		/* sets the scale required to scale the height with change in width */
-		sizescale = Screen.getPrimary().getBounds().getWidth()
-				/ Screen.getPrimary().getBounds().getHeight();
-		
 		/* File section */
 		Menu menuFile = new Menu("File");
 
@@ -204,18 +207,19 @@ public class GUI extends Application {
 		menuHelp.setOnAction(new menuHandler());
 
 		/* add items to menu */
-		mainMenu.getMenus().addAll(menuFile, menuSettings, menuHelp);	
-		
+		mainMenu.getMenus().addAll(menuFile, menuSettings, menuHelp);
+
 		settingsMenu = mainMenu;
 
 		/* initial build of settings */
 		buildSettings();
-		stageRef.setScene(settingsScene);
+		primaryStage.setScene(settingsScene);
 		System.out.println("Settings Built");
 
 		buildmain(); // Build main page
 		System.out.println("Main Built");
 
+		primaryStage.setResizable(false);
 		primaryStage.show(); // show main page
 
 	}
@@ -553,11 +557,9 @@ public class GUI extends Application {
 						fileList.set(0, file.getAbsolutePath());
 						buttonInfo.set(0, currentSlideshow.getInfo()
 								.getAuthor() // author
-								+ "\n"
-								+ currentSlideshow.getInfo().getVersion() // version
-								+ "\n"
-								+ currentSlideshow.getInfo().getComment() // comment
-								+ "\n" + file.getName()); // file name
+								+ "," + currentSlideshow.getInfo().getVersion() // version
+								+ "," + currentSlideshow.getInfo().getComment() // comment
+								+ "," + file.getName()); // file name
 
 						/* rewrite csv files */
 						try (BufferedWriter bw = new BufferedWriter(
@@ -652,94 +654,79 @@ public class GUI extends Application {
 
 		GridPane grid = new GridPane();
 
-		gridHeightRef = 0.62 * stageRef.getHeight();
-
 		/* create a gridpane layout */
-		grid.setHgap(0.02 * gridHeightRef);// gaps between cells
-		grid.setVgap(0.02 * gridHeightRef);
+		grid.setHgap(5);// gaps between cells
+		grid.setVgap(5);
+		grid.setPadding(new Insets(0, 5, 5, 5));
 		grid.setAlignment(Pos.TOP_CENTER); // alignment on screen
-		//grid.setGridLinesVisible(true);
+		grid.setGridLinesVisible(true);
+		grid.getColumnConstraints().addAll(
+				new ColumnConstraints(windowWidth / 3),
+				new ColumnConstraints(windowWidth / 3),
+				new ColumnConstraints(windowWidth / 3));
 
 		/* creates a stackpane to add the grid in for resizable option */
 		StackPane rootpane = new StackPane();
 		rootpane.getChildren().add(grid);
 
-
 		/* creates a scene within the stage of pixel size x by y */
 		mainScene = new Scene(rootpane, stageRef.getWidth(),
 				stageRef.getHeight());
-		
-		/*add menu bar to main page*/
+
+		/* add menu bar to main page */
 		grid.add(mainMenu, 0, 0, 3, 1);
 
 		/* Company logo and product logo in column 1-3, row 1 */
-		HBox titleBox = makeHBox("box", Pos.CENTER_LEFT,
-				(int) Math.round(0.5 * gridHeightRef));
+		HBox titleBox = makeHBox("box", Pos.CENTER_LEFT, 5);
 		titleBox.getChildren().addAll(
-				makeImageView("file:Smartslides_DarkText.png", 0.56),
-				makeImageView("file:WM_logo_transparent.png", 0.4));
+				makeImageView("file:Smartslides_DarkText.png", 0.5),
+				makeImageView("file:WM_logo_transparent.png", 0.1));
 		grid.add(titleBox, 0, 1, 3, 1);
 
 		/* Create first button for Slide Preview and add in column 1, row 2 */
-		Button one = makeButton(buttonInfo.get(0), "invisiButton", true, "0",
+		Button one = makeButton(buttonInfo.get(0).replace("," , "\n"), "invisiButton", true, "0",
 				0.2);
-		one.setFont(Font.loadFont("file:resources/fonts/Roboto-Bold.ttf",
-				gridHeightRef * 0.02));// change font
-		one.setPrefWidth(bounds.getWidth() * 0.3);// set width
+		one.setFont(Font.loadFont("file:resources/fonts/Roboto-Bold.ttf", 15));// change
+																				// font
 		grid.add(one, 0, 2);
 
 		/* Create second button for Slide Preview and add in column 3, row 2 */
-		Button two = makeButton(buttonInfo.get(1), "invisiButton", true, "1",
+		Button two = makeButton(buttonInfo.get(1).replace("," , "\n"), "invisiButton", true, "1",
 				0.2);
-		two.setFont(Font.loadFont("file:resources/fonts/Roboto-Bold.ttf",
-				gridHeightRef * 0.02));// change font
-		two.setPrefWidth(bounds.getWidth() * 0.3);// set width
+		two.setFont(Font.loadFont("file:resources/fonts/Roboto-Bold.ttf", 15));// change
+																				// font
 		grid.add(two, 1, 2);
 
 		/* Create third button for Slide Preview and add in column 5, row 2 */
-		Button three = makeButton(buttonInfo.get(2), "invisiButton", true, "2",
+		Button three = makeButton(buttonInfo.get(2).replace("," , "\n"), "invisiButton", true, "2",
 				0.2);
-		three.setFont(Font.loadFont("file:resources/fonts/Roboto-Bold.ttf",
-				gridHeightRef * 0.02));// change font
-		three.setPrefWidth(bounds.getWidth() * 0.3);// set width
+		three.setFont(Font.loadFont("file:resources/fonts/Roboto-Bold.ttf", 15));// change
+																					// font
 		grid.add(three, 2, 2);
 
 		/* Create forth button for Slide Preview and add in column 1, row 4 */
-		Button four = makeButton(buttonInfo.get(3), "invisiButton", true, "3",
+		Button four = makeButton(buttonInfo.get(3).replace("," , "\n"), "invisiButton", true, "3",
 				0.2);
-		four.setFont(Font.loadFont("file:resources/fonts/Roboto-Bold.ttf",
-				gridHeightRef * 0.02));// change font
-		four.setPrefWidth(bounds.getWidth() * 0.3);// set width
+		four.setFont(Font.loadFont("file:resources/fonts/Roboto-Bold.ttf", 15));// change
+																				// font
 		grid.add(four, 0, 3);
 
 		/* Create fifth button for Slide Preview and add in column 3, row 4 */
-		Button five = makeButton(buttonInfo.get(4), "invisiButton", true, "4",
+		Button five = makeButton(buttonInfo.get(4).replace("," , "\n"), "invisiButton", true, "4",
 				0.2);
-		five.setFont(Font.loadFont("file:resources/fonts/Roboto-Bold.ttf",
-				gridHeightRef * 0.02));// change font
-		five.setPrefWidth(bounds.getWidth() * 0.3);// set width
+		five.setFont(Font.loadFont("file:resources/fonts/Roboto-Bold.ttf", 15));// change
+																				// font
 		grid.add(five, 1, 3);
 
 		/* Create sixth button for Slide Preview and add in column 5, row 4 */
-		Button six = makeButton(buttonInfo.get(5), "invisiButton", true, "5",
+		Button six = makeButton(buttonInfo.get(5).replace("," , "\n"), "invisiButton", true, "5",
 				0.2);
-		six.setFont(Font.loadFont("file:resources/fonts/Roboto-Bold.ttf",
-				gridHeightRef * 0.02));// change font
-		six.setPrefWidth(bounds.getWidth() * 0.3);// set width
+		six.setFont(Font.loadFont("file:resources/fonts/Roboto-Bold.ttf", 15));// change
+																				// font
 		grid.add(six, 2, 3);
 
 		mainScene.getStylesheets().add(styleSheet);
 		stageRef.setScene(mainScene);
-
-		/* set the grid and its contents to resize to the stage size */
-		stageRef.maxHeightProperty().bind(
-				mainScene.widthProperty().divide(sizescale));
-		stageRef.minHeightProperty().bind(
-				mainScene.widthProperty().divide(sizescale));
-		grid.scaleXProperty().bind(
-				mainScene.widthProperty().divide(stageRef.getWidth()));
-		grid.scaleYProperty().bind(
-				mainScene.heightProperty().divide(stageRef.getHeight()));
 
 		/* Line sets the screen to fullscreen */
 		// primaryStage.setFullScreen(true);
@@ -758,8 +745,6 @@ public class GUI extends Application {
 		/* Create gridpane in which to put objects */
 		GridPane settingsGrid = new GridPane();
 
-		gridHeightRef = 0.49 * stageRef.getHeight();
-
 		/* creates a stackpane to add the grid in for resizable option */
 		StackPane settingsrootpane = new StackPane();
 		settingsrootpane.getChildren().add(settingsGrid);
@@ -770,13 +755,17 @@ public class GUI extends Application {
 		settingsScene.getStylesheets().add("file:resources/styles/style1.css");
 
 		/* Set the layout as settingsGridpane */
-		settingsGrid.setPadding(new Insets(5, 5, 5, 5));
+		settingsGrid.setPadding(new Insets(0, 5, 5, 5));
 		settingsGrid.setAlignment(Pos.TOP_CENTER);
-		settingsGrid.setHgap(0.02 * gridHeightRef);
-		settingsGrid.setVgap(0.02 * gridHeightRef);
-		// settingsGrid.setGridLinesVisible(true);
-		
-		/*add menu bar to settings*/
+		settingsGrid.setHgap(5);
+		settingsGrid.setVgap(5);
+		settingsGrid.setGridLinesVisible(true);
+		settingsGrid.getColumnConstraints().addAll(
+				new ColumnConstraints(windowWidth / 3),
+				new ColumnConstraints(windowWidth / 3),
+				new ColumnConstraints(windowWidth / 3));
+
+		/* add menu bar to settings */
 		settingsGrid.add(settingsMenu, 0, 0, 3, 1);
 
 		/*
@@ -784,13 +773,13 @@ public class GUI extends Application {
 		 */
 
 		/* Wavemedia logo Home button */
-		Button homeBtn = makeButton("", "invisiButton", true, "home", 0.06,
-				"file:WM_logo_transparent.png", 0.5);
-		settingsGrid.add(homeBtn, 0, 1, 1, 1);
+		Button homeBtn = makeButton("", "invisiButton", true, "home", 0.3,
+				"file:WM_logo_transparent.png", 0.05);
+		settingsGrid.add(homeBtn, 0, 1);
 
 		/* Create settings page title */
-		Label titleLabel = makeLabel("     Settings", 0.15, "#33B5E5");
-		settingsGrid.add(titleLabel, 2, 1, 1, 1);
+		Label titleLabel = makeLabel("     Settings", 50, "#33B5E5");
+		settingsGrid.add(titleLabel, 2, 1);
 
 		/*
 		 * Checkbox options:
@@ -799,20 +788,19 @@ public class GUI extends Application {
 		/* Add check boxes */
 		CheckBox cb1 = makeCheckBox("Slide Timer", "checkLight", "cb1", false);
 		CheckBox cb2 = makeCheckBox("Object Timer", "checkLight", "cb2", false);
-		cb1.setStyle("-fx-font-size:" + 0.03 * gridHeightRef);
-		cb2.setStyle("-fx-font-size:" + 0.03 * gridHeightRef);
+		cb1.setStyle("-fx-font-size:" + 15);
+		cb2.setStyle("-fx-font-size:" + 15);
 
 		/* Vbox to contain check boses */
 		VBox vbox1 = makeVBox("clearBox", Pos.TOP_LEFT, 10);
-		vbox1.getChildren().addAll(makeLabel("Auto-Next:", 0.05, "#313131"),
-				cb1, cb2);
+		vbox1.getChildren().addAll(makeLabel("Auto-Next:", 20, "#313131"), cb1,
+				cb2);
 		settingsGrid.add(vbox1, 0, 2, 1, 1);
 
 		/*
 		 * Back to main screen
 		 */
 		Button back = makeButton("Back", "lightButton", true, "home", 0.06);
-		back.setPrefSize(gridHeightRef * 0.16, gridHeightRef * 0.08);
 		settingsGrid.add(back, 0, 4, 1, 1);
 
 		/*
@@ -825,11 +813,7 @@ public class GUI extends Application {
 		/* Text field declared outside the main so can be accessed elsewhere */
 		userField.getStyleClass().add("textArea");
 		userField.setPromptText("Username");
-		userField.setStyle("-fx-font-size:" + gridHeightRef * 0.09);
-		userField.setMinWidth(gridHeightRef * 0.5);
-		userField.setMinHeight(gridHeightRef * 0.08);
-		userField.setMaxWidth(gridHeightRef * 0.5);
-		userField.setMaxHeight(gridHeightRef * 0.08);
+		userField.setStyle("-fx-font-size:" + 10);
 
 		/* Add buttons and add to a box */
 		Button userSubmit = makeButton("Submit", "darkButton", true, "submit",
@@ -842,9 +826,9 @@ public class GUI extends Application {
 		userButtons.getChildren().addAll(userSubmit, userClr);
 
 		/* Add everything to the box */
-		userBox.getChildren().addAll(makeLabel("Username:", 0.05, "#313131"),
+		userBox.getChildren().addAll(makeLabel("Username:", 20, "#313131"),
 				userField, userButtons);
-		settingsGrid.add(userBox, 2, 2, 1, 1);
+		settingsGrid.add(userBox, 1, 2);
 
 		/* vbox to add screen settings */
 		VBox screenBox = makeVBox("clearBox", Pos.TOP_CENTER, 10);
@@ -857,9 +841,9 @@ public class GUI extends Application {
 		screen2.getStyleClass().add("radioButton");
 		ToggleButton screen3 = new ToggleButton("3");
 		screen3.getStyleClass().add("radioButton");
-		screen1.setStyle("-fx-font-size:" + 0.03 * gridHeightRef);// set font
-		screen2.setStyle("-fx-font-size:" + 0.03 * gridHeightRef);// size
-		screen3.setStyle("-fx-font-size:" + 0.03 * gridHeightRef);
+		screen1.setStyle("-fx-font-size:" + 15);// set font
+		screen2.setStyle("-fx-font-size:" + 15);// size
+		screen3.setStyle("-fx-font-size:" + 15);
 
 		if (numScreens < 3) {
 			screen3.setDisable(true);
@@ -876,21 +860,11 @@ public class GUI extends Application {
 
 		/* add checkboxes to screenBox */
 		screenBox.getChildren().addAll(
-				makeLabel("Screen Select:", 0.05, "#313131"), // add title label
+				makeLabel("Screen Select:", 20, "#313131"), // add title label
 				screen1, screen2, screen3); // add screens
 
 		/* add screenBox to grid */
-		settingsGrid.add(screenBox, 4, 2);
-
-		/* set the settings grid and its contents to resize to the stage size */
-		stageRef.maxHeightProperty().bind(
-				settingsScene.widthProperty().divide(sizescale));
-		stageRef.minHeightProperty().bind(
-				settingsScene.widthProperty().divide(sizescale));
-		settingsGrid.scaleXProperty().bind(
-				settingsScene.widthProperty().divide(stageRef.getWidth()));
-		settingsGrid.scaleYProperty().bind(
-				settingsScene.heightProperty().divide(stageRef.getHeight()));
+		settingsGrid.add(screenBox, 2, 2);
 
 		/* Line sets the screen to full screen */
 		// primaryStage.setFullScreen(true);
@@ -963,9 +937,8 @@ public class GUI extends Application {
 	 */
 
 	/** Utility function for adding labels **/
-	private Label makeLabel(String labelText, double d, String colour) {
-		Font bold = Font.loadFont("file:resources/fonts/Roboto-Bold.ttf",
-				gridHeightRef * d);
+	private Label makeLabel(String labelText, int d, String colour) {
+		Font bold = Font.loadFont("file:resources/fonts/Roboto-Bold.ttf", d);
 		Label lbl = new Label(labelText);// create new instance of label
 		lbl.setFont(bold);
 		lbl.setStyle("-fx-text-fill:" + colour);// add colour to label
@@ -1008,12 +981,11 @@ public class GUI extends Application {
 			boolean hover, String id, double height) {
 
 		Button btn = new Button();// new instance of button
-		Font medium = Font.loadFont("file:resources/fonts/Roboto-Bold.ttf",
-				gridHeightRef * 0.04);
+		Font medium = Font.loadFont("file:resources/fonts/Roboto-Bold.ttf", 15);
 		btn.setFont(medium);// add font
 		btn.setText(buttonText);// add text
 		btn.getStyleClass().add(styleClass);// add style
-		btn.setPrefHeight(gridHeightRef * height);// button height
+		// btn.setPrefHeight(gridHeightRef * height);// button height
 		btn.setId(id);// give it an ID
 		/* Hover functionality */
 		if (hover) {
@@ -1049,7 +1021,7 @@ public class GUI extends Application {
 		/* Create new instance of ImageView */
 		ImageView iv = new ImageView();
 		/* Set the image in the ImageView to the Image in 'File' */
-		iv.setImage(new Image(file, gridHeightRef * width, 0, true, true));
+		iv.setImage(new Image(file, width, 0, true, true));
 
 		return iv;
 	}
