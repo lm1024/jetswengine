@@ -46,8 +46,6 @@ public class XMLTest {
 	private static final float defaultCropy1 = 0;
 	private static final float defaultCropx2 = 1;
 	private static final float defaultCropy2 = 1;
-	private static final double defaultXAspectRatio = 4;
-	private static final double defaultYAspectRatio = 3;
 
 
 	private static Slideshow currentSlideshow;
@@ -109,8 +107,8 @@ public class XMLTest {
 		assertTrue(defaults.getCropX2() == defaultCropx2);
 		assertTrue(defaults.getCropY2() == defaultCropy2);
 		
-		assertEquals(defaultXAspectRatio, defaults.getxAspectRatio(), 0.001);
-		assertEquals(defaultYAspectRatio, defaults.getyAspectRatio(), 0.001);
+		assertEquals(4, defaults.getxAspectRatio(), 0.001);
+		assertEquals(3, defaults.getyAspectRatio(), 0.001);
 	}
 
 	@Test
