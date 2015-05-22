@@ -309,8 +309,11 @@ public class SlideshowRuntimeData {
 			 * If the screen has changed, update the boundary values and
 			 * re-force it to go fullscreen.
 			 */
+			System.out.println("EVENT");
 			updateScreenBoundaries();
+			secondaryStage.setFullScreen(false);
 			secondaryStage.setFullScreen(true);
+
 		}
 	}
 
