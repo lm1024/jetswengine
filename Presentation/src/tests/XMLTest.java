@@ -3,15 +3,26 @@
  */
 package tests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import java.util.ArrayList;
+
+import imageHandler.ImageEffect;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import Data.Answer;
+import Data.Audio;
 import Data.Defaults;
 import Data.DocumentInfo;
+import Data.Image;
+import Data.Question;
 import Data.Slideshow;
 import Data.Text;
+import Data.Video;
 import XML.ImprovedXMLReader;
 
 /**
@@ -35,8 +46,7 @@ public class XMLTest {
 	private static final float defaultCropy1 = 0;
 	private static final float defaultCropx2 = 1;
 	private static final float defaultCropy2 = 1;
-	
-	
+
 	private static Slideshow currentSlideshow;
 
 	/**
@@ -51,18 +61,17 @@ public class XMLTest {
 	public void testSlideshowExists() {
 		assertTrue(currentSlideshow != null);
 	}
-	
+
 	@Test
 	public void testSlideshowCorrectType() {
 		assertTrue(currentSlideshow instanceof Slideshow);
 	}
-	
 
 	@Test
 	public void testSlideshowDocInfoExists() {
 		assertTrue(currentSlideshow.getInfo() != null);
 	}
-	
+
 	@Test
 	public void testSlideshowDocInfoCorrectReturns() {
 		DocumentInfo info = currentSlideshow.getInfo();
@@ -71,12 +80,12 @@ public class XMLTest {
 		assertTrue(info.getComment().equals("this is a comment"));
 		assertTrue(info.getGroupID().equals("2"));
 	}
-	
+
 	@Test
 	public void testSlideshowDefaultSettingsExists() {
 		assertTrue(currentSlideshow.getDefaults() != null);
 	}
-	
+
 	@Test
 	public void testSlideshowDefaultSettingsCorrectReturns() {
 		Defaults defaults = currentSlideshow.getDefaults();
@@ -97,43 +106,233 @@ public class XMLTest {
 		assertTrue(defaults.getCropX2() == defaultCropx2);
 		assertTrue(defaults.getCropY2() == defaultCropy2);
 	}
-	
+
 	@Test
 	public void testSlideshowSlidesListExists() {
 		assertTrue(currentSlideshow.getSlides() != null);
 	}
-	
+
 	@Test
 	public void testSlideshowSlidesListCorrectSize() {
 		assertTrue(currentSlideshow.getSlides().size() == 1);
 	}
-	
+
 	@Test
 	public void testSlideshowSlideOneContainsList() {
-		assertTrue(currentSlideshow.getSlides().get(0).getAll() != null);
+		assertTrue(currentSlideshow.getSlide(0).getAll() != null);
 	}
 
 	@Test
 	public void testSlideOneListCorrectSize() {
-		assertTrue(currentSlideshow.getSlide(0).getAll().size() == 24);
+		assertTrue(currentSlideshow.getSlide(0).getAll().size() == 25);
 	}
-	
+
 	@Test
 	public void testSlideOneTextOne() {
-		Text text = (Text)currentSlideshow.getSlides().get(0).get(0);
+		Text text = (Text) currentSlideshow.getSlide(0).get(0);
 		assertTrue(text.getAlignment().equals(defaultAlignment));
 		assertTrue(text.getBackgroundColor().equals(defaultBackgroundColor));
 		assertTrue(text.getDuration() == 1.5);
-		assertTrue(text.getTextFragment(0).getFont().equals("Arial"));
-		assertTrue(text.getTextFragment(0).getFontColor().equals("#00112233"));
-		assertTrue(text.getTextFragment(0).getFontSize() == 26);
-		assertTrue(text.getTextFragment(0).getHighlightColor().equals(defaultHighlightColor));
 		assertTrue(text.getSourceFile() == null);
 		assertTrue(text.getStartTime() == defaultStartTime);
 		assertTrue(text.getXStart() == 0.5);
 		assertTrue(text.getYStart() == 0.5);
+		assertTrue(text.getXEnd() == -1.0);
+		assertTrue(text.getYEnd() == -1.0);
+		assertTrue(text.getTextFragment(0).getFont().equals("Arial"));
+		assertTrue(text.getTextFragment(0).getFontColor().equals("#00112233"));
+		assertTrue(text.getTextFragment(0).getFontSize() == 26);
+		assertTrue(text.getTextFragment(0).getHighlightColor().equals(defaultHighlightColor));
+		assertFalse(text.getTextFragment(0).isBold());
+		assertFalse(text.getTextFragment(0).isItalicised());
+		assertFalse(text.getTextFragment(0).isUnderlined());
+		assertFalse(text.getTextFragment(0).isStrikethrough());
+		assertFalse(text.getTextFragment(0).isSuperscript());
+		assertFalse(text.getTextFragment(0).isSubscript());
 		assertTrue(text.getTextFragment(0).getText().equals("Some Text."));
-		/* Needs Finishing */
+	}
+
+	@Test
+	public void testSlideOneTextTwo() {
+		Text text = (Text) currentSlideshow.getSlide(0).get(1);
+		assertTrue(text.getAlignment().equals(defaultAlignment));
+		assertTrue(text.getBackgroundColor().equals(defaultBackgroundColor));
+		assertTrue(text.getDuration() == 1.5);
+
+		// TODO sourcefile reading
+		assertTrue(text.getSourceFile() == "test.txt");
+
+		assertTrue(text.getStartTime() == defaultStartTime);
+		assertTrue(text.getXStart() == 0.5);
+		assertTrue(text.getYStart() == 0.5);
+		assertTrue(text.getXEnd() == -1.0);
+		assertTrue(text.getYEnd() == -1.0);
+
+		/* Empty text fragment list for sourcefile? */
+		assertTrue(text.getTextFragments().size() == 0);
+	}
+
+	@Test
+	public void testSlideOneTextThree() {
+		Text text = (Text) currentSlideshow.getSlide(0).get(2);
+
+		assertTrue(text.getAlignment().equals("right"));
+		assertTrue(text.getBackgroundColor().equals("#12345678"));
+		assertTrue(text.getDuration() == 1.5);
+		assertTrue(text.getSourceFile() == null);
+		assertTrue(text.getStartTime() == 2.0);
+		assertTrue(text.getXStart() == 0.1);
+		assertTrue(text.getYStart() == 0.1);
+		assertTrue(text.getXEnd() == 0.9);
+		assertTrue(text.getYEnd() == 0.9);
+
+		assertTrue(text.getTextFragment(0).getFont().equals("Arial"));
+		assertTrue(text.getTextFragment(0).getFontColor().equals("#00112233"));
+		assertTrue(text.getTextFragment(0).getFontSize() == 26);
+		assertTrue(text.getTextFragment(0).getHighlightColor().equals("#87654321"));
+		assertTrue(text.getTextFragment(0).getText().equals("Example text!"));
+
+		assertTrue(text.getTextFragment(1).getFont().equals("Arial"));
+		assertTrue(text.getTextFragment(1).getFontColor().equals("#00112233"));
+		assertTrue(text.getTextFragment(1).getFontSize() == 26);
+		assertTrue(text.getTextFragment(1).getHighlightColor().equals("#87654321"));
+		assertTrue(text.getTextFragment(1).getText().equals("Example "));
+
+		assertTrue(text.getTextFragment(2).getFont().equals("Arial"));
+		assertTrue(text.getTextFragment(2).getFontColor().equals("#88776655"));
+		assertTrue(text.getTextFragment(2).getFontSize() == 24);
+		assertTrue(text.getTextFragment(2).getHighlightColor().equals("#55446633"));
+		assertTrue(text.getTextFragment(2).getText().equals(" text!"));
+
+	}
+
+	@Test
+	public void testSlideOneImageOne() {
+		Image image = (Image) currentSlideshow.getSlide(0).get(3);
+
+		assertTrue(image.getSourceFile().equals("cat.jpg"));
+		assertTrue(image.getXStart() == 0.5);
+		assertTrue(image.getYStart() == 0.5);
+		assertTrue(image.getScaleX() == 1);
+		assertTrue(image.getScaleY() == 1);
+		assertTrue(image.getDuration() == 1.5);
+		assertTrue(image.getStartTime() == 2.0);
+
+		assertTrue(image.getCropX1() == defaultCropx1);
+		assertTrue(image.getCropX2() == defaultCropx2);
+		assertTrue(image.getCropY1() == defaultCropy1);
+		assertTrue(image.getCropY2() == defaultCropy2);
+		assertTrue(image.getFlipHorizontal() == false);
+		assertTrue(image.getFlipVertical() == false);
+		assertTrue(image.getRotation() == defaultRotation);
+
+		assertTrue(image.getImageEffects().size() == 0);
+	}
+
+	@Test
+	public void testSlideOneImageTwo() {
+		Image image = (Image) currentSlideshow.getSlide(0).get(4);
+
+		assertEquals("selfie.jpg", image.getSourceFile());
+		assertEquals(0.5, image.getXStart(), 0.001);
+		assertEquals(0.5, image.getYStart(), 0.001);
+
+		/* TODO scale */
+		assertEquals(image.getScaleX(), 0.75, 0.001);
+		assertEquals(image.getScaleY(), 0.5, 0.001);
+
+		assertEquals(1.5, image.getDuration(), 0.001);
+		assertEquals(2.0, image.getStartTime(), 0.001);
+
+		assertEquals(0.1, image.getCropX1(), 0.001);
+		assertEquals(0.5, image.getCropX2(), 0.001);
+		assertEquals(0.1, image.getCropY1(), 0.001);
+		assertEquals(0.5, image.getCropY2(), 0.001);
+		assertTrue(image.getFlipHorizontal());
+		assertTrue(image.getFlipVertical());
+		assertEquals(45, image.getRotation(), 0.001);
+
+		/* TODO */
+		assertEquals(6, image.getImageEffects().size());
+
+		ArrayList<ImageEffect> imageEffects = image.getImageEffects();
+		assertEquals(ImageEffect.SEPIA, imageEffects.get(0));
+		assertEquals(ImageEffect.BLOOM, imageEffects.get(1));
+		assertEquals(ImageEffect.BLUR, imageEffects.get(2));
+		assertEquals(ImageEffect.GLOW, imageEffects.get(3));
+		assertEquals(ImageEffect.GRAYSCALE, imageEffects.get(4));
+		assertEquals(ImageEffect.REFLECTION, imageEffects.get(5));
+	}
+
+	@Test
+	public void testSlideOneAudioOne() {
+		Audio audio = (Audio) currentSlideshow.getSlide(0).get(5);
+
+		assertEquals("gavel.wav", audio.getSourceFile());
+		assertEquals(2.5, audio.getStartTime(), 0.001);
+
+		assertFalse(audio.isVisibleControlsOnly());
+	}
+
+	@Test
+	public void testSlideOneAudioTwo() {
+		Audio audio = (Audio) currentSlideshow.getSlide(0).get(6);
+
+		assertEquals("clap.wav", audio.getSourceFile());
+		assertEquals(0.5, audio.getXStart(), 0.001);
+		assertEquals(0.5, audio.getYStart(), 0.001);
+		assertEquals(0.2, audio.getWidth(), 0.001);
+
+		assertTrue(audio.isAutoplay());
+		assertTrue(audio.isVisibleControlsOnly());
+		assertFalse(audio.isPlayButtonOnly());
+		assertEquals(1.5, audio.getDuration(), 0.001);
+		assertEquals(2.5, audio.getStartTime(), 0.001);
+	}
+
+	@Test
+	public void testSlideOneVideoOne() {
+		Video video = (Video) currentSlideshow.getSlide(0).get(7);
+
+		assertEquals("avengers.mkv", video.getSourceFile());
+		assertEquals(0.5, video.getXStart(), 0.001);
+		assertEquals(0.5, video.getYStart(), 0.001);
+	}
+
+	@Test
+	public void testSlideOneVideoTwo() {
+		Video video = (Video) currentSlideshow.getSlide(0).get(8);
+
+		assertEquals("avengers.mkv", video.getSourceFile());
+		assertEquals(0.5, video.getXStart(), 0.001);
+		assertEquals(0.5, video.getYStart(), 0.001);
+		assertEquals(0.2, video.getWidth(), 0.001);
+
+		assertTrue(video.isAutoplay());
+		assertTrue(video.isLoop());
+
+		assertEquals(1.5, video.getDuration(), 0.001);
+		assertEquals(2.5, video.getStartTime(), 0.001);
+
+	}
+	
+	@Test
+	public void testSlideOneHasQuestion() {
+		assertTrue(currentSlideshow.getSlide(0).containsQuestion());
+	}
+	
+	@Test
+	public void testSlideOneQuestion() {
+		Question question = currentSlideshow.getSlide(0).getQuestion();
+		
+		assertEquals("q1", question.getId());
+		assertEquals("q1", question.getLogfile());
+		assertEquals(1, question.getNumberOfAnswers());
+		
+		Answer answer = question.getAnswers().get(0);
+		assertEquals("1", answer.getId());
+		assertTrue(answer.getCorrect());
+		
 	}
 
 }
