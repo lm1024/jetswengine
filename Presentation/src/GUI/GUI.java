@@ -72,6 +72,13 @@ public class GUI extends Application {
 	 * 
 	 */
 
+	/* User options: */
+	private int screenId = 0;
+	private boolean isAudioPause = false;
+	private boolean isVideoPause = false;
+	private boolean isOutputMute = false;
+	private boolean isAutoNext = false;
+
 	/* Global text area and array in which to save words */
 	private TextArea ta = new TextArea();
 	private String bannedWords[];
@@ -102,7 +109,6 @@ public class GUI extends Application {
 	private int numScreens = Screen.getScreens().size();
 	private final Rectangle2D primeBounds = Screen.getPrimary().getBounds();
 	private Rectangle2D bounds = primeBounds;
-	private int screenId=0;
 	private double windowWidth;
 	private double windowHeight;
 
@@ -152,7 +158,7 @@ public class GUI extends Application {
 		buildMenus();
 
 		buildSettings();
-		
+
 		buildmain(); // Build main page
 		System.out.println("Main Built");
 
@@ -409,11 +415,12 @@ public class GUI extends Application {
 		}
 	}
 
+	/**
+	 * 
+	 * Handler for screen select buttons and menu items
+	 * 
+	 */
 	private class screensHandler implements EventHandler<ActionEvent> {
-
-		/**
-		 * TODO: 
-		 */
 
 		public void handle(ActionEvent source) {
 
@@ -452,6 +459,44 @@ public class GUI extends Application {
 
 	/**
 	 * 
+	 * Handler for menu actions on radio buttons
+	 * 
+	 */
+
+	private class radioMenuHandler implements EventHandler<ActionEvent> {
+
+		public void handle(ActionEvent e) {
+
+			RadioMenuItem item = (RadioMenuItem) e.getSource();
+
+			/* set setting data as needed */
+			switch (item.getText()) {
+			case "Pause Audio":
+				isAudioPause = item.selectedProperty().get();
+				break;
+
+			case "Pause Video":
+				isVideoPause = item.selectedProperty().get();
+				break;
+
+			case "Mute Output":
+				isOutputMute = item.selectedProperty().get();
+				break;
+
+			case "Auto Next":
+				isAutoNext = item.selectedProperty().get();
+				break;
+			}
+
+			System.out.println("Audio Paused: " + isAudioPause);
+			System.out.println("Video Paused: " + isVideoPause);
+			System.out.println("Output Mute: " + isOutputMute);
+			System.out.println("Auto Next: " + isAutoNext);
+		}
+	}
+
+	/**
+	 * 
 	 * Handler for menu actions
 	 * 
 	 */
@@ -459,7 +504,7 @@ public class GUI extends Application {
 	private class menuHandler implements EventHandler<ActionEvent> {
 
 		/**
-		 * TODO: cases at the bottom need completing
+		 * TODO: MENU - cases at the bottom need completing
 		 */
 
 		public void handle(ActionEvent t) {
@@ -577,10 +622,6 @@ public class GUI extends Application {
 				}
 				break;
 
-			case "Auto Next":
-				/* turn auto-next on/off */
-				break;
-
 			case "More settings":
 				/* set settings Scene as the scene */
 				buildSettings();
@@ -625,7 +666,7 @@ public class GUI extends Application {
 	private void buildMenus() {
 
 		/**
-		 * TODO: develop menu, improve code
+		 * TODO: BUILDMENUS - develop menu, improve code
 		 */
 
 		/* File section */
@@ -640,18 +681,23 @@ public class GUI extends Application {
 
 		/* Settings section */
 		Menu menuSettings = new Menu("Settings");
+		settings.setOnAction(new menuHandler());// handler for settings
 
 		/* On blank settings */
 		Menu onBlank = new Menu("On Blank");
-		/*Blank options*/
+		/* Blank options */
 		RadioMenuItem audio = new RadioMenuItem("Pause Audio");
 		RadioMenuItem video = new RadioMenuItem("Pause Video");
-		RadioMenuItem mute = new RadioMenuItem("Mute output");
-		
-		onBlank.getItems().addAll(audio, video, mute);
+		RadioMenuItem mute = new RadioMenuItem("Mute Output");
+		/* add handlers */
+		audio.setOnAction(new radioMenuHandler());
+		video.setOnAction(new radioMenuHandler());
+		mute.setOnAction(new radioMenuHandler());
+
+		onBlank.getItems().addAll(audio, video, mute);// add to menu
 
 		/* create items for settings */
-		Menu screenSelect = new Menu("Select Screen");// submenu
+		Menu screenSelect = new Menu("Select Screen");// sub-menu
 
 		/* Determine how many screen options to show */
 		if (numScreens > 1) { // if there is multi-screens
@@ -674,8 +720,9 @@ public class GUI extends Application {
 			screenSelect.setDisable(true);// disable screen select
 		}
 
-		CheckMenuItem autoNext = new CheckMenuItem("Auto Next");
+		RadioMenuItem autoNext = new RadioMenuItem("Auto Next");
 		autoNext.setSelected(false); // initialise to false
+		autoNext.setOnAction(new radioMenuHandler()); // add handler
 
 		/* add items to settings */
 		menuSettings.getItems().addAll(onBlank, screenSelect, autoNext,
@@ -694,8 +741,6 @@ public class GUI extends Application {
 
 		/* Action Listener to each Menu */
 		menuFile.setOnAction(new menuHandler());
-		menuSettings.setOnAction(new menuHandler());
-		onBlank.setOnAction(new menuHandler());
 		menuHelp.setOnAction(new menuHandler());
 
 		/* add menus to menu bar */
@@ -710,7 +755,7 @@ public class GUI extends Application {
 	 */
 	private void buildmain() {
 		/**
-		 * TODO: main stuff
+		 * TODO: Buildmain
 		 */
 
 		GridPane grid = new GridPane();
@@ -771,9 +816,8 @@ public class GUI extends Application {
 
 	private void buildSettings() {
 
-		/*
-		 * TODO: add a menu at the top of screen - make it public, don't allow
-		 * settings to be click when already in settings
+		/**
+		 * TODO: buildSettings - clearHistory button
 		 */
 
 		/* Create gridpane in which to put objects */
@@ -888,7 +932,8 @@ public class GUI extends Application {
 			settingsScreen[i].setOnAction(new screensHandler());
 		}
 
-		settingsScreen[screenId].setSelected(true); // initialise on prime screen
+		settingsScreen[screenId].setSelected(true); // initialise on prime
+													// screen
 
 		/* add screenBox to grid */
 		settingsGrid.add(screenBox, 2, 2);
