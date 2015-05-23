@@ -34,6 +34,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -401,7 +402,7 @@ public class GUI extends Application {
 		}
 	}
 
-	private class toggleHandler implements EventHandler<ActionEvent> {
+	private class screensHandler implements EventHandler<ActionEvent> {
 
 		/**
 		 * TODO: make handler
@@ -648,7 +649,7 @@ public class GUI extends Application {
 				screen[i].setToggleGroup(screens); // add to toggle group
 				screen[i].setId(Integer.toString(i));// give an ID
 				screenSelect.getItems().add(screen[i]); // add to menu
-				screen[i].setOnAction(new toggleHandler()); // add handler
+				screen[i].setOnAction(new screensHandler()); // add handler
 
 			}
 			screen[0].setSelected(true); // initialise on prime screen
@@ -856,17 +857,17 @@ public class GUI extends Application {
 		ToggleGroup screenGroup = new ToggleGroup();
 
 		/* same number of buttons as screens */
-		ToggleButton[] screen = new ToggleButton[numScreens];
+		RadioButton[] screen = new RadioButton[numScreens];
 
 		for (int i = 0; i < numScreens; i++) {
 
-			screen[i] = new ToggleButton("Screen " + (i + 1));// create button
+			screen[i] = new RadioButton("Screen " + (i + 1));// create button
 			screen[i].getStyleClass().add("radioButton");// add style
 			screen[i].setToggleGroup(screenGroup); // add to group
 			screen[i].setStyle("-fx-font-size:" + 15);// set font size
 			screenBox.getChildren().add(screen[i]); // add to box
 			screen[i].setId(Integer.toString(i));
-			screen[i].setOnAction(new toggleHandler());
+			screen[i].setOnAction(new screensHandler());
 		}
 
 		screen[0].setSelected(true); // initialise on prime screen
