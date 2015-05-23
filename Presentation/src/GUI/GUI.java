@@ -843,7 +843,7 @@ public class GUI extends Application {
 			for (int x = 0; x < 3; x++) {
 				buttons[x][y] = makeButton(
 						buttonInfo.get(i).replace(",", "\n"), "lightButton",
-						true, String.valueOf(i), 0.2);
+						true, String.valueOf(i));
 				buttons[x][y].setFont(Font.loadFont(
 						"file:resources/fonts/Roboto-Bold.ttf", 15));// add font
 				buttons[x][y].setPrefWidth(windowWidth * 0.3); // set width
@@ -881,7 +881,7 @@ public class GUI extends Application {
 		settingsGrid.setAlignment(Pos.TOP_CENTER);
 		settingsGrid.setHgap(5);
 		settingsGrid.setVgap(5);
-		// settingsGrid.setGridLinesVisible(true);
+		settingsGrid.setGridLinesVisible(true);
 		/* each column to be a third of the page */
 		settingsGrid.getColumnConstraints().addAll(
 				new ColumnConstraints(windowWidth / 3),
@@ -896,7 +896,7 @@ public class GUI extends Application {
 		 */
 
 		/* Wavemedia logo Home button */
-		Button homeBtn = makeButton("", "invisiButton", true, "home", 0.3,
+		Button homeBtn = makeButton("", "invisiButton", true, "home",
 				"file:WM_logo_transparent.png", windowWidth * 0.15);
 
 		HBox titleBox = makeHBox("", Pos.TOP_LEFT, 5);
@@ -925,7 +925,7 @@ public class GUI extends Application {
 		/*
 		 * Back to main screen
 		 */
-		Button back = makeButton("Back", "lightButton", true, "home", 0.06);
+		Button back = makeButton("Back", "lightButton", true, "home");
 		settingsGrid.add(back, 0, 3);
 
 		/*
@@ -941,10 +941,8 @@ public class GUI extends Application {
 		userField.setStyle("-fx-font-size:" + 10);
 
 		/* Add buttons and add to a box */
-		Button userSubmit = makeButton("Submit", "darkButton", true, "submit",
-				0.06);
-		Button userClr = makeButton("Clear", "darkButton", true, "userClr",
-				0.06);
+		Button userSubmit = makeButton("Submit", "darkButton", true, "submit");
+		Button userClr = makeButton("Clear", "darkButton", true, "userClr");
 
 		/* Hbox for username Buttons */
 		HBox userButtons = makeHBox("clearBox", Pos.CENTER, 10);
@@ -957,7 +955,7 @@ public class GUI extends Application {
 
 		/* Clear History button */
 		Button histClear = makeButton("Clear Presentation History",
-				"lightButton", true, "histClear", 0.06);
+				"lightButton", true, "histClear");
 		VBox clearBox = makeVBox("clearBox", Pos.CENTER, 5);// box for button
 		clearBox.getChildren().add(histClear);// add button
 		settingsGrid.add(clearBox, 1, 3);
@@ -1102,14 +1100,13 @@ public class GUI extends Application {
 
 	/** Utility function for adding button */
 	private Button makeButton(String buttonText, String styleClass,
-			boolean hover, String id, double height) {
+			boolean hover, String id) {
 
 		Button btn = new Button();// new instance of button
 		Font medium = Font.loadFont("file:resources/fonts/Roboto-Bold.ttf", 15);
 		btn.setFont(medium);// add font
 		btn.setText(buttonText);// add text
 		btn.getStyleClass().add(styleClass);// add style
-		// btn.setPrefHeight(gridHeightRef * height);// button height
 		btn.setId(id);// give it an ID
 		/* Hover functionality */
 		if (hover) {
@@ -1129,10 +1126,10 @@ public class GUI extends Application {
 	 * Utility function to make a button with an image and label
 	 */
 	private Button makeButton(String buttonText, String styleClass,
-			boolean hover, String id, double height, String file, double size) {
+			boolean hover, String id, String file, double size) {
 		/* Make a button and an ImageView using utilities */
 		ImageView image = makeImageView(file, size, 0);
-		Button btn = makeButton(buttonText, styleClass, hover, id, height);
+		Button btn = makeButton(buttonText, styleClass, hover, id);
 		btn.setGraphic(image);// add image to button
 		btn.setContentDisplay(ContentDisplay.TOP);// put image at the top
 		return btn;
