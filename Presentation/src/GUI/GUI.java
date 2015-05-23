@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
@@ -78,7 +77,7 @@ public class GUI extends Application {
 	private boolean isOutputMute = false;
 	private boolean isSlideAuto = false;
 	private boolean isObjectAuto = false;
-	private File initDir;
+	private File initDir; // directory for open file
 
 	/* Global text area and array in which to save words */
 	private TextArea ta = new TextArea();
@@ -87,19 +86,21 @@ public class GUI extends Application {
 	private ArrayList<String> fileList = new ArrayList<String>();
 	private ArrayList<String> buttonInfo = new ArrayList<String>();
 	private String outputFile;
-	private int slideNo = 0;
 
+	/* for shadow on buttons */
 	private boolean isShadow = false;
 
 	/* Cascading style sheet */
 	private String styleSheet = "file:resources/styles/style1.css";
 
+	/* Scenes and layouts etc. */
 	private Scene settingsScene;
 	private Scene mainScene;
 	private GridPane slidePane;
 	private Stage stageRef;
 
-	final GridPane grid = new GridPane();
+	/* slideshow test */
+	private int slideNo = 0;
 	private Label lbl;
 
 	/* files to store prev. presentation data */
@@ -113,14 +114,17 @@ public class GUI extends Application {
 	private double windowWidth;
 	private double windowHeight;
 
-	/* Select screens options */
+	/* Select screens sync */
 	private RadioMenuItem[] menuScreen = new RadioMenuItem[numScreens];
 	private RadioButton[] settingsScreen = new RadioButton[numScreens];
 
+	/* auto-next sync */
+	private CheckBox cb1, cb2;
+	private RadioMenuItem autoNext;
+
 	/* For menu bar */
 	private MenuBar mainMenu = new MenuBar();
-	private MenuItem home = new MenuItem("Home");
-	private MenuItem settings = new MenuItem("More settings");
+	private MenuItem home, settings;
 
 	public GUI() {
 	}
@@ -209,9 +213,6 @@ public class GUI extends Application {
 	 */
 	private class buttonEventHandler implements EventHandler<ActionEvent> {
 
-		/**
-		 * TODO: clear presentation history
-		 */
 		@Override
 		public void handle(ActionEvent e) {
 
@@ -367,9 +368,9 @@ public class GUI extends Application {
 			}
 
 			if (isSlideAuto && isObjectAuto) {
-
+				autoNext.setSelected(true);
 			} else {
-
+				autoNext.setSelected(false);
 			}
 
 			/* Print the Id int */
@@ -503,23 +504,27 @@ public class GUI extends Application {
 
 			RadioMenuItem item = (RadioMenuItem) e.getSource();
 
+			boolean isItem = item.selectedProperty().get();
+
 			/* set setting data as needed */
 			switch (item.getText()) {
 			case "Pause Audio":
-				isAudioPause = item.selectedProperty().get();
+				isAudioPause = isItem;
 				break;
 
 			case "Pause Video":
-				isVideoPause = item.selectedProperty().get();
+				isVideoPause = isItem;
 				break;
 
 			case "Mute Output":
-				isOutputMute = item.selectedProperty().get();
+				isOutputMute = isItem;
 				break;
 
 			case "Auto Next":
-				isSlideAuto = item.selectedProperty().get();
-				isObjectAuto = item.selectedProperty().get();
+				isSlideAuto = isItem;
+				isObjectAuto = isItem;
+				cb1.setSelected(isItem);
+				cb2.setSelected(isItem);
 				break;
 			}
 
@@ -538,7 +543,7 @@ public class GUI extends Application {
 	private class menuHandler implements EventHandler<ActionEvent> {
 
 		/**
-		 * TODO: MENU - cases at the bottom need completing
+		 * TODO: MENU - website case
 		 */
 
 		public void handle(ActionEvent t) {
@@ -708,6 +713,7 @@ public class GUI extends Application {
 
 		/* Create items for file */
 		MenuItem openFile = new MenuItem("Open");
+		home = new MenuItem("Home");
 		MenuItem exit = new MenuItem("Exit");
 		home.setDisable(true);
 		/* add items to File */
@@ -715,7 +721,6 @@ public class GUI extends Application {
 
 		/* Settings section */
 		Menu menuSettings = new Menu("Settings");
-		settings.setOnAction(new menuHandler());// handler for settings
 
 		/* On blank settings */
 		Menu onBlank = new Menu("On Blank");
@@ -754,9 +759,14 @@ public class GUI extends Application {
 			screenSelect.setDisable(true);// disable screen select
 		}
 
-		RadioMenuItem autoNext = new RadioMenuItem("Auto Next");
+		/* Autonext option */
+		autoNext = new RadioMenuItem("Auto Next");
 		autoNext.setSelected(false); // initialise to false
 		autoNext.setOnAction(new radioMenuHandler()); // add handler
+
+		/* To settings button */
+		settings = new MenuItem("More settings");
+		settings.setOnAction(new menuHandler());// handler for settings
 
 		/* add items to settings */
 		menuSettings.getItems().addAll(onBlank, screenSelect, autoNext,
@@ -852,7 +862,7 @@ public class GUI extends Application {
 	private void buildSettings() {
 
 		/**
-		 * TODO: buildSettings - clearHistory button
+		 * TODO: buildSettings
 		 */
 
 		/* Create gridpane in which to put objects */
@@ -900,10 +910,9 @@ public class GUI extends Application {
 		 */
 
 		/* Add check boxes */
-		CheckBox cb1 = makeCheckBox("Slide Timer", "checkLight", "slides",
-				false);
-		CheckBox cb2 = makeCheckBox("Object Timer", "checkLight", "objects",
-				false);
+		cb1 = makeCheckBox("Slide Timer", "checkLight", "slides", isSlideAuto);
+		cb2 = makeCheckBox("Object Timer", "checkLight", "objects",
+				isObjectAuto);
 		cb1.setStyle("-fx-font-size:" + 15);
 		cb2.setStyle("-fx-font-size:" + 15);
 
