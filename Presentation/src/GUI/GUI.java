@@ -28,7 +28,6 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
@@ -77,7 +76,9 @@ public class GUI extends Application {
 	private boolean isAudioPause = false;
 	private boolean isVideoPause = false;
 	private boolean isOutputMute = false;
-	private boolean isAutoNext = false;
+	private boolean isSlideAuto = false;
+	private boolean isObjectAuto = false;
+	private File initDir;
 
 	/* Global text area and array in which to save words */
 	private TextArea ta = new TextArea();
@@ -85,12 +86,12 @@ public class GUI extends Application {
 	private TextField userField = new TextField();// text field
 	private ArrayList<String> fileList = new ArrayList<String>();
 	private ArrayList<String> buttonInfo = new ArrayList<String>();
-	private File initDir;
 	private String outputFile;
 	private int slideNo = 0;
 
 	private boolean isShadow = false;
 
+	/* Cascading style sheet */
 	private String styleSheet = "file:resources/styles/style1.css";
 
 	private Scene settingsScene;
@@ -207,6 +208,10 @@ public class GUI extends Application {
 	 * easily.
 	 */
 	private class buttonEventHandler implements EventHandler<ActionEvent> {
+
+		/**
+		 * TODO: clear presentation history
+		 */
 		@Override
 		public void handle(ActionEvent e) {
 
@@ -283,9 +288,17 @@ public class GUI extends Application {
 				System.out.println(userField.getText());
 
 				break;
+
 			case "userClr":
-				/* Clear the text field */
 				userField.clear();
+				break;
+
+			case "histClear":
+				/* clear presentation history */
+				for (int n = 0; n < 6; n++) {
+					buttonInfo.set(n, "Author,Version,Comment,File");
+					fileList.set(n, "No File");
+				}
 				break;
 
 			default:
@@ -331,16 +344,37 @@ public class GUI extends Application {
 	 * 
 	 */
 	private class checkEventHandler implements EventHandler<ActionEvent> {
+
+		/**
+		 * TODO: sync with menu buttons
+		 */
+
 		@Override
 		public void handle(ActionEvent e) {
 
 			CheckBox cbSelected = (CheckBox) e.getSource();
-			/* Get ID as an int */
-			int i = Integer.parseInt(cbSelected.getId());
+
+			switch (cbSelected.getId()) {
+
+			case "slides":
+				isSlideAuto = cbSelected.isSelected();
+				break;
+
+			case "objects":
+				isObjectAuto = cbSelected.isSelected();
+				break;
+
+			}
+
+			if (isSlideAuto && isObjectAuto) {
+
+			} else {
+
+			}
 
 			/* Print the Id int */
-			System.out.println("Check box" + i + " was set to "
-					+ cbSelected.isSelected());
+			System.out.println(cbSelected.getId() + "check box"
+					+ " was set to " + cbSelected.isSelected());
 
 		}
 
@@ -484,14 +518,14 @@ public class GUI extends Application {
 				break;
 
 			case "Auto Next":
-				isAutoNext = item.selectedProperty().get();
+				isSlideAuto = item.selectedProperty().get();
+				isObjectAuto = item.selectedProperty().get();
 				break;
 			}
 
 			System.out.println("Audio Paused: " + isAudioPause);
 			System.out.println("Video Paused: " + isVideoPause);
 			System.out.println("Output Mute: " + isOutputMute);
-			System.out.println("Auto Next: " + isAutoNext);
 		}
 	}
 
@@ -761,11 +795,9 @@ public class GUI extends Application {
 		GridPane grid = new GridPane();
 
 		/* create a gridpane layout */
-		grid.setHgap(5);// gaps between cells
 		grid.setVgap(5);
-		grid.setPadding(new Insets(0, 5, 5, 5));
 		grid.setAlignment(Pos.TOP_CENTER); // alignment on screen
-		//grid.setGridLinesVisible(true);
+		// grid.setGridLinesVisible(true);
 		grid.getColumnConstraints().addAll(
 				new ColumnConstraints(windowWidth / 3),
 				new ColumnConstraints(windowWidth / 3),
@@ -794,7 +826,7 @@ public class GUI extends Application {
 
 		/* Make 6 buttons to open presentations */
 		Button[][] buttons = new Button[3][2];// 2 rows of 3
-		VBox[] btnBox = new VBox[6];//6 boxes for buttons
+		VBox[] btnBox = new VBox[6];// 6 boxes for buttons
 		int i = 0;
 
 		for (int y = 0; y < 2; y++) {
@@ -805,7 +837,7 @@ public class GUI extends Application {
 				buttons[x][y].setFont(Font.loadFont(
 						"file:resources/fonts/Roboto-Bold.ttf", 15));// add font
 				buttons[x][y].setPrefWidth(windowWidth * 0.3); // set width
-				btnBox[i] = makeVBox("", Pos.CENTER, 5);//put button in a box
+				btnBox[i] = makeVBox("", Pos.CENTER, 5);// put button in a box
 				btnBox[i].getChildren().add(buttons[x][y]);
 				grid.add(btnBox[i], x, y + 2);// add to grid
 				i++;
@@ -836,7 +868,6 @@ public class GUI extends Application {
 		settingsScene.getStylesheets().add("file:resources/styles/style1.css");
 
 		/* Set the layout as settingsGridpane */
-		settingsGrid.setPadding(new Insets(0, 5, 5, 5));
 		settingsGrid.setAlignment(Pos.TOP_CENTER);
 		settingsGrid.setHgap(5);
 		settingsGrid.setVgap(5);
@@ -869,8 +900,10 @@ public class GUI extends Application {
 		 */
 
 		/* Add check boxes */
-		CheckBox cb1 = makeCheckBox("Slide Timer", "checkLight", "1", false);
-		CheckBox cb2 = makeCheckBox("Object Timer", "checkLight", "2", false);
+		CheckBox cb1 = makeCheckBox("Slide Timer", "checkLight", "slides",
+				false);
+		CheckBox cb2 = makeCheckBox("Object Timer", "checkLight", "objects",
+				false);
 		cb1.setStyle("-fx-font-size:" + 15);
 		cb2.setStyle("-fx-font-size:" + 15);
 
@@ -912,6 +945,13 @@ public class GUI extends Application {
 		userBox.getChildren().addAll(makeLabel("Username:", 20, "#313131"),
 				userField, userButtons);
 		settingsGrid.add(userBox, 1, 2);
+
+		/* Clear History button */
+		Button histClear = makeButton("Clear Presentation History",
+				"lightButton", true, "histClear", 0.06);
+		VBox clearBox = makeVBox("clearBox", Pos.CENTER, 5);// box for button
+		clearBox.getChildren().add(histClear);// add button
+		settingsGrid.add(clearBox, 1, 3);
 
 		/* vbox to add screen settings */
 		VBox screenBox = makeVBox("clearBox", Pos.TOP_CENTER, 10);
