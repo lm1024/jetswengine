@@ -102,8 +102,13 @@ public class GUI extends Application {
 	private int numScreens = Screen.getScreens().size();
 	private final Rectangle2D primeBounds = Screen.getPrimary().getBounds();
 	private Rectangle2D bounds = primeBounds;
+	private int screenId=0;
 	private double windowWidth;
 	private double windowHeight;
+
+	/* Select screens options */
+	private RadioMenuItem[] menuScreen = new RadioMenuItem[numScreens];
+	private RadioButton[] settingsScreen = new RadioButton[numScreens];
 
 	/* For menu bar */
 	private MenuBar mainMenu = new MenuBar();
@@ -146,6 +151,8 @@ public class GUI extends Application {
 
 		buildMenus();
 
+		buildSettings();
+		
 		buildmain(); // Build main page
 		System.out.println("Main Built");
 
@@ -405,35 +412,37 @@ public class GUI extends Application {
 	private class screensHandler implements EventHandler<ActionEvent> {
 
 		/**
-		 * TODO: make handler
+		 * TODO: 
 		 */
 
 		public void handle(ActionEvent source) {
 
-			int id;
-
+			/* Determine what called the handler */
 			if (source.getSource().getClass().getName().endsWith("Item")) {
 
-				System.out.println("menu button");
-
+				/* get and cast the source */
 				RadioMenuItem a = (RadioMenuItem) source.getSource();
 
-				id = Integer.parseInt(a.getId());
+				screenId = Integer.parseInt(a.getId());// set source id
+
+				settingsScreen[screenId].setSelected(true); // set other option
 
 			} else if (source.getSource().getClass().getName()
 					.endsWith("Button")) {
 
-				System.out.println("Toggle");
-
+				/* get and cast the source */
 				ToggleButton e = (ToggleButton) source.getSource();
 
-				id = Integer.parseInt(e.getId());
-			}else{
-				id = 1;
+				screenId = Integer.parseInt(e.getId());// set source id
+
+				menuScreen[screenId].setSelected(true);// set other option
+
+			} else {
+				screenId = 1;
 			}
 
-			bounds = Screen.getScreens().get(id).getVisualBounds();
-			System.out.println("Screen " + id + " bound points: ("
+			bounds = Screen.getScreens().get(screenId).getVisualBounds();
+			System.out.println("Screen " + screenId + " bound points: ("
 					+ bounds.getMinX() + "," + bounds.getMinY() + ") ("
 					+ bounds.getMaxX() + "," + bounds.getMaxY() + ")");
 
@@ -632,6 +641,15 @@ public class GUI extends Application {
 		/* Settings section */
 		Menu menuSettings = new Menu("Settings");
 
+		/* On blank settings */
+		Menu onBlank = new Menu("On Blank");
+		/*Blank options*/
+		RadioMenuItem audio = new RadioMenuItem("Pause Audio");
+		RadioMenuItem video = new RadioMenuItem("Pause Video");
+		RadioMenuItem mute = new RadioMenuItem("Mute output");
+		
+		onBlank.getItems().addAll(audio, video, mute);
+
 		/* create items for settings */
 		Menu screenSelect = new Menu("Select Screen");// submenu
 
@@ -641,18 +659,17 @@ public class GUI extends Application {
 			/* Toggle group for screens */
 			ToggleGroup screens = new ToggleGroup();
 			screenSelect.setDisable(false);// enable screen select
-			RadioMenuItem[] screen = new RadioMenuItem[numScreens];
 
 			for (int i = 0; i < numScreens; i++) {
 
-				screen[i] = new RadioMenuItem("Screen " + (i + 1));
-				screen[i].setToggleGroup(screens); // add to toggle group
-				screen[i].setId(Integer.toString(i));// give an ID
-				screenSelect.getItems().add(screen[i]); // add to menu
-				screen[i].setOnAction(new screensHandler()); // add handler
+				menuScreen[i] = new RadioMenuItem("Screen " + (i + 1));
+				menuScreen[i].setToggleGroup(screens); // add to toggle group
+				menuScreen[i].setId(Integer.toString(i));// give an ID
+				screenSelect.getItems().add(menuScreen[i]); // add to menu
+				menuScreen[i].setOnAction(new screensHandler()); // add handler
 
 			}
-			screen[0].setSelected(true); // initialise on prime screen
+			menuScreen[0].setSelected(true); // initialise on prime screen
 		} else {
 			screenSelect.setDisable(true);// disable screen select
 		}
@@ -661,7 +678,8 @@ public class GUI extends Application {
 		autoNext.setSelected(false); // initialise to false
 
 		/* add items to settings */
-		menuSettings.getItems().addAll(screenSelect, autoNext, settings);
+		menuSettings.getItems().addAll(onBlank, screenSelect, autoNext,
+				settings);
 
 		/* help section */
 		Menu menuHelp = new Menu("Help");
@@ -677,6 +695,7 @@ public class GUI extends Application {
 		/* Action Listener to each Menu */
 		menuFile.setOnAction(new menuHandler());
 		menuSettings.setOnAction(new menuHandler());
+		onBlank.setOnAction(new menuHandler());
 		menuHelp.setOnAction(new menuHandler());
 
 		/* add menus to menu bar */
@@ -857,20 +876,19 @@ public class GUI extends Application {
 		ToggleGroup screenGroup = new ToggleGroup();
 
 		/* same number of buttons as screens */
-		RadioButton[] screen = new RadioButton[numScreens];
-
 		for (int i = 0; i < numScreens; i++) {
 
-			screen[i] = new RadioButton("Screen " + (i + 1));// create button
-			screen[i].getStyleClass().add("radioButton");// add style
-			screen[i].setToggleGroup(screenGroup); // add to group
-			screen[i].setStyle("-fx-font-size:" + 15);// set font size
-			screenBox.getChildren().add(screen[i]); // add to box
-			screen[i].setId(Integer.toString(i));
-			screen[i].setOnAction(new screensHandler());
+			settingsScreen[i] = new RadioButton("Screen " + (i + 1));// create
+																		// button
+			settingsScreen[i].getStyleClass().add("radioButton");// add style
+			settingsScreen[i].setToggleGroup(screenGroup); // add to group
+			settingsScreen[i].setStyle("-fx-font-size:" + 15);// set font size
+			screenBox.getChildren().add(settingsScreen[i]); // add to box
+			settingsScreen[i].setId(Integer.toString(i));
+			settingsScreen[i].setOnAction(new screensHandler());
 		}
 
-		screen[0].setSelected(true); // initialise on prime screen
+		settingsScreen[screenId].setSelected(true); // initialise on prime screen
 
 		/* add screenBox to grid */
 		settingsGrid.add(screenBox, 2, 2);
