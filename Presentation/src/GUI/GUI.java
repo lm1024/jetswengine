@@ -93,19 +93,19 @@ public class GUI extends Application {
 	final GridPane grid = new GridPane();
 	private Label lbl;
 
+	/* files to store prev. presentation data */
 	private File xmlFiles = new File("resources/files.csv");
 	private File buttonscsv = new File("resources/buttons.csv");
 
+	/* Screen select data */
 	private int numScreens = Screen.getScreens().size();
 	private final Rectangle2D primeBounds = Screen.getPrimary().getBounds();
 	private Rectangle2D bounds = primeBounds;
 	private double windowWidth;
 	private double windowHeight;
 
-	/* Menu bar at top of page */
+	/* For menu bar */
 	private MenuBar mainMenu = new MenuBar();
-	private MenuBar settingsMenu;
-
 	private MenuItem home = new MenuItem("Home");
 	private MenuItem settings = new MenuItem("More settings");
 
@@ -143,74 +143,7 @@ public class GUI extends Application {
 		primaryStage.setWidth(windowWidth);
 		primaryStage.setHeight(windowHeight);
 
-		/* File section */
-		Menu menuFile = new Menu("File");
-
-		/* Create items for file */
-		MenuItem openFile = new MenuItem("Open File");
-		MenuItem exit = new MenuItem("Exit");
-		home.setDisable(true);
-		/* add items to File */
-		menuFile.getItems().addAll(openFile, home, exit);
-
-		/* Settings section */
-		Menu menuSettings = new Menu("Settings");
-
-		/* create items for settings */
-		Menu screenSelect = new Menu("Select Screen");// submenu
-
-		/* Determine how many screen options to show */
-		if (numScreens > 1) {
-			screenSelect.setDisable(false);// enable screen select
-
-			/* Toggle group for screens */
-			ToggleGroup screens = new ToggleGroup();
-			RadioMenuItem screen1 = new RadioMenuItem("1");
-			screen1.setSelected(true);
-			screen1.setToggleGroup(screens);
-			screenSelect.getItems().add(screen1);
-
-			RadioMenuItem screen2 = new RadioMenuItem("2");
-			screen2.setToggleGroup(screens);
-			screenSelect.getItems().add(screen2); // add screen 2
-			if (numScreens > 2) {
-				RadioMenuItem screen3 = new RadioMenuItem("3");
-				screen3.setToggleGroup(screens);
-				screenSelect.getItems().add(screen3);// add screen 3
-			}
-
-		} else {
-			screenSelect.setDisable(true);// disable screen select
-		}
-
-		CheckMenuItem autoNext = new CheckMenuItem("Auto Next");
-		autoNext.setSelected(false); // initialise to false
-
-		/* add items to settings */
-		menuSettings.getItems().addAll(screenSelect, autoNext, settings);
-
-		/* help section */
-		Menu menuHelp = new Menu("Help");
-
-		/* create items for help */
-		MenuItem qanda = new MenuItem("Quick Q & A");
-		MenuItem help = new MenuItem("User Manual");
-		MenuItem website = new MenuItem("Website");
-
-		/* add items to help */
-		menuHelp.getItems().addAll(qanda, help, website);
-
-		/* Action Listener to each section of the Menu */
-		menuFile.setOnAction(new menuHandler());
-		screenSelect.setOnAction(new menuHandler());
-		menuSettings.setOnAction(new menuHandler());
-		menuHelp.setOnAction(new menuHandler());
-
-		/* add items to menu */
-		mainMenu.getMenus().addAll(menuFile, menuSettings, menuHelp);
-		
-		/*Duplicate menu for settings*/
-		settingsMenu = mainMenu;
+		buildMenus();
 
 		buildmain(); // Build main page
 		System.out.println("Main Built");
@@ -598,17 +531,6 @@ public class GUI extends Application {
 				}
 				break;
 
-			/* set bounds for selected screen */
-			case "1":
-			case "2":
-			case "3":
-				int i = Integer.parseInt(item.getText()) - 1;
-				bounds = Screen.getScreens().get(i).getVisualBounds();
-				System.out.println("Screen " + i + " bound points: ("
-						+ bounds.getMinX() + "," + bounds.getMinY() + ") ("
-						+ bounds.getMaxX() + "," + bounds.getMaxY() + ")");
-				break;
-
 			case "Auto Next":
 				/* turn auto-next on/off */
 				break;
@@ -644,8 +566,93 @@ public class GUI extends Application {
 				/* attempt to open website */
 				break;
 
+			default:
+				int i = Integer.parseInt(item.getText()) - 1;
+				if (i >= 0 && i < numScreens) {
+					bounds = Screen.getScreens().get(i).getVisualBounds();
+					System.out.println("Screen " + i + " bound points: ("
+							+ bounds.getMinX() + "," + bounds.getMinY() + ") ("
+							+ bounds.getMaxX() + "," + bounds.getMaxY() + ")");
+				}
 			}
+
 		}
+	}
+
+	/**
+	 * 
+	 * Private method to build menu bars
+	 * 
+	 */
+
+	private void buildMenus() {
+
+		/**
+		 * TODO: develop menu, improve code
+		 */
+
+		/* File section */
+		Menu menuFile = new Menu("File");
+
+		/* Create items for file */
+		MenuItem openFile = new MenuItem("Open File");
+		MenuItem exit = new MenuItem("Exit");
+		home.setDisable(true);
+		/* add items to File */
+		menuFile.getItems().addAll(openFile, home, exit);
+
+		/* Settings section */
+		Menu menuSettings = new Menu("Settings");
+
+		/* create items for settings */
+		Menu screenSelect = new Menu("Select Screen");// submenu
+
+		/* Determine how many screen options to show */
+		if (numScreens > 1) { // if there is multi-screens
+
+			/* Toggle group for screens */
+			ToggleGroup screens = new ToggleGroup();
+			screenSelect.setDisable(false);// enable screen select
+			RadioMenuItem[] screen = new RadioMenuItem[numScreens];
+
+			for (int i = 0; i < numScreens; i++) {
+
+				screen[i] = new RadioMenuItem("Screen " + (i + 1));
+				screen[i].setToggleGroup(screens);
+				screenSelect.getItems().add(screen[i]);
+
+			}
+			screen[0].setSelected(true);
+		} else {
+			screenSelect.setDisable(true);// disable screen select
+		}
+
+		CheckMenuItem autoNext = new CheckMenuItem("Auto Next");
+		autoNext.setSelected(false); // initialise to false
+
+		/* add items to settings */
+		menuSettings.getItems().addAll(screenSelect, autoNext, settings);
+
+		/* help section */
+		Menu menuHelp = new Menu("Help");
+
+		/* create items for help */
+		MenuItem qanda = new MenuItem("Quick Q & A");
+		MenuItem help = new MenuItem("User Manual");
+		MenuItem website = new MenuItem("Website");
+
+		/* add items to help */
+		menuHelp.getItems().addAll(qanda, help, website);
+
+		/* Action Listener to each Menu */
+		menuFile.setOnAction(new menuHandler());
+		screenSelect.setOnAction(new menuHandler());
+		menuSettings.setOnAction(new menuHandler());
+		menuHelp.setOnAction(new menuHandler());
+
+		/* add menus to menu bar */
+		mainMenu.getMenus().addAll(menuFile, menuSettings, menuHelp);
+
 	}
 
 	/**
@@ -670,12 +677,6 @@ public class GUI extends Application {
 				new ColumnConstraints(windowWidth / 3),
 				new ColumnConstraints(windowWidth / 3),
 				new ColumnConstraints(windowWidth / 3));
-
-		/* creates a stackpane to add the grid in for resizable option */
-		/*
-		 * StackPane rootpane = new StackPane();
-		 * rootpane.getChildren().add(grid);
-		 */
 
 		/* creates a scene within the stage of pixel size x by y */
 		mainScene = new Scene(grid, stageRef.getWidth(), stageRef.getHeight());
@@ -709,7 +710,7 @@ public class GUI extends Application {
 						true, String.valueOf(i), 0.2);
 				buttons[x][y].setFont(Font.loadFont(
 						"file:resources/fonts/Roboto-Bold.ttf", 15));// add font
-				buttons[x][y].setPrefWidth(windowWidth * 0.3);
+				buttons[x][y].setPrefWidth(windowWidth * 0.3); // set width
 				// buttons[x][y].setPrefHeight(windowHeight*0.3);
 				grid.add(buttons[x][y], x, y + 2);// add to grid
 				i++;
@@ -745,7 +746,7 @@ public class GUI extends Application {
 		settingsGrid.setAlignment(Pos.TOP_CENTER);
 		settingsGrid.setHgap(5);
 		settingsGrid.setVgap(5);
-		//settingsGrid.setGridLinesVisible(true);
+		// settingsGrid.setGridLinesVisible(true);
 		/* each column to be a third of the page */
 		settingsGrid.getColumnConstraints().addAll(
 				new ColumnConstraints(windowWidth / 3),
@@ -753,7 +754,7 @@ public class GUI extends Application {
 				new ColumnConstraints(windowWidth / 3));
 
 		/* add menu bar to settings */
-		settingsGrid.add(settingsMenu, 0, 0, 3, 1);
+		settingsGrid.add(mainMenu, 0, 0, 3, 1);
 
 		/*
 		 * Logo button and Title
@@ -765,7 +766,8 @@ public class GUI extends Application {
 
 		HBox titleBox = makeHBox("", Pos.TOP_LEFT, 5);
 		/* Create settings page title */
-		titleBox.getChildren().addAll(homeBtn, makeLabel("Settings", 75, "#33B5E5"));
+		titleBox.getChildren().addAll(homeBtn,
+				makeLabel("Settings", 75, "#33B5E5"));
 		settingsGrid.add(titleBox, 0, 1, 3, 1);
 
 		/*
@@ -820,35 +822,25 @@ public class GUI extends Application {
 		/* vbox to add screen settings */
 		VBox screenBox = makeVBox("clearBox", Pos.TOP_CENTER, 10);
 
-		/* Add check boxes */
-		ToggleButton screen1 = new ToggleButton("1");
-		screen1.getStyleClass().add("radioButton");
-		screen1.setSelected(true);
-		ToggleButton screen2 = new ToggleButton("2");
-		screen2.getStyleClass().add("radioButton");
-		ToggleButton screen3 = new ToggleButton("3");
-		screen3.getStyleClass().add("radioButton");
-		screen1.setStyle("-fx-font-size:" + 15);// set font
-		screen2.setStyle("-fx-font-size:" + 15);// size
-		screen3.setStyle("-fx-font-size:" + 15);
+		/* add title label */
+		screenBox.getChildren().add(makeLabel("Screen Select:", 20, "#313131"));
 
-		if (numScreens < 3) {
-			screen3.setDisable(true);
-			if (numScreens < 2) {
-				screen2.setDisable(true);
-			}
-		}
-
-		/* ToggleGroup for CheckBoxes */
+		/* Toggle group for screens */
 		ToggleGroup screenGroup = new ToggleGroup();
-		screen1.setToggleGroup(screenGroup);
-		screen2.setToggleGroup(screenGroup);
-		screen3.setToggleGroup(screenGroup);
+		
+		/*same number of buttons as screens*/
+		ToggleButton[] screen = new ToggleButton[numScreens];
 
-		/* add checkboxes to screenBox */
-		screenBox.getChildren().addAll(
-				makeLabel("Screen Select:", 20, "#313131"), // add title label
-				screen1, screen2, screen3); // add screens
+		for (int i = 0; i < numScreens; i++) {
+
+			screen[i] = new ToggleButton("Screen " + (i + 1));//create button
+			screen[i].getStyleClass().add("radioButton");//add style
+			screen[i].setToggleGroup(screenGroup); // add to group
+			screen[i].setStyle("-fx-font-size:" + 15);// set font size
+			screenBox.getChildren().add(screen[i]); // add to box
+		}
+		
+		screen[0].setSelected(true);
 
 		/* add screenBox to grid */
 		settingsGrid.add(screenBox, 2, 2);
