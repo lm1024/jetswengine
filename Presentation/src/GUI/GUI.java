@@ -17,6 +17,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 import javafx.application.Application;
@@ -590,10 +592,6 @@ public class GUI extends Application {
 
 	private class menuHandler implements EventHandler<ActionEvent> {
 
-		/**
-		 * TODO: MENU - website case
-		 */
-
 		public void handle(ActionEvent t) {
 			MenuItem item = (MenuItem) t.getTarget();
 			System.out.println("MENU ITEM: " + item.getText() + "Pressed");
@@ -737,7 +735,14 @@ public class GUI extends Application {
 				break;
 
 			case "Website":
-				/* attempt to open website */
+				try {
+		            Desktop.getDesktop().browse(new URI("http://www.smartslides.com"));
+		        } catch (IOException e1) {
+		            e1.printStackTrace();
+		        } catch (URISyntaxException e1) {
+		            e1.printStackTrace();
+		        }
+
 				break;
 			}
 
