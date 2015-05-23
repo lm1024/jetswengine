@@ -526,7 +526,7 @@ public class GUI extends Application {
 
 				break;
 
-			case "Open File":
+			case "Open":
 				Slideshow currentSlideshow = null;
 				/* Open a file chooser and give it a name */
 				FileChooser fileChooser = new FileChooser();
@@ -673,7 +673,7 @@ public class GUI extends Application {
 		Menu menuFile = new Menu("File");
 
 		/* Create items for file */
-		MenuItem openFile = new MenuItem("Open File");
+		MenuItem openFile = new MenuItem("Open");
 		MenuItem exit = new MenuItem("Exit");
 		home.setDisable(true);
 		/* add items to File */
@@ -765,7 +765,7 @@ public class GUI extends Application {
 		grid.setVgap(5);
 		grid.setPadding(new Insets(0, 5, 5, 5));
 		grid.setAlignment(Pos.TOP_CENTER); // alignment on screen
-		// grid.setGridLinesVisible(true);
+		//grid.setGridLinesVisible(true);
 		grid.getColumnConstraints().addAll(
 				new ColumnConstraints(windowWidth / 3),
 				new ColumnConstraints(windowWidth / 3),
@@ -794,17 +794,20 @@ public class GUI extends Application {
 
 		/* Make 6 buttons to open presentations */
 		Button[][] buttons = new Button[3][2];// 2 rows of 3
+		VBox[] btnBox = new VBox[6];//6 boxes for buttons
 		int i = 0;
 
 		for (int y = 0; y < 2; y++) {
 			for (int x = 0; x < 3; x++) {
 				buttons[x][y] = makeButton(
-						buttonInfo.get(i).replace(",", "\n"), "invisiButton",
+						buttonInfo.get(i).replace(",", "\n"), "lightButton",
 						true, String.valueOf(i), 0.2);
 				buttons[x][y].setFont(Font.loadFont(
 						"file:resources/fonts/Roboto-Bold.ttf", 15));// add font
 				buttons[x][y].setPrefWidth(windowWidth * 0.3); // set width
-				grid.add(buttons[x][y], x, y + 2);// add to grid
+				btnBox[i] = makeVBox("", Pos.CENTER, 5);//put button in a box
+				btnBox[i].getChildren().add(buttons[x][y]);
+				grid.add(btnBox[i], x, y + 2);// add to grid
 				i++;
 			}
 		}
@@ -866,8 +869,8 @@ public class GUI extends Application {
 		 */
 
 		/* Add check boxes */
-		CheckBox cb1 = makeCheckBox("Slide Timer", "checkLight", "cb1", false);
-		CheckBox cb2 = makeCheckBox("Object Timer", "checkLight", "cb2", false);
+		CheckBox cb1 = makeCheckBox("Slide Timer", "checkLight", "1", false);
+		CheckBox cb2 = makeCheckBox("Object Timer", "checkLight", "2", false);
 		cb1.setStyle("-fx-font-size:" + 15);
 		cb2.setStyle("-fx-font-size:" + 15);
 
