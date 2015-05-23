@@ -98,8 +98,7 @@
 /* Blue background, cream writing */
 .lightButton {
 	-fx-background-color: #33B5E5;
-	-fx-text-fill: #F0F0F0;
-	
+	-fx-text-fill: #F0F0F0;	
 }
 
 
@@ -143,3 +142,21 @@
 	-fx-text-fill: #313131;
 }
 
+
+/*----------------------------------------------------
+ *	Toggle Buttons:
+ *---------------------------------------------------*/
+
+
+/* Dark background, blue writing */
+.lightToggle{
+	-fx-background-color: #313131;
+	-fx-text-fill: #33B5E5;
+	
+}
+
+/* Blue background, cream writing */
+.lightToggle: selected {
+	-fx-background-color: #33B5E5;
+	-fx-text-fill: #F0F0F0;	
+}

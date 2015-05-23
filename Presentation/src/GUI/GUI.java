@@ -122,6 +122,10 @@ public class GUI extends Application {
 	private CheckBox cb1, cb2;
 	private RadioMenuItem autoNext;
 
+	/* Blank out sync */
+	private ToggleButton audioToggle, videoToggle, muteToggle, allToggle;
+	private RadioMenuItem audio, video;
+
 	/* For menu bar */
 	private MenuBar mainMenu = new MenuBar();
 	private MenuItem home, settings;
@@ -452,6 +456,47 @@ public class GUI extends Application {
 
 	/**
 	 * 
+	 * Handler for toggle buttons
+	 * 
+	 */
+	private class toggleHandler implements EventHandler<ActionEvent> {
+
+		@Override
+		public void handle(ActionEvent e) {
+			// TODO Make method
+
+			ToggleButton tb = (ToggleButton) e.getSource();
+
+			boolean isTB = tb.isSelected();
+			String tbID = tb.getId();
+
+			/* if all then select all buttons */
+			if (tbID.equals("all")) {
+				audioToggle.setSelected(isTB);
+				videoToggle.setSelected(isTB);
+				muteToggle.setSelected(isTB);
+			}
+
+			/* adjust settings values as needed */
+			isAudioPause = audioToggle.isSelected();
+			isVideoPause = videoToggle.isSelected();
+			isOutputMute = muteToggle.isSelected();
+
+			if (isAudioPause && isVideoPause && isOutputMute) {
+				allToggle.setSelected(true);
+			} else {
+				allToggle.setSelected(false);
+			}
+
+			/* Set menu items as needed */
+			audio.setSelected(isAudioPause);
+			video.setSelected(isVideoPause);
+
+		}
+	}
+
+	/**
+	 * 
 	 * Handler for screen select buttons and menu items
 	 * 
 	 */
@@ -510,14 +555,12 @@ public class GUI extends Application {
 			switch (item.getText()) {
 			case "Pause Audio":
 				isAudioPause = isItem;
+				audioToggle.setSelected(isItem);
 				break;
 
 			case "Pause Video":
 				isVideoPause = isItem;
-				break;
-
-			case "Mute Output":
-				isOutputMute = isItem;
+				videoToggle.setSelected(isItem);
 				break;
 
 			case "Auto Next":
@@ -528,9 +571,14 @@ public class GUI extends Application {
 				break;
 			}
 
-			System.out.println("Audio Paused: " + isAudioPause);
-			System.out.println("Video Paused: " + isVideoPause);
-			System.out.println("Output Mute: " + isOutputMute);
+			if (isAudioPause && isVideoPause && isOutputMute) {
+				allToggle.setSelected(true);
+			} else {
+				allToggle.setSelected(false);
+			}
+
+			System.out
+					.println("MENU ITEM" + item.getText() + "set to" + isItem);
 		}
 	}
 
@@ -725,15 +773,13 @@ public class GUI extends Application {
 		/* On blank settings */
 		Menu onBlank = new Menu("On Blank");
 		/* Blank options */
-		RadioMenuItem audio = new RadioMenuItem("Pause Audio");
-		RadioMenuItem video = new RadioMenuItem("Pause Video");
-		RadioMenuItem mute = new RadioMenuItem("Mute Output");
+		audio = new RadioMenuItem("Pause Audio");
+		video = new RadioMenuItem("Pause Video");
 		/* add handlers */
 		audio.setOnAction(new radioMenuHandler());
 		video.setOnAction(new radioMenuHandler());
-		mute.setOnAction(new radioMenuHandler());
 
-		onBlank.getItems().addAll(audio, video, mute);// add to menu
+		onBlank.getItems().addAll(audio, video);// add to menu
 
 		/* create items for settings */
 		Menu screenSelect = new Menu("Select Screen");// sub-menu
@@ -906,7 +952,7 @@ public class GUI extends Application {
 		settingsGrid.add(titleBox, 0, 1, 3, 1);
 
 		/*
-		 * Checkbox options:
+		 * Column 0
 		 */
 
 		/* Add check boxes */
@@ -922,14 +968,32 @@ public class GUI extends Application {
 				cb2);
 		settingsGrid.add(vbox1, 0, 2);
 
-		/*
-		 * Back to main screen
-		 */
+		/* Blank out options */
+		HBox blankBox = makeHBox("clearBox", Pos.CENTER, 5);
+		VBox blankOptionsBox = makeVBox("clearBox", Pos.CENTER, 5);
+		VBox allBox = makeVBox("clearBox", Pos.CENTER, 5);
+
+		/* Toggle Buttons */
+		audioToggle = makeToggle("Pause Audio", "audio", "lightToggle",
+				isAudioPause);
+		videoToggle = makeToggle("Pause Video", "video", "lightToggle",
+				isVideoPause);
+		muteToggle = makeToggle("Mute Output", "mute", "lightToggle",
+				isOutputMute);
+		allToggle = makeToggle("All", "all", "lightToggle", false);
+
+		/* add buttons to box and box to grid */
+		blankOptionsBox.getChildren().addAll(audioToggle, videoToggle,
+				muteToggle);
+		allBox.getChildren().add(allToggle);
+		blankBox.getChildren().addAll(blankOptionsBox, allBox);
+		settingsGrid.add(blankBox, 0, 3);
+
 		Button back = makeButton("Back", "lightButton", true, "home");
-		settingsGrid.add(back, 0, 3);
+		settingsGrid.add(back, 0, 4);
 
 		/*
-		 * Username input
+		 * Column 1
 		 */
 
 		/* Add user name submission */
@@ -959,6 +1023,10 @@ public class GUI extends Application {
 		VBox clearBox = makeVBox("clearBox", Pos.CENTER, 5);// box for button
 		clearBox.getChildren().add(histClear);// add button
 		settingsGrid.add(clearBox, 1, 3);
+
+		/*
+		 * Column 2
+		 */
 
 		/* vbox to add screen settings */
 		VBox screenBox = makeVBox("clearBox", Pos.TOP_CENTER, 10);
@@ -1057,6 +1125,17 @@ public class GUI extends Application {
 	/*
 	 * Utilities:
 	 */
+
+	/** Utility function for adding Toggle Buttons **/
+	private ToggleButton makeToggle(String text, String id, String style,
+			boolean selected) {
+		ToggleButton tb = new ToggleButton(text);// create button
+		tb.setId(id);// add id
+		tb.getStyleClass().add(style);// add style
+		tb.setSelected(selected);// initial state
+		tb.setOnAction(new toggleHandler());// add handler
+		return tb;
+	}
 
 	/** Utility function for adding labels **/
 	private Label makeLabel(String labelText, int d, String colour) {
