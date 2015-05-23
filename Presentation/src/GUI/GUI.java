@@ -338,9 +338,6 @@ public class GUI extends Application {
 	 * 
 	 */
 	private class keyPressedHandler implements EventHandler<KeyEvent> {
-		/*
-		 * TODO neaten up and comment, possibly use nested switch?
-		 */
 
 		@Override
 		public void handle(KeyEvent e) {
@@ -402,6 +399,45 @@ public class GUI extends Application {
 			/* update the text in label */
 			lbl.setText(String.valueOf(slideNo));
 		}
+	}
+
+	private class toggleHandler implements EventHandler<ActionEvent> {
+
+		/**
+		 * TODO: make handler
+		 */
+
+		public void handle(ActionEvent source) {
+
+			int id;
+
+			if (source.getSource().getClass().getName().endsWith("Item")) {
+
+				System.out.println("menu button");
+
+				RadioMenuItem a = (RadioMenuItem) source.getSource();
+
+				id = Integer.parseInt(a.getId());
+
+			} else if (source.getSource().getClass().getName()
+					.endsWith("Button")) {
+
+				System.out.println("Toggle");
+
+				ToggleButton e = (ToggleButton) source.getSource();
+
+				id = Integer.parseInt(e.getId());
+			}else{
+				id = 1;
+			}
+
+			bounds = Screen.getScreens().get(id).getVisualBounds();
+			System.out.println("Screen " + id + " bound points: ("
+					+ bounds.getMinX() + "," + bounds.getMinY() + ") ("
+					+ bounds.getMaxX() + "," + bounds.getMaxY() + ")");
+
+		}
+
 	}
 
 	/**
@@ -565,15 +601,6 @@ public class GUI extends Application {
 			case "Website":
 				/* attempt to open website */
 				break;
-
-			default:
-				int i = Integer.parseInt(item.getText()) - 1;
-				if (i >= 0 && i < numScreens) {
-					bounds = Screen.getScreens().get(i).getVisualBounds();
-					System.out.println("Screen " + i + " bound points: ("
-							+ bounds.getMinX() + "," + bounds.getMinY() + ") ("
-							+ bounds.getMaxX() + "," + bounds.getMaxY() + ")");
-				}
 			}
 
 		}
@@ -618,11 +645,13 @@ public class GUI extends Application {
 			for (int i = 0; i < numScreens; i++) {
 
 				screen[i] = new RadioMenuItem("Screen " + (i + 1));
-				screen[i].setToggleGroup(screens);
-				screenSelect.getItems().add(screen[i]);
+				screen[i].setToggleGroup(screens); // add to toggle group
+				screen[i].setId(Integer.toString(i));// give an ID
+				screenSelect.getItems().add(screen[i]); // add to menu
+				screen[i].setOnAction(new toggleHandler()); // add handler
 
 			}
-			screen[0].setSelected(true);
+			screen[0].setSelected(true); // initialise on prime screen
 		} else {
 			screenSelect.setDisable(true);// disable screen select
 		}
@@ -646,7 +675,6 @@ public class GUI extends Application {
 
 		/* Action Listener to each Menu */
 		menuFile.setOnAction(new menuHandler());
-		screenSelect.setOnAction(new menuHandler());
 		menuSettings.setOnAction(new menuHandler());
 		menuHelp.setOnAction(new menuHandler());
 
@@ -711,7 +739,6 @@ public class GUI extends Application {
 				buttons[x][y].setFont(Font.loadFont(
 						"file:resources/fonts/Roboto-Bold.ttf", 15));// add font
 				buttons[x][y].setPrefWidth(windowWidth * 0.3); // set width
-				// buttons[x][y].setPrefHeight(windowHeight*0.3);
 				grid.add(buttons[x][y], x, y + 2);// add to grid
 				i++;
 			}
@@ -827,20 +854,22 @@ public class GUI extends Application {
 
 		/* Toggle group for screens */
 		ToggleGroup screenGroup = new ToggleGroup();
-		
-		/*same number of buttons as screens*/
+
+		/* same number of buttons as screens */
 		ToggleButton[] screen = new ToggleButton[numScreens];
 
 		for (int i = 0; i < numScreens; i++) {
 
-			screen[i] = new ToggleButton("Screen " + (i + 1));//create button
-			screen[i].getStyleClass().add("radioButton");//add style
+			screen[i] = new ToggleButton("Screen " + (i + 1));// create button
+			screen[i].getStyleClass().add("radioButton");// add style
 			screen[i].setToggleGroup(screenGroup); // add to group
 			screen[i].setStyle("-fx-font-size:" + 15);// set font size
 			screenBox.getChildren().add(screen[i]); // add to box
+			screen[i].setId(Integer.toString(i));
+			screen[i].setOnAction(new toggleHandler());
 		}
-		
-		screen[0].setSelected(true);
+
+		screen[0].setSelected(true); // initialise on prime screen
 
 		/* add screenBox to grid */
 		settingsGrid.add(screenBox, 2, 2);
