@@ -134,6 +134,12 @@ public class Question {
 				/* Write the question ID as the first line in the file. */
 				writer.append(this.getId());
 				writer.append(NEWLINE_DELIMITER);
+				
+				/* Write the column headings. */
+				writer.append("Answer ID");
+				writer.append(COMMA_DELIMITER);
+				writer.append("Answer Count");
+				writer.append(NEWLINE_DELIMITER);
 
 				/*
 				 * Loop through all the answers, writing the relevent info to a
