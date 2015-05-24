@@ -629,13 +629,24 @@ public class GUI extends Application {
 					/*
 					 * Write new file to CSV if not already there
 					 */
+
+					int same = 0;
 					/* Compare new file to those in csv */
-					for (int i = 0; i < 6; i++) {
-						if (file.getAbsolutePath().equals(fileList.get(i))) {
+					do {
+						if (file.getAbsolutePath().equals(fileList.get(same))) {
 							isSameFile = true;
-							System.out.println("Same file detected");
+
+							/* Move all info down */
+							for (int i = same - 1; i > -1; i--) {
+								fileList.set(i + 1, fileList.get(i));
+								buttonInfo.set(i + 1, buttonInfo.get(i));
+							}
+							/* if its not the same check the next one */
+						} else {
+							same++;
 						}
-					}
+						/* do until the same or end of list */
+					} while ((!isSameFile) && same < 6);
 
 					/* if not the same file then write to csv */
 					if (isSameFile == false) {
@@ -644,41 +655,40 @@ public class GUI extends Application {
 							fileList.set(i + 1, fileList.get(i));
 							buttonInfo.set(i + 1, buttonInfo.get(i));
 						}
-						/* add new line to start of lists */
-						fileList.set(0, file.getAbsolutePath());
-						buttonInfo.set(0, currentSlideshow.getInfo()
-								.getAuthor() // author
-								+ "," + currentSlideshow.getInfo().getVersion() // version
-								+ "," + currentSlideshow.getInfo().getComment() // comment
-								+ "," + file.getName()); // file name
-
-						/* rewrite csv files */
-						try (BufferedWriter bw = new BufferedWriter(
-								new PrintWriter(xmlFiles))) {
-							/* loop though values in the file list */
-							for (int i = 0; i < 6; i++) {
-								/* Write pos. i in fileList to the .csv */
-								bw.write(fileList.get(i));
-								bw.newLine();
-							}
-						} catch (IOException n) {
-							n.printStackTrace();
-						}
-
-						try (BufferedWriter bw = new BufferedWriter(
-								new PrintWriter(buttonscsv))) {
-							/* loop though values in the file list */
-							for (int i = 0; i < 6; i++) {
-								/* Write pos. i in fileList to the .csv */
-								bw.write(buttonInfo.get(i));
-								bw.newLine();
-							}
-						} catch (IOException n) {
-							n.printStackTrace();
-						}
-
-						buildmain();
 					}
+					/* add new line to start of lists */
+					fileList.set(0, file.getAbsolutePath());
+					buttonInfo.set(0, currentSlideshow.getInfo().getAuthor() // author
+							+ "," + currentSlideshow.getInfo().getVersion() // version
+							+ "," + currentSlideshow.getInfo().getComment() // comment
+							+ "," + file.getName()); // file name
+
+					/* rewrite csv files */
+					try (BufferedWriter bw = new BufferedWriter(
+							new PrintWriter(xmlFiles))) {
+						/* loop though values in the file list */
+						for (int i = 0; i < 6; i++) {
+							/* Write pos. i in fileList to the .csv */
+							bw.write(fileList.get(i));
+							bw.newLine();
+						}
+					} catch (IOException n) {
+						n.printStackTrace();
+					}
+
+					try (BufferedWriter bw = new BufferedWriter(
+							new PrintWriter(buttonscsv))) {
+						/* loop though values in the file list */
+						for (int i = 0; i < 6; i++) {
+							/* Write pos. i in fileList to the .csv */
+							bw.write(buttonInfo.get(i));
+							bw.newLine();
+						}
+					} catch (IOException n) {
+						n.printStackTrace();
+					}
+
+					buildmain();// rebuild the main screen
 
 				} else {
 					/* If no file is selected do nothing */
