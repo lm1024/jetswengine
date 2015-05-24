@@ -84,9 +84,10 @@ public class GUI extends Application {
 	private TextArea ta = new TextArea();
 	private String bannedWords[];
 	private TextField userField = new TextField();// text field
+
+	/* Files to store user data in */
 	private ArrayList<String> fileList = new ArrayList<String>();
 	private ArrayList<String> buttonInfo = new ArrayList<String>();
-	private String outputFile;
 
 	/* for shadow on buttons */
 	private boolean isShadow = false;
@@ -267,8 +268,8 @@ public class GUI extends Application {
 					buttonInfo.set(n, "Author,Version,Comment,File");
 					fileList.set(n, "No File");
 				}
-				/*update the CSV's*/
-				updateCSV(); 
+				/* update the CSV's */
+				updateCSV();
 				break;
 
 			default:
@@ -398,29 +399,46 @@ public class GUI extends Application {
 				case "3":
 				case "4":
 				case "5":
-					Slideshow currentSlideshow1 = null;
+					Slideshow currentSlideshow = null;
 					/* Get ID of button as an int */
-					int i = Integer.parseInt(btn.getId());
-					System.out.println("Open pres. " + i);
+					int buttonNo = Integer.parseInt(btn.getId());
+					System.out.println("Open pres. " + buttonNo);
 					/* open file at appropriate position in fileList */
-					outputFile = fileList.get(i);
+					String outputFile = fileList.get(buttonNo);
 					System.out.println(outputFile);
 
 					if (outputFile != null) {
 						try {
-							currentSlideshow1 = new ImprovedXMLReader(
-									outputFile).getSlideshow();
+							currentSlideshow = new ImprovedXMLReader(outputFile)
+									.getSlideshow();
 						} catch (IOException e1) {
 
 						}
-						if (currentSlideshow1 != null) {
+						if (currentSlideshow != null) {
 							/* Build slideshow */
+
+							/* update buttons info */
+							/* Move all info down */
+							for (int i = buttonNo - 1; i > -1; i--) {
+								fileList.set(i + 1, fileList.get(i));
+								buttonInfo.set(i + 1, buttonInfo.get(i));
+							}
+
+							/* add new line to start of lists */
+							fileList.set(0, outputFile);
+							buttonInfo.set(0, btn.getText().replace("\n", ",")); // file
+																					// name
+
+							updateCSV();
+							buildmain();
+
 						} else {
 							/* Display error scene */
 							dispError();
 
 							System.out.println("Null slideshow");
 						}
+
 						break;
 					} else {
 						/* Display the error message */
@@ -626,49 +644,51 @@ public class GUI extends Application {
 						/* Display error scene */
 						dispError();
 						System.out.println("Null slideshow");
-					}
+					} else {
 
-					/*
-					 * Write new file to CSV if not already there
-					 */
+						/*
+						 * Update buttons info if the slideshow is not null
+						 */
 
-					int same = 0;
-					/* Compare new file to those in csv */
-					do {
-						if (file.getAbsolutePath().equals(fileList.get(same))) {
-							isSameFile = true;
+						int same = 0;
+						/* Compare new file to those in csv */
+						do {
+							if (file.getAbsolutePath().equals(
+									fileList.get(same))) {
+								isSameFile = true;
 
-							/* Move all info down */
-							for (int i = same - 1; i > -1; i--) {
+								/* Move all info down */
+								for (int i = same - 1; i > -1; i--) {
+									fileList.set(i + 1, fileList.get(i));
+									buttonInfo.set(i + 1, buttonInfo.get(i));
+								}
+								/* if its not the same check the next one */
+							} else {
+								same++;
+							}
+							/* do until the same or end of list */
+						} while ((!isSameFile) && same < 6);
+
+						/* if not the same file then write to csv */
+						if (isSameFile == false) {
+							/* Shift values of csv's */
+							for (int i = 4; i > -1; i--) {
 								fileList.set(i + 1, fileList.get(i));
 								buttonInfo.set(i + 1, buttonInfo.get(i));
 							}
-							/* if its not the same check the next one */
-						} else {
-							same++;
 						}
-						/* do until the same or end of list */
-					} while ((!isSameFile) && same < 6);
+						/* add new line to start of lists */
+						fileList.set(0, file.getAbsolutePath());
+						buttonInfo.set(0, currentSlideshow.getInfo()
+								.getAuthor() // author
+								+ "," + currentSlideshow.getInfo().getVersion() // version
+								+ "," + currentSlideshow.getInfo().getComment() // comment
+								+ "," + file.getName()); // file name
 
-					/* if not the same file then write to csv */
-					if (isSameFile == false) {
-						/* Shift values of csv's */
-						for (int i = 4; i > -1; i--) {
-							fileList.set(i + 1, fileList.get(i));
-							buttonInfo.set(i + 1, buttonInfo.get(i));
-						}
+						/* update CSV and rebuild the buttons */
+						updateCSV();
+						buildmain();
 					}
-					/* add new line to start of lists */
-					fileList.set(0, file.getAbsolutePath());
-					buttonInfo.set(0, currentSlideshow.getInfo().getAuthor() // author
-							+ "," + currentSlideshow.getInfo().getVersion() // version
-							+ "," + currentSlideshow.getInfo().getComment() // comment
-							+ "," + file.getName()); // file name
-
-					updateCSV();
-
-					buildmain();// rebuild the main screen
-
 				} else {
 					/* If no file is selected do nothing */
 					System.out.println("No file");
@@ -1100,36 +1120,34 @@ public class GUI extends Application {
 		errorStage.show();
 
 	}
-	
+
 	/**
-	 * Method to update the CSV's holding recent presentation info 
+	 * Method to update the CSV's holding recent presentation info
 	 */
-	private void updateCSV(){
+	private void updateCSV() {
 
 		/* rewrite csv files */
-					try (BufferedWriter bw = new BufferedWriter(
-							new PrintWriter(xmlFiles))) {
-						/* loop though values in the file list */
-						for (int i = 0; i < 6; i++) {
-							/* Write pos. i in fileList to the .csv */
-							bw.write(fileList.get(i));
-							bw.newLine();
-						}
-					} catch (IOException n) {
-						n.printStackTrace();
-					}
+		try (BufferedWriter bw = new BufferedWriter(new PrintWriter(xmlFiles))) {
+			/* loop though values in the file list */
+			for (int i = 0; i < 6; i++) {
+				/* Write pos. i in fileList to the .csv */
+				bw.write(fileList.get(i));
+				bw.newLine();
+			}
+		} catch (IOException n) {
+			n.printStackTrace();
+		}
 
-					try (BufferedWriter bw = new BufferedWriter(
-							new PrintWriter(buttonscsv))) {
-						/* loop though values in the file list */
-						for (int i = 0; i < 6; i++) {
-							/* Write pos. i in fileList to the .csv */
-							bw.write(buttonInfo.get(i));
-							bw.newLine();
-						}
-					} catch (IOException n) {
-						n.printStackTrace();
-					}
+		try (BufferedWriter bw = new BufferedWriter(new PrintWriter(buttonscsv))) {
+			/* loop though values in the file list */
+			for (int i = 0; i < 6; i++) {
+				/* Write pos. i in fileList to the .csv */
+				bw.write(buttonInfo.get(i));
+				bw.newLine();
+			}
+		} catch (IOException n) {
+			n.printStackTrace();
+		}
 	}
 
 	/*
