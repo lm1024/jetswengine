@@ -43,13 +43,11 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -61,9 +59,9 @@ import Data.Slideshow;
 import XML.ImprovedXMLReader;
 
 /**
- * @author Ashleyna Foo Inn Peng
  * @author Jake Feasey
- * @version 1.0 19/02/2015
+ * @author Ashleyna Foo Inn Peng
+ * @version 2.0 24/05/2015
  * 
  */
 public class GUI extends Application {
@@ -98,21 +96,20 @@ public class GUI extends Application {
 	/* Scenes and layouts etc. */
 	private Scene settingsScene;
 	private Scene mainScene;
-	private GridPane slidePane;
 	private Stage stageRef;
 
 	/* slideshow test */
-	private int slideNo = 0;
-	private Label lbl;
-
+	/*private int slideNo = 0;
+	private GridPane slidePane;*/
+	
 	/* files to store prev. presentation data */
 	private File xmlFiles = new File("resources/files.csv");
 	private File buttonscsv = new File("resources/buttons.csv");
 
 	/* Screen select data */
 	private int numScreens = Screen.getScreens().size();
-	private final Rectangle2D primeBounds = Screen.getPrimary().getBounds();
-	private Rectangle2D bounds = primeBounds;
+	private final Rectangle2D primaryBounds = Screen.getPrimary().getBounds();
+	private Rectangle2D bounds = primaryBounds;
 	private double windowWidth;
 	private double windowHeight;
 
@@ -161,8 +158,8 @@ public class GUI extends Application {
 		primaryStage.setTitle("SmartSlides");
 
 		/* set size of window */
-		windowWidth = primeBounds.getWidth() * 0.6;
-		windowHeight = primeBounds.getHeight() * 0.6;
+		windowWidth = primaryBounds.getWidth() * 0.6;
+		windowHeight = primaryBounds.getHeight() * 0.5;
 		primaryStage.setWidth(windowWidth);
 		primaryStage.setHeight(windowHeight);
 
@@ -230,44 +227,6 @@ public class GUI extends Application {
 
 			/* Switch statement for multiple buttons using their IDs */
 			switch (buttonPressed.getId()) {
-
-			/* If any open button is pressed */
-			case "0":
-			case "1":
-			case "2":
-			case "3":
-			case "4":
-			case "5":
-				Slideshow currentSlideshow1 = null;
-				/* Get ID of button as an int */
-				int i = Integer.parseInt(buttonPressed.getId());
-				System.out.println("Open pres. " + i);
-				/* open file at appropriate position in fileList */
-				outputFile = fileList.get(i);
-				System.out.println(outputFile);
-
-				if (outputFile != null) {
-					try {
-						currentSlideshow1 = new ImprovedXMLReader(outputFile)
-								.getSlideshow();
-					} catch (IOException e1) {
-
-					}
-					if (currentSlideshow1 != null) {
-						/* Only build if there is a slideshow */
-						buildSlides();
-
-					} else {
-						/* Display error scene */
-						dispError();
-
-						System.out.println("Null slideshow");
-					}
-					break;
-				} else {
-					/* Display the error message */
-					dispError();
-				}
 
 			case "clr":
 				/* Clear text area */
@@ -392,7 +351,7 @@ public class GUI extends Application {
 	 * private class so that key press Events can be handled for the text boxes
 	 * 
 	 */
-	private class keyPressedHandler implements EventHandler<KeyEvent> {
+	/*private class keyPressedHandler implements EventHandler<KeyEvent> {
 
 		@Override
 		public void handle(KeyEvent e) {
@@ -428,10 +387,9 @@ public class GUI extends Application {
 					System.out.println("blank");
 					break;
 				}
-				lbl.setText(String.valueOf(slideNo));
 			}
 		}
-	}
+	}*/
 
 	/**
 	 * 
@@ -440,19 +398,59 @@ public class GUI extends Application {
 	 */
 	private class mouseClickHandler implements EventHandler<MouseEvent> {
 
+		/**
+		 * TODO build slideshow now taken out
+		 */
 		public void handle(MouseEvent e) {
-			/* ID which side of the screen is clicked on */
-			if (e.getX() > (slidePane.getWidth()) * 0.5) {
-				/* Change the value of slideNo accordingly */
-				slideNo++;
-			} else {
-				if (slideNo > 0) {
-					slideNo--;
-				}
-			}
 
-			/* update the text in label */
-			lbl.setText(String.valueOf(slideNo));
+			Button btn = (Button) e.getSource();
+
+			System.out.println(btn.getId() + " pressed with " + e.getButton());
+
+			/* if selected with the left mouse button */
+			if (e.getButton().equals(MouseButton.PRIMARY)) {
+				switch (btn.getId()) {
+
+				/* If any open button is pressed */
+				case "0":
+				case "1":
+				case "2":
+				case "3":
+				case "4":
+				case "5":
+					Slideshow currentSlideshow1 = null;
+					/* Get ID of button as an int */
+					int i = Integer.parseInt(btn.getId());
+					System.out.println("Open pres. " + i);
+					/* open file at appropriate position in fileList */
+					outputFile = fileList.get(i);
+					System.out.println(outputFile);
+
+					if (outputFile != null) {
+						try {
+							currentSlideshow1 = new ImprovedXMLReader(
+									outputFile).getSlideshow();
+						} catch (IOException e1) {
+
+						}
+						if (currentSlideshow1 != null) {
+							/* Build slideshow */
+						} else {
+							/* Display error scene */
+							dispError();
+
+							System.out.println("Null slideshow");
+						}
+						break;
+					} else {
+						/* Display the error message */
+						dispError();
+					}
+				}
+				/* if selected with the right mouse button */
+			} else if (e.getButton().equals(MouseButton.SECONDARY)) {
+				buildInfo(btn.getId());
+			}
 		}
 	}
 
@@ -605,10 +603,13 @@ public class GUI extends Application {
 				home.setDisable(true);
 				buildmain();
 				break;
+				
+			case "Minimise":
+				stageRef.setIconified(true);
+				break;
 
 			case "Exit":
 				System.exit(0);
-
 				break;
 
 			case "Open":
@@ -736,12 +737,13 @@ public class GUI extends Application {
 
 			case "Website":
 				try {
-		            Desktop.getDesktop().browse(new URI("http://www.smartslides.com"));
-		        } catch (IOException e1) {
-		            e1.printStackTrace();
-		        } catch (URISyntaxException e1) {
-		            e1.printStackTrace();
-		        }
+					Desktop.getDesktop().browse(
+							new URI("http://www.smartslides.com"));
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				} catch (URISyntaxException e1) {
+					e1.printStackTrace();
+				}
 
 				break;
 			}
@@ -767,10 +769,12 @@ public class GUI extends Application {
 		/* Create items for file */
 		MenuItem openFile = new MenuItem("Open");
 		home = new MenuItem("Home");
-		MenuItem exit = new MenuItem("Exit");
 		home.setDisable(true);
+		
+		MenuItem min = new MenuItem("Minimise");
+		MenuItem exit = new MenuItem("Exit");
 		/* add items to File */
-		menuFile.getItems().addAll(openFile, home, exit);
+		menuFile.getItems().addAll(openFile, home, min, exit);
 
 		/* Settings section */
 		Menu menuSettings = new Menu("Settings");
@@ -856,7 +860,7 @@ public class GUI extends Application {
 		GridPane grid = new GridPane();
 
 		/* create a gridpane layout */
-		grid.setVgap(5);
+		grid.setVgap(primaryBounds.getWidth() / 100);
 		grid.setAlignment(Pos.TOP_CENTER); // alignment on screen
 		// grid.setGridLinesVisible(true);
 		grid.getColumnConstraints().addAll(
@@ -892,7 +896,7 @@ public class GUI extends Application {
 
 		for (int y = 0; y < 2; y++) {
 			for (int x = 0; x < 3; x++) {
-				buttons[x][y] = makeButton(
+				buttons[x][y] = makeMainButton(
 						buttonInfo.get(i).replace(",", "\n"), "lightButton",
 						true, String.valueOf(i));
 				buttons[x][y].setFont(Font.loadFont(
@@ -919,19 +923,15 @@ public class GUI extends Application {
 		/* Create gridpane in which to put objects */
 		GridPane settingsGrid = new GridPane();
 
-		/* creates a stackpane to add the grid in for resizable option */
-		StackPane settingsrootpane = new StackPane();
-		settingsrootpane.getChildren().add(settingsGrid);
-
 		// creates a scene within the stage of pixel size x by y
-		settingsScene = new Scene(settingsrootpane, stageRef.getWidth(),
+		settingsScene = new Scene(settingsGrid, stageRef.getWidth(),
 				stageRef.getHeight());
 		settingsScene.getStylesheets().add("file:resources/styles/style1.css");
 
 		/* Set the layout as settingsGridpane */
 		settingsGrid.setAlignment(Pos.TOP_CENTER);
-		settingsGrid.setHgap(5);
-		settingsGrid.setVgap(5);
+		settingsGrid.setHgap(primaryBounds.getHeight() / 100);
+		settingsGrid.setVgap(primaryBounds.getWidth() / 100);
 		settingsGrid.setGridLinesVisible(true);
 		/* each column to be a third of the page */
 		settingsGrid.getColumnConstraints().addAll(
@@ -994,7 +994,7 @@ public class GUI extends Application {
 		blankBox.getChildren().addAll(blankOptionsBox, allBox);
 		settingsGrid.add(blankBox, 0, 3);
 
-		Button back = makeButton("Back", "lightButton", true, "home");
+		Button back = makeSettingButton("Back", "lightButton", true, "home");
 		settingsGrid.add(back, 0, 4);
 
 		/*
@@ -1010,8 +1010,10 @@ public class GUI extends Application {
 		userField.setStyle("-fx-font-size:" + 10);
 
 		/* Add buttons and add to a box */
-		Button userSubmit = makeButton("Submit", "darkButton", true, "submit");
-		Button userClr = makeButton("Clear", "darkButton", true, "userClr");
+		Button userSubmit = makeSettingButton("Submit", "darkButton", true,
+				"submit");
+		Button userClr = makeSettingButton("Clear", "darkButton", true,
+				"userClr");
 
 		/* Hbox for username Buttons */
 		HBox userButtons = makeHBox("clearBox", Pos.CENTER, 10);
@@ -1023,7 +1025,7 @@ public class GUI extends Application {
 		settingsGrid.add(userBox, 1, 2);
 
 		/* Clear History button */
-		Button histClear = makeButton("Clear Presentation History",
+		Button histClear = makeSettingButton("Clear Presentation History",
 				"lightButton", true, "histClear");
 		VBox clearBox = makeVBox("clearBox", Pos.CENTER, 5);// box for button
 		clearBox.getChildren().add(histClear);// add button
@@ -1071,25 +1073,29 @@ public class GUI extends Application {
 	 * and will be replaced when interface is integrated.
 	 */
 
-	private void buildSlides() {
+	private void buildInfo(String btnId) {
 
-		slideNo = 0;
-		Stage slideStage = new Stage();
-		slideStage.setTitle("SmartSlides");
-		slidePane = new GridPane();
-		slidePane.setAlignment(Pos.CENTER);// set to center of screen
-		Scene slides = new Scene(slidePane);
+		/* Create stage and give it a title */
+		Stage infoStage = new Stage();
+		infoStage.setTitle("SmartSlides");
+
+		/* Create pane */
+		GridPane infoGrid = new GridPane();
+		infoGrid.setAlignment(Pos.CENTER);// set to center of screen
+
+		/* make a scene and add infoGrid */
+		Scene infoScene = new Scene(infoGrid);
 
 		/* Make and add a label */
-		lbl = makeLabel("Slide", 1, "#313131");
-		slidePane.add(lbl, 0, 0);
+		Label lbl = makeLabel("More info on slideshow", 1, "#313131");
+		infoGrid.add(lbl, 0, 0);
+		
 
-		slideStage.setScene(slides);
-		slideStage.setFullScreen(true);
+		infoStage.setScene(infoScene);
 
-		slides.setOnMouseClicked(new mouseClickHandler());
-		slides.setOnKeyReleased(new keyPressedHandler());
-		slideStage.show();
+		infoGrid.setOnMouseClicked(new mouseClickHandler());
+		
+		infoStage.show();
 
 	}
 
@@ -1182,7 +1188,42 @@ public class GUI extends Application {
 		return cb;
 	}
 
-	/** Utility function for adding button */
+	/** Utility function to make button with eventHandler */
+	private Button makeSettingButton(String buttonText, String styleClass,
+			boolean hover, String id) {
+
+		Button btn = makeButton(buttonText, styleClass, hover, id);
+
+		/* Add an event handler for button presses */
+		btn.setOnAction(new buttonEventHandler());
+
+		return btn;
+	}
+
+	/** Utility function to make button with mouseclickhandler */
+	private Button makeMainButton(String buttonText, String styleClass,
+			boolean hover, String id) {
+
+		Button btn = makeButton(buttonText, styleClass, hover, id);
+
+		/* Add an event handler for button presses */
+		btn.setOnMouseClicked(new mouseClickHandler());
+
+		return btn;
+	}
+
+	/** Utility function to make a button with an image and label */
+	private Button makeButton(String buttonText, String styleClass,
+			boolean hover, String id, String file, double size) {
+		/* Make a button and an ImageView using utilities */
+		ImageView image = makeImageView(file, size, 0);
+		Button btn = makeSettingButton(buttonText, styleClass, hover, id);
+		btn.setGraphic(image);// add image to button
+		btn.setContentDisplay(ContentDisplay.TOP);// put image at the top
+		return btn;
+	}
+
+	/** Utility function for making a button */
 	private Button makeButton(String buttonText, String styleClass,
 			boolean hover, String id) {
 
@@ -1198,24 +1239,10 @@ public class GUI extends Application {
 			btn.setOnMouseEntered(new hoverHandler());
 			btn.setOnMouseExited(new hoverHandler());
 		}
-		/* Add an event handler for button presses */
-		btn.setOnAction(new buttonEventHandler());
 
+		/* make the text wrap */
 		btn.wrapTextProperty().setValue(true);
 
-		return btn;
-	}
-
-	/**
-	 * Utility function to make a button with an image and label
-	 */
-	private Button makeButton(String buttonText, String styleClass,
-			boolean hover, String id, String file, double size) {
-		/* Make a button and an ImageView using utilities */
-		ImageView image = makeImageView(file, size, 0);
-		Button btn = makeButton(buttonText, styleClass, hover, id);
-		btn.setGraphic(image);// add image to button
-		btn.setContentDisplay(ContentDisplay.TOP);// put image at the top
 		return btn;
 	}
 
