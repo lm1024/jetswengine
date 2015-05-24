@@ -36,6 +36,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.RadioMenuItem;
+import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
@@ -99,9 +100,10 @@ public class GUI extends Application {
 	private Stage stageRef;
 
 	/* slideshow test */
-	/*private int slideNo = 0;
-	private GridPane slidePane;*/
-	
+	/*
+	 * private int slideNo = 0; private GridPane slidePane;
+	 */
+
 	/* files to store prev. presentation data */
 	private File xmlFiles = new File("resources/files.csv");
 	private File buttonscsv = new File("resources/buttons.csv");
@@ -351,45 +353,21 @@ public class GUI extends Application {
 	 * private class so that key press Events can be handled for the text boxes
 	 * 
 	 */
-	/*private class keyPressedHandler implements EventHandler<KeyEvent> {
-
-		@Override
-		public void handle(KeyEvent e) {
-			Object key = e.getCode();
-
-			if (key.equals(KeyCode.ENTER)) {
-				if (e.getSource().equals(userField)) {
-					System.out.println("User name is: " + userField.getText());
-				} else if (e.getSource().equals(ta)) {
-					bannedWords = ta.getText().split(", ");
-					if (!bannedWords[0].isEmpty()) {
-						for (String string : bannedWords) {
-							System.out.println(string);
-						}
-					}
-				}
-			} else if (e.getClass().equals(slidePane)) {
-				switch (key.toString()) {
-				case "RIGHT":
-				case "SPACE":
-					System.out.println("right");
-					slideNo++;
-					break;
-				case "LEFT":
-					if (slideNo > 0) {
-						slideNo--;
-					}
-					break;
-				case "B":
-				case "W":
-				case "DOWN":
-				case "UP":
-					System.out.println("blank");
-					break;
-				}
-			}
-		}
-	}*/
+	/*
+	 * private class keyPressedHandler implements EventHandler<KeyEvent> {
+	 * 
+	 * @Override public void handle(KeyEvent e) { Object key = e.getCode();
+	 * 
+	 * if (key.equals(KeyCode.ENTER)) { if (e.getSource().equals(userField)) {
+	 * System.out.println("User name is: " + userField.getText()); } else if
+	 * (e.getSource().equals(ta)) { bannedWords = ta.getText().split(", "); if
+	 * (!bannedWords[0].isEmpty()) { for (String string : bannedWords) {
+	 * System.out.println(string); } } } } else if
+	 * (e.getClass().equals(slidePane)) { switch (key.toString()) { case
+	 * "RIGHT": case "SPACE": System.out.println("right"); slideNo++; break;
+	 * case "LEFT": if (slideNo > 0) { slideNo--; } break; case "B": case "W":
+	 * case "DOWN": case "UP": System.out.println("blank"); break; } } } }
+	 */
 
 	/**
 	 * 
@@ -603,7 +581,7 @@ public class GUI extends Application {
 				home.setDisable(true);
 				buildmain();
 				break;
-				
+
 			case "Minimise":
 				stageRef.setIconified(true);
 				break;
@@ -770,11 +748,12 @@ public class GUI extends Application {
 		MenuItem openFile = new MenuItem("Open");
 		home = new MenuItem("Home");
 		home.setDisable(true);
-		
+
 		MenuItem min = new MenuItem("Minimise");
 		MenuItem exit = new MenuItem("Exit");
 		/* add items to File */
-		menuFile.getItems().addAll(openFile, home, min, exit);
+		menuFile.getItems().addAll(openFile, new SeparatorMenuItem(), home,
+				new SeparatorMenuItem(), min, exit);
 
 		/* Settings section */
 		Menu menuSettings = new Menu("Settings");
@@ -825,7 +804,7 @@ public class GUI extends Application {
 
 		/* add items to settings */
 		menuSettings.getItems().addAll(onBlank, screenSelect, autoNext,
-				settings);
+				new SeparatorMenuItem(), settings);
 
 		/* help section */
 		Menu menuHelp = new Menu("Help");
@@ -836,7 +815,8 @@ public class GUI extends Application {
 		MenuItem website = new MenuItem("Website");
 
 		/* add items to help */
-		menuHelp.getItems().addAll(qanda, help, website);
+		menuHelp.getItems().addAll(qanda, help, new SeparatorMenuItem(),
+				website);
 
 		/* Action Listener to each Menu */
 		menuFile.setOnAction(new menuHandler());
@@ -1089,12 +1069,11 @@ public class GUI extends Application {
 		/* Make and add a label */
 		Label lbl = makeLabel("More info on slideshow", 1, "#313131");
 		infoGrid.add(lbl, 0, 0);
-		
 
 		infoStage.setScene(infoScene);
 
 		infoGrid.setOnMouseClicked(new mouseClickHandler());
-		
+
 		infoStage.show();
 
 	}
