@@ -262,11 +262,13 @@ public class GUI extends Application {
 				break;
 
 			case "histClear":
-				/* clear presentation history */
+				/* change buttonInfo and fileList */
 				for (int n = 0; n < 6; n++) {
 					buttonInfo.set(n, "Author,Version,Comment,File");
 					fileList.set(n, "No File");
 				}
+				/*update the CSV's*/
+				updateCSV(); 
 				break;
 
 			default:
@@ -663,30 +665,7 @@ public class GUI extends Application {
 							+ "," + currentSlideshow.getInfo().getComment() // comment
 							+ "," + file.getName()); // file name
 
-					/* rewrite csv files */
-					try (BufferedWriter bw = new BufferedWriter(
-							new PrintWriter(xmlFiles))) {
-						/* loop though values in the file list */
-						for (int i = 0; i < 6; i++) {
-							/* Write pos. i in fileList to the .csv */
-							bw.write(fileList.get(i));
-							bw.newLine();
-						}
-					} catch (IOException n) {
-						n.printStackTrace();
-					}
-
-					try (BufferedWriter bw = new BufferedWriter(
-							new PrintWriter(buttonscsv))) {
-						/* loop though values in the file list */
-						for (int i = 0; i < 6; i++) {
-							/* Write pos. i in fileList to the .csv */
-							bw.write(buttonInfo.get(i));
-							bw.newLine();
-						}
-					} catch (IOException n) {
-						n.printStackTrace();
-					}
+					updateCSV();
 
 					buildmain();// rebuild the main screen
 
@@ -1120,6 +1099,37 @@ public class GUI extends Application {
 
 		errorStage.show();
 
+	}
+	
+	/**
+	 * Method to update the CSV's holding recent presentation info 
+	 */
+	private void updateCSV(){
+
+		/* rewrite csv files */
+					try (BufferedWriter bw = new BufferedWriter(
+							new PrintWriter(xmlFiles))) {
+						/* loop though values in the file list */
+						for (int i = 0; i < 6; i++) {
+							/* Write pos. i in fileList to the .csv */
+							bw.write(fileList.get(i));
+							bw.newLine();
+						}
+					} catch (IOException n) {
+						n.printStackTrace();
+					}
+
+					try (BufferedWriter bw = new BufferedWriter(
+							new PrintWriter(buttonscsv))) {
+						/* loop though values in the file list */
+						for (int i = 0; i < 6; i++) {
+							/* Write pos. i in fileList to the .csv */
+							bw.write(buttonInfo.get(i));
+							bw.newLine();
+						}
+					} catch (IOException n) {
+						n.printStackTrace();
+					}
 	}
 
 	/*
