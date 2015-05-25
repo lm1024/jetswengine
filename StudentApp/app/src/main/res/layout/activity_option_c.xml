@@ -6,11 +6,12 @@
     tools:context="com.wavemedia.studentapp.OptionC">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:text="@string/chosen_option_c"
-        android:textSize="90sp"/>
+        android:textSize="30sp"
+        android:gravity="center_vertical|center_horizontal" />
 
 
 </LinearLayout>

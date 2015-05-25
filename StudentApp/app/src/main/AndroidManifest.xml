@@ -10,7 +10,8 @@
         <activity
             android:name=".QuestionActivity"
             android:label="@string/app_name"
-            android:parentActivityName=".Open">
+            android:parentActivityName=".Open"
+            android:screenOrientation="sensorPortrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.wavemedia.studentapp.Open" />
@@ -18,7 +19,8 @@
         <activity
             android:name=".OptionA"
             android:label="@string/title_activity_option"
-            android:parentActivityName=".QuestionActivity" >
+            android:parentActivityName=".QuestionActivity"
+            android:screenOrientation="sensorPortrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.wavemedia.studentapp.QuestionActivity" />
@@ -26,7 +28,8 @@
         <activity
             android:name=".OptionB"
             android:label="@string/title_activity_option_b"
-            android:parentActivityName=".QuestionActivity" >
+            android:parentActivityName=".QuestionActivity"
+            android:screenOrientation="sensorPortrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.wavemedia.studentapp.QuestionActivity" />
@@ -34,7 +37,8 @@
         <activity
             android:name=".OptionC"
             android:label="@string/title_activity_option_c"
-            android:parentActivityName=".QuestionActivity" >
+            android:parentActivityName=".QuestionActivity"
+            android:screenOrientation="sensorPortrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.wavemedia.studentapp.QuestionActivity" />
@@ -42,14 +46,16 @@
         <activity
             android:name=".OptionD"
             android:label="@string/title_activity_option_d"
-            android:parentActivityName=".QuestionActivity" >
+            android:parentActivityName=".QuestionActivity"
+            android:screenOrientation="sensorPortrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.wavemedia.studentapp.QuestionActivity" />
         </activity>
         <activity
             android:name=".Open"
-            android:label="@string/title_activity_open" >
+            android:label="@string/title_activity_open"
+            android:screenOrientation="sensorPortrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
