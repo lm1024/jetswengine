@@ -32,6 +32,9 @@ public class QuestionActivity extends ActionBarActivity {
 
     TextView receivedMessagesTextView;
 
+    String siteIP;
+    String hexCode;
+
     private int serverPort;
     private String serverIP;
     private String localIP;
@@ -185,7 +188,48 @@ public class QuestionActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent = getIntent();
+        String[] sites = getResources().getStringArray(R.array.site_array);
+        siteIP = intent.getStringExtra(Open.SITE_IP);
+        hexCode = intent.getStringExtra(Open.HEX_CODE);
+        System.err.println(siteIP + sites[0]);
+        if (siteIP.equals(sites[0])) {
+           serverIP = "144.32";
+        } else {
+            System.err.println("No site selected");
+            serverIP = "0.0";}
+
+
+        serverIP += "." + getHexCodeIP(hexCode);
+        System.err.println(serverIP);
+        serverPort = 80;
         setContentView(R.layout.activity_question);
+    }
+
+    public String getHexCodeIP(String hexCode) {
+        String[] hex;
+        String hexCodeIP;
+        hex = hexCode.split("");
+        String hexString1 = hex[0] + hex[1];
+        String hexString2 = hex[3] + hex[4];
+        int hexCodeIPString1 = hex2decimal(hexString1);
+        int hexCodeIPString2 = hex2decimal(hexString2);
+        hexCodeIP =  Integer.toString(hexCodeIPString1);
+        hexCodeIP += "." + Integer.toString(hexCodeIPString2);
+        System.out.println(hexCodeIP);
+        return hexCodeIP;
+    }
+
+    public static int hex2decimal(String s) {
+        String digits = "0123456789ABCDEF";
+        s = s.toUpperCase();
+        int val = 0;
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            int d = digits.indexOf(c);
+            val = 16*val + d;
+        }
+        return val;
     }
 
 
@@ -212,9 +256,7 @@ public class QuestionActivity extends ActionBarActivity {
     }
 
     public void sendOption() {
-        //Set-Up Connection
-        serverIP = "192.168.1.93";
-        serverPort = 80;
+        // Network
         networkingThread = new Thread(new NetworkingThread(this));
         networkingThread.start();
         // Send Option

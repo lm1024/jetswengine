@@ -15,12 +15,11 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.wavemedia.studentapp.QuestionActivity"
-            android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:label="@string/app_name"
+            android:parentActivityName="com.wavemedia.studentapp.Open" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.wavemedia.studentapp.Open" />
         </activity>
         <activity
             android:name="com.wavemedia.studentapp.OptionA"
@@ -53,6 +52,15 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.wavemedia.studentapp.QuestionActivity" />
+        </activity>
+        <activity
+            android:name="com.wavemedia.studentapp.Open"
+            android:label="@string/title_activity_open" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

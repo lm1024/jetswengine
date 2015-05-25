@@ -17,5 +17,8 @@
     <string name="title_activity_option_c">OptionC</string>
     <string name="title_activity_option_d">OptionD</string>
     <string name="title_activity_intro">IntroActivity</string>
+    <string name="title_activity_open">Open</string>
+    <string name="hex_code">Hex Code:</string>
+    <string name="connect">Connect</string>
 
 </resources>
