@@ -1,3 +1,4 @@
+/** (c) Copyright by WaveMedia. */
 package runtime;
 
 import java.awt.Dimension;
@@ -23,10 +24,18 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import renderer.SlideRenderer;
+import Data.Question;
 import Data.Slide;
 import Data.SlideItem;
 import Data.Slideshow;
 
+/**
+ * Class for controlling the current slideshow being displayed. Handles all
+ * mouse and keyboard events, as well as slide and slide item level timing.
+ * 
+ * @author tjd511
+ * @version 1.0 21/04/2015
+ */
 public class SlideshowRuntimeData {
 
 	/* Variables for keeping track of the current slideshow and current slide. */
@@ -67,6 +76,15 @@ public class SlideshowRuntimeData {
 	/* Boolean for if the question/answer data should be logged on shutdown. */
 	private boolean logQuestionData;
 
+	/* Boolean for if the spontaneous question answers should be logged. */
+	private boolean logOTSQuestionData;
+
+	/*
+	 * ArrayList for keeping track of the questions that have been created
+	 * dynamically.
+	 */
+	private ArrayList<Question> dynamicQuestionList = new ArrayList<Question>();
+
 	/**
 	 * Constructor for the runtime class.
 	 * 
@@ -75,7 +93,7 @@ public class SlideshowRuntimeData {
 	 * @param xPos
 	 *            the upper left x position of the slideshow.
 	 * @param yPos
-	 *            the uppder left y position of the slideshow.
+	 *            the upper left y position of the slideshow.
 	 * @param logQuestionData
 	 *            boolean containing if the question data should be logged or
 	 *            not.
@@ -83,7 +101,7 @@ public class SlideshowRuntimeData {
 	public SlideshowRuntimeData(Slideshow slideshow, double xPos, double yPos, boolean logQuestionData) {
 		/*
 		 * Sets the current slideshow and the aspect ratio of both of the
-		 * dimentions of the slideshow
+		 * dimensions of the slideshow
 		 */
 		this.slideshow = slideshow;
 		this.currentXAspectRatio = slideshow.getDefaults().getxAspectRatio();
@@ -119,10 +137,7 @@ public class SlideshowRuntimeData {
 		/* Updates the screen boundaries for the first time. */
 		updateScreenBoundaries();
 
-		/*
-		 * Set the mouse click handler. Handles the clicking to move screen, and
-		 * the right click menu. TODO this commment
-		 */
+		/* Set the mouse click handler. */
 		scene.setOnMouseClicked(new MouseClickHandler());
 
 		/*
@@ -161,7 +176,7 @@ public class SlideshowRuntimeData {
 		double sceneHeight = secondaryStage.getScene().getHeight();
 		double sceneWidth = secondaryStage.getScene().getWidth();
 
-		/* Declares the slide dimention variables. */
+		/* Declares the slide dimension variables. */
 		double xSlideStart;
 		double ySlideStart;
 		double slideWidth;
@@ -200,10 +215,10 @@ public class SlideshowRuntimeData {
 		/* Pass the current slide to the renderer to be drawn. */
 		slideRenderer.drawSlide(currentSlide);
 
-		/* Build the schedular list of timing events for this slide. */
+		/* Build the scheduler list of timing events for this slide. */
 		buildTimingList();
 
-		/* Start the schedular if the timing list isn't empty. */
+		/* Start the scheduler if the timing list isn't empty. */
 		if (!timingList.isEmpty()) {
 			scheduleNextUpdate();
 		}
@@ -252,14 +267,14 @@ public class SlideshowRuntimeData {
 	 */
 	private void scheduleNextUpdate() {
 		/*
-		 * Add a new update to the schedular at the time of the next update -
+		 * Add a new update to the scheduler at the time of the next update -
 		 * the time of the last event (which is the time when this method is
 		 * called.
 		 */
 		nextUpdate = scheduler.schedule(new Runnable() {
 			@Override
 			public void run() {
-				/* Hide/show all the relevent elements that need to be changed. */
+				/* Hide/show all the relevant elements that need to be changed. */
 				slideRenderer.updateSlide(timingList.get(0));
 
 				/* Store the last event time before removing it from the list. */
@@ -391,6 +406,43 @@ public class SlideshowRuntimeData {
 					}
 					/* Reset the string */
 					numberInput = "";
+					break;
+				case Q:
+					/* Dynamically create a question slide. */
+					slideRenderer.clear();
+					int questionNumber = 0;
+
+					/*
+					 * If the list exists, the question number is related to the
+					 * size of the list.
+					 */
+					if (dynamicQuestionList != null) {
+						questionNumber = dynamicQuestionList.size();
+					}
+
+					/* Create a new question. */
+					Question dynamicQuestion = new Question(
+						"Dynamic Question No. " + Integer.toString(questionNumber + 1),
+						"dynamicQ " + Integer.toString(questionNumber + 1));
+
+					/* Add the number of answers */
+					for (int i = 0; i < 4; i++) {
+						dynamicQuestion.addAnswer(Integer.toString(i), true);
+					}
+
+					/* TODO add to the comms handler. */
+
+					/* Pause for answers to be collected. */
+
+					dynamicQuestion.increaseAnswerCount(0);
+
+					/*
+					 * Build the answer slide, and add the question to the list
+					 * of questions created during this presentation.
+					 */
+					slideRenderer.buildAnswerSlide(dynamicQuestion);
+					dynamicQuestionList.add(dynamicQuestion);
+					break;
 				default:
 					break;
 				}
@@ -491,6 +543,12 @@ public class SlideshowRuntimeData {
 
 		if (logQuestionData) {
 			slideshow.saveQuestionData();
+		}
+
+		if (logOTSQuestionData) {
+			for (Question question : dynamicQuestionList) {
+				question.writeLogfile();
+			}
 		}
 	}
 
