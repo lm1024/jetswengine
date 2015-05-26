@@ -104,7 +104,7 @@ public class QuestionActivity extends ActionBarActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                receivedMessagesTextView.append(message);
+//                receivedMessagesTextView.append(message);
             }
         });
 
@@ -120,41 +120,24 @@ public class QuestionActivity extends ActionBarActivity {
 
         @Override
         public void run() {
-            ServerSocket listener = null;
-            try {
-                listener = new ServerSocket(serverPort);
-            } catch (Exception e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            }
             try {
                 try {
-                    try {
                         if(out == null) {
                             new SendingThread().run();
+                            System.out.println("Check 2");
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
                         try {
                             socket.close();
+                            System.out.println("Check 3");
                         } catch (IOException e1) {
                             e1.printStackTrace();
                         }
                     }
-                    if(listener == null) {
-                        System.err.println("listener is null");
-                    } else {
-                        System.err.println("listener isnt null");
-                    }
-                    receivingThread = new ReceivingThread(listener.accept(), parent);
-                    receivingThread.start();
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
             } finally {
                 try {
-                    listener.close();
+                    //listener.close();
                 } catch (Exception e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -172,10 +155,15 @@ public class QuestionActivity extends ActionBarActivity {
 
             try {
                 InetAddress serverAddr = InetAddress.getByName(serverIP);
+                //socket = new Socket(serverAddr, serverPort);
+                System.err.println("WM: Creating socket");
                 socket = new Socket(serverAddr, serverPort);
+                System.err.println("WM: Creating output");
                 out = new PrintWriter(socket.getOutputStream(), true);
+                System.err.println("WM: sending IP");
                 //out.println(localIP);
             } catch (Exception e) {
+                System.err.println("WM: shits fucked");
                 clientErrorOccured = true;
                 e.printStackTrace();
             }
@@ -192,8 +180,9 @@ public class QuestionActivity extends ActionBarActivity {
         String[] sites = getResources().getStringArray(R.array.site_array);
         siteIP = intent.getStringExtra(Open.SITE_IP);
         hexCode = intent.getStringExtra(Open.HEX_CODE);
+        localIP = getWifiIpAddress(this);
         System.err.println(siteIP + sites[0]);
-        if (siteIP.equals(sites[0])) {
+        if (siteIP.equals(sites[1])) {
            serverIP = "144.32";
         } else {
             System.err.println("No site selected");
@@ -203,20 +192,29 @@ public class QuestionActivity extends ActionBarActivity {
         serverIP += "." + getHexCodeIP(hexCode);
         System.err.println(serverIP);
         serverPort = 80;
+        // Hardcode Testing:
+        // serverIP = "144.32.152.101";
+        // Network
+        networkingThread = new Thread(new NetworkingThread(this));
+        networkingThread.start();
+        // Set Layout
         setContentView(R.layout.activity_question);
     }
 
     public String getHexCodeIP(String hexCode) {
         String[] hex;
         String hexCodeIP;
-        hex = hexCode.split("");
+        hex = hexCode.split("(?!^)");
         String hexString1 = hex[0] + hex[1];
-        String hexString2 = hex[3] + hex[4];
+        String hexString2 = hex[2] + hex[3];
         int hexCodeIPString1 = hex2decimal(hexString1);
+        System.out.println("WM IP: " + hexCode + " " + hex);
+        System.out.println("WM IP: " + hexString1 + " -> " + hexCodeIPString1);
         int hexCodeIPString2 = hex2decimal(hexString2);
+        System.out.println("WM IP: " + hexString2 + " -> " + hexCodeIPString2);
         hexCodeIP =  Integer.toString(hexCodeIPString1);
         hexCodeIP += "." + Integer.toString(hexCodeIPString2);
-        System.out.println(hexCodeIP);
+        System.out.println("WM IP: " + hexCodeIP);
         return hexCodeIP;
     }
 
@@ -256,14 +254,11 @@ public class QuestionActivity extends ActionBarActivity {
     }
 
     public void sendOption() {
-        // Network
-        networkingThread = new Thread(new NetworkingThread(this));
-        networkingThread.start();
         // Send Option
         if(out != null) {
             try {
-                out.println(message);
-                printToConsole("Sent: \"" + message + "\"\n");
+                out.println(localIP + ":" + message);
+                //printToConsole("Sent: \"" + message + "\"\n");
             } catch (Exception e) {
                 e.printStackTrace();
                 try {
@@ -283,7 +278,7 @@ public class QuestionActivity extends ActionBarActivity {
         sendOption();
         // Generate Intent. All new Activities are linked to old ones by Intent. "Provides Runtime Bindings"
         Intent intent = new Intent(this, OptionA.class);
-        startActivity(intent);
+        //startActivity(intent);
     }
 
     /** Called when User clicks the B Option */
@@ -293,7 +288,7 @@ public class QuestionActivity extends ActionBarActivity {
         sendOption();
         // Generate Intent. All new Activities are linked to old ones by Intent. "Provides Runtime Bindings"
         Intent intent = new Intent(this, OptionB.class);
-        startActivity(intent);
+        //startActivity(intent);
     }
 
     /** Called when User clicks the C Option */
@@ -303,7 +298,7 @@ public class QuestionActivity extends ActionBarActivity {
         sendOption();
         // Generate Intent. All new Activities are linked to old ones by Intent. "Provides Runtime Bindings"
         Intent intent = new Intent(this, OptionC.class);
-        startActivity(intent);
+        //startActivity(intent);
     }
 
     /** Called when User clicks the D Option */
@@ -313,6 +308,6 @@ public class QuestionActivity extends ActionBarActivity {
         sendOption();
         // Generate Intent. All new Activities are linked to old ones by Intent. "Provides Runtime Bindings"
         Intent intent = new Intent(this, OptionD.class);
-        startActivity(intent);
+        //startActivity(intent);
     }
 }

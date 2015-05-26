@@ -13,7 +13,7 @@ import android.widget.TextView;
  */
 public class CustomOnItemSelectedListener extends Activity implements AdapterView.OnItemSelectedListener {
     TextView selectedView;
-    String selectedValue = "University Of York";
+    String selectedValue = "Select An Institution";
 
     public String getSelectedValue(){
         return selectedValue;
@@ -30,4 +30,6 @@ public class CustomOnItemSelectedListener extends Activity implements AdapterVie
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
+
+
 }

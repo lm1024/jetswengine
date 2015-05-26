@@ -2,8 +2,8 @@
 <resources>
 
     <string-array name="site_array">
+        <item>Select An Institution</item>
         <item>University Of York</item>
-        <item>These</item>
         <item>Values</item>
         <item>Are</item>
         <item>Stored</item>
@@ -11,14 +11,14 @@
         <item>arrays</item>
         <item>.xml</item>
     </string-array>
-    <string-array name="site_array_code">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-        <item>6</item>
-        <item>7</item>
-        <item>8</item>
+    <string-array name="ip_array">
+        <item>0.0</item>
+        <item>144.32</item>
+        <item>Values</item>
+        <item>Are</item>
+        <item>Stored</item>
+        <item>In</item>
+        <item>arrays</item>
+        <item>.xml</item>
     </string-array>
 </resources>

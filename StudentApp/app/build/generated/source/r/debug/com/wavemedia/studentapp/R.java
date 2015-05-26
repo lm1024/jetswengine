@@ -17,8 +17,8 @@ public final class R {
         public static final int abc_slide_out_top=0x7f040005;
     }
     public static final class array {
-        public static final int site_array=0x7f050000;
-        public static final int site_array_code=0x7f050001;
+        public static final int ip_array=0x7f050000;
+        public static final int site_array=0x7f050001;
     }
     public static final class attr {
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
@@ -1325,9 +1325,9 @@ containing a value of this type.
         public static final int activity_chooser_view_content=0x7f090021;
         public static final int always=0x7f090016;
         public static final int beginning=0x7f090013;
-        public static final int button=0x7f090043;
         public static final int checkbox=0x7f090029;
         public static final int collapseActionView=0x7f090017;
+        public static final int connectbutton=0x7f090043;
         public static final int decor_content_parent=0x7f09002f;
         public static final int default_activity_button=0x7f090024;
         public static final int dialog=0x7f09001b;

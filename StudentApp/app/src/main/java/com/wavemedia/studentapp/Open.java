@@ -1,12 +1,16 @@
 package com.wavemedia.studentapp;
 
+
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
@@ -17,8 +21,10 @@ public class Open extends ActionBarActivity {
     public final static String HEX_CODE = "com.wavemedia.studentapp.HEX_CODE";
     Spinner spinner;
     String site;
+    String[] sites;
     EditText hex;
     CustomOnItemSelectedListener customOnItemSelectedListener = new CustomOnItemSelectedListener();
+    Button connectButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +38,33 @@ public class Open extends ActionBarActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(customOnItemSelectedListener);
+
+        hex.addTextChangedListener(hexWatcher);
+        sites = getResources().getStringArray(R.array.site_array);
+        connectButton = (Button) findViewById(R.id.connectbutton);
+        connectButton.setEnabled(false);
     }
+
+    public TextWatcher hexWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (hex.getText().toString().matches("^([0-9a-fA-F]{4})$") && !(customOnItemSelectedListener.getSelectedValue().equals(sites[0]))) {
+                connectButton.setEnabled(true);
+            } else {
+                connectButton.setEnabled(false);
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -62,6 +94,7 @@ public class Open extends ActionBarActivity {
         Intent intent = new Intent(this,QuestionActivity.class);
         String hexCode = hex.getText().toString();
         hexCode = hexCode.toUpperCase();
+        System.out.println(hexCode);
         intent.putExtra(SITE_IP, site);
         intent.putExtra(HEX_CODE, hexCode);
         startActivity(intent);
