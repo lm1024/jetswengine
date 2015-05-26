@@ -159,10 +159,12 @@ public class GUI extends Application {
 
 		/* Set the title of the window */
 		primaryStage.setTitle("SmartSlides");
+		/*set icon of the window*/
+		primaryStage.getIcons().add(new Image("file:WM_logo_transparent.png"));
 
 		/* set size of window */
 		windowWidth = primaryBounds.getWidth() * 0.6;
-		windowHeight = primaryBounds.getHeight() * 0.5;
+		windowHeight = primaryBounds.getHeight() * 0.6;
 		primaryStage.setWidth(windowWidth);
 		primaryStage.setHeight(windowHeight);
 
@@ -265,7 +267,7 @@ public class GUI extends Application {
 			case "histClear":
 				/* change buttonInfo and fileList */
 				for (int n = 0; n < 6; n++) {
-					buttonInfo.set(n, "Author,Version,Comment,File");
+					buttonInfo.set(n, "No File, , , ");
 					fileList.set(n, "No File");
 				}
 				/* update the CSV's */
@@ -851,7 +853,7 @@ public class GUI extends Application {
 		/* create a gridpane layout */
 		grid.setVgap(primaryBounds.getWidth() / 100);
 		grid.setAlignment(Pos.TOP_CENTER); // alignment on screen
-		// grid.setGridLinesVisible(true);
+		grid.setGridLinesVisible(true);
 		grid.getColumnConstraints().addAll(
 				new ColumnConstraints(windowWidth / 3),
 				new ColumnConstraints(windowWidth / 3),
@@ -864,7 +866,7 @@ public class GUI extends Application {
 		grid.add(mainMenu, 0, 0, 3, 1);
 
 		HBox ssText = makeHBox("", Pos.CENTER, 5);
-		HBox wmLogo = makeHBox("", Pos.CENTER, 5);
+		HBox wmLogo = makeHBox("", Pos.CENTER_RIGHT, 5);
 
 		/* Company logo and product logo in column 1-3, row 1 */
 		ssText.getChildren().add(
@@ -919,7 +921,6 @@ public class GUI extends Application {
 
 		/* Set the layout as settingsGridpane */
 		settingsGrid.setAlignment(Pos.TOP_CENTER);
-		settingsGrid.setHgap(primaryBounds.getHeight() / 100);
 		settingsGrid.setVgap(primaryBounds.getWidth() / 100);
 		settingsGrid.setGridLinesVisible(true);
 		/* each column to be a third of the page */
@@ -937,14 +938,14 @@ public class GUI extends Application {
 
 		/* Wavemedia logo Home button */
 		Button homeBtn = makeButton("", "invisiButton", true, "home",
-				"file:WM_logo_transparent.png", windowWidth * 0.15);
+				"file:WM_logo_transparent.png", windowWidth * 0.3);
 
-		HBox titleBox = makeHBox("", Pos.TOP_LEFT, 5);
+		HBox titleBox = makeHBox("", Pos.CENTER_RIGHT, 5);
 		/* Create settings page title */
-		titleBox.getChildren().addAll(homeBtn,
-				makeLabel("Settings", 75, "#33B5E5"));
-		settingsGrid.add(titleBox, 0, 1, 3, 1);
-
+		titleBox.getChildren().add(homeBtn);
+		settingsGrid.add(makeLabel("Settings", 75, "#33B5E5"), 0, 1, 2, 1);
+		settingsGrid.add(titleBox, 2, 1);
+		
 		/*
 		 * Column 0
 		 */
