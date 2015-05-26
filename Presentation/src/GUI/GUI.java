@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
@@ -452,7 +453,7 @@ public class GUI extends Application {
 				}
 				/* if selected with the right mouse button */
 			} else if (e.getButton().equals(MouseButton.SECONDARY)) {
-				buildInfo(btn.getId());
+				System.out.println("right click");
 			}
 		}
 	}
@@ -584,7 +585,6 @@ public class GUI extends Application {
 					.println("MENU ITEM" + item.getText() + "set to" + isItem);
 		}
 	}
-
 
 	/**
 	 * 
@@ -724,6 +724,10 @@ public class GUI extends Application {
 				}
 				break;
 
+			case "About SmartSlides":
+				buildInfo();
+				break;
+
 			case "Website":
 				try {
 					Desktop.getDesktop().browse(
@@ -830,11 +834,12 @@ public class GUI extends Application {
 		MenuItem qanda = new MenuItem("Quick Q & A");
 		MenuItem help = new MenuItem("User Manual");
 		help.setAccelerator(new KeyCodeCombination(KeyCode.F1));
+		MenuItem info = new MenuItem("About SmartSlides");
 		MenuItem website = new MenuItem("Website");
 
 		/* add items to help */
 		menuHelp.getItems().addAll(qanda, help, new SeparatorMenuItem(),
-				website);
+				website, info);
 
 		/* Action Listener to each Menu */
 		menuFile.setOnAction(new menuHandler());
@@ -845,7 +850,7 @@ public class GUI extends Application {
 
 		/* spread the menu bar across whole page */
 		HBox.setHgrow(menu, Priority.ALWAYS);
-		
+
 		back = makeSettingButton("Back", "menuButton", false, "home");
 		back.setStyle("-fx-text-fill:white");
 		back.setPrefHeight(mainMenu.getHeight());
@@ -853,9 +858,8 @@ public class GUI extends Application {
 		backBox.getChildren().add(back);
 
 		menu.setStyle("-fx-background-color: #313131;");
-		
+
 		mainMenu.getChildren().addAll(menu, backBox);
-		
 
 	}
 
@@ -1100,26 +1104,54 @@ public class GUI extends Application {
 	 * and will be replaced when interface is integrated.
 	 */
 
-	private void buildInfo(String btnId) {
+	private void buildInfo() {
 
+		/**
+		 * TODO create info page
+		 */
 		/* Create stage and give it a title */
-		Stage infoStage = new Stage();
-		infoStage.setTitle("SmartSlides");
+		final Stage infoStage = new Stage();
+		infoStage.setTitle("About SmartSlides");
 
 		/* Create pane */
 		GridPane infoGrid = new GridPane();
 		infoGrid.setAlignment(Pos.CENTER);// set to center of screen
+		infoGrid.setPadding(new Insets(10, 10, 0, 10));
 
 		/* make a scene and add infoGrid */
 		Scene infoScene = new Scene(infoGrid);
+		infoScene.getStylesheets().add("file:resources/styles/style1.css");
+
+		infoGrid.add(
+				makeImageView("file:Smartslides_DarkText.png",
+						primaryBounds.getWidth() * 0.2, 0), 0, 0);
 
 		/* Make and add a label */
-		Label lbl = makeLabel("More info on slideshow", 1, "#313131");
-		infoGrid.add(lbl, 0, 0);
+		Label lbl = makeLabel("Developed by WaveMedia \n" + " Version: 2.0 \n "
+				+ "Release Date: June 2015", 15, "#313131");
+		infoGrid.add(lbl, 0, 1);
+
+		VBox ok = makeVBox("invisiBox", Pos.CENTER_RIGHT, 10);
+		Button okBtn = makeSettingButton("OK", "darkButton", true, "infoOK");
+		ok.getChildren().add(okBtn);
+		infoGrid.add(ok, 0, 2);
+		okBtn.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent actionEvent) {
+				infoStage.close();
+			}
+		});
+
+		infoGrid.add(
+				makeImageView("file:Background_long_tail.png",
+						primaryBounds.getWidth() * 0.2, 0), 0, 3);
 
 		infoStage.setScene(infoScene);
 
-		infoGrid.setOnMouseClicked(new mouseClickHandler());
+		/* set as modal and not resizable */
+		infoStage.initModality(Modality.WINDOW_MODAL);
+		infoStage.initOwner(stageRef);
+		infoStage.setResizable(false);
 
 		infoStage.show();
 
