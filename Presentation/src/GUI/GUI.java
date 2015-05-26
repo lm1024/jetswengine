@@ -49,6 +49,7 @@ import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -79,7 +80,6 @@ public class GUI extends Application {
 	private int screenId = 0;
 	private boolean isAudioPause = false;
 	private boolean isVideoPause = false;
-	private boolean isOutputMute = false;
 	private boolean isSlideAuto = false;
 	private boolean isObjectAuto = false;
 	private File initDir; // directory for open file
@@ -99,11 +99,6 @@ public class GUI extends Application {
 	/* Cascading style sheet */
 	private String styleSheet = "file:resources/styles/style1.css";
 
-	/* Scenes and layouts etc. */
-	private Scene settingsScene;
-	private Scene mainScene;
-	private Stage stageRef;
-
 	/* files to store prev. presentation data */
 	private File xmlFiles = new File("resources/files.csv");
 	private File buttonscsv = new File("resources/buttons.csv");
@@ -113,18 +108,22 @@ public class GUI extends Application {
 	private final Rectangle2D primaryBounds = Screen.getPrimary().getBounds();
 	private Rectangle2D bounds = primaryBounds;
 	private double windowWidth;
-	// private double windowHeight;
+	private double windowHeight;
+	
+	/* Scenes and layouts etc. */
+	private Stage stageRef;
+	private ColumnConstraints columnWidth;
 
 	/* Select screens sync */
 	private RadioMenuItem[] menuScreen = new RadioMenuItem[numScreens];
-	private RadioButton[] settingsScreen = new RadioButton[numScreens];
+	private RadioButton[] screenSetting = new RadioButton[numScreens];
 
 	/* auto-next sync */
 	private CheckBox cb1;
 	private RadioMenuItem autoNext;
 
 	/* Blank out sync */
-	private ToggleButton audioToggle, videoToggle, muteToggle, allToggle;
+	private ToggleButton audioToggle, videoToggle, allToggle;
 	private RadioMenuItem audio, video;
 
 	/* For menu bar */
@@ -164,9 +163,11 @@ public class GUI extends Application {
 
 		/* set size of window */
 		windowWidth = primaryBounds.getWidth() * 0.6;
-		// windowHeight = primaryBounds.getHeight() * 0.6;
+		windowHeight = primaryBounds.getHeight() * 0.6;
 		primaryStage.setWidth(windowWidth);
-		// primaryStage.setHeight(windowHeight);
+		primaryStage.setHeight(windowHeight);
+		
+		columnWidth = new ColumnConstraints(windowWidth / 3);
 
 		/* Build menus and settings and main pages */
 		buildMenus();
@@ -174,7 +175,7 @@ public class GUI extends Application {
 		buildmain();
 		System.out.println("Main Built");
 		/* Do not allow the page to be resized */
-		primaryStage.setResizable(false);
+		//primaryStage.setResizable(false);
 		/* Show the main page */
 		primaryStage.show();
 
@@ -451,15 +452,13 @@ public class GUI extends Application {
 			if (tbID.equals("all")) {
 				audioToggle.setSelected(isTB);
 				videoToggle.setSelected(isTB);
-				muteToggle.setSelected(isTB);
 			}
 
 			/* adjust settings values as needed */
 			isAudioPause = audioToggle.isSelected();
 			isVideoPause = videoToggle.isSelected();
-			isOutputMute = muteToggle.isSelected();
 
-			if (isAudioPause && isVideoPause && isOutputMute) {
+			if (isAudioPause && isVideoPause) {
 				allToggle.setSelected(true);
 			} else {
 				allToggle.setSelected(false);
@@ -489,7 +488,7 @@ public class GUI extends Application {
 
 				screenId = Integer.parseInt(a.getId());// set source id
 
-				settingsScreen[screenId].setSelected(true); // set other option
+				screenSetting[screenId].setSelected(true); // set other option
 
 			} else if (source.getSource().getClass().getName()
 					.endsWith("Button")) {
@@ -547,7 +546,7 @@ public class GUI extends Application {
 				break;
 			}
 
-			if (isAudioPause && isVideoPause && isOutputMute) {
+			if (isAudioPause && isVideoPause) {
 				allToggle.setSelected(true);
 			} else {
 				allToggle.setSelected(false);
@@ -674,7 +673,6 @@ public class GUI extends Application {
 			case "More settings":
 				/* set settings Scene as the scene */
 				buildSettings();
-				stageRef.setScene(settingsScene);
 				break;
 
 			/* open Q and A document */
@@ -703,7 +701,7 @@ public class GUI extends Application {
 			case "Website":
 				try {
 					Desktop.getDesktop().browse(
-							new URI("http://www.smartslides.com"));
+							new URI("http://www.smartslides.co.uk"));
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				} catch (URISyntaxException e1) {
@@ -849,20 +847,30 @@ public class GUI extends Application {
 		home.setDisable(true);
 		back.setDisable(true);
 		settings.setDisable(false);
-
+		
+		BorderPane borderPane = new BorderPane();
+		
+		/* creates a scene within the stage of pixel size x by y */
+		Scene mainScene = new Scene(borderPane, stageRef.getWidth(), stageRef.getHeight());
+		
+		/*add the stylesheet*/
+		mainScene.getStylesheets().add(styleSheet);
+		
+		/* Create an image, add this to the borderPane layout */
+		ImageView wmImage = makeImageView("file:Background_long_tail.png",
+				windowWidth, 0);
+		
+		borderPane.setBottom(wmImage);
+		
 		GridPane grid = new GridPane();
-
-		/* create a gridpane layout */
+		
+		/* settings of the grid layout */
 		grid.setVgap(primaryBounds.getWidth() / 100);
 		grid.setAlignment(Pos.TOP_CENTER); // alignment on screen
-		grid.setGridLinesVisible(true);
-		grid.getColumnConstraints().addAll(
-				new ColumnConstraints(windowWidth / 3),
-				new ColumnConstraints(windowWidth / 3),
-				new ColumnConstraints(windowWidth / 3));
-
-		/* creates a scene within the stage of pixel size x by y */
-		mainScene = new Scene(grid, stageRef.getWidth(), stageRef.getHeight());
+		//grid.setGridLinesVisible(true);
+		
+		/* each column to be a third of the page */
+		grid.getColumnConstraints().addAll(columnWidth, columnWidth, columnWidth);
 
 		/* add menu bar to main page */
 		grid.add(mainMenu, 0, 0, 3, 1);
@@ -873,7 +881,7 @@ public class GUI extends Application {
 		ssText.getChildren().add(
 				makeImageView("file:Smartslides_DarkText.png",
 						2 * windowWidth * 0.3, 0));
-		
+
 		/* add images to grid */
 		grid.add(ssText, 0, 1, 3, 1);
 
@@ -896,20 +904,14 @@ public class GUI extends Application {
 				i++;
 			}
 		}
+		
 
-		/* Make the below image stick to the bottom of the page */
-		VBox vbox = makeVBox("invisiBox", Pos.CENTER, 5);
-		VBox.setVgrow(vbox, Priority.ALWAYS);
-
-		/* Create an image, add this to a box and add this to the grid */
-		VBox wmBox = makeVBox("invisiBox", Pos.BOTTOM_CENTER, 5);
-		ImageView wmImage = makeImageView("file:Background_long_tail.png",
-				windowWidth, 0);
-		wmBox.getChildren().add(wmImage);
-		grid.add(wmBox, 0, 4, 3, 1);
-
-		mainScene.getStylesheets().add(styleSheet);
+		borderPane.setCenter(grid);
+		borderPane.setMaxHeight(windowHeight*0.9);
+		
 		stageRef.setScene(mainScene);
+
+		System.out.println("main height " + borderPane.getHeight());
 
 	}
 
@@ -924,23 +926,24 @@ public class GUI extends Application {
 		back.setDisable(false);
 		settings.setDisable(true);
 
+		BorderPane borderPaneSettings = new BorderPane();
+		
+		// creates a scene within the stage of pixel size x by y
+		Scene settingsScene = new Scene(borderPaneSettings, stageRef.getWidth(),
+				stageRef.getHeight());
+		settingsScene.getStylesheets().add(styleSheet);
+		
 		/* Create gridpane in which to put objects */
 		GridPane settingsGrid = new GridPane();
-
-		// creates a scene within the stage of pixel size x by y
-		settingsScene = new Scene(settingsGrid, stageRef.getWidth(),
-				stageRef.getHeight());
-		settingsScene.getStylesheets().add("file:resources/styles/style1.css");
+		
 
 		/* Set the layout as settingsGridpane */
 		settingsGrid.setAlignment(Pos.TOP_CENTER);
 		settingsGrid.setVgap(primaryBounds.getWidth() / 100);
-		settingsGrid.setGridLinesVisible(true);
+		//settingsGrid.setGridLinesVisible(true);
+		
 		/* each column to be a third of the page */
-		settingsGrid.getColumnConstraints().addAll(
-				new ColumnConstraints(windowWidth / 3),
-				new ColumnConstraints(windowWidth / 3),
-				new ColumnConstraints(windowWidth / 3));
+		settingsGrid.getColumnConstraints().addAll(columnWidth, columnWidth, columnWidth);
 
 		/* add menu bar to settings */
 		settingsGrid.add(mainMenu, 0, 0, 3, 1);
@@ -974,18 +977,14 @@ public class GUI extends Application {
 				isAudioPause);
 		videoToggle = makeToggle("Pause Video", "video", "lightToggle",
 				isVideoPause);
-		muteToggle = makeToggle("Mute Output", "mute", "lightToggle",
-				isOutputMute);
-		allToggle = makeToggle("All", "all", "lightToggle", false);
+		allToggle = makeToggle("Both", "all", "lightToggle", false);
 
 		/* Make them the same width */
 		audioToggle.setPrefWidth(windowWidth * 0.2);
 		videoToggle.setPrefWidth(windowWidth * 0.2);
-		muteToggle.setPrefWidth(windowWidth * 0.2);
 
 		/* add buttons to box and box to grid */
-		blankOptionsBox.getChildren().addAll(audioToggle, videoToggle,
-				muteToggle);
+		blankOptionsBox.getChildren().addAll(audioToggle, videoToggle);
 		allBox.getChildren().add(allToggle);
 		blankBox.getChildren().addAll(blankOptionsBox, allBox);
 		settingsGrid.add(blankBox, 0, 3);
@@ -1040,33 +1039,42 @@ public class GUI extends Application {
 		/* same number of buttons as screens */
 		for (int i = 0; i < numScreens; i++) {
 
-			settingsScreen[i] = new RadioButton("Screen " + (i + 1));// create
+			screenSetting[i] = new RadioButton("Screen " + (i + 1));// create
 																		// button
-			settingsScreen[i].getStyleClass().add("radioButton");// add style
-			settingsScreen[i].setToggleGroup(screenGroup); // add to group
-			settingsScreen[i].setStyle("-fx-font-size:" + 15);// set font size
-			screenBox.getChildren().add(settingsScreen[i]); // add to box
-			settingsScreen[i].setId(Integer.toString(i));
-			settingsScreen[i].setOnAction(new screensHandler());
+			screenSetting[i].getStyleClass().add("radioButton");// add style
+			screenSetting[i].setToggleGroup(screenGroup); // add to group
+			screenSetting[i].setStyle("-fx-font-size:" + 15);// set font size
+			screenBox.getChildren().add(screenSetting[i]); // add to box
+			screenSetting[i].setId(Integer.toString(i));
+			screenSetting[i].setOnAction(new screensHandler());
 		}
 
-		settingsScreen[screenId].setSelected(true); // initialise on prime
-													// screen
-
-		VBox wmBox = makeVBox("invisiBox", Pos.CENTER, 5);
-		wmBox.getChildren().add(
-				makeImageView("file:Background_long_tail.png", windowWidth, 0));
-
-		settingsGrid.add(wmBox, 0, 4, 3, 1);
-
+		/*initialise on prime screen*/
+		screenSetting[screenId].setSelected(true);  
+												 
 		/* add screenBox to grid */
 		settingsGrid.add(screenBox, 2, 2);
+		
+		borderPaneSettings.setCenter(settingsGrid);
+		
+		
+		/* Create an image, add this to a box and add this to the grid */
+		ImageView wmImage = makeImageView("file:Background_long_tail.png",
+				windowWidth, 0);
+		
+		borderPaneSettings.setBottom(wmImage);
+		
+		borderPaneSettings.setMaxHeight(windowHeight*0.9);
+		
+		stageRef.setScene(settingsScene);
 
-		/* Line sets the screen to full screen */
-		// primaryStage.setFullScreen(true);
+		System.out.println("settings height " + borderPaneSettings.getHeight());
+
 
 	}
 
+	
+	
 	/**
 	 * Method to build a basic 'slides' stage etc. This is for debug purposes
 	 * and will be replaced when interface is integrated.
