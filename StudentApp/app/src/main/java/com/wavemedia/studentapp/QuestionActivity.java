@@ -178,17 +178,16 @@ public class QuestionActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         String[] sites = getResources().getStringArray(R.array.site_array);
+        String[] ips = getResources().getStringArray(R.array.ip_array);
         siteIP = intent.getStringExtra(Open.SITE_IP);
         hexCode = intent.getStringExtra(Open.HEX_CODE);
         localIP = getWifiIpAddress(this);
-        System.err.println(siteIP + sites[0]);
+        System.err.println(siteIP + sites[1]);
         if (siteIP.equals(sites[1])) {
-           serverIP = "144.32";
+           serverIP = ips[1];
         } else {
             System.err.println("No site selected");
             serverIP = "0.0";}
-
-
         serverIP += "." + getHexCodeIP(hexCode);
         System.err.println(serverIP);
         serverPort = 80;
