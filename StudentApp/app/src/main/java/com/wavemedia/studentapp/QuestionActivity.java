@@ -8,15 +8,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
-
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.math.BigInteger;
 import java.net.InetAddress;
-import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.nio.ByteOrder;
@@ -24,27 +19,28 @@ import java.nio.ByteOrder;
 
 public class QuestionActivity extends ActionBarActivity {
 
+    public static final int SERVER_PORT = 80;
+
     //COMMS
     Thread networkingThread;
-    Thread receivingThread;
-    Thread sendingThread;
+    //Thread receivingThread;
+    //Thread sendingThread;
     Socket socket;
 
-    TextView receivedMessagesTextView;
+    //TextView receivedMessagesTextView;
 
     int siteIP;
     String hexCode;
 
-    private int serverPort;
     private String serverIP;
     private String localIP;
-    private boolean clientErrorOccured = false;
+    //private boolean clientErrorOccured = false;
 
     PrintWriter out;
-    BufferedReader in;
+    //BufferedReader in;
     String message;
 
-    private class ReceivingThread extends Thread {
+    /*private class ReceivingThread extends Thread {
         private Socket socket;
         private QuestionActivity parent;
 
@@ -63,7 +59,7 @@ public class QuestionActivity extends ActionBarActivity {
                     if (input == null || input.equals(".")) {
                         break;
                     }
-                    printToConsole("Received: \"" + input + "\"\n");
+                    //printToConsole("Received: \"" + input + "\"\n");
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -77,7 +73,7 @@ public class QuestionActivity extends ActionBarActivity {
         }
 
     }
-
+*/
     protected String getWifiIpAddress(Context context) {
         WifiManager wifiManager = (WifiManager) context.getSystemService(WIFI_SERVICE);
         int ipAddress = wifiManager.getConnectionInfo().getIpAddress();
@@ -100,7 +96,7 @@ public class QuestionActivity extends ActionBarActivity {
         return ipAddressString;
     }
 
-    public void printToConsole(final String message) {
+    /*public void printToConsole(final String message) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -109,7 +105,7 @@ public class QuestionActivity extends ActionBarActivity {
         });
 
     }
-
+*/
     class NetworkingThread implements Runnable {
 
         QuestionActivity parent;
@@ -135,16 +131,15 @@ public class QuestionActivity extends ActionBarActivity {
                             e1.printStackTrace();
                         }
                     }
-            } finally {
-                try {
+            } /*finally {
+                *//*try {
                     //listener.close();
-                } catch (Exception e) {
-                    // TODO Auto-generated catch block
+                }*/ catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         }
-    }
+
 
 
 
@@ -157,6 +152,7 @@ public class QuestionActivity extends ActionBarActivity {
                 InetAddress serverAddr = InetAddress.getByName(serverIP);
                 //socket = new Socket(serverAddr, serverPort);
                 System.err.println("WM: Creating socket");
+                int serverPort = SERVER_PORT;
                 socket = new Socket(serverAddr, serverPort);
                 System.err.println("WM: Creating output");
                 out = new PrintWriter(socket.getOutputStream(), true);
@@ -164,7 +160,7 @@ public class QuestionActivity extends ActionBarActivity {
                 //out.println(localIP);
             } catch (Exception e) {
                 System.err.println("WM: shits fucked");
-                clientErrorOccured = true;
+                //clientErrorOccured = true;
                 e.printStackTrace();
             }
 
@@ -177,18 +173,12 @@ public class QuestionActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
-        int[] sites = getResources().getIntArray(R.array.site_id);
         String[] ips = getResources().getStringArray(R.array.ip_array);
-        siteIP = intent.getIntExtra(Open.SITE_IP, 0);
+        siteIP = intent.getIntExtra(Open.SITE_ID, 0);
         hexCode = intent.getStringExtra(Open.HEX_CODE);
         localIP = getWifiIpAddress(this);
-        //System.err.println(siteIP + sites[1]);
-        /*if (siteIP == sites[1]) {
-           serverIP = ips[1];
-        } else {
-            System.err.println("No site selected");
-            serverIP = "0.0";}*/
 
+        // Set IP for selected Site
         switch (siteIP) {
             case 1:
                 serverIP = ips[1];
@@ -199,14 +189,14 @@ public class QuestionActivity extends ActionBarActivity {
                 break;
         }
 
+        // Construct and display Final IP
         serverIP += "." + getHexCodeIP(hexCode);
         System.err.println(serverIP);
-        serverPort = 80;
-        // Hardcode Testing:
-        // serverIP = "144.32.152.101";
+
         // Network
         networkingThread = new Thread(new NetworkingThread(this));
         networkingThread.start();
+
         // Set Layout
         setContentView(R.layout.activity_question);
     }
@@ -287,7 +277,7 @@ public class QuestionActivity extends ActionBarActivity {
         message = "A";
         sendOption();
         // Generate Intent. All new Activities are linked to old ones by Intent. "Provides Runtime Bindings"
-        Intent intent = new Intent(this, OptionA.class);
+        //Intent intent = new Intent(this, OptionA.class);
         //startActivity(intent);
     }
 
@@ -297,7 +287,7 @@ public class QuestionActivity extends ActionBarActivity {
         message = "B";
         sendOption();
         // Generate Intent. All new Activities are linked to old ones by Intent. "Provides Runtime Bindings"
-        Intent intent = new Intent(this, OptionB.class);
+        //Intent intent = new Intent(this, OptionB.class);
         //startActivity(intent);
     }
 
@@ -307,7 +297,7 @@ public class QuestionActivity extends ActionBarActivity {
         message = "C";
         sendOption();
         // Generate Intent. All new Activities are linked to old ones by Intent. "Provides Runtime Bindings"
-        Intent intent = new Intent(this, OptionC.class);
+        //Intent intent = new Intent(this, OptionC.class);
         //startActivity(intent);
     }
 
@@ -317,7 +307,7 @@ public class QuestionActivity extends ActionBarActivity {
         message = "D";
         sendOption();
         // Generate Intent. All new Activities are linked to old ones by Intent. "Provides Runtime Bindings"
-        Intent intent = new Intent(this, OptionD.class);
+        //Intent intent = new Intent(this, OptionD.class);
         //startActivity(intent);
     }
 }
