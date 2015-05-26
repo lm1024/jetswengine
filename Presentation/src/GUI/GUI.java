@@ -105,11 +105,6 @@ public class GUI extends Application {
 	private Scene mainScene;
 	private Stage stageRef;
 
-	/* slideshow test */
-	/*
-	 * private int slideNo = 0; private GridPane slidePane;
-	 */
-
 	/* files to store prev. presentation data */
 	private File xmlFiles = new File("resources/files.csv");
 	private File buttonscsv = new File("resources/buttons.csv");
@@ -126,7 +121,7 @@ public class GUI extends Application {
 	private RadioButton[] settingsScreen = new RadioButton[numScreens];
 
 	/* auto-next sync */
-	private CheckBox cb1, cb2;
+	private CheckBox cb1;
 	private RadioMenuItem autoNext;
 
 	/* Blank out sync */
@@ -571,7 +566,6 @@ public class GUI extends Application {
 				isSlideAuto = isItem;
 				isObjectAuto = isItem;
 				cb1.setSelected(isItem);
-				cb2.setSelected(isItem);
 				break;
 			}
 
@@ -990,16 +984,12 @@ public class GUI extends Application {
 
 		/* Add check boxes */
 		cb1 = makeCheckBox("Slide Timer", "checkLight", "slides", isSlideAuto);
-		cb2 = makeCheckBox("Object Timer", "checkLight", "objects",
-				isObjectAuto);
 		cb1.setStyle("-fx-font-size:" + 15);
-		cb2.setStyle("-fx-font-size:" + 15);
 
 		/* Vbox to contain check boses */
-		VBox vbox1 = makeVBox("clearBox", Pos.TOP_LEFT,
+		VBox vbox1 = makeVBox("clearBox", Pos.TOP_CENTER,
 				(int) Math.round(windowHeight * 0.01));
-		vbox1.getChildren().addAll(makeLabel("Auto-Next:", 20, "#313131"), cb1,
-				cb2);
+		vbox1.getChildren().addAll(makeLabel("Auto-Next:", 20, "#313131"), cb1);
 		settingsGrid.add(vbox1, 0, 2);
 
 		/* Boxes for blank out options layout */
@@ -1106,9 +1096,6 @@ public class GUI extends Application {
 
 	private void buildInfo() {
 
-		/**
-		 * TODO create info page
-		 */
 		/* Create stage and give it a title */
 		final Stage infoStage = new Stage();
 		infoStage.setTitle("About SmartSlides");
