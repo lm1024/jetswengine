@@ -12,12 +12,6 @@
     src: url('Roboto-Bold.ttf');
 }
 
-/*@font-face {
-    font-family: 'RobotoMedium';
-    src: url('Roboto-Medium.ttf');
-}
-*/
-
 /* set cream background colour */
 .root{
 	-fx-font-size: 16pt;
@@ -33,7 +27,7 @@
 /* Blue text, RobotoBold/large font */
 .title {
 	//-fx-font-family: "Roboto";
-	-fx-text-fill: #33B5E5;
+	-fx-text-fill: #0082DF;
 	-fx-font-size: 50pt;
 }
 
@@ -60,8 +54,8 @@
 /* Dark background, blue writing, RobotoMedium font */
 .textArea {
 	-fx-background-color: #313131;
-	-fx-text-inner-color: #33B5E5;
-	-fx-prop-text-color: #33B5E5;
+	-fx-text-inner-color: #0082DF;
+	-fx-prop-text-color: #0082DF;
 	-fx-font: 16pt RobotoMedium;
 }
 
@@ -90,14 +84,21 @@
 /* Dark background, blue writing */
 .darkButton {
 	-fx-background-color: #313131;
-	-fx-text-fill: #33B5E5;
+	-fx-text-fill: #0082DF;
 	
+}
+
+/* Blue background, cream writing */
+.darkButton: hover{
+	-fx-background-color: #313131;
+	-fx-text-fill: #F0F0F0;	
+	-fx-effect: dropshadow( three-pass-box , #0082DF , 10, 0 , 0, 0 );
 }
 
 
 /* Blue background, cream writing */
 .lightButton {
-	-fx-background-color: #33B5E5;
+	-fx-background-color: #0082DF;
 	-fx-text-fill: #F0F0F0;	
 }
 
@@ -119,7 +120,7 @@
 
 /* Dark background, blue writing */
 .menuButton: hover {
-	-fx-background-color: #33B5E5;
+	-fx-background-color: #0082DF;
 	
 }
 
@@ -133,7 +134,7 @@
 .checkLight {
 	-fx-font: 16pt RobotoMedium;
 	-fx-text-fill: #313131;
-	-fx-body-color: #33B5E5;
+	-fx-body-color: #0082DF;
 }
 
 
@@ -145,13 +146,14 @@
 .radioButton {
 	-fx-font: 16pt RobotoMedium;
 	-fx-text-fill: #313131;
-	-fx-body-color: #33B5E5;
+	-fx-body-color: #0082DF;
 }
 
 /* Dark text, cream writing */
 .radioButton: selected {
 	-fx-font: 16pt RobotoMedium;
 	-fx-text-fill: #313131;
+
 }
 
 
@@ -163,14 +165,21 @@
 /* Dark background, blue writing */
 .lightToggle{
 	-fx-background-color: #313131;
-	-fx-text-fill: #33B5E5;
+	-fx-text-fill: #0082DF;
 	
 }
 
 /* Blue background, cream writing */
 .lightToggle: selected {
-	-fx-background-color: #33B5E5;
+	-fx-background-color: #0082DF;
 	-fx-text-fill: #F0F0F0;	
+}
+
+/* Blue background, cream writing */
+.lightToggle: hover{
+	-fx-background-color: #313131;
+	-fx-text-fill: #F0F0F0;	
+	-fx-effect: dropshadow( three-pass-box , #0082DF , 10, 0 , 0, 0 );
 }
 
 

@@ -298,7 +298,7 @@ public class GUI extends Application {
 			Button btn = (Button) e.getSource();
 			/* new instance of a drop shadow and its colour */
 			DropShadow shadow = new DropShadow();
-			shadow.setColor(Color.web("#33B5E5"));
+			shadow.setColor(Color.web("#0082DF"));
 
 			/* if there is no shadow add it */
 			if (!isShadow) {
@@ -1198,6 +1198,8 @@ public class GUI extends Application {
 		ToggleButton tb = new ToggleButton(text);// create button
 		tb.setId(id);// add id
 		tb.getStyleClass().add(style);// add style
+		Font medium = Font.loadFont("file:resources/fonts/Roboto-Bold.ttf", 15);
+		tb.setFont(medium);// add font
 		tb.setSelected(selected);// initial state
 		tb.setOnAction(new toggleHandler());// add handler
 		return tb;
