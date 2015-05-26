@@ -1,7 +1,9 @@
 /** (c) Copyright by WaveMedia. */
 package runtime;
 
+import java.awt.AWTException;
 import java.awt.Dimension;
+import java.awt.Robot;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,6 +18,8 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -255,6 +259,12 @@ public class SlideshowRuntimeData {
 				timingList.add((long) (((double) slideItem.getStartTime() + slideItem.getDuration()) * 1000));
 			}
 		}
+
+		/* Add a slide duration update, if there is one. */
+		if (currentSlide.getDuration() < Float.MAX_VALUE) {
+			timingList.add((long) ((double) currentSlide.getDuration() * 1000));
+		}
+
 		/* Sort the list into ascending order. */
 		Collections.sort(timingList);
 
@@ -266,27 +276,68 @@ public class SlideshowRuntimeData {
 	 * Method schedules the next update slide event to hide/show slide elements.
 	 */
 	private void scheduleNextUpdate() {
-		/*
-		 * Add a new update to the scheduler at the time of the next update -
-		 * the time of the last event (which is the time when this method is
-		 * called.
-		 */
-		nextUpdate = scheduler.schedule(new Runnable() {
-			@Override
-			public void run() {
-				/* Hide/show all the relevant elements that need to be changed. */
-				slideRenderer.updateSlide(timingList.get(0));
+		if (timingList.get(0) != (long) ((double) currentSlide.getDuration() * 1000)) {
+			/*
+			 * Add a new update to the scheduler at the time of the next update
+			 * - the time of the last event (which is the time when this method
+			 * is called.
+			 */
+			nextUpdate = scheduler.schedule(new Runnable() {
+				@Override
+				public void run() {
+					/*
+					 * Hide/show all the relevant elements that need to be
+					 * changed.
+					 */
+					slideRenderer.updateSlide(timingList.get(0));
 
-				/* Store the last event time before removing it from the list. */
-				lastEventTime = timingList.get(0);
-				timingList.remove(0);
+					/*
+					 * Store the last event time before removing it from the
+					 * list.
+					 */
+					lastEventTime = timingList.get(0);
+					timingList.remove(0);
 
-				/* Add a new event if the list isn't finished. */
-				if (!timingList.isEmpty()) {
-					scheduleNextUpdate();
+					/* Add a new event if the list isn't finished. */
+					if (!timingList.isEmpty()) {
+						scheduleNextUpdate();
+					}
 				}
-			}
-		}, timingList.get(0) - lastEventTime, TimeUnit.MILLISECONDS);
+			}, timingList.get(0) - lastEventTime, TimeUnit.MILLISECONDS);
+		} else {
+			/* */
+			nextUpdate = scheduler.schedule(new Runnable() {
+				@Override
+				public void run() {
+					/* If the update is caused by the slide duration expiring. */
+
+					/*
+					 * TD: Had real trouble getting the slide duration to work.
+					 * You could theoretically just use moveForwards() here, but
+					 * it hangs when it gets to the group.getChildren().clear()
+					 * line later on. I suspect this is due to being on a
+					 * different thread. This is not a very neat solution, but
+					 * it works well!
+					 */
+					try {
+						/*
+						 * Create a new robot called cooker (a grand day out) to
+						 * press the right arrow key.
+						 */
+						Robot cooker = new Robot();
+						cooker.keyPress(java.awt.event.KeyEvent.VK_RIGHT);
+						cooker.keyRelease(java.awt.event.KeyEvent.VK_RIGHT);
+					} catch (AWTException e) {
+						/*
+						 * If the robot cannot be formed, duration will not
+						 * work. However, this will not affect the other aspects
+						 * of the program, so carry on.
+						 */
+					}
+
+				}
+			}, timingList.get(0) - lastEventTime, TimeUnit.MILLISECONDS);
+		}
 	}
 
 	/**
