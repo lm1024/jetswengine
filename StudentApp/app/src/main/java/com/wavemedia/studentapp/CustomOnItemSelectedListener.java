@@ -2,6 +2,7 @@ package com.wavemedia.studentapp;
 
 import android.app.Activity;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -24,6 +25,13 @@ public class CustomOnItemSelectedListener extends Activity implements AdapterVie
         selectedView = (TextView) view;
         selectedValue = selectedView.getText().toString();
         Log.i("OnItemSelectedListener", "SelectValue =  " + selectedValue);
+
+        //if (position != 0 && Open.hexCodeValidation(context)) {
+        //    Open.setConnectButton(true, context);
+        //} else {
+        //    Open.setConnectButton(false, context);
+        //}
+
     }
 
     @Override

@@ -1,11 +1,8 @@
 package com.wavemedia.studentapp;
 
-
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,6 +22,7 @@ public class Open extends ActionBarActivity {
     EditText hex;
     CustomOnItemSelectedListener customOnItemSelectedListener = new CustomOnItemSelectedListener();
     Button connectButton;
+    Thread connectEnableThread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,21 +37,58 @@ public class Open extends ActionBarActivity {
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(customOnItemSelectedListener);
 
-        hex.addTextChangedListener(hexWatcher);
         sites = getResources().getStringArray(R.array.site_array);
         connectButton = (Button) findViewById(R.id.connectbutton);
         connectButton.setEnabled(false);
+
+        connectEnableThread = new Thread(new ConnectEnableThread(this));
+        connectEnableThread.start();
     }
 
-    public TextWatcher hexWatcher = new TextWatcher() {
+    class ConnectEnableThread implements Runnable {
+        boolean finish = false;
+        Open parent;
+
+        public ConnectEnableThread(Open ma){
+            this.parent = ma;
+        }
+
+        @Override
+        public void run() {
+            while (!finish) {
+                if (hexCodeValidation() && !(customOnItemSelectedListener.getSelectedValue().equals(sites[0]))) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            connectButton.setEnabled(true);
+                        }
+                    });
+                } else {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            connectButton.setEnabled(false);
+                        }
+                    });
+                }
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                    return;
+                }
+            }
+        }
+    }
+
+    /*public TextWatcher hexWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
         }
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if (hex.getText().toString().matches("^([0-9a-fA-F]{4})$") && !(customOnItemSelectedListener.getSelectedValue().equals(sites[0]))) {
+            if (hexCodeValidation() && !(customOnItemSelectedListener.getSelectedValue().equals(sites[0]))) {
                 connectButton.setEnabled(true);
             } else {
                 connectButton.setEnabled(false);
@@ -64,7 +99,17 @@ public class Open extends ActionBarActivity {
         public void afterTextChanged(Editable s) {
 
         }
-    };
+    };*/
+
+    public boolean hexCodeValidation(){
+        boolean result = false;
+        if (hex.getText().toString().matches("^([0-9a-fA-F]{4})$")) {
+            result = true;
+        } else {
+            result = false;
+        }
+        return result;
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
