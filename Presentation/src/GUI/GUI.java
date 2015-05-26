@@ -30,7 +30,6 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -114,7 +113,7 @@ public class GUI extends Application {
 	private final Rectangle2D primaryBounds = Screen.getPrimary().getBounds();
 	private Rectangle2D bounds = primaryBounds;
 	private double windowWidth;
-	private double windowHeight;
+	// private double windowHeight;
 
 	/* Select screens sync */
 	private RadioMenuItem[] menuScreen = new RadioMenuItem[numScreens];
@@ -165,9 +164,9 @@ public class GUI extends Application {
 
 		/* set size of window */
 		windowWidth = primaryBounds.getWidth() * 0.6;
-		windowHeight = primaryBounds.getHeight() * 0.6;
+		// windowHeight = primaryBounds.getHeight() * 0.6;
 		primaryStage.setWidth(windowWidth);
-		primaryStage.setHeight(windowHeight);
+		// primaryStage.setHeight(windowHeight);
 
 		/* Build menus and settings and main pages */
 		buildMenus();
@@ -351,27 +350,6 @@ public class GUI extends Application {
 		}
 
 	}
-
-	/**
-	 * 
-	 * private class so that key press Events can be handled for the text boxes
-	 * 
-	 */
-	/*
-	 * private class keyPressedHandler implements EventHandler<KeyEvent> {
-	 * 
-	 * @Override public void handle(KeyEvent e) { Object key = e.getCode();
-	 * 
-	 * if (key.equals(KeyCode.ENTER)) { if (e.getSource().equals(userField)) {
-	 * System.out.println("User name is: " + userField.getText()); } else if
-	 * (e.getSource().equals(ta)) { bannedWords = ta.getText().split(", "); if
-	 * (!bannedWords[0].isEmpty()) { for (String string : bannedWords) {
-	 * System.out.println(string); } } } } else if
-	 * (e.getClass().equals(slidePane)) { switch (key.toString()) { case
-	 * "RIGHT": case "SPACE": System.out.println("right"); slideNo++; break;
-	 * case "LEFT": if (slideNo > 0) { slideNo--; } break; case "B": case "W":
-	 * case "DOWN": case "UP": System.out.println("blank"); break; } } } }
-	 */
 
 	/**
 	 * 
@@ -877,7 +855,7 @@ public class GUI extends Application {
 		/* create a gridpane layout */
 		grid.setVgap(primaryBounds.getWidth() / 100);
 		grid.setAlignment(Pos.TOP_CENTER); // alignment on screen
-		// grid.setGridLinesVisible(true);
+		grid.setGridLinesVisible(true);
 		grid.getColumnConstraints().addAll(
 				new ColumnConstraints(windowWidth / 3),
 				new ColumnConstraints(windowWidth / 3),
@@ -890,19 +868,14 @@ public class GUI extends Application {
 		grid.add(mainMenu, 0, 0, 3, 1);
 
 		HBox ssText = makeHBox("", Pos.CENTER, 5);
-		HBox wmLogo = makeHBox("", Pos.CENTER_RIGHT, 5);
 
 		/* Company logo and product logo in column 1-3, row 1 */
 		ssText.getChildren().add(
 				makeImageView("file:Smartslides_DarkText.png",
 						2 * windowWidth * 0.3, 0));
-		wmLogo.getChildren().add(
-				makeImageView("file:WM_logo_transparent.png",
-						windowWidth * 0.3, 0));
-
+		
 		/* add images to grid */
-		grid.add(ssText, 0, 1, 2, 1);
-		grid.add(wmLogo, 2, 1);
+		grid.add(ssText, 0, 1, 3, 1);
 
 		/* Make 6 buttons to open presentations */
 		Button[][] buttons = new Button[3][2];// 2 rows of 3
@@ -923,6 +896,17 @@ public class GUI extends Application {
 				i++;
 			}
 		}
+
+		/* Make the below image stick to the bottom of the page */
+		VBox vbox = makeVBox("invisiBox", Pos.CENTER, 5);
+		VBox.setVgrow(vbox, Priority.ALWAYS);
+
+		/* Create an image, add this to a box and add this to the grid */
+		VBox wmBox = makeVBox("invisiBox", Pos.BOTTOM_CENTER, 5);
+		ImageView wmImage = makeImageView("file:Background_long_tail.png",
+				windowWidth, 0);
+		wmBox.getChildren().add(wmImage);
+		grid.add(wmBox, 0, 4, 3, 1);
 
 		mainScene.getStylesheets().add(styleSheet);
 		stageRef.setScene(mainScene);
@@ -951,7 +935,7 @@ public class GUI extends Application {
 		/* Set the layout as settingsGridpane */
 		settingsGrid.setAlignment(Pos.TOP_CENTER);
 		settingsGrid.setVgap(primaryBounds.getWidth() / 100);
-		// settingsGrid.setGridLinesVisible(true);
+		settingsGrid.setGridLinesVisible(true);
 		/* each column to be a third of the page */
 		settingsGrid.getColumnConstraints().addAll(
 				new ColumnConstraints(windowWidth / 3),
@@ -961,22 +945,11 @@ public class GUI extends Application {
 		/* add menu bar to settings */
 		settingsGrid.add(mainMenu, 0, 0, 3, 1);
 
-		/*
-		 * Logo button and Title
-		 */
-
-		/* Wavemedia logo Home button */
-		Button homeBtn = makeButton("", "invisiButton", true, "home",
-				"file:WM_logo_transparent.png", windowWidth * 0.3);
-
-		HBox titleBox = makeHBox("", Pos.CENTER_RIGHT, 5);
-		HBox settingsBox = makeHBox("", Pos.CENTER_RIGHT, 5);
+		/* Create settings page title */
+		HBox settingsBox = makeHBox("", Pos.CENTER, 5);
 		settingsBox.getChildren().add(
 				makeImageView("file:Settings.png", 2 * windowWidth * 0.3, 0));
-		/* Create settings page title */
-		titleBox.getChildren().add(homeBtn);
-		settingsGrid.add(settingsBox, 0, 1, 2, 1);
-		settingsGrid.add(titleBox, 2, 1);
+		settingsGrid.add(settingsBox, 0, 1, 3, 1);
 
 		/*
 		 * Column 0
@@ -987,8 +960,7 @@ public class GUI extends Application {
 		cb1.setStyle("-fx-font-size:" + 15);
 
 		/* Vbox to contain check boses */
-		VBox vbox1 = makeVBox("clearBox", Pos.TOP_CENTER,
-				(int) Math.round(windowHeight * 0.01));
+		VBox vbox1 = makeVBox("clearBox", Pos.TOP_CENTER, 5);
 		vbox1.getChildren().addAll(makeLabel("Auto-Next:", 20, "#313131"), cb1);
 		settingsGrid.add(vbox1, 0, 2);
 
@@ -1080,6 +1052,12 @@ public class GUI extends Application {
 
 		settingsScreen[screenId].setSelected(true); // initialise on prime
 													// screen
+
+		VBox wmBox = makeVBox("invisiBox", Pos.CENTER, 5);
+		wmBox.getChildren().add(
+				makeImageView("file:Background_long_tail.png", windowWidth, 0));
+
+		settingsGrid.add(wmBox, 0, 4, 3, 1);
 
 		/* add screenBox to grid */
 		settingsGrid.add(screenBox, 2, 2);
@@ -1285,17 +1263,6 @@ public class GUI extends Application {
 		/* Add an event handler for button presses */
 		btn.setOnMouseClicked(new mouseClickHandler());
 
-		return btn;
-	}
-
-	/** Utility function to make a button with an image and label */
-	private Button makeButton(String buttonText, String styleClass,
-			boolean hover, String id, String file, double size) {
-		/* Make a button and an ImageView using utilities */
-		ImageView image = makeImageView(file, size, 0);
-		Button btn = makeSettingButton(buttonText, styleClass, hover, id);
-		btn.setGraphic(image);// add image to button
-		btn.setContentDisplay(ContentDisplay.TOP);// put image at the top
 		return btn;
 	}
 
