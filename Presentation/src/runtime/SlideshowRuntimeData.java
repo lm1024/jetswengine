@@ -307,9 +307,9 @@ public class SlideshowRuntimeData {
 				Number newSceneHeight) {
 			/*
 			 * If the screen has changed, update the boundary values and
-			 * re-force it to go fullscreen.
+			 * re-force it to go fullscreen. This fixes the screen closing
+			 * fullscreen upon a fullscreen video being opened.
 			 */
-			System.out.println("EVENT");
 			updateScreenBoundaries();
 			secondaryStage.setFullScreen(false);
 			secondaryStage.setFullScreen(true);
