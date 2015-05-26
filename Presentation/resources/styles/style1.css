@@ -111,6 +111,18 @@
 	
 }
 
+/* Dark background, blue writing */
+.menuButton {
+	-fx-background-color: #313131;
+	
+}
+
+/* Dark background, blue writing */
+.menuButton: hover {
+	-fx-background-color: #33B5E5;
+	
+}
+
 
 
 /*----------------------------------------------------
@@ -160,3 +172,5 @@
 	-fx-background-color: #33B5E5;
 	-fx-text-fill: #F0F0F0;	
 }
+
+

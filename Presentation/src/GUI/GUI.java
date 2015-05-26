@@ -44,11 +44,15 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -129,8 +133,9 @@ public class GUI extends Application {
 	private RadioMenuItem audio, video;
 
 	/* For menu bar */
-	private MenuBar mainMenu = new MenuBar();
+	private HBox mainMenu = makeHBox("", Pos.CENTER, 0);
 	private MenuItem home, settings;
+	private Button back;
 
 	public GUI() {
 	}
@@ -159,8 +164,8 @@ public class GUI extends Application {
 
 		/* Set the title of the window */
 		primaryStage.setTitle("SmartSlides");
-		/*set icon of the window*/
-		primaryStage.getIcons().add(new Image("file:WM_logo_transparent.png"));
+		/* set icon of the window */
+		primaryStage.getIcons().add(new Image("file:Single_S.png"));
 
 		/* set size of window */
 		windowWidth = primaryBounds.getWidth() * 0.6;
@@ -168,15 +173,15 @@ public class GUI extends Application {
 		primaryStage.setWidth(windowWidth);
 		primaryStage.setHeight(windowHeight);
 
+		/* Build menus and settings and main pages */
 		buildMenus();
-
 		buildSettings();
-
-		buildmain(); // Build main page
+		buildmain();
 		System.out.println("Main Built");
-
+		/* Do not allow the page to be resized */
 		primaryStage.setResizable(false);
-		primaryStage.show(); // show main page
+		/* Show the main page */
+		primaryStage.show();
 
 	}
 
@@ -251,8 +256,6 @@ public class GUI extends Application {
 			case "home":
 				/* Build the scene for the main */
 				buildmain();
-				settings.setDisable(false);
-				home.setDisable(true);
 				break;
 
 			case "submit":
@@ -582,6 +585,7 @@ public class GUI extends Application {
 		}
 	}
 
+
 	/**
 	 * 
 	 * Handler for menu actions
@@ -599,8 +603,6 @@ public class GUI extends Application {
 			switch (item.getText()) {
 
 			case "Home":
-				settings.setDisable(false);
-				home.setDisable(true);
 				buildmain();
 				break;
 
@@ -701,8 +703,6 @@ public class GUI extends Application {
 				/* set settings Scene as the scene */
 				buildSettings();
 				stageRef.setScene(settingsScene);
-				settings.setDisable(true);
-				home.setDisable(false);
 				break;
 
 			/* open Q and A document */
@@ -752,13 +752,18 @@ public class GUI extends Application {
 		 * TODO: BUILDMENUS - develop menu, improve code
 		 */
 
+		MenuBar menu = new MenuBar();
+
 		/* File section */
 		Menu menuFile = new Menu("File");
 
 		/* Create items for file */
 		MenuItem openFile = new MenuItem("Open");
+		openFile.setAccelerator(new KeyCodeCombination(KeyCode.O,
+				KeyCombination.CONTROL_DOWN));
+
 		home = new MenuItem("Home");
-		home.setDisable(true);
+		home.setAccelerator(new KeyCodeCombination(KeyCode.BACK_SPACE));
 
 		MenuItem min = new MenuItem("Minimise");
 		MenuItem exit = new MenuItem("Exit");
@@ -811,6 +816,7 @@ public class GUI extends Application {
 
 		/* To settings button */
 		settings = new MenuItem("More settings");
+		settings.setAccelerator(new KeyCodeCombination(KeyCode.F12));
 		settings.setOnAction(new menuHandler());// handler for settings
 
 		/* add items to settings */
@@ -823,6 +829,7 @@ public class GUI extends Application {
 		/* create items for help */
 		MenuItem qanda = new MenuItem("Quick Q & A");
 		MenuItem help = new MenuItem("User Manual");
+		help.setAccelerator(new KeyCodeCombination(KeyCode.F1));
 		MenuItem website = new MenuItem("Website");
 
 		/* add items to help */
@@ -834,7 +841,21 @@ public class GUI extends Application {
 		menuHelp.setOnAction(new menuHandler());
 
 		/* add menus to menu bar */
-		mainMenu.getMenus().addAll(menuFile, menuSettings, menuHelp);
+		menu.getMenus().addAll(menuFile, menuSettings, menuHelp);
+
+		/* spread the menu bar across whole page */
+		HBox.setHgrow(menu, Priority.ALWAYS);
+		
+		back = makeSettingButton("Back", "menuButton", false, "home");
+		back.setStyle("-fx-text-fill:white");
+		back.setPrefHeight(mainMenu.getHeight());
+		VBox backBox = makeVBox("darkBox", Pos.CENTER, 0);
+		backBox.getChildren().add(back);
+
+		menu.setStyle("-fx-background-color: #313131;");
+		
+		mainMenu.getChildren().addAll(menu, backBox);
+		
 
 	}
 
@@ -848,12 +869,17 @@ public class GUI extends Application {
 		 * TODO: Buildmain
 		 */
 
+		/* Change menu bar disables */
+		home.setDisable(true);
+		back.setDisable(true);
+		settings.setDisable(false);
+
 		GridPane grid = new GridPane();
 
 		/* create a gridpane layout */
 		grid.setVgap(primaryBounds.getWidth() / 100);
 		grid.setAlignment(Pos.TOP_CENTER); // alignment on screen
-		grid.setGridLinesVisible(true);
+		// grid.setGridLinesVisible(true);
 		grid.getColumnConstraints().addAll(
 				new ColumnConstraints(windowWidth / 3),
 				new ColumnConstraints(windowWidth / 3),
@@ -911,6 +937,11 @@ public class GUI extends Application {
 		 * TODO: buildSettings
 		 */
 
+		/* Change menu bar disables */
+		home.setDisable(false);
+		back.setDisable(false);
+		settings.setDisable(true);
+
 		/* Create gridpane in which to put objects */
 		GridPane settingsGrid = new GridPane();
 
@@ -922,7 +953,7 @@ public class GUI extends Application {
 		/* Set the layout as settingsGridpane */
 		settingsGrid.setAlignment(Pos.TOP_CENTER);
 		settingsGrid.setVgap(primaryBounds.getWidth() / 100);
-		settingsGrid.setGridLinesVisible(true);
+		// settingsGrid.setGridLinesVisible(true);
 		/* each column to be a third of the page */
 		settingsGrid.getColumnConstraints().addAll(
 				new ColumnConstraints(windowWidth / 3),
@@ -941,11 +972,14 @@ public class GUI extends Application {
 				"file:WM_logo_transparent.png", windowWidth * 0.3);
 
 		HBox titleBox = makeHBox("", Pos.CENTER_RIGHT, 5);
+		HBox settingsBox = makeHBox("", Pos.CENTER_RIGHT, 5);
+		settingsBox.getChildren().add(
+				makeImageView("file:Settings.png", 2 * windowWidth * 0.3, 0));
 		/* Create settings page title */
 		titleBox.getChildren().add(homeBtn);
-		settingsGrid.add(makeLabel("Settings", 75, "#33B5E5"), 0, 1, 2, 1);
+		settingsGrid.add(settingsBox, 0, 1, 2, 1);
 		settingsGrid.add(titleBox, 2, 1);
-		
+
 		/*
 		 * Column 0
 		 */
@@ -958,12 +992,13 @@ public class GUI extends Application {
 		cb2.setStyle("-fx-font-size:" + 15);
 
 		/* Vbox to contain check boses */
-		VBox vbox1 = makeVBox("clearBox", Pos.TOP_CENTER, 10);
+		VBox vbox1 = makeVBox("clearBox", Pos.TOP_LEFT,
+				(int) Math.round(windowHeight * 0.01));
 		vbox1.getChildren().addAll(makeLabel("Auto-Next:", 20, "#313131"), cb1,
 				cb2);
 		settingsGrid.add(vbox1, 0, 2);
 
-		/* Blank out options */
+		/* Boxes for blank out options layout */
 		HBox blankBox = makeHBox("clearBox", Pos.CENTER, 5);
 		VBox blankOptionsBox = makeVBox("clearBox", Pos.CENTER, 5);
 		VBox allBox = makeVBox("clearBox", Pos.CENTER, 5);
@@ -977,15 +1012,17 @@ public class GUI extends Application {
 				isOutputMute);
 		allToggle = makeToggle("All", "all", "lightToggle", false);
 
+		/* Make them the same width */
+		audioToggle.setPrefWidth(windowWidth * 0.2);
+		videoToggle.setPrefWidth(windowWidth * 0.2);
+		muteToggle.setPrefWidth(windowWidth * 0.2);
+
 		/* add buttons to box and box to grid */
 		blankOptionsBox.getChildren().addAll(audioToggle, videoToggle,
 				muteToggle);
 		allBox.getChildren().add(allToggle);
 		blankBox.getChildren().addAll(blankOptionsBox, allBox);
 		settingsGrid.add(blankBox, 0, 3);
-
-		Button back = makeSettingButton("Back", "lightButton", true, "home");
-		settingsGrid.add(back, 0, 4);
 
 		/*
 		 * Column 1
