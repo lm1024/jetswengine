@@ -5,12 +5,12 @@
     <string-array name="ip_array">
         <item>0.0</item>
         <item>144.32</item>
-        <item>Values</item>
-        <item>Are</item>
-        <item>Stored</item>
-        <item>In</item>
-        <item>arrays</item>
-        <item>.xml</item>
+        <item>0.0</item>
+        <item>0.0</item>
+        <item>0.0</item>
+        <item>0.0</item>
+        <item>0.0</item>
+        <item>0.0</item>
     </string-array>
     <string-array name="site_array">
         <item>Select An Institution</item>
@@ -22,6 +22,16 @@
         <item>arrays</item>
         <item>.xml</item>
     </string-array>
+    <integer-array name="site_id">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+    </integer-array>
     <!-- From: file:/C:/Users/Harrison/Desktop/jetswengine/StudentApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
     <eat-comment/>
     <attr format="reference" name="drawerArrowStyle"/>
@@ -165,6 +175,11 @@
     <item name="split_action_bar" type="id"/>
     <item name="up" type="id"/>
     <integer name="abc_max_action_buttons">2</integer>
+    <!-- From: file:/C:/Users/Harrison/Desktop/jetswengine/StudentApp/app/src/main/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="SScontentDescription">Smart Slides Logo</string>
+    <!-- From: file:/C:/Users/Harrison/Desktop/jetswengine/StudentApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
+    <eat-comment/>
     <string name="abc_action_bar_home_description">Navigate home</string>
     <string name="abc_action_bar_home_description_format">%1$s, %2$s</string>
     <string name="abc_action_bar_home_subtitle_description_format">%1$s, %2$s, %3$s</string>

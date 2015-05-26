@@ -11,18 +11,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-
-
 public class Open extends ActionBarActivity {
+
+    // Intent Extra Labels
     public final static String SITE_IP = "com.wavemedia.studentapp.SITE_IP";
     public final static String HEX_CODE = "com.wavemedia.studentapp.HEX_CODE";
-    Spinner spinner;
-    String site;
-    String[] sites;
+
+    Spinner spinner;                // Dropdown Box Declaration
+    int site;                    // Dropdown Box Selected Value Declaration
+    int[] sites;                 // sites
     EditText hex;
-    CustomOnItemSelectedListener customOnItemSelectedListener = new CustomOnItemSelectedListener();
     Button connectButton;
     Thread connectEnableThread;
+    CustomOnItemSelectedListener customOnItemSelectedListener = new CustomOnItemSelectedListener();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +39,7 @@ public class Open extends ActionBarActivity {
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(customOnItemSelectedListener);
 
-        sites = getResources().getStringArray(R.array.site_array);
+        sites = getResources().getIntArray(R.array.site_id);
         connectButton = (Button) findViewById(R.id.connectbutton);
         connectButton.setEnabled(false);
 
@@ -56,7 +58,7 @@ public class Open extends ActionBarActivity {
         @Override
         public void run() {
             while (!finish) {
-                if (hexCodeValidation() && !(customOnItemSelectedListener.getSelectedValue().equals(sites[0]))) {
+                if (hexCodeValidation() && !(customOnItemSelectedListener.getSelectedValue() == sites[0])) {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

@@ -13,18 +13,16 @@ import android.widget.TextView;
  * Created by Harrison on 25/05/2015.
  */
 public class CustomOnItemSelectedListener extends Activity implements AdapterView.OnItemSelectedListener {
-    TextView selectedView;
-    String selectedValue = "Select An Institution";
+    int selectedValue = 0;
 
-    public String getSelectedValue(){
+    public int getSelectedValue(){
         return selectedValue;
     }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        selectedView = (TextView) view;
-        selectedValue = selectedView.getText().toString();
-        Log.i("OnItemSelectedListener", "SelectValue =  " + selectedValue);
+        selectedValue = position;
+        Log.i("OnItemSelectedListener", "SelectValue =  " + Integer.toString(selectedValue));
 
         //if (position != 0 && Open.hexCodeValidation(context)) {
         //    Open.setConnectButton(true, context);

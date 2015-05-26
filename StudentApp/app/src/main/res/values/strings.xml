@@ -20,5 +20,6 @@
     <string name="title_activity_open">Open</string>
     <string name="hex_code">Hex Code:</string>
     <string name="connect">Connect</string>
+    <string name="SScontentDescription">Smart Slides Logo</string>
 
 </resources>

@@ -19,6 +19,7 @@ public final class R {
     public static final class array {
         public static final int ip_array=0x7f050000;
         public static final int site_array=0x7f050001;
+        public static final int site_id=0x7f050002;
     }
     public static final class attr {
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
@@ -1422,41 +1423,42 @@ containing a value of this type.
         public static final int menu_question=0x7f0d0005;
     }
     public static final class string {
-        public static final int abc_action_bar_home_description=0x7f0b0000;
-        public static final int abc_action_bar_home_description_format=0x7f0b0001;
-        public static final int abc_action_bar_home_subtitle_description_format=0x7f0b0002;
-        public static final int abc_action_bar_up_description=0x7f0b0003;
-        public static final int abc_action_menu_overflow_description=0x7f0b0004;
-        public static final int abc_action_mode_done=0x7f0b0005;
-        public static final int abc_activity_chooser_view_see_all=0x7f0b0006;
-        public static final int abc_activitychooserview_choose_application=0x7f0b0007;
-        public static final int abc_searchview_description_clear=0x7f0b0008;
-        public static final int abc_searchview_description_query=0x7f0b0009;
-        public static final int abc_searchview_description_search=0x7f0b000a;
-        public static final int abc_searchview_description_submit=0x7f0b000b;
-        public static final int abc_searchview_description_voice=0x7f0b000c;
-        public static final int abc_shareactionprovider_share_with=0x7f0b000d;
-        public static final int abc_shareactionprovider_share_with_application=0x7f0b000e;
-        public static final int abc_toolbar_collapse_description=0x7f0b000f;
-        public static final int action_settings=0x7f0b0010;
-        public static final int app_name=0x7f0b0011;
-        public static final int chosen_option_a=0x7f0b0012;
-        public static final int chosen_option_b=0x7f0b0013;
-        public static final int chosen_option_c=0x7f0b0014;
-        public static final int chosen_option_d=0x7f0b0015;
-        public static final int connect=0x7f0b0016;
-        public static final int hello_world=0x7f0b0017;
-        public static final int hex_code=0x7f0b0018;
-        public static final int option_a=0x7f0b0019;
-        public static final int option_b=0x7f0b001a;
-        public static final int option_c=0x7f0b001b;
-        public static final int option_d=0x7f0b001c;
-        public static final int title_activity_intro=0x7f0b001d;
-        public static final int title_activity_open=0x7f0b001e;
-        public static final int title_activity_option=0x7f0b001f;
-        public static final int title_activity_option_b=0x7f0b0020;
-        public static final int title_activity_option_c=0x7f0b0021;
-        public static final int title_activity_option_d=0x7f0b0022;
+        public static final int SScontentDescription=0x7f0b0000;
+        public static final int abc_action_bar_home_description=0x7f0b0001;
+        public static final int abc_action_bar_home_description_format=0x7f0b0002;
+        public static final int abc_action_bar_home_subtitle_description_format=0x7f0b0003;
+        public static final int abc_action_bar_up_description=0x7f0b0004;
+        public static final int abc_action_menu_overflow_description=0x7f0b0005;
+        public static final int abc_action_mode_done=0x7f0b0006;
+        public static final int abc_activity_chooser_view_see_all=0x7f0b0007;
+        public static final int abc_activitychooserview_choose_application=0x7f0b0008;
+        public static final int abc_searchview_description_clear=0x7f0b0009;
+        public static final int abc_searchview_description_query=0x7f0b000a;
+        public static final int abc_searchview_description_search=0x7f0b000b;
+        public static final int abc_searchview_description_submit=0x7f0b000c;
+        public static final int abc_searchview_description_voice=0x7f0b000d;
+        public static final int abc_shareactionprovider_share_with=0x7f0b000e;
+        public static final int abc_shareactionprovider_share_with_application=0x7f0b000f;
+        public static final int abc_toolbar_collapse_description=0x7f0b0010;
+        public static final int action_settings=0x7f0b0011;
+        public static final int app_name=0x7f0b0012;
+        public static final int chosen_option_a=0x7f0b0013;
+        public static final int chosen_option_b=0x7f0b0014;
+        public static final int chosen_option_c=0x7f0b0015;
+        public static final int chosen_option_d=0x7f0b0016;
+        public static final int connect=0x7f0b0017;
+        public static final int hello_world=0x7f0b0018;
+        public static final int hex_code=0x7f0b0019;
+        public static final int option_a=0x7f0b001a;
+        public static final int option_b=0x7f0b001b;
+        public static final int option_c=0x7f0b001c;
+        public static final int option_d=0x7f0b001d;
+        public static final int title_activity_intro=0x7f0b001e;
+        public static final int title_activity_open=0x7f0b001f;
+        public static final int title_activity_option=0x7f0b0020;
+        public static final int title_activity_option_b=0x7f0b0021;
+        public static final int title_activity_option_c=0x7f0b0022;
+        public static final int title_activity_option_d=0x7f0b0023;
     }
     public static final class style {
         /**  Customize your theme here. 

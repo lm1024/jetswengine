@@ -10,6 +10,7 @@
 
 
     <ImageView
+        android:contentDescription="@string/SScontentDescription"
         android:layout_width="243dp"
         android:layout_height="233dp"
         android:id="@+id/imageView"

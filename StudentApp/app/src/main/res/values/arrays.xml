@@ -14,11 +14,21 @@
     <string-array name="ip_array">
         <item>0.0</item>
         <item>144.32</item>
-        <item>Values</item>
-        <item>Are</item>
-        <item>Stored</item>
-        <item>In</item>
-        <item>arrays</item>
-        <item>.xml</item>
+        <item>0.0</item>
+        <item>0.0</item>
+        <item>0.0</item>
+        <item>0.0</item>
+        <item>0.0</item>
+        <item>0.0</item>
     </string-array>
+    <integer-array name="site_id">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+    </integer-array>
 </resources>

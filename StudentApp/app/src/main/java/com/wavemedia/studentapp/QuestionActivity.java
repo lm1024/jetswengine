@@ -32,7 +32,7 @@ public class QuestionActivity extends ActionBarActivity {
 
     TextView receivedMessagesTextView;
 
-    String siteIP;
+    int siteIP;
     String hexCode;
 
     private int serverPort;
@@ -177,17 +177,28 @@ public class QuestionActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
-        String[] sites = getResources().getStringArray(R.array.site_array);
+        int[] sites = getResources().getIntArray(R.array.site_id);
         String[] ips = getResources().getStringArray(R.array.ip_array);
-        siteIP = intent.getStringExtra(Open.SITE_IP);
+        siteIP = intent.getIntExtra(Open.SITE_IP, 0);
         hexCode = intent.getStringExtra(Open.HEX_CODE);
         localIP = getWifiIpAddress(this);
-        System.err.println(siteIP + sites[1]);
-        if (siteIP.equals(sites[1])) {
+        //System.err.println(siteIP + sites[1]);
+        /*if (siteIP == sites[1]) {
            serverIP = ips[1];
         } else {
             System.err.println("No site selected");
-            serverIP = "0.0";}
+            serverIP = "0.0";}*/
+
+        switch (siteIP) {
+            case 1:
+                serverIP = ips[1];
+                break;
+            default:
+                serverIP = "0.0";
+                System.err.println("No site selected");
+                break;
+        }
+
         serverIP += "." + getHexCodeIP(hexCode);
         System.err.println(serverIP);
         serverPort = 80;
