@@ -113,7 +113,6 @@ public class Question {
 
 		/* Try to create the folder if it doesn't already exist. */
 		if (!folder.exists() || !folder.isDirectory()) {
-			System.out.println("folder no exist");
 			folder.mkdirs();
 		}
 

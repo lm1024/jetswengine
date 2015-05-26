@@ -23,6 +23,8 @@
 		<cropy1>0</cropy1>
 		<cropx2>1</cropx2>
 		<cropy2>1</cropy2>
+		<xAspectRatio>4</xAspectRatio>
+		<yAspectRatio>3</yAspectRatio>
 	</defaultsettings>
 	<slide backgroundcolor="#ffaaff00" duration="10"> 
 		<!-- PWS Text -->
@@ -30,25 +32,36 @@
 			Some Text.
 		</text>
 		
+		<text sourcefile="test.txt" xstart="0.5" ystart="0.5" font="arial" fontsize="26" fontcolor="#00112233"  duration="1.5"/>
+		
 		<!-- Our Text --> <!-- Removed the set case, moved alignment to text level -->
-		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.9" font="arial" fontsize="24" fontcolor="#00112233" alignment="left" duration="1.5" starttime="2.0" backgroundcolor="#12345678" highlightcolor="#87654321">
+		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.9" font="arial" fontsize="24" fontcolor="#88776655" alignment="right" duration="1.5" starttime="2.0" backgroundcolor="#12345678" highlightcolor="#55446633">
 			<richtext font="arial" fontsize="26" fontcolor="#11223344" highlightcolor="#00000000" newline="true" b="true" i="true" u="true" strikethrough="true" superscript="true" subscript="true" >Example text!</richtext>
 			<richtext font="arial" fontsize="26" fontcolor="#11223344" highlightcolor="#00000000" newline="true" b="true" i="true" u="true" strikethrough="true" superscript="true" subscript="true" >Example \n text!</richtext>
-			<richtext font="arial" fontsize="26" fontcolor="#11223344" highlightcolor="#00000000" newline="true" b="true" i="true" u="true" strikethrough="true" superscript="true" subscript="true" >Example text!</richtext>
+			<!-- Removed some params from this one, should inherit -->
+			<richtext highlightcolor="#00000000" newline="true" b="true" i="true" u="true" strikethrough="true" superscript="true" subscript="true" >Example text!</richtext>
 		</text>
 
 		<!-- PWS Images -->
 		<image sourcefile="cat.jpg" xstart="0.5" ystart="0.5" scale="1.0" duration="1.5" starttime="2.0" />
 		
 		<!-- Our Images -->
-		<image sourcefile="selfie.jpg" xstart="0.5" ystart="0.5" vscale="1.0" hscale="1.0" rotation="0" fliphorizontal="true" flipvertical="true" cropx1="0.0" cropy1="0.0" cropx2="0.5" cropy2="0.5" duration="1.5" starttime="2.0"/>
+		<image sourcefile="selfie.jpg" xstart="0.5" ystart="0.5" vscale="0.5" hscale="0.75" rotation="45" fliphorizontal="true" flipvertical="true" cropx1="0.1" cropy1="0.1" cropx2="0.5" cropy2="0.5" duration="1.5" starttime="2.0">
+			<!-- THESE NEED TO BE ADDED -->
+			<sepia/>
+			<bloom/>
+			<blur/>
+			<glow/>
+			<grayscale/>
+			<reflection/>
+		</image>
 		
 		
 		<!-- PWS Audio -->
 		<audio sourcefile="gavel.wav" starttime="2.5" />
 		
 		<!-- sofia Audio -->
-		<audio sourcefile="gavel.wav" xstart="0.5" ystart="0.5" width="0.2" autoplay="true" visiblecontrols="true" playbuttononly="false" duration="1.5" starttime="2.5"/>
+		<audio sourcefile="clap.wav" xstart="0.5" ystart="0.5" width="0.2" autoplay="true" visiblecontrols="true" playbuttononly="false" duration="1.5" starttime="2.5"/>
 
 		
 		<!-- PWS Video -->
@@ -72,15 +85,15 @@
 			<shadow weight="heavy/normal/light"/>
 			<horizontalshading shadingcolor="#88776655">
 				<shading shadingcolor="#00aabbcc" />
-				<shading shadingcolor="#00aabbcc" stop="0.5 "/> <!-- Any number of these. Could contain a stop value (between 0 and 1) as well. -->
+				<shading shadingcolor="#00aabbcc" stop="0.5"/> <!-- Any number of these. Could contain a stop value (between 0 and 1) as well. -->
 			</horizontalshading>
 		</graphic>
 		
 		<graphic graphiccolor="#11223344" duration="1.5" starttime="2.0">
 			<rectangle xstart="0.5" ystart="0.5" xend="0.7" yend="0.7" arcwidth="10" archeight="10" solid="true" outlinecolor="#00000000" outlinethickness="1.0" rotation="45"/>
 			<verticalshading shadingcolor="#88776655">
-				<shading shadingcolor="#00aabbcc"/>
-				<shading shadingcolor="#00aabbcc"/>
+				<shading shadingcolor="#00aabbcc" stop="0.1"/>
+				<shading shadingcolor="#007777cc" stop="0.9"/>
 			</verticalshading>
 		</graphic>
 		
@@ -147,7 +160,10 @@
 			<arc xstart="0.5" ystart="0.5" width="10" height="10" arcangle="5" length="10" solid="true" outlinecolor="#00000000" outlinethickness="1.0" rotation="0"/>
 		</graphic>
 		
-		<!-- Charts? -->
+		<!-- Question section -->
+		<question id="q1" logfile="filename"> 
+			<answer id="1" correct="true"/> 
+		</question>
 		
 	</slide>
 </slideshow>
