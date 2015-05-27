@@ -24,5 +24,6 @@
     <string name="retry">Retry</string>
     <string name="cancel">Cancel</string>
     <string name="ok">OK</string>
+    <string name="last">Last Answer:</string>
 
 </resources>
