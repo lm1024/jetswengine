@@ -214,7 +214,6 @@ public class Open extends ActionBarActivity {
         // Get hexCode and Convert input hexCode to Uppercase if not already
         String hexCode = hex.getText().toString();
         hexCode = hexCode.toUpperCase();
-        //System.out.println(hexCode);
 
         //Get IP
         IPDecoder ipDecoder = new IPDecoder(site,hexCode,sites,ips);
@@ -223,6 +222,12 @@ public class Open extends ActionBarActivity {
         //Network Test
         networkingThread = new Thread(new NetworkingThread(this));
         networkingThread.start();
+
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         //Successful Connection?
         if (out != null) {
@@ -250,14 +255,8 @@ public class Open extends ActionBarActivity {
                     })
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .show();
+            }
         }
-        }
-
-        // Add hexCode and Site ID to Intent and start Question Activity.
-        //intent.putExtra(SITE_ID, site);
-        //intent.putExtra(HEX_CODE, hexCode);
-
-        //startActivity(intent);
     }
 
 

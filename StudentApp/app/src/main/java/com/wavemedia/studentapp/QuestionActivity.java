@@ -5,9 +5,13 @@ import android.content.Intent;
 import android.net.wifi.WifiManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigInteger;
@@ -23,57 +27,14 @@ public class QuestionActivity extends ActionBarActivity {
 
     //COMMS
     Thread networkingThread;
-    //Thread receivingThread;
-    //Thread sendingThread;
     Socket socket;
-
-    //TextView receivedMessagesTextView;
-
-    int siteIP;
-    String hexCode;
-
     private String serverIP;
     private String localIP;
-    //private boolean clientErrorOccured = false;
-
     PrintWriter out;
-    //BufferedReader in;
     String message;
+    EditText questionBoxJ;
+    String question;
 
-    /*private class ReceivingThread extends Thread {
-        private Socket socket;
-        private QuestionActivity parent;
-
-        public ReceivingThread(Socket socket, QuestionActivity parent) {
-            this.socket = socket;
-            this.parent = parent;
-        }
-
-        public void run() {
-            try {
-                BufferedReader in = new BufferedReader(
-                        new InputStreamReader(socket.getInputStream()));
-
-                while (true) {
-                    String input = in.readLine();
-                    if (input == null || input.equals(".")) {
-                        break;
-                    }
-                    //printToConsole("Received: \"" + input + "\"\n");
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                try {
-                    socket.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-    }
-*/
     protected String getWifiIpAddress(Context context) {
         WifiManager wifiManager = (WifiManager) context.getSystemService(WIFI_SERVICE);
         int ipAddress = wifiManager.getConnectionInfo().getIpAddress();
@@ -96,16 +57,6 @@ public class QuestionActivity extends ActionBarActivity {
         return ipAddressString;
     }
 
-    /*public void printToConsole(final String message) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-//                receivedMessagesTextView.append(message);
-            }
-        });
-
-    }
-*/
     class NetworkingThread implements Runnable {
 
         QuestionActivity parent;
@@ -163,10 +114,7 @@ public class QuestionActivity extends ActionBarActivity {
                 //clientErrorOccured = true;
                 e.printStackTrace();
             }
-
-
         }
-
     }
 
     @Override
@@ -174,25 +122,8 @@ public class QuestionActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         String[] ips = getResources().getStringArray(R.array.ip_array);
-        //siteIP = intent.getIntExtra(Open.SITE_ID, 0);
-        //hexCode = intent.getStringExtra(Open.HEX_CODE);
         serverIP = intent.getStringExtra(Open.SERVER_IP);
         localIP = getWifiIpAddress(this);
-
-        //// Set IP for selected Site
-        //switch (siteIP) {
-        //    case 1:
-        //        serverIP = ips[1];
-        //        break;
-        //    default:
-        //        serverIP = "0.0";
-        //        System.err.println("No site selected");
-        //        break;
-        //}
-//
-        //// Construct and display Final IP
-        //serverIP += "." + getHexCodeIP(hexCode);
-        //System.err.println(serverIP);
 
         // Network
         networkingThread = new Thread(new NetworkingThread(this));
@@ -200,37 +131,28 @@ public class QuestionActivity extends ActionBarActivity {
 
         // Set Layout
         setContentView(R.layout.activity_question);
-    }
 
-    public String getHexCodeIP(String hexCode) {
-        String[] hex;
-        String hexCodeIP;
-        hex = hexCode.split("(?!^)");
-        String hexString1 = hex[0] + hex[1];
-        String hexString2 = hex[2] + hex[3];
-        int hexCodeIPString1 = hex2decimal(hexString1);
-        System.out.println("WM IP: " + hexCode + " " + hex);
-        System.out.println("WM IP: " + hexString1 + " -> " + hexCodeIPString1);
-        int hexCodeIPString2 = hex2decimal(hexString2);
-        System.out.println("WM IP: " + hexString2 + " -> " + hexCodeIPString2);
-        hexCodeIP =  Integer.toString(hexCodeIPString1);
-        hexCodeIP += "." + Integer.toString(hexCodeIPString2);
-        System.out.println("WM IP: " + hexCodeIP);
-        return hexCodeIP;
-    }
+        // Set up Question Box
+        questionBoxJ = (EditText) findViewById(R.id.questionBox);
+        questionBoxJ.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-    public static int hex2decimal(String s) {
-        String digits = "0123456789ABCDEF";
-        s = s.toUpperCase();
-        int val = 0;
-        for (int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
-            int d = digits.indexOf(c);
-            val = 16*val + d;
-        }
-        return val;
-    }
+            }
 
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s != null) {
+                    question = s.toString();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -254,12 +176,12 @@ public class QuestionActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void sendOption() {
+    public void sendOption(String option) {
         // Send Option
         if(out != null) {
             try {
-                out.println(localIP + ":" + message);
-                //printToConsole("Sent: \"" + message + "\"\n");
+                out.println(localIP + ":" + option);
+                System.err.println("WM Sent: \"" + option + "\"\n");
             } catch (Exception e) {
                 e.printStackTrace();
                 try {
@@ -272,43 +194,41 @@ public class QuestionActivity extends ActionBarActivity {
             System.err.println("Unable to send. Sending thread null");
         }
     }
+
     /** Called when User clicks the A Option */
     public void optionA(View view) {
         // Send Option
-        message = "A";
-        sendOption();
-        // Generate Intent. All new Activities are linked to old ones by Intent. "Provides Runtime Bindings"
-        //Intent intent = new Intent(this, OptionA.class);
-        //startActivity(intent);
+        message = "0";
+        sendOption(message);
     }
 
     /** Called when User clicks the B Option */
     public void optionB(View view) {
         // Send Option
-        message = "B";
-        sendOption();
-        // Generate Intent. All new Activities are linked to old ones by Intent. "Provides Runtime Bindings"
-        //Intent intent = new Intent(this, OptionB.class);
-        //startActivity(intent);
+        message = "1";
+        sendOption(message);
     }
 
     /** Called when User clicks the C Option */
     public void optionC(View view) {
         // Send Option
-        message = "C";
-        sendOption();
-        // Generate Intent. All new Activities are linked to old ones by Intent. "Provides Runtime Bindings"
-        //Intent intent = new Intent(this, OptionC.class);
-        //startActivity(intent);
+        message = "2";
+        sendOption(message);
     }
 
     /** Called when User clicks the D Option */
     public void optionD(View view) {
         // Send Option
-        message = "D";
-        sendOption();
-        // Generate Intent. All new Activities are linked to old ones by Intent. "Provides Runtime Bindings"
-        //Intent intent = new Intent(this, OptionD.class);
-        //startActivity(intent);
+        message = "3";
+        sendOption(message);
     }
+
+    public void sendQuestion(View view) {
+        // Send message
+        //System.err.println(question);
+        //System.err.println("WM QUESTION CHECK");
+        sendOption(question);
+    }
+
+
 }

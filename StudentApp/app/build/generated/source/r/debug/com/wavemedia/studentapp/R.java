@@ -1323,7 +1323,7 @@ containing a value of this type.
         public static final int action_mode_bar=0x7f09002e;
         public static final int action_mode_bar_stub=0x7f09002d;
         public static final int action_mode_close_button=0x7f090020;
-        public static final int action_settings=0x7f090044;
+        public static final int action_settings=0x7f090046;
         public static final int activity_chooser_view_content=0x7f090021;
         public static final int always=0x7f090016;
         public static final int beginning=0x7f090013;
@@ -1354,6 +1354,8 @@ containing a value of this type.
         public static final int normal=0x7f09000a;
         public static final int progress_circular=0x7f090005;
         public static final int progress_horizontal=0x7f090006;
+        public static final int questionBox=0x7f090045;
+        public static final int questionLabel=0x7f090044;
         public static final int radio=0x7f09002b;
         public static final int search_badge=0x7f090035;
         public static final int search_bar=0x7f090034;
@@ -1456,13 +1458,15 @@ containing a value of this type.
         public static final int option_b=0x7f0b001d;
         public static final int option_c=0x7f0b001e;
         public static final int option_d=0x7f0b001f;
-        public static final int retry=0x7f0b0020;
-        public static final int title_activity_intro=0x7f0b0021;
-        public static final int title_activity_open=0x7f0b0022;
-        public static final int title_activity_option=0x7f0b0023;
-        public static final int title_activity_option_b=0x7f0b0024;
-        public static final int title_activity_option_c=0x7f0b0025;
-        public static final int title_activity_option_d=0x7f0b0026;
+        public static final int question=0x7f0b0020;
+        public static final int retry=0x7f0b0021;
+        public static final int send=0x7f0b0022;
+        public static final int title_activity_intro=0x7f0b0023;
+        public static final int title_activity_open=0x7f0b0024;
+        public static final int title_activity_option=0x7f0b0025;
+        public static final int title_activity_option_b=0x7f0b0026;
+        public static final int title_activity_option_c=0x7f0b0027;
+        public static final int title_activity_option_d=0x7f0b0028;
     }
     public static final class style {
         /**  Customize your theme here. 

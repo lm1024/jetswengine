@@ -5,35 +5,83 @@
     android:orientation="vertical"
     tools:context=".QuestionActivity">
 
-    <Button
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:text="@string/question"
+        android:layout_gravity="center"
+        android:gravity="center_vertical|center_horizontal"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        android:typeface="normal"
+        android:id="@+id/questionLabel"
+        android:enabled="true" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:layout_margin="10dp">
+
+        <EditText
+            android:layout_width="90dp"
+            android:layout_height="match_parent"
+            android:layout_weight="9"
+            android:id="@+id/questionBox"
+            android:singleLine="true" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/send"
+            android:textSize="20dp"
+            android:onClick="sendQuestion"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:textSize="30dp"
+        android:textStyle="bold" />
+
+    <Button
+        android:layout_weight="2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:text="@string/option_a"
-        android:onClick="optionA"/>
+        android:onClick="optionA"
+        android:textSize="40dp" />
 
     <Button
-        android:layout_weight="1"
+        android:layout_weight="2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:text="@string/option_b"
-        android:onClick="optionB"/>
+        android:onClick="optionB"
+        android:textSize="40dp" />
 
     <Button
-        android:layout_weight="1"
+        android:layout_weight="2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:text="@string/option_c"
-        android:onClick="optionC"/>
+        android:onClick="optionC"
+        android:textSize="40dp" />
 
     <Button
-        android:layout_weight="1"
+        android:layout_weight="2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:text="@string/option_d"
-        android:onClick="optionD"/>
+        android:onClick="optionD"
+        android:textSize="40dp" />
 
 
 
 </LinearLayout>
-<!-- From: file:/C:/Users/Harrison/jetswengine/StudentApp/app/src/main/res/layout/activity_question.xml -->
+<!-- From: file:/C:/Users/Harrison/Desktop/jetswengine/StudentApp/app/src/main/res/layout/activity_question.xml -->
