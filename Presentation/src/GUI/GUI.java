@@ -19,7 +19,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -47,9 +46,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
-import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -76,43 +73,32 @@ public class GUI extends Application {
 	 * 
 	 */
 
-	/* User options: */
-	private int screenId = 0;
-	private boolean isAudioPause = false;
-	private boolean isVideoPause = false;
-	private boolean isSlideAuto = false;
-	private boolean isObjectAuto = false;
-	private File initDir; // directory for open file
-
 	/* Global text area and array in which to save words */
 	private TextArea ta = new TextArea();
 	private String bannedWords[];
 	private TextField userField = new TextField();// text field
 
-	/* Files to store user data in */
-	private ArrayList<String> fileList = new ArrayList<String>();
-	private ArrayList<String> buttonInfo = new ArrayList<String>();
-
 	/* for shadow on buttons */
 	private boolean isShadow = false;
 
 	/* Cascading style sheet */
-	private String styleSheet = "file:resources/styles/style1.css";
+	final private String styleSheet = "file:resources/styles/style1.css";
 
 	/* files to store prev. presentation data */
-	private File xmlFiles = new File("resources/files.csv");
-	private File buttonscsv = new File("resources/buttons.csv");
+	final private File xmlFiles = new File("resources/files.csv");
+	final private File buttonscsv = new File("resources/buttons.csv");
+	final private File settingsFile = new File("resources/settings.csv");
 
 	/* Screen select data */
 	private int numScreens = Screen.getScreens().size();
 	private final Rectangle2D primaryBounds = Screen.getPrimary().getBounds();
-	private Rectangle2D bounds = primaryBounds;
 	private double windowWidth;
 	private double windowHeight;
-	
+
 	/* Scenes and layouts etc. */
 	private Stage stageRef;
 	private ColumnConstraints columnWidth;
+	private double settingsButtonWidth;
 
 	/* Select screens sync */
 	private RadioMenuItem[] menuScreen = new RadioMenuItem[numScreens];
@@ -123,13 +109,15 @@ public class GUI extends Application {
 	private RadioMenuItem autoNext;
 
 	/* Blank out sync */
-	private ToggleButton audioToggle, videoToggle, allToggle;
+	private CheckBox audioToggle, videoToggle, allToggle;
 	private RadioMenuItem audio, video;
 
 	/* For menu bar */
 	private HBox mainMenu = makeHBox("", Pos.CENTER, 0);
 	private MenuItem home, settings;
 	private Button back;
+
+	private UserPreferences preferences;
 
 	public GUI() {
 	}
@@ -146,79 +134,229 @@ public class GUI extends Application {
 	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		/*
-		 * TODO Jake, please make a nice GUI. You are our only hope. Move fonts
-		 * back to CSS. Windows gestures.
-		 */
 
-		/* Read CSV into an array list */
+		/* Create new instance of settings */
+		preferences = new UserPreferences();
+
+		/* Read CSV into array list */
 		parseFiles();
 
 		stageRef = primaryStage;
 
-		/* Set the title of the window */
+		/* Set the title and icon of the window */
 		primaryStage.setTitle("SmartSlides");
-		/* set icon of the window */
 		primaryStage.getIcons().add(new Image("file:Single_S.png"));
 
-		/* set size of window */
+		/* Set size of window */
 		windowWidth = primaryBounds.getWidth() * 0.6;
 		windowHeight = primaryBounds.getHeight() * 0.6;
 		primaryStage.setWidth(windowWidth);
 		primaryStage.setHeight(windowHeight);
-		
+
+		/* Store bounds into preferences */
+		preferences.setBounds(primaryBounds);
+
+		/* Width of columns in the grid pane */
 		columnWidth = new ColumnConstraints(windowWidth / 3);
+		settingsButtonWidth = windowWidth * 0.2;
+
+		/* Load settings into user preferences */
+		loadSettings();
 
 		/* Build menus and settings and main pages */
 		buildMenus();
 		buildSettings();
 		buildmain();
-		System.out.println("Main Built");
+		System.out.println("Built");
+
 		/* Do not allow the page to be resized */
-		//primaryStage.setResizable(false);
+		primaryStage.setResizable(false);
+
 		/* Show the main page */
 		primaryStage.show();
 
 	}
 
-	/**
-	 * Fill arrayLists for CSV data
-	 */
-	private void parseFiles() {
-		String theLine;
-		try (BufferedReader br = new BufferedReader(new FileReader(xmlFiles))) {
-			/* Loop through each line of the CSV */
-			while ((theLine = br.readLine()) != null) {
-				/* Add each line to the fileList */
-				fileList.add(theLine);
+	private void loadSettings() {
+
+		System.out.println("Loading settings...");
+
+		if (settingsFile.exists()) {
+
+			try (BufferedReader br = new BufferedReader(new FileReader(
+					settingsFile))) {
+
+				preferences.setAudioPause(Boolean.valueOf(br.readLine()));
+
+				preferences.setInitDir(new File(br.readLine()));
+
+				preferences.setOTSLogged(Boolean.valueOf(br.readLine()));
+
+				preferences.setQuestionsLogged(Boolean.valueOf(br.readLine()));
+
+				preferences.setScreenId(Integer.parseInt(br.readLine()));
+
+				preferences.setSlideAuto(Boolean.valueOf(br.readLine()));
+
+				preferences.setVideoPause(Boolean.valueOf(br.readLine()));
+
+				/* Catch exceptions */
+			} catch (IOException e) {
+				System.out.println(e.toString());
+				System.out.println("IO Exception loading");
+				resetSettings();
+			} catch (Exception e) {
+				System.out.println(e.toString());
+				System.out.println("Exception in loading");
+				resetSettings();
 			}
-			/* Catch exceptions */
-		} catch (IOException e) {
-			System.out.println(e.toString());
-		} catch (Exception e) {
-			System.out.println(e.toString());
+
+		} else if (!settingsFile.exists()) {
+
+			System.out.println("creating settings file");
+
+			/* if file does not exist then create it */
+			try {
+				settingsFile.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			resetSettings();
+
 		}
 
-		System.out.println("files.csv done");
-
-		try (BufferedReader br = new BufferedReader(new FileReader(buttonscsv))) {
-			/* Loop through each line of the CSV */
-			while ((theLine = br.readLine()) != null) {
-				/* Add each line to the fileList */
-				buttonInfo.add(theLine);
-			}
-			/* Catch exceptions */
-		} catch (IOException e) {
-			System.out.println(e.toString());
-		} catch (Exception e) {
-			System.out.println(e.toString());
-		}
-		System.out.println("buttons.csv done");
 	}
 
 	/**
-	 * Private class written so that multiple buttonEvents can be handled
-	 * easily.
+	 * Method to change settings back to known values. This is used if the
+	 * original file becomes corrupt or similar.
+	 */
+	private void resetSettings() {
+
+		/* Reset all settings to known values */
+		preferences.setAudioPause(false);
+		preferences.setInitDir(new File(System.getProperty("user.home")));
+		preferences.setOTSLogged(false);
+		preferences.setQuestionsLogged(false);
+		preferences.setScreenId(0);
+		preferences.setSlideAuto(false);
+		preferences.setVideoPause(false);
+
+		/* Save new settings */
+		saveSettings();
+
+	}
+
+	/**
+	 * Method to write the current user selected settings to the CSV
+	 */
+	private void saveSettings() {
+		System.out.println("Saving settings");
+
+		try (BufferedWriter bw = new BufferedWriter(new PrintWriter(
+				settingsFile))) {
+
+			/* Save each preference with a new line between each */
+			bw.write(String.valueOf(preferences.isAudioPause()));
+			bw.newLine();
+
+			bw.write(String.valueOf(preferences.getInitDir()));
+			bw.newLine();
+
+			bw.write(String.valueOf(preferences.isOTSLogged()));
+			bw.newLine();
+
+			bw.write(String.valueOf(preferences.isQuestionsLogged()));
+			bw.newLine();
+
+			bw.write(String.valueOf(preferences.getScreenId()));
+			bw.newLine();
+
+			bw.write(String.valueOf(preferences.isSlideAuto()));
+			bw.newLine();
+
+			bw.write(String.valueOf(preferences.isVideoPause()));
+
+		} catch (IOException n) {
+			n.printStackTrace();
+			System.out.println("failed to save");
+		}
+	}
+
+	/**
+	 * Method to read information from files to put into buttons. If there is no
+	 * file then it create and populates it.
+	 */
+	private void parseFiles() {
+
+		/*
+		 * TODO: make this code better, it sucks at the mo
+		 */
+
+		System.out.println("parsing files");
+
+		String theLine;
+
+		if ((!xmlFiles.exists()) || (!buttonscsv.exists())) {
+
+			System.out.println("creating files");
+
+			for (int i = 0; i < 6; i++) {
+				preferences.getFileList().add(i, "No File");
+				preferences.getButtonInfo().add(i, "No File, , , ");
+			}
+			/* if file does not exist then create it */
+			try {
+				xmlFiles.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			updateButtonsCSV();
+
+		} else {
+
+			if (xmlFiles.exists()) {
+				/* if file exists then read it */
+
+				try (BufferedReader br = new BufferedReader(new FileReader(
+						xmlFiles))) {
+					/* Loop through each line of the CSV */
+					while ((theLine = br.readLine()) != null) {
+						/* Add each line to the fileList */
+						preferences.getFileList().add(theLine);
+					}
+					/* Catch exceptions */
+				} catch (IOException e) {
+					System.out.println(e.toString());
+				} catch (Exception e) {
+					System.out.println(e.toString());
+				}
+			}
+			if (buttonscsv.exists()) {
+
+				try (BufferedReader br = new BufferedReader(new FileReader(
+						buttonscsv))) {
+					/* Loop through each line of the CSV */
+					while ((theLine = br.readLine()) != null) {
+						/* Add each line to the fileList */
+						preferences.getButtonInfo().add(theLine);
+					}
+					/* Catch exceptions */
+				} catch (IOException e) {
+					System.out.println(e.toString());
+				} catch (Exception e) {
+					System.out.println(e.toString());
+				}
+			}
+
+		}
+
+		System.out.println("files parsed");
+	}
+
+	/**
+	 * Handler buttonEvents can be handled easily.
 	 */
 	private class buttonEventHandler implements EventHandler<ActionEvent> {
 
@@ -234,13 +372,13 @@ public class GUI extends Application {
 			/* Switch statement for multiple buttons using their IDs */
 			switch (buttonPressed.getId()) {
 
+			/* Clear text area */
 			case "clr":
-				/* Clear text area */
 				ta.clear();
 				break;
 
+			/* Save words in the text box into BannedWords */
 			case "saveWords":
-				/* Save words in the text box into BannedWords */
 				bannedWords = ta.getText().split(", ");
 				if (!bannedWords[0].isEmpty()) {
 					for (String string : bannedWords) {
@@ -248,33 +386,34 @@ public class GUI extends Application {
 					}
 				}
 				break;
-
+			/* Build the scene for the main */
 			case "home":
-				/* Build the scene for the main */
+				saveSettings();
 				buildmain();
 				break;
 
 			case "submit":
 				System.out.println(userField.getText());
-
 				break;
 
+			/* clear the text field */
 			case "userClr":
 				userField.clear();
 				break;
 
+			/* change buttonInfo and fileList */
 			case "histClear":
-				/* change buttonInfo and fileList */
 				for (int n = 0; n < 6; n++) {
-					buttonInfo.set(n, "No File, , , ");
-					fileList.set(n, "No File");
+					preferences.getButtonInfo().set(n, "No File, , , ");
+					preferences.getFileList().set(n, "No File");
 				}
 				/* update the CSV's */
-				updateCSV();
+				updateButtonsCSV();
 				break;
 
 			default:
-				System.out.println("error");
+				System.out.println(buttonPressed.getId()
+						+ "  No action for this button");
 			}
 
 		}
@@ -290,8 +429,9 @@ public class GUI extends Application {
 
 		@Override
 		public void handle(MouseEvent e) {
-			/* Get handler source */
+
 			Button btn = (Button) e.getSource();
+
 			/* new instance of a drop shadow and its colour */
 			DropShadow shadow = new DropShadow();
 			shadow.setColor(Color.web("#0082DF"));
@@ -304,7 +444,7 @@ public class GUI extends Application {
 				btn.setEffect(null);
 			}
 
-			/* invert isShadow boolean */
+			/* invert isShadow */
 			isShadow = !isShadow;
 		}
 
@@ -317,157 +457,119 @@ public class GUI extends Application {
 	 */
 	private class checkEventHandler implements EventHandler<ActionEvent> {
 
-		/**
-		 * TODO: sync with menu buttons
-		 */
-
 		@Override
 		public void handle(ActionEvent e) {
 
 			CheckBox cbSelected = (CheckBox) e.getSource();
 
-			switch (cbSelected.getId()) {
+			boolean isCB = cbSelected.isSelected();
+			String cbID = cbSelected.getId();
+
+			/* None linked checkBoxes */
+			switch (cbID) {
 
 			case "slides":
-				isSlideAuto = cbSelected.isSelected();
+				preferences.setSlideAuto(isCB);
+				/* Sync auto next with menu */
+				autoNext.setSelected(preferences.isSlideAuto());
 				break;
 
-			case "objects":
-				isObjectAuto = cbSelected.isSelected();
+			case "allQ":
+				preferences.setQuestionsLogged(isCB);
+				break;
+
+			case "OTSQ":
+				preferences.setOTSLogged(isCB);
 				break;
 
 			}
-
-			if (isSlideAuto && isObjectAuto) {
-				autoNext.setSelected(true);
-			} else {
-				autoNext.setSelected(false);
-			}
-
-			/* Print the Id int */
-			System.out.println(cbSelected.getId() + "check box"
-					+ " was set to " + cbSelected.isSelected());
-
-		}
-
-	}
-
-	/**
-	 * 
-	 * private class so that mouse click Events can be handled
-	 * 
-	 */
-	private class mouseClickHandler implements EventHandler<MouseEvent> {
-
-		/**
-		 * TODO build slideshow now taken out
-		 */
-		public void handle(MouseEvent e) {
-
-			Button btn = (Button) e.getSource();
-
-			System.out.println(btn.getId() + " pressed with " + e.getButton());
-
-			/* if selected with the left mouse button */
-			if (e.getButton().equals(MouseButton.PRIMARY)) {
-				switch (btn.getId()) {
-
-				/* If any open button is pressed */
-				case "0":
-				case "1":
-				case "2":
-				case "3":
-				case "4":
-				case "5":
-					Slideshow currentSlideshow = null;
-					/* Get ID of button as an int */
-					int buttonNo = Integer.parseInt(btn.getId());
-					System.out.println("Open pres. " + buttonNo);
-					/* open file at appropriate position in fileList */
-					String outputFile = fileList.get(buttonNo);
-					System.out.println(outputFile);
-
-					if (outputFile != null) {
-						try {
-							currentSlideshow = new ImprovedXMLReader(outputFile)
-									.getSlideshow();
-						} catch (IOException e1) {
-
-						}
-						if (currentSlideshow != null) {
-							/* Build slideshow */
-
-							/* update buttons info */
-							/* Move all info down */
-							for (int i = buttonNo - 1; i > -1; i--) {
-								fileList.set(i + 1, fileList.get(i));
-								buttonInfo.set(i + 1, buttonInfo.get(i));
-							}
-
-							/* add new line to start of lists */
-							fileList.set(0, outputFile);
-							buttonInfo.set(0, btn.getText().replace("\n", ",")); // file
-																					// name
-
-							updateCSV();
-							buildmain();
-
-						} else {
-							/* Display error scene */
-							dispError();
-
-							System.out.println("Null slideshow");
-						}
-
-						break;
-					} else {
-						/* Display the error message */
-						dispError();
-					}
-				}
-				/* if selected with the right mouse button */
-			} else if (e.getButton().equals(MouseButton.SECONDARY)) {
-				System.out.println("right click");
-			}
-		}
-	}
-
-	/**
-	 * 
-	 * Handler for toggle buttons
-	 * 
-	 */
-	private class toggleHandler implements EventHandler<ActionEvent> {
-
-		@Override
-		public void handle(ActionEvent e) {
-			// TODO Make method
-
-			ToggleButton tb = (ToggleButton) e.getSource();
-
-			boolean isTB = tb.isSelected();
-			String tbID = tb.getId();
 
 			/* if all then select all buttons */
-			if (tbID.equals("all")) {
-				audioToggle.setSelected(isTB);
-				videoToggle.setSelected(isTB);
+			if (cbID.equals("all")) {
+				audioToggle.setSelected(isCB);
+				videoToggle.setSelected(isCB);
 			}
 
 			/* adjust settings values as needed */
-			isAudioPause = audioToggle.isSelected();
-			isVideoPause = videoToggle.isSelected();
+			preferences.setAudioPause(audioToggle.isSelected());
+			preferences.setVideoPause(videoToggle.isSelected());
 
-			if (isAudioPause && isVideoPause) {
+			/* Update the blank options both button */
+			if (preferences.isAudioPause() && preferences.isVideoPause()) {
 				allToggle.setSelected(true);
 			} else {
 				allToggle.setSelected(false);
 			}
 
 			/* Set menu items as needed */
-			audio.setSelected(isAudioPause);
-			video.setSelected(isVideoPause);
+			audio.setSelected(preferences.isAudioPause());
+			video.setSelected(preferences.isVideoPause());
 
+			/* Print the checkBox Id */
+			System.out.println(cbSelected.getId() + "check box"
+					+ " was set to " + isCB);
+
+		}
+
+	}
+
+	/**
+	 * 
+	 * private class so that mouse clicks on buttons Events can be handled
+	 * 
+	 */
+	private class mouseClickHandler implements EventHandler<MouseEvent> {
+
+		public void handle(MouseEvent e) {
+
+			Button btn = (Button) e.getSource();
+
+			/* Get ID of button as an int */
+			int buttonNo = Integer.parseInt(btn.getId());
+
+			/* open file at appropriate position in fileList */
+			String outputFile = preferences.getFileList().get(buttonNo);
+
+			/* create new instance of slideshow */
+			Slideshow currentSlideshow = null;
+
+			/* If file is chosen then parse the XML */
+			if (outputFile != null) {
+				try {
+					currentSlideshow = new ImprovedXMLReader(outputFile)
+							.getSlideshow();
+				} catch (IOException e1) {
+
+				}
+				if (currentSlideshow != null) {
+					/* Build slideshow */
+
+					/* Move info up in the lists upto the chosen button */
+					for (int i = buttonNo - 1; i > -1; i--) {
+						preferences.getFileList().set(i + 1,
+								preferences.getFileList().get(i));
+						preferences.getButtonInfo().set(i + 1,
+								preferences.getButtonInfo().get(i));
+					}
+
+					/* Add chosen button info to start of lists */
+					preferences.getFileList().set(0, outputFile);
+					preferences.getButtonInfo().set(0,
+							btn.getText().replace("\n", ","));
+
+					/* Update the CSVs and repain the button texts */
+					updateButtonsCSV();
+					buildmain();
+
+				} else {
+					/* Display error scene if slideshow = null */
+					dispError();
+				}
+
+			} else {
+				/* Display the error message if file = null */
+				dispError();
+			}
 		}
 	}
 
@@ -476,7 +578,7 @@ public class GUI extends Application {
 	 * Handler for screen select buttons and menu items
 	 * 
 	 */
-	private class screensHandler implements EventHandler<ActionEvent> {
+	private class screenSelectHandler implements EventHandler<ActionEvent> {
 
 		public void handle(ActionEvent source) {
 
@@ -486,9 +588,11 @@ public class GUI extends Application {
 				/* get and cast the source */
 				RadioMenuItem a = (RadioMenuItem) source.getSource();
 
-				screenId = Integer.parseInt(a.getId());// set source id
+				/* Set screen number as source ID */
+				preferences.setScreenId(Integer.parseInt(a.getId()));
 
-				screenSetting[screenId].setSelected(true); // set other option
+				/* Set selected screen in settings to be the same */
+				screenSetting[preferences.getScreenId()].setSelected(true);
 
 			} else if (source.getSource().getClass().getName()
 					.endsWith("Button")) {
@@ -496,19 +600,27 @@ public class GUI extends Application {
 				/* get and cast the source */
 				ToggleButton e = (ToggleButton) source.getSource();
 
-				screenId = Integer.parseInt(e.getId());// set source id
+				/* Set screen number as source ID */
+				preferences.setScreenId(Integer.parseInt(e.getId()));
 
-				menuScreen[screenId].setSelected(true);// set other option
+				/* Set selected screen in menu to be the same as in settings */
+				menuScreen[preferences.getScreenId()].setSelected(true);
 
 			} else {
-				screenId = 1;
+				/* As a fall back set screen ID to 1 */
+				preferences.setScreenId(1);
 			}
 
-			bounds = Screen.getScreens().get(screenId).getVisualBounds();
-			System.out.println("Screen " + screenId + " bound points: ("
-					+ bounds.getMinX() + "," + bounds.getMinY() + ") ("
-					+ bounds.getMaxX() + "," + bounds.getMaxY() + ")");
+			/* set bounds with reference to new screen selection */
+			preferences.setBounds(Screen.getScreens()
+					.get(preferences.getScreenId()).getVisualBounds());
 
+			/* Print the new bounds */
+			System.out.println("Screen " + preferences.getScreenId()
+					+ " bound points: (" + preferences.getBounds().getMinX()
+					+ "," + preferences.getBounds().getMinY() + ") ("
+					+ preferences.getBounds().getMaxX() + ","
+					+ preferences.getBounds().getMaxY() + ")");
 		}
 
 	}
@@ -530,30 +642,27 @@ public class GUI extends Application {
 			/* set setting data as needed */
 			switch (item.getText()) {
 			case "Pause Audio":
-				isAudioPause = isItem;
+				preferences.setAudioPause(isItem);
 				audioToggle.setSelected(isItem);
 				break;
 
 			case "Pause Video":
-				isVideoPause = isItem;
+				preferences.setVideoPause(isItem);
 				videoToggle.setSelected(isItem);
 				break;
 
 			case "Auto Next":
-				isSlideAuto = isItem;
-				isObjectAuto = isItem;
+				preferences.setSlideAuto(isItem);
 				cb1.setSelected(isItem);
 				break;
 			}
 
-			if (isAudioPause && isVideoPause) {
+			if (preferences.isAudioPause() && preferences.isVideoPause()) {
 				allToggle.setSelected(true);
 			} else {
 				allToggle.setSelected(false);
 			}
 
-			System.out
-					.println("MENU ITEM" + item.getText() + "set to" + isItem);
 		}
 	}
 
@@ -567,7 +676,6 @@ public class GUI extends Application {
 
 		public void handle(ActionEvent t) {
 			MenuItem item = (MenuItem) t.getTarget();
-			System.out.println("MENU ITEM: " + item.getText() + "Pressed");
 
 			boolean isSameFile = false;
 
@@ -587,19 +695,33 @@ public class GUI extends Application {
 
 			case "Open":
 				Slideshow currentSlideshow = null;
-				/* Open a file chooser and give it a name */
-				FileChooser fileChooser = new FileChooser();
-				fileChooser.setTitle("Open Resource File");
-				/* Set initial directory as parent of last opened file */
-				fileChooser.setInitialDirectory(initDir);
+				File file = null;
 
-				/* Add filters to file chooser */
-				fileChooser.getExtensionFilters().addAll(
-						new FileChooser.ExtensionFilter("XML files ", "*.xml"),
-						new FileChooser.ExtensionFilter("All files", "*.*"));
+				try {
+					/* Open a file chooser and give it a name */
+					FileChooser fileChooser = new FileChooser();
+					fileChooser.setTitle("Open File");
+					/* Set initial directory as parent of last opened file */
+					fileChooser.setInitialDirectory(preferences.getInitDir());
 
-				/* File chooser is a dialog box on the home screen */
-				File file = fileChooser.showOpenDialog(stageRef);
+					/* Add filters to file chooser */
+					fileChooser.getExtensionFilters()
+							.addAll(new FileChooser.ExtensionFilter(
+									"XML files ", "*.xml"),
+									new FileChooser.ExtensionFilter(
+											"All files", "*.*"));
+
+					/* File chooser is a dialog box on the home screen */
+					file = fileChooser.showOpenDialog(stageRef);
+
+				} catch (IllegalArgumentException e) {
+
+					System.out.println("failed to open");
+
+					/* if it has been changed then reset it */
+					resetSettings();
+
+				}
 
 				/* Check that a file was selected */
 				if (file != null) {
@@ -610,15 +732,13 @@ public class GUI extends Application {
 					}
 
 					/* Get the directory of the last opened file */
-					initDir = file.getParentFile();
-					System.out.println(initDir);
+					preferences.setInitDir(file.getParentFile());
 
 					/* Show error if null slideshow is selected */
 					if (currentSlideshow == null) {
 
 						/* Display error scene */
 						dispError();
-						System.out.println("Null slideshow");
 					} else {
 
 						/*
@@ -629,13 +749,15 @@ public class GUI extends Application {
 						/* Compare new file to those in csv */
 						do {
 							if (file.getAbsolutePath().equals(
-									fileList.get(same))) {
+									preferences.getFileList().get(same))) {
 								isSameFile = true;
 
 								/* Move all info down */
 								for (int i = same - 1; i > -1; i--) {
-									fileList.set(i + 1, fileList.get(i));
-									buttonInfo.set(i + 1, buttonInfo.get(i));
+									preferences.getFileList().set(i + 1,
+											preferences.getFileList().get(i));
+									preferences.getButtonInfo().set(i + 1,
+											preferences.getButtonInfo().get(i));
 								}
 								/* if its not the same check the next one */
 							} else {
@@ -648,25 +770,32 @@ public class GUI extends Application {
 						if (isSameFile == false) {
 							/* Shift values of csv's */
 							for (int i = 4; i > -1; i--) {
-								fileList.set(i + 1, fileList.get(i));
-								buttonInfo.set(i + 1, buttonInfo.get(i));
+								preferences.getFileList().set(i + 1,
+										preferences.getFileList().get(i));
+								preferences.getButtonInfo().set(i + 1,
+										preferences.getButtonInfo().get(i));
 							}
 						}
 						/* add new line to start of lists */
-						fileList.set(0, file.getAbsolutePath());
-						buttonInfo.set(0, currentSlideshow.getInfo()
-								.getAuthor() // author
-								+ "," + currentSlideshow.getInfo().getVersion() // version
-								+ "," + currentSlideshow.getInfo().getComment() // comment
-								+ "," + file.getName()); // file name
+						preferences.getFileList()
+								.set(0, file.getAbsolutePath());
+						preferences.getButtonInfo().set(
+								0,
+								currentSlideshow.getInfo().getAuthor() // author
+										+ ","
+										+ currentSlideshow.getInfo()
+												.getVersion() // version
+										+ ","
+										+ currentSlideshow.getInfo()
+												.getComment() // comment
+										+ "," + file.getName()); // file name
 
 						/* update CSV and rebuild the buttons */
-						updateCSV();
+						updateButtonsCSV();
 						buildmain();
 					}
 				} else {
 					/* If no file is selected do nothing */
-					System.out.println("No file");
 				}
 				break;
 
@@ -710,6 +839,9 @@ public class GUI extends Application {
 
 				break;
 			}
+
+			/* Save any changed settings */
+			saveSettings();
 
 		}
 	}
@@ -775,7 +907,8 @@ public class GUI extends Application {
 				menuScreen[i].setToggleGroup(screens); // add to toggle group
 				menuScreen[i].setId(Integer.toString(i));// give an ID
 				screenSelect.getItems().add(menuScreen[i]); // add to menu
-				menuScreen[i].setOnAction(new screensHandler()); // add handler
+				menuScreen[i].setOnAction(new screenSelectHandler()); // add
+																		// handler
 
 			}
 			menuScreen[0].setSelected(true); // initialise on prime screen
@@ -847,30 +980,24 @@ public class GUI extends Application {
 		home.setDisable(true);
 		back.setDisable(true);
 		settings.setDisable(false);
-		
-		BorderPane borderPane = new BorderPane();
-		
-		/* creates a scene within the stage of pixel size x by y */
-		Scene mainScene = new Scene(borderPane, stageRef.getWidth(), stageRef.getHeight());
-		
-		/*add the stylesheet*/
-		mainScene.getStylesheets().add(styleSheet);
-		
-		/* Create an image, add this to the borderPane layout */
-		ImageView wmImage = makeImageView("file:Background_long_tail.png",
-				windowWidth, 0);
-		
-		borderPane.setBottom(wmImage);
-		
+
 		GridPane grid = new GridPane();
-		
+
+		/* creates a scene within the stage of pixel size x by y */
+		Scene mainScene = new Scene(grid, stageRef.getWidth(),
+				stageRef.getHeight());
+
+		/* add the stylesheet */
+		mainScene.getStylesheets().add(styleSheet);
+
 		/* settings of the grid layout */
 		grid.setVgap(primaryBounds.getWidth() / 100);
 		grid.setAlignment(Pos.TOP_CENTER); // alignment on screen
-		//grid.setGridLinesVisible(true);
-		
+		// grid.setGridLinesVisible(true);
+
 		/* each column to be a third of the page */
-		grid.getColumnConstraints().addAll(columnWidth, columnWidth, columnWidth);
+		grid.getColumnConstraints().addAll(columnWidth, columnWidth,
+				columnWidth);
 
 		/* add menu bar to main page */
 		grid.add(mainMenu, 0, 0, 3, 1);
@@ -893,8 +1020,8 @@ public class GUI extends Application {
 		for (int y = 0; y < 2; y++) {
 			for (int x = 0; x < 3; x++) {
 				buttons[x][y] = makeMainButton(
-						buttonInfo.get(i).replace(",", "\n"), "lightButton",
-						true, String.valueOf(i));
+						preferences.getButtonInfo().get(i).replace(",", "\n"),
+						"lightButton", true, String.valueOf(i));
 				buttons[x][y].setFont(Font.loadFont(
 						"file:resources/fonts/Roboto-Bold.ttf", 15));// add font
 				buttons[x][y].setPrefWidth(windowWidth * 0.3); // set width
@@ -904,14 +1031,16 @@ public class GUI extends Application {
 				i++;
 			}
 		}
-		
 
-		borderPane.setCenter(grid);
-		borderPane.setMaxHeight(windowHeight*0.9);
-		
+		/* Create an image, add this to a box and add this to the grid */
+		ImageView wmImage = makeImageView("file:Background_long_tail.png",
+				windowWidth, 0);
+		HBox hbox = makeHBox("invisiBox", Pos.CENTER, 5);
+		GridPane.setVgrow(hbox, Priority.ALWAYS);
+		hbox.getChildren().add(wmImage);
+		grid.add(hbox, 0, 4);
+
 		stageRef.setScene(mainScene);
-
-		System.out.println("main height " + borderPane.getHeight());
 
 	}
 
@@ -926,24 +1055,22 @@ public class GUI extends Application {
 		back.setDisable(false);
 		settings.setDisable(true);
 
-		BorderPane borderPaneSettings = new BorderPane();
-		
-		// creates a scene within the stage of pixel size x by y
-		Scene settingsScene = new Scene(borderPaneSettings, stageRef.getWidth(),
-				stageRef.getHeight());
-		settingsScene.getStylesheets().add(styleSheet);
-		
 		/* Create gridpane in which to put objects */
 		GridPane settingsGrid = new GridPane();
-		
+
+		// creates a scene within the stage of pixel size x by y
+		Scene settingsScene = new Scene(settingsGrid, stageRef.getWidth(),
+				stageRef.getHeight());
+		settingsScene.getStylesheets().add(styleSheet);
 
 		/* Set the layout as settingsGridpane */
 		settingsGrid.setAlignment(Pos.TOP_CENTER);
 		settingsGrid.setVgap(primaryBounds.getWidth() / 100);
-		//settingsGrid.setGridLinesVisible(true);
-		
+		// settingsGrid.setGridLinesVisible(true);
+
 		/* each column to be a third of the page */
-		settingsGrid.getColumnConstraints().addAll(columnWidth, columnWidth, columnWidth);
+		settingsGrid.getColumnConstraints().addAll(columnWidth, columnWidth,
+				columnWidth);
 
 		/* add menu bar to settings */
 		settingsGrid.add(mainMenu, 0, 0, 3, 1);
@@ -959,8 +1086,8 @@ public class GUI extends Application {
 		 */
 
 		/* Add check boxes */
-		cb1 = makeCheckBox("Slide Timer", "checkLight", "slides", isSlideAuto);
-		cb1.setStyle("-fx-font-size:" + 15);
+		cb1 = makeCheckBox("Slide Timer", "checkLight", "slides",
+				preferences.isSlideAuto());
 
 		/* Vbox to contain check boses */
 		VBox vbox1 = makeVBox("clearBox", Pos.TOP_CENTER, 5);
@@ -968,53 +1095,37 @@ public class GUI extends Application {
 		settingsGrid.add(vbox1, 0, 2);
 
 		/* Boxes for blank out options layout */
-		HBox blankBox = makeHBox("clearBox", Pos.CENTER, 5);
-		VBox blankOptionsBox = makeVBox("clearBox", Pos.CENTER, 5);
-		VBox allBox = makeVBox("clearBox", Pos.CENTER, 5);
+		VBox blankBox = makeVBox("clearBox", Pos.CENTER, 5);
 
 		/* Toggle Buttons */
-		audioToggle = makeToggle("Pause Audio", "audio", "lightToggle",
-				isAudioPause);
-		videoToggle = makeToggle("Pause Video", "video", "lightToggle",
-				isVideoPause);
-		allToggle = makeToggle("Both", "all", "lightToggle", false);
+		audioToggle = makeCheckBox("Pause Audio", "checkLight", "audio",
+				preferences.isAudioPause());
+		videoToggle = makeCheckBox("Pause Video", "checkLight", "video",
+				preferences.isVideoPause());
+		allToggle = makeCheckBox("Both", "checkLight", "all",
+				preferences.isAudioPause() && preferences.isVideoPause());
 
-		/* Make them the same width */
-		audioToggle.setPrefWidth(windowWidth * 0.2);
-		videoToggle.setPrefWidth(windowWidth * 0.2);
-
-		/* add buttons to box and box to grid */
-		blankOptionsBox.getChildren().addAll(audioToggle, videoToggle);
-		allBox.getChildren().add(allToggle);
-		blankBox.getChildren().addAll(blankOptionsBox, allBox);
+		/* add buttons and label to box and box to grid */
+		blankBox.getChildren().addAll(makeLabel("On blank:", 20, "#313131"),
+				allToggle, audioToggle, videoToggle);
 		settingsGrid.add(blankBox, 0, 3);
 
 		/*
 		 * Column 1
 		 */
 
-		/* Add user name submission */
-		VBox userBox = makeVBox("clearBox", Pos.TOP_CENTER, 5);// holding box
+		/* connection code */
+		VBox codeBox = makeVBox("clearBox", Pos.TOP_CENTER, 5);
 
-		/* Text field declared outside the main so can be accessed elsewhere */
-		userField.getStyleClass().add("textArea");
-		userField.setPromptText("Username");
-		userField.setStyle("-fx-font-size:" + 10);
-
-		/* Add buttons and add to a box */
-		Button userSubmit = makeSettingButton("Submit", "darkButton", true,
-				"submit");
-		Button userClr = makeSettingButton("Clear", "darkButton", true,
-				"userClr");
-
-		/* Hbox for username Buttons */
-		HBox userButtons = makeHBox("clearBox", Pos.CENTER, 10);
-		userButtons.getChildren().addAll(userSubmit, userClr);
+		/*
+		 * TODO: TOM - replace with getCode()
+		 */
+		Label codeLabel = makeLabel("No Code :(", 20, "#313131");
 
 		/* Add everything to the box */
-		userBox.getChildren().addAll(makeLabel("Username:", 20, "#313131"),
-				userField, userButtons);
-		settingsGrid.add(userBox, 1, 2);
+		codeBox.getChildren().addAll(
+				makeLabel("Connection Code:", 20, "#313131"), codeLabel);
+		settingsGrid.add(codeBox, 1, 2);
 
 		/* Clear History button */
 		Button histClear = makeSettingButton("Clear Presentation History",
@@ -1040,44 +1151,51 @@ public class GUI extends Application {
 		for (int i = 0; i < numScreens; i++) {
 
 			screenSetting[i] = new RadioButton("Screen " + (i + 1));// create
-																		// button
+																	// button
 			screenSetting[i].getStyleClass().add("radioButton");// add style
 			screenSetting[i].setToggleGroup(screenGroup); // add to group
 			screenSetting[i].setStyle("-fx-font-size:" + 15);// set font size
 			screenBox.getChildren().add(screenSetting[i]); // add to box
 			screenSetting[i].setId(Integer.toString(i));
-			screenSetting[i].setOnAction(new screensHandler());
+			screenSetting[i].setOnAction(new screenSelectHandler());
 		}
 
-		/*initialise on prime screen*/
-		screenSetting[screenId].setSelected(true);  
-												 
+		/* initialise on prime screen */
+		screenSetting[preferences.getScreenId()].setSelected(true);
+
 		/* add screenBox to grid */
 		settingsGrid.add(screenBox, 2, 2);
-		
-		borderPaneSettings.setCenter(settingsGrid);
-		
-		
+
+		/**/
+		VBox questionsBox = makeVBox("clearBox", Pos.CENTER, 5);
+		CheckBox logAllQuestions = makeCheckBox("All questions", "checkLight",
+				"allQ", preferences.isQuestionsLogged());
+		CheckBox logOTS = makeCheckBox("OTS Questions", "checkLight", "OTSQ",
+				preferences.isOTSLogged());
+
+		questionsBox.getChildren().addAll(
+				makeLabel("Log Answers for:", 20, "#313131"), logAllQuestions,
+				logOTS);
+		settingsGrid.add(questionsBox, 2, 3);
+
+		/*
+		 * bottom bar
+		 */
+
 		/* Create an image, add this to a box and add this to the grid */
 		ImageView wmImage = makeImageView("file:Background_long_tail.png",
 				windowWidth, 0);
-		
-		borderPaneSettings.setBottom(wmImage);
-		
-		borderPaneSettings.setMaxHeight(windowHeight*0.9);
-		
+		HBox hbox = makeHBox("invisiBox", Pos.CENTER, 5);
+		GridPane.setVgrow(hbox, Priority.ALWAYS);
+		hbox.getChildren().add(wmImage);
+		settingsGrid.add(hbox, 0, 4);
+
 		stageRef.setScene(settingsScene);
-
-		System.out.println("settings height " + borderPaneSettings.getHeight());
-
 
 	}
 
-	
-	
 	/**
-	 * Method to build a basic 'slides' stage etc. This is for debug purposes
-	 * and will be replaced when interface is integrated.
+	 * Method that builds the about smart slides pop up
 	 */
 
 	private void buildInfo() {
@@ -1100,25 +1218,31 @@ public class GUI extends Application {
 						primaryBounds.getWidth() * 0.2, 0), 0, 0);
 
 		/* Make and add a label */
-		Label lbl = makeLabel("Developed by WaveMedia \n" + " Version: 2.0 \n "
-				+ "Release Date: June 2015", 15, "#313131");
+		Label lbl = makeLabel("Developed by WaveMedia \n" + "Version: 2.0 \n"
+				+ "Release Date: June 2015 \n"
+				+ "Email: help@smartslides.co.uk \n", 15, "#313131");
 		infoGrid.add(lbl, 0, 1);
 
-		VBox ok = makeVBox("invisiBox", Pos.CENTER_RIGHT, 10);
+		/* Create and add button to exit window */
+		VBox ok = makeVBox("invisiBox", Pos.CENTER_RIGHT, 20);
+		ok.setPadding(new Insets(10, 10, 10, 10));
 		Button okBtn = makeSettingButton("OK", "darkButton", true, "infoOK");
 		ok.getChildren().add(okBtn);
 		infoGrid.add(ok, 0, 2);
 		okBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent actionEvent) {
+				/* close the stage when button is pressed */
 				infoStage.close();
 			}
 		});
 
+		/* Add WM bar to bottom of window */
 		infoGrid.add(
 				makeImageView("file:Background_long_tail.png",
 						primaryBounds.getWidth() * 0.2, 0), 0, 3);
 
+		/* Set the scene */
 		infoStage.setScene(infoScene);
 
 		/* set as modal and not resizable */
@@ -1126,6 +1250,7 @@ public class GUI extends Application {
 		infoStage.initOwner(stageRef);
 		infoStage.setResizable(false);
 
+		/* show the stage */
 		infoStage.show();
 
 	}
@@ -1135,31 +1260,51 @@ public class GUI extends Application {
 	 */
 	private void dispError() {
 
-		/* Create new stage and scene with GridPane */
-		Stage errorStage = new Stage();
-		errorStage.setTitle("Error!");
+		/* Create stage and give it a title */
+		final Stage errorStage = new Stage();
+		errorStage.setTitle("Error");
+		errorStage.getIcons().add(new Image("file:resources/error.png"));
+
+		/* Create pane */
 		GridPane errorGrid = new GridPane();
+		errorGrid.setAlignment(Pos.CENTER);// set to center of screen
+		errorGrid.setPadding(new Insets(10, 10, 0, 10));
+
+		/* make a scene and add infoGrid */
 		Scene errorScene = new Scene(errorGrid);
-		errorGrid.setAlignment(Pos.CENTER);
+		errorScene.getStylesheets().add("file:resources/styles/style1.css");
 
-		/* Add style sheet to pop-up */
-		errorScene.getStylesheets().add(styleSheet);
+		/* Make and add a label */
+		Label lbl = makeLabel(
+				"Sorry, there was an error loading the file.\n"
+						+ "For assistance please contact:\n"
+						+ "help@smartslides.co.uk\n"
+						+ "Or visit www.smartslides.co.uk", 15, "#313131");
+		errorGrid.add(lbl, 1, 0);
 
-		/* Add image and label */
-		errorGrid.add(makeImageView("file:resources/error.png", 0, 0), 0, 0);
+		/* Create and add button to exit window */
+		VBox ok = makeVBox("invisiBox", Pos.CENTER_RIGHT, 20);
+		ok.setPadding(new Insets(10, 10, 10, 10));
+		Button okBtn = makeSettingButton("OK", "darkButton", true, "infoOK");
+		ok.getChildren().add(okBtn);
+		errorGrid.add(ok, 1, 1, 2, 1);
+		okBtn.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent actionEvent) {
+				/* close the stage when button is pressed */
+				errorStage.close();
+			}
+		});
 
-		/* Make a box and add things to it */
-		HBox errBox = makeHBox("clearBox", Pos.CENTER, 5);
-		errBox.getChildren().addAll(makeLabel("Error!", 16, "#313131"));
-		errorGrid.add(errBox, 0, 1);
-
-		/* Add scene to stage and make window Modal */
+		/* Set the scene */
 		errorStage.setScene(errorScene);
 
-		/* Modality means the user has to close window */
+		/* set as modal and not resizable */
 		errorStage.initModality(Modality.WINDOW_MODAL);
 		errorStage.initOwner(stageRef);
+		errorStage.setResizable(false);
 
+		/* show the stage */
 		errorStage.show();
 
 	}
@@ -1167,14 +1312,14 @@ public class GUI extends Application {
 	/**
 	 * Method to update the CSV's holding recent presentation info
 	 */
-	private void updateCSV() {
+	private void updateButtonsCSV() {
 
 		/* rewrite csv files */
 		try (BufferedWriter bw = new BufferedWriter(new PrintWriter(xmlFiles))) {
 			/* loop though values in the file list */
 			for (int i = 0; i < 6; i++) {
 				/* Write pos. i in fileList to the .csv */
-				bw.write(fileList.get(i));
+				bw.write(preferences.getFileList().get(i));
 				bw.newLine();
 			}
 		} catch (IOException n) {
@@ -1185,7 +1330,7 @@ public class GUI extends Application {
 			/* loop though values in the file list */
 			for (int i = 0; i < 6; i++) {
 				/* Write pos. i in fileList to the .csv */
-				bw.write(buttonInfo.get(i));
+				bw.write(preferences.getButtonInfo().get(i));
 				bw.newLine();
 			}
 		} catch (IOException n) {
@@ -1196,19 +1341,6 @@ public class GUI extends Application {
 	/*
 	 * Utilities:
 	 */
-
-	/** Utility function for adding Toggle Buttons **/
-	private ToggleButton makeToggle(String text, String id, String style,
-			boolean selected) {
-		ToggleButton tb = new ToggleButton(text);// create button
-		tb.setId(id);// add id
-		tb.getStyleClass().add(style);// add style
-		Font medium = Font.loadFont("file:resources/fonts/Roboto-Bold.ttf", 15);
-		tb.setFont(medium);// add font
-		tb.setSelected(selected);// initial state
-		tb.setOnAction(new toggleHandler());// add handler
-		return tb;
-	}
 
 	/** Utility function for adding labels **/
 	private Label makeLabel(String labelText, int d, String colour) {
@@ -1246,6 +1378,7 @@ public class GUI extends Application {
 		cb.setId(id);// give the box an id
 		cb.setSelected(selected);// set its initial state
 		cb.getStyleClass().add(style);// add style to cb
+		cb.setStyle("-fx-font-size: 15");// add font
 		cb.setOnAction(new checkEventHandler());// give it a handler
 		return cb;
 	}
@@ -1255,6 +1388,7 @@ public class GUI extends Application {
 			boolean hover, String id) {
 
 		Button btn = makeButton(buttonText, styleClass, hover, id);
+		btn.setPrefWidth(settingsButtonWidth);
 
 		/* Add an event handler for button presses */
 		btn.setOnAction(new buttonEventHandler());
@@ -1278,12 +1412,19 @@ public class GUI extends Application {
 	private Button makeButton(String buttonText, String styleClass,
 			boolean hover, String id) {
 
-		Button btn = new Button();// new instance of button
+		/* Create new instance of button */
+		Button btn = new Button();
+
+		/* Create and add font */
 		Font medium = Font.loadFont("file:resources/fonts/Roboto-Bold.ttf", 15);
-		btn.setFont(medium);// add font
-		btn.setText(buttonText);// add text
-		btn.getStyleClass().add(styleClass);// add style
-		btn.setId(id);// give it an ID
+		btn.setFont(medium);
+
+		/* Set text and ID */
+		btn.setText(buttonText);
+		btn.setId(id);
+
+		btn.getStyleClass().add(styleClass);
+
 		/* Hover functionality */
 		if (hover) {
 			/* Handlers for when a mouse enters or exits */
@@ -1297,9 +1438,7 @@ public class GUI extends Application {
 		return btn;
 	}
 
-	/**
-	 * Utility function for making an ImageView
-	 */
+	/** Utility function for making an ImageView */
 	private ImageView makeImageView(String file, double width, double height) {
 		/* Create new instance of ImageView */
 		ImageView iv = new ImageView();
