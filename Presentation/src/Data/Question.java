@@ -128,7 +128,6 @@ public class Question {
 
 		/* Try to create the folder if it doesn't already exist. */
 		if (!folder.exists() || !folder.isDirectory()) {
-			System.out.println("folder no exist");
 			folder.mkdirs();
 		}
 
@@ -151,6 +150,12 @@ public class Question {
 
 				/* Write the question ID as the first line in the file. */
 				writer.append(this.getId());
+				writer.append(NEWLINE_DELIMITER);
+				
+				/* Write the column headings. */
+				writer.append("Answer ID");
+				writer.append(COMMA_DELIMITER);
+				writer.append("Answer Count");
 				writer.append(NEWLINE_DELIMITER);
 
 				/*

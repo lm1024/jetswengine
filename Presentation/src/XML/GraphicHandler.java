@@ -362,7 +362,6 @@ public class GraphicHandler extends DefaultHandler {
 				break;
 				
 			case "point":
-				System.out.println(attributes.getValue("x"));
 				xPoints.add(new Float(attributes.getValue("x")));
 				yPoints.add(new Float(attributes.getValue("y")));
 				break;
