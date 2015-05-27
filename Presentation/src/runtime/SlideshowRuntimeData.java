@@ -91,9 +91,11 @@ public class SlideshowRuntimeData {
 	 * dynamically.
 	 */
 	private ArrayList<Question> dynamicQuestionList = new ArrayList<Question>();
-	
+
+	private Question currentOTSQuestion;
+
 	private CommsHandler comms;
-	
+
 	private Group group;
 
 	/**
@@ -109,7 +111,8 @@ public class SlideshowRuntimeData {
 	 *            boolean containing if the question data should be logged or
 	 *            not.
 	 */
-	public SlideshowRuntimeData(Slideshow slideshow, double xPos, double yPos, CommsHandler comms, boolean logQuestionData) {
+	public SlideshowRuntimeData(Slideshow slideshow, double xPos, double yPos, CommsHandler comms,
+			boolean logQuestionData) {
 		/*
 		 * Sets the current slideshow and the aspect ratio of both of the
 		 * dimensions of the slideshow
@@ -226,13 +229,11 @@ public class SlideshowRuntimeData {
 
 		/* Pass the current slide to the renderer to be drawn. */
 		slideRenderer.drawSlide(currentSlide);
-		
+
 		if (currentSlide.containsQuestion()) {
 			comms.setCurrentQuestion(currentSlide.getQuestion());
-		}
-		else
-		{
-			comms.setCurrentQuestion(new Question("", ""));
+		} else {
+			comms.setCurrentQuestion(createNewOTSQuestion());
 		}
 
 		/* Build the scheduler list of timing events for this slide. */
@@ -242,6 +243,31 @@ public class SlideshowRuntimeData {
 		if (!timingList.isEmpty()) {
 			scheduleNextUpdate();
 		}
+	}
+
+	private Question createNewOTSQuestion() {
+		/* Dynamically create a question slide. */
+		int questionNumber = 0;
+
+		/*
+		 * If the list exists, the question number is related to the size of the
+		 * list.
+		 */
+		if (dynamicQuestionList != null) {
+			questionNumber = dynamicQuestionList.size();
+		}
+
+		/* Create a new question. */
+		currentOTSQuestion = new Question(
+			"Dynamic Question No. " + Integer.toString(questionNumber + 1),
+			"dynamicQ " + Integer.toString(questionNumber + 1));
+
+		/* Add the number of answers */
+		for (int i = 0; i < 4; i++) {
+			currentOTSQuestion.addAnswer(Integer.toString(i), true);
+		}
+
+		return currentOTSQuestion;
 	}
 
 	/**
@@ -474,49 +500,31 @@ public class SlideshowRuntimeData {
 					/* Reset the string */
 					numberInput = "";
 					break;
+
+				case C:
+					/*
+					 * If the current slide does not have a question, clear the
+					 * currently collected question data. Create a new question,
+					 * and add it to the comms.
+					 */
+					if (!currentSlide.containsQuestion()) {
+						comms.setCurrentQuestion(createNewOTSQuestion());
+					}
 				case Q:
-					/* Dynamically create a question slide. */
-					
-					int questionNumber = 0;
-
 					/*
-					 * If the list exists, the question number is related to the
-					 * size of the list.
+					 * If the current slide does not have a question, build the
+					 * answer slide, and add the question to the list of ots
+					 * questions created during this presentation.
 					 */
-					if (dynamicQuestionList != null) {
-						questionNumber = dynamicQuestionList.size();
+					if (!currentSlide.containsQuestion()) {
+						/* Cancel all pending timing tasks */
+						if (nextUpdate != null && !nextUpdate.isDone()) {
+							nextUpdate.cancel(true);
+						}
+						slideRenderer.clear();
+						slideRenderer.buildAnswerSlide(currentOTSQuestion);
+						dynamicQuestionList.add(currentOTSQuestion);
 					}
-
-					/* Create a new question. */
-					Question dynamicQuestion = new Question(
-						"Dynamic Question No. " + Integer.toString(questionNumber + 1),
-						"dynamicQ " + Integer.toString(questionNumber + 1));
-
-					/* Add the number of answers */
-					for (int i = 0; i < 4; i++) {
-						dynamicQuestion.addAnswer(Integer.toString(i), true);
-					}
-
-					/* TODO add to the comms handler. */
-					comms.setCurrentQuestion(dynamicQuestion);
-
-					/* Pause for answers to be collected. */
-
-					//slideRenderer.addTimeRemainingForOTSQuestionLabel();
-
-					try {
-						Thread.sleep(1000);
-					} catch (InterruptedException e) {
-						/* Just build the slide if the thread is interrupted. */
-					}
-					
-					/*
-					 * Build the answer slide, and add the question to the list
-					 * of questions created during this presentation.
-					 */
-					//slideRenderer.clear();
-					slideRenderer.buildAnswerSlide(dynamicQuestion);
-					dynamicQuestionList.add(dynamicQuestion);
 					break;
 				default:
 					break;

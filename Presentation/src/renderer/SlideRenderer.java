@@ -749,13 +749,6 @@ public class SlideRenderer {
 		graphHandler.drawPieChart(answerChart);
 	}
 
-	public void addTimeRemainingForOTSQuestionLabel() {
-		Label timeRemainingLabel = new Label("You have ");
-		timeRemainingLabel.relocate(10d, 10d);
-		timeRemainingLabel.setText("You have " + 6 + " seconds remaining.");
-		group.getChildren().add(timeRemainingLabel);
-	}
-
 	/**
 	 * EventHandler class for passing to the video handler, which sets the
 	 * slideshow to fullscreen after being changed by a video going fullscreen.
