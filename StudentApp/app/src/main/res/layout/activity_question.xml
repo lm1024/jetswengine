@@ -6,28 +6,28 @@
     tools:context=".QuestionActivity">
 
     <Button
-        android:layout_weight="1"
+        android:layout_weight="2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:text="@string/option_a"
         android:onClick="optionA"/>
 
     <Button
-        android:layout_weight="1"
+        android:layout_weight="2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:text="@string/option_b"
         android:onClick="optionB"/>
 
     <Button
-        android:layout_weight="1"
+        android:layout_weight="2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:text="@string/option_c"
         android:onClick="optionC"/>
 
     <Button
-        android:layout_weight="1"
+        android:layout_weight="2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:text="@string/option_d"

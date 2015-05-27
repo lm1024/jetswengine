@@ -21,5 +21,8 @@
     <string name="hex_code">Hex Code:</string>
     <string name="connect">Connect</string>
     <string name="SScontentDescription">Smart Slides Logo</string>
+    <string name="retry">Retry</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
 
 </resources>

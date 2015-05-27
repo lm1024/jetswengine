@@ -174,24 +174,25 @@ public class QuestionActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         String[] ips = getResources().getStringArray(R.array.ip_array);
-        siteIP = intent.getIntExtra(Open.SITE_ID, 0);
-        hexCode = intent.getStringExtra(Open.HEX_CODE);
+        //siteIP = intent.getIntExtra(Open.SITE_ID, 0);
+        //hexCode = intent.getStringExtra(Open.HEX_CODE);
+        serverIP = intent.getStringExtra(Open.SERVER_IP);
         localIP = getWifiIpAddress(this);
 
-        // Set IP for selected Site
-        switch (siteIP) {
-            case 1:
-                serverIP = ips[1];
-                break;
-            default:
-                serverIP = "0.0";
-                System.err.println("No site selected");
-                break;
-        }
-
-        // Construct and display Final IP
-        serverIP += "." + getHexCodeIP(hexCode);
-        System.err.println(serverIP);
+        //// Set IP for selected Site
+        //switch (siteIP) {
+        //    case 1:
+        //        serverIP = ips[1];
+        //        break;
+        //    default:
+        //        serverIP = "0.0";
+        //        System.err.println("No site selected");
+        //        break;
+        //}
+//
+        //// Construct and display Final IP
+        //serverIP += "." + getHexCodeIP(hexCode);
+        //System.err.println(serverIP);
 
         // Network
         networkingThread = new Thread(new NetworkingThread(this));

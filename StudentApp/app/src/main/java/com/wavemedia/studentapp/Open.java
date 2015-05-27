@@ -1,5 +1,7 @@
 package com.wavemedia.studentapp;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -11,24 +13,34 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.InetAddress;
+import java.net.Socket;
+
 public class Open extends ActionBarActivity {
 
     // Intent Extra Labels
-    public final static String SITE_ID = "com.wavemedia.studentapp.SITE_ID";
-    public final static String HEX_CODE = "com.wavemedia.studentapp.HEX_CODE";
+    //public final static String SITE_ID = "com.wavemedia.studentapp.SITE_ID";
+    //public final static String HEX_CODE = "com.wavemedia.studentapp.HEX_CODE";
+    public final static String SERVER_IP = "com.wavemedia.studentapp.SERVER_IP";
 
     Spinner spinner;                // Dropdown Box Declaration
     int site;                       // Dropdown Box Selected Value Declaration
     int[] sites;                    // IDs for Sites
+    String[] ips;                   // IPs for Sites
     EditText hex;                   // Hex Code Text Box
     Button connectButton;           // Connect Button
     Thread connectEnableThread;     // Thread for Enabling Connect Button Declaration
-    Boolean check;
+    Thread networkingThread;        // Thread for preliminary Network Test
+    Socket socket;                  // Socket for preliminary Network Test
+    PrintWriter out;                // PrintWriter for preliminary Network Test
+    String serverIP;                // Server IP for preliminary Network Test
+    Boolean testResult = false;
+
 
     // Instantiate Listener for Institution Dropdown Box Selection
     CustomOnItemSelectedListener customOnItemSelectedListener = new CustomOnItemSelectedListener();
-
-    Thread preliminaryNetworkingThread;
 
     // On Application Open, First Activity Runs:
     @Override
@@ -54,6 +66,9 @@ public class Open extends ActionBarActivity {
         // Use Array of numbers 0 - Number of Institutions to compare with DD Box selection
         sites = getResources().getIntArray(R.array.site_id);
 
+        // Get list of IPs for site IDS
+        ips = getResources().getStringArray(R.array.ip_array);
+
         // Instantiate Connect Button
         connectButton = (Button) findViewById(R.id.connectbutton);
         // Initially Disable until adequate data input
@@ -62,6 +77,53 @@ public class Open extends ActionBarActivity {
         // Instantiate and start thread for enabling connect button
         connectEnableThread = new Thread(new ConnectEnableThread(this));
         connectEnableThread.start();
+    }
+
+    class NetworkingThread implements Runnable {
+
+        Open parent;
+
+        public NetworkingThread(Open ma) {
+            this.parent = ma;
+        }
+
+        @Override
+        public void run() {
+            try {
+                if(out == null) {
+                    new SendingThread().run();
+                    System.out.println("Check 2");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                try {
+                    socket.close();
+                    System.out.println("Check 3");
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        }
+    }
+
+    class SendingThread implements Runnable {
+
+        @Override
+        public void run() {
+            try {
+                InetAddress serverAddr = InetAddress.getByName(serverIP);
+                //socket = new Socket(serverAddr, serverPort);
+                System.err.println("WM: Creating socket");
+                int serverPort = QuestionActivity.SERVER_PORT;
+                socket = new Socket(serverAddr, serverPort);
+                System.err.println("WM: Creating output");
+                out = new PrintWriter(socket.getOutputStream(), true);
+                System.err.println("WM: sending IP");
+            } catch (Exception e) {
+                System.err.println("WM: shits fucked");
+                e.printStackTrace();
+            }
+        }
     }
 
     // Thread for Enabling Connect Button
@@ -154,18 +216,50 @@ public class Open extends ActionBarActivity {
         hexCode = hexCode.toUpperCase();
         //System.out.println(hexCode);
 
+        //Get IP
+        IPDecoder ipDecoder = new IPDecoder(site,hexCode,sites,ips);
+        serverIP = ipDecoder.getServerIP();
+
+        //Network Test
+        networkingThread = new Thread(new NetworkingThread(this));
+        networkingThread.start();
+
+        //Successful Connection?
+        if (out != null) {
+            testResult = true;
+            //Close socket
+            try {
+                socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            testResult = false;
+        }
+
+        if (testResult) {
+            intent.putExtra(SERVER_IP, serverIP);
+            startActivity(intent);
+        } else {
+            new AlertDialog.Builder(this)
+                    .setTitle("Connection Error")
+                    .setMessage("Connection to Server has Failed")
+                    .setNeutralButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+        }
+        }
+
         // Add hexCode and Site ID to Intent and start Question Activity.
-        intent.putExtra(SITE_ID, site);
-        intent.putExtra(HEX_CODE, hexCode);
+        //intent.putExtra(SITE_ID, site);
+        //intent.putExtra(HEX_CODE, hexCode);
 
-        //Final Check
-//        preliminaryNetworkingThread = new Thread(new PreliminaryNetworkingThread(this));
-//        preliminaryNetworkingThread.start();
-//        preliminaryNetworkingThread.join();
-
-
-
-
-        startActivity(intent);
+        //startActivity(intent);
     }
-}
+
+
+
+
