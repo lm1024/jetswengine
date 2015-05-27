@@ -13,12 +13,15 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
+import comms.CommsHandler;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
@@ -88,6 +91,10 @@ public class SlideshowRuntimeData {
 	 * dynamically.
 	 */
 	private ArrayList<Question> dynamicQuestionList = new ArrayList<Question>();
+	
+	private CommsHandler comms;
+	
+	private Group group;
 
 	/**
 	 * Constructor for the runtime class.
@@ -102,7 +109,7 @@ public class SlideshowRuntimeData {
 	 *            boolean containing if the question data should be logged or
 	 *            not.
 	 */
-	public SlideshowRuntimeData(Slideshow slideshow, double xPos, double yPos, boolean logQuestionData) {
+	public SlideshowRuntimeData(Slideshow slideshow, double xPos, double yPos, CommsHandler comms, boolean logQuestionData) {
 		/*
 		 * Sets the current slideshow and the aspect ratio of both of the
 		 * dimensions of the slideshow
@@ -111,13 +118,14 @@ public class SlideshowRuntimeData {
 		this.currentXAspectRatio = slideshow.getDefaults().getxAspectRatio();
 		this.currentYAspectRatio = slideshow.getDefaults().getyAspectRatio();
 
+		this.comms = comms;
 		this.logQuestionData = logQuestionData;
 
 		/*
 		 * Instantiates the new group, stage and scene that the slideshow will
 		 * be displayed in.
 		 */
-		Group group = new Group();
+		group = new Group();
 		Scene scene = new Scene(group, 10, 10);
 		secondaryStage = new Stage();
 		secondaryStage.setScene(scene);
@@ -218,6 +226,14 @@ public class SlideshowRuntimeData {
 
 		/* Pass the current slide to the renderer to be drawn. */
 		slideRenderer.drawSlide(currentSlide);
+		
+		if (currentSlide.containsQuestion()) {
+			comms.setCurrentQuestion(currentSlide.getQuestion());
+		}
+		else
+		{
+			comms.setCurrentQuestion(new Question("", ""));
+		}
 
 		/* Build the scheduler list of timing events for this slide. */
 		buildTimingList();
@@ -460,7 +476,7 @@ public class SlideshowRuntimeData {
 					break;
 				case Q:
 					/* Dynamically create a question slide. */
-					slideRenderer.clear();
+					
 					int questionNumber = 0;
 
 					/*
@@ -482,15 +498,23 @@ public class SlideshowRuntimeData {
 					}
 
 					/* TODO add to the comms handler. */
+					comms.setCurrentQuestion(dynamicQuestion);
 
 					/* Pause for answers to be collected. */
 
-					dynamicQuestion.increaseAnswerCount(0);
+					//slideRenderer.addTimeRemainingForOTSQuestionLabel();
 
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						/* Just build the slide if the thread is interrupted. */
+					}
+					
 					/*
 					 * Build the answer slide, and add the question to the list
 					 * of questions created during this presentation.
 					 */
+					//slideRenderer.clear();
 					slideRenderer.buildAnswerSlide(dynamicQuestion);
 					dynamicQuestionList.add(dynamicQuestion);
 					break;

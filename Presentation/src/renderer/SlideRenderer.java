@@ -43,6 +43,8 @@ import Data.TextFragment;
 import Data.Video;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.control.Label;
+import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -745,6 +747,13 @@ public class SlideRenderer {
 		 * drawn.
 		 */
 		graphHandler.drawPieChart(answerChart);
+	}
+
+	public void addTimeRemainingForOTSQuestionLabel() {
+		Label timeRemainingLabel = new Label("You have ");
+		timeRemainingLabel.relocate(10d, 10d);
+		timeRemainingLabel.setText("You have " + 6 + " seconds remaining.");
+		group.getChildren().add(timeRemainingLabel);
 	}
 
 	/**

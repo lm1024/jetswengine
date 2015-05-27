@@ -1,5 +1,9 @@
 package runtime;
 
+import java.io.IOException;
+
+import comms.CommsHandler;
+
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -37,18 +41,27 @@ public class RuntimeDataWithGraphTest extends Application {
 		
 		Question question = new Question("How many ducks are in York?", "ducks");
 		question.addAnswer("10", true);
-		question.increaseAnswerCount(0);
+		
 		question.addAnswer("100000000000000", false);
-		question.increaseAnswerCount(1);
-		question.increaseAnswerCount(1);
+		
 		
 		slide1.addQuestion(question);
 		slideshow.addSlide(slide1);
 		
 		Slide slide2 = new Slide(slideshow.getDefaults());
 		slideshow.addSlide(slide2);
+		
+		CommsHandler comms = null;
+		try {
+			comms = new CommsHandler();
 
-		final SlideshowRuntimeData slideshowRuntimeData = new SlideshowRuntimeData(slideshow, 0, 0, true);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.exit(0);
+			e.printStackTrace();
+		}
+
+		final SlideshowRuntimeData slideshowRuntimeData = new SlideshowRuntimeData(slideshow, 0, 0, comms, true);
 
 		primaryStage.setOnHiding(new EventHandler<WindowEvent>() {
 

@@ -1,5 +1,9 @@
 package runtime;
 
+import java.io.IOException;
+
+import comms.CommsHandler;
+
 import Data.Slideshow;
 import XML.ImprovedXMLReader;
 import javafx.application.Application;
@@ -23,8 +27,18 @@ public class RuntimeDataTest extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		Slideshow slideshow = new ImprovedXMLReader("test.xml").getSlideshow();
+		
+		CommsHandler comms = null;
+		try {
+			comms = new CommsHandler();
 
-		final SlideshowRuntimeData slideshowRuntimeData = new SlideshowRuntimeData(slideshow, 0, 0, false);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.exit(0);
+			e.printStackTrace();
+		}
+
+		final SlideshowRuntimeData slideshowRuntimeData = new SlideshowRuntimeData(slideshow, 0, 0, comms, false);
 		
 		primaryStage.setOnHiding(new EventHandler<WindowEvent>() {
 
