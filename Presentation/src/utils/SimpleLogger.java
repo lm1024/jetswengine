@@ -15,7 +15,7 @@ public class SimpleLogger {
 		
 		Handler handler = null;
 		try {
-			handler = new FileHandler("test.xml", LOG_SIZE, LOG_ROTATION_COUNT);
+			handler = new FileHandler("smartSlidesLog.xml", LOG_SIZE, LOG_ROTATION_COUNT);
 		} catch (SecurityException | IOException e) {
 			e.printStackTrace();
 		}
