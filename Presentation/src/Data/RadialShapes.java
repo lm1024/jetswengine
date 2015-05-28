@@ -136,7 +136,7 @@ public class RadialShapes extends Graphic {
 		public void setArcWidth(String string) {
 			try {
 				float f = Float.parseFloat(string);
-				if (Utils.withinRangeInclusive(0, 1, f)) {
+				if (f >= 0) {
 					this.arcWidth = f;
 				}
 			} catch (Exception e) {
@@ -151,7 +151,7 @@ public class RadialShapes extends Graphic {
 		public void setArcHeight(String string) {
 			try {
 				float f = Float.parseFloat(string);
-				if (Utils.withinRangeInclusive(0, 1, f)) {
+				if (f >= 0) {
 					this.arcHeight = f;
 				}
 			} catch (Exception e) {

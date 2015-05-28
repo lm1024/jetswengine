@@ -281,10 +281,10 @@ public class SlideRenderer {
 
 			/* Build the graphics builder object with all of the shape info. */
 			graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos)
-				.width(arc.getWidth())
-				.height(arc.getHeight())
+				.width(convXRelCoordToAbsCoord(arc.getWidth()))
+				.height(convYRelCoordToAbsCoord(arc.getHeight()))
 				.arcAngle(arc.getArcAngle())
-				.length(arc.getLength())
+				.length(convXRelCoordToAbsCoord(arc.getLength()))
 				.color(arc.getGraphicColor())
 				.solid(arc.isSolid())
 				.outlineColor(arc.getOutlineColor())
@@ -304,10 +304,10 @@ public class SlideRenderer {
 		case CHORD:
 			Chord chord = (Chord) currentGraphic;
 			graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos)
-				.width(chord.getWidth())
-				.height(chord.getHeight())
+				.width(convXRelCoordToAbsCoord(chord.getWidth()))
+				.height(convYRelCoordToAbsCoord(chord.getHeight()))
 				.arcAngle(chord.getArcAngle())
-				.length(chord.getLength())
+				.length(convXRelCoordToAbsCoord(chord.getLength()))
 				.color(chord.getGraphicColor())
 				.solid(chord.isSolid())
 				.outlineColor(chord.getOutlineColor())
@@ -319,7 +319,7 @@ public class SlideRenderer {
 		case CIRCLE:
 			Circle circle = (Circle) currentGraphic;
 			graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos)
-				.radius(circle.getSize())
+				.radius(convXRelCoordToAbsCoord(circle.getSize()))
 				.color(circle.getGraphicColor())
 				.solid(circle.isSolid())
 				.outlineColor(circle.getOutlineColor())
@@ -331,7 +331,7 @@ public class SlideRenderer {
 		case EQUILATERALTRIANGLE:
 			EquilateralTriangle eTri = (EquilateralTriangle) currentGraphic;
 			graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos)
-				.length(eTri.getSize())
+				.length(convXRelCoordToAbsCoord(eTri.getSize()))
 				.color(eTri.getGraphicColor())
 				.solid(eTri.isSolid())
 				.outlineColor(eTri.getOutlineColor())
@@ -353,6 +353,8 @@ public class SlideRenderer {
 		case OVAL:
 			Oval oval = (Oval) currentGraphic;
 			graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos)
+				.xEndPos(convXRelCoordToAbsCoord(oval.getXEnd()))
+				.yEndPos(convYRelCoordToAbsCoord(oval.getYEnd()))
 				.color(oval.getGraphicColor())
 				.solid(oval.isSolid())
 				.outlineColor(oval.getOutlineColor())
@@ -396,9 +398,11 @@ public class SlideRenderer {
 		case SQUARE:
 			Square square = (Square) currentGraphic;
 			graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos)
-				.length(square.getSize())
+				.length(convXRelCoordToAbsCoord(square.getSize()))
 				.color(square.getGraphicColor())
 				.solid(square.isSolid())
+				.arcWidth(square.getArcWidth())
+				.arcHeight(square.getArcHeight())				
 				.outlineColor(square.getOutlineColor())
 				.outlineThickness(square.getOutlineThickness())
 				.shadow(square.getShadow())
@@ -510,7 +514,7 @@ public class SlideRenderer {
 			boolean superscript = currentFragment.isSuperscript();
 			boolean subscript = currentFragment.isSubscript();
 			boolean strikethrough = currentFragment.isStrikethrough();
-			boolean newline = currentFragment.isBold();
+			boolean newline = currentFragment.endsWithNewline();
 			String fontColor = currentFragment.getFontColor();
 			String highlightColor = currentFragment.getHighlightColor();
 			String font = currentFragment.getFont();

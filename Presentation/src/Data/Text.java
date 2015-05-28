@@ -16,8 +16,8 @@ public class Text extends SlideItem {
 	private double fontSize;
 	private String backgroundColor;
 	private String highlightColor;
-	private float xEnd = -1;
-	private float yEnd = -1;
+	private float xEnd = 1;
+	private float yEnd = 1;
 	
 	public Text(Defaults defaults) {
 		super(defaults);
