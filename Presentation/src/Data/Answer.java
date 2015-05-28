@@ -35,6 +35,13 @@ public class Answer {
 	}
 
 	/**
+	 * 
+	 */
+	public void decreaseAnswerCount() {
+		answerCount--;
+	}
+	
+	/**
 	 * @return answerCount
 	 */
 	public int getAnswerCount() {
