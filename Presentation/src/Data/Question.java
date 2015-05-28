@@ -27,19 +27,22 @@ public class Question {
 	/**
 	 * 
 	 */
-	public Question(String id, String logfile) {
-		/* Set the variables based upon the constructor arguments */
-		this.id = id;
-
-		if (logfile != null) {
-			this.logfile = logfile;
-		} else {
-			System.err.println("The logfile specified is invalid. Quitting!");
-			System.exit(-2);
-		}
-
+	public Question(String ID, String filename ) {
 		/* Instantiate the answer list */
 		answers = new ArrayList<Answer>();
+		
+		if(ID == null) {
+			System.out.println("Unspecified ID found in Question");
+			ID = "UnspecifiedID";
+		}
+		this.id = ID;
+		
+		if(filename == null) {
+			System.out.println("Unspecified Filename found in Question");
+			filename = "UnspecifiedFilename";
+		}
+		this.logfile = filename;
+		
 	}
 
 	/**
@@ -73,6 +76,10 @@ public class Question {
 	 */
 	public void addAnswer(String answerId, boolean correct) {
 		/* Make a new answer and add it to the list of answers */
+		if (answerId == null) {
+			System.out.println("Answer found with unspecified ID");
+			answerId = Integer.toString(answers.size() + 1);
+		}
 		answers.add(new Answer(answerId, correct));
 	}
 

@@ -47,7 +47,7 @@ import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import Data.Slideshow;
-import XML.XMLReader;
+import XML.ImprovedXMLReader;
 
 /**
  * @author Ashleyna Foo Inn Peng
@@ -180,7 +180,7 @@ public class GUI extends Application {
 				/* Check that a file was selected */
 				if (file != null) {
 					try {
-						currentSlideshow = new XMLReader(file.getAbsolutePath())
+						currentSlideshow = new ImprovedXMLReader(file.getAbsolutePath())
 								.getSlideshow();
 					} catch (IOException e1) {
 					}
@@ -248,7 +248,7 @@ public class GUI extends Application {
 
 				if (outputFile != null) {
 					try {
-						currentSlideshow1 = new XMLReader(outputFile)
+						currentSlideshow1 = new ImprovedXMLReader(outputFile)
 								.getSlideshow();
 					} catch (IOException e1) {
 

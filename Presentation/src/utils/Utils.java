@@ -104,7 +104,6 @@ public final class Utils {
 	
 	public static boolean validShadingType(String string) {
 		try {
-			System.out.println("Replace this util function with enum");
 			return string.toLowerCase().matches("cyclic|horizontal|vertical");
 		} catch (Exception e) {
 			return false;
@@ -113,7 +112,6 @@ public final class Utils {
 	
 	public static boolean validShape(String string) {
 		try {
-			System.out.println("Replace this util function with enum");
 			return string.toLowerCase().matches("oval|rectangle|line|circle|square|arrow|equitriangle|triangle|regpolygon|polygon|star|chord|arc");
 		} catch (Exception e) {
 			return false;

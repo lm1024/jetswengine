@@ -76,6 +76,10 @@ public class SlideHandler extends DefaultHandler {
 			reader.getContentHandler().startElement(uri, localName, qName,
 					attributes);
 			break;
+		case "question":
+			reader.setContentHandler(new QuestionHandler(reader, this, slide));
+			reader.getContentHandler().startElement(uri, localName, qName,
+					attributes);
 		default:
 			break;
 		}
