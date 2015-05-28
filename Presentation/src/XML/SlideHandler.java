@@ -23,6 +23,7 @@ public class SlideHandler extends DefaultHandler {
 	private XMLReader reader;
 	private ContentHandler parentHandler;
 	private Slide slide;
+	private boolean isTangent;
 	
 	public Defaults getDefaults() {
 		return slideshow.getDefaults();
@@ -50,6 +51,7 @@ public class SlideHandler extends DefaultHandler {
 		case "slide":
 			slide.setDuration(attributes.getValue("duration"));
 			slide.setBackgroundColor(attributes.getValue("backgroundcolor"));
+			isTangent = Boolean.parseBoolean(attributes.getValue("tangent"));
 			break;
 		case "text":
 			reader.setContentHandler(new TextHandler(reader, this, slide));
@@ -76,6 +78,10 @@ public class SlideHandler extends DefaultHandler {
 			reader.getContentHandler().startElement(uri, localName, qName,
 					attributes);
 			break;
+		case "question":
+			reader.setContentHandler(new QuestionHandler(reader, this, slide));
+			reader.getContentHandler().startElement(uri, localName, qName,
+					attributes);
 		default:
 			break;
 		}
@@ -89,7 +95,11 @@ public class SlideHandler extends DefaultHandler {
 			elementName = qName;
 		}
 		if (elementName.equals("slide")) {
-			slideshow.addSlide(slide);
+			if(isTangent) {
+				slideshow.getCurrentSlide().addTangentSlide(slide);
+			} else {
+				slideshow.addSlide(slide);
+			}
 			reader.setContentHandler(parentHandler);
 		} else if (elementName.equals("audio")) {
 			/* Suppress error warning on audio end element */

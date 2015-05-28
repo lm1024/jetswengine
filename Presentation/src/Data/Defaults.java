@@ -26,9 +26,8 @@ public class Defaults {
 	private String outlineColor = "#FF000000";
 	private float audioWidth = 0.2f;
 	private float videoWidth = 0.2f;
-	
-	private double xAspectRatio = 16;
-	private double yAspectRatio = 9;
+	private double xAspectRatio = 4;
+	private double yAspectRatio = 3;
 	
 	private boolean audioHasVisibleControls = false;
 

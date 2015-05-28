@@ -15,14 +15,14 @@
 		<graphiccolor>#ffaaaa00</graphiccolor>
 	</defaultsettings>
 	
-	<slide duration = "5">
+	<slide>
 		<video sourcefile="M:\Sweng\avengers-featurehp.mp4"
 			xstart="0" ystart="0" />
 	</slide>
 	
-	<slide duration = "5">
+	<slide>
 		<video sourcefile="M:\Sweng\avengers-featurehp.mp4" starttime="2.5"
-			duration="5.0" xstart="0.3" ystart="0.3" />
+			duration="5.0" xstart="0" ystart="0" />
 	</slide>
 	
 	<slide>

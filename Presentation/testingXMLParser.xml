@@ -37,9 +37,9 @@
 		<!-- Our Text --> <!-- Removed the set case, moved alignment to text level -->
 		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.9" font="arial" fontsize="24" fontcolor="#88776655" alignment="right" duration="1.5" starttime="2.0" backgroundcolor="#12345678" highlightcolor="#55446633">
 			<richtext font="arial" fontsize="26" fontcolor="#11223344" highlightcolor="#00000000" newline="true" b="true" i="true" u="true" strikethrough="true" superscript="true" subscript="true" >Example text!</richtext>
-			<richtext font="arial" fontsize="26" fontcolor="#11223344" highlightcolor="#00000000" newline="true" b="true" i="true" u="true" strikethrough="true" superscript="true" subscript="true" >Example \n text!</richtext>
+			<richtext font="arial" fontsize="26" fontcolor="#11223344" highlightcolor="#87654321" newline="true" b="true" i="true" u="true" strikethrough="true" superscript="true" subscript="true" >Example \n text!</richtext>
 			<!-- Removed some params from this one, should inherit -->
-			<richtext highlightcolor="#00000000" newline="true" b="true" i="true" u="true" strikethrough="true" superscript="true" subscript="true" >Example text!</richtext>
+			<richtext newline="true" b="true" i="true" u="true" strikethrough="true" superscript="true" subscript="true" >Example text!</richtext>
 		</text>
 
 		<!-- PWS Images -->
@@ -68,7 +68,7 @@
 		<video sourcefile="avengers.mkv" xstart="0.5" ystart="0.5" />
 		
 		<!-- sofia Video -->
-		<video sourcefile="avengers.mkv" xstart="0.5" ystart="0.5" width="0.1" autoplay="true" loop="true" duration="1.5" starttime="2.5"/>
+		<video sourcefile="avengers.mkv" xstart="0.5" ystart="0.5" width="0.2" autoplay="true" loop="true" duration="1.5" starttime="2.5"/>
 
 		<!-- PWS Shapes -->
 		<graphic type="oval" xstart="0.5" ystart="0.5" xend="0.7" yend="0.7" solid="true" graphiccolor="#11223344" duration="1.5">
@@ -165,5 +165,33 @@
 			<answer id="1" correct="true"/> 
 		</question>
 		
+	</slide>
+	<slide>
+		<text>
+			1.
+		</text>
+	</slide>
+	<slide>
+		<text>
+			2.
+		</text>
+		<question id="q1" logfile="filename"> 
+			<answer id="1" correct="true"/> 
+		</question>
+	</slide>
+	<slide tangent="true">
+		<text>
+			I'm a tangent.
+		</text>
+	</slide>
+	<slide>
+		<text>
+			3.
+		</text>
+	</slide>
+	<slide>
+		<text>
+			4.
+		</text>
 	</slide>
 </slideshow>

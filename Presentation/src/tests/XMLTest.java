@@ -8,6 +8,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import imageHandler.ImageEffect;
 
@@ -20,6 +21,7 @@ import Data.Defaults;
 import Data.DocumentInfo;
 import Data.Image;
 import Data.Question;
+import Data.Slide;
 import Data.Slideshow;
 import Data.Text;
 import Data.Video;
@@ -118,7 +120,7 @@ public class XMLTest {
 
 	@Test
 	public void testSlideshowSlidesListCorrectSize() {
-		assertTrue(currentSlideshow.getSlides().size() == 1);
+		assertTrue(currentSlideshow.getSlides().size() == 5);
 	}
 
 	@Test
@@ -164,7 +166,7 @@ public class XMLTest {
 		assertTrue(text.getDuration() == 1.5);
 
 		// TODO sourcefile reading
-		assertTrue(text.getSourceFile() == "test.txt");
+		assertTrue(text.getSourceFile().equals("test.txt"));
 
 		assertTrue(text.getStartTime() == defaultStartTime);
 		assertTrue(text.getXStart() == 0.5);
@@ -182,31 +184,35 @@ public class XMLTest {
 
 		assertTrue(text.getAlignment().equals("right"));
 		assertTrue(text.getBackgroundColor().equals("#12345678"));
+		assertTrue(text.getFontColor().equals("#88776655"));
 		assertTrue(text.getDuration() == 1.5);
 		assertTrue(text.getSourceFile() == null);
 		assertTrue(text.getStartTime() == 2.0);
-		assertTrue(text.getXStart() == 0.1);
-		assertTrue(text.getYStart() == 0.1);
-		assertTrue(text.getXEnd() == 0.9);
-		assertTrue(text.getYEnd() == 0.9);
+		assertTrue(text.getXStart() == 0.1f);
+		assertTrue(text.getYStart() == 0.1f);
+		assertTrue(text.getXEnd() == 0.9f);
+		assertTrue(text.getYEnd() == 0.9f);
 
 		assertTrue(text.getTextFragment(0).getFont().equals("Arial"));
-		assertTrue(text.getTextFragment(0).getFontColor().equals("#00112233"));
+		
+		assertTrue(text.getTextFragment(0).getFontColor().equals("#11223344"));
 		assertTrue(text.getTextFragment(0).getFontSize() == 26);
-		assertTrue(text.getTextFragment(0).getHighlightColor().equals("#87654321"));
+		
+		assertTrue(text.getTextFragment(0).getHighlightColor().equals("#00000000"));
 		assertTrue(text.getTextFragment(0).getText().equals("Example text!"));
 
 		assertTrue(text.getTextFragment(1).getFont().equals("Arial"));
-		assertTrue(text.getTextFragment(1).getFontColor().equals("#00112233"));
+		assertTrue(text.getTextFragment(1).getFontColor().equals("#11223344"));
 		assertTrue(text.getTextFragment(1).getFontSize() == 26);
 		assertTrue(text.getTextFragment(1).getHighlightColor().equals("#87654321"));
 		assertTrue(text.getTextFragment(1).getText().equals("Example "));
 
-		assertTrue(text.getTextFragment(2).getFont().equals("Arial"));
-		assertTrue(text.getTextFragment(2).getFontColor().equals("#88776655"));
-		assertTrue(text.getTextFragment(2).getFontSize() == 24);
-		assertTrue(text.getTextFragment(2).getHighlightColor().equals("#55446633"));
-		assertTrue(text.getTextFragment(2).getText().equals(" text!"));
+		
+		assertTrue(text.getTextFragment(3).getFont().equals("Arial"));
+		assertTrue(text.getTextFragment(3).getFontColor().equals("#88776655"));
+		assertTrue(text.getTextFragment(3).getFontSize() == 24);
+		assertTrue(text.getTextFragment(3).getHighlightColor().equals("#55446633"));
+		assertTrue(text.getTextFragment(3).getText().equals("Example text!"));
 
 	}
 
@@ -242,8 +248,8 @@ public class XMLTest {
 		assertEquals(0.5, image.getYStart(), 0.001);
 
 		/* TODO scale */
-		assertEquals(image.getScaleX(), 0.75, 0.001);
-		assertEquals(image.getScaleY(), 0.5, 0.001);
+		assertEquals(image.getScaleX(), 0.75f, 0.001);
+		assertEquals(image.getScaleY(), 0.5f, 0.001);
 
 		assertEquals(1.5, image.getDuration(), 0.001);
 		assertEquals(2.0, image.getStartTime(), 0.001);
@@ -330,13 +336,43 @@ public class XMLTest {
 		Question question = currentSlideshow.getSlide(0).getQuestion();
 		
 		assertEquals("q1", question.getId());
-		assertEquals("q1", question.getLogfile());
+		assertEquals("filename", question.getLogfile());
 		assertEquals(1, question.getNumberOfAnswers());
 		
 		Answer answer = question.getAnswers().get(0);
 		assertEquals("1", answer.getId());
 		assertTrue(answer.getCorrect());
 		
+	}
+	
+	@Test
+	public void testSlideThreeContainsTangent() {
+		assertEquals(currentSlideshow.getSlide(2).getTangentSlides().size(),1);
+	}
+	
+	@Test
+	public void testTangent() {
+		Slide slide = currentSlideshow.getSlide(2);
+		List<Slide> tangents = slide.getTangentSlides();
+		assertTrue(((Text)tangents.get(0).get(0)).getTextFragment(0).getText().equals("I'm a tangent."));
+		
+	}
+	
+	@Test
+	public void testTangentInsertion() {
+		Slide slide = currentSlideshow.getSlide(2);
+		List<Slide> tangents = slide.getTangentSlides();
+		assertTrue(((Text)tangents.get(0).get(0)).getTextFragment(0).getText().equals("I'm a tangent."));
+		assertTrue(((Text)slide.get(0)).getTextFragment(0).getText().equals("2."));
+		slide = currentSlideshow.getSlide(3);
+		assertTrue(((Text)slide.get(0)).getTextFragment(0).getText().equals("3."));
+		slide = currentSlideshow.getSlide(2);
+		assertTrue(((Text)slide.get(0)).getTextFragment(0).getText().equals("2."));
+		currentSlideshow.importTangents();
+		slide = currentSlideshow.getSlide(3);
+		assertTrue(((Text)slide.get(0)).getTextFragment(0).getText().equals("I'm a tangent."));
+		slide = currentSlideshow.getSlide(4);
+		assertTrue(((Text)slide.get(0)).getTextFragment(0).getText().equals("3."));
 	}
 
 }

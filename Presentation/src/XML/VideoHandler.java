@@ -36,6 +36,9 @@ public class VideoHandler extends DefaultHandler {
 			video.setStartTime(attributes.getValue("starttime"));
 			video.setXStart(attributes.getValue("xstart"));
 			video.setYStart(attributes.getValue("ystart"));
+			video.setWidth(attributes.getValue("width"));
+			video.setAutoplay(attributes.getValue("autoplay"));
+			video.setLoop(attributes.getValue("loop"));
 			slide.add(video);
 			reader.setContentHandler(parentHandler);
 		} else {

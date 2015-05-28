@@ -30,8 +30,12 @@ public class Audio extends SlideItem {
 	/**
 	 * @param width the width to set
 	 */
-	public void setWidth(float width) {
-		this.width = width;
+	public void setWidth(String s) {
+		try {
+			this.width = Float.parseFloat(s);
+		} catch (Exception e) {
+			//Do nothing
+		}
 	}
 
 	/**
@@ -44,8 +48,8 @@ public class Audio extends SlideItem {
 	/**
 	 * @param loop the loop to set
 	 */
-	public void setLoop(boolean loop) {
-		this.loop = loop;
+	public void setLoop(String s) {
+		this.loop = Boolean.parseBoolean(s);
 	}
 
 	/**
@@ -58,8 +62,8 @@ public class Audio extends SlideItem {
 	/**
 	 * @param autoplay the autoplay to set
 	 */
-	public void setAutoplay(boolean autoplay) {
-		this.autoplay = autoplay;
+	public void setAutoplay(String s) {
+		this.autoplay = Boolean.parseBoolean(s);
 	}
 
 	/**
@@ -72,8 +76,8 @@ public class Audio extends SlideItem {
 	/**
 	 * @param visibleControlsOnly the visibleControlsOnly to set
 	 */
-	public void setVisibleControlsOnly(boolean visibleControlsOnly) {
-		this.visibleControlsOnly = visibleControlsOnly;
+	public void setVisibleControlsOnly(String s) {
+		this.visibleControlsOnly = Boolean.parseBoolean(s);
 	}
 
 	/**
@@ -86,8 +90,8 @@ public class Audio extends SlideItem {
 	/**
 	 * @param playButtonOnly the playButtonOnly to set
 	 */
-	public void setPlayButtonOnly(boolean playButtonOnly) {
-		this.playButtonOnly = playButtonOnly;
+	public void setPlayButtonOnly(String s) {
+		this.playButtonOnly = Boolean.parseBoolean(s);
 	}
 	
 }

@@ -39,6 +39,7 @@ public class TextHandler extends DefaultHandler {
 		contentBuffer.setLength(0);
 		if(elementName.equals("text")) {
 			text = new Text(getDefaults());
+			text.setSourceFile(attributes.getValue("sourcefile"));
 			text.setDuration(attributes.getValue("duration"));
 			text.setStartTime(attributes.getValue("starttime"));
 			text.setXStart(attributes.getValue("xstart"));

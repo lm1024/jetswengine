@@ -48,6 +48,11 @@ public class AudioHandler extends DefaultHandler {
 			audio.setStartTime(attributes.getValue("starttime"));
 			audio.setXStart(attributes.getValue("xstart"));
 			audio.setYStart(attributes.getValue("ystart"));
+			audio.setAutoplay(attributes.getValue("autoplay"));
+			audio.setLoop(attributes.getValue("loop"));
+			audio.setPlayButtonOnly(attributes.getValue("playbuttononly"));
+			audio.setVisibleControlsOnly(attributes.getValue("visiblecontrols"));
+			audio.setWidth(attributes.getValue("width"));
 			slide.add(audio);
 			reader.setContentHandler(parentHandler);
 		} else {

@@ -13,6 +13,11 @@ public class Slideshow {
 	public Slideshow() {
 
 	}
+	
+	public void importTangents() {
+		int index = slides.indexOf(currentSlide);
+		slides.addAll(index + 1,currentSlide.getTangentSlides());
+	}
 
 	public void printSlideshow() {
 

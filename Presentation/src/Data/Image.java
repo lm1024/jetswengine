@@ -47,8 +47,32 @@ public class Image extends SlideItem {
 		System.out.println("");
 	}
 	
-	public void addImageEffect(ImageEffect imageEffect) {
-		imageEffects.add(imageEffect);
+	public void addImageEffect(String imageEffectName) {
+		switch (imageEffectName) { 
+			case "sepia":
+				imageEffects.add(ImageEffect.SEPIA);
+				break;
+			case "bloom":
+				imageEffects.add(ImageEffect.BLOOM);
+				break;
+			case "blur":
+				imageEffects.add(ImageEffect.BLUR);
+				break;
+			case "glow":
+				imageEffects.add(ImageEffect.GLOW);
+				break;
+			case "grayscale":
+				imageEffects.add(ImageEffect.GRAYSCALE);
+				break;
+			case "reflection":
+				imageEffects.add(ImageEffect.REFLECTION);
+				break;
+			default:
+				break;
+			
+		}
+		
+		
 	}
 	
 	public ArrayList<ImageEffect> getImageEffects() {
