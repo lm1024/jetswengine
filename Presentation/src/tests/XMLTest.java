@@ -8,6 +8,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import imageHandler.ImageEffect;
 
@@ -20,6 +21,7 @@ import Data.Defaults;
 import Data.DocumentInfo;
 import Data.Image;
 import Data.Question;
+import Data.Slide;
 import Data.Slideshow;
 import Data.Text;
 import Data.Video;
@@ -118,7 +120,7 @@ public class XMLTest {
 
 	@Test
 	public void testSlideshowSlidesListCorrectSize() {
-		assertTrue(currentSlideshow.getSlides().size() == 1);
+		assertTrue(currentSlideshow.getSlides().size() == 5);
 	}
 
 	@Test
@@ -341,6 +343,36 @@ public class XMLTest {
 		assertEquals("1", answer.getId());
 		assertTrue(answer.getCorrect());
 		
+	}
+	
+	@Test
+	public void testSlideThreeContainsTangent() {
+		assertEquals(currentSlideshow.getSlide(2).getTangentSlides().size(),1);
+	}
+	
+	@Test
+	public void testTangent() {
+		Slide slide = currentSlideshow.getSlide(2);
+		List<Slide> tangents = slide.getTangentSlides();
+		assertTrue(((Text)tangents.get(0).get(0)).getTextFragment(0).getText().equals("I'm a tangent."));
+		
+	}
+	
+	@Test
+	public void testTangentInsertion() {
+		Slide slide = currentSlideshow.getSlide(2);
+		List<Slide> tangents = slide.getTangentSlides();
+		assertTrue(((Text)tangents.get(0).get(0)).getTextFragment(0).getText().equals("I'm a tangent."));
+		assertTrue(((Text)slide.get(0)).getTextFragment(0).getText().equals("2."));
+		slide = currentSlideshow.getSlide(3);
+		assertTrue(((Text)slide.get(0)).getTextFragment(0).getText().equals("3."));
+		slide = currentSlideshow.getSlide(2);
+		assertTrue(((Text)slide.get(0)).getTextFragment(0).getText().equals("2."));
+		currentSlideshow.importTangents();
+		slide = currentSlideshow.getSlide(3);
+		assertTrue(((Text)slide.get(0)).getTextFragment(0).getText().equals("I'm a tangent."));
+		slide = currentSlideshow.getSlide(4);
+		assertTrue(((Text)slide.get(0)).getTextFragment(0).getText().equals("3."));
 	}
 
 }

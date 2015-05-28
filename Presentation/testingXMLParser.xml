@@ -166,4 +166,32 @@
 		</question>
 		
 	</slide>
+	<slide>
+		<text>
+			1.
+		</text>
+	</slide>
+	<slide>
+		<text>
+			2.
+		</text>
+		<question id="q1" logfile="filename"> 
+			<answer id="1" correct="true"/> 
+		</question>
+	</slide>
+	<slide tangent="true">
+		<text>
+			I'm a tangent.
+		</text>
+	</slide>
+	<slide>
+		<text>
+			3.
+		</text>
+	</slide>
+	<slide>
+		<text>
+			4.
+		</text>
+	</slide>
 </slideshow>
