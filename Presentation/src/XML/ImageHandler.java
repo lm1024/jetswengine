@@ -52,10 +52,13 @@ public class ImageHandler extends DefaultHandler {
 			image.setFlipHorizontal(attributes.getValue("fliphorizontal"));
 			image.setFlipVertical(attributes.getValue("flipvertical"));
 			image.setRotation(attributes.getValue("rotation"));
-			//image.setScale(attributes.getValue("scale")); TODO change to x and y
+			image.setScaleX(attributes.getValue("hscale"));
+			image.setScaleY(attributes.getValue("vscale"));
 			image.setStartTime(attributes.getValue("starttime"));
 			image.setXStart(attributes.getValue("xstart"));
 			image.setYStart(attributes.getValue("ystart"));
+		} else if (elementName.matches("sepia|bloom|blur|glow|grayscale|reflection")) {
+			image.addImageEffect(elementName);
 		} else {
 			System.err.println("Unknown element encountered");
 		}
@@ -72,7 +75,9 @@ public class ImageHandler extends DefaultHandler {
 		if (elementName.equals("image")) {
 			slide.add(image);
 			reader.setContentHandler(parentHandler);
-		} else {
+		} else if (elementName.matches("sepia|bloom|blur|glow|grayscale|reflection")) {
+			
+		} else{
 			System.err.println("Unknown element found");
 		}
 

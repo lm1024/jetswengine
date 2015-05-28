@@ -36,8 +36,12 @@ public abstract class SlideItem {
 	 *            the sourceFile to set
 	 */
 	public void setSourceFile(String string) {
-		if (string != null) {
-			this.sourceFile = string;
+		try {
+			if (!string.equals("null")) {
+				this.sourceFile = string;
+			}
+		} catch (NullPointerException e) {
+			//Do Nothing
 		}
 	}
 

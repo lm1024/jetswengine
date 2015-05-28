@@ -43,7 +43,7 @@ public class TextFragmentHandler extends DefaultHandler {
 			tf.setSuperscript(attributes.getValue("superscript"));
 			tf.setSubscript(attributes.getValue("subscript"));
 			tf.setStrikethrough(attributes.getValue("strikethrough"));
-			tf.setHighlightColor(attributes.getValue("highlightColor"));
+			tf.setHighlightColor(attributes.getValue("highlightcolor"));
 			tf.setFont(attributes.getValue("font"));
 			tf.setFontColor(attributes.getValue("fontcolor"));
 			tf.setFontSize(attributes.getValue("fontsize"));
@@ -83,6 +83,7 @@ public class TextFragmentHandler extends DefaultHandler {
 				text.addTextFragment(temp);
 			} else {
 				tf.setText(contentBuffer.toString().trim());
+				System.out.println("Fragment font color: " + tf.getFontColor());
 				text.addTextFragment(tf);
 			}
 			reader.setContentHandler(parentHandler);
