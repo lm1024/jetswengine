@@ -29,6 +29,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -36,8 +37,6 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.SeparatorMenuItem;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.effect.DropShadow;
@@ -73,16 +72,16 @@ public class GUI extends Application {
 	 * 
 	 */
 
-	/* Global text area and array in which to save words */
-	private TextArea ta = new TextArea();
-	private String bannedWords[];
-	private TextField userField = new TextField();// text field
-
 	/* for shadow on buttons */
 	private boolean isShadow = false;
 
-	/* Cascading style sheet */
+	/* Cascading style sheet and colours */
 	final private String styleSheet = "file:resources/styles/style1.css";
+	final private String grey = "#313131";
+	final private String blue = "#0082DF";
+
+	final private Image smartSlidesIcon = new Image("file:Single_S.png");
+	final private Image errorIcon = new Image("file:resources/error.png");
 
 	/* files to store prev. presentation data */
 	final private File xmlFiles = new File("resources/files.csv");
@@ -105,7 +104,7 @@ public class GUI extends Application {
 	private RadioButton[] screenSetting = new RadioButton[numScreens];
 
 	/* auto-next sync */
-	private CheckBox cb1;
+	private CheckBox slideTimerCheckBox;
 	private RadioMenuItem autoNext;
 
 	/* Blank out sync */
@@ -145,7 +144,7 @@ public class GUI extends Application {
 
 		/* Set the title and icon of the window */
 		primaryStage.setTitle("SmartSlides");
-		primaryStage.getIcons().add(new Image("file:Single_S.png"));
+		primaryStage.getIcons().add(smartSlidesIcon);
 
 		/* Set size of window */
 		windowWidth = primaryBounds.getWidth() * 0.6;
@@ -372,40 +371,17 @@ public class GUI extends Application {
 			/* Switch statement for multiple buttons using their IDs */
 			switch (buttonPressed.getId()) {
 
-			/* Clear text area */
-			case "clr":
-				ta.clear();
-				break;
-
-			/* Save words in the text box into BannedWords */
-			case "saveWords":
-				bannedWords = ta.getText().split(", ");
-				if (!bannedWords[0].isEmpty()) {
-					for (String string : bannedWords) {
-						System.out.println(string);
-					}
-				}
-				break;
 			/* Build the scene for the main */
 			case "home":
 				saveSettings();
 				buildmain();
 				break;
 
-			case "submit":
-				System.out.println(userField.getText());
-				break;
-
-			/* clear the text field */
-			case "userClr":
-				userField.clear();
-				break;
-
 			/* change buttonInfo and fileList */
 			case "histClear":
 				for (int n = 0; n < 6; n++) {
 					preferences.getButtonInfo().set(n, "No File, , , ");
-					preferences.getFileList().set(n, "No File");
+					preferences.getFileList().set(n, "null");
 				}
 				/* update the CSV's */
 				updateButtonsCSV();
@@ -434,7 +410,7 @@ public class GUI extends Application {
 
 			/* new instance of a drop shadow and its colour */
 			DropShadow shadow = new DropShadow();
-			shadow.setColor(Color.web("#0082DF"));
+			shadow.setColor(Color.web(blue));
 
 			/* if there is no shadow add it */
 			if (!isShadow) {
@@ -568,7 +544,7 @@ public class GUI extends Application {
 
 			} else {
 				/* Display the error message if file = null */
-				dispError();
+				dispNoFile();
 			}
 		}
 	}
@@ -653,7 +629,7 @@ public class GUI extends Application {
 
 			case "Auto Next":
 				preferences.setSlideAuto(isItem);
-				cb1.setSelected(isItem);
+				slideTimerCheckBox.setSelected(isItem);
 				break;
 			}
 
@@ -823,10 +799,12 @@ public class GUI extends Application {
 				}
 				break;
 
+			/* Open product info box */
 			case "About SmartSlides":
 				buildInfo();
 				break;
 
+			/* Open a browser at smartslides.co.uk */
 			case "Website":
 				try {
 					Desktop.getDesktop().browse(
@@ -848,7 +826,8 @@ public class GUI extends Application {
 
 	/**
 	 * 
-	 * Private method to build menu bars
+	 * Private method to build menu bars with all menu items as well as adding
+	 * all handler etc.
 	 * 
 	 */
 
@@ -960,7 +939,7 @@ public class GUI extends Application {
 		VBox backBox = makeVBox("darkBox", Pos.CENTER, 0);
 		backBox.getChildren().add(back);
 
-		menu.setStyle("-fx-background-color: #313131;");
+		menu.setStyle("-fx-background-color:" + grey);
 
 		mainMenu.getChildren().addAll(menu, backBox);
 
@@ -968,13 +947,10 @@ public class GUI extends Application {
 
 	/**
 	 * 
-	 * private method to build the main screen
+	 * Method to build the main scene and all objects within it.
 	 * 
 	 */
 	private void buildmain() {
-		/**
-		 * TODO: Buildmain
-		 */
 
 		/* Change menu bar disables */
 		home.setDisable(true);
@@ -1044,11 +1020,15 @@ public class GUI extends Application {
 
 	}
 
+	/**
+	 * Method to build and display the settings scene and all objects within
+	 * that
+	 */
 	private void buildSettings() {
 
-		/**
-		 * TODO: buildSettings
-		 */
+		/* Padding for boxes to keep things in line */
+		double gap = windowWidth * 0.05;
+		Insets padding = new Insets(gap, gap, gap, gap);
 
 		/* Change menu bar disables */
 		home.setDisable(false);
@@ -1086,16 +1066,19 @@ public class GUI extends Application {
 		 */
 
 		/* Add check boxes */
-		cb1 = makeCheckBox("Slide Timer", "checkLight", "slides",
-				preferences.isSlideAuto());
+		slideTimerCheckBox = makeCheckBox("Slide Timer", "checkLight",
+				"slides", preferences.isSlideAuto());
 
-		/* Vbox to contain check boses */
-		VBox vbox1 = makeVBox("clearBox", Pos.TOP_CENTER, 5);
-		vbox1.getChildren().addAll(makeLabel("Auto-Next:", 20, "#313131"), cb1);
-		settingsGrid.add(vbox1, 0, 2);
+		/* Vbox to contain auto next checkbox */
+		VBox autoNextBox = makeVBox("clearBox", Pos.CENTER_LEFT, 5);
+		autoNextBox.setPadding(padding);
+		autoNextBox.getChildren().addAll(makeLabel("Auto-Next:", 20, grey),
+				slideTimerCheckBox);
+		settingsGrid.add(autoNextBox, 0, 2);
 
 		/* Boxes for blank out options layout */
-		VBox blankBox = makeVBox("clearBox", Pos.CENTER, 5);
+		VBox blankBox = makeVBox("clearBox", Pos.CENTER_LEFT, 5);
+		blankBox.setPadding(padding);
 
 		/* Toggle Buttons */
 		audioToggle = makeCheckBox("Pause Audio", "checkLight", "audio",
@@ -1106,7 +1089,7 @@ public class GUI extends Application {
 				preferences.isAudioPause() && preferences.isVideoPause());
 
 		/* add buttons and label to box and box to grid */
-		blankBox.getChildren().addAll(makeLabel("On blank:", 20, "#313131"),
+		blankBox.getChildren().addAll(makeLabel("On blank:", 20, grey),
 				allToggle, audioToggle, videoToggle);
 		settingsGrid.add(blankBox, 0, 3);
 
@@ -1120,11 +1103,11 @@ public class GUI extends Application {
 		/*
 		 * TODO: TOM - replace with getCode()
 		 */
-		Label codeLabel = makeLabel("No Code :(", 20, "#313131");
+		Label codeLabel = makeLabel("No Code :(", 20, grey);
 
 		/* Add everything to the box */
-		codeBox.getChildren().addAll(
-				makeLabel("Connection Code:", 20, "#313131"), codeLabel);
+		codeBox.getChildren().addAll(makeLabel("Connection Code:", 20, grey),
+				codeLabel);
 		settingsGrid.add(codeBox, 1, 2);
 
 		/* Clear History button */
@@ -1142,7 +1125,7 @@ public class GUI extends Application {
 		VBox screenBox = makeVBox("clearBox", Pos.TOP_CENTER, 10);
 
 		/* add title label */
-		screenBox.getChildren().add(makeLabel("Screen Select:", 20, "#313131"));
+		screenBox.getChildren().add(makeLabel("Screen Select:", 20, grey));
 
 		/* Toggle group for screens */
 		ToggleGroup screenGroup = new ToggleGroup();
@@ -1167,14 +1150,15 @@ public class GUI extends Application {
 		settingsGrid.add(screenBox, 2, 2);
 
 		/**/
-		VBox questionsBox = makeVBox("clearBox", Pos.CENTER, 5);
+		VBox questionsBox = makeVBox("clearBox", Pos.CENTER_LEFT, 5);
+		questionsBox.setPadding(padding);
 		CheckBox logAllQuestions = makeCheckBox("All questions", "checkLight",
 				"allQ", preferences.isQuestionsLogged());
 		CheckBox logOTS = makeCheckBox("OTS Questions", "checkLight", "OTSQ",
 				preferences.isOTSLogged());
 
 		questionsBox.getChildren().addAll(
-				makeLabel("Log Answers for:", 20, "#313131"), logAllQuestions,
+				makeLabel("Log Answers for:", 20, grey), logAllQuestions,
 				logOTS);
 		settingsGrid.add(questionsBox, 2, 3);
 
@@ -1200,6 +1184,10 @@ public class GUI extends Application {
 
 	private void buildInfo() {
 
+		/**
+		 * TODO: hyper link into label
+		 */
+
 		/* Create stage and give it a title */
 		final Stage infoStage = new Stage();
 		infoStage.setTitle("About SmartSlides");
@@ -1218,17 +1206,29 @@ public class GUI extends Application {
 						primaryBounds.getWidth() * 0.2, 0), 0, 0);
 
 		/* Make and add a label */
-		Label lbl = makeLabel("Developed by WaveMedia \n" + "Version: 2.0 \n"
-				+ "Release Date: June 2015 \n"
-				+ "Email: help@smartslides.co.uk \n", 15, "#313131");
+		final Label lbl = makeLabel("Developed by WaveMedia \n"
+				+ "Version: 2.0 \n" + "Release Date: June 2015 \n" + "Email:",
+				15, grey);
 		infoGrid.add(lbl, 0, 1);
+
+		/* Link for email */
+		final Hyperlink emailLink = new Hyperlink("help@smartslides.co.uk");
+		emailLink.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent e) {
+				System.out.println("Email is clicked");
+				getHostServices().showDocument("mailto:" + emailLink.getText());
+			}
+		});
+
+		infoGrid.add(emailLink, 0, 2);
 
 		/* Create and add button to exit window */
 		VBox ok = makeVBox("invisiBox", Pos.CENTER_RIGHT, 20);
 		ok.setPadding(new Insets(10, 10, 10, 10));
 		Button okBtn = makeSettingButton("OK", "darkButton", true, "infoOK");
 		ok.getChildren().add(okBtn);
-		infoGrid.add(ok, 0, 2);
+		infoGrid.add(ok, 0, 3);
 		okBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent actionEvent) {
@@ -1240,7 +1240,7 @@ public class GUI extends Application {
 		/* Add WM bar to bottom of window */
 		infoGrid.add(
 				makeImageView("file:Background_long_tail.png",
-						primaryBounds.getWidth() * 0.2, 0), 0, 3);
+						primaryBounds.getWidth() * 0.2, 0), 0, 4);
 
 		/* Set the scene */
 		infoStage.setScene(infoScene);
@@ -1263,7 +1263,7 @@ public class GUI extends Application {
 		/* Create stage and give it a title */
 		final Stage errorStage = new Stage();
 		errorStage.setTitle("Error");
-		errorStage.getIcons().add(new Image("file:resources/error.png"));
+		errorStage.getIcons().add(errorIcon);
 
 		/* Create pane */
 		GridPane errorGrid = new GridPane();
@@ -1272,14 +1272,14 @@ public class GUI extends Application {
 
 		/* make a scene and add infoGrid */
 		Scene errorScene = new Scene(errorGrid);
-		errorScene.getStylesheets().add("file:resources/styles/style1.css");
+		errorScene.getStylesheets().add(styleSheet);
 
 		/* Make and add a label */
 		Label lbl = makeLabel(
 				"Sorry, there was an error loading the file.\n"
 						+ "For assistance please contact:\n"
 						+ "help@smartslides.co.uk\n"
-						+ "Or visit www.smartslides.co.uk", 15, "#313131");
+						+ "Or visit www.smartslides.co.uk", 15, grey);
 		errorGrid.add(lbl, 1, 0);
 
 		/* Create and add button to exit window */
@@ -1306,6 +1306,48 @@ public class GUI extends Application {
 
 		/* show the stage */
 		errorStage.show();
+
+	}
+
+	private void dispNoFile() {
+		// TODO Auto-generated method stub
+
+		/* Set stage for pop up */
+		final Stage noFileStage = new Stage();
+		noFileStage.setTitle("No File");
+
+		noFileStage.getIcons().add(errorIcon);
+
+		GridPane noFilePane = new GridPane();
+		noFilePane.setAlignment(Pos.CENTER);
+
+		/* make a scene and add infoGrid */
+		Scene noFileScene = new Scene(noFilePane);
+		noFileScene.getStylesheets().add(styleSheet);
+
+		final Label lbl = makeLabel("No File!", 15, grey);
+		noFilePane.add(lbl, 0, 0);
+
+		final Button okBtn = makeSettingButton("OK", "darkButton", true,
+				"infoOK");
+		okBtn.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent actionEvent) {
+				/* close the stage when button is pressed */
+				noFileStage.close();
+			}
+		});
+		noFilePane.add(okBtn, 0, 1);
+
+		/* Set the scene */
+		noFileStage.setScene(noFileScene);
+
+		/* set as modal and not resizable */
+		noFileStage.initModality(Modality.WINDOW_MODAL);
+		noFileStage.initOwner(stageRef);
+		noFileStage.setResizable(false);
+
+		noFileStage.show();
 
 	}
 
