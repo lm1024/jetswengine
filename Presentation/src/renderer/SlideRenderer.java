@@ -736,8 +736,10 @@ public class SlideRenderer {
 		 * answer data arrays.
 		 */
 		for (Answer tempAnswer : question.getAnswers()) {
-			answerNames.add(tempAnswer.getId());
-			answerValues.add((float) tempAnswer.getAnswerCount());
+			if (tempAnswer.getAnswerCount() > 0) {
+				answerNames.add(tempAnswer.getId());
+				answerValues.add((float) tempAnswer.getAnswerCount());
+			}
 		}
 		/* Add the answer data to the pie charts. */
 		answerChart.setPieChartData(answerNames, answerValues);

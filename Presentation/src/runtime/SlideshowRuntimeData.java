@@ -92,12 +92,12 @@ public class SlideshowRuntimeData {
 	 * dynamically.
 	 */
 	private ArrayList<Question> dynamicQuestionList = new ArrayList<Question>();
-
+	
+	/* The current ots question that answers are being collected for. */
 	private Question currentOTSQuestion;
 
+	/* The comms handler for the current slideshow. */
 	private CommsHandler comms;
-
-	private Group group;
 	
 	private Rectangle idRectangle;
 	private Label connectionCodeSlideTitle;
@@ -137,7 +137,7 @@ public class SlideshowRuntimeData {
 		 * Instantiates the new group, stage and scene that the slideshow will
 		 * be displayed in.
 		 */
-		group = new Group();
+		Group group = new Group();
 		Scene scene = new Scene(group, 10, 10);
 		secondaryStage = new Stage();
 		secondaryStage.setScene(scene);
@@ -180,6 +180,7 @@ public class SlideshowRuntimeData {
 		scene.widthProperty().addListener(new WindowResizeHandler());
 		scene.heightProperty().addListener(new WindowResizeHandler());
 
+		/* Get and set the string containing the connection code for this slideshow. */
 		IPEncoder ipEnc = new IPEncoder();
 		currentConnectionCode = ipEnc.getIPCode();
 		
@@ -451,6 +452,9 @@ public class SlideshowRuntimeData {
 			} else {
 				/* If the connection id is being displayed, remove it. */
 				if (idRectangle != null) {
+					/* Get the current group that is being drawn on. */
+					Group group = (Group) secondaryStage.getScene().getRoot();
+					
 					group.getChildren().remove(idRectangle);
 					group.getChildren().remove(connectionCodeLabel);
 					group.getChildren().remove(connectionCodeSlideTitle);
@@ -549,6 +553,9 @@ public class SlideshowRuntimeData {
 					connectionCodeSlideTitle.setMinWidth(screenWidth);
 					connectionCodeSlideTitle.setFont(new Font(100));
 					connectionCodeSlideTitle.setAlignment(Pos.CENTER);
+					
+					/* Get the current group that is being drawn on. */
+					Group group = (Group) secondaryStage.getScene().getRoot();
 					
 					group.getChildren().addAll(idRectangle, connectionCodeLabel, connectionCodeSlideTitle);	
 					break;
