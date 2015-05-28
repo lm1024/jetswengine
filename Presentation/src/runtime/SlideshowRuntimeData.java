@@ -693,6 +693,8 @@ public class SlideshowRuntimeData {
 				question.writeLogfile();
 			}
 		}
+		
+		comms.saveRecievedQuestions();
 	}
 
 	/**

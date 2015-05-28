@@ -18,7 +18,7 @@ public class CommsTest {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		CommsHandler comms;
+		CommsHandler comms = null;
 
 		Question question = new Question("Q1", "Q1");
 		question.addAnswer("1", true);
@@ -49,6 +49,10 @@ public class CommsTest {
 
 		for (int i = 0; i < question.getNumberOfAnswers(); i++) {
 			System.out.println("Question " + i + ": " + question.getAnswer(i).getAnswerCount());
+		}
+		
+		for (String q : comms.getRecievedQuestionList()) {
+			System.out.println("Question: " + q);
 		}
 
 	}
