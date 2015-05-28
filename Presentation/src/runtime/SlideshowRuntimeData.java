@@ -1,6 +1,9 @@
+/** (c) Copyright by WaveMedia. */
 package runtime;
 
+import java.awt.AWTException;
 import java.awt.Dimension;
+import java.awt.Robot;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,23 +13,37 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
+import comms.CommsHandler;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import renderer.SlideRenderer;
+import utils.IPEncoder;
+import Data.Question;
 import Data.Slide;
 import Data.SlideItem;
 import Data.Slideshow;
 
+/**
+ * Class for controlling the current slideshow being displayed. Handles all
+ * mouse and keyboard events, as well as slide and slide item level timing.
+ * 
+ * @author tjd511
+ * @version 1.0 21/04/2015
+ */
 public class SlideshowRuntimeData {
 
 	/* Variables for keeping track of the current slideshow and current slide. */
@@ -67,6 +84,29 @@ public class SlideshowRuntimeData {
 	/* Boolean for if the question/answer data should be logged on shutdown. */
 	private boolean logQuestionData;
 
+	/* Boolean for if the spontaneous question answers should be logged. */
+	private boolean logOTSQuestionData;
+
+	/*
+	 * ArrayList for keeping track of the questions that have been created
+	 * dynamically.
+	 */
+	private ArrayList<Question> dynamicQuestionList = new ArrayList<Question>();
+	
+	/* The current ots question that answers are being collected for. */
+	private Question currentOTSQuestion;
+
+	/* The comms handler for the current slideshow. */
+	private CommsHandler comms;
+	
+	private Rectangle idRectangle;
+	private Label connectionCodeSlideTitle;
+	private Label connectionCodeLabel;
+	
+	private final String connectionCodeSlideTitleString = "Current Connection Code";
+	
+	private String currentConnectionCode;
+
 	/**
 	 * Constructor for the runtime class.
 	 * 
@@ -75,20 +115,22 @@ public class SlideshowRuntimeData {
 	 * @param xPos
 	 *            the upper left x position of the slideshow.
 	 * @param yPos
-	 *            the uppder left y position of the slideshow.
+	 *            the upper left y position of the slideshow.
 	 * @param logQuestionData
 	 *            boolean containing if the question data should be logged or
 	 *            not.
 	 */
-	public SlideshowRuntimeData(Slideshow slideshow, double xPos, double yPos, boolean logQuestionData) {
+	public SlideshowRuntimeData(Slideshow slideshow, double xPos, double yPos, CommsHandler comms,
+			boolean logQuestionData) {
 		/*
 		 * Sets the current slideshow and the aspect ratio of both of the
-		 * dimentions of the slideshow
+		 * dimensions of the slideshow
 		 */
 		this.slideshow = slideshow;
 		this.currentXAspectRatio = slideshow.getDefaults().getxAspectRatio();
 		this.currentYAspectRatio = slideshow.getDefaults().getyAspectRatio();
 
+		this.comms = comms;
 		this.logQuestionData = logQuestionData;
 
 		/*
@@ -119,10 +161,7 @@ public class SlideshowRuntimeData {
 		/* Updates the screen boundaries for the first time. */
 		updateScreenBoundaries();
 
-		/*
-		 * Set the mouse click handler. Handles the clicking to move screen, and
-		 * the right click menu. TODO this commment
-		 */
+		/* Set the mouse click handler. */
 		scene.setOnMouseClicked(new MouseClickHandler());
 
 		/*
@@ -141,6 +180,10 @@ public class SlideshowRuntimeData {
 		scene.widthProperty().addListener(new WindowResizeHandler());
 		scene.heightProperty().addListener(new WindowResizeHandler());
 
+		/* Get and set the string containing the connection code for this slideshow. */
+		IPEncoder ipEnc = new IPEncoder();
+		currentConnectionCode = ipEnc.getIPCode();
+		
 		/* Instantiate the number input string. */
 		numberInput = "";
 
@@ -161,7 +204,7 @@ public class SlideshowRuntimeData {
 		double sceneHeight = secondaryStage.getScene().getHeight();
 		double sceneWidth = secondaryStage.getScene().getWidth();
 
-		/* Declares the slide dimention variables. */
+		/* Declares the slide dimension variables. */
 		double xSlideStart;
 		double ySlideStart;
 		double slideWidth;
@@ -200,13 +243,44 @@ public class SlideshowRuntimeData {
 		/* Pass the current slide to the renderer to be drawn. */
 		slideRenderer.drawSlide(currentSlide);
 
-		/* Build the schedular list of timing events for this slide. */
+		if (currentSlide.containsQuestion()) {
+			comms.setCurrentQuestion(currentSlide.getQuestion());
+		} else {
+			comms.setCurrentQuestion(createNewOTSQuestion());
+		}
+
+		/* Build the scheduler list of timing events for this slide. */
 		buildTimingList();
 
-		/* Start the schedular if the timing list isn't empty. */
+		/* Start the scheduler if the timing list isn't empty. */
 		if (!timingList.isEmpty()) {
 			scheduleNextUpdate();
 		}
+	}
+
+	private Question createNewOTSQuestion() {
+		/* Dynamically create a question slide. */
+		int questionNumber = 0;
+
+		/*
+		 * If the list exists, the question number is related to the size of the
+		 * list.
+		 */
+		if (dynamicQuestionList != null) {
+			questionNumber = dynamicQuestionList.size();
+		}
+
+		/* Create a new question. */
+		currentOTSQuestion = new Question(
+			"On-The-Spot Question No. " + Integer.toString(questionNumber + 1),
+			"dynamicQ " + Integer.toString(questionNumber + 1));
+
+		/* Add the 4 answers */
+		for (char c = 'A'; c <= 'D'; c++) {
+			currentOTSQuestion.addAnswer(Character.toString(c), true);
+		}
+
+		return currentOTSQuestion;
 	}
 
 	/**
@@ -240,6 +314,12 @@ public class SlideshowRuntimeData {
 				timingList.add((long) (((double) slideItem.getStartTime() + slideItem.getDuration()) * 1000));
 			}
 		}
+
+		/* Add a slide duration update, if there is one. */
+		if (currentSlide.getDuration() < Float.MAX_VALUE) {
+			timingList.add((long) ((double) currentSlide.getDuration() * 1000));
+		}
+
 		/* Sort the list into ascending order. */
 		Collections.sort(timingList);
 
@@ -251,27 +331,68 @@ public class SlideshowRuntimeData {
 	 * Method schedules the next update slide event to hide/show slide elements.
 	 */
 	private void scheduleNextUpdate() {
-		/*
-		 * Add a new update to the schedular at the time of the next update -
-		 * the time of the last event (which is the time when this method is
-		 * called.
-		 */
-		nextUpdate = scheduler.schedule(new Runnable() {
-			@Override
-			public void run() {
-				/* Hide/show all the relevent elements that need to be changed. */
-				slideRenderer.updateSlide(timingList.get(0));
+		if (timingList.get(0) != (long) ((double) currentSlide.getDuration() * 1000)) {
+			/*
+			 * Add a new update to the scheduler at the time of the next update
+			 * - the time of the last event (which is the time when this method
+			 * is called.
+			 */
+			nextUpdate = scheduler.schedule(new Runnable() {
+				@Override
+				public void run() {
+					/*
+					 * Hide/show all the relevant elements that need to be
+					 * changed.
+					 */
+					slideRenderer.updateSlide(timingList.get(0));
 
-				/* Store the last event time before removing it from the list. */
-				lastEventTime = timingList.get(0);
-				timingList.remove(0);
+					/*
+					 * Store the last event time before removing it from the
+					 * list.
+					 */
+					lastEventTime = timingList.get(0);
+					timingList.remove(0);
 
-				/* Add a new event if the list isn't finished. */
-				if (!timingList.isEmpty()) {
-					scheduleNextUpdate();
+					/* Add a new event if the list isn't finished. */
+					if (!timingList.isEmpty()) {
+						scheduleNextUpdate();
+					}
 				}
-			}
-		}, timingList.get(0) - lastEventTime, TimeUnit.MILLISECONDS);
+			}, timingList.get(0) - lastEventTime, TimeUnit.MILLISECONDS);
+		} else {
+			/* */
+			nextUpdate = scheduler.schedule(new Runnable() {
+				@Override
+				public void run() {
+					/* If the update is caused by the slide duration expiring. */
+
+					/*
+					 * TD: Had real trouble getting the slide duration to work.
+					 * You could theoretically just use moveForwards() here, but
+					 * it hangs when it gets to the group.getChildren().clear()
+					 * line later on. I suspect this is due to being on a
+					 * different thread. This is not a very neat solution, but
+					 * it works well!
+					 */
+					try {
+						/*
+						 * Create a new robot called cooker (a grand day out) to
+						 * press the right arrow key.
+						 */
+						Robot cooker = new Robot();
+						cooker.keyPress(java.awt.event.KeyEvent.VK_RIGHT);
+						cooker.keyRelease(java.awt.event.KeyEvent.VK_RIGHT);
+					} catch (AWTException e) {
+						/*
+						 * If the robot cannot be formed, duration will not
+						 * work. However, this will not affect the other aspects
+						 * of the program, so carry on.
+						 */
+					}
+
+				}
+			}, timingList.get(0) - lastEventTime, TimeUnit.MILLISECONDS);
+		}
 	}
 
 	/**
@@ -313,7 +434,6 @@ public class SlideshowRuntimeData {
 			updateScreenBoundaries();
 			secondaryStage.setFullScreen(false);
 			secondaryStage.setFullScreen(true);
-
 		}
 	}
 
@@ -330,6 +450,22 @@ public class SlideshowRuntimeData {
 				/* Add the digit to the end of the number input string. */
 				numberInput = numberInput.concat(keyEvent.getText());
 			} else {
+				/* If the connection id is being displayed, remove it. */
+				if (idRectangle != null) {
+					/* Get the current group that is being drawn on. */
+					Group group = (Group) secondaryStage.getScene().getRoot();
+					
+					group.getChildren().remove(idRectangle);
+					group.getChildren().remove(connectionCodeLabel);
+					group.getChildren().remove(connectionCodeSlideTitle);
+					idRectangle = null;
+					connectionCodeLabel = null;
+					
+					/* Consume the event and return to stop this keypress affecting anything. */
+					keyEvent.consume();
+					return;
+				}
+								
 				/* Switch through the different keyCodes that are handled. */
 				switch (keyEvent.getCode()) {
 				/*
@@ -391,6 +527,65 @@ public class SlideshowRuntimeData {
 					}
 					/* Reset the string */
 					numberInput = "";
+					break;
+				case SPACE:
+					/* Display the connection code for this instance. */
+					/* Get the screensize */
+					Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+					double screenWidth = screenSize.getWidth();
+					double screenHeight = screenSize.getHeight();
+
+					/* Create a new background to blank out the current slide. */
+					idRectangle = new Rectangle(0, 0, screenWidth, screenHeight);
+					idRectangle.setFill(Color.WHITE);
+					
+					/* Create a label with the code in and add it to the screen. */
+					connectionCodeLabel = new Label(currentConnectionCode);
+					connectionCodeLabel.autosize();
+					connectionCodeLabel.setMinSize(screenWidth, screenHeight);
+					connectionCodeLabel.setFont(new Font(100));
+					connectionCodeLabel.setAlignment(Pos.CENTER);
+					
+					/* Create a title label and add it to the screen. */
+					connectionCodeSlideTitle = new Label(connectionCodeSlideTitleString);
+					connectionCodeSlideTitle.relocate(0, screenHeight*0.1);
+					connectionCodeSlideTitle.autosize();
+					connectionCodeSlideTitle.setMinWidth(screenWidth);
+					connectionCodeSlideTitle.setFont(new Font(100));
+					connectionCodeSlideTitle.setAlignment(Pos.CENTER);
+					
+					/* Get the current group that is being drawn on. */
+					Group group = (Group) secondaryStage.getScene().getRoot();
+					
+					group.getChildren().addAll(idRectangle, connectionCodeLabel, connectionCodeSlideTitle);	
+					break;
+				case C:
+					/*
+					 * If the current slide does not have a question, clear the
+					 * currently collected question data. Create a new question,
+					 * and add it to the comms.
+					 */
+					if (!currentSlide.containsQuestion()) {
+						comms.setCurrentQuestion(createNewOTSQuestion());
+					}
+					break;
+				case Q:
+					/*
+					 * If the current slide does not have a question, and the
+					 * current ots question has valid answer data, build the
+					 * answer slide, and add the question to the list of ots
+					 * questions created during this presentation.
+					 */
+					if (!currentSlide.containsQuestion() && currentOTSQuestion.hasAnswerData()) {
+						/* Cancel all pending timing tasks */
+						if (nextUpdate != null && !nextUpdate.isDone()) {
+							nextUpdate.cancel(true);
+						}
+						slideRenderer.clear();
+						slideRenderer.buildAnswerSlide(currentOTSQuestion);
+						dynamicQuestionList.add(currentOTSQuestion);
+					}
+					break;
 				default:
 					break;
 				}
@@ -492,6 +687,14 @@ public class SlideshowRuntimeData {
 		if (logQuestionData) {
 			slideshow.saveQuestionData();
 		}
+
+		if (logOTSQuestionData) {
+			for (Question question : dynamicQuestionList) {
+				question.writeLogfile();
+			}
+		}
+		
+		comms.saveRecievedQuestions();
 	}
 
 	/**

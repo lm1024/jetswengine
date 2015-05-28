@@ -14,8 +14,8 @@ import java.util.ArrayList;
  */
 public class IPEncoder {
 
-	String IPAddress;
-	String IPCode;
+	private String IPAddress;
+	private String IPCode;
 
 	/**
 	 * Constructor for the IPEncoder class.
