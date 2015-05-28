@@ -4,12 +4,12 @@
     <string-array name="site_array">
         <item>Select An Institution</item>
         <item>University Of York</item>
-        <item>Values</item>
-        <item>Are</item>
-        <item>Stored</item>
-        <item>In</item>
-        <item>arrays</item>
-        <item>.xml</item>
+        <item>Institution 2</item>
+        <item>Institution 3</item>
+        <item>Institution 4</item>
+        <item>Institution 5</item>
+        <item>Institution 6</item>
+        <item>Institution 7</item>
     </string-array>
     <string-array name="ip_array">
         <item>0.0</item>

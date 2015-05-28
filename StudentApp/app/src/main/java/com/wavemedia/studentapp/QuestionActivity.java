@@ -2,6 +2,7 @@ package com.wavemedia.studentapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.wifi.WifiManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import java.io.IOException;
@@ -23,7 +25,7 @@ import java.nio.ByteOrder;
 
 public class QuestionActivity extends ActionBarActivity {
 
-    public static final int SERVER_PORT = 80;
+    public final static int SERVER_PORT = 80;
 
     //COMMS
     Thread networkingThread;
@@ -34,6 +36,9 @@ public class QuestionActivity extends ActionBarActivity {
     String message;
     EditText questionBoxJ;
     String question;
+    Button buttonA, buttonB, buttonC, buttonD;
+    int last = Color.rgb(0, 130, 223);
+    int defaultColor;
 
     protected String getWifiIpAddress(Context context) {
         WifiManager wifiManager = (WifiManager) context.getSystemService(WIFI_SERVICE);
@@ -121,7 +126,6 @@ public class QuestionActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
-        String[] ips = getResources().getStringArray(R.array.ip_array);
         serverIP = intent.getStringExtra(Open.SERVER_IP);
         localIP = getWifiIpAddress(this);
 
@@ -152,6 +156,13 @@ public class QuestionActivity extends ActionBarActivity {
 
             }
         });
+
+        buttonA = (Button) findViewById(R.id.buttonA);
+        buttonB = (Button) findViewById(R.id.buttonB);
+        buttonC = (Button) findViewById(R.id.buttonC);
+        buttonD = (Button) findViewById(R.id.buttonD);
+
+        defaultColor = buttonA.getCurrentTextColor();
     }
 
     @Override
@@ -200,6 +211,13 @@ public class QuestionActivity extends ActionBarActivity {
         // Send Option
         message = "0";
         sendOption(message);
+
+        buttonA.setTextColor(last);
+        buttonB.setTextColor(defaultColor);
+        buttonC.setTextColor(defaultColor);
+        buttonD.setTextColor(defaultColor);
+
+
     }
 
     /** Called when User clicks the B Option */
@@ -207,6 +225,11 @@ public class QuestionActivity extends ActionBarActivity {
         // Send Option
         message = "1";
         sendOption(message);
+
+        buttonA.setTextColor(defaultColor);
+        buttonB.setTextColor(last);
+        buttonC.setTextColor(defaultColor);
+        buttonD.setTextColor(defaultColor);
     }
 
     /** Called when User clicks the C Option */
@@ -214,6 +237,11 @@ public class QuestionActivity extends ActionBarActivity {
         // Send Option
         message = "2";
         sendOption(message);
+
+        buttonA.setTextColor(defaultColor);
+        buttonB.setTextColor(defaultColor);
+        buttonC.setTextColor(last);
+        buttonD.setTextColor(defaultColor);
     }
 
     /** Called when User clicks the D Option */
@@ -221,6 +249,11 @@ public class QuestionActivity extends ActionBarActivity {
         // Send Option
         message = "3";
         sendOption(message);
+
+        buttonA.setTextColor(defaultColor);
+        buttonB.setTextColor(defaultColor);
+        buttonC.setTextColor(defaultColor);
+        buttonD.setTextColor(last);
     }
 
     public void sendQuestion(View view) {
