@@ -271,6 +271,7 @@ public class QuestionActivity extends ActionBarActivity {
         //System.err.println(question);
         //System.err.println("WM QUESTION CHECK");
         sendOption(question);
+        questionBoxJ.setText("");
     }
 
 
