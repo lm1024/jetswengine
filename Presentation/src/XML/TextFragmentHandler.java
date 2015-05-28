@@ -83,7 +83,6 @@ public class TextFragmentHandler extends DefaultHandler {
 				text.addTextFragment(temp);
 			} else {
 				tf.setText(contentBuffer.toString().trim());
-				System.out.println("Fragment font color: " + tf.getFontColor());
 				text.addTextFragment(tf);
 			}
 			reader.setContentHandler(parentHandler);
