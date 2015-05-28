@@ -137,9 +137,9 @@ public class GUI extends Application {
 
 		/* Create new instance of settings */
 		preferences = new UserPreferences();
-		
+
 		SimpleLogger.init();
-		
+
 		SimpleLogger.log(false, "GUI start");
 
 		/* Read CSV into array list */
@@ -1108,11 +1108,9 @@ public class GUI extends Application {
 		/*
 		 * TODO: TOM - replace with getCode()
 		 */
-		Label codeLabel = makeLabel("No Code :(", 20, grey);
 
-		/* Add everything to the box */
-		codeBox.getChildren().addAll(makeLabel("Connection Code:", 20, grey),
-				codeLabel);
+		codeBox.getChildren().addAll();
+
 		settingsGrid.add(codeBox, 1, 2);
 
 		/* Clear History button */
