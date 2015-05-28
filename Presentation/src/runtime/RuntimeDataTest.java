@@ -33,9 +33,8 @@ public class RuntimeDataTest extends Application {
 			comms = new CommsHandler();
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			System.out.println("Another instance of the program is running, quitting.");
 			System.exit(0);
-			e.printStackTrace();
 		}
 
 		final SlideshowRuntimeData slideshowRuntimeData = new SlideshowRuntimeData(slideshow, 0, 0, comms, false);

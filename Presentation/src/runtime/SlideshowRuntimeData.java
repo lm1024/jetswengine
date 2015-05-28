@@ -18,19 +18,20 @@ import comms.CommsHandler;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import renderer.SlideRenderer;
+import utils.IPEncoder;
 import Data.Question;
 import Data.Slide;
 import Data.SlideItem;
@@ -97,6 +98,14 @@ public class SlideshowRuntimeData {
 	private CommsHandler comms;
 
 	private Group group;
+	
+	private Rectangle idRectangle;
+	private Label connectionCodeSlideTitle;
+	private Label connectionCodeLabel;
+	
+	private final String connectionCodeSlideTitleString = "Current Connection Code";
+	
+	private String currentConnectionCode;
 
 	/**
 	 * Constructor for the runtime class.
@@ -171,6 +180,9 @@ public class SlideshowRuntimeData {
 		scene.widthProperty().addListener(new WindowResizeHandler());
 		scene.heightProperty().addListener(new WindowResizeHandler());
 
+		IPEncoder ipEnc = new IPEncoder();
+		currentConnectionCode = ipEnc.getIPCode();
+		
 		/* Instantiate the number input string. */
 		numberInput = "";
 
@@ -259,12 +271,12 @@ public class SlideshowRuntimeData {
 
 		/* Create a new question. */
 		currentOTSQuestion = new Question(
-			"Dynamic Question No. " + Integer.toString(questionNumber + 1),
+			"On-The-Spot Question No. " + Integer.toString(questionNumber + 1),
 			"dynamicQ " + Integer.toString(questionNumber + 1));
 
-		/* Add the number of answers */
-		for (int i = 0; i < 4; i++) {
-			currentOTSQuestion.addAnswer(Integer.toString(i), true);
+		/* Add the 4 answers */
+		for (char c = 'A'; c <= 'D'; c++) {
+			currentOTSQuestion.addAnswer(Character.toString(c), true);
 		}
 
 		return currentOTSQuestion;
@@ -421,7 +433,6 @@ public class SlideshowRuntimeData {
 			updateScreenBoundaries();
 			secondaryStage.setFullScreen(false);
 			secondaryStage.setFullScreen(true);
-
 		}
 	}
 
@@ -438,6 +449,19 @@ public class SlideshowRuntimeData {
 				/* Add the digit to the end of the number input string. */
 				numberInput = numberInput.concat(keyEvent.getText());
 			} else {
+				/* If the connection id is being displayed, remove it. */
+				if (idRectangle != null) {
+					group.getChildren().remove(idRectangle);
+					group.getChildren().remove(connectionCodeLabel);
+					group.getChildren().remove(connectionCodeSlideTitle);
+					idRectangle = null;
+					connectionCodeLabel = null;
+					
+					/* Consume the event and return to stop this keypress affecting anything. */
+					keyEvent.consume();
+					return;
+				}
+								
 				/* Switch through the different keyCodes that are handled. */
 				switch (keyEvent.getCode()) {
 				/*
@@ -500,7 +524,34 @@ public class SlideshowRuntimeData {
 					/* Reset the string */
 					numberInput = "";
 					break;
+				case SPACE:
+					/* Display the connection code for this instance. */
+					/* Get the screensize */
+					Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+					double screenWidth = screenSize.getWidth();
+					double screenHeight = screenSize.getHeight();
 
+					/* Create a new background to blank out the current slide. */
+					idRectangle = new Rectangle(0, 0, screenWidth, screenHeight);
+					idRectangle.setFill(Color.WHITE);
+					
+					/* Create a label with the code in and add it to the screen. */
+					connectionCodeLabel = new Label(currentConnectionCode);
+					connectionCodeLabel.autosize();
+					connectionCodeLabel.setMinSize(screenWidth, screenHeight);
+					connectionCodeLabel.setFont(new Font(100));
+					connectionCodeLabel.setAlignment(Pos.CENTER);
+					
+					/* Create a title label and add it to the screen. */
+					connectionCodeSlideTitle = new Label(connectionCodeSlideTitleString);
+					connectionCodeSlideTitle.relocate(0, screenHeight*0.1);
+					connectionCodeSlideTitle.autosize();
+					connectionCodeSlideTitle.setMinWidth(screenWidth);
+					connectionCodeSlideTitle.setFont(new Font(100));
+					connectionCodeSlideTitle.setAlignment(Pos.CENTER);
+					
+					group.getChildren().addAll(idRectangle, connectionCodeLabel, connectionCodeSlideTitle);	
+					break;
 				case C:
 					/*
 					 * If the current slide does not have a question, clear the
@@ -510,13 +561,15 @@ public class SlideshowRuntimeData {
 					if (!currentSlide.containsQuestion()) {
 						comms.setCurrentQuestion(createNewOTSQuestion());
 					}
+					break;
 				case Q:
 					/*
-					 * If the current slide does not have a question, build the
+					 * If the current slide does not have a question, and the
+					 * current ots question has valid answer data, build the
 					 * answer slide, and add the question to the list of ots
 					 * questions created during this presentation.
 					 */
-					if (!currentSlide.containsQuestion()) {
+					if (!currentSlide.containsQuestion() && currentOTSQuestion.hasAnswerData()) {
 						/* Cancel all pending timing tasks */
 						if (nextUpdate != null && !nextUpdate.isDone()) {
 							nextUpdate.cancel(true);
