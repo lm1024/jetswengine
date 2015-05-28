@@ -1,4 +1,4 @@
-package GUI;
+package PCapp;
 
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
@@ -14,21 +14,28 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 public class AudienceGUI extends Application {
 
-	final private Image smartSlidesIcon = new Image("file:Single_S.png");
+	final private Image smartSlidesIcon = new Image("file:img/Single_S.png");
 	private final Rectangle2D primaryBounds = Screen.getPrimary().getBounds();
 
 	/* Cascading style sheet and colours */
 	final private String styleSheet = "file:resources/styles/style1.css";
 
+	/* Connection settings */
 	private TextField serverAddress;
 	private Client client;
 	private String institutionCode;
+
+	/* Sending a question */
+	private TextField userQuestion;
+	private Button questionSubmit;
 
 	private Button[] btn = new Button[4];
 
@@ -79,27 +86,39 @@ public class AudienceGUI extends Application {
 		@Override
 		public void handle(ActionEvent e) {
 
-			Button connectbtn = (Button) e.getSource();
+			Button btnPressed = (Button) e.getSource();
 
-			if (connectbtn.getId().equals("connect")) {
+			if (btnPressed.getId().equals("connect")) {
 
-				String serverIP = getHexCodeIP(serverAddress.getText());
+				if (serverAddress.getText().matches("^([0-9a-fA-F]){4}$")
+						&& (institutionCode != null)) {
+					String serverIP = getHexCodeIP(serverAddress.getText());
 
-				System.out.println(institutionCode + "." + serverIP);
+					System.out.println(institutionCode + "." + serverIP);
 
-				client = new Client(institutionCode + "." + serverIP);
+					client = new Client(institutionCode + "." + serverIP);
 
-				/* Enable buttons */
-				for (int i = 0; i < 4; i++) {
-					btn[i].setDisable(false);
+					/* Enable buttons */
+					for (int i = 0; i < 4; i++) {
+						btn[i].setDisable(false);
+					}
+					questionSubmit.setDisable(false);
+					
 				}
 
+			} else if (btnPressed.getId().equals("submit")) {
+				System.out.println("submit pressed");
+				client.sendToServer(userQuestion.getText());
+				userQuestion.clear();
+
 			} else {
+
 				/* send button ID to server */
-				client.sendToServer(connectbtn.getId());
+				client.sendToServer(btnPressed.getId());
 			}
 		}
 	}
+	
 
 	private class comboListener implements ChangeListener<Number> {
 
@@ -112,7 +131,6 @@ public class AudienceGUI extends Application {
 			switch (arg2.toString()) {
 			case "0":
 				institutionCode = "144.32";
-				System.out.println("inst code");
 				break;
 
 			}
@@ -148,11 +166,28 @@ public class AudienceGUI extends Application {
 		answersBox.setSpacing(primaryBounds.getHeight() * 0.01);
 
 		ImageView smartSlides = new ImageView();
-		Image smartSlidesImage = new Image("file:Smartslides_DarkText.png",
+		Image smartSlidesImage = new Image("file:img/Smartslides_DarkText.png",
 				primaryBounds.getWidth() * 0.1, 0, true, true);
 		smartSlides.setImage(smartSlidesImage);
 
 		answersBox.getChildren().add(smartSlides);
+
+		/* User question layout box */
+		HBox question = new HBox();
+		question.getStyleClass().add("invisiBox");
+		question.setAlignment(Pos.CENTER);
+
+		/* User question text field and submit button */
+		userQuestion = new TextField();
+
+		questionSubmit = new Button("Submit");
+		questionSubmit.setId("submit");
+		questionSubmit.setDisable(true);
+		questionSubmit.setOnAction(new buttonHandler());
+
+		question.getChildren().addAll(userQuestion, questionSubmit);
+		
+		answersBox.getChildren().add(question);
 
 		/* add 4 buttons */
 		for (int i = 0; i < 4; i++) {
@@ -172,8 +207,10 @@ public class AudienceGUI extends Application {
 		btn[2].setText("C");
 		btn[3].setText("D");
 
-		ComboBox institution = new ComboBox(FXCollections.observableArrayList(
+		ComboBox<String> institution = new ComboBox<String>();
+		institution.setItems(FXCollections.observableArrayList(
 				"University of York", "Institution 2", "Institution 3"));
+		institution.setPromptText("Institution:");
 
 		institution.getSelectionModel().selectedIndexProperty()
 				.addListener(new comboListener());

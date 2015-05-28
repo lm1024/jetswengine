@@ -1,4 +1,4 @@
-package GUI;
+package PCapp;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -10,18 +10,20 @@ public class Client {
     private PrintWriter out;
     Socket socket;
     
-    private InetAddress IP;
+    private String IP;
 
 	public Client(String serverAddress) {
 		try {
 			connectToServer(serverAddress);
-			IP = InetAddress.getLocalHost();
+			IP = InetAddress.getLocalHost().getHostAddress();
 		} catch (IOException e) {
 			try {
-				socket.close();
+				if(socket != null) {
+					socket.close();
+				}
 			} catch (IOException e1) {
 				System.out.println("Well something went wrong...");
-			}
+			} 
 		}
 
 	}
@@ -34,7 +36,7 @@ public class Client {
     }
 	
 	public void sendToServer(String message) {
-		out.println(IP.toString() + ":" + message);
+		out.println(IP + ":" + message);
 	}
 
 }
