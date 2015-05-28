@@ -198,11 +198,22 @@ public class Open extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.action_info) {
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.action_info)
+                    .setMessage("Help and Contact Email:\n" +
+                    "help@smartslides.co.uk")
+                    .setNeutralButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_info)
+                    .show();
         }
-        return super.onOptionsItemSelected(item);
+        return true;
     }
+
+
 
 
     // When the Connect Button is pressed

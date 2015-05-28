@@ -1,6 +1,8 @@
 package com.wavemedia.studentapp;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.wifi.WifiManager;
@@ -172,19 +174,27 @@ public class QuestionActivity extends ActionBarActivity {
         return true;
     }
 
+    // This is the OnClickListener for the Action Bar
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.action_info) {
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.action_info)
+                    .setMessage(    "Help and Contact Email:\n" +
+                                    "help@smartslides.co.uk")
+                    .setNeutralButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_info)
+                    .show();
         }
-
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
     public void sendOption(String option) {
