@@ -20,6 +20,7 @@ import java.io.PrintWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import utils.SimpleLogger;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -136,6 +137,10 @@ public class GUI extends Application {
 
 		/* Create new instance of settings */
 		preferences = new UserPreferences();
+		
+		SimpleLogger.init();
+		
+		SimpleLogger.log(false, "GUI start");
 
 		/* Read CSV into array list */
 		parseFiles();
@@ -1028,7 +1033,7 @@ public class GUI extends Application {
 
 		/* Padding for boxes to keep things in line */
 		double gap = windowWidth * 0.05;
-		Insets padding = new Insets(gap, gap, gap, gap);
+		Insets padding = new Insets(0, 0, 0, gap);
 
 		/* Change menu bar disables */
 		home.setDisable(false);
