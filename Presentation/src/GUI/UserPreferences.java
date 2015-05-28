@@ -20,7 +20,7 @@ public class UserPreferences {
 	/* Files to store user data in */
 	private ArrayList<String> fileList = new ArrayList<String>();
 	private ArrayList<String> buttonInfo = new ArrayList<String>();
-
+	
 	public int getScreenId() {
 		return screenId;
 	}
@@ -100,6 +100,9 @@ public class UserPreferences {
 	public void setBounds(Rectangle2D bounds) {
 		this.bounds = bounds;
 	}
+
+
+
 
 
 }
