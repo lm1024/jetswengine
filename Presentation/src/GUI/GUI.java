@@ -20,6 +20,11 @@ import java.io.PrintWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import runtime.SlideshowRuntimeData;
+
+import comms.CommsHandler;
+
+import utils.IPEncoder;
 import utils.SimpleLogger;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -58,6 +63,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import Data.Slideshow;
 import XML.ImprovedXMLReader;
 
@@ -119,6 +125,9 @@ public class GUI extends Application {
 
 	private UserPreferences preferences;
 
+	/* For the comms channel */
+	CommsHandler comms;
+
 	public GUI() {
 	}
 
@@ -144,6 +153,13 @@ public class GUI extends Application {
 
 		/* Read CSV into array list */
 		parseFiles();
+
+		/* Attempt to start the comms. */
+		try {
+			comms = new CommsHandler();
+		} catch (IOException e) {
+			System.out.println("Communications could not be opened. Opening in offline mode.");
+		}
 
 		stageRef = primaryStage;
 
@@ -176,6 +192,9 @@ public class GUI extends Application {
 		/* Do not allow the page to be resized */
 		primaryStage.setResizable(false);
 
+		/* Sets the handler for if the window is closed. */
+		primaryStage.setOnCloseRequest(new ClosingWindowHandler());
+
 		/* Show the main page */
 		primaryStage.show();
 
@@ -187,8 +206,7 @@ public class GUI extends Application {
 
 		if (settingsFile.exists()) {
 
-			try (BufferedReader br = new BufferedReader(new FileReader(
-					settingsFile))) {
+			try (BufferedReader br = new BufferedReader(new FileReader(settingsFile))) {
 
 				preferences.setAudioPause(Boolean.valueOf(br.readLine()));
 
@@ -258,8 +276,7 @@ public class GUI extends Application {
 	private void saveSettings() {
 		System.out.println("Saving settings");
 
-		try (BufferedWriter bw = new BufferedWriter(new PrintWriter(
-				settingsFile))) {
+		try (BufferedWriter bw = new BufferedWriter(new PrintWriter(settingsFile))) {
 
 			/* Save each preference with a new line between each */
 			bw.write(String.valueOf(preferences.isAudioPause()));
@@ -323,8 +340,7 @@ public class GUI extends Application {
 			if (xmlFiles.exists()) {
 				/* if file exists then read it */
 
-				try (BufferedReader br = new BufferedReader(new FileReader(
-						xmlFiles))) {
+				try (BufferedReader br = new BufferedReader(new FileReader(xmlFiles))) {
 					/* Loop through each line of the CSV */
 					while ((theLine = br.readLine()) != null) {
 						/* Add each line to the fileList */
@@ -339,8 +355,7 @@ public class GUI extends Application {
 			}
 			if (buttonscsv.exists()) {
 
-				try (BufferedReader br = new BufferedReader(new FileReader(
-						buttonscsv))) {
+				try (BufferedReader br = new BufferedReader(new FileReader(buttonscsv))) {
 					/* Loop through each line of the CSV */
 					while ((theLine = br.readLine()) != null) {
 						/* Add each line to the fileList */
@@ -357,6 +372,10 @@ public class GUI extends Application {
 		}
 
 		System.out.println("files parsed");
+	}
+
+	private void buildSlideshow(Slideshow slideshow) {
+		new SlideshowRuntimeData(slideshow, comms, preferences);
 	}
 
 	/**
@@ -393,8 +412,7 @@ public class GUI extends Application {
 				break;
 
 			default:
-				System.out.println(buttonPressed.getId()
-						+ "  No action for this button");
+				System.out.println(buttonPressed.getId() + "  No action for this button");
 			}
 
 		}
@@ -487,8 +505,7 @@ public class GUI extends Application {
 			video.setSelected(preferences.isVideoPause());
 
 			/* Print the checkBox Id */
-			System.out.println(cbSelected.getId() + "check box"
-					+ " was set to " + isCB);
+			System.out.println(cbSelected.getId() + "check box" + " was set to " + isCB);
 
 		}
 
@@ -517,26 +534,24 @@ public class GUI extends Application {
 			/* If file is chosen then parse the XML */
 			if (outputFile != null) {
 				try {
-					currentSlideshow = new ImprovedXMLReader(outputFile)
-							.getSlideshow();
+					currentSlideshow = new ImprovedXMLReader(outputFile).getSlideshow();
 				} catch (IOException e1) {
 
 				}
 				if (currentSlideshow != null) {
 					/* Build slideshow */
 
+					buildSlideshow(currentSlideshow);
+
 					/* Move info up in the lists upto the chosen button */
 					for (int i = buttonNo - 1; i > -1; i--) {
-						preferences.getFileList().set(i + 1,
-								preferences.getFileList().get(i));
-						preferences.getButtonInfo().set(i + 1,
-								preferences.getButtonInfo().get(i));
+						preferences.getFileList().set(i + 1, preferences.getFileList().get(i));
+						preferences.getButtonInfo().set(i + 1, preferences.getButtonInfo().get(i));
 					}
 
 					/* Add chosen button info to start of lists */
 					preferences.getFileList().set(0, outputFile);
-					preferences.getButtonInfo().set(0,
-							btn.getText().replace("\n", ","));
+					preferences.getButtonInfo().set(0, btn.getText().replace("\n", ","));
 
 					/* Update the CSVs and repain the button texts */
 					updateButtonsCSV();
@@ -575,8 +590,7 @@ public class GUI extends Application {
 				/* Set selected screen in settings to be the same */
 				screenSetting[preferences.getScreenId()].setSelected(true);
 
-			} else if (source.getSource().getClass().getName()
-					.endsWith("Button")) {
+			} else if (source.getSource().getClass().getName().endsWith("Button")) {
 
 				/* get and cast the source */
 				ToggleButton e = (ToggleButton) source.getSource();
@@ -593,15 +607,19 @@ public class GUI extends Application {
 			}
 
 			/* set bounds with reference to new screen selection */
-			preferences.setBounds(Screen.getScreens()
-					.get(preferences.getScreenId()).getVisualBounds());
+			preferences.setBounds(Screen.getScreens().get(preferences.getScreenId()).getVisualBounds());
 
 			/* Print the new bounds */
 			System.out.println("Screen " + preferences.getScreenId()
-					+ " bound points: (" + preferences.getBounds().getMinX()
-					+ "," + preferences.getBounds().getMinY() + ") ("
-					+ preferences.getBounds().getMaxX() + ","
-					+ preferences.getBounds().getMaxY() + ")");
+					+ " bound points: ("
+					+ preferences.getBounds().getMinX()
+					+ ","
+					+ preferences.getBounds().getMinY()
+					+ ") ("
+					+ preferences.getBounds().getMaxX()
+					+ ","
+					+ preferences.getBounds().getMaxY()
+					+ ")");
 		}
 
 	}
@@ -686,11 +704,9 @@ public class GUI extends Application {
 					fileChooser.setInitialDirectory(preferences.getInitDir());
 
 					/* Add filters to file chooser */
-					fileChooser.getExtensionFilters()
-							.addAll(new FileChooser.ExtensionFilter(
-									"XML files ", "*.xml"),
-									new FileChooser.ExtensionFilter(
-											"All files", "*.*"));
+					fileChooser.getExtensionFilters().addAll(
+						new FileChooser.ExtensionFilter("XML files ", "*.xml"),
+						new FileChooser.ExtensionFilter("All files", "*.*"));
 
 					/* File chooser is a dialog box on the home screen */
 					file = fileChooser.showOpenDialog(stageRef);
@@ -707,8 +723,7 @@ public class GUI extends Application {
 				/* Check that a file was selected */
 				if (file != null) {
 					try {
-						currentSlideshow = new ImprovedXMLReader(
-								file.getAbsolutePath()).getSlideshow();
+						currentSlideshow = new ImprovedXMLReader(file.getAbsolutePath()).getSlideshow();
 					} catch (IOException e1) {
 					}
 
@@ -729,16 +744,13 @@ public class GUI extends Application {
 						int same = 0;
 						/* Compare new file to those in csv */
 						do {
-							if (file.getAbsolutePath().equals(
-									preferences.getFileList().get(same))) {
+							if (file.getAbsolutePath().equals(preferences.getFileList().get(same))) {
 								isSameFile = true;
 
 								/* Move all info down */
 								for (int i = same - 1; i > -1; i--) {
-									preferences.getFileList().set(i + 1,
-											preferences.getFileList().get(i));
-									preferences.getButtonInfo().set(i + 1,
-											preferences.getButtonInfo().get(i));
+									preferences.getFileList().set(i + 1, preferences.getFileList().get(i));
+									preferences.getButtonInfo().set(i + 1, preferences.getButtonInfo().get(i));
 								}
 								/* if its not the same check the next one */
 							} else {
@@ -751,30 +763,28 @@ public class GUI extends Application {
 						if (isSameFile == false) {
 							/* Shift values of csv's */
 							for (int i = 4; i > -1; i--) {
-								preferences.getFileList().set(i + 1,
-										preferences.getFileList().get(i));
-								preferences.getButtonInfo().set(i + 1,
-										preferences.getButtonInfo().get(i));
+								preferences.getFileList().set(i + 1, preferences.getFileList().get(i));
+								preferences.getButtonInfo().set(i + 1, preferences.getButtonInfo().get(i));
 							}
 						}
 						/* add new line to start of lists */
-						preferences.getFileList()
-								.set(0, file.getAbsolutePath());
-						preferences.getButtonInfo().set(
-								0,
-								currentSlideshow.getInfo().getAuthor() // author
-										+ ","
-										+ currentSlideshow.getInfo()
-												.getVersion() // version
-										+ ","
-										+ currentSlideshow.getInfo()
-												.getComment() // comment
-										+ "," + file.getName()); // file name
+						preferences.getFileList().set(0, file.getAbsolutePath());
+						preferences.getButtonInfo().set(0, currentSlideshow.getInfo().getAuthor() // author
+								+ ","
+								+ currentSlideshow.getInfo().getVersion() // version
+								+ ","
+								+ currentSlideshow.getInfo().getComment() // comment
+								+ ","
+								+ file.getName()); // file name
 
 						/* update CSV and rebuild the buttons */
 						updateButtonsCSV();
 						buildmain();
+
+						/* Build slideshow */
+						buildSlideshow(currentSlideshow);
 					}
+
 				} else {
 					/* If no file is selected do nothing */
 				}
@@ -797,8 +807,7 @@ public class GUI extends Application {
 			/* open UserManual */
 			case "User Manual":
 				try {
-					Desktop.getDesktop()
-							.open(new File("resources/helpDoc.pdf"));
+					Desktop.getDesktop().open(new File("resources/helpDoc.pdf"));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -812,8 +821,7 @@ public class GUI extends Application {
 			/* Open a browser at smartslides.co.uk */
 			case "Website":
 				try {
-					Desktop.getDesktop().browse(
-							new URI("http://www.smartslides.co.uk"));
+					Desktop.getDesktop().browse(new URI("http://www.smartslides.co.uk"));
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				} catch (URISyntaxException e1) {
@@ -849,8 +857,7 @@ public class GUI extends Application {
 
 		/* Create items for file */
 		MenuItem openFile = new MenuItem("Open");
-		openFile.setAccelerator(new KeyCodeCombination(KeyCode.O,
-				KeyCombination.CONTROL_DOWN));
+		openFile.setAccelerator(new KeyCodeCombination(KeyCode.O, KeyCombination.CONTROL_DOWN));
 
 		home = new MenuItem("Home");
 		home.setAccelerator(new KeyCodeCombination(KeyCode.BACK_SPACE));
@@ -858,8 +865,7 @@ public class GUI extends Application {
 		MenuItem min = new MenuItem("Minimise");
 		MenuItem exit = new MenuItem("Exit");
 		/* add items to File */
-		menuFile.getItems().addAll(openFile, new SeparatorMenuItem(), home,
-				new SeparatorMenuItem(), min, exit);
+		menuFile.getItems().addAll(openFile, new SeparatorMenuItem(), home, new SeparatorMenuItem(), min, exit);
 
 		/* Settings section */
 		Menu menuSettings = new Menu("Settings");
@@ -911,8 +917,7 @@ public class GUI extends Application {
 		settings.setOnAction(new menuHandler());// handler for settings
 
 		/* add items to settings */
-		menuSettings.getItems().addAll(onBlank, screenSelect, autoNext,
-				new SeparatorMenuItem(), settings);
+		menuSettings.getItems().addAll(onBlank, screenSelect, autoNext, new SeparatorMenuItem(), settings);
 
 		/* help section */
 		Menu menuHelp = new Menu("Help");
@@ -925,8 +930,7 @@ public class GUI extends Application {
 		MenuItem website = new MenuItem("Website");
 
 		/* add items to help */
-		menuHelp.getItems().addAll(qanda, help, new SeparatorMenuItem(),
-				website, info);
+		menuHelp.getItems().addAll(qanda, help, new SeparatorMenuItem(), website, info);
 
 		/* Action Listener to each Menu */
 		menuFile.setOnAction(new menuHandler());
@@ -965,8 +969,7 @@ public class GUI extends Application {
 		GridPane grid = new GridPane();
 
 		/* creates a scene within the stage of pixel size x by y */
-		Scene mainScene = new Scene(grid, stageRef.getWidth(),
-				stageRef.getHeight());
+		Scene mainScene = new Scene(grid, stageRef.getWidth(), stageRef.getHeight());
 
 		/* add the stylesheet */
 		mainScene.getStylesheets().add(styleSheet);
@@ -977,8 +980,7 @@ public class GUI extends Application {
 		// grid.setGridLinesVisible(true);
 
 		/* each column to be a third of the page */
-		grid.getColumnConstraints().addAll(columnWidth, columnWidth,
-				columnWidth);
+		grid.getColumnConstraints().addAll(columnWidth, columnWidth, columnWidth);
 
 		/* add menu bar to main page */
 		grid.add(mainMenu, 0, 0, 3, 1);
@@ -986,9 +988,7 @@ public class GUI extends Application {
 		HBox ssText = makeHBox("", Pos.CENTER, 5);
 
 		/* Company logo and product logo in column 1-3, row 1 */
-		ssText.getChildren().add(
-				makeImageView("file:Smartslides_DarkText.png",
-						2 * windowWidth * 0.3, 0));
+		ssText.getChildren().add(makeImageView("file:Smartslides_DarkText.png", 2 * windowWidth * 0.3, 0));
 
 		/* add images to grid */
 		grid.add(ssText, 0, 1, 3, 1);
@@ -1001,10 +1001,12 @@ public class GUI extends Application {
 		for (int y = 0; y < 2; y++) {
 			for (int x = 0; x < 3; x++) {
 				buttons[x][y] = makeMainButton(
-						preferences.getButtonInfo().get(i).replace(",", "\n"),
-						"lightButton", true, String.valueOf(i));
-				buttons[x][y].setFont(Font.loadFont(
-						"file:resources/fonts/Roboto-Bold.ttf", 15));// add font
+					preferences.getButtonInfo().get(i).replace(",", "\n"),
+					"lightButton",
+					true,
+					String.valueOf(i));
+				buttons[x][y].setFont(Font.loadFont("file:resources/fonts/Roboto-Bold.ttf", 15));// add
+																									// font
 				buttons[x][y].setPrefWidth(windowWidth * 0.3); // set width
 				btnBox[i] = makeVBox("", Pos.CENTER, 5);// put button in a box
 				btnBox[i].getChildren().add(buttons[x][y]);
@@ -1014,8 +1016,7 @@ public class GUI extends Application {
 		}
 
 		/* Create an image, add this to a box and add this to the grid */
-		ImageView wmImage = makeImageView("file:Background_long_tail.png",
-				windowWidth, 0);
+		ImageView wmImage = makeImageView("file:Background_long_tail.png", windowWidth, 0);
 		HBox hbox = makeHBox("invisiBox", Pos.CENTER, 5);
 		GridPane.setVgrow(hbox, Priority.ALWAYS);
 		hbox.getChildren().add(wmImage);
@@ -1044,8 +1045,7 @@ public class GUI extends Application {
 		GridPane settingsGrid = new GridPane();
 
 		// creates a scene within the stage of pixel size x by y
-		Scene settingsScene = new Scene(settingsGrid, stageRef.getWidth(),
-				stageRef.getHeight());
+		Scene settingsScene = new Scene(settingsGrid, stageRef.getWidth(), stageRef.getHeight());
 		settingsScene.getStylesheets().add(styleSheet);
 
 		/* Set the layout as settingsGridpane */
@@ -1054,16 +1054,14 @@ public class GUI extends Application {
 		// settingsGrid.setGridLinesVisible(true);
 
 		/* each column to be a third of the page */
-		settingsGrid.getColumnConstraints().addAll(columnWidth, columnWidth,
-				columnWidth);
+		settingsGrid.getColumnConstraints().addAll(columnWidth, columnWidth, columnWidth);
 
 		/* add menu bar to settings */
 		settingsGrid.add(mainMenu, 0, 0, 3, 1);
 
 		/* Create settings page title */
 		HBox settingsBox = makeHBox("", Pos.CENTER, 5);
-		settingsBox.getChildren().add(
-				makeImageView("file:Settings.png", 2 * windowWidth * 0.3, 0));
+		settingsBox.getChildren().add(makeImageView("file:Settings.png", 2 * windowWidth * 0.3, 0));
 		settingsGrid.add(settingsBox, 0, 1, 3, 1);
 
 		/*
@@ -1071,31 +1069,25 @@ public class GUI extends Application {
 		 */
 
 		/* Add check boxes */
-		slideTimerCheckBox = makeCheckBox("Slide Timer", "checkLight",
-				"slides", preferences.isSlideAuto());
+		slideTimerCheckBox = makeCheckBox("Slide Timer", "checkLight", "slides", preferences.isSlideAuto());
 
 		/* Vbox to contain auto next checkbox */
-		VBox autoNextBox = makeVBox("clearBox", Pos.CENTER_LEFT, 5);
+		VBox autoNextBox = makeVBox("clearBox", Pos.TOP_LEFT, 5);
 		autoNextBox.setPadding(padding);
-		autoNextBox.getChildren().addAll(makeLabel("Auto-Next:", 20, grey),
-				slideTimerCheckBox);
+		autoNextBox.getChildren().addAll(makeLabel("Auto-Next:", 20, grey), slideTimerCheckBox);
 		settingsGrid.add(autoNextBox, 0, 2);
 
 		/* Boxes for blank out options layout */
-		VBox blankBox = makeVBox("clearBox", Pos.CENTER_LEFT, 5);
+		VBox blankBox = makeVBox("clearBox", Pos.TOP_LEFT, 5);
 		blankBox.setPadding(padding);
 
 		/* Toggle Buttons */
-		audioToggle = makeCheckBox("Pause Audio", "checkLight", "audio",
-				preferences.isAudioPause());
-		videoToggle = makeCheckBox("Pause Video", "checkLight", "video",
-				preferences.isVideoPause());
-		allToggle = makeCheckBox("Both", "checkLight", "all",
-				preferences.isAudioPause() && preferences.isVideoPause());
+		audioToggle = makeCheckBox("Pause Audio", "checkLight", "audio", preferences.isAudioPause());
+		videoToggle = makeCheckBox("Pause Video", "checkLight", "video", preferences.isVideoPause());
+		allToggle = makeCheckBox("Both", "checkLight", "all", preferences.isAudioPause() && preferences.isVideoPause());
 
 		/* add buttons and label to box and box to grid */
-		blankBox.getChildren().addAll(makeLabel("On blank:", 20, grey),
-				allToggle, audioToggle, videoToggle);
+		blankBox.getChildren().addAll(makeLabel("On blank:", 20, grey), allToggle, audioToggle, videoToggle);
 		settingsGrid.add(blankBox, 0, 3);
 
 		/*
@@ -1104,18 +1096,14 @@ public class GUI extends Application {
 
 		/* connection code */
 		VBox codeBox = makeVBox("clearBox", Pos.TOP_CENTER, 5);
+		Label codeLabel = makeLabel(new IPEncoder().getIPCode(), 20, grey);
 
-		/*
-		 * TODO: TOM - replace with getCode()
-		 */
-
-		codeBox.getChildren().addAll();
+		codeBox.getChildren().addAll(makeLabel("Connection Code", 20, grey), codeLabel);
 
 		settingsGrid.add(codeBox, 1, 2);
 
 		/* Clear History button */
-		Button histClear = makeSettingButton("Clear Presentation History",
-				"lightButton", true, "histClear");
+		Button histClear = makeSettingButton("Clear Presentation History", "lightButton", true, "histClear");
 		VBox clearBox = makeVBox("clearBox", Pos.CENTER, 5);// box for button
 		clearBox.getChildren().add(histClear);// add button
 		settingsGrid.add(clearBox, 1, 3);
@@ -1125,7 +1113,8 @@ public class GUI extends Application {
 		 */
 
 		/* vbox to add screen settings */
-		VBox screenBox = makeVBox("clearBox", Pos.TOP_CENTER, 10);
+		VBox screenBox = makeVBox("clearBox", Pos.TOP_LEFT, 10);
+		screenBox.setPadding(padding);
 
 		/* add title label */
 		screenBox.getChildren().add(makeLabel("Screen Select:", 20, grey));
@@ -1153,16 +1142,12 @@ public class GUI extends Application {
 		settingsGrid.add(screenBox, 2, 2);
 
 		/**/
-		VBox questionsBox = makeVBox("clearBox", Pos.CENTER_LEFT, 5);
+		VBox questionsBox = makeVBox("clearBox", Pos.TOP_LEFT, 5);
 		questionsBox.setPadding(padding);
-		CheckBox logAllQuestions = makeCheckBox("All questions", "checkLight",
-				"allQ", preferences.isQuestionsLogged());
-		CheckBox logOTS = makeCheckBox("OTS Questions", "checkLight", "OTSQ",
-				preferences.isOTSLogged());
+		CheckBox logAllQuestions = makeCheckBox("All questions", "checkLight", "allQ", preferences.isQuestionsLogged());
+		CheckBox logOTS = makeCheckBox("OTS Questions", "checkLight", "OTSQ", preferences.isOTSLogged());
 
-		questionsBox.getChildren().addAll(
-				makeLabel("Log Answers for:", 20, grey), logAllQuestions,
-				logOTS);
+		questionsBox.getChildren().addAll(makeLabel("Log Answers for:", 20, grey), logAllQuestions, logOTS);
 		settingsGrid.add(questionsBox, 2, 3);
 
 		/*
@@ -1170,8 +1155,7 @@ public class GUI extends Application {
 		 */
 
 		/* Create an image, add this to a box and add this to the grid */
-		ImageView wmImage = makeImageView("file:Background_long_tail.png",
-				windowWidth, 0);
+		ImageView wmImage = makeImageView("file:Background_long_tail.png", windowWidth, 0);
 		HBox hbox = makeHBox("invisiBox", Pos.CENTER, 5);
 		GridPane.setVgrow(hbox, Priority.ALWAYS);
 		hbox.getChildren().add(wmImage);
@@ -1204,14 +1188,12 @@ public class GUI extends Application {
 		Scene infoScene = new Scene(infoGrid);
 		infoScene.getStylesheets().add("file:resources/styles/style1.css");
 
-		infoGrid.add(
-				makeImageView("file:Smartslides_DarkText.png",
-						primaryBounds.getWidth() * 0.2, 0), 0, 0);
+		infoGrid.add(makeImageView("file:Smartslides_DarkText.png", primaryBounds.getWidth() * 0.2, 0), 0, 0);
 
 		/* Make and add a label */
-		final Label lbl = makeLabel("Developed by WaveMedia \n"
-				+ "Version: 2.0 \n" + "Release Date: June 2015 \n" + "Email:",
-				15, grey);
+		final Label lbl = makeLabel("Developed by WaveMedia \n" + "Version: 2.0 \n"
+				+ "Release Date: June 2015 \n"
+				+ "Email:", 15, grey);
 		infoGrid.add(lbl, 0, 1);
 
 		/* Link for email */
@@ -1241,9 +1223,7 @@ public class GUI extends Application {
 		});
 
 		/* Add WM bar to bottom of window */
-		infoGrid.add(
-				makeImageView("file:Background_long_tail.png",
-						primaryBounds.getWidth() * 0.2, 0), 0, 4);
+		infoGrid.add(makeImageView("file:Background_long_tail.png", primaryBounds.getWidth() * 0.2, 0), 0, 4);
 
 		/* Set the scene */
 		infoStage.setScene(infoScene);
@@ -1278,11 +1258,9 @@ public class GUI extends Application {
 		errorScene.getStylesheets().add(styleSheet);
 
 		/* Make and add a label */
-		Label lbl = makeLabel(
-				"Sorry, there was an error loading the file.\n"
-						+ "For assistance please contact:\n"
-						+ "help@smartslides.co.uk\n"
-						+ "Or visit www.smartslides.co.uk", 15, grey);
+		Label lbl = makeLabel("Sorry, there was an error loading the file.\n" + "For assistance please contact:\n"
+				+ "help@smartslides.co.uk\n"
+				+ "Or visit www.smartslides.co.uk", 15, grey);
 		errorGrid.add(lbl, 1, 0);
 
 		/* Create and add button to exit window */
@@ -1331,8 +1309,7 @@ public class GUI extends Application {
 		final Label lbl = makeLabel("No File!", 15, grey);
 		noFilePane.add(lbl, 0, 0);
 
-		final Button okBtn = makeSettingButton("OK", "darkButton", true,
-				"infoOK");
+		final Button okBtn = makeSettingButton("OK", "darkButton", true, "infoOK");
 		okBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent actionEvent) {
@@ -1387,6 +1364,20 @@ public class GUI extends Application {
 	 * Utilities:
 	 */
 
+	private class ClosingWindowHandler implements EventHandler<WindowEvent> {
+		@Override
+		public void handle(WindowEvent arg0) {
+			/*
+			 * If the window is closed, close the slideshow and exit the
+			 * program.
+			 */
+			if (comms != null) {
+				comms.shutdown();
+			}
+			System.exit(0);
+		}
+	}
+
 	/** Utility function for adding labels **/
 	private Label makeLabel(String labelText, int d, String colour) {
 		Font bold = Font.loadFont("file:resources/fonts/Roboto-Bold.ttf", d);
@@ -1416,8 +1407,7 @@ public class GUI extends Application {
 	}
 
 	/** Utility function for adding a CheckBox **/
-	private CheckBox makeCheckBox(String text, String style, String id,
-			boolean selected) {
+	private CheckBox makeCheckBox(String text, String style, String id, boolean selected) {
 		CheckBox cb = new CheckBox();// new instance of CheckBox
 		cb.setText(text);// Text for box
 		cb.setId(id);// give the box an id
@@ -1429,8 +1419,7 @@ public class GUI extends Application {
 	}
 
 	/** Utility function to make button with eventHandler */
-	private Button makeSettingButton(String buttonText, String styleClass,
-			boolean hover, String id) {
+	private Button makeSettingButton(String buttonText, String styleClass, boolean hover, String id) {
 
 		Button btn = makeButton(buttonText, styleClass, hover, id);
 		btn.setPrefWidth(settingsButtonWidth);
@@ -1442,8 +1431,7 @@ public class GUI extends Application {
 	}
 
 	/** Utility function to make button with mouseclickhandler */
-	private Button makeMainButton(String buttonText, String styleClass,
-			boolean hover, String id) {
+	private Button makeMainButton(String buttonText, String styleClass, boolean hover, String id) {
 
 		Button btn = makeButton(buttonText, styleClass, hover, id);
 
@@ -1454,8 +1442,7 @@ public class GUI extends Application {
 	}
 
 	/** Utility function for making a button */
-	private Button makeButton(String buttonText, String styleClass,
-			boolean hover, String id) {
+	private Button makeButton(String buttonText, String styleClass, boolean hover, String id) {
 
 		/* Create new instance of button */
 		Button btn = new Button();

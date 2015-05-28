@@ -43,8 +43,6 @@ import Data.TextFragment;
 import Data.Video;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
-import javafx.scene.control.Label;
-import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -749,6 +747,18 @@ public class SlideRenderer {
 		 * drawn.
 		 */
 		graphHandler.drawPieChart(answerChart);
+	}
+	
+	public void pauseAllAudios() {
+		for (int i = 1; i <= audioHandler.getAudioCount(); i++) {
+			audioHandler.pauseAudio(i-1);
+		}
+	}
+	
+	public void pauseAllVideos() {
+		for (int i = 1; i <= videoHandler.getVideoCount(); i++) {
+			videoHandler.pauseVideo(i-1);
+		}
 	}
 
 	/**

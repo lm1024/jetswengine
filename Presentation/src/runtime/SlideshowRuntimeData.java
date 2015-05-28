@@ -22,6 +22,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -36,6 +37,7 @@ import Data.Question;
 import Data.Slide;
 import Data.SlideItem;
 import Data.Slideshow;
+import GUI.UserPreferences;
 
 /**
  * Class for controlling the current slideshow being displayed. Handles all
@@ -81,47 +83,35 @@ public class SlideshowRuntimeData {
 	/* int for tracking the input from the number keys for jumping to a slide. */
 	private String numberInput;
 
-	/* Boolean for if the question/answer data should be logged on shutdown. */
-	private boolean logQuestionData;
-
-	/* Boolean for if the spontaneous question answers should be logged. */
-	private boolean logOTSQuestionData;
-
 	/*
 	 * ArrayList for keeping track of the questions that have been created
 	 * dynamically.
 	 */
 	private ArrayList<Question> dynamicQuestionList = new ArrayList<Question>();
-	
+
 	/* The current ots question that answers are being collected for. */
 	private Question currentOTSQuestion;
 
 	/* The comms handler for the current slideshow. */
 	private CommsHandler comms;
-	
+
 	private Rectangle idRectangle;
 	private Label connectionCodeSlideTitle;
 	private Label connectionCodeLabel;
-	
+
 	private final String connectionCodeSlideTitleString = "Current Connection Code";
-	
+
 	private String currentConnectionCode;
+
+	private UserPreferences preferences;
 
 	/**
 	 * Constructor for the runtime class.
 	 * 
 	 * @param slideshow
 	 *            the slideshow to be displayed in the new fullscreen window.
-	 * @param xPos
-	 *            the upper left x position of the slideshow.
-	 * @param yPos
-	 *            the upper left y position of the slideshow.
-	 * @param logQuestionData
-	 *            boolean containing if the question data should be logged or
-	 *            not.
 	 */
-	public SlideshowRuntimeData(Slideshow slideshow, double xPos, double yPos, CommsHandler comms,
-			boolean logQuestionData) {
+	public SlideshowRuntimeData(Slideshow slideshow, CommsHandler comms, UserPreferences preferences) {
 		/*
 		 * Sets the current slideshow and the aspect ratio of both of the
 		 * dimensions of the slideshow
@@ -131,7 +121,8 @@ public class SlideshowRuntimeData {
 		this.currentYAspectRatio = slideshow.getDefaults().getyAspectRatio();
 
 		this.comms = comms;
-		this.logQuestionData = logQuestionData;
+
+		this.preferences = preferences;
 
 		/*
 		 * Instantiates the new group, stage and scene that the slideshow will
@@ -146,8 +137,19 @@ public class SlideshowRuntimeData {
 		 * Moves the window to the window that the slideshow should be displayed
 		 * on.
 		 */
+		double xPos = preferences.getBounds().getMinX();
+		double yPos = preferences.getBounds().getMinY();
+
 		secondaryStage.setX(xPos);
 		secondaryStage.setY(yPos);
+
+		/*
+		 * Create and add the SmartSlide icon to the window, and also set the
+		 * title of the window.
+		 */
+		Image smartSlidesIcon = new Image("file:Single_S.png");
+		secondaryStage.getIcons().add(smartSlidesIcon);
+		secondaryStage.setTitle("SmartSlides");
 
 		/* Set the stage to go fullscreen on the primary stage. */
 		secondaryStage.setFullScreen(true);
@@ -180,10 +182,13 @@ public class SlideshowRuntimeData {
 		scene.widthProperty().addListener(new WindowResizeHandler());
 		scene.heightProperty().addListener(new WindowResizeHandler());
 
-		/* Get and set the string containing the connection code for this slideshow. */
+		/*
+		 * Get and set the string containing the connection code for this
+		 * slideshow.
+		 */
 		IPEncoder ipEnc = new IPEncoder();
 		currentConnectionCode = ipEnc.getIPCode();
-		
+
 		/* Instantiate the number input string. */
 		numberInput = "";
 
@@ -243,10 +248,12 @@ public class SlideshowRuntimeData {
 		/* Pass the current slide to the renderer to be drawn. */
 		slideRenderer.drawSlide(currentSlide);
 
-		if (currentSlide.containsQuestion()) {
-			comms.setCurrentQuestion(currentSlide.getQuestion());
-		} else {
-			comms.setCurrentQuestion(createNewOTSQuestion());
+		if (comms != null) {
+			if (currentSlide.containsQuestion()) {
+				comms.setCurrentQuestion(currentSlide.getQuestion());
+			} else {
+				comms.setCurrentQuestion(createNewOTSQuestion());
+			}
 		}
 
 		/* Build the scheduler list of timing events for this slide. */
@@ -316,7 +323,7 @@ public class SlideshowRuntimeData {
 		}
 
 		/* Add a slide duration update, if there is one. */
-		if (currentSlide.getDuration() < Float.MAX_VALUE) {
+		if ((preferences.isSlideAuto()) && (currentSlide.getDuration() < Float.MAX_VALUE)) {
 			timingList.add((long) ((double) currentSlide.getDuration() * 1000));
 		}
 
@@ -454,18 +461,21 @@ public class SlideshowRuntimeData {
 				if (idRectangle != null) {
 					/* Get the current group that is being drawn on. */
 					Group group = (Group) secondaryStage.getScene().getRoot();
-					
+
 					group.getChildren().remove(idRectangle);
 					group.getChildren().remove(connectionCodeLabel);
 					group.getChildren().remove(connectionCodeSlideTitle);
 					idRectangle = null;
 					connectionCodeLabel = null;
-					
-					/* Consume the event and return to stop this keypress affecting anything. */
+
+					/*
+					 * Consume the event and return to stop this keypress
+					 * affecting anything.
+					 */
 					keyEvent.consume();
 					return;
 				}
-								
+
 				/* Switch through the different keyCodes that are handled. */
 				switch (keyEvent.getCode()) {
 				/*
@@ -538,26 +548,26 @@ public class SlideshowRuntimeData {
 					/* Create a new background to blank out the current slide. */
 					idRectangle = new Rectangle(0, 0, screenWidth, screenHeight);
 					idRectangle.setFill(Color.WHITE);
-					
+
 					/* Create a label with the code in and add it to the screen. */
 					connectionCodeLabel = new Label(currentConnectionCode);
 					connectionCodeLabel.autosize();
 					connectionCodeLabel.setMinSize(screenWidth, screenHeight);
 					connectionCodeLabel.setFont(new Font(100));
 					connectionCodeLabel.setAlignment(Pos.CENTER);
-					
+
 					/* Create a title label and add it to the screen. */
 					connectionCodeSlideTitle = new Label(connectionCodeSlideTitleString);
-					connectionCodeSlideTitle.relocate(0, screenHeight*0.1);
+					connectionCodeSlideTitle.relocate(0, screenHeight * 0.1);
 					connectionCodeSlideTitle.autosize();
 					connectionCodeSlideTitle.setMinWidth(screenWidth);
 					connectionCodeSlideTitle.setFont(new Font(100));
 					connectionCodeSlideTitle.setAlignment(Pos.CENTER);
-					
+
 					/* Get the current group that is being drawn on. */
 					Group group = (Group) secondaryStage.getScene().getRoot();
-					
-					group.getChildren().addAll(idRectangle, connectionCodeLabel, connectionCodeSlideTitle);	
+
+					group.getChildren().addAll(idRectangle, connectionCodeLabel, connectionCodeSlideTitle);
 					break;
 				case C:
 					/*
@@ -565,7 +575,7 @@ public class SlideshowRuntimeData {
 					 * currently collected question data. Create a new question,
 					 * and add it to the comms.
 					 */
-					if (!currentSlide.containsQuestion()) {
+					if ((comms != null) && (!currentSlide.containsQuestion())) {
 						comms.setCurrentQuestion(createNewOTSQuestion());
 					}
 					break;
@@ -576,7 +586,8 @@ public class SlideshowRuntimeData {
 					 * answer slide, and add the question to the list of ots
 					 * questions created during this presentation.
 					 */
-					if (!currentSlide.containsQuestion() && currentOTSQuestion.hasAnswerData()) {
+					if ((!currentSlide.containsQuestion()) && (currentOTSQuestion != null)
+							&& (currentOTSQuestion.hasAnswerData())) {
 						/* Cancel all pending timing tasks */
 						if (nextUpdate != null && !nextUpdate.isDone()) {
 							nextUpdate.cancel(true);
@@ -611,7 +622,7 @@ public class SlideshowRuntimeData {
 			 * program.
 			 */
 			closeSlideshow();
-			System.exit(0); // not required
+			// System.exit(0); // not required
 		}
 	}
 
@@ -684,17 +695,21 @@ public class SlideshowRuntimeData {
 	public void closeSlideshow() {
 		scheduler.shutdownNow();
 
-		if (logQuestionData) {
+		if (preferences.isQuestionsLogged()) {
 			slideshow.saveQuestionData();
 		}
 
-		if (logOTSQuestionData) {
+		if (preferences.isOTSLogged()) {
 			for (Question question : dynamicQuestionList) {
 				question.writeLogfile();
 			}
 		}
-		
-		comms.saveRecievedQuestions();
+
+		if (comms != null) {
+			comms.saveRecievedQuestions();
+		}
+
+		slideRenderer.clear();
 	}
 
 	/**
@@ -729,6 +744,15 @@ public class SlideshowRuntimeData {
 
 		/* Add the rectangle to the group. */
 		group.getChildren().add(rect);
+
+		/* Pause the video and audio clips depending upon user choices. */
+		if (preferences.isAudioPause()) {
+			slideRenderer.pauseAllAudios();
+		}
+
+		if (preferences.isVideoPause()) {
+			slideRenderer.pauseAllVideos();
+		}
 
 		/*
 		 * This is used to see if the rectangle needs to be removed upon the

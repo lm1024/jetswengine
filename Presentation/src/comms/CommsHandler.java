@@ -22,19 +22,18 @@ public class CommsHandler {
 	private Question currentQuestion;
 	private ArrayList<String> recievedQuestionList;
 	private Thread commsThread;
-	
+	private boolean isOnline;
+
 	private static final String FILE_FOLDER = "logfiles";
 	private static final String FILE_EXTENSION = ".csv";
 
-	private static final String COMMA_DELIMITER = ",";
 	private static final String NEWLINE_DELIMITER = "\n";
 
-
 	public CommsHandler() throws IOException {
-		// initGui();
 		ServerSocket listener = new ServerSocket(80);
 		recievedQuestionList = new ArrayList<String>();
 		System.out.println("ServerSocket opened");
+		isOnline = true;
 		commsThread = new Thread(new CommsThread(listener, this));
 		commsThread.start();
 	}
@@ -65,6 +64,14 @@ public class CommsHandler {
 		recievedQuestionList.add(message);
 	}
 	
+	protected boolean isOnline() {
+		return isOnline;
+	}
+	
+	public void shutdown() {
+		isOnline = false;
+	}
+
 	public void saveRecievedQuestions() {
 		/* Create a new reference to the folder for the files. */
 		File folder = new File(FILE_FOLDER);
@@ -109,7 +116,6 @@ public class CommsHandler {
 			}
 		}
 	}
-	
 
 	private class CommsThread implements Runnable {
 
@@ -120,9 +126,9 @@ public class CommsHandler {
 			this.listener = listener;
 			this.parent = parent;
 		}
-
+		
 		public void run() {
-			while (true) {
+			while (parent.isOnline()) {
 				try {
 					Thread commsThread2 = new Thread(new AnswerCollector(listener.accept(), parent));
 					commsThread2.start();
@@ -146,7 +152,7 @@ public class CommsHandler {
 				try {
 					BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-					while (true) {
+					while (parent.isOnline()) {
 						String input = in.readLine();
 						if (input == null) {
 							break;
@@ -155,9 +161,11 @@ public class CommsHandler {
 
 							String[] splitInput = input.split(":");
 
-							parent.getCurrentQuestion().increaseAnswerCount(
-								Integer.parseInt(splitInput[1]),
-								splitInput[0]);
+							if (parent.getCurrentQuestion() != null) {
+								parent.getCurrentQuestion().increaseAnswerCount(
+									Integer.parseInt(splitInput[1]),
+									splitInput[0]);
+							}
 						} else {
 							String[] splitMessageInput = input.split(":", 2);
 							parent.storeMessage(splitMessageInput[1]);
