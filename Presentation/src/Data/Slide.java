@@ -14,9 +14,11 @@ public class Slide {
 	private List<SlideItem> itemList;
 	private SlideItem currentItem;
 	private Question slideQuestion;
+	private List<Slide> tangentSlides;
 
 	public Slide(Defaults defaults) {
 		this.itemList = new ArrayList<SlideItem>();
+		this.tangentSlides = new ArrayList<Slide>();
 		this.duration = defaults.getDuration();
 		this.backgroundColor = defaults.getBackgroundColor();
 	}
@@ -118,5 +120,19 @@ public class Slide {
 		}
 		
 		return slide;
+	}
+
+	/**
+	 * @return the tangentSlides
+	 */
+	public List<Slide> getTangentSlides() {
+		return tangentSlides;
+	}
+
+	/**
+	 * @param tangentSlides the tangentSlides to set
+	 */
+	public void addTangentSlide(Slide tangent) {
+		this.tangentSlides.add(tangent);
 	}
 }

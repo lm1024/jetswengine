@@ -7,9 +7,6 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
-
-import Data.Answer;
-import Data.Audio;
 import Data.Question;
 import Data.Slide;
 
@@ -48,7 +45,7 @@ public class QuestionHandler extends DefaultHandler {
 		} else if (elementName.equals("answer")) {	
 			question.addAnswer(attributes.getValue("id"), Boolean.parseBoolean(attributes.getValue("correct")));
 		} else {
-			System.err.println("Unknown Audio element encountered: " + elementName);
+			System.err.println("Unknown Question element encountered: " + elementName);
 		}
 	}
 	

@@ -31,7 +31,11 @@ public class Audio extends SlideItem {
 	 * @param width the width to set
 	 */
 	public void setWidth(String s) {
-		this.width = Float.parseFloat(s);
+		try {
+			this.width = Float.parseFloat(s);
+		} catch (Exception e) {
+			//Do nothing
+		}
 	}
 
 	/**
@@ -86,8 +90,8 @@ public class Audio extends SlideItem {
 	/**
 	 * @param playButtonOnly the playButtonOnly to set
 	 */
-	public void setPlayButtonOnly(boolean playButtonOnly) {
-		this.playButtonOnly = playButtonOnly;
+	public void setPlayButtonOnly(String s) {
+		this.playButtonOnly = Boolean.parseBoolean(s);
 	}
 	
 }
