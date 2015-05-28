@@ -597,6 +597,12 @@ public class SlideshowRuntimeData {
 						dynamicQuestionList.add(currentOTSQuestion);
 					}
 					break;
+				case T:
+					/*
+					 * If we are on a graph slide, and the tangent slides are
+					 * required, add them to the slideshow data structure.
+					 */
+					slideshow.importTangents();
 				default:
 					break;
 				}

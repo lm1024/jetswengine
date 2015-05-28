@@ -96,30 +96,86 @@ public class Graphic {
 
 		switch (graphicType) {
 		case ARC:
-			drawArc(xStartPos, yStartPos, width, height, arcAngle, length, color, solid, outlineColor,
-					outlineThickness, shadowType, rotation, shadingType, shadingStops);
+			drawArc(
+				xStartPos,
+				yStartPos,
+				width,
+				height,
+				arcAngle,
+				length,
+				color,
+				solid,
+				outlineColor,
+				outlineThickness,
+				shadowType,
+				rotation,
+				shadingType,
+				shadingStops);
 			break;
 		case ARROW:
 			drawArrow(xStartPos, yStartPos, xEndPos, yEndPos, color, shadingType, shadingStops);
 			break;
 		case CHORD:
-			drawChord(xStartPos, yStartPos, width, height, arcAngle, length, color, solid, outlineColor,
-					outlineThickness, shadowType, rotation, shadingType, shadingStops);
+			drawChord(
+				xStartPos,
+				yStartPos,
+				width,
+				height,
+				arcAngle,
+				length,
+				color,
+				solid,
+				outlineColor,
+				outlineThickness,
+				shadowType,
+				rotation,
+				shadingType,
+				shadingStops);
 			break;
-		case CIRCLE: //TODO circle rotation
-			drawCircle(xStartPos, yStartPos, radius, color, solid, outlineColor, outlineThickness, shadowType,
-					shadingType, shadingStops);
+		case CIRCLE: // TODO circle rotation
+			drawCircle(
+				xStartPos,
+				yStartPos,
+				radius,
+				color,
+				solid,
+				outlineColor,
+				outlineThickness,
+				shadowType,
+				shadingType,
+				shadingStops);
 			break;
 		case EQUILATERALTRIANGLE:
-			drawEquiTriangle(xStartPos, yStartPos, length, color, solid, outlineColor, outlineThickness, shadowType,
-					rotation, shadingType, shadingStops);
+			drawEquiTriangle(
+				xStartPos,
+				yStartPos,
+				length,
+				color,
+				solid,
+				outlineColor,
+				outlineThickness,
+				shadowType,
+				rotation,
+				shadingType,
+				shadingStops);
 			break;
 		case LINE:
 			drawLine(xStartPos, yStartPos, xEndPos, yEndPos, color, outlineThickness, shadingType, shadingStops);
 			break;
 		case OVAL:
-			drawOval(xStartPos, yStartPos, xEndPos, yEndPos, color, solid, outlineColor, outlineThickness, shadowType,
-					rotation, shadingType, shadingStops);
+			drawOval(
+				xStartPos,
+				yStartPos,
+				xEndPos,
+				yEndPos,
+				color,
+				solid,
+				outlineColor,
+				outlineThickness,
+				shadowType,
+				rotation,
+				shadingType,
+				shadingStops);
 			break;
 		case POLYGON:
 			Double[] combinedCoordinates;
@@ -129,28 +185,99 @@ public class Graphic {
 				combinedCoordinates[i * 2 + 1] = Double.valueOf(yCoordinates.get(i));
 			}
 
-			drawPolygon(combinedCoordinates, xStartPos, yStartPos, color, solid, outlineColor, outlineThickness,
-					shadowType, rotation, shadingType, shadingStops);
+			drawPolygon(
+				combinedCoordinates,
+				xStartPos,
+				yStartPos,
+				color,
+				solid,
+				outlineColor,
+				outlineThickness,
+				shadowType,
+				rotation,
+				shadingType,
+				shadingStops);
 			break;
 		case RECTANGLE:
-			drawRectangle(xStartPos, yStartPos, xEndPos, yEndPos, arcWidth, arcHeight, color, solid, outlineColor,
-					outlineThickness, shadowType, rotation, shadingType, shadingStops);
+			drawRectangle(
+				xStartPos,
+				yStartPos,
+				xEndPos,
+				yEndPos,
+				arcWidth,
+				arcHeight,
+				color,
+				solid,
+				outlineColor,
+				outlineThickness,
+				shadowType,
+				rotation,
+				shadingType,
+				shadingStops);
 			break;
 		case REGULARPOLYGON:
-			drawRegularPolygon(xStartPos, yStartPos, width, height, numberOfSides, color, solid, outlineColor,
-					outlineThickness, shadowType, rotation, shadingType, shadingStops);
+			drawRegularPolygon(
+				xStartPos,
+				yStartPos,
+				width,
+				height,
+				numberOfSides,
+				color,
+				solid,
+				outlineColor,
+				outlineThickness,
+				shadowType,
+				rotation,
+				shadingType,
+				shadingStops);
 			break;
 		case SQUARE:
-			drawSquare(xStartPos, yStartPos, length, color, solid, outlineColor, outlineThickness, shadowType,
-					rotation, shadingType, shadingStops);
+			drawSquare(
+				xStartPos,
+				yStartPos,
+				length,
+				arcWidth,
+				arcHeight,
+				color,
+				solid,
+				outlineColor,
+				outlineThickness,
+				shadowType,
+				rotation,
+				shadingType,
+				shadingStops);
 			break;
 		case STAR:
-			drawStar(xStartPos, yStartPos, numberOfPoints, size, color, solid, outlineColor, outlineThickness,
-					shadowType, rotation, shadingType, shadingStops);
+			drawStar(
+				xStartPos,
+				yStartPos,
+				numberOfPoints,
+				size,
+				color,
+				solid,
+				outlineColor,
+				outlineThickness,
+				shadowType,
+				rotation,
+				shadingType,
+				shadingStops);
 			break;
 		case TRIANGLE:
-			drawTriangle(x1, y1, x2, y2, x3, y3, color, solid, outlineColor, outlineThickness, shadowType, rotation,
-					shadingType, shadingStops);
+			drawTriangle(
+				x1,
+				y1,
+				x2,
+				y2,
+				x3,
+				y3,
+				color,
+				solid,
+				outlineColor,
+				outlineThickness,
+				shadowType,
+				rotation,
+				shadingType,
+				shadingStops);
 			break;
 		default:
 			break;
@@ -420,8 +547,15 @@ public class Graphic {
 		rectangle.setArcWidth(arcWidth);
 		rectangle.setArcHeight(arcHeight);
 
-		colorShape(rectangle, solid, rectangleColor, outlineColor, outlineThickness, shadowType, shadingType,
-				shadingStops);
+		colorShape(
+			rectangle,
+			solid,
+			rectangleColor,
+			outlineColor,
+			outlineThickness,
+			shadowType,
+			shadingType,
+			shadingStops);
 
 		shape = rectangle;
 
@@ -438,6 +572,12 @@ public class Graphic {
 	 *            y coordinate of the top left corner of the square
 	 * @param length
 	 *            the length of each side of the square
+	 * @param arcWidth
+	 *            the vertical diameter of the arc at the four corners of the
+	 *            rectangle
+	 * @param arcHeight
+	 *            the horizontal diameter of the arc at the four corners of the
+	 *            rectangle
 	 * @param squareColor
 	 *            color of the square
 	 * @param solid
@@ -458,11 +598,24 @@ public class Graphic {
 	 *            ArrayList of stops that contains the information for the
 	 *            shaded colors.
 	 */
-	private void drawSquare(float xStartPos, float yStartPos, float length, String squareColor, boolean solid,
-			String outlineColor, float outlineThickness, Shadow shadowType, float rotation, Shading shadingType,
-			ArrayList<Stop> shadingStops) {
-		drawRectangle(xStartPos, yStartPos, xStartPos + length, yStartPos + length, 0, 0, squareColor, solid,
-				outlineColor, outlineThickness, shadowType, rotation, shadingType, shadingStops);
+	private void drawSquare(float xStartPos, float yStartPos, float length, float arcWidth, float arcHeight,
+			String squareColor, boolean solid, String outlineColor, float outlineThickness, Shadow shadowType,
+			float rotation, Shading shadingType, ArrayList<Stop> shadingStops) {
+		drawRectangle(
+			xStartPos,
+			yStartPos,
+			xStartPos + length,
+			yStartPos + length,
+			arcWidth,
+			arcHeight,
+			squareColor,
+			solid,
+			outlineColor,
+			outlineThickness,
+			shadowType,
+			rotation,
+			shadingType,
+			shadingStops);
 	}
 
 	/**
@@ -639,8 +792,21 @@ public class Graphic {
 		float x3 = xStartPos + length;
 		float y3 = (float) (yStartPos + (length * (Math.sqrt(3) / (2.0))));
 
-		drawTriangle(x1, y1, x2, y2, x3, y3, equiTriangleColor, solid, outlineColor, outlineThickness, shadowType,
-				rotation, shadingType, shadingStops);
+		drawTriangle(
+			x1,
+			y1,
+			x2,
+			y2,
+			x3,
+			y3,
+			equiTriangleColor,
+			solid,
+			outlineColor,
+			outlineThickness,
+			shadowType,
+			rotation,
+			shadingType,
+			shadingStops);
 	}
 
 	/**
@@ -682,10 +848,17 @@ public class Graphic {
 			boolean solid, String outlineColor, float outlineThickness, Shadow shadowType, float rotation,
 			Shading shadingType, ArrayList<Stop> shadingStops) {
 		Polygon triangle = new Polygon();
-		colorShape(triangle, solid, triangleColor, outlineColor, outlineThickness, shadowType, shadingType,
-				shadingStops);
+		colorShape(
+			triangle,
+			solid,
+			triangleColor,
+			outlineColor,
+			outlineThickness,
+			shadowType,
+			shadingType,
+			shadingStops);
 		triangle.getPoints().addAll(
-				new Double[] { (double) x1, (double) y1, (double) x2, (double) y2, (double) x3, (double) y3 });
+			new Double[] { (double) x1, (double) y1, (double) x2, (double) y2, (double) x3, (double) y3 });
 		triangle.setRotate(rotation);
 
 		shape = triangle;
@@ -733,8 +906,15 @@ public class Graphic {
 		float centerYPoint = yStartPos + height / 2;
 
 		Polygon regPolygon = new Polygon();
-		colorShape(regPolygon, solid, regPolColor, outlineColor, outlineThickness, shadowType, shadingType,
-				shadingStops);
+		colorShape(
+			regPolygon,
+			solid,
+			regPolColor,
+			outlineColor,
+			outlineThickness,
+			shadowType,
+			shadingType,
+			shadingStops);
 		float radius = (float) (Math.min(0.5 * width, height * 0.5));
 		double z;
 		for (int i = 0; i < numberOfSides; i++) {
@@ -843,11 +1023,11 @@ public class Graphic {
 				star.getPoints().add((double) Math.round(((-size / 2) * Math.cos(z)) + yStartPos + (size / 2)));
 			} else {
 				star.getPoints().add(
-						(double) Math.round(((size / (2 * Math.pow(numberOfPoints, 0.5))) * Math.sin(z)) + xStartPos
-								+ (size / 2)));
+					(double) Math.round(((size / (2 * Math.pow(numberOfPoints, 0.5))) * Math.sin(z)) + xStartPos
+							+ (size / 2)));
 				star.getPoints().add(
-						(double) Math.round(((-size / (2 * Math.pow(numberOfPoints, 0.5))) * Math.cos(z)) + yStartPos
-								+ (size / 2)));
+					(double) Math.round(((-size / (2 * Math.pow(numberOfPoints, 0.5))) * Math.cos(z)) + yStartPos
+							+ (size / 2)));
 			}
 			a++;
 		}
@@ -898,9 +1078,14 @@ public class Graphic {
 		/* Calculate center coordinates from inputs */
 		float centerXPos = xStartPos + width;
 		float centerYPos = yStartPos + height;
+		
+		System.out.println(centerXPos + " " + centerYPos + " " + width + " " + height + " " + arcAngle + " " + length);
 
 		Arc chord = new Arc(centerXPos, centerYPos, width, height, arcAngle, length);
 		chord.setType(ArcType.CHORD);
+		
+		System.out.println(chord + " " +  solid + " " +  chordColor + " " +  outlineColor + " " +  outlineThickness + " " +  shadowType + " " +  shadingType + " " +  shadingStops);
+
 		colorShape(chord, solid, chordColor, outlineColor, outlineThickness, shadowType, shadingType, shadingStops);
 
 		shape = chord;

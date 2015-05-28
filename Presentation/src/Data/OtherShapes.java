@@ -487,10 +487,19 @@ public class OtherShapes extends Graphic {
 		
 		private float xEnd;
 		private float yEnd;
-		private float thickness;
+		private float thickness = 1;
 		
 		public Line(Defaults defaults) {
 			super(defaults);
+		}
+		
+		@Override
+		public void printItem() {
+			super.printItem();
+			System.out.println("xEnd: " + xEnd);
+			System.out.println("yEnd: " + yEnd);
+			System.out.println("thickness: " + thickness);
+			System.out.println("");
 		}
 		
 		public float getThickness() {
@@ -549,7 +558,7 @@ public class OtherShapes extends Graphic {
 		
 		private float xEnd;
 		private float yEnd;
-		private float thickness;
+		private float thickness = 1;
 		
 		public Arrow(Defaults defaults) {
 			super(defaults);
