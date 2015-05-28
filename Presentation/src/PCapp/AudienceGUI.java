@@ -49,20 +49,8 @@ public class AudienceGUI extends Application {
 	}
 
 	public String getHexCodeIP(String hexCode) {
-		String[] hex;
-		String hexCodeIP;
-		hex = hexCode.split("(?!^)");
-		String hexString1 = hex[0] + hex[1];
-		String hexString2 = hex[2] + hex[3];
-		int hexCodeIPString1 = hex2decimal(hexString1);
-		System.out.println("WM IP: " + hexCode + " " + hex);
-		System.out.println("WM IP: " + hexString1 + " -> " + hexCodeIPString1);
-		int hexCodeIPString2 = hex2decimal(hexString2);
-		System.out.println("WM IP: " + hexString2 + " -> " + hexCodeIPString2);
-		hexCodeIP = Integer.toString(hexCodeIPString1);
-		hexCodeIP += "." + Integer.toString(hexCodeIPString2);
-		System.out.println("WM IP: " + hexCodeIP);
-		return hexCodeIP;
+		int hexCode2 = Integer.parseInt(hexCode,16);
+		return (hexCode2 >> 8) + "." + (hexCode2 & 0x00FF);
 	}
 
 	public static int hex2decimal(String s) {
@@ -74,7 +62,14 @@ public class AudienceGUI extends Application {
 			int d = digits.indexOf(c);
 			val = 16 * val + d;
 		}
+		
+		System.out.println("HELLO " + s);
+		System.out.println(val);
+		System.out.println(Integer.parseInt(s, 16));
+		
 		return val;
+		
+		
 	}
 
 	/**
