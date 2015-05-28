@@ -26,5 +26,6 @@
     <string name="ok">OK</string>
     <string name="question">Send a Question:</string>
     <string name="send">Send</string>
-
+    <string name="length_error">Question Too Long!</string>
+    <string name="edit">Edit</string>
 </resources>

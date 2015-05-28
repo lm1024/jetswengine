@@ -13,6 +13,7 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -185,8 +186,8 @@ public class QuestionActivity extends ActionBarActivity {
         if (id == R.id.action_info) {
             new AlertDialog.Builder(this)
                     .setTitle(R.string.action_info)
-                    .setMessage(    "Help and Contact Email:\n" +
-                                    "help@smartslides.co.uk")
+                    .setMessage("Help and Contact Email:\n" +
+                            "help@smartslides.co.uk")
                     .setNeutralButton(R.string.ok, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                         }
@@ -270,8 +271,38 @@ public class QuestionActivity extends ActionBarActivity {
         // Send message
         //System.err.println(question);
         //System.err.println("WM QUESTION CHECK");
-        sendOption(question);
-        questionBoxJ.setText("");
+        if (question.length() <= 10) {
+            sendOption(question);
+            questionBoxJ.setText("");
+        } else {
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.length_error)
+                    .setMessage("Your Question is too long. Please edit or cancel.")
+                    .setPositiveButton(R.string.edit, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    })
+                    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            questionBoxJ.setText("");
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_info)
+                    .show();
+
+        }
+    }
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        if (socket != null) {
+            try {
+                socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 
