@@ -7,6 +7,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 /**
  * @author tjd511
@@ -18,6 +19,7 @@ public class Question {
 									// parser!!!
 	private ArrayList<Answer> answers;
 
+	private HashMap<String, Integer> IPs;
 	private static final String FILE_FOLDER = "logfiles";
 	private static final String FILE_EXTENSION = ".csv";
 
@@ -40,6 +42,8 @@ public class Question {
 
 		/* Instantiate the answer list */
 		answers = new ArrayList<Answer>();
+		
+		IPs = new HashMap<String, Integer>();
 	}
 
 	/**
@@ -101,9 +105,20 @@ public class Question {
 	/**
 	 * @param index
 	 */
-	public void increaseAnswerCount(int index) {
+	public void increaseAnswerCount(int index, String ip) {
+
 		if (index < answers.size() && index >= 0) {
-			answers.get(index).increaseAnswerCount();
+			
+			if (IPs.get(ip) == null) {
+				IPs.put(ip, index);
+				answers.get(index).increaseAnswerCount();
+			}
+			else {
+				answers.get(IPs.get(ip)).decreaseAnswerCount();
+				IPs.put(ip, index);
+				answers.get(index).increaseAnswerCount();
+			}
+
 		}
 	}
 
@@ -113,7 +128,6 @@ public class Question {
 
 		/* Try to create the folder if it doesn't already exist. */
 		if (!folder.exists() || !folder.isDirectory()) {
-			System.out.println("folder no exist");
 			folder.mkdirs();
 		}
 
@@ -125,7 +139,10 @@ public class Question {
 				Date date = new Date();
 
 				/* Create the filepath for the logfile */
-				String filepath = FILE_FOLDER + "/" + dateFormat.format(date) + " " + this.getLogfile()
+				String filepath = FILE_FOLDER + "/"
+						+ dateFormat.format(date)
+						+ " "
+						+ this.getLogfile()
 						+ FILE_EXTENSION;
 
 				/* Create a new filewriter to create the csv file. */
@@ -133,6 +150,12 @@ public class Question {
 
 				/* Write the question ID as the first line in the file. */
 				writer.append(this.getId());
+				writer.append(NEWLINE_DELIMITER);
+				
+				/* Write the column headings. */
+				writer.append("Answer ID");
+				writer.append(COMMA_DELIMITER);
+				writer.append("Answer Count");
 				writer.append(NEWLINE_DELIMITER);
 
 				/*
@@ -151,7 +174,7 @@ public class Question {
 				writer.close();
 
 			} catch (IOException e) {
-				e.printStackTrace(); //TODO
+				e.printStackTrace(); // TODO
 			}
 		}
 	}

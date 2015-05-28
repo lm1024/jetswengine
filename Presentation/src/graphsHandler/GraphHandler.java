@@ -22,7 +22,7 @@ public class GraphHandler {
 	public GraphHandler(Group group) {
 		this.group = group;
 		/*
-		 * Initialises a new pie chart. The first instantiate of a pie chart
+		 * Initialises a new pie chart. The first instantiation of a pie chart
 		 * takes 100ms, so this moves that delay to the start of the handler
 		 * instead of the first graph being drawn, which is preferential.
 		 */

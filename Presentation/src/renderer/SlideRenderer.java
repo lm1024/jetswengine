@@ -43,6 +43,8 @@ import Data.TextFragment;
 import Data.Video;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.control.Label;
+import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -221,8 +223,7 @@ public class SlideRenderer {
 	 * Method either hides or shows a slide object based upon the boolean flag.
 	 * 
 	 * @param objectType
-	 *            a string containing the type of the object. TODO should be
-	 *            enum?
+	 *            a string containing the type of the object.
 	 * @param numberOfObject
 	 *            the object number of the object to be updated in the handler.
 	 * @param visible
@@ -275,7 +276,7 @@ public class SlideRenderer {
 		switch (graphicType) {
 		case ARC:
 			/*
-			 * Casts the graphic to the arc type to access the info specfic to
+			 * Casts the graphic to the arc type to access the info specific to
 			 * that type of shape.
 			 */
 			Arc arc = (Arc) currentGraphic;
@@ -632,10 +633,7 @@ public class SlideRenderer {
 
 		audioHandler.createAudio(x, y, width, sourceFile, loop, autoPlay, visibleControls, playButtonOnly);
 
-		/*
-		 * Hides and pauses the audio if it has a start time tag. TODO
-		 * isautoplay??
-		 */
+		/* Hides and pauses the audio if it has a start time tag. */
 		if (currentAudio.getStartTime() != 0) {
 			audioHandler.pauseAudio(audioHandler.getAudioCount() - 1);
 			audioHandler.setVisible(audioHandler.getAudioCount() - 1, false);
@@ -738,8 +736,10 @@ public class SlideRenderer {
 		 * answer data arrays.
 		 */
 		for (Answer tempAnswer : question.getAnswers()) {
-			answerNames.add(tempAnswer.getId());
-			answerValues.add((float) tempAnswer.getAnswerCount());
+			if (tempAnswer.getAnswerCount() > 0) {
+				answerNames.add(tempAnswer.getId());
+				answerValues.add((float) tempAnswer.getAnswerCount());
+			}
 		}
 		/* Add the answer data to the pie charts. */
 		answerChart.setPieChartData(answerNames, answerValues);
