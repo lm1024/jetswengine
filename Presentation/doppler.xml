@@ -1,0 +1,233 @@
+<?xml version="1.0"?>
+
+<slideshow>
+	<documentinfo>
+		<author>WaveMedia</author>
+		<version>1.0</version>
+		<comment>Doppler Effect Presentation</comment>
+		<groupid>2</groupid>
+	</documentinfo>
+	<defaultsettings>
+		<backgroundcolor>#00000000</backgroundcolor>
+		<font>times new roman</font>
+		<fontsize>24</fontsize>
+		<fontcolor>#ff000000</fontcolor>
+		<graphiccolor>#ffff0000</graphiccolor>
+		<highlightcolor>#00000000</highlightcolor>
+		<starttime>0</starttime>
+		<duration>Float.MAX_VALUE</duration>
+		<alignment>left</alignment>
+		<scale>1</scale>
+		<rotation>0</rotation>
+		<cropx1>0</cropx1>
+		<cropy1>0</cropy1>
+		<cropx2>1</cropx2>
+		<cropy2>1</cropy2>
+		<xAspectRatio>4</xAspectRatio>
+		<yAspectRatio>3</yAspectRatio>
+	</defaultsettings>
+
+	<slide>
+		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" font="arial"
+			fontsize="50" fontcolor="#ff0000ff" alignment="center">
+			<richtext bold= "true" underlined="true">
+				The Doppler Effect
+			</richtext>
+		</text>
+		
+		<text xstart="0.1" ystart="0.3" xend="0.9" yend="0.8" font="arial"
+			fontsize="36" fontcolor="#ff000000" alignment="left">
+			<richtext>
+				The Doppler effect or  Doppler shift is the apparent change in the frequency of a wave caused by the relative motion between the source of the wave and the observer.
+			</richtext>
+		</text>
+		
+		<image sourcefile="file:doppler/sheldon.png" xstart="0.6" ystart="0.5" vscale="0.75" hscale="0.75"/>
+		
+		<image sourcefile="file:doppler/slide1pic2.gif" xstart="0.2" ystart="0.5" vscale="1" hscale="1"/>
+
+
+	</slide>
+	
+	<slide>
+		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.9" font="arial"
+			fontsize="50" fontcolor="#ff0000ff" alignment="center">
+			<richtext bold= "true" underlined="true">
+				If an object is moving towards an observer, to what end of the visible spectrum will that object appear to shift? 
+			</richtext>
+		</text>
+		
+		<text xstart="0.1" ystart="0.3" xend="0.9" yend="0.8" font="arial"
+			fontsize="36" fontcolor="#ff000000" alignment="left">
+			<richtext>
+				A: Red\n\nB: Blue\n\nC: No Shift\n\nD: Gamma
+			</richtext>
+		</text>
+		
+		<!-- Question section -->
+		<question id="Shift Towards" logfile="shifttowards"> 
+			<answer id="Red" correct="false"/> 
+			<answer id="Blue" correct="true"/> 
+			<answer id="No Shift" correct="false"/> 
+			<answer id="Gamma" correct="false"/> 
+		</question>
+	</slide>
+	
+	<slide tangent = "true">
+		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" font="arial"
+			fontsize="50" fontcolor="#ff0000ff" alignment="center">
+			<richtext bold= "true" underlined="true">
+				Red and Blue Shift
+			</richtext>
+		</text>
+		
+		<text xstart="0.1" ystart="0.3" xend="0.9" yend="0.8" font="arial"
+			fontsize="36" fontcolor="#ff000000" alignment="left">
+			<richtext bold="true" afterspace = "1">
+				Red shift: 
+			</richtext>
+			<richtext>
+				redshift happens when light or other EM radiation from an object is increased in wavelength, or shifted to the red end of the spectrum.\n
+			</richtext>
+			<richtext bold="true" afterspace = "1">
+				Blue shift: 
+			</richtext>
+			<richtext>
+				A blue shift is any decrease in wavelength, with a corresponding increase in frequency, of EM waves.
+			</richtext>
+		</text>
+		
+		<graphic type="line" xstart="0.2" ystart="0.6" xend="0.2" yend="0.7" solid="true" graphiccolor="#ffff0000"/>	
+		<graphic type="line" xstart="0.25" ystart="0.6" xend="0.25" yend="0.7" solid="true" graphiccolor="#ffff0000"/>	
+		<graphic type="line" xstart="0.3" ystart="0.6" xend="0.3" yend="0.7" solid="true" graphiccolor="#ffff0000"/>	
+		<graphic type="line" xstart="0.35" ystart="0.6" xend="0.35" yend="0.7" solid="true" graphiccolor="#ffff0000"/>	
+		
+		<graphic graphiccolor="#ff9370DB">
+			<circle xstart="0.5" ystart="0.625" size="0.02" solid="true"/>
+			<shadow weight="heavy"/>
+		</graphic>
+		
+		<graphic graphiccolor="#ff9370DB"> 
+			<arrow xstart="0.475" ystart="0.7" xend="0.575" yend="0.7" thickness="1.0"/>
+		</graphic>
+		
+		<graphic graphiccolor="#ffff0000"> 
+			<arrow xstart="0.5" ystart="0.65" xend="0.4" yend="0.65" thickness="1.0"/>
+		</graphic>
+		
+		<graphic graphiccolor="#ff6B8E23">
+			<circle xstart="0.1" ystart="0.6" size="0.01" solid="true"/>
+		</graphic>
+		<graphic type="line" xstart="0.11" ystart="0.61" xend="0.11" yend="0.675" solid="true" graphiccolor="#ff6B8E23"/>	
+		<graphic type="line" xstart="0.09" ystart="0.64" xend="0.13" yend="0.64" solid="true" graphiccolor="#ff6B8E23"/>	
+		
+		<graphic type="line" xstart="0.11" ystart="0.675" xend="0.13" yend="0.69" solid="true" graphiccolor="#ff6B8E23"/>	
+		<graphic type="line" xstart="0.11" ystart="0.675" xend="0.09" yend="0.69" solid="true" graphiccolor="#ff6B8E23"/>
+		
+		<text xstart="0.6" ystart="0.675" xend="1" yend="1" font="arial"
+			fontsize="24" fontcolor="#ff000000" alignment="left">
+			<richtext>
+				Object moving away from observer
+			</richtext>
+		</text>
+		
+		
+		
+		<graphic type="line" xstart="0.2" ystart="0.8" xend="0.2" yend="0.9" solid="true" graphiccolor="#ff1E90FF"/>	
+		<graphic type="line" xstart="0.25" ystart="0.8" xend="0.25" yend="0.9" solid="true" graphiccolor="#ff1E90FF"/>	
+		<graphic type="line" xstart="0.3" ystart="0.8" xend="0.3" yend="0.9" solid="true" graphiccolor="#ff1E90FF"/>	
+		<graphic type="line" xstart="0.35" ystart="0.8" xend="0.35" yend="0.9" solid="true" graphiccolor="#ff1E90FF"/>	
+		<graphic type="line" xstart="0.225" ystart="0.8" xend="0.225" yend="0.9" solid="true" graphiccolor="#ff1E90FF"/>	
+		<graphic type="line" xstart="0.275" ystart="0.8" xend="0.275" yend="0.9" solid="true" graphiccolor="#ff1E90FF"/>	
+		<graphic type="line" xstart="0.325" ystart="0.8" xend="0.325" yend="0.9" solid="true" graphiccolor="#ff1E90FF"/>	
+		<graphic type="line" xstart="0.375" ystart="0.8" xend="0.375" yend="0.9" solid="true" graphiccolor="#ff1E90FF"/>
+		
+		<graphic graphiccolor="#ff9370DB">
+			<circle xstart="0.5" ystart="0.825" size="0.02" solid="true"/>
+			<shadow weight="heavy"/>
+		</graphic>
+		
+		<graphic graphiccolor="#ff9370DB"> 
+			<arrow xstart="0.575" ystart="0.9" xend="0.475" yend="0.9" thickness="1.0"/>
+		</graphic>
+		
+		<graphic graphiccolor="#ff1E90FF"> 
+			<arrow xstart="0.5" ystart="0.85" xend="0.4" yend="0.85" thickness="1.0"/>
+		</graphic>
+		
+		<graphic graphiccolor="#ff6B8E23">
+			<circle xstart="0.1" ystart="0.8" size="0.01" solid="true"/>
+		</graphic>
+		<graphic type="line" xstart="0.11" ystart="0.81" xend="0.11" yend="0.875" solid="true" graphiccolor="#ff6B8E23"/>	
+		<graphic type="line" xstart="0.09" ystart="0.84" xend="0.13" yend="0.84" solid="true" graphiccolor="#ff6B8E23"/>	
+		
+		<graphic type="line" xstart="0.11" ystart="0.875" xend="0.13" yend="0.89" solid="true" graphiccolor="#ff6B8E23"/>	
+		<graphic type="line" xstart="0.11" ystart="0.875" xend="0.09" yend="0.89" solid="true" graphiccolor="#ff6B8E23"/>
+
+		<text xstart="0.6" ystart="0.875" xend="1" yend="1" font="arial"
+			fontsize="24" fontcolor="#ff000000" alignment="left">
+			<richtext>
+				Object moving towards observer
+			</richtext>
+		</text>
+
+
+	</slide>
+	
+	<slide>
+		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.9" font="arial"
+			fontsize="50" fontcolor="#ff0000ff" alignment="center">
+			<richtext bold= "true" underlined="true">
+				The Doppler Effect Video
+			</richtext>
+		</text>
+		
+		<video sourcefile="doppler/media1.mp4" xstart="0.2" ystart="0.4" width="0.6" autoplay="true" loop="true"/>
+
+	</slide>
+	
+	<slide>
+		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.9" font="arial"
+			fontsize="50" fontcolor="#ff0000ff" alignment="center">
+			<richtext bold= "true" underlined="true">
+				The Doppler Effect Audio
+			</richtext>
+		</text>
+		
+		<audio sourcefile="doppler/media2.mp3" xstart="0.5" ystart="0.4" width="0.2" autoplay="false" loop = "false" visiblecontrols="true" playbuttononly="true"/>		
+
+		
+		<text xstart="0.1" ystart="0.8" xend="0.9" yend="1" font="arial"
+			fontsize="36" fontcolor="#ff000000" alignment="center">
+			<richtext>
+				Fire engine siren demonstrating the Doppler effect
+			</richtext>
+		</text>
+	</slide>
+	
+	<slide>
+		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.9" font="arial"
+			fontsize="50" fontcolor="#ff0000ff" alignment="center">
+			<richtext bold= "true" underlined="true">
+				If an object is moving towards an observer, to what end of the visible spectrum will that object appear to shift? 
+			</richtext>
+		</text>
+		
+		<text xstart="0.1" ystart="0.3" xend="0.9" yend="0.8" font="arial"
+			fontsize="36" fontcolor="#ff000000" alignment="left">
+			<richtext>
+				A: Red\n\nB: Blue\n\nC: No Shift\n\nD: Chocolate
+			</richtext>
+		</text>
+		
+		<!-- Question section -->
+		<question id="Shift Towards" logfile="shifttowards"> 
+			<answer id="Red" correct="false"/> 
+			<answer id="Blue" correct="true"/> 
+			<answer id="No Shift" correct="false"/> 
+			<answer id="Chocolate" correct="false"/> 
+		</question>
+	</slide>
+	
+	
+</slideshow>

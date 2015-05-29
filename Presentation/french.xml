@@ -1,0 +1,185 @@
+<?xml version="1.0"?>
+
+<slideshow>
+	<documentinfo>
+		<author>WaveMedia</author>
+		<version>1.0</version>
+		<comment>French Lesson</comment>
+		<groupid>2</groupid>
+	</documentinfo>
+	<defaultsettings>
+		<backgroundcolor>#00000000</backgroundcolor>
+		<font>times new roman</font>
+		<fontsize>24</fontsize>
+		<fontcolor>#ff000000</fontcolor>
+		<graphiccolor>#ffff0000</graphiccolor>
+		<highlightcolor>#00000000</highlightcolor>
+		<starttime>0</starttime>
+		<duration>Float.MAX_VALUE</duration>
+		<alignment>left</alignment>
+		<scale>1</scale>
+		<rotation>0</rotation>
+		<cropx1>0</cropx1>
+		<cropy1>0</cropy1>
+		<cropx2>1</cropx2>
+		<cropy2>1</cropy2>
+		<xAspectRatio>4</xAspectRatio>
+		<yAspectRatio>3</yAspectRatio>
+	</defaultsettings>
+
+	<slide>
+		<text xstart="0.1" ystart="0.45" xend="0.9" yend="0.2" font="arial"
+			fontsize="50" fontcolor="#ff0000ff" alignment="center">
+			<richtext bold= "true" underlined="true">
+				Getting Around
+			</richtext>
+		</text>
+	</slide>
+	
+	<slide>		
+	
+	<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" font="arial"
+			fontsize="50" fontcolor="#ff0000ff" alignment="center">
+			<richtext bold= "true" underlined="true">
+				Places
+			</richtext>
+		</text>
+	
+		<text xstart="0.1" ystart="0.3" xend="0.9" yend="0.8" font="arial"
+			fontsize="36" fontcolor="#ff000000" alignment="left">
+			<richtext>
+				La Banque\n\n\n\n\n\n\n\n\n\n\n\n Bureau de poste
+			</richtext>
+		</text>
+		
+		
+		<image sourcefile="file:french/bank.png" xstart="0.5" ystart="0.2" vscale="0.75" hscale="0.75"/>
+		
+		<image sourcefile="file:french/post.jpg" xstart="0.5" ystart="0.6" vscale="1" hscale="1"/>
+
+
+	</slide>
+	
+	<slide>		
+	
+	<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" font="arial"
+			fontsize="50" fontcolor="#ff0000ff" alignment="center">
+			<richtext bold= "true" underlined="true">
+				Places
+			</richtext>
+		</text>
+	
+		<text xstart="0.1" ystart="0.3" xend="0.9" yend="0.8" font="arial"
+			fontsize="36" fontcolor="#ff000000" alignment="left">
+			<richtext>
+				Boulangerie\n\n\n\n\n\n\n\n\n\n\n\n Le Cin&#233;ma
+			</richtext>
+		</text>
+		
+		
+		<image sourcefile="file:french/greggs.png" xstart="0.5" ystart="0.2" vscale="0.75" hscale="0.75"/>
+		
+		<image sourcefile="file:french/cinema.png" xstart="0.5" ystart="0.55" vscale="1" hscale="1"/>
+
+	</slide>
+	
+	<slide>		
+	
+	<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" font="arial"
+			fontsize="50" fontcolor="#ff0000ff" alignment="center">
+			<richtext bold= "true" underlined="true">
+				Places
+			</richtext>
+		</text>
+	
+		<text xstart="0.1" ystart="0.3" xend="0.9" yend="0.8" font="arial"
+			fontsize="36" fontcolor="#ff000000" alignment="left">
+			<richtext>
+				Biblioth&#232;que\n\n\n\n\n\n\n\n\n\n\n\n La gare
+			</richtext>
+		</text>
+		
+		
+		<image sourcefile="file:french/lib.png" xstart="0.5" ystart="0.2" vscale="0.75" hscale="0.75"/>
+		
+		<image sourcefile="file:french/train.jpg" xstart="0.5" ystart="0.55" vscale="1" hscale="1"/>
+
+
+	</slide>
+	
+	<slide>
+	<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" font="arial"
+			fontsize="50" fontcolor="#ff0000ff" alignment="center">
+			<richtext bold= "true" underlined="true">
+				Directions
+			</richtext>
+		</text>
+	
+		<text xstart="0.1" ystart="0.3" xend="0.9" yend="0.8" font="arial"
+			fontsize="36" fontcolor="#ff000000" alignment="center">
+			<richtext>
+				Tourner &#224; gauche
+			</richtext>
+		</text>
+		<graphic graphiccolor="#ffff0000"> 
+			<arrow xstart="0.6" ystart="0.4" xend="0.4" yend="0.4" thickness="1.0"/>
+		</graphic>
+		
+		<text xstart="0.1" ystart="0.5" xend="0.9" yend="0.8" font="arial"
+			fontsize="36" fontcolor="#ff000000" alignment="center">
+			<richtext>
+				Tourner &#224; droite
+			</richtext>
+		</text>
+		
+		<graphic graphiccolor="#ffff0000"> 
+			<arrow xstart="0.4" ystart="0.6" xend="0.6" yend="0.6" thickness="1.0"/>
+		</graphic>
+		
+		<text xstart="0.1" ystart="0.7" xend="0.9" yend="0.8" font="arial"
+			fontsize="36" fontcolor="#ff000000" alignment="center">
+			<richtext>
+				Tout droit
+			</richtext>
+		</text>
+		
+		<graphic graphiccolor="#ffff0000"> 
+			<arrow xstart="0.5" ystart="0.9" xend="0.5" yend="0.8" thickness="1.0"/>
+		</graphic>
+
+	</slide>
+	
+	<slide>
+	<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" font="arial"
+			fontsize="50" fontcolor="#ff0000ff" alignment="center">
+			<richtext bold= "true" underlined="true">
+				O&#249; est le cin&#233;ma
+			</richtext>
+		</text>
+	
+		<text xstart="0.1" ystart="0.3" xend="0.9" yend="0.8" font="arial"
+			fontsize="45" fontcolor="#ff000000" alignment="left">
+			<richtext>
+				1. Straight past the library and the left at the bakery\n\n
+				2. Left at the post office and then right at the library\n\n
+				3. Left at the library and straight past the bakery\n\n
+				4. Left at the post office and then right at the bakery\n\n
+			</richtext>
+		</text>
+		
+		<question id="Shift Towards" logfile="shifttowards"> 
+			<answer id="1" correct="false"/> 
+			<answer id="2" correct="true"/> 
+			<answer id="3" correct="false"/> 
+			<answer id="4" correct="true"/> 
+		</question>
+		
+		<!-- AUDIO HERE -->
+		<audio sourcefile="french/media1.wav" xstart="0.4" ystart="0.8" width="0.2" autoplay="true" loop = "false" visiblecontrols="true" playbuttononly="false"/>		
+
+	</slide>
+	
+	
+	
+	
+</slideshow>
