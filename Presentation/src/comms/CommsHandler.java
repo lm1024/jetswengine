@@ -156,6 +156,8 @@ public class CommsHandler {
 						String input = in.readLine();
 						if (input == null) {
 							break;
+						} else if (input.matches("^([0-9]{1,3})[.]([0-9]{1,3})[.]([0-9]{1,3})[.]([0-9]{1,3}[:](CLOSE_SOCKET))$")) {
+							break;
 						}
 						if (input.matches("^([0-9]{1,3})[.]([0-9]{1,3})[.]([0-9]{1,3})[.]([0-9]{1,3}[:][0-3])$")) {
 
@@ -176,6 +178,7 @@ public class CommsHandler {
 
 				} finally {
 					try {
+						System.out.println("Closing Socket");
 						socket.close();
 					} catch (IOException e) {
 
