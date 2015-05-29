@@ -88,7 +88,7 @@ public final class Utils {
 
 	public static boolean validAlignment(String string) {
 		try {
-			return string.matches("left|right|centre|none");
+			return string.matches("left|right|center|none");
 		} catch (Exception e) {
 			return false;
 		}
