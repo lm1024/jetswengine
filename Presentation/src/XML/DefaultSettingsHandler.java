@@ -96,8 +96,10 @@ public class DefaultSettingsHandler extends DefaultHandler {
 			break;
 		case "cropy2":
 			defaults.setCropY2(contentBuffer.toString().trim());
+			break;
 		case "originalxresolution":
 			defaults.setOriginalXResolution(contentBuffer.toString().trim());
+			break;
 		case "originalyresolution":
 			defaults.setOriginalYResolution(contentBuffer.toString().trim());
 			break;
