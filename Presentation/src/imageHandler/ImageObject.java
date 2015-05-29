@@ -23,6 +23,8 @@ public class ImageObject {
 	private final double cropRight;
 	private final double cropDown;
 	private final double cropUp;
+	private final float xEnd;
+	private final float yEnd;
 	private final ArrayList<ImageEffect> imageEffects;
 
 	/* Constructor must be called using the builder */
@@ -39,6 +41,8 @@ public class ImageObject {
 		this.cropRight = builder.cropRight;
 		this.cropDown = builder.cropDown;
 		this.cropUp = builder.cropUp;
+		this.xEnd = builder.xEnd;
+		this.yEnd = builder.yEnd;
 		this.imageEffects = builder.imageEffects;
 	}
 
@@ -130,6 +134,34 @@ public class ImageObject {
 	}
 
 	/**
+	 * @return the xStartPos
+	 */
+	public float getxStartPos() {
+		return xStartPos;
+	}
+
+	/**
+	 * @return the yStartPos
+	 */
+	public float getyStartPos() {
+		return yStartPos;
+	}
+
+	/**
+	 * @return the xEnd
+	 */
+	public float getxEnd() {
+		return xEnd;
+	}
+
+	/**
+	 * @return the yEnd
+	 */
+	public float getyEnd() {
+		return yEnd;
+	}
+
+	/**
 	 * @return a list of ImageEffects that are to be applied to the image
 	 * @see {@link imageHandler.ImageEffect}
 	 */
@@ -153,6 +185,8 @@ public class ImageObject {
 		private double cropRight;
 		private double cropDown;
 		private double cropUp;
+		private float xEnd;
+		private float yEnd;
 		private ArrayList<ImageEffect> imageEffects = new ArrayList<ImageEffect>();
 
 		/**
@@ -272,6 +306,18 @@ public class ImageObject {
 		 */
 		public ImageBuilder cropUp(double cropUp) {
 			this.cropUp = cropUp;
+			return this;
+		}
+		
+		
+		public ImageBuilder xEnd(float xEnd) {
+			this.xEnd = xEnd;
+			return this;
+		}
+
+		
+		public ImageBuilder yEnd(float yEnd) {
+			this.yEnd = yEnd;
 			return this;
 		}
 

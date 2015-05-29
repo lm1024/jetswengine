@@ -4,6 +4,7 @@ package imageHandler;
 import java.util.ArrayList;
 
 import javafx.scene.Group;
+import javafx.scene.control.Label;
 import javafx.scene.effect.Bloom;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.effect.ColorAdjust;
@@ -54,6 +55,8 @@ public class WMImage {
 		double cropRight = image.getCropRight();
 		double cropDown = image.getCropDown();
 		double cropUp = image.getCropUp();
+		float xEnd = image.getxEnd();
+		float yEnd = image.getyEnd();
 		ArrayList<ImageEffect> imageEffects = image.getImageEffects();
 		drawImage(
 			xPos,
@@ -68,6 +71,8 @@ public class WMImage {
 			cropRight,
 			cropDown,
 			cropUp,
+			xEnd,
+			yEnd,
 			imageEffects);
 	}
 
@@ -126,6 +131,9 @@ public class WMImage {
 	 *            size of crop from the top of the image
 	 * @param cropUp
 	 *            size of crop from the bottom of the image
+	 * @param xEnd
+	 * @param yEnd
+	 *            /TODO
 	 * @param imageEffects
 	 *            a varargs containing all image effects that are to be applied
 	 *            to the image. The first one in the list is the primary effect,
@@ -133,21 +141,22 @@ public class WMImage {
 	 */
 	private void drawImage(float xPos, float yPos, String filepath, double scaleX, double scaleY, float rotation,
 			boolean vFlip, boolean hFlip, double cropLeft, double cropRight, double cropDown, double cropUp,
-			ArrayList<ImageEffect> imageEffects) {
+			float xEnd, float yEnd, ArrayList<ImageEffect> imageEffects) {
 		/* Create image variable */
 		Image image;
 		try {
 			/* Attempt to load image. (Takes a while... should be preloaded) */
-			image = new Image(filepath);
+			image = new Image("file:" + filepath);
 		}
 		/* Exception handling for simple URL/Image type errors */
 		catch (IllegalArgumentException WrongURL) {
 			/* Display an error message to the user */
-			String errorMessage = "Could not locate/open image file at " + filepath;
-			JOptionPane.showMessageDialog(null, errorMessage, "ERROR", JOptionPane.ERROR_MESSAGE);
+			Label label = new Label("Cannot find image");
+            label.relocate(xPos, yPos);
+            group.getChildren().add(label);
 			return;
 		}
-		
+
 		imageView = new ImageView();
 
 		/* Get height and width of image */
@@ -177,14 +186,32 @@ public class WMImage {
 			scaleX *= -1;
 		}
 
+		/* Get the new dimensions of the cropped image */
+		imageWidth = image.getWidth();
+		imageHeight = image.getHeight();
+
+		/*
+		 * Recalculate the scale values based upon the required size for the
+		 * image.
+		 */
+		if (xEnd != 0 && yEnd != 0) {
+			System.out.println("Doing this");
+			scaleX = (xEnd - xPos) / imageWidth;
+			System.out.println(yEnd + " " + yPos);
+			scaleY = (yEnd - yPos) / imageHeight;
+			System.out.println(scaleX + " " + scaleY);
+		} else if (xEnd != 0) {
+			scaleX = (xEnd - xPos) / imageWidth;
+			scaleY = scaleX;
+		} else if (yEnd != 0) {
+			scaleY = (yEnd - yPos) / imageHeight;
+			scaleX = scaleY;
+		}
+
 		/* Set rotation and horizontal and vertical scale of image */
 		imageView.setRotate(rotation);
 		imageView.setScaleX(scaleX);
 		imageView.setScaleY(scaleY);
-
-		/* Get the new dimensions of the cropped image */
-		imageWidth = image.getWidth();
-		imageHeight = image.getHeight();
 
 		/* Move the image to a new position */
 		double newXPos = xPos - (imageWidth - imageWidth * scaleX) / 2;

@@ -66,7 +66,7 @@
 			<answer id="Afterburner" correct="false"/> 
 		</question>
 		
-		<image sourcefile="file:planes/1.jpg" xstart="0.3" ystart="0.2" vscale="0.4" hscale="0.4"/>
+		<image sourcefile="planes/1.jpg" xstart="0.3" ystart="0.2" vscale="0.4" hscale="0.4"/>
 
 	</slide>
 	
@@ -104,7 +104,7 @@
 			</richtext>
 		</text>
 		
-		<image sourcefile="file:planes/2.png" xstart="0.25" ystart="0.6" vscale="1" hscale="1"/>
+		<image sourcefile="planes/2.png" xstart="0.25" ystart="0.6" vscale="1" hscale="1"/>
 
 	</slide>
 	

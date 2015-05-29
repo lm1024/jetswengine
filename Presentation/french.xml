@@ -53,9 +53,9 @@
 		</text>
 		
 		
-		<image sourcefile="file:french/bank.png" xstart="0.5" ystart="0.2" vscale="0.75" hscale="0.75"/>
+		<image sourcefile="french/bank.png" xstart="0.5" ystart="0.2" vscale="0.75" hscale="0.75"/>
 		
-		<image sourcefile="file:french/post.jpg" xstart="0.5" ystart="0.6" vscale="1" hscale="1"/>
+		<image sourcefile="french/post.jpg" xstart="0.5" ystart="0.6" vscale="1" hscale="1"/>
 
 
 	</slide>
@@ -77,9 +77,9 @@
 		</text>
 		
 		
-		<image sourcefile="file:french/greggs.png" xstart="0.5" ystart="0.2" vscale="0.75" hscale="0.75"/>
+		<image sourcefile="french/greggs.png" xstart="0.5" ystart="0.2" vscale="0.75" hscale="0.75"/>
 		
-		<image sourcefile="file:french/cinema.png" xstart="0.5" ystart="0.55" vscale="1" hscale="1"/>
+		<image sourcefile="french/cinema.png" xstart="0.5" ystart="0.55" vscale="1" hscale="1"/>
 
 	</slide>
 	
@@ -100,9 +100,9 @@
 		</text>
 		
 		
-		<image sourcefile="file:french/lib.png" xstart="0.5" ystart="0.2" vscale="0.75" hscale="0.75"/>
+		<image sourcefile="french/lib.png" xstart="0.5" ystart="0.2" vscale="0.75" hscale="0.75"/>
 		
-		<image sourcefile="file:french/train.jpg" xstart="0.5" ystart="0.55" vscale="1" hscale="1"/>
+		<image sourcefile="french/train.jpg" xstart="0.5" ystart="0.55" vscale="1" hscale="1"/>
 
 
 	</slide>

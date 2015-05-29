@@ -125,7 +125,7 @@ public class GUI extends Application {
 
 	private UserPreferences preferences;
 	
-	private final int maxNumberOfCharsInButtonLine = 28;
+	private final int maxNumberOfCharsInButtonLine = 15;
 
 	/* For the comms channel */
 	CommsHandler comms;

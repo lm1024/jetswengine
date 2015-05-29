@@ -592,6 +592,8 @@ public class SlideRenderer {
 		float cropY2 = currentImage.getCropY2();
 		boolean flipHorizontal = currentImage.getFlipHorizontal();
 		boolean flipVertical = currentImage.getFlipVertical();
+		float xEnd = convXRelCoordToAbsCoord(currentImage.getxEnd());
+		float yEnd = convYRelCoordToAbsCoord(currentImage.getyEnd());
 		ArrayList<ImageEffect> imageEffects = currentImage.getImageEffects();
 
 		/*
@@ -618,6 +620,8 @@ public class SlideRenderer {
 			.cropUp(cropY2)
 			.hFlip(flipHorizontal)
 			.vFlip(flipVertical)
+			.xEnd(xEnd)
+			.yEnd(yEnd)
 			.imageEffects(imageEffectList)
 			.build());
 

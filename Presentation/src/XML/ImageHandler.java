@@ -54,6 +54,8 @@ public class ImageHandler extends DefaultHandler {
 			image.setRotation(attributes.getValue("rotation"));
 			image.setScaleX(attributes.getValue("hscale"));
 			image.setScaleY(attributes.getValue("vscale"));
+			image.setxEnd(attributes.getValue("xend"));
+			image.setyEnd(attributes.getValue("yend"));
 			image.setStartTime(attributes.getValue("starttime"));
 			image.setXStart(attributes.getValue("xstart"));
 			image.setYStart(attributes.getValue("ystart"));

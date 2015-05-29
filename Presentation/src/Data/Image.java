@@ -15,6 +15,8 @@ public class Image extends SlideItem {
 	private float cropY2;
 	private boolean flipHorizontal;
 	private boolean flipVertical;
+	private float xEnd;
+	private float yEnd;
 	
 	private ArrayList<ImageEffect> imageEffects;
 	
@@ -257,6 +259,48 @@ public class Image extends SlideItem {
 			float f = Float.parseFloat(string);
 			if ((f >= 0) && (f <= 1)) {
 				this.cropY2 = f;
+			}
+		} catch (Exception e) {
+			/* Do Nothing */
+		}
+	}
+
+	/**
+	 * @return the xEnd
+	 */
+	public float getxEnd() {
+		return xEnd;
+	}
+
+	/**
+	 * @param xEnd the xEnd to set
+	 */
+	public void setxEnd(String string) {
+		try {
+			float f = Float.parseFloat(string);
+			if (f >= 0) {
+				this.xEnd = f;
+			}
+		} catch (Exception e) {
+			/* Do Nothing */
+		}
+	}
+
+	/**
+	 * @return the yEnd
+	 */
+	public float getyEnd() {
+		return yEnd;
+	}
+
+	/**
+	 * @param yEnd the yEnd to set
+	 */
+	public void setyEnd(String string) {
+		try {
+			float f = Float.parseFloat(string);
+			if (f >= 0) {
+				this.yEnd = f;
 			}
 		} catch (Exception e) {
 			/* Do Nothing */

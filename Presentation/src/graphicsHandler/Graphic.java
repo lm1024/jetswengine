@@ -1079,13 +1079,9 @@ public class Graphic {
 		float centerXPos = xStartPos + width;
 		float centerYPos = yStartPos + height;
 		
-		System.out.println(centerXPos + " " + centerYPos + " " + width + " " + height + " " + arcAngle + " " + length);
-
 		Arc chord = new Arc(centerXPos, centerYPos, width, height, arcAngle, length);
 		chord.setType(ArcType.CHORD);
 		
-		System.out.println(chord + " " +  solid + " " +  chordColor + " " +  outlineColor + " " +  outlineThickness + " " +  shadowType + " " +  shadingType + " " +  shadingStops);
-
 		colorShape(chord, solid, chordColor, outlineColor, outlineThickness, shadowType, shadingType, shadingStops);
 
 		shape = chord;

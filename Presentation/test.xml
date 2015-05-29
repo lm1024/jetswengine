@@ -53,7 +53,7 @@
 	</slide>
 
 	<slide>
-		<image sourcefile="file:Desert.jpg" xstart="0.1" ystart="0.1"
+		<image sourcefile="Desert.jpg" xstart="0.1" ystart="0.1"
 			scale="0.4" rotate="0" fliphorizontal="false" flipvertical="false"
 			cropx1="0.0" cropy1="0.0" cropx2="0.0" cropy2="0.0" starttime="0.5"
 			duration="1.5" />
@@ -97,7 +97,7 @@
 			font="times new roman" fontsize="24" fontcolor="#ffff11ff">
 			Hello World!
 		</text>
-		<image sourcefile="file:Desert.jpg" xstart="0.1" ystart="0.1"
+		<image sourcefile="Desert.jpg" xstart="0.1" ystart="0.1"
 			scale="0.2" rotate="0" fliphorizontal="false" flipvertical="false"
 			cropx1="0.0" cropy1="0.0" cropx2="0.0" cropy2="0.0" />
 		<video sourcefile="M:\Sweng\avengers-featurehp.mp4" starttime="2.5"
