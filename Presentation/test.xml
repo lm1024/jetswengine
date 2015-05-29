@@ -17,7 +17,7 @@
 	
 	<slide>
 		<video sourcefile="M:\Sweng\avengers-featurehp.mp4"
-			xstart="0" ystart="0" />
+			loop = "true" xstart="0" ystart="0" />
 	</slide>
 	
 	<slide>
