@@ -154,12 +154,15 @@ public class CommsHandler {
 
 					while (parent.isOnline()) {
 						String input = in.readLine();
+						//System.out.println(input);
 						if (input == null) {
 							break;
-						} else if (input.matches("^([0-9]{1,3})[.]([0-9]{1,3})[.]([0-9]{1,3})[.]([0-9]{1,3}[:](CLOSE_SOCKET))$")) {
+						} else if (input.matches("^(SOCKET_CLOSE)$")) {
+							//System.out.println("Closing");
 							break;
 						}
 						if (input.matches("^([0-9]{1,3})[.]([0-9]{1,3})[.]([0-9]{1,3})[.]([0-9]{1,3}[:][0-3])$")) {
+							System.out.println("Answer");
 
 							String[] splitInput = input.split(":");
 
@@ -169,16 +172,16 @@ public class CommsHandler {
 									splitInput[0]);
 							}
 						} else {
+							//System.out.println("Question");
 							String[] splitMessageInput = input.split(":", 2);
 							parent.storeMessage(splitMessageInput[1]);
 						}
-						System.out.println(input);
 					}
 				} catch (IOException e) {
 
 				} finally {
 					try {
-						System.out.println("Closing Socket");
+						//System.out.println("Closing Socket");
 						socket.close();
 					} catch (IOException e) {
 

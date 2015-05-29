@@ -1,5 +1,7 @@
 package Data;
 
+import java.math.BigInteger;
+
 import utils.Utils;
 import javafx.scene.text.Font;
 
@@ -26,8 +28,11 @@ public class Defaults {
 	private String outlineColor = "#FF000000";
 	private float audioWidth = 0.2f;
 	private float videoWidth = 0.2f;
-	private double xAspectRatio = 4;
-	private double yAspectRatio = 3;
+	private double xAspectRatio = 5;
+	private double yAspectRatio = 4;
+	private int originalXResolution = 1280;
+	private int originalYResolution = 1024;
+	
 	
 	private boolean audioHasVisibleControls = false;
 
@@ -478,5 +483,53 @@ public class Defaults {
 	 */
 	public void setyAspectRatio(double yAspectRatio) {
 		this.yAspectRatio = yAspectRatio;
+	}
+
+	/**
+	 * @return the originalXResolution
+	 */
+	public int getOriginalXResolution() {
+		return originalXResolution;
+	}
+
+	/**
+	 * @param originalXResolution the originalXResolution to set
+	 */
+	public void setOriginalXResolution(String originalXResolution) {
+		try {
+			int i = Integer.parseInt(originalXResolution);
+			if (i > 0) {
+				this.originalXResolution = i;
+			}
+		} catch (Exception e) {
+			/* Do Nothing */
+		}
+	}
+
+	/**
+	 * @return the originalYResolution
+	 */
+	public int getOriginalYResolution() {
+		return originalYResolution;
+	}
+
+	/**
+	 * @param originalYResolution the originalYResolution to set
+	 */
+	public void setOriginalYResolution(String originalYResolution) {
+		try {
+			int i = Integer.parseInt(originalYResolution);
+			if (i > 0) {
+				this.originalYResolution = i;
+			}
+		} catch (Exception e) {
+			/* Do Nothing */
+		}
+	}
+	
+	public void RecalculateRatios() {
+		int gcd = BigInteger.valueOf(originalXResolution).gcd(BigInteger.valueOf(originalYResolution)).intValue();
+		this.xAspectRatio = originalXResolution / gcd;
+		this.yAspectRatio = originalYResolution / gcd;
 	}
 }

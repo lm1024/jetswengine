@@ -76,6 +76,9 @@ public class SlideRenderer {
 	private float slideWidth;
 	private float slideHeight;
 
+	private int originalSlideHeight;
+	private float scaleFactor;
+	
 	/* Class level slide to keep track of the currently drawn slide. */
 	private Slide currentSlide;
 
@@ -86,7 +89,7 @@ public class SlideRenderer {
 	 *            the stage that includes a group which all of the elements are
 	 *            to be drawn on.
 	 */
-	public SlideRenderer(Stage stage) {
+	public SlideRenderer(Stage stage, int originalSlideHeight) {
 		this.stage = stage;
 
 		/*
@@ -100,6 +103,8 @@ public class SlideRenderer {
 
 		/* Gets the group of the stage. */
 		this.group = (Group) stage.getScene().getRoot();
+		
+		this.originalSlideHeight = originalSlideHeight;
 
 		this.graphicsHandler = new GraphicsHandler(group);
 		this.imageHandler = new ImageHandler(group);
@@ -128,6 +133,8 @@ public class SlideRenderer {
 		this.ySlideStart = (float) ySlideStart;
 		this.slideWidth = (float) slideWidth;
 		this.slideHeight = (float) slideHeight;
+		
+		this.scaleFactor = ((float)originalSlideHeight)/((float)slideHeight);
 	}
 
 	/**
@@ -238,9 +245,17 @@ public class SlideRenderer {
 			break;
 		case "Audio":
 			audioHandler.setVisible(numberOfObject, visible);
+			/* If we are showing the audio, start it playing. */
+			if (visible) {
+				audioHandler.playAudio(numberOfObject);
+			}
 			break;
 		case "Video":
 			videoHandler.setVisible(numberOfObject, visible);
+			/* If we are showing the video, start it playing. */
+			if (visible) {
+				videoHandler.playVideo(numberOfObject);
+			}
 			break;
 		default:
 			graphicsHandler.setVisible(numberOfObject, visible);
@@ -532,7 +547,7 @@ public class SlideRenderer {
 				.fontColor(fontColor)
 				.highlightColor(highlightColor)
 				.fontName(font)
-				.fontSize((int) fontSize)
+				.fontSize((int) (fontSize/scaleFactor))
 				.build());
 		}
 

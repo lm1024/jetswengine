@@ -6,6 +6,7 @@
 		<version>1.0</version>
 		<comment>Aircraft Presentationaaaaaaaaaaaaaaaaaaaaaaaa</comment>
 		<groupid>2</groupid>
+		
 	</documentinfo>
 	<defaultsettings>
 		<backgroundcolor>#00000000</backgroundcolor>
@@ -23,10 +24,16 @@
 		<cropy1>0</cropy1>
 		<cropx2>1</cropx2>
 		<cropy2>1</cropy2>
-		<xAspectRatio>4</xAspectRatio>
-		<yAspectRatio>3</yAspectRatio>
+		<originalxresolution>1280</originalxresolution>
+		<originalyresolution>1024</originalyresolution>
 	</defaultsettings>
 
+	<slide>
+		<graphic graphiccolor="#ffff0000">
+			<rectangle xstart="0" ystart="0" xend="1" yend="1" arcwidth="0" archeight="10" solid="true" outlinecolor="#00000000" outlinethickness="1.0" rotation="0"/>
+		</graphic>
+	</slide>
+	
 	<slide>
 		<text xstart="0.1" ystart="0.3" xend="0.9" yend="0.9" font="arial"
 			fontsize="100" fontcolor="#ff0000ff" alignment="center">
@@ -34,6 +41,90 @@
 				Aircraft!
 			</richtext>
 		</text>
+	</slide>
+	
+	<slide>
+		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" font="arial"
+			fontsize="50" fontcolor="#ff0000ff" alignment="center">
+			<richtext bold= "true" underlined="true">
+				What phenomenon is this?
+			</richtext>
+		</text>
+		
+		<text xstart="0.1" ystart="0.3" xend="0.9" yend="0.8" font="arial"
+			fontsize="36" fontcolor="#ff000000" alignment="left">
+			<richtext>
+				A: Air Boom\n\nB: Sonic Boom\n\nC: Explosions\n\nD: Afterburner
+			</richtext>
+		</text>
+		
+		<!-- Question section -->
+		<question id="Shift Towards" logfile="shifttowards"> 
+			<answer id="Air Boom" correct="false"/> 
+			<answer id="Sonic Boom" correct="true"/> 
+			<answer id="Explosions" correct="false"/> 
+			<answer id="Afterburner" correct="false"/> 
+		</question>
+		
+		<image sourcefile="file:planes/1.jpg" xstart="0.3" ystart="0.2" vscale="0.4" hscale="0.4"/>
+
+	</slide>
+	
+	<slide>
+		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" font="arial"
+			fontsize="50" fontcolor="#ff0000ff" alignment="center">
+			<richtext bold= "true" underlined="true">
+				Sonic Boom
+			</richtext>
+		</text>
+		
+		<text xstart="0.1" ystart="0.3" xend="0.9" yend="0.8" font="arial"
+			fontsize="36" fontcolor="#ff000000" alignment="left">
+			<richtext>
+				A sonic boom is the sound associated with the shock waves created by an object travelling through the air faster than the speed of sound. Sonic booms generate enormous amounts of sound energy, sounding much like an explosion. 
+			</richtext>
+		</text>
+		
+		<video sourcefile="planes/2.mp4" xstart="0.2" ystart="0.5" width="0.6" autoplay="true" loop="true" starttime="2.0"/>
+
+	</slide>
+	
+	<slide>
+		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" font="arial"
+			fontsize="50" fontcolor="#ff0000ff" alignment="center">
+			<richtext bold= "true" underlined="true">
+				Relation to Doppler Effect
+			</richtext>
+		</text>
+		
+		<text xstart="0.1" ystart="0.3" xend="0.9" yend="0.8" font="arial"
+			fontsize="36" fontcolor="#ff000000" alignment="left">
+			<richtext>
+				Individual sound wavelets are compressed at the front of the plane and further spread at the back of the plane because of the forward speed of the plane. 
+			</richtext>
+		</text>
+		
+		<image sourcefile="file:planes/2.png" xstart="0.25" ystart="0.6" vscale="1" hscale="1"/>
+
+	</slide>
+	
+	<slide>
+		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" font="arial"
+			fontsize="50" fontcolor="#ff0000ff" alignment="center">
+			<richtext bold= "true" underlined="true">
+				Relation to Doppler Effect
+			</richtext>
+		</text>
+		
+		<text xstart="0.1" ystart="0.3" xend="0.9" yend="0.8" font="arial"
+			fontsize="36" fontcolor="#ff000000" alignment="left">
+			<richtext>
+This effect is known as the Doppler effect and accounts for the change of the 'pitch' of the plane's sound as it passes us. When the plane is approaching us it's sound has a higher pitch than if it is going away from us. 
+			</richtext>
+		</text>
+		
+		<audio sourcefile="planes/3.mp3" xstart="0.4" ystart="0.6" width="0.2" autoplay="true" loop = "false" visiblecontrols="true" playbuttononly="false"/>		
+
 	</slide>
 	
 </slideshow>

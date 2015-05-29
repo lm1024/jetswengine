@@ -155,7 +155,7 @@ public class SlideshowRuntimeData {
 		secondaryStage.setFullScreen(true);
 
 		/* Instantiates the slideRenderer for this slideshow. */
-		this.slideRenderer = new SlideRenderer(secondaryStage);
+		this.slideRenderer = new SlideRenderer(secondaryStage, slideshow.getDefaults().getOriginalXResolution());
 
 		/* Shows the screen so that the correct screen boundaries can be set. */
 		secondaryStage.show();

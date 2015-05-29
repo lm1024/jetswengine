@@ -49,6 +49,7 @@ public class DefaultSettingsHandler extends DefaultHandler {
 		}
 		switch (elementName) {
 		case "defaultsettings":
+			defaults.RecalculateRatios();
 			reader.setContentHandler(parentHandler);
 			break;
 		case "backgroundcolor":
@@ -95,6 +96,10 @@ public class DefaultSettingsHandler extends DefaultHandler {
 			break;
 		case "cropy2":
 			defaults.setCropY2(contentBuffer.toString().trim());
+		case "originalxresolution":
+			defaults.setOriginalXResolution(contentBuffer.toString().trim());
+		case "originalyresolution":
+			defaults.setOriginalYResolution(contentBuffer.toString().trim());
 			break;
 		default:
 			break;
