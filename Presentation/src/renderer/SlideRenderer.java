@@ -18,6 +18,7 @@ import textHandler.Alignment;
 import textHandler.TextFragmentList;
 import textHandler.TextHandler;
 import textHandler.TextObject;
+import utils.IPEncoder;
 import Data.Answer;
 import Data.Audio;
 import Data.CommonShapes.Oval;
@@ -164,6 +165,16 @@ public class SlideRenderer {
 				/* Graphics */
 				addGraphic((Graphic) currentSlideItem);
 			}
+		}
+		
+		/* Add the connection code to the corner of the screen on question slides. */
+		if (currentSlide.containsQuestion()) {
+			String ipString = new IPEncoder().getIPCode();
+			
+			TextFragmentList tfl = new TextFragmentList();
+			tfl.add(new TextObject.TextFragmentBuilder(ipString).fontSize(30).build());
+			
+			textHandler.createTextbox(new TextObject.TextBoxBuilder(0, 0).textFragmentList(tfl).build());
 		}
 	}
 

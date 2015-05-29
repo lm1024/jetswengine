@@ -194,7 +194,7 @@
 			</richtext>
 		</text>
 		
-		<audio sourcefile="doppler/media2.mp3" xstart="0.5" ystart="0.4" width="0.2" autoplay="false" loop = "false" visiblecontrols="true" playbuttononly="true"/>		
+		<audio sourcefile="doppler/media2.mp3" xstart="0.5" ystart="0.4" width="0.2" autoplay="false" loop = "false" visiblecontrols="true" playbuttononly="false"/>		
 
 		
 		<text xstart="0.1" ystart="0.8" xend="0.9" yend="1" font="arial"

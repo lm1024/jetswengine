@@ -17,12 +17,11 @@
 	
 	<slide>
 		<video sourcefile="M:\Sweng\avengers-featurehp.mp4"
-			loop = "true" xstart="0" ystart="0" />
+			loop = "false" xstart="0" ystart="0" />
 	</slide>
 	
 	<slide>
-		<video sourcefile="M:\Sweng\avengers-featurehp.mp4" starttime="2.5"
-			duration="5.0" xstart="0" ystart="0" />
+		<video sourcefile="M:\Sweng\avengers-featurehp.mp4" xstart="0" ystart="0" />
 	</slide>
 	
 	<slide>
@@ -55,12 +54,11 @@
 	<slide>
 		<image sourcefile="Desert.jpg" xstart="0.1" ystart="0.1"
 			scale="0.4" rotate="0" fliphorizontal="false" flipvertical="false"
-			cropx1="0.0" cropy1="0.0" cropx2="0.0" cropy2="0.0" starttime="0.5"
-			duration="1.5" />
+			cropx1="0.0" cropy1="0.0" cropx2="0.0" cropy2="0.0"/>
 	</slide>
 
 	<slide>
-		<graphic graphiccolor="#11223344" duration="1.5" starttime="2.0">
+		<graphic graphiccolor="#11223344" >
 			<rectangle xstart="0.5" ystart="0.5" xend="0.7" yend="0.7"
 				solid="true" />
 		</graphic>
@@ -72,11 +70,9 @@
 	</slide>
 
 	<slide>
-		<video sourcefile="M:\Sweng\avengers-featurehp.mp4" starttime="2.4"
-			xstart="0.5" ystart="0.5" />
+		<video sourcefile="M:\Sweng\avengers-featurehp.mp4" xstart="0.5" ystart="0.5" />
 		<text xstart="0.6" ystart="0.1" xend="0.9" yend="0.3" font="arial"
-			fontsize="24" fontcolor="#ff00ff00" starttime="0" duration="5"
-			alignment="left/right/centre">
+			fontsize="24" fontcolor="#ff00ff00" alignment="left/right/centre">
 			<richtext font="times new roman" fontsize="26" fontcolor="#ff00ff00"
 				newline="true" b="true" i="true" u="true" strikethrough="true"
 				superscript="true" subscript="true" case="upper">Example text1! </richtext>
@@ -106,8 +102,6 @@
 			<rectangle xstart="0.5" ystart="0.5" xend="0.7" yend="0.7"
 				solid="true" />
 		</graphic>
-		<audio sourcefile="Uppermost - Flow.mp3" starttime="2.5" xstart="0.4"
-			ystart="0.4" />
 	</slide>
 
 	<slide>

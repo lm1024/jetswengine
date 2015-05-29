@@ -524,7 +524,7 @@ public class Video {
 		if (fsInfo.isFullscreen()) {
 			/* Relocate to original position */
 			videoFrame.relocate(fsInfo.getOriginalX(), fsInfo.getOriginalY());
-
+			
 			/* Set to original width */
 			video.setFitWidth(fsInfo.getOriginalWidth());
 
@@ -565,7 +565,7 @@ public class Video {
 			fsStage.setTitle("");
 			fsStage.setFullScreen(true);
 			fsStage.show();
-			fsStage.setOnCloseRequest(fullScreenCloseHandler);
+			//fsStage.setOnCloseRequest(fullScreenCloseHandler);
 
 			/* Set the fullscreen flag true */
 			fsInfo.setFullscreen(true);
@@ -609,6 +609,7 @@ public class Video {
 	public class MouseEventHandler implements EventHandler<MouseEvent> {
 		@Override
 		public void handle(MouseEvent e) {
+			System.out.println("Video event");
 			if (e.getEventType() == MouseEvent.MOUSE_ENTERED) {
 				/* Add the controls */
 				addControls();
@@ -732,6 +733,7 @@ public class Video {
 		public void changed(ObservableValue<? extends Duration> arg0, Duration arg1, Duration arg2) {
 			setScan();
 			updateTimeStamp(timeStamp, mediaPlayer.getCurrentTime());
+			updateTimeStamp(durationStamp, mediaPlayer.getMedia().getDuration());
 		}
 	}
 
@@ -770,7 +772,7 @@ public class Video {
 	 */
 	public class MediaEndHandler implements Runnable {
 		public void run() {
-			if (!loop) {
+			if (mediaPlayer != null && !loop) {
 				mediaPlayer.stop();
 				mediaPlayer.seek(Duration.millis(0.0));
 			}

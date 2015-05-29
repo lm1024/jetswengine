@@ -164,12 +164,8 @@ public class SlideshowRuntimeData {
 		updateScreenBoundaries();
 
 		/* Set the mouse click handler. */
-		//scene.setOnMouseClicked(new MouseClickHandler());
+		scene.setOnMouseClicked(new MouseClickHandler());
 		
-		//scene.addEventFilter(MouseEvent.ANY, new MouseClickHandler());
-		secondaryStage.addEventFilter(MouseEvent.ANY, new MouseClickHandler());
-		
-
 		/*
 		 * Add an event filter for key pressed events so that keyboard presses
 		 * can be handled, and the events do not get passed to the handlers.
@@ -426,7 +422,7 @@ public class SlideshowRuntimeData {
 					moveBackwards();
 				}
 			}
-
+			//e.consume();
 		}
 	}
 
@@ -446,8 +442,6 @@ public class SlideshowRuntimeData {
 			 */
 			secondaryStage.setFullScreen(false);
 			secondaryStage.setFullScreen(true);
-			
-			secondaryStage.getScene().addEventFilter(MouseEvent.MOUSE_CLICKED, new MouseClickHandler());
 		}
 	}
 
@@ -524,7 +518,7 @@ public class SlideshowRuntimeData {
 					int requestedSlide;
 					/* Catches if the numberInput has no numbers in the string. */
 					try {
-						requestedSlide = Integer.parseInt(numberInput);
+						requestedSlide = Integer.parseInt(numberInput)-1;
 					} catch (NumberFormatException e) {
 						/* Reset the string and quit the case. */
 						numberInput = "";
