@@ -276,7 +276,8 @@ public class Open extends ActionBarActivity {
             testResult = true;
             //Close socket
             try {
-                out.println(localIP+":"+"SOCKET_CLOSE");
+                System.out.println("SOCKET_CLOSE");
+                out.println("SOCKET_CLOSE");
                 socket.close();
                 out = null;
             } catch (IOException e) {

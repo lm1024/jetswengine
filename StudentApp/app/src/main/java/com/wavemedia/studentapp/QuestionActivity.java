@@ -35,17 +35,17 @@ public class QuestionActivity extends ActionBarActivity {
     Thread networkCheckThread;
     Thread runNetworkCheckThread;
     Socket socket;
-    StrictMode.ThreadPolicy policy;
     private String serverIP;
     private String localIP;
     PrintWriter out;
     String message;
     EditText questionBoxJ;
-    String question;
+    String question = "";
     Button buttonA, buttonB, buttonC, buttonD;
     int last = Color.rgb(0, 130, 223);
     int defaultColor;
     boolean finish, ready = false;
+    boolean socketOpen = true;
 
 
     protected String getWifiIpAddress(Context context) {
@@ -178,6 +178,7 @@ public class QuestionActivity extends ActionBarActivity {
         //StrictMode.setThreadPolicy(policy);
 
         runNetworkCheckThread = new Thread(new RunNetworkCheckThread());
+        System.out.println("runNetworkCheckThread 1");
         runNetworkCheckThread.start();
     }
 
@@ -220,7 +221,7 @@ public class QuestionActivity extends ActionBarActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                     try {
-                        out.println(localIP+":"+"SOCKET_CLOSE");
+                        out.println("SOCKET_CLOSE");
                         socket.close();
                     } catch (Exception e1) {
                         System.out.println("Well something went wrong...");
@@ -234,19 +235,24 @@ public class QuestionActivity extends ActionBarActivity {
 
     /** Called when User clicks the A Option */
     public void optionA(View view) {
-            // Send Option
-            message = "0";
-            sendOption(message);
+            if (socketOpen) {
+                socketOpen = false;
+                // Send Option
+                message = "0";
+                sendOption(message);
 
-            buttonA.setTextColor(last);
-            buttonB.setTextColor(defaultColor);
-            buttonC.setTextColor(defaultColor);
-            buttonD.setTextColor(defaultColor);
-
+                buttonA.setTextColor(last);
+                buttonB.setTextColor(defaultColor);
+                buttonC.setTextColor(defaultColor);
+                buttonD.setTextColor(defaultColor);
+                socketOpen = true;
+            }
     }
 
     /** Called when User clicks the B Option */
     public void optionB(View view) {
+        if (socketOpen) {
+            socketOpen = false;
             // Send Option
             message = "1";
             sendOption(message);
@@ -255,10 +261,14 @@ public class QuestionActivity extends ActionBarActivity {
             buttonB.setTextColor(last);
             buttonC.setTextColor(defaultColor);
             buttonD.setTextColor(defaultColor);
+            socketOpen = true;
+        }
     }
 
     /** Called when User clicks the C Option */
     public void optionC(View view) {
+        if (socketOpen) {
+            socketOpen = false;
             // Send Option
             message = "2";
             sendOption(message);
@@ -267,10 +277,15 @@ public class QuestionActivity extends ActionBarActivity {
             buttonB.setTextColor(defaultColor);
             buttonC.setTextColor(last);
             buttonD.setTextColor(defaultColor);
+            socketOpen = true;
+        }
     }
 
     /** Called when User clicks the D Option */
     public void optionD(View view) {
+        if (socketOpen) {
+            socketOpen = false;
+
             // Send Option
             message = "3";
             sendOption(message);
@@ -279,30 +294,33 @@ public class QuestionActivity extends ActionBarActivity {
             buttonB.setTextColor(defaultColor);
             buttonC.setTextColor(defaultColor);
             buttonD.setTextColor(last);
+            socketOpen = true;
+        }
     }
 
     public void sendQuestion(View view) {
-        // Send message
-        //System.err.println(question);
-        //System.err.println("WM QUESTION CHECK");
-        if (question.length() <= 250) {
-            sendOption(question);
-            questionBoxJ.setText("");
-        } else {
-            new AlertDialog.Builder(this)
-                    .setTitle(R.string.length_error)
-                    .setMessage("Your Question is too long. Please edit or cancel.")
-                    .setPositiveButton(R.string.edit, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                        }
-                    })
-                    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            questionBoxJ.setText("");
-                        }
-                    })
-                    .setIcon(android.R.drawable.ic_dialog_info)
-                    .show();
+        if (socketOpen) {
+            socketOpen = false;
+            if (question.length() <= 250) {
+                sendOption(question);
+                questionBoxJ.setText("");
+            } else {
+                new AlertDialog.Builder(this)
+                        .setTitle(R.string.length_error)
+                        .setMessage("Your Question is too long. Please edit or cancel.")
+                        .setPositiveButton(R.string.edit, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        })
+                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                questionBoxJ.setText("");
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_info)
+                        .show();
+            }
+            socketOpen = true;
         }
     }
 
@@ -311,7 +329,7 @@ public class QuestionActivity extends ActionBarActivity {
         super.onDestroy();
         if (socket != null) {
             try {
-                out.println(localIP+":"+"SOCKET_CLOSE");
+                out.println("SOCKET_CLOSE");
                 socket.close();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -323,13 +341,18 @@ public class QuestionActivity extends ActionBarActivity {
 
         @Override
         public void run() {
-            while (!finish && ready) {
-                networkCheckThread = new Thread(new NetworkCheckThread());
-                networkCheckThread.run();
-                try {
-                    Thread.sleep(4000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+            System.out.println("runNetworkCheckThread 2");
+            while (!finish) {
+                if (ready) {
+                    System.out.println("runNetworkCheckThread 3");
+                    networkCheckThread = new Thread(new NetworkCheckThread());
+                    System.out.println("runNetworkCheckThread 4");
+                    networkCheckThread.run();
+                    try {
+                        Thread.sleep(4000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }
@@ -340,13 +363,17 @@ public class QuestionActivity extends ActionBarActivity {
 
         @Override
         public void run() {
+                System.out.println("runNetworkCheckThread 5");
                 System.out.println("NetworkCheckThreadRun");
-                out.println(localIP + ":" + "SOCKET_CLOSE");
+                System.out.println("SOCKET_CLOSE");
+                out.println("SOCKET_CLOSE");
                 try {
                     socket.close();
+                    System.out.println("runNetworkCheckThread 6");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                System.out.println("runNetworkCheckThread 7");
                 new SendingCheckThread().run();
         }
     }
@@ -357,12 +384,15 @@ public class QuestionActivity extends ActionBarActivity {
         public void run() {
             try {
                 InetAddress serverAddr = InetAddress.getByName(serverIP);
+                System.out.println("runNetworkCheckThread 8");
                 //socket = new Socket(serverAddr, serverPort);
                 System.err.println("WM: Creating socket");
                 int serverPort = SERVER_PORT;
                 socket = new Socket(serverAddr, serverPort);
+                System.out.println("runNetworkCheckThread 9");
                 System.err.println("WM: Creating output");
                 out = new PrintWriter(socket.getOutputStream(), true);
+                System.out.println("runNetworkCheckThread 10");
                 System.err.println("WM: sending IP");
             } catch (Exception a) {
                 a.printStackTrace();

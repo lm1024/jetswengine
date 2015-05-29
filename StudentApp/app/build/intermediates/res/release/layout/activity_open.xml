@@ -1,0 +1,68 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="wrap_content"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
+    android:layout_gravity="center_horizontal"
+    tools:context="com.wavemedia.studentapp.Open">
+
+
+    <ImageView
+        android:contentDescription="@string/SScontentDescription"
+        android:layout_width="243dp"
+        android:layout_height="233dp"
+        android:id="@+id/imageView"
+        android:clickable="true"
+        android:src="@drawable/smartslideswhitetext"
+        android:adjustViewBounds="false" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:id="@+id/spinner"
+        android:layout_gravity="center_horizontal" />
+
+
+    <LinearLayout android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/hex_code"
+            android:id="@+id/textView"
+            android:typeface="normal"
+            android:textStyle="bold|normal"
+            android:singleLine="true"
+            android:gravity="center_horizontal" />
+
+        <EditText
+            android:layout_weight="2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/editText"
+            android:inputType="text"
+            android:gravity="center_horizontal" />
+
+    </LinearLayout>
+
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/connect"
+        android:id="@+id/connectbutton"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="1"
+        android:enabled="true"
+        android:onClick="connect"/>
+
+
+</LinearLayout>
+<!-- From: file:/C:/Users/Harrison/Desktop/jetswengine/StudentApp/app/src/main/res/layout/activity_open.xml -->
