@@ -150,6 +150,7 @@ public class GUI extends Application {
 		preferences = new UserPreferences();
 
 		//SimpleLogger.init();
+		
 
 		//SimpleLogger.log(false, "GUI start");
 
