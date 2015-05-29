@@ -3,7 +3,6 @@
     <!-- From: file:/C:/Users/Harrison/Desktop/jetswengine/StudentApp/app/src/main/res/values/arrays.xml -->
     <eat-comment/>
     <string-array name="ip_array">
-        <item>0.0</item>
         <item>144.32</item>
         <item>0.0</item>
         <item>0.0</item>
@@ -13,7 +12,6 @@
         <item>0.0</item>
     </string-array>
     <string-array name="site_array">
-        <item>Select An Institution</item>
         <item>University Of York</item>
         <item>Institution 2</item>
         <item>Institution 3</item>
@@ -30,7 +28,6 @@
         <item>4</item>
         <item>5</item>
         <item>6</item>
-        <item>7</item>
     </integer-array>
     <!-- From: file:/C:/Users/Harrison/Desktop/jetswengine/StudentApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
     <eat-comment/>
@@ -206,6 +203,7 @@
     <string name="chosen_option_c">You have chosen Option C</string>
     <string name="chosen_option_d">You have chosen Option D</string>
     <string name="connect">Connect</string>
+    <string name="connection_error">Connection Error</string>
     <string name="edit">Edit</string>
     <string name="hello_world">Hello world!</string>
     <string name="hex_code">Connection Code:</string>

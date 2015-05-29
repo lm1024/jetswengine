@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.wifi.WifiManager;
+import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -13,7 +14,6 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -32,7 +32,10 @@ public class QuestionActivity extends ActionBarActivity {
 
     //COMMS
     Thread networkingThread;
+    Thread networkCheckThread;
+    Thread runNetworkCheckThread;
     Socket socket;
+    StrictMode.ThreadPolicy policy;
     private String serverIP;
     private String localIP;
     PrintWriter out;
@@ -42,6 +45,8 @@ public class QuestionActivity extends ActionBarActivity {
     Button buttonA, buttonB, buttonC, buttonD;
     int last = Color.rgb(0, 130, 223);
     int defaultColor;
+    boolean finish, ready = false;
+
 
     protected String getWifiIpAddress(Context context) {
         WifiManager wifiManager = (WifiManager) context.getSystemService(WIFI_SERVICE);
@@ -84,6 +89,7 @@ public class QuestionActivity extends ActionBarActivity {
                     } catch (Exception e) {
                         e.printStackTrace();
                         try {
+                            out.println(localIP+":"+"SOCKET_CLOSE");
                             socket.close();
                             System.out.println("Check 3");
                         } catch (IOException e1) {
@@ -116,6 +122,7 @@ public class QuestionActivity extends ActionBarActivity {
                 System.err.println("WM: Creating output");
                 out = new PrintWriter(socket.getOutputStream(), true);
                 System.err.println("WM: sending IP");
+                ready = true;
                 //out.println(localIP);
             } catch (Exception e) {
                 System.err.println("WM: shits fucked");
@@ -132,7 +139,7 @@ public class QuestionActivity extends ActionBarActivity {
         serverIP = intent.getStringExtra(Open.SERVER_IP);
         localIP = getWifiIpAddress(this);
 
-        // Network
+        //Network
         networkingThread = new Thread(new NetworkingThread(this));
         networkingThread.start();
 
@@ -166,6 +173,12 @@ public class QuestionActivity extends ActionBarActivity {
         buttonD = (Button) findViewById(R.id.buttonD);
 
         defaultColor = buttonA.getCurrentTextColor();
+
+        //policy = new StrictMode.ThreadPolicy.Builder().permitAll();
+        //StrictMode.setThreadPolicy(policy);
+
+        runNetworkCheckThread = new Thread(new RunNetworkCheckThread());
+        runNetworkCheckThread.start();
     }
 
     @Override
@@ -199,79 +212,80 @@ public class QuestionActivity extends ActionBarActivity {
     }
 
     public void sendOption(String option) {
-        // Send Option
-        if(out != null) {
-            try {
-                out.println(localIP + ":" + option);
-                System.err.println("WM Sent: \"" + option + "\"\n");
-            } catch (Exception e) {
-                e.printStackTrace();
+            // Send Option
+            if (out != null) {
                 try {
-                    socket.close();
-                } catch (Exception e1) {
-                    System.out.println("Well something went wrong...");
+                    out.println(localIP + ":" + option);
+                    System.err.println("WM Sent: \"" + option + "\"\n");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    try {
+                        out.println(localIP+":"+"SOCKET_CLOSE");
+                        socket.close();
+                    } catch (Exception e1) {
+                        System.out.println("Well something went wrong...");
+                    }
                 }
+            } else {
+                System.err.println("Unable to send. Sending thread null");
             }
-        } else {
-            System.err.println("Unable to send. Sending thread null");
-        }
+
     }
 
     /** Called when User clicks the A Option */
     public void optionA(View view) {
-        // Send Option
-        message = "0";
-        sendOption(message);
+            // Send Option
+            message = "0";
+            sendOption(message);
 
-        buttonA.setTextColor(last);
-        buttonB.setTextColor(defaultColor);
-        buttonC.setTextColor(defaultColor);
-        buttonD.setTextColor(defaultColor);
-
+            buttonA.setTextColor(last);
+            buttonB.setTextColor(defaultColor);
+            buttonC.setTextColor(defaultColor);
+            buttonD.setTextColor(defaultColor);
 
     }
 
     /** Called when User clicks the B Option */
     public void optionB(View view) {
-        // Send Option
-        message = "1";
-        sendOption(message);
+            // Send Option
+            message = "1";
+            sendOption(message);
 
-        buttonA.setTextColor(defaultColor);
-        buttonB.setTextColor(last);
-        buttonC.setTextColor(defaultColor);
-        buttonD.setTextColor(defaultColor);
+            buttonA.setTextColor(defaultColor);
+            buttonB.setTextColor(last);
+            buttonC.setTextColor(defaultColor);
+            buttonD.setTextColor(defaultColor);
     }
 
     /** Called when User clicks the C Option */
     public void optionC(View view) {
-        // Send Option
-        message = "2";
-        sendOption(message);
+            // Send Option
+            message = "2";
+            sendOption(message);
 
-        buttonA.setTextColor(defaultColor);
-        buttonB.setTextColor(defaultColor);
-        buttonC.setTextColor(last);
-        buttonD.setTextColor(defaultColor);
+            buttonA.setTextColor(defaultColor);
+            buttonB.setTextColor(defaultColor);
+            buttonC.setTextColor(last);
+            buttonD.setTextColor(defaultColor);
     }
 
     /** Called when User clicks the D Option */
     public void optionD(View view) {
-        // Send Option
-        message = "3";
-        sendOption(message);
+            // Send Option
+            message = "3";
+            sendOption(message);
 
-        buttonA.setTextColor(defaultColor);
-        buttonB.setTextColor(defaultColor);
-        buttonC.setTextColor(defaultColor);
-        buttonD.setTextColor(last);
+            buttonA.setTextColor(defaultColor);
+            buttonB.setTextColor(defaultColor);
+            buttonC.setTextColor(defaultColor);
+            buttonD.setTextColor(last);
     }
 
     public void sendQuestion(View view) {
         // Send message
         //System.err.println(question);
         //System.err.println("WM QUESTION CHECK");
-        if (question.length() <= 10) {
+        if (question.length() <= 250) {
             sendOption(question);
             questionBoxJ.setText("");
         } else {
@@ -289,7 +303,6 @@ public class QuestionActivity extends ActionBarActivity {
                     })
                     .setIcon(android.R.drawable.ic_dialog_info)
                     .show();
-
         }
     }
 
@@ -298,6 +311,7 @@ public class QuestionActivity extends ActionBarActivity {
         super.onDestroy();
         if (socket != null) {
             try {
+                out.println(localIP+":"+"SOCKET_CLOSE");
                 socket.close();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -305,5 +319,83 @@ public class QuestionActivity extends ActionBarActivity {
         }
     }
 
+    class RunNetworkCheckThread implements Runnable {
+
+        @Override
+        public void run() {
+            while (!finish && ready) {
+                networkCheckThread = new Thread(new NetworkCheckThread());
+                networkCheckThread.run();
+                try {
+                    Thread.sleep(4000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+
+    class NetworkCheckThread implements Runnable {
+
+        @Override
+        public void run() {
+                System.out.println("NetworkCheckThreadRun");
+                out.println(localIP + ":" + "SOCKET_CLOSE");
+                try {
+                    socket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                new SendingCheckThread().run();
+        }
+    }
+
+    class SendingCheckThread implements Runnable {
+
+        @Override
+        public void run() {
+            try {
+                InetAddress serverAddr = InetAddress.getByName(serverIP);
+                //socket = new Socket(serverAddr, serverPort);
+                System.err.println("WM: Creating socket");
+                int serverPort = SERVER_PORT;
+                socket = new Socket(serverAddr, serverPort);
+                System.err.println("WM: Creating output");
+                out = new PrintWriter(socket.getOutputStream(), true);
+                System.err.println("WM: sending IP");
+            } catch (Exception a) {
+                a.printStackTrace();
+                finish = true;
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        new AlertDialog.Builder(QuestionActivity.this)
+                                .setTitle(R.string.connection_error)
+                                .setMessage("Returning to Connect Screen.")
+                                .setNeutralButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        finish();
+                                    }
+                                })
+                                .setIcon(android.R.drawable.ic_dialog_info)
+                                .show();
+                    }
+                });
+                return;
+            }
+        }
+    }
+//
+//    new AlertDialog.Builder(QuestionActivity.this)
+//            .setTitle(R.string.connection_error)
+//    .setMessage("Returning to Connect Screen.")
+//    .setNeutralButton(R.string.ok, new DialogInterface.OnClickListener() {
+//        public void onClick(DialogInterface dialog, int which) {
+//            finish();
+//        }
+//    })
+//            .setIcon(android.R.drawable.ic_dialog_info)
+//    .show();
 
 }

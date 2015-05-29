@@ -23,13 +23,6 @@ public class CustomOnItemSelectedListener extends Activity implements AdapterVie
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         selectedValue = position;
         Log.i("OnItemSelectedListener", "SelectValue =  " + Integer.toString(selectedValue));
-
-        //if (position != 0 && Open.hexCodeValidation(context)) {
-        //    Open.setConnectButton(true, context);
-        //} else {
-        //    Open.setConnectButton(false, context);
-        //}
-
     }
 
     @Override

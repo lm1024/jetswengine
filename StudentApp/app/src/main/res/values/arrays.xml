@@ -2,7 +2,6 @@
 <resources>
 
     <string-array name="site_array">
-        <item>Select An Institution</item>
         <item>University Of York</item>
         <item>Institution 2</item>
         <item>Institution 3</item>
@@ -12,7 +11,6 @@
         <item>Institution 7</item>
     </string-array>
     <string-array name="ip_array">
-        <item>0.0</item>
         <item>144.32</item>
         <item>0.0</item>
         <item>0.0</item>
@@ -29,6 +27,5 @@
         <item>4</item>
         <item>5</item>
         <item>6</item>
-        <item>7</item>
     </integer-array>
 </resources>

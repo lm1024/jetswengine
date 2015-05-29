@@ -1,8 +1,10 @@
 package com.wavemedia.studentapp;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.wifi.WifiManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -15,14 +17,15 @@ import android.widget.Spinner;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.UnknownHostException;
+import java.nio.ByteOrder;
 
 public class Open extends ActionBarActivity {
 
     // Intent Extra Labels
-    //public final static String SITE_ID = "com.wavemedia.studentapp.SITE_ID";
-    //public final static String HEX_CODE = "com.wavemedia.studentapp.HEX_CODE";
     public final static String SERVER_IP = "com.wavemedia.studentapp.SERVER_IP";
 
     Spinner spinner;                // Dropdown Box Declaration
@@ -37,6 +40,7 @@ public class Open extends ActionBarActivity {
     PrintWriter out;                // PrintWriter for preliminary Network Test
     String serverIP;                // Server IP for preliminary Network Test
     Boolean testResult = false;
+    String localIP;
 
 
     // Instantiate Listener for Institution Dropdown Box Selection
@@ -52,6 +56,8 @@ public class Open extends ActionBarActivity {
 
         hex  = (EditText) findViewById(R.id.editText);  // Instantiate HexCode input to XML layout
         spinner = (Spinner) findViewById(R.id.spinner); // Instantiate DD Box input to XML layout
+
+        localIP = getWifiIpAddress(this);
 
         // Adapt Array from arrays.xml for DD Box. Set layout style.
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -98,6 +104,7 @@ public class Open extends ActionBarActivity {
                 e.printStackTrace();
                 try {
                     socket.close();
+                    out = null;
                     System.out.println("Check 3");
                 } catch (IOException e1) {
                     e1.printStackTrace();
@@ -141,7 +148,7 @@ public class Open extends ActionBarActivity {
             // While loop to run basically forever
             while (!finish) {
                 // If A 4 digit Hex string present and an Institution selected, enable connect button
-                if (hexCodeValidation() && !(customOnItemSelectedListener.getSelectedValue() == sites[0])) {
+                if (hexCodeValidation() /*&& !(customOnItemSelectedListener.getSelectedValue() == sites[0])*/) {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -202,7 +209,7 @@ public class Open extends ActionBarActivity {
             new AlertDialog.Builder(this)
                     .setTitle(R.string.action_info)
                     .setMessage("Help and Contact Email:\n" +
-                    "help@smartslides.co.uk")
+                            "help@smartslides.co.uk")
                     .setNeutralButton(R.string.ok, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                         }
@@ -213,11 +220,35 @@ public class Open extends ActionBarActivity {
         return true;
     }
 
+    protected String getWifiIpAddress(Context context) {
+        WifiManager wifiManager = (WifiManager) context.getSystemService(WIFI_SERVICE);
+        int ipAddress = wifiManager.getConnectionInfo().getIpAddress();
+
+        // Convert little-endian to big-endianif needed
+        if (ByteOrder.nativeOrder().equals(ByteOrder.LITTLE_ENDIAN)) {
+            ipAddress = Integer.reverseBytes(ipAddress);
+        }
+
+        byte[] ipByteArray = BigInteger.valueOf(ipAddress).toByteArray();
+
+        String ipAddressString;
+        try {
+            ipAddressString = InetAddress.getByAddress(ipByteArray).getHostAddress();
+        } catch (UnknownHostException ex) {
+            System.err.println("WIFIIP, Unable to get host address.");
+            ipAddressString = null;
+        }
+
+        return ipAddressString;
+    }
 
 
 
     // When the Connect Button is pressed
     public void connect(View view) throws InterruptedException {
+        // Invalidate Test Result
+        testResult = false;
+        out = null;
         // Generate Intent. All new Activities are linked to old ones by Intent. "Provides Runtime Bindings"
         Intent intent = new Intent(this,QuestionActivity.class);
         // Get Site ID of Site Selected
@@ -245,7 +276,9 @@ public class Open extends ActionBarActivity {
             testResult = true;
             //Close socket
             try {
+                out.println(localIP+":"+"SOCKET_CLOSE");
                 socket.close();
+                out = null;
             } catch (IOException e) {
                 e.printStackTrace();
             }

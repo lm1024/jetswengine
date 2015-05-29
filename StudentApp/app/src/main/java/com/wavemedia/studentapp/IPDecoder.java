@@ -19,8 +19,8 @@ public class IPDecoder {
 
         // Set IP for selected Site
         switch (siteID) {
-            case 1:
-                serverIP = ips[1];
+            case 0:
+                serverIP = ips[0];
                 break;
             default:
                 serverIP = "0.0";
