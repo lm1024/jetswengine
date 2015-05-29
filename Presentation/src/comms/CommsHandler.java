@@ -162,7 +162,7 @@ public class CommsHandler {
 							break;
 						}
 						if (input.matches("^([0-9]{1,3})[.]([0-9]{1,3})[.]([0-9]{1,3})[.]([0-9]{1,3}[:][0-3])$")) {
-							System.out.println("Answer");
+							//System.out.println("Answer");
 
 							String[] splitInput = input.split(":");
 

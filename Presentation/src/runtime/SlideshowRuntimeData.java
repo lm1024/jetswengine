@@ -164,7 +164,11 @@ public class SlideshowRuntimeData {
 		updateScreenBoundaries();
 
 		/* Set the mouse click handler. */
-		scene.setOnMouseClicked(new MouseClickHandler());
+		//scene.setOnMouseClicked(new MouseClickHandler());
+		
+		//scene.addEventFilter(MouseEvent.ANY, new MouseClickHandler());
+		secondaryStage.addEventFilter(MouseEvent.ANY, new MouseClickHandler());
+		
 
 		/*
 		 * Add an event filter for key pressed events so that keyboard presses
@@ -410,6 +414,7 @@ public class SlideshowRuntimeData {
 	 */
 	private class MouseClickHandler implements EventHandler<MouseEvent> {
 		public void handle(MouseEvent e) {
+			System.out.println(e.getEventType());
 			/* Left mouse button (normally) */
 			if (e.getButton() == MouseButton.PRIMARY) {
 				/* ID which side of the screen is clicked on */
@@ -421,6 +426,7 @@ public class SlideshowRuntimeData {
 					moveBackwards();
 				}
 			}
+
 		}
 	}
 
@@ -434,13 +440,14 @@ public class SlideshowRuntimeData {
 		public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight,
 				Number newSceneHeight) {
 			/*
-			 * If the screen has changed, update the boundary values and
-			 * re-force it to go fullscreen. This fixes the screen closing
-			 * fullscreen upon a fullscreen video being opened.
+			 * If the screen has changed, re-force it to go fullscreen. This
+			 * fixes the screen closing fullscreen upon a fullscreen video being
+			 * opened.
 			 */
-			updateScreenBoundaries();
 			secondaryStage.setFullScreen(false);
 			secondaryStage.setFullScreen(true);
+			
+			secondaryStage.getScene().addEventFilter(MouseEvent.MOUSE_CLICKED, new MouseClickHandler());
 		}
 	}
 

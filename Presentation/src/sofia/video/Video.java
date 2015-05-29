@@ -81,8 +81,6 @@ public class Video {
 	private ImageView volumeImage;
 	private ImageView volumeOffImage;
 
-	private boolean loop;
-
 	/** Variable to maintain play state after scan */
 	private boolean wasPlaying = false;
 
@@ -100,6 +98,8 @@ public class Video {
 
 	/** Event handler for fullscreen exit */
 	private EventHandler<WindowEvent> fullScreenCloseHandler;
+	
+	private boolean loop;
 
 	/**
 	 * Constructs the video.
@@ -135,7 +135,7 @@ public class Video {
 
 		/* Set the full screen exit event handler reference */
 		this.fullScreenCloseHandler = nFullScreenCloseHandler;
-
+		
 		this.loop = loop;
 
 		/* Load icon images */
@@ -530,7 +530,7 @@ public class Video {
 
 			/* Add the video frame back to the main screen */
 			group.getChildren().add(videoFrame);
-			
+
 			/* Hide the fullscreen video stage */
 			fsStage.close();
 
@@ -542,7 +542,7 @@ public class Video {
 		} else {
 			/* Remove the video from the main screen */
 			group.getChildren().remove(videoFrame);
-			
+
 			/* Setup the fullscreen root */
 			VBox vBox = new VBox();
 			vBox.setAlignment(Pos.CENTER_LEFT);
@@ -573,7 +573,6 @@ public class Video {
 			/* Set the fullscreen button graphic */
 			fullscreenButton.setGraphic(fullscreenOffImage);
 		}
-		removeControls();
 	}
 
 	/**
@@ -702,6 +701,7 @@ public class Video {
 			if (enable) {
 				scan(new_val.doubleValue());
 				updateTimeStamp(timeStamp, mediaPlayer.getCurrentTime());
+				updateTimeStamp(durationStamp, mediaPlayer.getMedia().getDuration());
 			}
 		}
 	}
@@ -732,7 +732,6 @@ public class Video {
 		public void changed(ObservableValue<? extends Duration> arg0, Duration arg1, Duration arg2) {
 			setScan();
 			updateTimeStamp(timeStamp, mediaPlayer.getCurrentTime());
-			updateTimeStamp(durationStamp, mediaPlayer.getMedia().getDuration());
 		}
 	}
 
