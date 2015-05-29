@@ -16,6 +16,13 @@ public class Slide {
 	private Question slideQuestion;
 	private List<Slide> tangentSlides;
 
+	/**
+	 * @param tangentSlides the tangentSlides to set
+	 */
+	public void removeTangentSlides() {
+		this.tangentSlides.clear();
+	}
+
 	public Slide(Defaults defaults) {
 		this.itemList = new ArrayList<SlideItem>();
 		this.tangentSlides = new ArrayList<Slide>();

@@ -32,7 +32,7 @@ public class CommsHandler {
 	public CommsHandler() throws IOException {
 		ServerSocket listener = new ServerSocket(80);
 		recievedQuestionList = new ArrayList<String>();
-		System.out.println("ServerSocket opened");
+		//System.out.println("ServerSocket opened");
 		isOnline = true;
 		commsThread = new Thread(new CommsThread(listener, this));
 		commsThread.start();

@@ -520,7 +520,6 @@ public class SlideRenderer {
 			String font = currentFragment.getFont();
 			double fontSize = currentFragment.getFontSize();
 			String text = currentFragment.getText();
-
 			/* Add the attributes to the list using the textFragmentBuilder. */
 			textFragmentList.add(new TextObject.TextFragmentBuilder(text)
 				.bold(bold)
@@ -633,7 +632,7 @@ public class SlideRenderer {
 		boolean visibleControls = currentAudio.isVisibleControlsOnly();
 		boolean playButtonOnly = currentAudio.isPlayButtonOnly();
 
-		audioHandler.createAudio(x, y, width, sourceFile, loop, autoPlay, visibleControls, playButtonOnly);
+		audioHandler.createAudio(x, y, width, sourceFile,  autoPlay, loop, visibleControls, playButtonOnly);
 
 		/* Hides and pauses the audio if it has a start time tag. */
 		if (currentAudio.getStartTime() != 0) {

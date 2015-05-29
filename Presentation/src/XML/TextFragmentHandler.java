@@ -17,6 +17,8 @@ public class TextFragmentHandler extends DefaultHandler {
 	private TextHandler parentHandler;
 	private TextFragment tf;
 	private StringBuffer contentBuffer = new StringBuffer();
+	private String afterSpaces;
+	private String beforeSpaces;
 
 	public TextFragmentHandler(XMLReader reader, TextHandler parent, Text text) {
 		this.parentHandler = parent;
@@ -28,6 +30,7 @@ public class TextFragmentHandler extends DefaultHandler {
 			Attributes attributes) throws SAXException {
 		// sort out element name if (no) namespace in use
 		String elementName = localName;
+		afterSpaces = "";
 		if ("".equals(elementName)) {
 			elementName = qName;
 		}
@@ -48,7 +51,26 @@ public class TextFragmentHandler extends DefaultHandler {
 			tf.setFontColor(attributes.getValue("fontcolor"));
 			tf.setFontSize(attributes.getValue("fontsize"));
 			tf.setText(attributes.getValue("text"));
-			tf.setUnderlined(attributes.getValue("newline"));
+			tf.setNewline(attributes.getValue("newline"));
+			
+			try {
+				int spaces = Integer.parseInt(attributes.getValue("afterspace"));
+				for(int i = 0; i < spaces; i++) {
+					afterSpaces += " ";
+				}
+			} catch (Exception e) {
+				afterSpaces = "";
+			}
+			
+			try {
+				int spaces = Integer.parseInt(attributes.getValue("beforespace"));
+				for(int i = 0; i < spaces; i++) {
+					beforeSpaces += " ";
+				}
+			} catch (Exception e) {
+				beforeSpaces = "";
+			}
+			
 		} else {
 			System.err.println("Unknown start element encountered: "
 					+ elementName);
@@ -74,15 +96,15 @@ public class TextFragmentHandler extends DefaultHandler {
 				for (int i = 0; i < strings.length - 1; i++) {
 					temp = tf.clone();
 					temp.setNewline(true);
-					temp.setText(strings[i]);
+					temp.setText(beforeSpaces +strings[i] + afterSpaces);
 					text.addTextFragment(temp);
 				}
 				temp = tf.clone();
 				temp.setNewline(contentBuffer.toString().trim().endsWith("\\n"));
-				temp.setText(strings[strings.length - 1]);
+				temp.setText(beforeSpaces + strings[strings.length - 1] + afterSpaces);
 				text.addTextFragment(temp);
 			} else {
-				tf.setText(contentBuffer.toString().trim());
+				tf.setText(beforeSpaces + contentBuffer.toString().trim() + afterSpaces);
 				text.addTextFragment(tf);
 			}
 			reader.setContentHandler(parentHandler);

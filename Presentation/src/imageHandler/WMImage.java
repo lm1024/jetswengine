@@ -26,7 +26,7 @@ import javax.swing.JOptionPane;
  */
 public class WMImage {
 	private Group group;
-	
+
 	private ImageView imageView;
 
 	public WMImage(Group group) {
@@ -34,13 +34,13 @@ public class WMImage {
 	}
 
 	/**
-	* Method for drawing a image on the screen.
-	*
-	* @param image
-	* a image object containing all the information about the
-	* image to be drawn. Must be formed using the ImageBuilder.
-	* @see {@link imageHandler.ImageObject}
-	*/
+	 * Method for drawing a image on the screen.
+	 * 
+	 * @param image
+	 *            a image object containing all the information about the image
+	 *            to be drawn. Must be formed using the ImageBuilder.
+	 * @see {@link imageHandler.ImageObject}
+	 */
 	public void drawImage(ImageObject image) {
 		float xPos = image.getXStartPos();
 		float yPos = image.getYStartPos();
@@ -55,10 +55,22 @@ public class WMImage {
 		double cropDown = image.getCropDown();
 		double cropUp = image.getCropUp();
 		ArrayList<ImageEffect> imageEffects = image.getImageEffects();
-		drawImage(xPos, yPos, filepath, scaleX, scaleY, rotation, vFlip, hFlip, cropLeft, cropRight, cropDown, cropUp,
-				imageEffects);
+		drawImage(
+			xPos,
+			yPos,
+			filepath,
+			scaleX,
+			scaleY,
+			rotation,
+			vFlip,
+			hFlip,
+			cropLeft,
+			cropRight,
+			cropDown,
+			cropUp,
+			imageEffects);
 	}
-	
+
 	/**
 	 * Method to set the visibility of the image.
 	 * 

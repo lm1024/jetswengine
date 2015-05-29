@@ -370,7 +370,7 @@ public class GraphicHandler extends DefaultHandler {
 				System.err.println("Unknown start tag encountered: " + elementName);
 				break;
 		}
-		graphic.printItem();
+		//graphic.printItem();
 	}
 
 	public void endElement(String uri, String localName, String qName)

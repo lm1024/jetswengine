@@ -37,10 +37,10 @@ public class ImprovedXMLReader extends DefaultHandler {
 			// parse the input
 			//saxParser.parse(inputFile, this);
 		} catch (ParserConfigurationException pce) {
-			pce.printStackTrace();
+			//pce.printStackTrace();
 			this.slideshow = null;
 		} catch (SAXException saxe) {
-			saxe.printStackTrace();
+			//saxe.printStackTrace();
 			this.slideshow = null;
 		}
 	}

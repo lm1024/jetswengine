@@ -124,6 +124,8 @@ public class GUI extends Application {
 	private Button back;
 
 	private UserPreferences preferences;
+	
+	private final int maxNumberOfCharsInButtonLine = 28;
 
 	/* For the comms channel */
 	CommsHandler comms;
@@ -147,9 +149,9 @@ public class GUI extends Application {
 		/* Create new instance of settings */
 		preferences = new UserPreferences();
 
-		SimpleLogger.init();
+		//SimpleLogger.init();
 
-		SimpleLogger.log(false, "GUI start");
+		//SimpleLogger.log(false, "GUI start");
 
 		/* Read CSV into array list */
 		parseFiles();
@@ -187,7 +189,7 @@ public class GUI extends Application {
 		buildMenus();
 		buildSettings();
 		buildmain();
-		System.out.println("Built");
+		//System.out.println("Built");
 
 		/* Do not allow the page to be resized */
 		primaryStage.setResizable(false);
@@ -202,7 +204,7 @@ public class GUI extends Application {
 
 	private void loadSettings() {
 
-		System.out.println("Loading settings...");
+		//System.out.println("Loading settings...");
 
 		if (settingsFile.exists()) {
 
@@ -235,7 +237,7 @@ public class GUI extends Application {
 
 		} else if (!settingsFile.exists()) {
 
-			System.out.println("creating settings file");
+			//System.out.println("creating settings file");
 
 			/* if file does not exist then create it */
 			try {
@@ -274,7 +276,7 @@ public class GUI extends Application {
 	 * Method to write the current user selected settings to the CSV
 	 */
 	private void saveSettings() {
-		System.out.println("Saving settings");
+		//System.out.println("Saving settings");
 
 		try (BufferedWriter bw = new BufferedWriter(new PrintWriter(settingsFile))) {
 
@@ -315,13 +317,13 @@ public class GUI extends Application {
 		 * TODO: make this code better, it sucks at the mo
 		 */
 
-		System.out.println("parsing files");
+		//System.out.println("parsing files");
 
 		String theLine;
 
 		if ((!xmlFiles.exists()) || (!buttonscsv.exists())) {
 
-			System.out.println("creating files");
+			//System.out.println("creating files");
 
 			for (int i = 0; i < 6; i++) {
 				preferences.getFileList().add(i, "No File");
@@ -339,7 +341,7 @@ public class GUI extends Application {
 
 			if (xmlFiles.exists()) {
 				/* if file exists then read it */
-
+				
 				try (BufferedReader br = new BufferedReader(new FileReader(xmlFiles))) {
 					/* Loop through each line of the CSV */
 					while ((theLine = br.readLine()) != null) {
@@ -358,8 +360,18 @@ public class GUI extends Application {
 				try (BufferedReader br = new BufferedReader(new FileReader(buttonscsv))) {
 					/* Loop through each line of the CSV */
 					while ((theLine = br.readLine()) != null) {
-						/* Add each line to the fileList */
-						preferences.getButtonInfo().add(theLine);
+						/* Add each line to the fileList, limiting the individual line lengths */
+						
+						String[] lines = theLine.split(",");
+						theLine = "";
+						
+						for (int i = 0; i < lines.length; i++ ) {
+							int lineLength = lines[i].length();
+							lines[i] = lines[i].substring(0, Math.min(lineLength, maxNumberOfCharsInButtonLine));
+							theLine += lines[i] + ",";
+							
+						}
+						preferences.getButtonInfo().add(theLine.substring(0, theLine.length()));
 					}
 					/* Catch exceptions */
 				} catch (IOException e) {
@@ -371,7 +383,7 @@ public class GUI extends Application {
 
 		}
 
-		System.out.println("files parsed");
+		//System.out.println("files parsed");
 	}
 
 	private void buildSlideshow(Slideshow slideshow) {
@@ -390,7 +402,7 @@ public class GUI extends Application {
 			Button buttonPressed = (Button) e.getSource();
 
 			/* Print out ID of the button pressed */
-			System.out.println("BUTTON: " + buttonPressed.getId() + " pressed");
+			//System.out.println("BUTTON: " + buttonPressed.getId() + " pressed");
 
 			/* Switch statement for multiple buttons using their IDs */
 			switch (buttonPressed.getId()) {
@@ -505,7 +517,7 @@ public class GUI extends Application {
 			video.setSelected(preferences.isVideoPause());
 
 			/* Print the checkBox Id */
-			System.out.println(cbSelected.getId() + "check box" + " was set to " + isCB);
+			//System.out.println(cbSelected.getId() + "check box" + " was set to " + isCB);
 
 		}
 
@@ -610,7 +622,7 @@ public class GUI extends Application {
 			preferences.setBounds(Screen.getScreens().get(preferences.getScreenId()).getVisualBounds());
 
 			/* Print the new bounds */
-			System.out.println("Screen " + preferences.getScreenId()
+			/*System.out.println("Screen " + preferences.getScreenId()
 					+ " bound points: ("
 					+ preferences.getBounds().getMinX()
 					+ ","
@@ -619,7 +631,7 @@ public class GUI extends Application {
 					+ preferences.getBounds().getMaxX()
 					+ ","
 					+ preferences.getBounds().getMaxY()
-					+ ")");
+					+ ")");*/
 		}
 
 	}
@@ -769,13 +781,13 @@ public class GUI extends Application {
 						}
 						/* add new line to start of lists */
 						preferences.getFileList().set(0, file.getAbsolutePath());
-						preferences.getButtonInfo().set(0, currentSlideshow.getInfo().getAuthor() // author
+						preferences.getButtonInfo().set(0, currentSlideshow.getInfo().getAuthor().substring(0, Math.min(currentSlideshow.getInfo().getAuthor().length(), maxNumberOfCharsInButtonLine)) // author
 								+ ","
-								+ currentSlideshow.getInfo().getVersion() // version
+								+ currentSlideshow.getInfo().getVersion().substring(0, Math.min(currentSlideshow.getInfo().getVersion().length(), maxNumberOfCharsInButtonLine)) // version
 								+ ","
-								+ currentSlideshow.getInfo().getComment() // comment
+								+ currentSlideshow.getInfo().getComment().substring(0, Math.min(currentSlideshow.getInfo().getComment().length(), maxNumberOfCharsInButtonLine)) // comment
 								+ ","
-								+ file.getName()); // file name
+								+ file.getName().substring(0, Math.min(file.getName().length(), maxNumberOfCharsInButtonLine))); // file name
 
 						/* update CSV and rebuild the buttons */
 						updateButtonsCSV();
