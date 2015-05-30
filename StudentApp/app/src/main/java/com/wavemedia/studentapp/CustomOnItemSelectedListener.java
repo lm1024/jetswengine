@@ -1,34 +1,44 @@
+/**
+ *
+ * Harrison Holt-McHale
+ *
+ * Copyright (c) 2015 WaveMedia. All rights reserved
+ *
+ */
+
 package com.wavemedia.studentapp;
 
 import android.app.Activity;
-
-import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.TextView;
-
 
 /**
- * Created by Harrison on 25/05/2015.
+ * @author Harrison Holt-McHale
+ * @version 1.0 29/05/2015
+ *
  */
+
+/* Class for Listening to the Institution Dropdown Box */
 public class CustomOnItemSelectedListener extends Activity implements AdapterView.OnItemSelectedListener {
+
+    /* Instantiate selected value for dropdown box as position 0. */
     int selectedValue = 0;
 
+    /* Getter to get the selected value */
     public int getSelectedValue(){
         return selectedValue;
     }
 
+    /* When the user selects an item in the dropdown box, updated selected Value */
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         selectedValue = position;
-        Log.i("OnItemSelectedListener", "SelectValue =  " + Integer.toString(selectedValue));
     }
 
+    /* Required method to implement OnItemSelectedListener */
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-
     }
-
 
 }

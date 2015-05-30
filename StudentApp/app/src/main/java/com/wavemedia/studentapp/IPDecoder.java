@@ -1,23 +1,40 @@
+/**
+ *
+ * Harrison Holt-McHale
+ *
+ * Copyright (c) 2015 WaveMedia. All rights reserved
+ *
+ */
+
 package com.wavemedia.studentapp;
 
 /**
- * Created by Harrison on 27/05/2015.
+ * @author Harrison Holt-McHale
+ * @version 2.0 29/05/2015
+ *
  */
-public class IPDecoder {
-    int siteID;
-    String hexCode;
-    int[] sites;
-    String[] ips;
 
-    String serverIP;
+/* Class that Decodes user input and provides serverIP to connect to */
+public class IPDecoder {
+
+    /* Inputs */
+    int siteID;             // Institution Site Selected
+    String hexCode;         // HexCode Input
+    int[] sites;            // Array of Site IDs
+    String[] ips;           // Array of Site IPs
+
+    /* Outputs */
+    String serverIP;        // Output Server IP
 
     IPDecoder(int sentSite, String sentHexCode, int[] sentSites, String[] sentIPS) {
+
+        /* Parameters passed into Class in Constructor */
         siteID = sentSite;
         hexCode = sentHexCode;
         sites = sentSites;
         ips = sentIPS;
 
-        // Set IP for selected Site
+        /* Set the IP for the selected site */
         switch (siteID) {
             case 0:
                 serverIP = ips[0];
@@ -28,39 +45,31 @@ public class IPDecoder {
                 break;
         }
 
+        /* Append the Institution IP with IP numbers obtained from the Hex Code */
         serverIP += "." + getHexCodeIP(hexCode);
-        System.err.println(serverIP);
     }
 
+    /* This method converts the Hex Code to the IP Numbers */
     public String getHexCodeIP(String hexCode) {
-        String[] hex;
-        String hexCodeIP;
+
+        String[] hex;       // Input Hex split into individual digits
+        String hexCodeIP;   // IP Numbers to output
+        /* Split Hex Code into individual digits */
         hex = hexCode.split("(?!^)");
+        /* Create the 2 hex numbers */
         String hexString1 = hex[0] + hex[1];
         String hexString2 = hex[2] + hex[3];
-        int hexCodeIPString1 = hex2decimal(hexString1);
-        System.out.println("WM IP: " + hexCode + " " + hex);
-        System.out.println("WM IP: " + hexString1 + " -> " + hexCodeIPString1);
-        int hexCodeIPString2 = hex2decimal(hexString2);
-        System.out.println("WM IP: " + hexString2 + " -> " + hexCodeIPString2);
+        /* Parse Hex Strings to Integers */
+        int hexCodeIPString1 = Integer.parseInt(hexString1, 16);
+        int hexCodeIPString2 = Integer.parseInt(hexString2, 16);
+        /* Convert Integers to Strings and convert them to IP Number format */
         hexCodeIP =  Integer.toString(hexCodeIPString1);
         hexCodeIP += "." + Integer.toString(hexCodeIPString2);
-        System.out.println("WM IP: " + hexCodeIP);
+        /* Return the Converted IP Numbers */
         return hexCodeIP;
     }
 
-    public static int hex2decimal(String s) {
-        String digits = "0123456789ABCDEF";
-        s = s.toUpperCase();
-        int val = 0;
-        for (int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
-            int d = digits.indexOf(c);
-            val = 16*val + d;
-        }
-        return val;
-    }
-
+    /* Getter to return serverIP */
     public String getServerIP(){
         return serverIP;
     }

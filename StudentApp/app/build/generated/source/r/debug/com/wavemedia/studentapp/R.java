@@ -1414,20 +1414,12 @@ containing a value of this type.
         public static final int abc_search_view=0x7f030015;
         public static final int abc_simple_dropdown_hint=0x7f030016;
         public static final int activity_open=0x7f030017;
-        public static final int activity_option_a=0x7f030018;
-        public static final int activity_option_b=0x7f030019;
-        public static final int activity_option_c=0x7f03001a;
-        public static final int activity_option_d=0x7f03001b;
-        public static final int activity_question=0x7f03001c;
-        public static final int support_simple_spinner_dropdown_item=0x7f03001d;
+        public static final int activity_question=0x7f030018;
+        public static final int support_simple_spinner_dropdown_item=0x7f030019;
     }
     public static final class menu {
         public static final int menu_open=0x7f0d0000;
-        public static final int menu_option_b=0x7f0d0001;
-        public static final int menu_option_c=0x7f0d0002;
-        public static final int menu_option_d=0x7f0d0003;
-        public static final int menu_optiona=0x7f0d0004;
-        public static final int menu_question=0x7f0d0005;
+        public static final int menu_question=0x7f0d0001;
     }
     public static final class string {
         public static final int SScontentDescription=0x7f0b0000;

@@ -203,7 +203,7 @@
     <string name="chosen_option_c">You have chosen Option C</string>
     <string name="chosen_option_d">You have chosen Option D</string>
     <string name="connect">Connect</string>
-    <string name="connection_error">Connection Error</string>
+    <string name="connection_error">Can\'t Connect to Server</string>
     <string name="edit">Edit</string>
     <string name="hello_world">Hello world!</string>
     <string name="hex_code">Connection Code:</string>

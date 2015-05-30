@@ -28,5 +28,5 @@
     <string name="send">Send</string>
     <string name="length_error">Question Too Long!</string>
     <string name="edit">Edit</string>
-    <string name="connection_error">Connection Error</string>
+    <string name="connection_error">Can\'t Connect to Server</string>
 </resources>

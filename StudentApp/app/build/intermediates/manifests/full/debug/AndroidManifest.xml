@@ -11,7 +11,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL" />
 
     <application
         android:allowBackup="true"
@@ -27,42 +26,6 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.wavemedia.studentapp.Open" />
-        </activity>
-        <activity
-            android:name="com.wavemedia.studentapp.OptionA"
-            android:label="@string/title_activity_option"
-            android:parentActivityName="com.wavemedia.studentapp.QuestionActivity"
-            android:screenOrientation="sensorPortrait" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.wavemedia.studentapp.QuestionActivity" />
-        </activity>
-        <activity
-            android:name="com.wavemedia.studentapp.OptionB"
-            android:label="@string/title_activity_option_b"
-            android:parentActivityName="com.wavemedia.studentapp.QuestionActivity"
-            android:screenOrientation="sensorPortrait" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.wavemedia.studentapp.QuestionActivity" />
-        </activity>
-        <activity
-            android:name="com.wavemedia.studentapp.OptionC"
-            android:label="@string/title_activity_option_c"
-            android:parentActivityName="com.wavemedia.studentapp.QuestionActivity"
-            android:screenOrientation="sensorPortrait" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.wavemedia.studentapp.QuestionActivity" />
-        </activity>
-        <activity
-            android:name="com.wavemedia.studentapp.OptionD"
-            android:label="@string/title_activity_option_d"
-            android:parentActivityName="com.wavemedia.studentapp.QuestionActivity"
-            android:screenOrientation="sensorPortrait" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.wavemedia.studentapp.QuestionActivity" />
         </activity>
         <activity
             android:name="com.wavemedia.studentapp.Open"
