@@ -1414,20 +1414,12 @@ containing a value of this type.
         public static final int abc_search_view=0x7f030015;
         public static final int abc_simple_dropdown_hint=0x7f030016;
         public static final int activity_open=0x7f030017;
-        public static final int activity_option_a=0x7f030018;
-        public static final int activity_option_b=0x7f030019;
-        public static final int activity_option_c=0x7f03001a;
-        public static final int activity_option_d=0x7f03001b;
-        public static final int activity_question=0x7f03001c;
-        public static final int support_simple_spinner_dropdown_item=0x7f03001d;
+        public static final int activity_question=0x7f030018;
+        public static final int support_simple_spinner_dropdown_item=0x7f030019;
     }
     public static final class menu {
         public static final int menu_open=0x7f0d0000;
-        public static final int menu_option_b=0x7f0d0001;
-        public static final int menu_option_c=0x7f0d0002;
-        public static final int menu_option_d=0x7f0d0003;
-        public static final int menu_optiona=0x7f0d0004;
-        public static final int menu_question=0x7f0d0005;
+        public static final int menu_question=0x7f0d0001;
     }
     public static final class string {
         public static final int SScontentDescription=0x7f0b0000;
@@ -1450,30 +1442,19 @@ containing a value of this type.
         public static final int action_info=0x7f0b0011;
         public static final int app_name=0x7f0b0012;
         public static final int cancel=0x7f0b0013;
-        public static final int chosen_option_a=0x7f0b0014;
-        public static final int chosen_option_b=0x7f0b0015;
-        public static final int chosen_option_c=0x7f0b0016;
-        public static final int chosen_option_d=0x7f0b0017;
-        public static final int connect=0x7f0b0018;
-        public static final int connection_error=0x7f0b0019;
-        public static final int edit=0x7f0b001a;
-        public static final int hello_world=0x7f0b001b;
-        public static final int hex_code=0x7f0b001c;
-        public static final int length_error=0x7f0b001d;
-        public static final int ok=0x7f0b001e;
-        public static final int option_a=0x7f0b001f;
-        public static final int option_b=0x7f0b0020;
-        public static final int option_c=0x7f0b0021;
-        public static final int option_d=0x7f0b0022;
-        public static final int question=0x7f0b0023;
-        public static final int retry=0x7f0b0024;
-        public static final int send=0x7f0b0025;
-        public static final int title_activity_intro=0x7f0b0026;
-        public static final int title_activity_open=0x7f0b0027;
-        public static final int title_activity_option=0x7f0b0028;
-        public static final int title_activity_option_b=0x7f0b0029;
-        public static final int title_activity_option_c=0x7f0b002a;
-        public static final int title_activity_option_d=0x7f0b002b;
+        public static final int connect=0x7f0b0014;
+        public static final int connection_error=0x7f0b0015;
+        public static final int edit=0x7f0b0016;
+        public static final int hex_code=0x7f0b0017;
+        public static final int length_error=0x7f0b0018;
+        public static final int ok=0x7f0b0019;
+        public static final int option_a=0x7f0b001a;
+        public static final int option_b=0x7f0b001b;
+        public static final int option_c=0x7f0b001c;
+        public static final int option_d=0x7f0b001d;
+        public static final int question=0x7f0b001e;
+        public static final int send=0x7f0b001f;
+        public static final int title_activity_open=0x7f0b0020;
     }
     public static final class style {
         /**  Customize your theme here. 
