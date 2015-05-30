@@ -602,10 +602,15 @@ public class Audio {
 		@Override 
 		public void changed(ObservableValue<? extends Number> ov,
                 Number old_val, Number new_val) {
-			if (enable) {
-				audioSeek(new_val.doubleValue());
+				/*
+				 * If there is a change due to a click or a drag, update the scan
+				 * value. TJD: Edited this to fix bugs with the scan bar not
+				 * working.
+				 */
+				if (Math.abs(new_val.doubleValue() - old_val.doubleValue()) > 0.1) {
+					audioSeek(new_val.doubleValue());
+				}
 				updateLabels();				
-			}
 		}
 	}
 	
