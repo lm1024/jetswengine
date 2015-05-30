@@ -426,7 +426,6 @@ public class SlideshowRuntimeData {
 	 */
 	private class MouseClickHandler implements EventHandler<MouseEvent> {
 		public void handle(MouseEvent e) {
-			System.out.println(e.getEventType());
 			/* Left mouse button (normally) */
 			if (e.getButton() == MouseButton.PRIMARY) {
 				/* ID which side of the screen is clicked on */
@@ -611,6 +610,7 @@ public class SlideshowRuntimeData {
 						slideRenderer.clear();
 						slideRenderer.buildAnswerSlide(currentOTSQuestion);
 						dynamicQuestionList.add(currentOTSQuestion);
+						comms.setCurrentQuestion(createNewOTSQuestion());
 					}
 					break;
 				case T:

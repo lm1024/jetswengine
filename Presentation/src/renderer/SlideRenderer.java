@@ -343,7 +343,7 @@ public class SlideRenderer {
 			break;
 		case CIRCLE:
 			Circle circle = (Circle) currentGraphic;
-			/*
+			
 			graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos)
 				.radius(convXRelCoordToAbsCoord(circle.getSize()))
 				.color(circle.getGraphicColor())
@@ -353,10 +353,10 @@ public class SlideRenderer {
 				.shadow(circle.getShadow())
 				.rotation(circle.getRotation())
 				.shadingType(circle.getShadingType());
-			break;
-			*/
-			System.out.println(xStartPos + " " + yStartPos);
-			System.out.println((convXRelCoordToAbsCoord(2 * circle.getSize()) + xStartPos) + " " + (convYRelCoordToAbsCoord(circle.getSize()) + yStartPos));
+			//break;
+			//TODO
+			/*System.out.println(convXRelCoordToAbsCoord(2* circle.getSize() + circle.getXStart()) - xStartPos);
+			System.out.println(convYRelCoordToAbsCoord(2* circle.getSize() + circle.getYStart()) - yStartPos);
 			graphicBuilder = new GraphicBuilder(GraphicType.OVAL, xStartPos, yStartPos)
 			.xEndPos(convXRelCoordToAbsCoord(2* circle.getSize() + circle.getXStart()))
 			.yEndPos(convYRelCoordToAbsCoord(2* circle.getSize() + circle.getYStart()))
@@ -366,7 +366,7 @@ public class SlideRenderer {
 			.outlineThickness(circle.getOutlineThickness())
 			.shadow(circle.getShadow())
 			.rotation(circle.getRotation())
-			.shadingType(circle.getShadingType());
+			.shadingType(circle.getShadingType());*/
 		break;
 			
 			
@@ -646,9 +646,6 @@ public class SlideRenderer {
 		float xEnd = convXRelCoordToAbsCoord(currentImage.getxEnd());
 		float yEnd = convYRelCoordToAbsCoord(currentImage.getyEnd());
 		ArrayList<ImageEffect> imageEffects = currentImage.getImageEffects();
-		
-		System.out.println(currentImage.getXStart() + " " + currentImage.getxEnd());
-		System.out.println(xStartPos + " " + xEnd);
 
 		/*
 		 * Initialise and populate a list of all the image effects to be applied
