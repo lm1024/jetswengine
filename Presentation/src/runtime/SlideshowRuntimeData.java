@@ -558,10 +558,9 @@ public class SlideshowRuntimeData {
 				case SPACE:
 					/* Display the connection code for this instance. */
 					/* Get the screensize */
-					Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-					double screenWidth = screenSize.getWidth();
-					double screenHeight = screenSize.getHeight();
-
+					double screenWidth = preferences.getBounds().getWidth();
+					double screenHeight = preferences.getBounds().getHeight();
+					
 					/* Create a new background to blank out the current slide. */
 					idRectangle = new Rectangle(0, 0, screenWidth, screenHeight);
 					idRectangle.setFill(Color.WHITE);
@@ -740,9 +739,8 @@ public class SlideshowRuntimeData {
 	 */
 	private void hideScreen(KeyEvent keyEvent) {
 		/* Get the screensize */
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		double screenWidth = screenSize.getWidth();
-		double screenHeight = screenSize.getHeight();
+		double screenWidth = preferences.getBounds().getWidth();
+		double screenHeight = preferences.getBounds().getHeight();
 
 		/* Get the current group that is being drawn on. */
 		Group group = (Group) secondaryStage.getScene().getRoot();

@@ -9,13 +9,15 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 
+import Data.CommonShapes;
+import Data.CommonShapes.Rectangle;
 import Data.Defaults;
 import Data.Slide;
 import Data.Slideshow;
 
 /**
  * @author David
- *
+ * 
  */
 public class SlideHandler extends DefaultHandler {
 
@@ -24,10 +26,11 @@ public class SlideHandler extends DefaultHandler {
 	private ContentHandler parentHandler;
 	private Slide slide;
 	private boolean isTangent;
-	
+
 	public Defaults getDefaults() {
 		return slideshow.getDefaults();
 	}
+
 	/**
 	 * 
 	 */
@@ -95,7 +98,7 @@ public class SlideHandler extends DefaultHandler {
 			elementName = qName;
 		}
 		if (elementName.equals("slide")) {
-			if(isTangent) {
+			if (isTangent) {
 				slideshow.getCurrentSlide().addTangentSlide(slide);
 			} else {
 				slideshow.addSlide(slide);

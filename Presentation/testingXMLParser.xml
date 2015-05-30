@@ -42,19 +42,7 @@
 			<richtext newline="true" b="true" i="true" u="true" strikethrough="true" superscript="true" subscript="true" >Example text!</richtext>
 		</text>
 
-	<!-- PWS Images -->
-		<image sourcefile="cat.jpg" xstart="0.5" ystart="0.5" scale="1.0" duration="1.5" starttime="2.0" />
-		
-		<!-- Our Images -->
-		<image sourcefile="selfie.jpg" xstart="0.5" ystart="0.5" vscale="0.5" hscale="0.75" rotation="45" fliphorizontal="true" flipvertical="true" cropx1="0.1" cropy1="0.1" cropx2="0.5" cropy2="0.5" duration="1.5" starttime="2.0">
-			<!-- THESE NEED TO BE ADDED -->
-			<sepia/>
-			<bloom/>
-			<blur/>
-			<glow/>
-			<grayscale/>
-			<reflection/>
-		</image>
+
 		
 		
 		<!-- PWS Audio -->
