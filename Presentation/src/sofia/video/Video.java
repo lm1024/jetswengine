@@ -100,6 +100,8 @@ public class Video {
 	private EventHandler<WindowEvent> fullScreenCloseHandler;
 	
 	private boolean loop;
+	
+	private Stage stage;
 
 	/**
 	 * Constructs the video.
@@ -128,13 +130,15 @@ public class Video {
 	 * @param loop
 	 *            If true the video loops to the beginning when it ends
 	 */
-	public Video(Group nGroup, float x, float y, float width, String sourcefile, boolean autoPlay, boolean loop,
+	public Video(Group nGroup, Stage stage, float x, float y, float width, String sourcefile, boolean autoPlay, boolean loop,
 			EventHandler<WindowEvent> nFullScreenCloseHandler) {
 		/* Set the group reference */
 		this.group = nGroup;
 
 		/* Set the full screen exit event handler reference */
 		this.fullScreenCloseHandler = nFullScreenCloseHandler;
+		
+		this.stage = stage;
 		
 		this.loop = loop;
 
@@ -305,8 +309,8 @@ public class Video {
 		videoFrame = new GridPane();
 		videoFrame.relocate(x, y);
 		videoFrame.add(video, 0, 0);
-		videoFrame.setOnMouseEntered(new MouseEventHandler());
-		videoFrame.setOnMouseExited(new MouseEventHandler());
+		videoFrame.addEventFilter(MouseEvent.MOUSE_ENTERED, new MouseEventHandler());
+		videoFrame.addEventFilter(MouseEvent.MOUSE_EXITED, new MouseEventHandler());
 
 		/* Init the fullscreen info */
 		fsInfo = new FullscreenInfo(x, y, width, false);
@@ -522,6 +526,10 @@ public class Video {
 	public void fullscreen() {
 		/* If the video is already fullscreen, go back. If not, go fullscreen */
 		if (fsInfo.isFullscreen()) {
+			stage.setScene(group.getScene());
+			stage.setFullScreen(false);
+			stage.setFullScreen(true);
+			
 			/* Relocate to original position */
 			videoFrame.relocate(fsInfo.getOriginalX(), fsInfo.getOriginalY());
 			
@@ -530,9 +538,6 @@ public class Video {
 
 			/* Add the video frame back to the main screen */
 			group.getChildren().add(videoFrame);
-
-			/* Hide the fullscreen video stage */
-			fsStage.close();
 
 			/* Set the fullscreen flag false */
 			fsInfo.setFullscreen(false);
@@ -560,12 +565,10 @@ public class Video {
 			vBox.getChildren().add(videoFrame);
 
 			/* Create the fullscreen stage */
-			fsStage = new Stage();
-			fsStage.setScene(fsScene);
-			fsStage.setTitle("");
-			fsStage.setFullScreen(true);
-			fsStage.show();
-			//fsStage.setOnCloseRequest(fullScreenCloseHandler);
+			
+			stage.setScene(fsScene);
+			stage.setFullScreen(false);
+			stage.setFullScreen(true);
 
 			/* Set the fullscreen flag true */
 			fsInfo.setFullscreen(true);
@@ -609,7 +612,7 @@ public class Video {
 	public class MouseEventHandler implements EventHandler<MouseEvent> {
 		@Override
 		public void handle(MouseEvent e) {
-			System.out.println("Video event");
+			System.out.println("Video event " + e);
 			if (e.getEventType() == MouseEvent.MOUSE_ENTERED) {
 				/* Add the controls */
 				addControls();

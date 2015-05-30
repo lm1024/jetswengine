@@ -11,6 +11,7 @@ import java.util.List;
 
 import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 /**
@@ -30,6 +31,8 @@ public class VideoHandler {
     /* Array List of the videos currently on the screen */
     private List<Video> videos;
     
+    private Stage stage;
+    
     /** 
      * Constructs the video handler.
      * 
@@ -38,9 +41,11 @@ public class VideoHandler {
      * @param nFullScreenCloseHandler An event handler to trigger events when 
      *                                fullscreen is exited. Wavemedia required.
      */
-    public VideoHandler(Group nGroup, EventHandler<WindowEvent> nFullScreenCloseHandler) {
+    public VideoHandler(Group nGroup, Stage stage,  EventHandler<WindowEvent> nFullScreenCloseHandler) {
         /* Set the group reference */
         this.group = nGroup;
+        
+        this.stage = stage;
         
         /* Set the full screen exit event handler reference */
         this.fullScreenCloseHandler = nFullScreenCloseHandler;
@@ -68,7 +73,7 @@ public class VideoHandler {
      * @param loop If true video loops to beginning once it ends.
      */
     public void createVideo(float x, float y, float width, String sourcefile, boolean autoPlay, boolean loop) {
-        videos.add(new Video(group, x, y, width, sourcefile, autoPlay, loop, fullScreenCloseHandler));
+        videos.add(new Video(group, stage, x, y, width, sourcefile, autoPlay, loop, fullScreenCloseHandler));
     }
     
     /** 
