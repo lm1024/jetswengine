@@ -98,9 +98,9 @@ public class Video {
 
 	/** Event handler for fullscreen exit */
 	private EventHandler<WindowEvent> fullScreenCloseHandler;
-	
+
 	private boolean loop;
-	
+
 	private Stage stage;
 
 	/**
@@ -130,16 +130,16 @@ public class Video {
 	 * @param loop
 	 *            If true the video loops to the beginning when it ends
 	 */
-	public Video(Group nGroup, Stage stage, float x, float y, float width, String sourcefile, boolean autoPlay, boolean loop,
-			EventHandler<WindowEvent> nFullScreenCloseHandler) {
+	public Video(Group nGroup, Stage stage, float x, float y, float width, String sourcefile, boolean autoPlay,
+			boolean loop, EventHandler<WindowEvent> nFullScreenCloseHandler) {
 		/* Set the group reference */
 		this.group = nGroup;
 
 		/* Set the full screen exit event handler reference */
 		this.fullScreenCloseHandler = nFullScreenCloseHandler;
-		
+
 		this.stage = stage;
-		
+
 		this.loop = loop;
 
 		/* Load icon images */
@@ -416,6 +416,12 @@ public class Video {
 			controls.getChildren().add(volumeSlider);
 		}
 
+		/*
+		 * Update the time stamp at this point to fix the bug with the duration
+		 * being 0. TJD
+		 */
+		updateTimeStamp(durationStamp, mediaPlayer.getMedia().getDuration());
+
 		/* Add the control bar to the video frame */
 		videoFrame.getChildren().add(controls);
 	}
@@ -526,13 +532,14 @@ public class Video {
 	public void fullscreen() {
 		/* If the video is already fullscreen, go back. If not, go fullscreen */
 		if (fsInfo.isFullscreen()) {
+			removeControls();
 			stage.setScene(group.getScene());
 			stage.setFullScreen(false);
 			stage.setFullScreen(true);
-			
+
 			/* Relocate to original position */
 			videoFrame.relocate(fsInfo.getOriginalX(), fsInfo.getOriginalY());
-			
+
 			/* Set to original width */
 			video.setFitWidth(fsInfo.getOriginalWidth());
 
@@ -565,7 +572,7 @@ public class Video {
 			vBox.getChildren().add(videoFrame);
 
 			/* Create the fullscreen stage */
-			
+
 			stage.setScene(fsScene);
 			stage.setFullScreen(false);
 			stage.setFullScreen(true);
@@ -612,7 +619,6 @@ public class Video {
 	public class MouseEventHandler implements EventHandler<MouseEvent> {
 		@Override
 		public void handle(MouseEvent e) {
-			System.out.println("Video event " + e);
 			if (e.getEventType() == MouseEvent.MOUSE_ENTERED) {
 				/* Add the controls */
 				addControls();
@@ -701,12 +707,17 @@ public class Video {
 		/** When the value changes update the position in the video */
 		@Override
 		public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
-			/* If enabled update the video position */
-			if (enable) {
+			/*
+			 * If there is a change due to a click or a drag, update the scan
+			 * value. TJD: Edited this to fix bugs with the scan bar not
+			 * working.
+			 */
+			if (Math.abs(new_val.doubleValue() - old_val.doubleValue()) > 0.1) {
 				scan(new_val.doubleValue());
-				updateTimeStamp(timeStamp, mediaPlayer.getCurrentTime());
-				updateTimeStamp(durationStamp, mediaPlayer.getMedia().getDuration());
 			}
+
+			/* Update the values of both the timestamps. */
+			updateTimeStamp(timeStamp, mediaPlayer.getCurrentTime());
 		}
 	}
 
@@ -736,7 +747,6 @@ public class Video {
 		public void changed(ObservableValue<? extends Duration> arg0, Duration arg1, Duration arg2) {
 			setScan();
 			updateTimeStamp(timeStamp, mediaPlayer.getCurrentTime());
-			updateTimeStamp(durationStamp, mediaPlayer.getMedia().getDuration());
 		}
 	}
 
