@@ -129,6 +129,8 @@ public class GUI extends Application {
 
 	/* For the comms channel */
 	CommsHandler comms;
+	
+	private static String[] launchArguements;
 
 	public GUI() {
 	}
@@ -137,6 +139,7 @@ public class GUI extends Application {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		launchArguements = args;
 		launch(args);
 	}
 
@@ -200,7 +203,16 @@ public class GUI extends Application {
 
 		/* Show the main page */
 		primaryStage.show();
-
+		
+		Slideshow currentSlideshow;
+		try {
+			currentSlideshow = new ImprovedXMLReader(launchArguements[0]).getSlideshow();
+		} catch (Exception e1) {
+			currentSlideshow = null;
+		}
+		if (currentSlideshow != null) {
+			buildSlideshow(currentSlideshow);
+		}
 	}
 
 	private void loadSettings() {

@@ -143,18 +143,28 @@ public class WMImage {
 			boolean vFlip, boolean hFlip, double cropLeft, double cropRight, double cropDown, double cropUp,
 			float xEnd, float yEnd, ArrayList<ImageEffect> imageEffects) {
 		/* Create image variable */
-		Image image;
+		Image image = null;
 		try {
 			/* Attempt to load image. (Takes a while... should be preloaded) */
 			image = new Image("file:" + filepath);
+			if(image.errorProperty().getValue()) {
+				image = null;
+			}
+			//System.out.println("Image loaded with error state: " + image.errorProperty().getValue());
 		}
 		/* Exception handling for simple URL/Image type errors */
 		catch (IllegalArgumentException WrongURL) {
-			/* Display an error message to the user */
-			Label label = new Label("Cannot find image");
-            label.relocate(xPos, yPos);
-            group.getChildren().add(label);
-			return;
+			image = null;
+		}
+		finally {
+			if(image == null) {
+				/* Display an error message to the user */
+				Label label = new Label("Cannot find image");
+	            label.relocate(xPos, yPos);
+	            group.getChildren().add(label);
+	            System.out.println("Exception caught. Returning");
+				return;
+			}
 		}
 
 		imageView = new ImageView();

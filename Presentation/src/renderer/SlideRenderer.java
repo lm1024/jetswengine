@@ -422,7 +422,9 @@ public class SlideRenderer {
 
 			break;
 		case SQUARE:
-			Square square = (Square) currentGraphic;
+			/*			
+ 			Square square = (Square) currentGraphic;
+			System.out.println("xLength: " + convXRelCoordToAbsCoord(square.getSize()) + " yLength: " + convYRelCoordToAbsCoord(square.getSize()));
 			graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos)
 				.length(convXRelCoordToAbsCoord(square.getSize()))
 				.color(square.getGraphicColor())
@@ -434,7 +436,27 @@ public class SlideRenderer {
 				.shadow(square.getShadow())
 				.rotation(square.getRotation())
 				.shadingType(square.getShadingType());
+				
 			break;
+			*/
+			
+			/* For any other shape, by default make a rectangle */
+			Square square = (Square) currentGraphic;
+			graphicBuilder = new GraphicBuilder(GraphicType.RECTANGLE, xStartPos, yStartPos)
+				.xEndPos(convXRelCoordToAbsCoord(square.getXStart() + square.getSize()))
+				.yEndPos(convYRelCoordToAbsCoord(square.getYStart() + square.getSize()))
+				.arcWidth(square.getArcWidth())
+				.arcHeight(square.getArcHeight())
+				.color(square.getGraphicColor())
+				.solid(square.isSolid())
+				.outlineColor(square.getOutlineColor())
+				.outlineThickness(square.getOutlineThickness())
+				.shadow(square.getShadow())
+				.rotation(square.getRotation())
+				.shadingType(square.getShadingType());
+			break;
+			
+			
 		case STAR:
 			Star star = (Star) currentGraphic;
 			graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos)
