@@ -1,0 +1,382 @@
+<?xml version="1.0"?>
+
+<slideshow>
+	<documentinfo>
+		<author>WaveMedia</author>
+		<version>1.0</version>
+		<comment>Marketing</comment>
+		<groupid>2</groupid>
+	</documentinfo>
+	<defaultsettings>
+		<backgroundcolor>#00000000</backgroundcolor>
+		<font>ariel</font>
+		<fontsize>24</fontsize>
+		<fontcolor>#ff000000</fontcolor>
+		<graphiccolor>#ffff0000</graphiccolor>
+		<highlightcolor>#00000000</highlightcolor>
+		<starttime>0</starttime>
+		<duration>Float.MAX_VALUE</duration>
+		<alignment>left</alignment>
+		<scale>1</scale>
+		<rotation>0</rotation>
+		<cropx1>0</cropx1>
+		<cropy1>0</cropy1>
+		<cropx2>1</cropx2>
+		<cropy2>1</cropy2>
+		<originalxresolution>1280</originalxresolution>
+		<originalyresolution>800</originalyresolution>
+	</defaultsettings>
+
+	<slide>
+		<image sourcefile="bg.png" xstart="0" ystart="0" xend="1" yend="1"/>
+
+		<text xstart="0.1" ystart="0.45" xend="0.9" yend="0.55"
+			fontsize="100" fontcolor="#ff0000ff" alignment="center">
+			<richtext bold= "true" underlined="true">
+				Target Market
+			</richtext>
+		</text>	
+	</slide>
+	
+	<slide>
+		<image sourcefile="bg.png" xstart="0" ystart="0" xend="1" yend="1"/>
+		
+		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" font="arial"
+			fontsize="50" fontcolor="#ff0000ff" alignment="center">
+			<richtext bold= "true" underlined="true">
+				Potential Markets
+			</richtext>
+		</text>
+		
+		<text xstart="0.1" ystart="0.2" xend="0.9" yend="0.8" fontsize="42" fontcolor="#ff000000" alignment="left">
+			<richtext>
+				Could be useful in corporate, lower educational or higher educational markets\n\n
+				Company will not have resources to enter all markets effectively immediately\n\n
+				We aim to enter the higher educational market first as we know and understand it well\n\n
+				We aim to expand into other markets after a 3 year period\n\n
+				At this time we also aim to release a product update that includes compatibility for other operating systems, for Smartphone, tablet and computer\n\n
+			</richtext>
+		</text>
+	</slide>
+	
+	<slide>
+		<image sourcefile="bg.png" xstart="0" ystart="0" xend="1" yend="1"/>
+		
+		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" font="arial"
+			fontsize="50" fontcolor="#ff0000ff" alignment="center">
+			<richtext bold= "true" underlined="true">
+				Consumer Profiles
+			</richtext>
+		</text>
+		
+		<text xstart="0.1" ystart="0.2" xend="0.9" yend="0.8" fontsize="42" fontcolor="#ff000000" alignment="left">
+			<richtext>
+				Student: Age range is about 17 to 25\n
+				Both male and female and from a variety of ethnic backgrounds\n
+				Average income is &#163;15,533 a year in London, &#163;13,747 a year outside London\n\n
+				Lecturer:
+				Age range is about 25 to 65\n
+				Both male and female and from a variety of ethnic backgrounds\n
+				Average income is &#163;33,000 to &#163;55,000 a year\n\n
+				University:
+				Age range, gender and ethnicity not applicable \n
+				Average income &#163;181,000,000 a year\n
+			</richtext>
+		</text>
+	</slide>
+	
+	<slide>
+		<image sourcefile="bg.png" xstart="0" ystart="0" xend="1" yend="1"/>
+
+		<text xstart="0.1" ystart="0.45" xend="0.9" yend="0.55"
+			fontsize="100" fontcolor="#ff0000ff" alignment="center">
+			<richtext bold= "true" underlined="true">
+				Consumer Survey
+			</richtext>
+		</text>	
+	</slide>
+	
+	<slide>
+		<image sourcefile="bg.png" xstart="0" ystart="0" xend="1" yend="1"/>
+		
+		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" font="arial"
+			fontsize="50" fontcolor="#ff0000ff" alignment="center">
+			<richtext bold= "true" underlined="true">
+				Consumer Profiles
+			</richtext>
+		</text>
+		
+		<image sourcefile="sales/1.png" xstart="0.2" ystart="0.2" xend="0.8"/>
+		
+	</slide>
+	
+	<slide>
+		<image sourcefile="bg.png" xstart="0" ystart="0" xend="1" yend="1"/>
+		
+		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" font="arial"
+			fontsize="50" fontcolor="#ff0000ff" alignment="center">
+			<richtext bold= "true" underlined="true">
+				Student Survey
+			</richtext>
+		</text>
+		
+		<image sourcefile="sales/2.png" xstart="0" ystart="0.2" xend="0.4"/>
+		
+		<image sourcefile="sales/3.png" xstart="0.5" ystart="0.4" xend="0.95"/>
+		
+	</slide>
+	
+	<slide>
+		<image sourcefile="bg.png" xstart="0" ystart="0" xend="1" yend="1"/>
+		
+		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" font="arial"
+			fontsize="50" fontcolor="#ff0000ff" alignment="center">
+			<richtext bold= "true" underlined="true">
+				Lecturer Survey
+			</richtext>
+		</text>
+		
+		<image sourcefile="sales/4.png" xstart="0" ystart="0.2" xend="0.4"/>
+		
+		<image sourcefile="sales/5.png" xstart="0.5" ystart="0.4" xend="0.95"/>
+		
+	</slide>
+	
+	<slide>
+		<image sourcefile="bg.png" xstart="0" ystart="0" xend="1" yend="1"/>
+		
+		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" font="arial"
+			fontsize="50" fontcolor="#ff0000ff" alignment="center">
+			<richtext bold= "true" underlined="true">
+				Consumer Profiles
+			</richtext>
+		</text>
+		
+		<text xstart="0.1" ystart="0.2" xend="0.9" yend="0.8" fontsize="42" fontcolor="#ff000000" alignment="left">
+			<richtext>
+				Market Statistics\n
+				Academic Staff: 194,245 (2013/2014)\n
+				Students: 2,299,355 (2013/2014)\n
+				Universities: 169 (present)\n\n
+				Product Access Statistics\n
+				Lecturers with Access to a Room with Projector and WiFi: 90% (estimation)\n
+				Lecturers with Access to a Windows Computer: 95% (estimation)\n
+				Students with a Smartphone: 82% (2013)\n
+				Students with a Tablet: 20% (2013)\n
+				Android Share of UK Tablet/Mobile Market: 50% (estimation)\n
+			</richtext>
+		</text>
+	</slide>
+	
+	<slide>
+		<image sourcefile="bg.png" xstart="0" ystart="0" xend="1" yend="1"/>
+
+		<text xstart="0.1" ystart="0.45" xend="0.9" yend="0.55"
+			fontsize="100" fontcolor="#ff0000ff" alignment="center">
+			<richtext bold= "true" underlined="true">
+				Market Growth and Trends
+			</richtext>
+		</text>	
+	</slide>
+	
+	<slide>
+		<image sourcefile="bg.png" xstart="0" ystart="0" xend="1" yend="1"/>
+		
+		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" font="arial"
+			fontsize="50" fontcolor="#ff0000ff" alignment="center">
+			<richtext bold= "true" underlined="true">
+				Number of Students is Predicted to Rise Steadily
+			</richtext>
+		</text>
+		
+		<image sourcefile="sales/6.png" xstart="0.1" ystart="0.2" xend="0.9"/>
+
+		<text xstart="0.1" ystart="0.9" xend="0.9" yend="1" font="arial"
+			fontsize="36" fontcolor="#ff0000ff" alignment="center">
+			<richtext bold= "true" underlined="true">
+				Data sourced from www.hesa.ac.uk
+			</richtext>
+		</text>
+	</slide>
+	
+	<slide>
+		<image sourcefile="bg.png" xstart="0" ystart="0" xend="1" yend="1"/>
+		
+		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" font="arial"
+			fontsize="50" fontcolor="#ff0000ff" alignment="center">
+			<richtext bold= "true" underlined="true">
+				Number of Lecturers is Predicted to Rise Steadily
+			</richtext>
+		</text>
+		
+		<image sourcefile="sales/7.png" xstart="0.1" ystart="0.2" xend="0.9"/>
+
+		<text xstart="0.1" ystart="0.9" xend="0.9" yend="1" font="arial"
+			fontsize="36" fontcolor="#ff0000ff" alignment="center">
+			<richtext bold= "true" underlined="true">
+				Data sourced from www.hesa.ac.uk
+			</richtext>
+		</text>
+	</slide>
+	
+	<slide>
+		<image sourcefile="bg.png" xstart="0" ystart="0" xend="1" yend="1"/>
+		
+		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" font="arial"
+			fontsize="50" fontcolor="#ff0000ff" alignment="center">
+			<richtext bold= "true" underlined="true">
+				Percentage of the Population with Smartphones Expected to Reach Saturation at 90% in 2019
+			</richtext>
+		</text>
+		
+		<image sourcefile="sales/8.png" xstart="0.3" ystart="0.25" xend="0.7"/>
+
+		<text xstart="0.1" ystart="0.9" xend="0.9" yend="1" font="arial"
+			fontsize="36" fontcolor="#ff0000ff" alignment="center">
+			<richtext bold= "true" underlined="true">
+				Image sourced from www.asymco.com
+			</richtext>
+		</text>
+	</slide>
+	
+	<slide>
+		<image sourcefile="bg.png" xstart="0" ystart="0" xend="1" yend="1"/>
+		
+		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" font="arial"
+			fontsize="50" fontcolor="#ff0000ff" alignment="center">
+			<richtext bold= "true" underlined="true">
+				Percentage of the Population that use Tablets Expected to Reach Saturation at 60% in 2019
+			</richtext>
+		</text>
+		
+		<image sourcefile="sales/9.png" xstart="0.3" ystart="0.25" xend="0.7"/>
+
+		<text xstart="0.1" ystart="0.9" xend="0.9" yend="1" font="arial"
+			fontsize="36" fontcolor="#ff0000ff" alignment="center">
+			<richtext bold= "true" underlined="true">
+				Image sourced from www.theguardian.com
+			</richtext>
+		</text>
+	</slide>
+	
+	<slide>
+		<image sourcefile="bg.png" xstart="0" ystart="0" xend="1" yend="1"/>
+		
+		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" font="arial"
+			fontsize="50" fontcolor="#ff0000ff" alignment="center">
+			<richtext bold= "true" underlined="true">
+				Android Market Share Expected to Rise Over The Next 2 Years
+			</richtext>
+		</text>
+		
+		<image sourcefile="sales/10.png" xstart="0.3" ystart="0.25" xend="0.7"/>
+
+		<text xstart="0.1" ystart="0.9" xend="0.9" yend="1" font="arial"
+			fontsize="36" fontcolor="#ff0000ff" alignment="center">
+			<richtext bold= "true" underlined="true">
+				Image sourced from www.theguardian.com
+			</richtext>
+		</text>
+	</slide>
+	
+	<slide>
+		<image sourcefile="bg.png" xstart="0" ystart="0" xend="1" yend="1"/>
+		
+		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" font="arial"
+			fontsize="50" fontcolor="#ff0000ff" alignment="center">
+			<richtext bold= "true" underlined="true">
+				Future Trends of Other Statistics 			
+			</richtext>
+		</text>
+		
+		<text xstart="0.1" ystart="0.2" xend="0.9" yend="0.8" fontsize="42" fontcolor="#ff000000" alignment="left">
+			<richtext>
+				Expected to stay constant or have slow growth over the next five years as figures have reached maturity.\n
+				Number of lecturers with access to WiFi and projectors \n
+				Number of lecturers with access to a windows computer \n
+				Number of universities\n
+
+			</richtext>
+		</text>
+	</slide>
+	
+	<slide>
+		<image sourcefile="bg.png" xstart="0" ystart="0" xend="1" yend="1"/>
+		
+		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" font="arial"
+			fontsize="50" fontcolor="#ff0000ff" alignment="center">
+			<richtext bold= "true" underlined="true">
+				Future Markets			
+			</richtext>
+		</text>
+		
+		<text xstart="0.1" ystart="0.2" xend="0.9" yend="0.8" fontsize="42" fontcolor="#ff000000" alignment="left">
+			<richtext>
+				Within the UK\n
+				Further Education\n
+				Number of Pupils - 3,100,000 (2014/2015)\n
+				Number of Academic Staff - 37,000 (2011/2012)\n
+				Number of Institutions - 382 (2014/2015)\n\n
+				Lower Education\n
+				Number of Pupils - 8,331,385 (2014)\n
+				Number of Teachers - 451,100 (2014)\n
+				Number of Schools - 24,347 (2014)\n\n
+				Businesses\n
+				Number of Businesses - 4.9 million (present)\n\n
+				Global\n
+				PowerPoint sales worldwide - 250,000,000 (estimation)\n
+			</richtext>
+		</text>
+	</slide>
+	
+	<slide>
+		<image sourcefile="bg.png" xstart="0" ystart="0" xend="1" yend="1"/>
+
+		<text xstart="0.1" ystart="0.45" xend="0.9" yend="0.55"
+			fontsize="100" fontcolor="#ff0000ff" alignment="center">
+			<richtext bold= "true" underlined="true">
+				Pricing
+			</richtext>
+		</text>	
+	</slide>
+	
+	<slide>
+		<image sourcefile="bg.png" xstart="0" ystart="0" xend="1" yend="1"/>
+		
+		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" font="arial"
+			fontsize="50" fontcolor="#ff0000ff" alignment="center">
+			<richtext bold= "true" underlined="true">
+				Price of Software		
+			</richtext>
+		</text>
+		
+		<text xstart="0.1" ystart="0.2" xend="0.9" yend="0.8" fontsize="42" fontcolor="#ff000000" alignment="left">
+			<richtext afterspace="1">
+				Student app price: 
+			</richtext>
+			<richtext bold = "true">
+				FREE\n
+			</richtext>
+			<richtext afterspace="1">
+				Students do not have much income\n
+				Not all will want to pay for the app\n
+				With not enough students the software becomes less effective\n\n
+				Average sale price for presentation software: 
+			</richtext>
+			<richtext bold = "true">
+				&#163;50\n
+			</richtext>
+			<richtext>
+				Agreed with the finance manager\n
+				Will create a good profit if we sell to 9% of the academic staff by the end of year three\n
+				Comparable with price of similar software\n
+				Discounts will be offered if a university decides to buy a number of units\n
+			</richtext>
+			
+		</text>
+		
+		<image sourcefile="sales/11.png" xstart="0.1" ystart="0.6" xend="0.9"/>
+		
+	</slide>
+	
+</slideshow>
