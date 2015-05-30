@@ -173,8 +173,8 @@ public class CommsHandler {
 							}
 						} else {
 							//System.out.println("Question");
-							String[] splitMessageInput = input.split(":", 2);
-							parent.storeMessage(splitMessageInput[1]);
+							//String[] splitMessageInput = input.split(":", 2);
+							parent.storeMessage(input);
 						}
 					}
 				} catch (IOException e) {
