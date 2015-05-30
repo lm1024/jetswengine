@@ -110,7 +110,7 @@ public class SlideRenderer {
 		this.graphicsHandler = new GraphicsHandler(group);
 		this.imageHandler = new ImageHandler(group);
 		this.textHandler = new TextHandler(group);
-		this.videoHandler = new VideoHandler(group, new FullscreenEventHandler());
+		this.videoHandler = new VideoHandler(group, stage, new FullscreenEventHandler());
 		this.audioHandler = new AudioHandler(group);
 		this.graphHandler = new GraphHandler(group);
 	}
