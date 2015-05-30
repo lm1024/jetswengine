@@ -460,17 +460,19 @@ public class Video {
 	 * Sets the scan bar to match the video position
 	 */
 	private void setScan() {
-		/* Get the duration of the clip */
-		double duration = mediaPlayer.getMedia().getDuration().toSeconds();
+		if (mediaPlayer.getMedia() != null && mediaPlayer.getMedia().getDuration() != null) {
+			/* Get the duration of the clip */
+			double duration = mediaPlayer.getMedia().getDuration().toSeconds();
 
-		/* Get the current position in the clip */
-		double current = mediaPlayer.getCurrentTime().toSeconds();
+			/* Get the current position in the clip */
+			double current = mediaPlayer.getCurrentTime().toSeconds();
 
-		/* Calculate the percentage */
-		double percentage = (current / duration) * 100;
+			/* Calculate the percentage */
+			double percentage = (current / duration) * 100;
 
-		/* Set the scan bar value */
-		scanBar.setValue(percentage);
+			/* Set the scan bar value */
+			scanBar.setValue(percentage);
+		}
 	}
 
 	/**

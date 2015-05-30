@@ -821,11 +821,10 @@ public class GUI extends Application {
 				break;
 
 			/* open Q and A document */
-			case "Quick Q & A":
+			case "FAQ":
 				try {
 					Desktop.getDesktop().open(new File("resources/QandA.pdf"));
-				} catch (IOException e) {
-					e.printStackTrace();
+				} catch (Exception e) {
 				}
 				break;
 
@@ -833,8 +832,7 @@ public class GUI extends Application {
 			case "User Manual":
 				try {
 					Desktop.getDesktop().open(new File("resources/helpDoc.pdf"));
-				} catch (IOException e) {
-					e.printStackTrace();
+				} catch (Exception e) {
 				}
 				break;
 
@@ -948,7 +946,7 @@ public class GUI extends Application {
 		Menu menuHelp = new Menu("Help");
 
 		/* create items for help */
-		MenuItem qanda = new MenuItem("Quick Q & A");
+		MenuItem qanda = new MenuItem("FAQ");
 		MenuItem help = new MenuItem("User Manual");
 		help.setAccelerator(new KeyCodeCombination(KeyCode.F1));
 		MenuItem info = new MenuItem("About SmartSlides");
@@ -1203,6 +1201,7 @@ public class GUI extends Application {
 		/* Create stage and give it a title */
 		final Stage infoStage = new Stage();
 		infoStage.setTitle("About SmartSlides");
+		infoStage.getIcons().add(smartSlidesIcon);
 
 		/* Create pane */
 		GridPane infoGrid = new GridPane();

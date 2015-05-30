@@ -145,7 +145,6 @@ public class SlideRenderer {
 	 *            the slide to be drawn.
 	 */
 	public void drawSlide(Slide currentSlide) {
-		clear();
 		this.currentSlide = currentSlide;
 		for (SlideItem currentSlideItem : currentSlide.getAll()) {
 			switch (currentSlideItem.getType()) {

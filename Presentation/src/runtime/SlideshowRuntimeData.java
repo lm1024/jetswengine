@@ -244,7 +244,23 @@ public class SlideshowRuntimeData {
 		if (nextUpdate != null && !nextUpdate.isDone()) {
 			nextUpdate.cancel(true);
 		}
-
+		
+		slideRenderer.clear();
+		
+		double screenStartX = preferences.getBounds().getMinX();
+		double screenStartY = preferences.getBounds().getMinY();
+		double screenWidth = preferences.getBounds().getWidth();
+		double screenHeight = preferences.getBounds().getHeight();
+		
+		double a = Integer.parseInt(currentSlide.getBackgroundColor().substring(1, 3), 16) / 255.0;
+		double r = Integer.parseInt(currentSlide.getBackgroundColor().substring(3, 5), 16) / 255.0;
+		double g = Integer.parseInt(currentSlide.getBackgroundColor().substring(5, 7), 16) / 255.0;
+		double b = Integer.parseInt(currentSlide.getBackgroundColor().substring(7, 9), 16) / 255.0;
+		
+		Rectangle backgroundRect = new Rectangle(screenStartX, screenStartY, screenWidth, screenHeight);
+		backgroundRect.setFill(new Color(r,g,b,a));
+		((Group) secondaryStage.getScene().getRoot()).getChildren().add(backgroundRect);
+		
 		/* Pass the current slide to the renderer to be drawn. */
 		slideRenderer.drawSlide(currentSlide);
 
