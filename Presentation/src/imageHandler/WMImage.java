@@ -153,7 +153,6 @@ public class WMImage {
 				Label label = new Label("Cannot find image");
 				label.relocate(xPos, yPos);
 				group.getChildren().add(label);
-				System.out.println("Exception caught. Returning");
 				return;
 			}
 		}

@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+
+<slideshow>
+	<documentinfo>
+		<author>David Kilburn</author>
+		<version>1.0</version>
+		<comment>Snazzy Features</comment>
+		<groupid>2</groupid>
+	</documentinfo>
+	<defaultsettings>
+		<backgroundcolor>#00000000</backgroundcolor>
+		<font>arial</font>
+		<fontsize>24</fontsize>
+		<fontcolor>#ff000000</fontcolor>
+		<graphiccolor>#ff000000</graphiccolor>
+		<highlightcolor>#00ffffff</highlightcolor>
+		<starttime>0</starttime>
+		<duration>Float.MAX_VALUE</duration>
+		<alignment>left</alignment>
+		<scale>1</scale>
+		<rotation>0</rotation>
+		<cropx1>0</cropx1>
+		<cropy1>0</cropy1>
+		<cropx2>1</cropx2>
+		<cropy2>1</cropy2>
+		<originalxresolution>1280</originalxresolution>
+		<originalyresolution>800</originalyresolution>
+	</defaultsettings>
+	<slide>
+	
+		<image sourcefile="background.png" xstart="0" ystart="0" yend="1" xend="1"/>
+	
+		<graphic type="rectangle" xstart="0.3" ystart="0.3" xend="0.7" yend="0.5" outlinecolor="#ff000000" outlinethickness="1.0"/>
+		<graphic graphiccolor="#ff000000" >
+			<arrow xstart="0.8" ystart="0.2" xend="0.7" yend="0.3" thickness="1.0">
+			<verticalshading>
+				<shading shadingcolor="#ffaa0000"/>
+				<shading shadingcolor="#ffaa00aa"/>
+			</verticalshading>
+			</arrow>
+		</graphic>
+		<graphic type="rectangle" xstart="0.8" ystart="0.1" xend="0.9" yend="0.3" outlinecolor="#ff000000" outlinethickness="1.0"/>
+		<text  xstart="0.8" ystart="0.1" xend="0.9" yend="0.3" font="arial"
+			fontsize="50" fontcolor="#ff0000ff" alignment="center">
+			<richtext bold= "true" fontsize="70"> I'm a text\nbox!</richtext>
+		</text>
+		<text xstart="0.1" ystart="0.3" xend="0.9" yend="0.9" font="arial"
+			fontsize="100" fontcolor="#ff0000ff" alignment="center">
+			<richtext bold= "true" fontsize="100"> SmartSlides\n</richtext>
+			<richtext bold= "true" fontsize="100"> Feature Demo! </richtext>
+		</text>
+	</slide>
+	<slide>
+		<image sourcefile="me.png" xstart="0.1" ystart="0.2" xend="0.25"  >
+		
+		</image>
+		
+		<image sourcefile="me.png" xstart="0.3" xend="0.45" ystart="0.2"   >
+		<glow/>
+		<glow/>
+		<glow/>
+		</image>
+		
+		<image sourcefile="me.png" xstart="0.5" xend="0.65" ystart="0.2"   >
+		<bloom/>
+		<bloom/>
+		<bloom/>
+		</image>
+		
+		<image sourcefile="me.png" xstart="0.7" xend="0.85" ystart="0.2"   >
+		<sepia/>
+		</image>
+		
+		<image sourcefile="me.png" xstart="0.1" ystart="0.6" xend="0.25"  >
+		<grayscale/>
+		</image>
+		
+		<image sourcefile="me.png" xstart="0.3" xend="0.45" ystart="0.6"   >
+		<reflection/>
+		<reflection/>
+		</image>
+		
+		<image sourcefile="me.png" xstart="0.5" xend="0.65" ystart="0.6"   >
+		<blur/>
+		<blur/>
+		<blur/>
+		<blur/>
+		<blur/>
+		<blur/>
+		<blur/>
+		<blur/>
+		<blur/>
+		</image>
+		
+		<image sourcefile="me.png" xstart="0.7" xend="0.85" ystart="0.6"   >
+		<blur/>
+		<reflection/>
+		<glow/>
+		<bloom/>
+		<glow/>
+		<bloom/>
+		<glow/>
+		<bloom/>
+		</image>
+	</slide>
+
+
+</slideshow>
