@@ -57,23 +57,12 @@ public class WMImage {
 		double cropUp = image.getCropUp();
 		float xEnd = image.getxEnd();
 		float yEnd = image.getyEnd();
+		float relativeXEnd = image.getRelativeXEnd();
+		float relativeYEnd = image.getRelativeYEnd();
 		ArrayList<ImageEffect> imageEffects = image.getImageEffects();
-		drawImage(
-			xPos,
-			yPos,
-			filepath,
-			scaleX,
-			scaleY,
-			rotation,
-			vFlip,
-			hFlip,
-			cropLeft,
-			cropRight,
-			cropDown,
-			cropUp,
-			xEnd,
-			yEnd,
-			imageEffects);
+		drawImage(xPos, yPos, filepath, scaleX, scaleY, rotation, vFlip, hFlip,
+				cropLeft, cropRight, cropDown, cropUp, xEnd, yEnd,
+				relativeXEnd, relativeYEnd, imageEffects);
 	}
 
 	/**
@@ -139,30 +128,32 @@ public class WMImage {
 	 *            to the image. The first one in the list is the primary effect,
 	 *            the effect following uses the previous effect as an input.
 	 */
-	private void drawImage(float xPos, float yPos, String filepath, double scaleX, double scaleY, float rotation,
-			boolean vFlip, boolean hFlip, double cropLeft, double cropRight, double cropDown, double cropUp,
-			float xEnd, float yEnd, ArrayList<ImageEffect> imageEffects) {
+	private void drawImage(float xPos, float yPos, String filepath,
+			double scaleX, double scaleY, float rotation, boolean vFlip,
+			boolean hFlip, double cropLeft, double cropRight, double cropDown,
+			double cropUp, float xEnd, float yEnd, float relativeXEnd, float relativeYEnd,
+			ArrayList<ImageEffect> imageEffects) {
 		/* Create image variable */
 		Image image = null;
 		try {
 			/* Attempt to load image. (Takes a while... should be preloaded) */
 			image = new Image("file:" + filepath);
-			if(image.errorProperty().getValue()) {
+			if (image.errorProperty().getValue()) {
 				image = null;
 			}
-			//System.out.println("Image loaded with error state: " + image.errorProperty().getValue());
+			// System.out.println("Image loaded with error state: " +
+			// image.errorProperty().getValue());
 		}
 		/* Exception handling for simple URL/Image type errors */
 		catch (IllegalArgumentException WrongURL) {
 			image = null;
-		}
-		finally {
-			if(image == null) {
+		} finally {
+			if (image == null) {
 				/* Display an error message to the user */
 				Label label = new Label("Cannot find image");
-	            label.relocate(xPos, yPos);
-	            group.getChildren().add(label);
-	            System.out.println("Exception caught. Returning");
+				label.relocate(xPos, yPos);
+				group.getChildren().add(label);
+				System.out.println("Exception caught. Returning");
 				return;
 			}
 		}
@@ -183,18 +174,13 @@ public class WMImage {
 		PixelReader reader = image.getPixelReader();
 
 		/* Make a new cropped image using the coordinates calculated */
-		WritableImage croppedImage = new WritableImage(reader, xStart, yStart, cropWidth, cropHeight);
+		WritableImage croppedImage = new WritableImage(reader, xStart, yStart,
+				cropWidth, cropHeight);
 
 		/* Assign the image to be the new cropped image */
 		image = croppedImage;
 
-		/* Flip image vertically and horizontally if required */
-		if (vFlip) {
-			scaleY *= -1;
-		}
-		if (hFlip) {
-			scaleX *= -1;
-		}
+		
 
 		/* Get the new dimensions of the cropped image */
 		imageWidth = image.getWidth();
@@ -204,18 +190,23 @@ public class WMImage {
 		 * Recalculate the scale values based upon the required size for the
 		 * image.
 		 */
-		if (xEnd != 0 && yEnd != 0) {
-			System.out.println("Doing this");
+		if (relativeXEnd != 0 && relativeYEnd != 0) {
 			scaleX = (xEnd - xPos) / imageWidth;
-			System.out.println(yEnd + " " + yPos);
 			scaleY = (yEnd - yPos) / imageHeight;
-			System.out.println(scaleX + " " + scaleY);
-		} else if (xEnd != 0) {
+		} else if (relativeXEnd != 0) {
 			scaleX = (xEnd - xPos) / imageWidth;
 			scaleY = scaleX;
-		} else if (yEnd != 0) {
+		} else if (relativeYEnd != 0) {
 			scaleY = (yEnd - yPos) / imageHeight;
 			scaleX = scaleY;
+		}
+		
+		/* Flip image vertically and horizontally if required */
+		if (vFlip) {
+			scaleY *= -1;
+		}
+		if (hFlip) {
+			scaleX *= -1;
 		}
 
 		/* Set rotation and horizontal and vertical scale of image */
@@ -224,8 +215,17 @@ public class WMImage {
 		imageView.setScaleY(scaleY);
 
 		/* Move the image to a new position */
-		double newXPos = xPos - (imageWidth - imageWidth * scaleX) / 2;
-		double newYPos = yPos - (imageHeight - imageHeight * scaleY) / 2;
+		double newXPos;
+		double newYPos;
+		newXPos = xPos - (imageWidth - imageWidth * scaleX) / 2;
+		newYPos = yPos - (imageHeight - imageHeight * scaleY) / 2;
+		
+		if(vFlip) {
+			newYPos -= (imageHeight * scaleY);
+		}
+		if(hFlip) {
+			newXPos -= (imageWidth * scaleX);
+		}
 		imageView.relocate(newXPos, newYPos);
 
 		/* Set the imageview to show the cropped image */
@@ -278,7 +278,8 @@ public class WMImage {
 				bottomEffect = reflection;
 				break;
 			default:
-				System.err.println("Effect " + currentEffectName + " not implemented yet.");
+				System.err.println("Effect " + currentEffectName
+						+ " not implemented yet.");
 			}
 			imageView.setEffect(bottomEffect);
 		}

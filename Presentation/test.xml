@@ -13,11 +13,27 @@
 		<fontsize>24</fontsize>
 		<fontcolor>#ffff00ff</fontcolor>
 		<graphiccolor>#ffaaaa00</graphiccolor>
+		<originalxresolution>1024</originalxresolution>
+		<originalyresolution>1024</originalyresolution>
 	</defaultsettings>
 	
 	<slide>
-		<video sourcefile="M:\Sweng\avengers-featurehp.mp4"
-			loop = "false" xstart="0" ystart="0" />
+		<graphic graphiccolor="#ff00AA00">
+		<rectangle xstart="0" xend="1" ystart="0" yend="1" solid="true"/>
+		</graphic>
+		<graphic graphiccolor="#ff000000">
+		<rectangle xstart="0.1" xend="0.9" ystart="0.1" yend="0.9" solid="true"/>
+		</graphic>
+		
+	</slide>
+	
+	<slide>
+		<graphic graphiccolor="#ff00AA00">
+		<rectangle xstart="0" xend="1" ystart="0" yend="1" solid="true"/>
+		</graphic>
+		<graphic graphiccolor="#ff000000">
+		<square xstart="0.1" ystart="0.1" size="0.8" solid="true"/>
+		</graphic>
 	</slide>
 	
 	<slide>

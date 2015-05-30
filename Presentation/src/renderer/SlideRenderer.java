@@ -344,6 +344,7 @@ public class SlideRenderer {
 			break;
 		case CIRCLE:
 			Circle circle = (Circle) currentGraphic;
+			/*
 			graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos)
 				.radius(convXRelCoordToAbsCoord(circle.getSize()))
 				.color(circle.getGraphicColor())
@@ -354,6 +355,22 @@ public class SlideRenderer {
 				.rotation(circle.getRotation())
 				.shadingType(circle.getShadingType());
 			break;
+			*/
+			System.out.println(xStartPos + " " + yStartPos);
+			System.out.println((convXRelCoordToAbsCoord(2 * circle.getSize()) + xStartPos) + " " + (convYRelCoordToAbsCoord(circle.getSize()) + yStartPos));
+			graphicBuilder = new GraphicBuilder(GraphicType.OVAL, xStartPos, yStartPos)
+			.xEndPos(convXRelCoordToAbsCoord(2* circle.getSize() + circle.getXStart()))
+			.yEndPos(convYRelCoordToAbsCoord(2* circle.getSize() + circle.getYStart()))
+			.color(circle.getGraphicColor())
+			.solid(circle.isSolid())
+			.outlineColor(circle.getOutlineColor())
+			.outlineThickness(circle.getOutlineThickness())
+			.shadow(circle.getShadow())
+			.rotation(circle.getRotation())
+			.shadingType(circle.getShadingType());
+		break;
+			
+			
 		case EQUILATERALTRIANGLE:
 			EquilateralTriangle eTri = (EquilateralTriangle) currentGraphic;
 			graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos)
@@ -614,6 +631,8 @@ public class SlideRenderer {
 	 */
 	private void addImage(Image currentImage) {
 		String filepath = currentImage.getSourceFile();
+		float relativeXEnd = currentImage.getxEnd();
+		float relativeYEnd = currentImage.getyEnd();
 		float xStartPos = convXRelCoordToAbsCoord(currentImage.getXStart());
 		float yStartPos = convYRelCoordToAbsCoord(currentImage.getYStart());
 		float rotation = currentImage.getRotation();
@@ -628,6 +647,9 @@ public class SlideRenderer {
 		float xEnd = convXRelCoordToAbsCoord(currentImage.getxEnd());
 		float yEnd = convYRelCoordToAbsCoord(currentImage.getyEnd());
 		ArrayList<ImageEffect> imageEffects = currentImage.getImageEffects();
+		
+		System.out.println(currentImage.getXStart() + " " + currentImage.getxEnd());
+		System.out.println(xStartPos + " " + xEnd);
 
 		/*
 		 * Initialise and populate a list of all the image effects to be applied
@@ -656,6 +678,8 @@ public class SlideRenderer {
 			.xEnd(xEnd)
 			.yEnd(yEnd)
 			.imageEffects(imageEffectList)
+			.relativeXEnd(relativeXEnd)
+			.relativeYEnd(relativeYEnd)
 			.build());
 
 		/*

@@ -27,7 +27,7 @@
 		<originalyresolution>1024</originalyresolution>
 	</defaultsettings>
 
-	<slide>
+	<slide backgroundcolor="#ff666666">
 		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" font="arial"
 			fontsize="50" fontcolor="#ff0000ff" alignment="center">
 			<richtext bold= "true" underlined="true">
@@ -42,10 +42,19 @@
 			</richtext>
 		</text>
 		
-		<image sourcefile="doppler/sheldon.png" xstart="0.6" ystart="0.5" yend="0.9"/>
+		<image sourcefile="me.png" xstart="0.6" ystart="0.5" yend="0.9"  flipvertical="true" rotation="45">
+		<blur/>
+		<bloom/>
+		<reflection/>
+		<glow/>
+		</image>
 		
+		<image sourcefile="me.png" xstart="0.2" ystart="0.5" yend="0.9"  flipvertical="true" rotation="45">
+		
+		</image>
+		<!--
 		<image sourcefile="doppler/slide1pic2.gif" xstart="0.2" ystart="0.5" vscale="1" hscale="1"/>
-
+		-->
 
 	</slide>
 	

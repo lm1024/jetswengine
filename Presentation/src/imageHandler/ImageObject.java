@@ -25,6 +25,9 @@ public class ImageObject {
 	private final double cropUp;
 	private final float xEnd;
 	private final float yEnd;
+	private final float relativeXEnd;
+	
+	private final float relativeYEnd;
 	private final ArrayList<ImageEffect> imageEffects;
 
 	/* Constructor must be called using the builder */
@@ -43,6 +46,8 @@ public class ImageObject {
 		this.cropUp = builder.cropUp;
 		this.xEnd = builder.xEnd;
 		this.yEnd = builder.yEnd;
+		this.relativeXEnd = builder.relativeXEnd;
+		this.relativeYEnd = builder.relativeYEnd;
 		this.imageEffects = builder.imageEffects;
 	}
 
@@ -160,6 +165,20 @@ public class ImageObject {
 	public float getyEnd() {
 		return yEnd;
 	}
+	
+	/**
+	 * @return the relativeXEnd
+	 */
+	public float getRelativeXEnd() {
+		return relativeXEnd;
+	}
+
+	/**
+	 * @return the relativeYEnd
+	 */
+	public float getRelativeYEnd() {
+		return relativeYEnd;
+	}
 
 	/**
 	 * @return a list of ImageEffects that are to be applied to the image
@@ -187,6 +206,8 @@ public class ImageObject {
 		private double cropUp;
 		private float xEnd;
 		private float yEnd;
+		private float relativeXEnd;
+		private float relativeYEnd;
 		private ArrayList<ImageEffect> imageEffects = new ArrayList<ImageEffect>();
 
 		/**
@@ -318,6 +339,18 @@ public class ImageObject {
 		
 		public ImageBuilder yEnd(float yEnd) {
 			this.yEnd = yEnd;
+			return this;
+		}
+		
+
+		public ImageBuilder relativeXEnd(float relativeXEnd) {
+			this.relativeXEnd = relativeXEnd;
+			return this;
+		}
+
+		
+		public ImageBuilder relativeYEnd(float relativeYEnd) {
+			this.relativeYEnd = relativeYEnd;
 			return this;
 		}
 
