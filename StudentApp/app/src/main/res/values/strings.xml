@@ -1,32 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Array Resource XML -->
 <resources>
-
+    <!-- App Name String Resource -->
     <string name="app_name">SmartSlides</string>
-    <string name="hello_world">Hello world!</string>
+    <!-- Information Menu Item  String Resource -->
     <string name="action_info">Information</string>
+    <!-- Option A Button String Resource -->
     <string name="option_a">A</string>
+    <!-- Option B Button String Resource -->
     <string name="option_b">B</string>
+    <!-- Option C Button String Resource -->
     <string name="option_c">C</string>
+    <!-- Option D Button String Resource -->
     <string name="option_d">D</string>
-    <string name="title_activity_option">OptionA</string>
-    <string name="chosen_option_a">You have chosen Option A</string>
-    <string name="chosen_option_b">You have chosen Option B</string>
-    <string name="chosen_option_c">You have chosen Option C</string>
-    <string name="chosen_option_d">You have chosen Option D</string>
-    <string name="title_activity_option_b">OptionB</string>
-    <string name="title_activity_option_c">OptionC</string>
-    <string name="title_activity_option_d">OptionD</string>
-    <string name="title_activity_intro">IntroActivity</string>
+    <!-- Open Activity Name String Resource -->
     <string name="title_activity_open">Open</string>
+    <!-- Connection Code String Resource -->
     <string name="hex_code">Connection Code:</string>
+    <!-- Connect Button String Resource -->
     <string name="connect">Connect</string>
+    <!-- Logo Content Description String Resource (This is for Screen Readers) -->
     <string name="SScontentDescription">Smart Slides Logo</string>
-    <string name="retry">Retry</string>
+    <!-- Cancel Button String Resource -->
     <string name="cancel">Cancel</string>
+    <!-- Ok Button  String Resource -->
     <string name="ok">OK</string>
+    <!-- Send a Question Label String Resource -->
     <string name="question">Send a Question:</string>
+    <!-- Send Button String Resource -->
     <string name="send">Send</string>
+    <!-- Length Error Alert Dialog Title String Resource -->
     <string name="length_error">Question Too Long!</string>
+    <!-- Edit Button String Resource -->
     <string name="edit">Edit</string>
+    <!-- Connection Error Alert Dialog Error String Resource -->
     <string name="connection_error">Can\'t Connect to Server</string>
 </resources>
