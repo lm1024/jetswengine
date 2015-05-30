@@ -142,8 +142,6 @@ public class Open extends ActionBarActivity {
                     e1.printStackTrace();
                 }
             }
-            /* Set that the network has been attempted */
-            networkAttempted = true;
         }
     }
 
@@ -316,8 +314,6 @@ public class Open extends ActionBarActivity {
         public void run() {
             /* Invalidate Test Result and networkAttempt and whileFinish */
             testResult = false;
-            networkAttempted = false;
-            whileFinish = false;
             /* Uninstantiate PrintWriter */
             System.out.println(testResult.toString());
             out = null;
@@ -336,24 +332,15 @@ public class Open extends ActionBarActivity {
             networkingThread = new Thread(new NetworkingThread(parent));
             networkingThread.start();
 
+            /* Wait for Network to finish */
             try {
                 networkingThread.join();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
 
-            /* Wait for Networking Attempt and then Test connection */
-            //while (!(whileFinish)) {
-                //if (networkAttempted) {/* Run Connection Test */
-                    successfulConnectionCheck();/* Exit while loop */
-                    //whileFinish = true;
-                //}/* Sleep for 10ms per loop in case Network Attempt still isn't complete */
-                //try {
-                //    Thread.sleep(10);
-                //} catch (InterruptedException e) {
-                //    e.printStackTrace();
-                //}
-            //}
+            /* Check Connection */
+            successfulConnectionCheck();
 
             /* If connection was successful */
             if (testResult) {
