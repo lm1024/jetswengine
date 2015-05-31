@@ -51,36 +51,41 @@
 		</text>
 	</slide>
 	<slide>
-		<image sourcefile="me.png" xstart="0.1" ystart="0.2" xend="0.25"  >
+	
+		<text xstart="0.1" ystart="0.1" xend="0.2"
+			fontcolor="#ff0000ff" alignment="center">
+			<richtext bold= "true" fontsize="50"> Original</richtext>
+		</text>
+		<image sourcefile="desert.jpg" xstart="0.1" ystart="0.2" xend="0.25"  >
 		
 		</image>
 		
-		<image sourcefile="me.png" xstart="0.3" xend="0.45" ystart="0.2"   >
+		<image sourcefile="desert.jpg" xstart="0.3" xend="0.45" ystart="0.2"   >
 		<glow/>
 		<glow/>
 		<glow/>
 		</image>
 		
-		<image sourcefile="me.png" xstart="0.5" xend="0.65" ystart="0.2"   >
+		<image sourcefile="desert.jpg" xstart="0.5" xend="0.65" ystart="0.2"   >
 		<bloom/>
 		<bloom/>
 		<bloom/>
 		</image>
 		
-		<image sourcefile="me.png" xstart="0.7" xend="0.85" ystart="0.2"   >
+		<image sourcefile="desert.jpg" xstart="0.7" xend="0.85" ystart="0.2"   >
 		<sepia/>
 		</image>
 		
-		<image sourcefile="me.png" xstart="0.1" ystart="0.6" xend="0.25"  >
+		<image sourcefile="desert.jpg" xstart="0.1" ystart="0.6" xend="0.25"  >
 		<grayscale/>
 		</image>
 		
-		<image sourcefile="me.png" xstart="0.3" xend="0.45" ystart="0.6"   >
+		<image sourcefile="desert.jpg" xstart="0.3" xend="0.45" ystart="0.6"   >
 		<reflection/>
 		<reflection/>
 		</image>
 		
-		<image sourcefile="me.png" xstart="0.5" xend="0.65" ystart="0.6"   >
+		<image sourcefile="desert.jpg" xstart="0.5" xend="0.65" ystart="0.6"   >
 		<blur/>
 		<blur/>
 		<blur/>
@@ -92,7 +97,7 @@
 		<blur/>
 		</image>
 		
-		<image sourcefile="me.png" xstart="0.7" xend="0.85" ystart="0.6"   >
+		<image sourcefile="desert.jpg" xstart="0.7" xend="0.85" ystart="0.6"   >
 		<blur/>
 		<reflection/>
 		<glow/>
