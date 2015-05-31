@@ -434,12 +434,12 @@ public class SlideRenderer {
 				.outlineThickness(regPol.getOutlineThickness())
 				.shadow(regPol.getShadow())
 				.rotation(regPol.getRotation())
+				.size(regPol.getSize())
 				.shadingType(regPol.getShadingType());
 
 			break;
 		case SQUARE:
-			/*			
- 			Square square = (Square) currentGraphic;
+			Square square = (Square) currentGraphic;
 			System.out.println("xLength: " + convXRelCoordToAbsCoord(square.getSize()) + " yLength: " + convYRelCoordToAbsCoord(square.getSize()));
 			graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos)
 				.length(convXRelCoordToAbsCoord(square.getSize()))
@@ -454,23 +454,6 @@ public class SlideRenderer {
 				.shadingType(square.getShadingType());
 				
 			break;
-			*/
-			
-			/* For any other shape, by default make a rectangle */
-			Square square = (Square) currentGraphic;
-			graphicBuilder = new GraphicBuilder(GraphicType.RECTANGLE, xStartPos, yStartPos)
-				.xEndPos(convXRelCoordToAbsCoord(square.getXStart() + square.getSize()))
-				.yEndPos(convYRelCoordToAbsCoord(square.getYStart() + square.getSize()))
-				.arcWidth(square.getArcWidth())
-				.arcHeight(square.getArcHeight())
-				.color(square.getGraphicColor())
-				.solid(square.isSolid())
-				.outlineColor(square.getOutlineColor())
-				.outlineThickness(square.getOutlineThickness())
-				.shadow(square.getShadow())
-				.rotation(square.getRotation())
-				.shadingType(square.getShadingType());
-			break;
 			
 			
 		case STAR:
@@ -479,6 +462,7 @@ public class SlideRenderer {
 				.numberOfPoints(star.getNumberOfPoints())
 				.color(star.getGraphicColor())
 				.solid(star.isSolid())
+				.size(star.getSize())
 				.outlineColor(star.getOutlineColor())
 				.outlineThickness(star.getOutlineThickness())
 				.shadow(star.getShadow())

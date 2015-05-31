@@ -36,7 +36,7 @@ public class GraphicHandler extends DefaultHandler {
 	private HashMap<String, String> currentObject = new HashMap<String, String>();
 	private List<Float> xPoints;
 	private List<Float> yPoints;
-	private String tempDuration, tempStartTime, tempGraphicColor;
+	private String tempDuration, tempStartTime, tempGraphicColor, tempXStart, tempYStart;
 
 	/**
 	 * 
@@ -112,8 +112,12 @@ public class GraphicHandler extends DefaultHandler {
 					graphic.setDuration(attributes.getValue("duration"));
 					graphic.setGraphicColor(attributes.getValue("graphiccolor"));
 					graphic.setStartTime(attributes.getValue("starttime"));
+					graphic.setXStart(attributes.getValue("xstart"));
+					graphic.setYStart(attributes.getValue("ystart"));
 					startElement(uri,attributes.getValue("type"),attributes.getValue("type"),attributes);
 				} else {
+					this.tempXStart = attributes.getValue("xstart");
+					this.tempYStart = attributes.getValue("ystart");
 					this.tempDuration = attributes.getValue("duration");
 					this.tempGraphicColor = attributes.getValue("graphiccolor");
 					this.tempStartTime = attributes.getValue("starttime");
@@ -138,6 +142,8 @@ public class GraphicHandler extends DefaultHandler {
 				
 				if(attributes.getValue("type") == null) {
 					Oval oval = (new CommonShapes(getDefaults()).new Oval(getDefaults()));
+					oval.setXStart(tempXStart);
+					oval.setYStart(tempYStart);
 					oval.setDuration(tempDuration);
 					oval.setGraphicColor(tempGraphicColor);
 					oval.setStartTime(tempStartTime);
@@ -148,6 +154,7 @@ public class GraphicHandler extends DefaultHandler {
 				((Oval)graphic).setYEnd(attributes.getValue("yend"));
 				((Oval)graphic).setXStart(attributes.getValue("xstart"));
 				((Oval)graphic).setYStart(attributes.getValue("ystart"));
+				((Oval)graphic).setGraphicColor(attributes.getValue("graphiccolor"));
 				((Oval)graphic).setOutlineColor(attributes.getValue("outlinecolor"));
 				((Oval)graphic).setOutlineThickness(attributes.getValue("outlinethickness"));
 				((Oval)graphic).setRotation(attributes.getValue("rotation"));
@@ -156,6 +163,8 @@ public class GraphicHandler extends DefaultHandler {
 			case "rectangle":
 				if(attributes.getValue("type") == null) {
 					Rectangle rectangle = (new CommonShapes(getDefaults()).new Rectangle(getDefaults()));
+					rectangle.setXStart(tempXStart);
+					rectangle.setYStart(tempYStart);
 					rectangle.setDuration(tempDuration);
 					rectangle.setGraphicColor(tempGraphicColor);
 					rectangle.setStartTime(tempStartTime);
@@ -166,6 +175,7 @@ public class GraphicHandler extends DefaultHandler {
 				((Rectangle)graphic).setYEnd(attributes.getValue("yend"));
 				((Rectangle)graphic).setXStart(attributes.getValue("xstart"));
 				((Rectangle)graphic).setYStart(attributes.getValue("ystart"));
+				((Rectangle)graphic).setGraphicColor(attributes.getValue("graphiccolor"));
 				((Rectangle)graphic).setOutlineColor(attributes.getValue("outlinecolor"));
 				((Rectangle)graphic).setOutlineThickness(attributes.getValue("outlinethickness"));
 				((Rectangle)graphic).setArcHeight(attributes.getValue("archeight"));
@@ -176,6 +186,8 @@ public class GraphicHandler extends DefaultHandler {
 			case "line":
 				if(attributes.getValue("type") == null) {
 					Line line = (new OtherShapes(getDefaults()).new Line(getDefaults()));
+					line.setXStart(tempXStart);
+					line.setYStart(tempYStart);
 					line.setDuration(tempDuration);
 					line.setGraphicColor(tempGraphicColor);
 					line.setStartTime(tempStartTime);
@@ -184,6 +196,7 @@ public class GraphicHandler extends DefaultHandler {
 				((Line)graphic).setSolid(attributes.getValue("solid"));
 				((Line)graphic).setXEnd(attributes.getValue("xend"));
 				((Line)graphic).setYEnd(attributes.getValue("yend"));
+				((Line)graphic).setGraphicColor(attributes.getValue("graphiccolor"));
 				((Line)graphic).setXStart(attributes.getValue("xstart"));
 				((Line)graphic).setYStart(attributes.getValue("ystart"));
 				((Line)graphic).setThickness(attributes.getValue("thickness"));
@@ -191,6 +204,8 @@ public class GraphicHandler extends DefaultHandler {
 			case "circle":
 				if(attributes.getValue("type") == null) {
 					Circle circle = (new RadialShapes(getDefaults()).new Circle(getDefaults()));
+					circle.setXStart(tempXStart);
+					circle.setYStart(tempYStart);
 					circle.setDuration(tempDuration);
 					circle.setGraphicColor(tempGraphicColor);
 					circle.setStartTime(tempStartTime);
@@ -199,6 +214,7 @@ public class GraphicHandler extends DefaultHandler {
 				((Circle)graphic).setSolid(attributes.getValue("solid"));
 				((Circle)graphic).setXStart(attributes.getValue("xstart"));
 				((Circle)graphic).setYStart(attributes.getValue("ystart"));
+				((Circle)graphic).setGraphicColor(attributes.getValue("graphiccolor"));
 				((Circle)graphic).setOutlineColor(attributes.getValue("outlinecolor"));
 				((Circle)graphic).setOutlineThickness(attributes.getValue("outlinethickness"));
 				((Circle)graphic).setSize(attributes.getValue("size"));
@@ -208,6 +224,8 @@ public class GraphicHandler extends DefaultHandler {
 			case "square":
 				if(attributes.getValue("type") == null) {
 					Square square = (new RadialShapes(getDefaults()).new Square(getDefaults()));
+					square.setXStart(tempXStart);
+					square.setYStart(tempYStart);
 					square.setDuration(tempDuration);
 					square.setGraphicColor(tempGraphicColor);
 					square.setStartTime(tempStartTime);
@@ -216,6 +234,7 @@ public class GraphicHandler extends DefaultHandler {
 				((Square)graphic).setSolid(attributes.getValue("solid"));
 				((Square)graphic).setXStart(attributes.getValue("xstart"));
 				((Square)graphic).setYStart(attributes.getValue("ystart"));
+				((Square)graphic).setGraphicColor(attributes.getValue("graphiccolor"));
 				((Square)graphic).setOutlineColor(attributes.getValue("outlinecolor"));
 				((Square)graphic).setOutlineThickness(attributes.getValue("outlinethickness"));
 				((Square)graphic).setSize(attributes.getValue("size"));
@@ -227,6 +246,8 @@ public class GraphicHandler extends DefaultHandler {
 			case "arrow":
 				if(attributes.getValue("type") == null) {
 					Arrow arrow = (new OtherShapes(getDefaults()).new Arrow(getDefaults()));
+					arrow.setXStart(tempXStart);
+					arrow.setYStart(tempYStart);
 					arrow.setDuration(tempDuration);
 					arrow.setGraphicColor(tempGraphicColor);
 					arrow.setStartTime(tempStartTime);
@@ -238,10 +259,13 @@ public class GraphicHandler extends DefaultHandler {
 				((Arrow)graphic).setXStart(attributes.getValue("xstart"));
 				((Arrow)graphic).setYStart(attributes.getValue("ystart"));
 				((Arrow)graphic).setThickness(attributes.getValue("thickness"));
+				((Arrow)graphic).setGraphicColor(attributes.getValue("graphiccolor"));
 				break;
 			case "equitriangle":
 				if(attributes.getValue("type") == null) {
 					EquilateralTriangle equilateralTriangle = (new RadialShapes(getDefaults()).new EquilateralTriangle(getDefaults()));
+					equilateralTriangle.setXStart(tempXStart);
+					equilateralTriangle.setYStart(tempYStart);
 					equilateralTriangle.setDuration(tempDuration);
 					equilateralTriangle.setGraphicColor(tempGraphicColor);
 					equilateralTriangle.setStartTime(tempStartTime);
@@ -250,6 +274,7 @@ public class GraphicHandler extends DefaultHandler {
 				((EquilateralTriangle)graphic).setSolid(attributes.getValue("solid"));
 				((EquilateralTriangle)graphic).setXStart(attributes.getValue("xstart"));
 				((EquilateralTriangle)graphic).setYStart(attributes.getValue("ystart"));
+				((EquilateralTriangle)graphic).setGraphicColor(attributes.getValue("graphiccolor"));
 				((EquilateralTriangle)graphic).setOutlineColor(attributes.getValue("outlinecolor"));
 				((EquilateralTriangle)graphic).setOutlineThickness(attributes.getValue("outlinethickness"));
 				((EquilateralTriangle)graphic).setSize(attributes.getValue("size"));
@@ -260,6 +285,8 @@ public class GraphicHandler extends DefaultHandler {
 				yPoints = new ArrayList<Float>();
 				if(attributes.getValue("type") == null) {
 					Triangle triangle = (new OtherShapes(getDefaults()).new Triangle(getDefaults()));
+					triangle.setXStart(tempXStart);
+					triangle.setYStart(tempYStart);
 					triangle.setDuration(tempDuration);
 					triangle.setGraphicColor(tempGraphicColor);
 					triangle.setStartTime(tempStartTime);
@@ -269,12 +296,15 @@ public class GraphicHandler extends DefaultHandler {
 				((Triangle)graphic).setXStart(attributes.getValue("xstart"));
 				((Triangle)graphic).setYStart(attributes.getValue("ystart"));
 				((Triangle)graphic).setOutlineThickness(attributes.getValue("outlinethickness"));
+				((Triangle)graphic).setGraphicColor(attributes.getValue("graphiccolor"));
 				((Triangle)graphic).setOutlineColor(attributes.getValue("outlinecolor"));
 				((Triangle)graphic).setRotation(attributes.getValue("rotation"));
 				break;
 			case "regpolygon":
 				if(attributes.getValue("type") == null) {
 					RegularPolygon regularPolygon = (new RadialShapes(getDefaults()).new RegularPolygon(getDefaults()));
+					regularPolygon.setXStart(tempXStart);
+					regularPolygon.setYStart(tempYStart);
 					regularPolygon.setDuration(tempDuration);
 					regularPolygon.setGraphicColor(tempGraphicColor);
 					regularPolygon.setStartTime(tempStartTime);
@@ -283,6 +313,7 @@ public class GraphicHandler extends DefaultHandler {
 				((RegularPolygon)graphic).setSolid(attributes.getValue("solid"));
 				((RegularPolygon)graphic).setXStart(attributes.getValue("xstart"));
 				((RegularPolygon)graphic).setYStart(attributes.getValue("ystart"));
+				((RegularPolygon)graphic).setGraphicColor(attributes.getValue("graphiccolor"));
 				((RegularPolygon)graphic).setOutlineColor(attributes.getValue("outlinecolor"));
 				((RegularPolygon)graphic).setOutlineThickness(attributes.getValue("outlinethickness"));
 				((RegularPolygon)graphic).setSize(attributes.getValue("size"));
@@ -294,6 +325,8 @@ public class GraphicHandler extends DefaultHandler {
 				yPoints = new ArrayList<Float>();
 				if(attributes.getValue("type") == null) {
 					Polygon polygon = (new OtherShapes(getDefaults()).new Polygon(getDefaults()));
+					polygon.setXStart(tempXStart);
+					polygon.setYStart(tempYStart);
 					polygon.setDuration(tempDuration);
 					polygon.setGraphicColor(tempGraphicColor);
 					polygon.setStartTime(tempStartTime);
@@ -303,12 +336,15 @@ public class GraphicHandler extends DefaultHandler {
 				((Polygon)graphic).setXStart(attributes.getValue("xstart"));
 				((Polygon)graphic).setYStart(attributes.getValue("ystart"));
 				((Polygon)graphic).setOutlineThickness(attributes.getValue("outlinethickness"));
+				((Polygon)graphic).setGraphicColor(attributes.getValue("graphiccolor"));
 				((Polygon)graphic).setOutlineColor(attributes.getValue("outlinecolor"));
 				((Polygon)graphic).setRotation(attributes.getValue("rotation"));
 				break;
 			case "star":
 				if(attributes.getValue("type") == null) {
 					Star star = (new RadialShapes(getDefaults()).new Star(getDefaults()));
+					star.setXStart(tempXStart);
+					star.setYStart(tempYStart);
 					star.setDuration(tempDuration);
 					star.setGraphicColor(tempGraphicColor);
 					star.setStartTime(tempStartTime);
@@ -317,6 +353,7 @@ public class GraphicHandler extends DefaultHandler {
 				((Star)graphic).setSolid(attributes.getValue("solid"));
 				((Star)graphic).setXStart(attributes.getValue("xstart"));
 				((Star)graphic).setYStart(attributes.getValue("ystart"));
+				((Star)graphic).setGraphicColor(attributes.getValue("graphiccolor"));
 				((Star)graphic).setOutlineColor(attributes.getValue("outlinecolor"));
 				((Star)graphic).setOutlineThickness(attributes.getValue("outlinethickness"));
 				((Star)graphic).setSize(attributes.getValue("size"));
@@ -326,6 +363,8 @@ public class GraphicHandler extends DefaultHandler {
 			case "chord":
 				if(attributes.getValue("type") == null) {
 					Chord chord = (new OtherShapes(getDefaults()).new Chord(getDefaults()));
+					chord.setXStart(tempXStart);
+					chord.setYStart(tempYStart);
 					chord.setDuration(tempDuration);
 					chord.setGraphicColor(tempGraphicColor);
 					chord.setStartTime(tempStartTime);
@@ -334,6 +373,7 @@ public class GraphicHandler extends DefaultHandler {
 				((Chord)graphic).setSolid(attributes.getValue("solid"));
 				((Chord)graphic).setXStart(attributes.getValue("xstart"));
 				((Chord)graphic).setYStart(attributes.getValue("ystart"));
+				((Chord)graphic).setGraphicColor(attributes.getValue("graphiccolor"));
 				((Chord)graphic).setOutlineColor(attributes.getValue("outlinecolor"));
 				((Chord)graphic).setOutlineThickness(attributes.getValue("outlinethickness"));
 				((Chord)graphic).setRotation(attributes.getValue("rotation"));
@@ -345,6 +385,8 @@ public class GraphicHandler extends DefaultHandler {
 			case "arc":
 				if(attributes.getValue("type") == null) {
 					Arc arc = (new OtherShapes(getDefaults()).new Arc(getDefaults()));
+					arc.setXStart(tempXStart);
+					arc.setYStart(tempYStart);
 					arc.setDuration(tempDuration);
 					arc.setGraphicColor(tempGraphicColor);
 					arc.setStartTime(tempStartTime);
@@ -353,6 +395,7 @@ public class GraphicHandler extends DefaultHandler {
 				((Arc)graphic).setSolid(attributes.getValue("solid"));
 				((Arc)graphic).setXStart(attributes.getValue("xstart"));
 				((Arc)graphic).setYStart(attributes.getValue("ystart"));
+				((Arc)graphic).setGraphicColor(attributes.getValue("graphiccolor"));
 				((Arc)graphic).setOutlineColor(attributes.getValue("outlinecolor"));
 				((Arc)graphic).setOutlineThickness(attributes.getValue("outlinethickness"));
 				((Arc)graphic).setRotation(attributes.getValue("rotation"));
@@ -367,7 +410,7 @@ public class GraphicHandler extends DefaultHandler {
 				yPoints.add(new Float(attributes.getValue("y")));
 				break;
 			default:
-				System.err.println("Unknown start tag encountered: " + elementName);
+				graphic = null;
 				break;
 		}
 		//graphic.printItem();
@@ -392,8 +435,9 @@ public class GraphicHandler extends DefaultHandler {
 				((Polygon)graphic).setxPoints(xPoints);
 				((Polygon)graphic).setyPoints(yPoints);
 			}
-			slide.add(graphic);
-			
+			if(graphic != null) {
+				slide.add(graphic);
+			}
 			reader.setContentHandler(parentHandler);
 		}
 	}

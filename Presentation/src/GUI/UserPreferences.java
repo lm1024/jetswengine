@@ -10,11 +10,11 @@ public class UserPreferences {
 
 	private int screenId = 0;
 	private Rectangle2D bounds;
-	private boolean isAudioPause = false;
-	private boolean isVideoPause = false;
-	private boolean isSlideAuto = false;
-	private boolean isQuestionsLogged = false;
-	private boolean isOTSLogged = false;
+	private boolean isAudioPause = true;
+	private boolean isVideoPause = true;
+	private boolean isSlideAuto = true;
+	private boolean isQuestionsLogged = true;
+	private boolean isOTSLogged = true;
 	private File initDir; // directory for open file
 	
 	/* Files to store user data in */

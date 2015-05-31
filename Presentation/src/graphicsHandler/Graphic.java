@@ -219,8 +219,8 @@ public class Graphic {
 			drawRegularPolygon(
 				xStartPos,
 				yStartPos,
-				width,
-				height,
+				size,
+				size,
 				numberOfSides,
 				color,
 				solid,
@@ -1014,7 +1014,6 @@ public class Graphic {
 		int a = 0;
 		double z = 0;
 		Polygon star = new Polygon();
-		colorShape(star, solid, starColor, outlineColor, outlineThickness, shadowType, shadingType, shadingStops);
 
 		while (a < ((2 * numberOfPoints) + 1)) {
 			z = ((a * Math.PI) / numberOfPoints);
@@ -1031,6 +1030,8 @@ public class Graphic {
 			}
 			a++;
 		}
+		
+		colorShape(star, solid, starColor, outlineColor, outlineThickness, shadowType, shadingType, shadingStops);
 
 		shape = star;
 
