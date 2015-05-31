@@ -9,7 +9,7 @@
 	</documentinfo>
 	<defaultsettings>
 		<backgroundcolor>#00000000</backgroundcolor>
-		<font>ariel</font>
+		<font>arial</font>
 		<fontsize>24</fontsize>
 		<fontcolor>#ff000000</fontcolor>
 		<graphiccolor>#ffff0000</graphiccolor>
@@ -28,7 +28,7 @@
 	</defaultsettings>
 
 	<slide>
-		<image sourcefile="bg.png" xstart="0" ystart="0" xend="1" yend="1"/>
+		<image sourcefile="bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
 
 		<text xstart="0.1" ystart="0.45" xend="0.9" yend="0.55"
 			fontsize="100" fontcolor="#ff0000ff" alignment="center">
@@ -39,9 +39,9 @@
 	</slide>
 	
 	<slide>
-		<image sourcefile="bg.png" xstart="0" ystart="0" xend="1" yend="1"/>
+		<image sourcefile="bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
 		
-		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" font="arial"
+		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" 
 			fontsize="50" fontcolor="#ff0000ff" alignment="center">
 			<richtext bold= "true" underlined="true">
 				Financial Performance of WaveMedia
@@ -50,7 +50,7 @@
 		
 		<text xstart="0.1" ystart="0.2" xend="0.9" yend="0.8" fontsize="42" fontcolor="#ff000000" alignment="left">
 			<richtext>
-				Successfully completed deliverables within time frame and budget
+				Successfully completed deliverables within time frame and budget.
 			</richtext>
 		</text>
 		
@@ -59,9 +59,9 @@
 	</slide>
 	
 	<slide>
-		<image sourcefile="bg.png" xstart="0" ystart="0" xend="1" yend="1"/>
+		<image sourcefile="bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
 		
-		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" font="arial"
+		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" 
 			fontsize="50" fontcolor="#ff0000ff" alignment="center">
 			<richtext bold= "true" underlined="true">
 				Future Forecast			
@@ -70,20 +70,19 @@
 		
 		<text xstart="0.1" ystart="0.2" xend="0.9" yend="0.8" fontsize="42" fontcolor="#ff000000" alignment="left">
 			<richtext>
-				Budget based on previous performance\n
-				Expected to reach 9% of Target Market by the end of our Third Year of sales
-
+				Budget based on previous performance.\n
+				Expected to reach 9% of target market by the end of our third year of sales.
 			</richtext>
 		</text>
 		
-		<image sourcefile="finance/2.png" xstart="0.2" ystart="0.3" xend="0.8"/>
+		<image sourcefile="finance/2.png" xstart="0.3" ystart="0.4" xend="0.7"/>
 
 	</slide>
 	
 	<slide>
-		<image sourcefile="bg.png" xstart="0" ystart="0" xend="1" yend="1"/>
+		<image sourcefile="bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
 		
-		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" font="arial"
+		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" 
 			fontsize="50" fontcolor="#ff0000ff" alignment="center">
 			<richtext bold= "true" underlined="true">
 				Pricing		
@@ -92,23 +91,26 @@
 		
 		<text xstart="0.1" ystart="0.2" xend="0.9" yend="0.8" fontsize="42" fontcolor="#ff000000" alignment="left">
 			<richtext>
-				Competitive pricing based our marketing research\n\n
-				Cost Plus Pricing\n
+				Competitive pricing based on our marketing research.\n\n
+				
+			</richtext>
+			<richtext underlined="true">
+				\nCost Plus Pricing\n
 			</richtext>
 			<richtext fontcolor="#ff4F81BD">
-				Cost Of Sales\n
+				\n&#8226; Cost Of Sales\n
 			</richtext>
 			<richtext fontcolor="#ffC0504D">
-				VAT\n
+				&#8226; VAT\n
 			</richtext>
 			<richtext fontcolor="#ff9BBB59">
-				Overheads\n
+				&#8226; Overheads\n
 			</richtext>
 			<richtext fontcolor="#ff8064A2">
-				Profit\n
+				&#8226; Profit\n
 			</richtext>
 			<richtext>
-				&#163;50 gives a 21% profit
+				\n&#8226;  &#163;50 gives a 21% profit
 			</richtext>
 		</text>
 		
@@ -117,9 +119,9 @@
 	</slide>
 	
 	<slide>
-		<image sourcefile="bg.png" xstart="0" ystart="0" xend="1" yend="1"/>
+		<image sourcefile="bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
 		
-		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" font="arial"
+		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" 
 			fontsize="50" fontcolor="#ff0000ff" alignment="center">
 			<richtext bold= "true" underlined="true">
 				Breakeven Volume		
@@ -130,9 +132,9 @@
 	</slide>
 	
 	<slide>
-		<image sourcefile="bg.png" xstart="0" ystart="0" xend="1" yend="1"/>
+		<image sourcefile="bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
 		
-		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" font="arial"
+		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" 
 			fontsize="50" fontcolor="#ff0000ff" alignment="center">
 			<richtext bold= "true" underlined="true">
 				The Future of SmartSlides		
@@ -141,24 +143,53 @@
 		
 		<text xstart="0.1" ystart="0.2" xend="0.9" yend="0.8" fontsize="42" fontcolor="#ff000000" alignment="left">
 			<richtext>
-				3.25 Year Payback on Investment
+				2.25 year payback on investment.
 			</richtext>
 		</text>
 		
-		<image sourcefile="finance/5.png" xstart="0.2" ystart="0.3" xend="0.8"/>
+		<image sourcefile="finance/5.png" xstart="0.3" ystart="0.35" xend="0.7"/>
 	</slide>
 	
 	<slide>
-		<image sourcefile="bg.png" xstart="0" ystart="0" xend="1" yend="1"/>
+		<image sourcefile="bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
 		
-		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" font="arial"
+		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" 
 			fontsize="50" fontcolor="#ff0000ff" alignment="center">
 			<richtext bold= "true" underlined="true">
 				Return On Sales
 			</richtext>
 		</text>
 		
-		<image sourcefile="finance/6.png" xstart="0.1" ystart="0.3" xend="0.9"/>
+		<image sourcefile="finance/6.jpg" xstart="0.1" ystart="0.3" xend="0.9"/>
+	</slide>
+	
+	<slide>
+		<image sourcefile="bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
+		
+		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" 
+			fontsize="50" fontcolor="#ff0000ff" alignment="center">
+			<richtext bold= "true" underlined="true">
+				Thanks for listening!
+			</richtext>
+		</text>
+		
+		<text xstart="0.1" ystart="0.2" xend="0.9" yend="0.8" fontsize="42" fontcolor="#ff000000" alignment="left">
+			<richtext>
+				Have you enjoyed using SmartSlides?\n\n\n\n
+				A: I thoroughly enjoyed it!\n\n
+				B: It was okay.\n\n
+				C: It was too complicated.\n\n
+				D: Prefer not to say.\n\n
+			</richtext>
+		</text>
+		
+		<question id="Have you enjoyed using SmartSlides?" logfile="enjoyed"> 
+			<answer id="I thoroughly enjoyed it!" correct="true"/> 
+			<answer id="It was okay." correct="false"/> 
+			<answer id="It was rubbish." correct="false"/> 
+			<answer id="Prefer not to say." correct="false"/> 
+		</question>
+		
 	</slide>
 	
 </slideshow>

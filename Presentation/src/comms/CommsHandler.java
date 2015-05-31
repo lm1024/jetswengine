@@ -154,7 +154,7 @@ public class CommsHandler {
 
 					while (parent.isOnline()) {
 						String input = in.readLine();
-						//System.out.println(input);
+						
 						if (input == null) {
 							break;
 						} else if (input.matches("^(SOCKET_CLOSE)$")) {
@@ -162,7 +162,7 @@ public class CommsHandler {
 							break;
 						}
 						if (input.matches("^([0-9]{1,3})[.]([0-9]{1,3})[.]([0-9]{1,3})[.]([0-9]{1,3}[:][0-3])$")) {
-							//System.out.println("Answer");
+							//System.out.println(input);
 
 							String[] splitInput = input.split(":");
 
