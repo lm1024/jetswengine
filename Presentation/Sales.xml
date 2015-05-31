@@ -29,8 +29,8 @@
 
 	<slide>
 		<image sourcefile="bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
-
-		<text xstart="0.1" ystart="0.45" xend="0.9" yend="0.55"
+		
+		<text xstart="0.1" ystart="0.4" xend="0.9" yend="0.55"
 			fontsize="100" fontcolor="#ff0000ff" alignment="center">
 			<richtext bold= "true" underlined="true">
 				Target Market
@@ -62,7 +62,7 @@
 	<slide>
 		<image sourcefile="bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
 
-		<text xstart="0.1" ystart="0.45" xend="0.9" yend="0.55"
+		<text xstart="0.1" ystart="0.40" xend="0.9" yend="0.55"
 			fontsize="100" fontcolor="#ff0000ff" alignment="center">
 			<richtext bold= "true" underlined="true">
 				Consumer Survey
@@ -122,22 +122,49 @@
 		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" 
 			fontsize="50" fontcolor="#ff0000ff" alignment="center">
 			<richtext bold= "true" underlined="true">
-				Higher Education Market Statistics
+				Market Size
 			</richtext>
 		</text>
 		
 		<text xstart="0.1" ystart="0.2" xend="0.9" yend="0.8" fontsize="42" fontcolor="#ff000000" alignment="left">
 			<richtext>
-				Market Statistics\n
-				&#8226; Academic Staff: 194,245 (2013/2014)\n
-				&#8226; Students: 2,299,355 (2013/2014)\n
-				&#8226; Universities: 169 (present)\n\n
-				Product Access Statistics\n
-				&#8226; Lecturers with Access to a Room with Projector and WiFi: 90% (estimation)\n
-				&#8226; Lecturers with Access to a Windows Computer: 95% (estimation)\n
-				&#8226; Students with a Smartphone: 82% (2013)\n
-				&#8226; Students with a Tablet: 20% (2013)\n
-				&#8226; Android Share of UK Tablet/Mobile Market: 50% (estimation)\n
+				Consumer Numbers\n
+				&#8226; Academic Staff: 
+			</richtext>
+			<richtext bold = "true">
+				194,245 
+			</richtext>
+			<richtext>
+				(2013/2014)\n
+				&#8226; Students: 
+			</richtext>
+			<richtext bold = "true">
+				2,299,355 
+			</richtext>
+			<richtext>
+				&#40;2013/2014&#41;\n
+				&#8226; Universities: 
+			</richtext>
+			<richtext bold = "true">
+				169
+			</richtext>
+			<richtext afterspace = "1">
+				&#40;present&#41;\n\n
+				Access to product \n
+				&#8226; Students: 
+			</richtext>
+			<richtext bold = "true" afterspace = "1">
+				90&#37;
+			</richtext>
+			<richtext afterspace = "1">
+				&#40;estimate based on number of students with android devices, mac laptops or windows laptops&#41;\n
+				&#8226; Lecturers: 
+			</richtext>
+			<richtext bold = "true" afterspace = "1">
+				95&#37;
+			</richtext>
+			<richtext>
+				&#40;estimate based on lecturers access to WiFi, projectors and windows computers&#41;
 			</richtext>
 		</text>
 	</slide>
@@ -145,7 +172,7 @@
 	<slide>
 		<image sourcefile="bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
 
-		<text xstart="0.1" ystart="0.45" xend="0.9" yend="0.55"
+		<text xstart="0.1" ystart="0.40" xend="0.9" yend="0.55"
 			fontsize="100" fontcolor="#ff0000ff" alignment="center">
 			<richtext bold= "true" underlined="true">
 				Market Growth and Trends
@@ -199,76 +226,30 @@
 		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" 
 			fontsize="50" fontcolor="#ff0000ff" alignment="center">
 			<richtext bold= "true" underlined="true">
-				Percentage of the Population with Smartphones Expected to Reach Saturation at 90% in 2019
-			</richtext>
-		</text>
-		
-		<image sourcefile="sales/8.png" xstart="0.3" ystart="0.25" xend="0.7"/>
-
-		<text xstart="0.1" ystart="0.85" xend="0.9" yend="0.9" 
-			fontsize="36" fontcolor="#ff0000ff" alignment="center">
-			<richtext bold= "true" underlined="true">
-				Image sourced from www.asymco.com
-			</richtext>
-		</text>
-	</slide>
-	
-	<slide>
-		<image sourcefile="bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
-		
-		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" 
-			fontsize="50" fontcolor="#ff0000ff" alignment="center">
-			<richtext bold= "true" underlined="true">
-				Percentage of the Population that use Tablets Expected to Reach Saturation at 60% in 2019
-			</richtext>
-		</text>
-		
-		<image sourcefile="sales/9.png" xstart="0.3" ystart="0.25" xend="0.7"/>
-
-		<text xstart="0.1" ystart="0.85" xend="0.9" yend="0.9" 
-			fontsize="36" fontcolor="#ff0000ff" alignment="center">
-			<richtext bold= "true" underlined="true">
-				Image sourced from www.theguardian.com
-			</richtext>
-		</text>
-	</slide>
-	
-	<slide>
-		<image sourcefile="bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
-		
-		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" 
-			fontsize="50" fontcolor="#ff0000ff" alignment="center">
-			<richtext bold= "true" underlined="true">
-				Android Market Share Expected to Rise Over The Next 2 Years
-			</richtext>
-		</text>
-		
-		<image sourcefile="sales/10.png" xstart="0.3" ystart="0.25" xend="0.7"/>
-
-		<text xstart="0.1" ystart="0.85" xend="0.9" yend="0.9" 
-			fontsize="36" fontcolor="#ff0000ff" alignment="center">
-			<richtext bold= "true" underlined="true">
-				Image sourced from www.theguardian.com
-			</richtext>
-		</text>
-	</slide>
-	
-	<slide>
-		<image sourcefile="bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
-		
-		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" 
-			fontsize="50" fontcolor="#ff0000ff" alignment="center">
-			<richtext bold= "true" underlined="true">
-				Future Trends of Other Statistics 			
+				Predictions for Product Access			
 			</richtext>
 		</text>
 		
 		<text xstart="0.1" ystart="0.2" xend="0.9" yend="0.8" fontsize="42" fontcolor="#ff000000" alignment="left">
+			<richtext afterspace = "1">
+				We expect number of students with access to product to increase to above
+			</richtext>
+			<richtext bold="true" afterspace = "1">
+				95&#37; 
+			</richtext>
+			<richtext afterspace = "1"> 
+				after 3 years\n\n
+				&#8226; Percentage of students with a required device expected to increase\n
+				&#8226; We will expand into iOS market in update\n\n
+				Number of lecturers with access to product also expected to increase to above\n
+			</richtext>
+			<richtext bold="true" afterspace = "1">
+				95&#37; 
+			</richtext>
 			<richtext>
-				Expected to stay constant or have slow growth over the next five years as figures have reached maturity.\n
-				Number of lecturers with access to WiFi and projectors \n
-				Number of lecturers with access to a windows computer \n
-				Number of universities\n
+				after 3 years\n\n
+				&#8226; Access figures have reached maturity\n
+				&#8226; We will release presentation software for Mac in update\n
 			</richtext>
 		</text>
 	</slide>
@@ -305,7 +286,7 @@
 	<slide>
 		<image sourcefile="bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
 
-		<text xstart="0.1" ystart="0.45" xend="0.9" yend="0.55"
+		<text xstart="0.1" ystart="0.40" xend="0.9" yend="0.55"
 			fontsize="100" fontcolor="#ff0000ff" alignment="center">
 			<richtext bold= "true" underlined="true">
 				Pricing
@@ -352,11 +333,40 @@
 		
 	</slide>
 	
+	<slide>
+		<image sourcefile="bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
+		
+		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" 
+			fontsize="50" fontcolor="#ff0000ff" alignment="center">
+			<richtext bold= "true" underlined="true">
+				Competition		
+			</richtext>
+		</text>
+		
+		<text xstart="0.1" ystart="0.2" xend="0.9" yend="0.8" fontsize="42" fontcolor="#ff000000" alignment="left">
+			<richtext afterspace="1">
+				PowerPoint\n\n
+				&#8226; No audience interaction\n
+				&#8226; Price: &#163;69.99 \n
+				Socrative \n\n
+				&#8226; Does not include presentation software\n
+				&#8226; Price: Free &#40;beta version, will not be free in the future&#41;\n
+				TopHat\n\n
+				&#8226; Based in Canada, not much presence in the UK market\n
+				&#8226; Price: &#36;72 for student app, free for lecturers\n
+			</richtext>
+			
+		</text>
+		
+		<image sourcefile="sales/11.png" xstart="0.15" ystart="0.6" xend="0.85"/>
+		
+	</slide>
+	
 	
 	<slide>
 		<image sourcefile="bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
 
-		<text xstart="0.1" ystart="0.45" xend="0.9" yend="0.55"
+		<text xstart="0.1" ystart="0.40" xend="0.9" yend="0.55"
 			fontsize="100" fontcolor="#ff0000ff" alignment="center">
 			<richtext bold= "true" underlined="true">
 				Finance
@@ -380,7 +390,7 @@
 			</richtext>
 		</text>
 		
-		<image sourcefile="finance/1.png" xstart="0.2" ystart="0.3" xend="0.8"/>
+		<image sourcefile="finance/1.jpg" xstart="0.2" ystart="0.3" xend="0.8"/>
 
 	</slide>
 	
@@ -512,10 +522,9 @@
 		<question id="Have you enjoyed using SmartSlides?" logfile="enjoyed"> 
 			<answer id="I thoroughly enjoyed it!" correct="true"/> 
 			<answer id="It was okay." correct="false"/> 
-			<answer id="It was rubbish." correct="false"/> 
+			<answer id="It was too complicated." correct="false"/> 
 			<answer id="Prefer not to say." correct="false"/> 
 		</question>
-		
 	</slide>
 	
 </slideshow>

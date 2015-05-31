@@ -1,0 +1,170 @@
+<?xml version="1.0"?>
+
+<slideshow>
+	<documentinfo>
+		<author>WaveMedia</author>
+		<version>Version 1.0</version>
+		<comment>Sales</comment>
+		<groupid>2</groupid>
+	</documentinfo>
+	<defaultsettings>
+		<backgroundcolor>#00000000</backgroundcolor>
+		<font>Calibri Light</font>
+		<fontsize>24</fontsize>
+		<fontcolor>#ff000000</fontcolor>
+		<graphiccolor>#ffff0000</graphiccolor>
+		<highlightcolor>#00000000</highlightcolor>
+		<starttime>0</starttime>
+		<duration>Float.MAX_VALUE</duration>
+		<alignment>left</alignment>
+		<scale>1</scale>
+		<rotation>0</rotation>
+		<cropx1>0</cropx1>
+		<cropy1>0</cropy1>
+		<cropx2>1</cropx2>
+		<cropy2>1</cropy2>
+		<originalxresolution>1280</originalxresolution>
+		<originalyresolution>800</originalyresolution>
+	</defaultsettings>
+
+	<slide>		
+		<text xstart="0.1" ystart="0.4" xend="0.9" yend="0.55"
+			fontsize="100" fontcolor="#ff000000" alignment="center">
+			<richtext bold= "true" underlined="true">
+				Electronics\n
+			</richtext>
+			<richtext fontsize = "40">
+				A simple introduction.\n
+			</richtext>
+		</text>	
+	</slide>
+	
+	<slide>
+		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" 
+			fontsize="50" fontcolor="#ff000000" alignment="center">
+			<richtext bold= "true" underlined="true">
+				What are analogue circuits?
+			</richtext>
+		</text>
+		
+		<text xstart="0.1" ystart="0.2" xend="0.9" yend="0.8" fontsize="42" fontcolor="#ff000000" alignment="left">
+			<richtext>
+				&#8226; Signals are continuously variable\n\n
+				&#8226; Needed for most environmental interaction\n\n
+				&#8226; Susceptible to noise\n\n
+			</richtext>
+		</text>
+	</slide>
+	
+	<slide>
+		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" 
+			fontsize="50" fontcolor="#ff000000" alignment="center">
+			<richtext bold= "true" underlined="true">
+				Op&#8208;Amps
+			</richtext>
+		</text>
+		
+		<text xstart="0.1" ystart="0.2" xend="0.9" yend="0.8" fontsize="42" fontcolor="#ff000000" alignment="left">
+			<richtext>
+				Properties of an Ideal op amp:\n\n\n\n
+				&#8226;  Infinite Voltage Gain and Input Impedance\n\n
+				&#8226;  Infinite Bandwidth\n\n
+				&#8226;  Zero Output Impedance\n\n
+
+			</richtext>
+		</text>
+	</slide>
+	
+	<slide>
+		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" 
+			fontsize="50" fontcolor="#ff000000" alignment="center">
+			<richtext bold= "true" underlined="true">
+				Before we move on...
+			</richtext>
+		</text>
+		
+		<text xstart="0.1" ystart="0.2" xend="0.9" yend="0.8" fontsize="42" fontcolor="#ff000000" alignment="left">
+			<richtext>
+				Which of these is not a feature of an ideal Op&#8208;Amp?\n\n
+				A&#41; Zero Output Impedance\n
+				B&#41; Zero Gain\n
+				C&#41; Infinite Bandwidth\n
+				D&#41; Infinite Input Impedance\n
+			</richtext>
+		</text>
+		
+		<question id="Which of these is not a feature of an ideal Op-Amp?" logfile="opamps"> 
+			<answer id="Zero Output Impedance" correct="true"/> 
+			<answer id="Zero Gain" correct="false"/> 
+			<answer id="Infinite Bandwidth" correct="false"/> 
+			<answer id="Infinite Input Impedance" correct="false"/> 
+		</question>
+	</slide>
+	
+	<slide>
+		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" 
+			fontsize="50" fontcolor="#ff000000" alignment="center">
+			<richtext bold= "true" underlined="true">
+				What are digital electronic circuits?
+			</richtext>
+		</text>
+		
+		<text xstart="0.1" ystart="0.2" xend="0.9" yend="0.8" fontsize="42" fontcolor="#ff000000" alignment="left">
+			<richtext>
+				&#8226; Use discrete levels to represent signals\n\n
+				&#8226; Implemented with components such as logic gates\n\n
+				&#8226; Used in the majority of modern computers\n\n
+			</richtext>
+		</text>
+	</slide>
+	
+	<slide>
+		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" 
+			fontsize="50" fontcolor="#ff000000" alignment="center">
+			<richtext bold= "true" underlined="true">
+				Digital Logic, what do you know?
+			</richtext>
+		</text>
+		
+		<text xstart="0.1" ystart="0.2" xend="0.9" yend="0.8" fontsize="42" fontcolor="#ff000000" alignment="left">
+			<richtext>
+				This gate has the operation\n\n
+				A&#41; AND\n
+				B&#41; OR\n
+				C&#41; NOT\n
+				D&#41; I am unsure\n
+			</richtext>
+		</text>
+		
+		<question id="AND gate operation" logfile="andgate"> 
+			<answer id="AND" correct="true"/> 
+			<answer id="OR" correct="false"/> 
+			<answer id="NOT" correct="false"/> 
+			<answer id="I am unsure" correct="false"/> 
+		</question>
+		
+	<image sourcefile="and.png" xstart="0.5" ystart="0.3" xend="0.85"/>
+
+	</slide>
+	
+	<slide tangent = "true">
+		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" 
+			fontsize="50" fontcolor="#ff000000" alignment="center">
+			<richtext bold= "true" underlined="true">
+				Tangent: Digital Logic
+			</richtext>
+		</text>
+		
+		<text xstart="0.1" ystart="0.2" xend="0.9" yend="0.8" fontsize="42" fontcolor="#ff000000" alignment="left">
+			<richtext>
+				&#8226; Used to perform operations on logic signals\n\n
+				&#8226; Any  number can be combined to achieve a desired output\n\n
+				&#8226; Can be thought of using truth tables like this:\n\n
+			</richtext>
+		</text>
+		
+			<image sourcefile="table.png" xstart="0.35" ystart="0.55" xend="0.6"/>
+
+	</slide>
+	
+</slideshow>
