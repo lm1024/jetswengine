@@ -158,7 +158,7 @@ public class QuestionActivity extends ActionBarActivity {
                 int serverPort = SERVER_PORT;
                 /* Create new Socket */
                 socket = new Socket();
-                socket.connect(new InetSocketAddress(serverAddr,serverPort),3000);
+                socket.connect(new InetSocketAddress(serverAddr,serverPort),10000);
                 /* Create new PrintWriter on created socket */
                 out = new PrintWriter(socket.getOutputStream(), true);
                 ready = true;
@@ -544,7 +544,7 @@ public class QuestionActivity extends ActionBarActivity {
                     int serverPort = SERVER_PORT;
                 /* Create new Socket */
                     socket = new Socket();
-                    socket.connect(new InetSocketAddress(serverAddr, serverPort), 3000);
+                    socket.connect(new InetSocketAddress(serverAddr, serverPort), 10000);
                 /* Create new PrintWriter on created socket */
                     out = new PrintWriter(socket.getOutputStream(), true);
                 }
