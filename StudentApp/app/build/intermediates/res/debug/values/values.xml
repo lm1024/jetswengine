@@ -206,6 +206,7 @@
     <string name="option_c">C</string>
     <string name="option_d">D</string>
     <string name="question">Send a Question:</string>
+    <string name="sc_error">Invalid Question</string>
     <string name="send">Send</string>
     <string name="title_activity_open">Open</string>
     <!-- From: file:/C:/Users/Harrison/Documents/jetswengine/StudentApp/app/src/main/res/values/styles.xml -->

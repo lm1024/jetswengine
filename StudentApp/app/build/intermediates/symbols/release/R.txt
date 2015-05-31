@@ -475,8 +475,9 @@ int string option_b 0x7f0b001b
 int string option_c 0x7f0b001c
 int string option_d 0x7f0b001d
 int string question 0x7f0b001e
-int string send 0x7f0b001f
-int string title_activity_open 0x7f0b0020
+int string sc_error 0x7f0b001f
+int string send 0x7f0b0020
+int string title_activity_open 0x7f0b0021
 int style AppTheme 0x7f0c0000
 int style Base_TextAppearance_AppCompat 0x7f0c0001
 int style Base_TextAppearance_AppCompat_Body1 0x7f0c0002

@@ -1453,8 +1453,9 @@ containing a value of this type.
         public static final int option_c=0x7f0b001c;
         public static final int option_d=0x7f0b001d;
         public static final int question=0x7f0b001e;
-        public static final int send=0x7f0b001f;
-        public static final int title_activity_open=0x7f0b0020;
+        public static final int sc_error=0x7f0b001f;
+        public static final int send=0x7f0b0020;
+        public static final int title_activity_open=0x7f0b0021;
     }
     public static final class style {
         /**  Customize your theme here. 
