@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigInteger;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.nio.ByteOrder;
@@ -156,7 +157,8 @@ public class Open extends ActionBarActivity {
                 /* server Port is always 80 */
                 int serverPort = QuestionActivity.SERVER_PORT;
                 /* Create new Socket */
-                socket = new Socket(serverAddr, serverPort);
+                socket = new Socket();
+                socket.connect(new InetSocketAddress(serverAddr,serverPort),1000);
                 /* Create new PrintWriter on created socket */
                 out = new PrintWriter(socket.getOutputStream(), true);
             } catch (Exception e) {

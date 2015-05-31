@@ -35,4 +35,6 @@
     <string name="edit">Edit</string>
     <!-- Connection Error Alert Dialog Error String Resource -->
     <string name="connection_error">Can\'t Connect to Server</string>
+    <!-- Invalid Question Error -->
+    <string name="sc_error">Invalid Question</string>
 </resources>

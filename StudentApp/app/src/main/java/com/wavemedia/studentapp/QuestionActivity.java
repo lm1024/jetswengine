@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigInteger;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.nio.ByteOrder;
@@ -45,6 +46,8 @@ public class QuestionActivity extends ActionBarActivity {
 
     /* Server Port is always 80 */
     public final static int SERVER_PORT = 80;
+
+    public final static String SC = "SOCKET_CLOSE";
 
     /* Comms Variables */
     Thread networkingThread;
@@ -72,6 +75,8 @@ public class QuestionActivity extends ActionBarActivity {
     Boolean ready = false;
     /* Boolean to prevent GUI Edits in finished activities */
     private boolean visible = false;
+    private boolean timeoutDialog;
+    AlertDialog connectionAlertDialog;
 
     /* Method for getting IP Address on Wifi-enabled devices */
     protected String getWifiIpAddress(Context context) {
@@ -144,7 +149,8 @@ public class QuestionActivity extends ActionBarActivity {
                 /* server Port is always 80 */
                 int serverPort = SERVER_PORT;
                 /* Create new Socket */
-                socket = new Socket(serverAddr, serverPort);
+                socket = new Socket();
+                socket.connect(new InetSocketAddress(serverAddr,serverPort),1000);
                 /* Create new PrintWriter on created socket */
                 out = new PrintWriter(socket.getOutputStream(), true);
                 ready = true;
@@ -351,10 +357,29 @@ public class QuestionActivity extends ActionBarActivity {
             /* Make socket occupied */
             socketOpen = false;
             /* If the question is more than 0 characters but less than 250 characters  */
-            if ((question.length() <= 250) && (question.length() > 0)) {
+            if ((question.length() <= 250) && (question.length() > 0) && !question.toLowerCase().contains(SC.toLowerCase())) {
                 /* Send Questions and Clear Question Box */
                 sendOption(question);
                 questionBoxJ.setText("");
+            /* Else if contains SERVER_CLOSE */
+            }else if (question.toLowerCase().contains(SC.toLowerCase())) {
+                /* Build and display an Alert Dialog Informing the User */
+                new AlertDialog.Builder(this)
+                        .setTitle(R.string.sc_error)
+                        .setMessage("Your Question contains SmartSlides Reserved/Invalid Words")
+                        /* If Edit is pressed, do nothing */
+                        .setPositiveButton(R.string.edit, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        })
+                        /* If Cancel is pressed, clear the Question Box */
+                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                questionBoxJ.setText("");
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_info)
+                        .show();
             /* Else if question is more than 250 characters */
             } else if (question.length() > 250) {
                 /* Build and display an Alert Dialog Informing the User */
@@ -450,7 +475,8 @@ public class QuestionActivity extends ActionBarActivity {
                 /* server Port is always 80 */
                 int serverPort = SERVER_PORT;
                 /* Create new Socket */
-                socket = new Socket(serverAddr, serverPort);
+                socket = new Socket();
+                socket.connect(new InetSocketAddress(serverAddr,serverPort),1000);
                 /* Create new PrintWriter on created socket */
                 out = new PrintWriter(socket.getOutputStream(), true);
             }
@@ -483,11 +509,28 @@ public class QuestionActivity extends ActionBarActivity {
                                 }
                         });
                         builder.setIcon(android.R.drawable.ic_dialog_info);
-                        AlertDialog connectionAlertDialog = builder.create();
-                        /* If Activity is still visible, show the Alert Dialog */
-                        if (visible) connectionAlertDialog.show();
+                        connectionAlertDialog = builder.create();
                     }
                 });
+                while (!timeoutDialog) {
+                    if (visible) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                            /* If Activity is still visible, show the Alert Dialog */
+                                if (visible) connectionAlertDialog.show();
+                            }
+                        });
+                        timeoutDialog = true;
+                    }
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    System.out.println("Waiting for visible");
+                }
+                timeoutDialog = false;
             }
         }
     }
