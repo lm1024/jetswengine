@@ -24,7 +24,7 @@ public class CommsHandler {
 	private Thread commsThread;
 	private boolean isOnline;
 
-	private static final String FILE_FOLDER = "logfiles";
+	private static final String FILE_FOLDER = "receivedQuestions";
 	private static final String FILE_EXTENSION = ".csv";
 
 	private static final String NEWLINE_DELIMITER = "\n";

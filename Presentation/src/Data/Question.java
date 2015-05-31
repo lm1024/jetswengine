@@ -25,6 +25,10 @@ public class Question {
 
 	private static final String COMMA_DELIMITER = ",";
 	private static final String NEWLINE_DELIMITER = "\n";
+	
+	private HashMap<String, Integer> IPMap;
+	
+	private ArrayList<String> answerTimeData;
 
 	/**
 	 * 
@@ -47,6 +51,9 @@ public class Question {
 		answers = new ArrayList<Answer>();
 		
 		IPs = new HashMap<String, Integer>();
+		
+		IPMap = new HashMap<String, Integer>();
+		answerTimeData = new ArrayList<String>();
 	}
 
 	/**
@@ -125,7 +132,22 @@ public class Question {
 				IPs.put(ip, index);
 				answers.get(index).increaseAnswerCount();
 			}
+			
+			storeAnswerTime(ip, index);
 
+		}
+	}
+	
+	private void storeAnswerTime(String ip, int answer) {
+		if (IPMap.get(ip) == null) {
+			/* IP not been stored before. */
+			int currentIndex = IPMap.size();
+			IPMap.put(ip, currentIndex);
+			answerTimeData.add(System.nanoTime() + "," + currentIndex + "," + answer);
+		} else {
+			/* IP has been stored before */
+			int currentIndex = IPMap.get(ip);
+			answerTimeData.add(System.nanoTime() + "," + currentIndex + "," + answer);
 		}
 	}
 
@@ -157,6 +179,8 @@ public class Question {
 
 				/* Write the question ID as the first line in the file. */
 				writer.append(this.getId());
+				writer.append(COMMA_DELIMITER);
+				writer.append(Integer.toString(getNumberOfAnswers()));
 				writer.append(NEWLINE_DELIMITER);
 				
 				/* Write the column headings. */
@@ -173,6 +197,13 @@ public class Question {
 					writer.append(answer.getId());
 					writer.append(COMMA_DELIMITER);
 					writer.append(Integer.toString(answer.getAnswerCount()));
+					writer.append(NEWLINE_DELIMITER);
+				}
+				
+				writer.append(NEWLINE_DELIMITER);
+
+				for (String s : answerTimeData) {
+					writer.append(s);
 					writer.append(NEWLINE_DELIMITER);
 				}
 
