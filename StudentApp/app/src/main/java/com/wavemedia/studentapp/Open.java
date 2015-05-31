@@ -13,6 +13,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -64,6 +66,9 @@ public class Open extends ActionBarActivity {
     String localIP;                     // String for Wifi Enabled Device IP
     Boolean whileFinish;                // Enables While Loop while network is attempted
     Intent intent;                      // Intent to move to Question Activity
+    WifiManager wifiManager;            // Wifi Manager
+    NetworkInfo mWifi;                  // WIFI Network Info
+    ConnectivityManager connManager;    // Connectivity Manager
 
 
     /* Instantiate Listener for Institution Dropdown Box Selection*/
@@ -99,6 +104,13 @@ public class Open extends ActionBarActivity {
 
         /* Get list of IPs for site IDS */
         ips = getResources().getStringArray(R.array.ip_array);
+
+        /* Get WifiService Info */
+        wifiManager = (WifiManager) getSystemService(WIFI_SERVICE);
+
+        /*Get Connectivity Manager and Network Info */
+        connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
         /* Instantiate Connect Button */
         connectButton = (Button) findViewById(R.id.connectbutton);
@@ -158,7 +170,7 @@ public class Open extends ActionBarActivity {
                 int serverPort = QuestionActivity.SERVER_PORT;
                 /* Create new Socket */
                 socket = new Socket();
-                socket.connect(new InetSocketAddress(serverAddr,serverPort),1000);
+                socket.connect(new InetSocketAddress(serverAddr,serverPort),3000);
                 /* Create new PrintWriter on created socket */
                 out = new PrintWriter(socket.getOutputStream(), true);
             } catch (Exception e) {
@@ -186,7 +198,8 @@ public class Open extends ActionBarActivity {
             while (!finish) {
                 /* If A 4 digit Hex string present and connect has not recently been
                    pressed, enable connect button */
-                if (hexCodeValidation() && !connectPressed) {
+                mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+                if (hexCodeValidation() && !connectPressed && (mWifi.getDetailedState() == NetworkInfo.DetailedState.CONNECTED)) {
                     /* Run method on Thread that controls UI */
                     runOnUiThread(new Runnable() {
                         @Override
@@ -267,7 +280,10 @@ public class Open extends ActionBarActivity {
 
     /* Method for getting IP Address on Wifi-enabled devices */
     protected String getWifiIpAddress(Context context) {
-        WifiManager wifiManager = (WifiManager) context.getSystemService(WIFI_SERVICE);
+
+        /* Get WifiService Info */
+        wifiManager = (WifiManager) getSystemService(WIFI_SERVICE);
+
         int ipAddress = wifiManager.getConnectionInfo().getIpAddress();
 
         // Convert little-endian to big-endianif needed

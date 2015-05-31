@@ -14,6 +14,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -58,6 +60,7 @@ public class QuestionActivity extends ActionBarActivity {
     private String localIP;
     PrintWriter out;
     boolean socketOpen = true;
+    Boolean wifiDisconnect = false;
 
     /* EditText for the Question TextBox */
     EditText questionBoxJ;
@@ -77,10 +80,15 @@ public class QuestionActivity extends ActionBarActivity {
     private boolean visible = false;
     private boolean timeoutDialog;
     AlertDialog connectionAlertDialog;
+    WifiManager wifiManager;
+    NetworkInfo mWifi;                  // WIFI Network Info
+    ConnectivityManager connManager;    // Connectivity Manager
 
     /* Method for getting IP Address on Wifi-enabled devices */
     protected String getWifiIpAddress(Context context) {
-        WifiManager wifiManager = (WifiManager) context.getSystemService(WIFI_SERVICE);
+        /* Get WifiService Info */
+        wifiManager = (WifiManager) getSystemService(WIFI_SERVICE);
+
         int ipAddress = wifiManager.getConnectionInfo().getIpAddress();
 
         // Convert little-endian to big-endianif needed
@@ -150,7 +158,7 @@ public class QuestionActivity extends ActionBarActivity {
                 int serverPort = SERVER_PORT;
                 /* Create new Socket */
                 socket = new Socket();
-                socket.connect(new InetSocketAddress(serverAddr,serverPort),1000);
+                socket.connect(new InetSocketAddress(serverAddr,serverPort),3000);
                 /* Create new PrintWriter on created socket */
                 out = new PrintWriter(socket.getOutputStream(), true);
                 ready = true;
@@ -182,6 +190,13 @@ public class QuestionActivity extends ActionBarActivity {
 
         /* Set the content view of Activity to the Question Activity XML */
         setContentView(R.layout.activity_question);
+
+        /* Set Wifi Manager */
+        wifiManager = (WifiManager) getSystemService(WIFI_SERVICE);
+
+        /*Get Connectivity Manager and Network Info */
+        connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
         /* Instantiate EditText for TextBox used for sending a question */
         questionBoxJ = (EditText) findViewById(R.id.questionBox);
@@ -409,6 +424,9 @@ public class QuestionActivity extends ActionBarActivity {
     @Override
     protected void onDestroy(){
 
+        /* Set Wifi Disconnected Flag to False */
+        wifiDisconnect = false;
+
         /* If the socket exists */
         if (socket != null) {
             try {
@@ -470,15 +488,66 @@ public class QuestionActivity extends ActionBarActivity {
         @Override
         public void run() {
             try {
+                mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+                System.out.println("Detailed State: " + mWifi.getDetailedState());
+                /* Check if Wifi is enabled */
+                if ((mWifi.getDetailedState() != NetworkInfo.DetailedState.CONNECTED)){
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(QuestionActivity.this);
+                            builder.setTitle(R.string.connection_error);
+                            builder.setMessage("Returning to Connect Screen.");
+                        /* Set OK Button to finish the activity */
+                            builder.setNeutralButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    finish();
+                                }
+                            });
+                        /* If user cancels the alert dialog in any way, also finish the activty */
+                            builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                                @Override
+                                public void onCancel(DialogInterface dialog) {
+                                    dialog.dismiss();
+                                    finish();
+                                }
+                            });
+                            builder.setIcon(android.R.drawable.ic_dialog_info);
+                            connectionAlertDialog = builder.create();
+                        }
+                    });
+                    while (!timeoutDialog) {
+                        if (visible && !wifiDisconnect) {
+                            wifiDisconnect = true;
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                            /* If Activity is still visible, show the Alert Dialog */
+                                    if (visible) connectionAlertDialog.show();
+                                }
+                            });
+                            timeoutDialog = true;
+                        }
+                        try {
+                            Thread.sleep(100);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        System.out.println("Waiting for visible");
+                    }
+                    timeoutDialog = false;
+                }
+                if (wifiDisconnect == false) {
                 /* Get the InetAddress version from the serverIP String */
-                InetAddress serverAddr = InetAddress.getByName(serverIP);
+                    InetAddress serverAddr = InetAddress.getByName(serverIP);
                 /* server Port is always 80 */
-                int serverPort = SERVER_PORT;
+                    int serverPort = SERVER_PORT;
                 /* Create new Socket */
-                socket = new Socket();
-                socket.connect(new InetSocketAddress(serverAddr,serverPort),1000);
+                    socket = new Socket();
+                    socket.connect(new InetSocketAddress(serverAddr, serverPort), 3000);
                 /* Create new PrintWriter on created socket */
-                out = new PrintWriter(socket.getOutputStream(), true);
+                    out = new PrintWriter(socket.getOutputStream(), true);
+                }
             }
             /* If there's an exception */
             catch (Exception a) {
