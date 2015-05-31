@@ -31,6 +31,7 @@ public class TextFragmentHandler extends DefaultHandler {
 		// sort out element name if (no) namespace in use
 		String elementName = localName;
 		afterSpaces = "";
+		beforeSpaces = "";
 		if ("".equals(elementName)) {
 			elementName = qName;
 		}

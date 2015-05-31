@@ -272,13 +272,13 @@ public class GUI extends Application {
 	private void resetSettings() {
 
 		/* Reset all settings to known values */
-		preferences.setAudioPause(false);
+		preferences.setAudioPause(true);
 		preferences.setInitDir(new File(System.getProperty("user.home")));
-		preferences.setOTSLogged(false);
-		preferences.setQuestionsLogged(false);
+		preferences.setOTSLogged(true);
+		preferences.setQuestionsLogged(true);
 		preferences.setScreenId(0);
-		preferences.setSlideAuto(false);
-		preferences.setVideoPause(false);
+		preferences.setSlideAuto(true);
+		preferences.setVideoPause(true);
 
 		/* Save new settings */
 		saveSettings();
@@ -933,7 +933,7 @@ public class GUI extends Application {
 
 		/* Autonext option */
 		autoNext = new RadioMenuItem("Auto Next");
-		autoNext.setSelected(false); // initialise to false
+		autoNext.setSelected(preferences.isSlideAuto()); // initialise to false
 		autoNext.setOnAction(new radioMenuHandler()); // add handler
 
 		/* To settings button */
