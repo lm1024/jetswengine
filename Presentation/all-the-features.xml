@@ -28,7 +28,7 @@
 	</defaultsettings>
 	<slide>
 	
-		<image sourcefile="all-the-features\background.png" xstart="0" ystart="0" yend="1" xend="1"/>
+		<image sourcefile="file:all-the-features\background.png" xstart="0" ystart="0" yend="1" xend="1"/>
 	
 		<graphic type="rectangle" xstart="0.3" ystart="0.3" xend="0.7" yend="0.5" outlinecolor="#ff000000" outlinethickness="1.0"/>
 		<graphic graphiccolor="#ff000000" >
@@ -52,12 +52,12 @@
 	</slide>
 	<slide>
 	
-		<image sourcefile="all-the-features\background.png" xstart="0" ystart="0" yend="1" xend="1"/>
+		<image sourcefile="file:all-the-features\background.png" xstart="0" ystart="0" yend="1" xend="1"/>
 		<text xstart="0.1" ystart="0.1" xend="0.25" yend="0.2"
 			fontcolor="#ff0000ff" alignment="center">
 			<richtext bold= "true" fontsize="50">Original</richtext>
 		</text>
-		<image sourcefile="all-the-features\smalldesert.jpg" xstart="0.1" ystart="0.2" xend="0.25"  >
+		<image sourcefile="file:all-the-features\smalldesert.jpg" xstart="0.1" ystart="0.2" xend="0.25"  >
 		
 		</image>
 		
@@ -65,7 +65,7 @@
 			fontcolor="#ff0000ff" alignment="center">
 			<richtext bold= "true" fontsize="50"> Glow</richtext>
 		</text>
-		<image sourcefile="all-the-features\smalldesert.jpg" xstart="0.3" xend="0.45" ystart="0.2"   >
+		<image sourcefile="file:all-the-features\smalldesert.jpg" xstart="0.3" xend="0.45" ystart="0.2"   >
 		<glow/>
 		<glow/>
 		<glow/>
@@ -75,7 +75,7 @@
 			fontcolor="#ff0000ff" alignment="center">
 			<richtext bold= "true" fontsize="50"> Bloom</richtext>
 		</text>
-		<image sourcefile="all-the-features\smalldesert.jpg" xstart="0.5" xend="0.65" ystart="0.2"   >
+		<image sourcefile="file:all-the-features\smalldesert.jpg" xstart="0.5" xend="0.65" ystart="0.2"   >
 		<bloom/>
 		<bloom/>
 		<bloom/>
@@ -85,7 +85,7 @@
 			fontcolor="#ff0000ff" alignment="center">
 			<richtext bold= "true" fontsize="50"> Sepia</richtext>
 		</text>
-		<image sourcefile="all-the-features\smalldesert.jpg" xstart="0.7" xend="0.85" ystart="0.2"   >
+		<image sourcefile="file:all-the-features\smalldesert.jpg" xstart="0.7" xend="0.85" ystart="0.2"   >
 		<sepia/>
 		</image>
 		
@@ -93,7 +93,7 @@
 			fontcolor="#ff0000ff" alignment="center">
 			<richtext bold= "true" fontsize="50"> Grayscale</richtext>
 		</text>
-		<image sourcefile="all-the-features\smalldesert.jpg" xstart="0.1" ystart="0.6" xend="0.25"  >
+		<image sourcefile="file:all-the-features\smalldesert.jpg" xstart="0.1" ystart="0.6" xend="0.25"  >
 		<grayscale/>
 		</image>
 		
@@ -102,7 +102,7 @@
 			fontcolor="#ff0000ff" alignment="center">
 			<richtext bold= "true" fontsize="50"> Reflection</richtext>
 		</text>
-		<image sourcefile="all-the-features\smalldesert.jpg" xstart="0.3" xend="0.45" ystart="0.6"   >
+		<image sourcefile="file:all-the-features\smalldesert.jpg" xstart="0.3" xend="0.45" ystart="0.6"   >
 		<reflection/>
 		<reflection/>
 		</image>
@@ -112,7 +112,7 @@
 			fontcolor="#ff0000ff" alignment="center">
 			<richtext bold= "true" fontsize="50"> Blur</richtext>
 		</text>
-		<image sourcefile="all-the-features\smalldesert.jpg" xstart="0.5" xend="0.65" ystart="0.6"   >
+		<image sourcefile="file:all-the-features\smalldesert.jpg" xstart="0.5" xend="0.65" ystart="0.6"   >
 		<blur/>
 		<blur/>
 		<blur/>
@@ -124,7 +124,7 @@
 			fontcolor="#ff0000ff" alignment="center">
 			<richtext bold= "true" fontsize="30"> Blur + Reflect + Glow + Bloom</richtext>
 		</text>
-		<image sourcefile="all-the-features\smalldesert.jpg" xstart="0.7" xend="0.85" ystart="0.6"   >
+		<image sourcefile="file:all-the-features\smalldesert.jpg" xstart="0.7" xend="0.85" ystart="0.6"   >
 		<blur/>
 		<reflection/>
 		<glow/>
@@ -137,8 +137,9 @@
 	</slide>
 	
 	<slide>
-	<image sourcefile="all-the-features\background.png" xstart="0" ystart="0" yend="1" xend="1"/>
-	<text fontsize="75" xstart="0.1" ystart="0.1" xend="0.35" yend="0.9">
+	<image sourcefile="file:all-the-features\background.png" xstart="0" ystart="0" yend="1" xend="1"/>
+
+	<text fontsize="75" xstart="0.1" ystart="0.1" xend="0.35" yend="0.85">
 		<richtext newline="true" afterspace="1">Original</richtext>
 		<richtext newline="true" afterspace="1">Bold</richtext>
 		<richtext newline="true" afterspace="1">Italic</richtext>
@@ -152,7 +153,7 @@
 		<richtext newline="true" afterspace="1">Size</richtext>
 	</text>
 	
-	<text fontsize="75" xstart="0.35" ystart="0.1" xend="0.6" yend="0.9">
+	<text fontsize="75" xstart="0.35" ystart="0.1" xend="0.6" yend="0.85">
 		<richtext newline="true" afterspace="1">example</richtext>
 		<richtext newline="true" afterspace="1" bold="true">example</richtext>
 		<richtext newline="true" afterspace="1" italicised="true">example</richtext>
@@ -165,10 +166,12 @@
 		<richtext newline="true" afterspace="1" font="jokerman">example</richtext>
 		<richtext newline="true" afterspace="1" fontsize="30">example</richtext>
 	</text>
-	<text xstart="0.465" ystart="0.35" fontsize="40">
+
+	<text xstart="0.465" ystart="0.35" yend="0.65" fontsize="40">
 	e
 	</text>
-	<text xstart="0.55" xend="0.9" ystart="0.15" fontsize="80">
+
+	<text xstart="0.55" xend="0.9" ystart="0.15" yend="0.8" fontsize="80">
 	<richtext newline="true">The quick brown fox jumps over the lazy dog. </richtext>
 	<richtext newline="true"> </richtext>
 	<richtext newline="true"> </richtext>
@@ -185,10 +188,11 @@
 
 	
 	</text>
+
 	</slide>
 	
 	<slide>
-	<image sourcefile="all-the-features\background.png" xstart="0" ystart="0" yend="1" xend="1"/>
+	<image sourcefile="file:all-the-features\background.png" xstart="0" ystart="0" yend="1" xend="1"/>
 	
 	<graphic xstart="0.05" ystart="0.05"  graphiccolor="#ffbbbbbb">
 		<rectangle solid="true" xend="0.95" yend="0.85"/>
@@ -232,7 +236,7 @@
 	</graphic>
 	
 	<graphic graphiccolor="#ff123465">
-			<circle xstart="0.2" ystart="0.2" size="0.05" outlinethickness="1" solid="true" outlinecolor="#ff000000">
+			<circle xstart="0.2" ystart="0.2" size="50" outlinethickness="1" solid="true" outlinecolor="#ff000000">
 			
 			</circle>
 	</graphic>
@@ -292,16 +296,16 @@
 	
 	</slide>
 	<slide>
-		<image sourcefile="all-the-features\background.png" xstart="0" ystart="0" yend="1" xend="1"/>
+		<image sourcefile="file:all-the-features\background.png" xstart="0" ystart="0" yend="1" xend="1"/>
 		<audio sourcefile="all-the-features\Uppermost - Flow.mp3" xstart="0.2" ystart="0.2" width="0.2" autoplay="true" visiblecontrols="false" playbuttononly="false" duration="10" loop="false"/>
-		<audio sourcefile="all-the-features\Uppermost - Flow.mp3" xstart="0.7" ystart="0.2" width="0.2" autoplay="false" visiblecontrols="true" playbuttononly="false" />
-		<audio sourcefile="all-the-features\Uppermost - Flow.mp3" xstart="0.2" ystart="0.6" width="0.2" autoplay="false" visiblecontrols="true" playbuttononly="false" loop="true"/>
-		<audio sourcefile="all-the-features\Uppermost - Flow.mp3" xstart="0.7" ystart="0.6" width="0.2" autoplay="false" visiblecontrols="true" playbuttononly="true"  />
+		<audio sourcefile="all-the-features\Uppermost - Flow.mp3" xstart="0.15" ystart="0.4" width="0.2" autoplay="false" visiblecontrols="true" playbuttononly="false" />
+		<audio sourcefile="all-the-features\Uppermost - Flow.mp3" xstart="0.4" ystart="0.4" width="0.2" autoplay="false" visiblecontrols="true" playbuttononly="false" loop="true"/>
+		<audio sourcefile="all-the-features\Uppermost - Flow.mp3" xstart="0.65" ystart="0.4" width="0.2" autoplay="false" visiblecontrols="true" playbuttononly="true"  />
 	</slide>
 	
 	<slide>
 	
-		<image sourcefile="all-the-features\background.png" xstart="0" ystart="0" yend="1" xend="1"/>
+		<image sourcefile="file:all-the-features\background.png" xstart="0" ystart="0" yend="1" xend="1"/>
 		<text xstart="0.1" ystart="0.1" xend="0.45" yend="0.2"
 			fontcolor="#ff0000ff" alignment="center">
 			<richtext bold= "true" fontsize="50">Avengers Trailer</richtext>
@@ -312,11 +316,11 @@
 			fontcolor="#ff0000ff" alignment="center">
 			<richtext bold= "true" fontsize="50">Avengers 2 Trailer</richtext>
 		</text>
-		<video sourcefile="all-the-features\avengers2.mp4" xstart="0.5" ystart="0.25" width="0.45" autoplay="true" loop="true" />
+		<video sourcefile="all-the-features\avengers2.mp4" xstart="0.5" ystart="0.25" width="0.45"  loop="true" />
 	</slide>
 		
 	<slide duration="8">
-		<image sourcefile="all-the-features\background.png" xstart="0" ystart="0" yend="1" xend="1"/>
+		<image sourcefile="file:all-the-features\background.png" xstart="0" ystart="0" yend="1" xend="1"/>
 	   <text xstart="0.1" ystart="0.3" xend="0.9" yend="0.9" font="arial"
 			fontsize="100" fontcolor="#ff0000ff" alignment="center">
 			<richtext bold= "true" fontsize="100"> This is a timed\n</richtext>
@@ -342,18 +346,18 @@
 			fontsize="100" fontcolor="#ff0000ff" alignment="left">
 			<richtext bold= "true" fontsize="100"> 1</richtext>
 		</text>
-		<video sourcefile="all-the-features\avengers2.mp4" xstart="0.1" ystart="0.1" width="0.8" autoplay="true" loop="true" starttime="5" duration="5"/>
+		<video sourcefile="all-the-features\avengers2.mp4" xstart="0.1" ystart="0.1" width="0.8" autoplay="true" loop="true" starttime="5" />
 	</slide>
 
 	<slide>
-		<image sourcefile="all-the-features\background.png" xstart="0" ystart="0" yend="1" xend="1"/>
+		<image sourcefile="file:all-the-features\background.png" xstart="0" ystart="0" yend="1" xend="1"/>
 	   <text xstart="0.1" ystart="0.3" xend="0.9" yend="0.9" font="arial"
 			fontsize="100" fontcolor="#ff0000ff" alignment="center">
 			<richtext bold= "true" fontsize="100"> Slide 1</richtext>
 		</text>
 	</slide>
 		<slide tangent="true">
-		<image sourcefile="all-the-features\background.png" xstart="0" ystart="0" yend="1" xend="1"/>
+		<image sourcefile="file:all-the-features\background.png" xstart="0" ystart="0" yend="1" xend="1"/>
 	   <text xstart="0.1" ystart="0.3" xend="0.9" yend="0.9" font="arial"
 			fontsize="100" fontcolor="#ff0000ff" alignment="center">
 			<richtext bold= "true" fontsize="100"> Slide 1.1</richtext>
@@ -361,21 +365,21 @@
 	</slide>
 	
 	<slide tangent="true">
-		<image sourcefile="all-the-features\background.png" xstart="0" ystart="0" yend="1" xend="1"/>
+		<image sourcefile="file:all-the-features\background.png" xstart="0" ystart="0" yend="1" xend="1"/>
 	   <text xstart="0.1" ystart="0.3" xend="0.9" yend="0.9" font="arial"
 			fontsize="100" fontcolor="#ff0000ff" alignment="center">
 			<richtext bold= "true" fontsize="100"> Slide 1.2</richtext>
 		</text>
 	</slide>
 	<slide>
-		<image sourcefile="all-the-features\background.png" xstart="0" ystart="0" yend="1" xend="1"/>
+		<image sourcefile="file:all-the-features\background.png" xstart="0" ystart="0" yend="1" xend="1"/>
 	   <text xstart="0.1" ystart="0.3" xend="0.9" yend="0.9" font="arial"
 			fontsize="100" fontcolor="#ff0000ff" alignment="center">
 			<richtext bold= "true" fontsize="100"> Slide 2</richtext>
 		</text>
 	</slide>
 	<slide>
-		<image sourcefile="all-the-features\background.png" xstart="0" ystart="0" yend="1" xend="1"/>
+		<image sourcefile="file:all-the-features\background.png" xstart="0" ystart="0" yend="1" xend="1"/>
 	   <text xstart="0.1" ystart="0.1" xend="0.9" yend="0.9" font="arial"
 			fontsize="100" fontcolor="#ff0000ff" alignment="center">
 			<richtext bold= "true" fontsize="100"> Question Slide</richtext>
@@ -391,11 +395,11 @@
 			<richtext bold= "true" fontsize="60" newline="true">C: 42</richtext>
 			<richtext bold= "true" fontsize="60" newline="true">D: &#966;</richtext>
 		</text>
-		<question id="snazzy question" logfile="snazzy">
+		<question id="What is your favourite number?" logfile="snazzy">
 			<answer id="e" correct="true"/> 
-			<answer id="&#960;" /> 
+			<answer id="Pi" /> 
 			<answer id="42" /> 
-			<answer id="&#966;" /> 
+			<answer id="Phi" /> 
 		</question>
 	</slide>
 

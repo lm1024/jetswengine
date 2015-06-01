@@ -33,8 +33,6 @@ set(gca, 'XTick', 1:4, 'XTickLabel', answerNames);
 
 set(gca, 'ytick', 0:max(answerData));
 
-
-
 times = str2double(C((numberOfAnswers+3):end, 1));
 id = str2double(C((numberOfAnswers+3):end, 2));
 answers = str2double(C((numberOfAnswers+3):end, 3));
@@ -46,8 +44,6 @@ labels2 = cell(length(answers),1);
 labelsNum = 0:length(answers)-1;
 
 subplot(3,1,2)
-
-idColors;
 
 r = zeros(max(id));
 g = zeros(max(id));
@@ -97,7 +93,7 @@ for i = 0:max(id)
     end
     
     lastAnswerTime = 0;
-    lastJ = 0;
+    lastJ = 1;
     
     for j = 1:length(id)
        if (i == id(j)) 
@@ -109,7 +105,6 @@ for i = 0:max(id)
            
        end    
     end
-    
      plot(lastAnswerTime, answers(lastJ), '--gs',...
             'LineWidth',2,...
             'MarkerSize',10,...

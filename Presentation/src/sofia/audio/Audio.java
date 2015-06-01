@@ -650,7 +650,7 @@ public class Audio {
 			 * value. TJD: Edited this to fix bugs with the scan bar not
 			 * working.
 			 */
-			if (Math.abs(new_val.doubleValue() - old_val.doubleValue()) > 0.1) {
+			if (Math.abs(new_val.doubleValue() - old_val.doubleValue()) > 1) {
 				audioSeek(new_val.doubleValue());
 			}
 			updateLabels();

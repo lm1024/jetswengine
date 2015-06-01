@@ -142,6 +142,8 @@ public class Video {
 
 		this.loop = loop;
 
+		System.out.println(x + " " + y);
+
 		/* Load icon images */
 		playImage = new ImageView(
 			new Image(getClass().getResourceAsStream("Play_ST_CONTENT_RECT_Transparent_L-01.png")));
@@ -460,18 +462,24 @@ public class Video {
 	 * Sets the scan bar to match the video position
 	 */
 	private void setScan() {
-		if (mediaPlayer.getMedia() != null && mediaPlayer.getMedia().getDuration() != null) {
-			/* Get the duration of the clip */
-			double duration = mediaPlayer.getMedia().getDuration().toSeconds();
+		try {
+			if (mediaPlayer != null) {
+				if (mediaPlayer.getMedia() != null && mediaPlayer.getMedia().getDuration() != null
+						&& mediaPlayer.getCurrentTime() != null) {
+					/* Get the duration of the clip */
+					double duration = mediaPlayer.getMedia().getDuration().toSeconds();
 
-			/* Get the current position in the clip */
-			double current = mediaPlayer.getCurrentTime().toSeconds();
+					/* Get the current position in the clip */
+					double current = mediaPlayer.getCurrentTime().toSeconds();
 
-			/* Calculate the percentage */
-			double percentage = (current / duration) * 100;
+					/* Calculate the percentage */
+					double percentage = (current / duration) * 100;
 
-			/* Set the scan bar value */
-			scanBar.setValue(percentage);
+					/* Set the scan bar value */
+					scanBar.setValue(percentage);
+				}
+			}
+		} catch (Exception e) {
 		}
 	}
 
@@ -714,7 +722,9 @@ public class Video {
 			 * value. TJD: Edited this to fix bugs with the scan bar not
 			 * working.
 			 */
-			if (Math.abs(new_val.doubleValue() - old_val.doubleValue()) > 0.1) {
+			System.out.println(Math.abs(new_val.doubleValue() - old_val.doubleValue()) + " " + enable);
+			if (Math.abs(new_val.doubleValue() - old_val.doubleValue()) > 0.1 && enable) {
+				System.out.println("scan");
 				scan(new_val.doubleValue());
 			}
 
@@ -801,6 +811,7 @@ public class Video {
 	public class PlayerStatusListener implements ChangeListener<Status> {
 		@Override
 		public void changed(ObservableValue<? extends Status> val, Status oldVal, Status newVal) {
+			try {
 			switch (newVal) {
 			case DISPOSED:
 				break;
@@ -827,6 +838,9 @@ public class Video {
 				break;
 			default:
 				break;
+			}
+		}  catch(Exception e){
+			
 			}
 		}
 	}

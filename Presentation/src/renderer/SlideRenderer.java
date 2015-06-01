@@ -343,9 +343,9 @@ public class SlideRenderer {
 			break;
 		case CIRCLE:
 			Circle circle = (Circle) currentGraphic;
-			
 			graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos)
-				.radius(convXRelCoordToAbsCoord(circle.getSize()))
+			
+				.radius(circle.getSize())
 				.color(circle.getGraphicColor())
 				.solid(circle.isSolid())
 				.outlineColor(circle.getOutlineColor())
@@ -440,7 +440,6 @@ public class SlideRenderer {
 			break;
 		case SQUARE:
 			Square square = (Square) currentGraphic;
-			System.out.println("xLength: " + convXRelCoordToAbsCoord(square.getSize()) + " yLength: " + convYRelCoordToAbsCoord(square.getSize()));
 			graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos)
 				.length(convXRelCoordToAbsCoord(square.getSize()))
 				.color(square.getGraphicColor())

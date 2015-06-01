@@ -175,7 +175,7 @@ public class GUI extends Application {
 
 		/* Set size of window */
 		windowWidth = primaryBounds.getWidth() * 0.6;
-		windowHeight = primaryBounds.getHeight() * 0.6;
+		windowHeight = primaryBounds.getHeight() * 0.65;
 		primaryStage.setWidth(windowWidth);
 		primaryStage.setHeight(windowHeight);
 

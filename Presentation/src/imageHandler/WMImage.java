@@ -137,7 +137,7 @@ public class WMImage {
 		Image image = null;
 		try {
 			/* Attempt to load image. (Takes a while... should be preloaded) */
-			image = new Image("file:" + filepath);
+			image = new Image(filepath);
 			if (image.errorProperty().getValue()) {
 				image = null;
 			}

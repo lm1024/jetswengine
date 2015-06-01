@@ -3,7 +3,7 @@
 <slideshow>
 	<documentinfo>
 		<author>WaveMedia</author>
-		<version>Version 1.0</version>
+		<version>Version 3.0</version>
 		<comment>Sales</comment>
 		<groupid>2</groupid>
 	</documentinfo>
@@ -28,7 +28,7 @@
 	</defaultsettings>
 
 	<slide>
-		<image sourcefile="bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
+		<image sourcefile="file:bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
 		
 		<text xstart="0.1" ystart="0.4" xend="0.9" yend="0.55"
 			fontsize="100" fontcolor="#ff0000ff" alignment="center">
@@ -39,7 +39,7 @@
 	</slide>
 	
 	<slide>
-		<image sourcefile="bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
+		<image sourcefile="file:bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
 		
 		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" 
 			fontsize="50" fontcolor="#ff0000ff" alignment="center">
@@ -50,17 +50,17 @@
 		
 		<text xstart="0.1" ystart="0.2" xend="0.9" yend="0.8" fontsize="42" fontcolor="#ff000000" alignment="left">
 			<richtext>
-				Could be useful in corporate, lower educational or higher educational markets\n\n
-				Company will not have resources to enter all markets effectively immediately\n\n
-				We aim to enter the higher educational market first as we know and understand it well\n\n
-				We aim to expand into other markets after a 3 year period\n\n
-				At this time we also aim to release a product update that includes compatibility for other operating systems, for Smartphone, tablet and computer\n\n
+				&#8226; Could be useful in corporate, lower educational, further educational and higher educational markets.\n\n
+				&#8226; Company will not have resources to enter all markets effectively immediately.\n\n
+				&#8226; We aim to enter the higher educational market first as we know and understand it well.\n\n
+				&#8226; We aim to expand into other markets after a 3 year period.\n\n
+				&#8226; At this time we also aim to release a product update that includes compatibility for other operating systems, for smartphones, tablets and computers.\n\n
 			</richtext>
 		</text>
 	</slide>
 	
 	<slide>
-		<image sourcefile="bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
+		<image sourcefile="file:bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
 
 		<text xstart="0.1" ystart="0.40" xend="0.9" yend="0.55"
 			fontsize="100" fontcolor="#ff0000ff" alignment="center">
@@ -71,7 +71,7 @@
 	</slide>
 	
 	<slide>
-		<image sourcefile="bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
+		<image sourcefile="file:bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
 		
 		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" 
 			fontsize="50" fontcolor="#ff0000ff" alignment="center">
@@ -80,12 +80,12 @@
 			</richtext>
 		</text>
 		
-		<image sourcefile="sales/1.png" xstart="0.2" ystart="0.2" xend="0.8"/>
+		<image sourcefile="file:sales/1.png" xstart="0.2" ystart="0.2" xend="0.8"/>
 		
 	</slide>
 	
 	<slide>
-		<image sourcefile="bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
+		<image sourcefile="file:bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
 		
 		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" 
 			fontsize="50" fontcolor="#ff0000ff" alignment="center">
@@ -94,14 +94,14 @@
 			</richtext>
 		</text>
 		
-		<image sourcefile="sales/2.png" xstart="0" ystart="0.2" xend="0.4"/>
+		<image sourcefile="file:sales/2.png" xstart="0" ystart="0.2" xend="0.4"/>
 		
-		<image sourcefile="sales/3.png" xstart="0.5" ystart="0.2" xend="0.95"/>
+		<image sourcefile="file:sales/3.png" xstart="0.5" ystart="0.2" xend="0.95"/>
 		
 	</slide>
 	
 	<slide>
-		<image sourcefile="bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
+		<image sourcefile="file:bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
 		
 		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" 
 			fontsize="50" fontcolor="#ff0000ff" alignment="center">
@@ -110,14 +110,14 @@
 			</richtext>
 		</text>
 		
-		<image sourcefile="sales/4.png" xstart="0" ystart="0.2" xend="0.4"/>
+		<image sourcefile="file:sales/4.png" xstart="0" ystart="0.2" xend="0.4"/>
 		
-		<image sourcefile="sales/5.png" xstart="0.5" ystart="0.2" xend="0.95"/>
+		<image sourcefile="file:sales/5.png" xstart="0.5" ystart="0.2" xend="0.95"/>
 		
 	</slide>
 	
 	<slide>
-		<image sourcefile="bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
+		<image sourcefile="file:bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
 		
 		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" 
 			fontsize="50" fontcolor="#ff0000ff" alignment="center">
@@ -127,25 +127,25 @@
 		</text>
 		
 		<text xstart="0.1" ystart="0.2" xend="0.9" yend="0.8" fontsize="42" fontcolor="#ff000000" alignment="left">
-			<richtext>
+			<richtext afterspace="1">
 				Consumer Numbers\n
 				&#8226; Academic Staff: 
 			</richtext>
-			<richtext bold = "true">
+			<richtext bold = "true" afterspace="1">
 				194,245 
 			</richtext>
-			<richtext>
+			<richtext afterspace="1">
 				(2013/2014)\n
 				&#8226; Students: 
 			</richtext>
-			<richtext bold = "true">
+			<richtext bold = "true"  afterspace="1">
 				2,299,355 
 			</richtext>
-			<richtext>
-				&#40;2013/2014&#41;\n
+			<richtext afterspace="1">
+				(2013/2014&#41;\n
 				&#8226; Universities: 
 			</richtext>
-			<richtext bold = "true">
+			<richtext bold = "true" afterspace="1">
 				169
 			</richtext>
 			<richtext afterspace = "1">
@@ -164,13 +164,13 @@
 				95&#37;
 			</richtext>
 			<richtext>
-				&#40;estimate based on lecturers access to WiFi, projectors and windows computers&#41;
+				&#40;estimate based on lecturers with access to WiFi, projectors and windows computers&#41;
 			</richtext>
 		</text>
 	</slide>
 	
 	<slide>
-		<image sourcefile="bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
+		<image sourcefile="file:bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
 
 		<text xstart="0.1" ystart="0.40" xend="0.9" yend="0.55"
 			fontsize="100" fontcolor="#ff0000ff" alignment="center">
@@ -181,7 +181,7 @@
 	</slide>
 	
 	<slide>
-		<image sourcefile="bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
+		<image sourcefile="file:bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
 		
 		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" 
 			fontsize="50" fontcolor="#ff0000ff" alignment="center">
@@ -190,7 +190,7 @@
 			</richtext>
 		</text>
 		
-		<image sourcefile="sales/6.png" xstart="0.1" ystart="0.2" xend="0.9"/>
+		<image sourcefile="file:sales/6.png" xstart="0.1" ystart="0.2" xend="0.9"/>
 
 		<text xstart="0.1" ystart="0.85" xend="0.9" yend="0.9" 
 			fontsize="36" fontcolor="#ff0000ff" alignment="center">
@@ -201,7 +201,7 @@
 	</slide>
 	
 	<slide>
-		<image sourcefile="bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
+		<image sourcefile="file:bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
 		
 		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" 
 			fontsize="50" fontcolor="#ff0000ff" alignment="center">
@@ -210,7 +210,7 @@
 			</richtext>
 		</text>
 		
-		<image sourcefile="sales/7.png" xstart="0.12" ystart="0.2" xend="0.88"/>
+		<image sourcefile="file:sales/7.png" xstart="0.12" ystart="0.2" xend="0.88"/>
 
 		<text xstart="0.1" ystart="0.85" xend="0.9" yend="0.9" 
 			fontsize="36" fontcolor="#ff0000ff" alignment="center">
@@ -221,7 +221,7 @@
 	</slide>
 	
 	<slide>
-		<image sourcefile="bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
+		<image sourcefile="file:bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
 		
 		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" 
 			fontsize="50" fontcolor="#ff0000ff" alignment="center">
@@ -232,30 +232,30 @@
 		
 		<text xstart="0.1" ystart="0.2" xend="0.9" yend="0.8" fontsize="42" fontcolor="#ff000000" alignment="left">
 			<richtext afterspace = "1">
-				We expect number of students with access to product to increase to above
+				We expect number of students with access to product to increase to 
 			</richtext>
 			<richtext bold="true" afterspace = "1">
-				95&#37; 
+				above 95&#37; 
 			</richtext>
 			<richtext afterspace = "1"> 
-				after 3 years\n\n
-				&#8226; Percentage of students with a required device expected to increase\n
-				&#8226; We will expand into iOS market in update\n\n
-				Number of lecturers with access to product also expected to increase to above\n
+				after 3 years.\n\n
+				&#8226; Percentage of students with a required device expected to increase.\n
+				&#8226; We will expand into iOS market in update.\n\n
+				Number of lecturers with access to product also expected to increase to\n
 			</richtext>
 			<richtext bold="true" afterspace = "1">
-				95&#37; 
+				above 95&#37; 
 			</richtext>
 			<richtext>
-				after 3 years\n\n
-				&#8226; Access figures have reached maturity\n
-				&#8226; We will release presentation software for Mac in update\n
+				after 3 years.\n\n
+				&#8226; Figures for number of lecturers with access to WiFi, projectors and windows computers have reached maturity.\n
+				&#8226; We will release presentation software for Mac in update.\n
 			</richtext>
 		</text>
 	</slide>
 	
 	<slide>
-		<image sourcefile="bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
+		<image sourcefile="file:bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
 		
 		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" 
 			fontsize="50" fontcolor="#ff0000ff" alignment="center">
@@ -265,26 +265,80 @@
 		</text>
 		
 		<text xstart="0.1" ystart="0.2" xend="0.9" yend="0.8" fontsize="42" fontcolor="#ff000000" alignment="left">
-			<richtext>
-				Within the UK\n\n
-				Further Education\n
-				&#8226; Number of Pupils - 3,100,000 (2014/2015)\n
-				&#8226; Number of Academic Staff - 37,000 (2011/2012)\n
-				&#8226; Number of Institutions - 382 (2014/2015)\n\n
+			<richtext bold = "true" afterspace = "1">
+				Within the UK
+			</richtext>
+			<richtext afterspace = "1">
+				\n\nFurther Education\n
+				&#8226; Number of Pupils - 
+			</richtext>
+			<richtext bold="true" afterspace = "1">
+				3,100,000 
+			</richtext>
+			<richtext afterspace = "1">
+				(2014/2015)\n
+				&#8226; Number of Academic Staff - 
+			</richtext>
+			<richtext bold="true" afterspace = "1">
+				37,000 
+			</richtext>
+			<richtext afterspace = "1">
+				(2011/2012)\n
+				&#8226; Number of Institutions - 
+			</richtext>
+			<richtext bold="true" afterspace = "1">
+				382 
+			</richtext>
+			<richtext afterspace = "1">
+				(2014/2015)\n\n
 				Lower Education\n
-				&#8226; Number of Pupils - 8,331,385 (2014)\n
-				&#8226; Number of Teachers - 451,100 (2014)\n
-				&#8226; Number of Schools - 24,347 (2014)\n\n
+				&#8226; Number of Pupils - 
+			</richtext>
+			<richtext bold="true" afterspace = "1">
+				8,331,385 
+			</richtext>
+			<richtext afterspace = "1">
+				(2014)\n
+				&#8226; Number of Teachers - 
+			</richtext>
+			<richtext bold="true" afterspace = "1">
+				451,100 
+			</richtext>
+			<richtext afterspace = "1">
+				(2014)\n
+				&#8226; Number of Schools - 
+			</richtext>
+			<richtext bold="true" afterspace = "1">
+				24,347 
+			</richtext>
+			<richtext afterspace = "1">
+				(2014)\n\n
 				Businesses\n
-				&#8226; Number of Businesses - 4.9 million (present)\n\n
-				Global\n
-				&#8226; PowerPoint sales worldwide - 250,000,000 (estimation)\n
+				&#8226; Number of Businesses - 
+			</richtext>
+			<richtext bold="true" afterspace = "1">
+				4,900,000 
+			</richtext>
+			<richtext afterspace = "1">
+				(present)\n\n
+			</richtext>
+			<richtext bold="true" afterspace = "1">
+				\nGlobal\n\n
+			</richtext>
+			<richtext afterspace = "1">
+				&#8226; PowerPoint sales worldwide - 
+			</richtext>
+			<richtext bold="true" afterspace = "1">
+				250,000,000
+			</richtext>
+			<richtext afterspace = "1">
+				(estimation)\n
 			</richtext>
 		</text>
 	</slide>
 	
 	<slide>
-		<image sourcefile="bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
+		<image sourcefile="file:bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
 
 		<text xstart="0.1" ystart="0.40" xend="0.9" yend="0.55"
 			fontsize="100" fontcolor="#ff0000ff" alignment="center">
@@ -295,7 +349,7 @@
 	</slide>
 	
 	<slide>
-		<image sourcefile="bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
+		<image sourcefile="file:bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
 		
 		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" 
 			fontsize="50" fontcolor="#ff0000ff" alignment="center">
@@ -312,29 +366,29 @@
 				FREE\n
 			</richtext>
 			<richtext afterspace="1">
-				Students do not have much income\n
-				Not all will want to pay for the app\n
-				With not enough students the software becomes less effective\n\n
+				&#8226; Students do not have much income\n
+				&#8226; Not all will want to pay for the app\n
+				&#8226; With not enough students the software becomes less effective\n\n
 				Average sale price for presentation software: 
 			</richtext>
 			<richtext bold = "true">
 				&#163;50\n
 			</richtext>
 			<richtext>
-				Agreed with the finance manager\n
-				Will create a good profit if we sell to 9% of the academic staff by the end of year three\n
-				Comparable with price of similar software\n
-				Discounts will be offered if a university decides to buy a number of units\n
+				&#8226; Agreed with the finance manager\n
+				&#8226; Will create a good profit\n
+				&#8226; Comparable with price of similar software\n
+				&#8226; Discounts will be offered if a university decides to buy a number of units\n
 			</richtext>
 			
 		</text>
 		
-		<image sourcefile="sales/11.png" xstart="0.15" ystart="0.6" xend="0.85"/>
+		<image sourcefile="file:sales/11.png" xstart="0.15" ystart="0.575" xend="0.85"/>
 		
 	</slide>
 	
 	<slide>
-		<image sourcefile="bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
+		<image sourcefile="file:bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
 		
 		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" 
 			fontsize="50" fontcolor="#ff0000ff" alignment="center">
@@ -347,24 +401,21 @@
 			<richtext afterspace="1">
 				PowerPoint\n\n
 				&#8226; No audience interaction\n
-				&#8226; Price: &#163;69.99 \n
+				&#8226; Price: &#163;69.99 \n\n
 				Socrative \n\n
 				&#8226; Does not include presentation software\n
-				&#8226; Price: Free &#40;beta version, will not be free in the future&#41;\n
+				&#8226; Price: Free &#40;beta version, will not be free in the future&#41;\n\n
 				TopHat\n\n
 				&#8226; Based in Canada, not much presence in the UK market\n
 				&#8226; Price: &#36;72 for student app, free for lecturers\n
 			</richtext>
 			
-		</text>
-		
-		<image sourcefile="sales/11.png" xstart="0.15" ystart="0.6" xend="0.85"/>
-		
+		</text>		
 	</slide>
 	
 	
 	<slide>
-		<image sourcefile="bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
+		<image sourcefile="file:bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
 
 		<text xstart="0.1" ystart="0.40" xend="0.9" yend="0.55"
 			fontsize="100" fontcolor="#ff0000ff" alignment="center">
@@ -375,7 +426,7 @@
 	</slide>
 	
 	<slide>
-		<image sourcefile="bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
+		<image sourcefile="file:bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
 		
 		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" 
 			fontsize="50" fontcolor="#ff0000ff" alignment="center">
@@ -390,12 +441,12 @@
 			</richtext>
 		</text>
 		
-		<image sourcefile="finance/1.jpg" xstart="0.2" ystart="0.3" xend="0.8"/>
+		<image sourcefile="file:finance/1.jpg" xstart="0.2" ystart="0.3" xend="0.8"/>
 
 	</slide>
 	
 	<slide>
-		<image sourcefile="bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
+		<image sourcefile="file:bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
 		
 		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" 
 			fontsize="50" fontcolor="#ff0000ff" alignment="center">
@@ -411,12 +462,12 @@
 			</richtext>
 		</text>
 		
-		<image sourcefile="finance/2.png" xstart="0.3" ystart="0.4" xend="0.7"/>
+		<image sourcefile="file:finance/2.png" xstart="0.3" ystart="0.4" xend="0.7"/>
 
 	</slide>
 	
 	<slide>
-		<image sourcefile="bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
+		<image sourcefile="file:bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
 		
 		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" 
 			fontsize="50" fontcolor="#ff0000ff" alignment="center">
@@ -450,12 +501,12 @@
 			</richtext>
 		</text>
 		
-		<image sourcefile="finance/3.png" xstart="0.5" ystart="0.3" xend="0.82"/>
+		<image sourcefile="file:finance/3.png" xstart="0.5" ystart="0.3" xend="0.82"/>
 
 	</slide>
 	
 	<slide>
-		<image sourcefile="bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
+		<image sourcefile="file:bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
 		
 		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" 
 			fontsize="50" fontcolor="#ff0000ff" alignment="center">
@@ -464,11 +515,11 @@
 			</richtext>
 		</text>
 		
-		<image sourcefile="finance/4.png" xstart="0.2" ystart="0.3" xend="0.8"/>
+		<image sourcefile="file:finance/4.png" xstart="0.2" ystart="0.3" xend="0.8"/>
 	</slide>
 	
 	<slide>
-		<image sourcefile="bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
+		<image sourcefile="file:bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
 		
 		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" 
 			fontsize="50" fontcolor="#ff0000ff" alignment="center">
@@ -483,11 +534,11 @@
 			</richtext>
 		</text>
 		
-		<image sourcefile="finance/5.png" xstart="0.3" ystart="0.35" xend="0.7"/>
+		<image sourcefile="file:finance/5.png" xstart="0.3" ystart="0.35" xend="0.7"/>
 	</slide>
 	
 	<slide>
-		<image sourcefile="bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
+		<image sourcefile="file:bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
 		
 		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" 
 			fontsize="50" fontcolor="#ff0000ff" alignment="center">
@@ -496,11 +547,11 @@
 			</richtext>
 		</text>
 		
-		<image sourcefile="finance/6.jpg" xstart="0.1" ystart="0.3" xend="0.9"/>
+		<image sourcefile="file:finance/6.jpg" xstart="0.1" ystart="0.3" xend="0.9"/>
 	</slide>
 	
 	<slide>
-		<image sourcefile="bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
+		<image sourcefile="file:bgs.png" xstart="0" ystart="0" xend="1" yend="1"/>
 		
 		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.2" 
 			fontsize="50" fontcolor="#ff0000ff" alignment="center">
