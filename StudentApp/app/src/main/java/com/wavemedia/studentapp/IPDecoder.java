@@ -1,20 +1,12 @@
-/**
- *
- * Harrison Holt-McHale
- *
- * Copyright (c) 2015 WaveMedia. All rights reserved
- *
- */
-
+/** (c) Copyright by Wavemedia. */
 package com.wavemedia.studentapp;
 
 /**
+ * Class that Decodes user input and provides serverIP to connect to
+ * 
  * @author Harrison Holt-McHale
  * @version 2.0 29/05/2015
- *
  */
-
-/* Class that Decodes user input and provides serverIP to connect to */
 public class IPDecoder {
 
     /* Inputs */
@@ -26,8 +18,10 @@ public class IPDecoder {
     /* Outputs */
     String serverIP;        // Output Server IP
 
+    /**
+     * Constructor
+     */
     IPDecoder(int sentSite, String sentHexCode, int[] sentSites, String[] sentIPS) {
-
         /* Parameters passed into Class in Constructor */
         siteID = sentSite;
         hexCode = sentHexCode;
@@ -49,7 +43,9 @@ public class IPDecoder {
         serverIP += "." + getHexCodeIP(hexCode);
     }
 
-    /* This method converts the Hex Code to the IP Numbers */
+    /**
+     * This method converts the Hex Code to the IP Numbers 
+     */
     public String getHexCodeIP(String hexCode) {
 
         String[] hex;       // Input Hex split into individual digits
@@ -69,7 +65,9 @@ public class IPDecoder {
         return hexCodeIP;
     }
 
-    /* Getter to return serverIP */
+    /**
+     * Getter to return serverIP 
+     */
     public String getServerIP(){
         return serverIP;
     }
