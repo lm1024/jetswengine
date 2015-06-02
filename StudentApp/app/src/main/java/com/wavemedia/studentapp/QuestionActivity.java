@@ -1,12 +1,4 @@
-/**
- *
- * Harrison Holt-McHale
- * David Kilburn
- *
- * Copyright (c) 2015 WaveMedia. All rights reserved
- *
- */
-
+/** (c) Copyright by WaveMedia. */
 package com.wavemedia.studentapp;
 
 import android.app.AlertDialog;
@@ -37,13 +29,12 @@ import java.net.UnknownHostException;
 import java.nio.ByteOrder;
 
 /**
+ * Activity created by Open Activity
+ * 
  * @author Harrison Holt-McHale
  * @author David Kilburn
  * @version 2.0 29/05/2015
- *
  */
-
-/* Activity created by Open Activity */
 public class QuestionActivity extends ActionBarActivity {
 
     /* Server Port is always 80 */
@@ -78,13 +69,20 @@ public class QuestionActivity extends ActionBarActivity {
     Boolean ready = false;
     /* Boolean to prevent GUI Edits in finished activities */
     private boolean visible = false;
-    private boolean timeoutDialog;
+    /* Boolean for Socket Timeout is shown */
+    private boolean timeoutDialog;      
+    /* Boolean for Wifi connection alert dialog is shown */
     AlertDialog connectionAlertDialog;
+    /* Declare Wifi manager */
     WifiManager wifiManager;
-    NetworkInfo mWifi;                  // WIFI Network Info
-    ConnectivityManager connManager;    // Connectivity Manager
+    /* WIFI Network Info */
+    NetworkInfo mWifi;
+    /* Connectivity Manager */
+    ConnectivityManager connManager;
 
-    /* Method for getting IP Address on Wifi-enabled devices */
+    /**
+     * Method for getting IP Address on Wifi-enabled devices 
+     */
     protected String getWifiIpAddress(Context context) {
         /* Get WifiService Info */
         wifiManager = (WifiManager) getSystemService(WIFI_SERVICE);
@@ -109,18 +107,24 @@ public class QuestionActivity extends ActionBarActivity {
         return ipAddressString;
     }
 
-    /* Thread for making App to Pc Connection */
+    /**
+     * Thread for making App to Pc Connection 
+     */
     class NetworkingThread implements Runnable {
 
         /* Pass in the Activity being used as a parameter */
         QuestionActivity parent;
 
-        /* Thread Constructor */
+        /**
+         * Thread Constructor 
+         */
         public NetworkingThread(QuestionActivity ma) {
             this.parent = ma;
         }
 
-        /* Thread Method */
+        /**
+         * Thread Method 
+         */
         @Override
         public void run() {
             try {
@@ -146,9 +150,14 @@ public class QuestionActivity extends ActionBarActivity {
         }
     }
 
-    /* Thread for executing the Socket and PrintStream connection */
+    /**
+     * Thread for executing the Socket and PrintStream connection 
+     */
     class SendingThread implements Runnable {
 
+        /**
+         * Thread Method
+         */
         @Override
         public void run() {
             try {
@@ -169,7 +178,9 @@ public class QuestionActivity extends ActionBarActivity {
         }
     }
 
-     /* When the Activity is Created, run this Method first */
+     /**
+      * When the Activity is Created, run this Method first 
+      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -201,18 +212,18 @@ public class QuestionActivity extends ActionBarActivity {
         /* Instantiate EditText for TextBox used for sending a question */
         questionBoxJ = (EditText) findViewById(R.id.questionBox);
         questionBoxJ.addTextChangedListener(new TextWatcher() {
-            /* Do Nothing Before Text is Changed */
+            /** Do Nothing Before Text is Changed */
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
-            /* Trim Question Box Text and add to Question variable */
+            /** Trim Question Box Text and add to Question variable */
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s != null) {
                     question = s.toString().trim();
                 }
             }
-            /* Do nothing after text is changed */
+            /** Do nothing after text is changed */
             @Override
             public void afterTextChanged(Editable s) {
             }
@@ -232,7 +243,9 @@ public class QuestionActivity extends ActionBarActivity {
         runNetworkCheckThread.start();
     }
 
-    /* If we decide to use an action bar this is where we add the options. */
+    /**
+     * If we decide to use an action bar this is where we add the options. 
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         /* Inflate the menu; this adds items to the action bar if it is present. */
@@ -240,7 +253,9 @@ public class QuestionActivity extends ActionBarActivity {
         return true;
     }
 
-    /* This is the OnClickListener for the Action Bar */
+    /** 
+     * This is the OnClickListener for the Action Bar 
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         /* Handle action bar item clicks here. The action bar will
@@ -264,8 +279,10 @@ public class QuestionActivity extends ActionBarActivity {
         return true;
     }
 
-    /*  This is the Method for sending the localIP and String parameter passed to
-        the method                                                                  */
+    /**
+     * This is the Method for sending the localIP and String parameter passed to 
+     * the method                                                                  
+     */
     public void sendOption(String option) {
         /* If the PrintStream is not null */
         if (out != null) {
@@ -293,7 +310,9 @@ public class QuestionActivity extends ActionBarActivity {
         }
     }
 
-    /* Called when User clicks the A Option */
+    /**
+     * Called when User clicks the A Option 
+     */
     public void optionA(View view) {
             /* If the socket is not already being used by another button or a question */
             if (socketOpen) {
@@ -311,7 +330,9 @@ public class QuestionActivity extends ActionBarActivity {
             }
     }
 
-    /* Called when User clicks the B Option */
+    /**
+     * Called when User clicks the B Option 
+     */
     public void optionB(View view) {
         /* If the socket is not already being used by another button or a question */
         if (socketOpen) {
@@ -329,7 +350,9 @@ public class QuestionActivity extends ActionBarActivity {
         }
     }
 
-    /* Called when User clicks the C Option */
+    /* 
+     * Called when User clicks the C Option 
+     */
     public void optionC(View view) {
         /* If the socket is not already being used by another button or a question */
         if (socketOpen) {
@@ -347,7 +370,9 @@ public class QuestionActivity extends ActionBarActivity {
         }
     }
 
-    /* Called when User clicks the D Option */
+    /** 
+     * Called when User clicks the D Option 
+     */
     public void optionD(View view) {
         /* If the socket is not already being used by another button or a question */
         if (socketOpen) {
@@ -365,7 +390,9 @@ public class QuestionActivity extends ActionBarActivity {
         }
     }
 
-    /* Called when User tries to send a question */
+    /** 
+     * Called when User tries to send a question 
+     */
     public void sendQuestion(View view) {
         /* If the socket is not already being used by another button or a question */
         if (socketOpen) {
@@ -420,7 +447,9 @@ public class QuestionActivity extends ActionBarActivity {
         }
     }
 
-    /* When the Activity is destroyed, this method is called */
+    /**
+     * When the Activity is destroyed, this method is called 
+     */
     @Override
     protected void onDestroy(){
 
@@ -442,9 +471,14 @@ public class QuestionActivity extends ActionBarActivity {
         super.onDestroy();
     }
 
-    /* Thread that runs the NetworkCheckThread */
+    /**
+     * Thread that runs the NetworkCheckThread 
+     */
     class RunNetworkCheckThread implements Runnable {
 
+        /**
+         * Thread Method
+         */
         @Override
         public void run() {
             /* While no connection error found */
@@ -465,9 +499,14 @@ public class QuestionActivity extends ActionBarActivity {
         }
     }
 
-    /* Thread that runs the Network Check */
+    /**
+     * Thread that runs the Network Check 
+     */
     class NetworkCheckThread implements Runnable {
 
+        /**
+         * Thread Method
+         */
         @Override
         public void run() {
                 /* Try and close the socket */
@@ -482,9 +521,14 @@ public class QuestionActivity extends ActionBarActivity {
         }
     }
 
-    /* Thread that opens a new socket */
+    /**
+     * Thread that opens a new socket 
+     */
     class SendingCheckThread implements Runnable {
 
+        /**
+         * Thread Method
+         */
         @Override
         public void run() {
             try {
@@ -604,7 +648,9 @@ public class QuestionActivity extends ActionBarActivity {
         }
     }
 
-    /* Called when the User Resumes an Activity */
+    /** 
+     * Called when the User Resumes an Activity 
+     */
     @Override
     protected void onResume()
     {
@@ -613,7 +659,9 @@ public class QuestionActivity extends ActionBarActivity {
         visible = true;
     }
 
-    /* Called when the User Pauses an Activity */
+    /** 
+     * Called when the User Pauses an Activity 
+     */
     @Override
     protected void onStop()
     {
@@ -622,7 +670,9 @@ public class QuestionActivity extends ActionBarActivity {
         super.onStop();
     }
 
-    /* Finish Activity on Back Pressed */
+    /** 
+     * Finish Activity on Back Pressed 
+     */
     @Override
     public void onBackPressed(){
         finish();
