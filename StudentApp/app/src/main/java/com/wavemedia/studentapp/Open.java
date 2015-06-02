@@ -1,12 +1,4 @@
-/**
- *
- * Harrison Holt-McHale
- * David Kilburn
- *
- * Copyright (c) 2015 WaveMedia. All rights reserved
- *
- */
-
+/** (c) Copyright by Wavemedia. */
 package com.wavemedia.studentapp;
 
 import android.app.AlertDialog;
@@ -36,13 +28,12 @@ import java.net.UnknownHostException;
 import java.nio.ByteOrder;
 
 /**
+ * Activity Created on App Launch
+ * 
  * @author Harrison Holt-McHale
  * @author David Kilburn
  * @version 2.0 29/05/2015
- *
  */
-
-/* Activity Created on App Launch */
 public class Open extends ActionBarActivity {
 
     /* Labels for Intent Extra */
@@ -74,7 +65,9 @@ public class Open extends ActionBarActivity {
     /* Instantiate Listener for Institution Dropdown Box Selection*/
     CustomOnItemSelectedListener customOnItemSelectedListener = new CustomOnItemSelectedListener();
 
-    /* On Application Open, First Activity Runs: */
+    /**
+     * On Application Open, First Activity Runs: 
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         /* Runs the Standard OnCreate method before executing additions */
@@ -123,18 +116,24 @@ public class Open extends ActionBarActivity {
 
     }
 
-    /* Thread for making App to Pc Connection */
+    /**
+     * Thread for making App to Pc Connection 
+     */
     class NetworkingThread implements Runnable {
 
         /* Pass in the Activity being used as a parameter */
         Open parent;
 
-        /* Thread Constructor */
+        /**
+         * Thread Constructor 
+         */
         public NetworkingThread(Open ma) {
             this.parent = ma;
         }
 
-        /* Thread Method */
+        /** 
+         *Thread Method 
+         */
         @Override
         public void run() {
             try {
@@ -158,9 +157,14 @@ public class Open extends ActionBarActivity {
         }
     }
 
-    /* Thread for executing the Socket and PrintStream connection */
+    /**
+     * Thread for executing the Socket and PrintStream connection 
+     */
     class SendingThread implements Runnable {
 
+        /**
+         * Thread Method
+         */
         @Override
         public void run() {
             try {
@@ -180,18 +184,25 @@ public class Open extends ActionBarActivity {
         }
     }
 
-    /* Thread for Enabling Connect Button */
+    /** 
+     *Thread for Enabling Connect Button 
+     */
     class ConnectEnableThread implements Runnable {
         /* Declare and Instantiate boolean for while loop */
         boolean finish = false;
         /* Variable for Acitivity Parameter */
         Open parent;
-        /* Pass parent in on Constructor */
+        
+        /** 
+         * Pass parent in on Constructor 
+         */
         public ConnectEnableThread(Open ma){
             this.parent = ma;
         }
 
-        /* On Thread Running */
+        /** 
+         * On Thread Running 
+         */
         @Override
         public void run() {
             /* While loop to run until Activity dies */
@@ -230,7 +241,9 @@ public class Open extends ActionBarActivity {
         }
     }
 
-    /* Method for Validating HexCode */
+    /**
+     * Method for Validating HexCode 
+     */
     public boolean hexCodeValidation(){
         /* Set Result to False Initially */
         boolean result = false;
@@ -246,7 +259,9 @@ public class Open extends ActionBarActivity {
         return result;
     }
 
-    /* If we decide to use an action bar this is where we add the options. */
+    /**
+     * If we decide to use an action bar this is where we add the options. 
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         /* Inflate the menu; this adds items to the action bar if it is present. */
@@ -254,7 +269,9 @@ public class Open extends ActionBarActivity {
         return true;
     }
 
-    /* This is the OnClickListener for the Action Bar */
+    /**
+     * This is the OnClickListener for the Action Bar 
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
          /* Handle action bar item clicks here. The action bar will
@@ -278,7 +295,9 @@ public class Open extends ActionBarActivity {
         return true;
     }
 
-    /* Method for getting IP Address on Wifi-enabled devices */
+    /** 
+     * Method for getting IP Address on Wifi-enabled devices 
+     */
     protected String getWifiIpAddress(Context context) {
 
         /* Get WifiService Info */
@@ -304,7 +323,9 @@ public class Open extends ActionBarActivity {
         return ipAddressString;
     }
 
-    /* When the Connect Button is pressed */
+    /**
+     * When the Connect Button is pressed 
+     */
     public void connect(View view) throws InterruptedException {
         /* If connect has already been pressed, do not allow it to be pressed again: */
         connectButton.setEnabled(false);
@@ -318,16 +339,23 @@ public class Open extends ActionBarActivity {
 
     }
 
-    /* Connect Thread */
+    /**
+     * Connect Thread 
+     */
     class ConnectThread implements Runnable {
 
         Open parent;
 
-        /* Thread Constructor */
+        /**
+         * Thread Constructor 
+         */
         public ConnectThread(Open ma) {
             this.parent = ma;
         }
 
+        /**
+         * Thread Runnable
+         */
         @Override
         public void run() {
             /* Invalidate Test Result and networkAttempt and whileFinish */
@@ -401,7 +429,9 @@ public class Open extends ActionBarActivity {
             }
         }
 
-    /* Network Attempt Test Method */
+    /**
+     * Network Attempt Test Method 
+     */
     public void successfulConnectionCheck() {
         /* If the PrintWriter has been successfully instantiated */
         if (out != null) {
