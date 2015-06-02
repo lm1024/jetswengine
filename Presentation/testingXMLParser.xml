@@ -36,13 +36,25 @@
 		
 		<!-- Our Text --> <!-- Removed the set case, moved alignment to text level -->
 		<text xstart="0.1" ystart="0.1" xend="0.9" yend="0.9" font="arial" fontsize="24" fontcolor="#88776655" alignment="right" duration="1.5" starttime="2.0" backgroundcolor="#12345678" highlightcolor="#55446633">
-			<richtext font="arial" fontsize="26" fontcolor="#11223344" highlightcolor="#00000000" newline="true" b="true" i="true" u="true" strikethrough="true" superscript="true" subscript="true" >Example text!</richtext>
-			<richtext font="arial" fontsize="26" fontcolor="#11223344" highlightcolor="#87654321" newline="true" b="true" i="true" u="true" strikethrough="true" superscript="true" subscript="true" >Example \n text!</richtext>
+			<richtext font="arial" fontsize="26" fontcolor="#11223344" highlightcolor="#00000000" newline="true" bold="true" italicised="true" underlined="true" strikethrough="true" superscript="true" subscript="true" >Example text!</richtext>
+			<richtext font="arial" fontsize="26" fontcolor="#11223344" highlightcolor="#87654321" newline="true" bold="true" italicised="true" underlined="true" strikethrough="true" superscript="true" subscript="true" >Example \n text!</richtext>
 			<!-- Removed some params from this one, should inherit -->
-			<richtext newline="true" b="true" i="true" u="true" strikethrough="true" superscript="true" subscript="true" >Example text!</richtext>
+			<richtext newline="true" bold="true" italicised="true" underlined="true" strikethrough="true" superscript="true" subscript="true" >Example text!</richtext>
 		</text>
 
-
+		<!-- PWS Images -->
+		<image sourcefile="cat.jpg" xstart="0.5" ystart="0.5" scale="1.0" duration="1.5" starttime="2.0" />
+		
+		<!-- Our Images -->
+		<image sourcefile="selfie.jpg" xstart="0.5" ystart="0.5" vscale="0.5" hscale="0.75" rotation="45" fliphorizontal="true" flipvertical="true" cropx1="0.1" cropy1="0.1" cropx2="0.5" cropy2="0.5" duration="1.5" starttime="2.0">
+			<!-- THESE NEED TO BE ADDED -->
+			<sepia/>
+			<bloom/>
+			<blur/>
+			<glow/>
+			<grayscale/>
+			<reflection/>
+		</image>
 		
 		
 		<!-- PWS Audio -->
