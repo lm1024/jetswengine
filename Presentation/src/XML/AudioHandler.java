@@ -13,7 +13,7 @@ import Data.Slide;
  * Audio Handler class for parsing audio Tags from XML Slideshows
  * 
  * @author dk666
- * @version 1.4 11/03/2015
+ * @version 1.5 02/06/15
  */
 public class AudioHandler extends DefaultHandler {
 
@@ -22,26 +22,26 @@ public class AudioHandler extends DefaultHandler {
 	private SlideHandler parentHandler;
 	private Audio audio;
 
-	/**
-	 * 
-	 */
-	public AudioHandler(XMLReader reader, SlideHandler parent,
-			Slide slide) {
+	public AudioHandler(XMLReader reader, SlideHandler parent, Slide slide) {
 		this.parentHandler = parent;
 		this.reader = reader;
 		this.slide = slide;
-		
+
 	}
 
+	/*
+	 * Called when the XML Parser encounters a start tag for an Audio element.
+	 * Assigns all the attributes of the audio tag to an Audio object and adds
+	 * it to the current slideshow.
+	 */
 	public void startElement(String uri, String localName, String qName,
 			Attributes attributes) throws SAXException {
-		// sort out element name if (no) namespace in use
-		//TODO: Call start Element when handler is changed to parse duration
+		/* sort out element name if (no) namespace in use */
 		String elementName = localName;
 		if ("".equals(elementName)) {
 			elementName = qName;
 		}
-		if(elementName.equals("audio")) {
+		if (elementName.equals("audio")) {
 			audio = new Audio(parentHandler.getDefaults());
 			audio.setSourceFile(attributes.getValue("sourcefile"));
 			audio.setDuration(attributes.getValue("duration"));
@@ -56,7 +56,8 @@ public class AudioHandler extends DefaultHandler {
 			slide.add(audio);
 			reader.setContentHandler(parentHandler);
 		} else {
-			System.err.println("Unknown Audio element encountered: " + elementName);
+			System.err.println("Unknown Audio element encountered: "
+					+ elementName);
 		}
 	}
 }

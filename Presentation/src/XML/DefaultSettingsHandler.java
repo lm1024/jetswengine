@@ -10,20 +10,23 @@ import Data.Defaults;
 import Data.Slideshow;
 
 /**
- * @author David
- *
+ * Default Settings Handler class for parsing defaultsettings Tags from XML
+ * Slideshows.
+ * 
+ * @author dk666
+ * @version 1.3 02/06/15
  */
 public class DefaultSettingsHandler extends DefaultHandler {
 
 	private XMLReader reader;
 	private ContentHandler parentHandler;
 	private Defaults defaults;
+
+	/* String buffer for storing the content of an element */
 	private StringBuffer contentBuffer = new StringBuffer();
 
-	/**
-	 * 
-	 */
-	public DefaultSettingsHandler(XMLReader reader, ContentHandler parent, Slideshow slideshow) {
+	public DefaultSettingsHandler(XMLReader reader, ContentHandler parent,
+			Slideshow slideshow) {
 		this.defaults = slideshow.getDefaults();
 		this.parentHandler = parent;
 		this.reader = reader;
@@ -38,9 +41,14 @@ public class DefaultSettingsHandler extends DefaultHandler {
 		contentBuffer.append(ch, start, length);
 	}
 
+	/*
+	 * Called when the XML Parser encounters a end tag for an element. Assigns
+	 * the content of each tag to its respective variable in the data structure.
+	 * Recalculates 
+	 */
 	public void endElement(String uri, String localName, String qName)
 			throws SAXException {
-		// sort out element name if (no) namespace in use
+		/* sort out element name if (no) namespace in use */
 		String elementName = localName;
 		if ("".equals(elementName)) {
 			elementName = qName;
