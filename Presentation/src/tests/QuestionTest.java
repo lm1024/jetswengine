@@ -2,7 +2,6 @@ package tests;
 
 import static org.junit.Assert.*;
 
-import java.io.File;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -33,7 +32,7 @@ public class QuestionTest {
 		question.addAnswer("1", true);
 		question.addAnswer("2", false);
 		
-		question.increaseAnswerCount(0);
+		question.increaseAnswerCount(0, "111.111.111.111");
 		
 		assertTrue(question.getAnswer(0).getId() == "1");
 		assertTrue(question.getAnswer(0).getCorrect() == true);
@@ -48,7 +47,7 @@ public class QuestionTest {
 	public void testCSVFileExists() {
 		question.addAnswer("1", true);
 		question.addAnswer("2", false);
-		question.increaseAnswerCount(0);
+		question.increaseAnswerCount(0, "111.111.111.111");
 		
 		question.writeLogfile();
 	}
@@ -62,7 +61,7 @@ public class QuestionTest {
 		
 		assertFalse(question.hasAnswerData());
 		
-		question.increaseAnswerCount(0);
+		question.increaseAnswerCount(0, "111.111.111.111");
 		
 		assertTrue(question.hasAnswerData());
 	}
