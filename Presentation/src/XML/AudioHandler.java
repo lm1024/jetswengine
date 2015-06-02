@@ -1,6 +1,4 @@
-/**
- * 
- */
+/** (c) Copyright by WaveMedia. */
 package XML;
 
 import org.xml.sax.Attributes;
@@ -12,8 +10,10 @@ import Data.Audio;
 import Data.Slide;
 
 /**
- * @author David
- *
+ * Audio Handler class for parsing audio Tags from XML Slideshows
+ * 
+ * @author dk666
+ * @version 1.4 11/03/2015
  */
 public class AudioHandler extends DefaultHandler {
 
