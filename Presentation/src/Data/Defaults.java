@@ -1,3 +1,4 @@
+/** (c) Copyright by WaveMedia. */
 package Data;
 
 import java.math.BigInteger;
