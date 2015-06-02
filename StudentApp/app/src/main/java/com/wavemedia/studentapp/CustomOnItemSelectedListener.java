@@ -1,5 +1,4 @@
-/** Copyright (c) 2015 WaveMedia. All rights reserved */
-
+/** (c) Copyright by Wavemedia. */
 package com.wavemedia.studentapp;
 
 import android.app.Activity;
