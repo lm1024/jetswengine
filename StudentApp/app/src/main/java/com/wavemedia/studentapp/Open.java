@@ -197,7 +197,7 @@ public class Open extends ActionBarActivity {
             /* While loop to run until Activity dies */
             while (!finish) {
                 /* If A 4 digit Hex string present and connect has not recently been
-                   pressed, enable connect button */
+                   pressed, and Wifi is connected, enable connect button */
                 mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
                 if (hexCodeValidation() && !connectPressed && (mWifi.getDetailedState() == NetworkInfo.DetailedState.CONNECTED)) {
                     /* Run method on Thread that controls UI */
