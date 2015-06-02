@@ -142,8 +142,6 @@ public class Video {
 
 		this.loop = loop;
 
-		System.out.println(x + " " + y);
-
 		/* Load icon images */
 		playImage = new ImageView(
 			new Image(getClass().getResourceAsStream("Play_ST_CONTENT_RECT_Transparent_L-01.png")));
