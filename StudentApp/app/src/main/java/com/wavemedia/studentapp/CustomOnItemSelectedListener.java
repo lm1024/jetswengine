@@ -34,7 +34,7 @@ public class CustomOnItemSelectedListener extends Activity implements AdapterVie
         selectedValue = position;
     }
 
-    /* 
+    /**
      * Required method to implement OnItemSelectedListener 
      */
     @Override
