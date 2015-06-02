@@ -22,6 +22,12 @@ public class TextFragmentList {
 	public void add(TextFragment textFragment) {
 		textFragmentList.add(textFragment);
 	}
+	
+	public void addAll(TextFragment... fragments) {
+		for(TextFragment tf : fragments) {
+			textFragmentList.add(tf);
+		}
+	}
 
 	ArrayList<TextFragment> getList() {
 		return textFragmentList;
