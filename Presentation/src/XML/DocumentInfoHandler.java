@@ -10,20 +10,24 @@ import Data.DocumentInfo;
 import Data.Slideshow;
 
 /**
- * @author David
- *
+ * Document Info Handler class for parsing documentinfo Tags from XML
+ * Slideshows.
+ * 
+ * @author dk666
+ * @version 1.3 02/06/15
  */
 public class DocumentInfoHandler extends DefaultHandler {
 
 	private XMLReader reader;
 	private ContentHandler parentHandler;
 	private DocumentInfo info;
+
+	/* String buffer for storing the content of an element */
 	private StringBuffer contentBuffer = new StringBuffer();
 
-	/**
-	 * 
-	 */
-	public DocumentInfoHandler(XMLReader reader, ContentHandler parent, Slideshow slideshow) {
+	/* Creates a new DocumentInfoHandler */
+	public DocumentInfoHandler(XMLReader reader, ContentHandler parent,
+			Slideshow slideshow) {
 		this.parentHandler = parent;
 		this.reader = reader;
 		this.info = slideshow.getInfo();
@@ -38,6 +42,10 @@ public class DocumentInfoHandler extends DefaultHandler {
 		contentBuffer.append(ch, start, length);
 	}
 
+	/*
+	 * Called when the XML Parser encounters a end tag for an element. Assigns
+	 * the content of each tag to its respective variable in the data structure.
+	 */
 	public void endElement(String uri, String localName, String qName)
 			throws SAXException {
 		// sort out element name if (no) namespace in use
@@ -64,6 +72,7 @@ public class DocumentInfoHandler extends DefaultHandler {
 		default:
 			break;
 		}
+		/* Clear content buffer after each tag */
 		contentBuffer.setLength(0);
 	}
 
