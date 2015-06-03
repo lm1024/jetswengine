@@ -65,6 +65,8 @@ public class JavaFXTest extends Application {
 		// TODO Auto-generated constructor stub
 	}
 
+	public static MediaView mediaView = new MediaView();
+	
 	@Override
 	public void start(Stage primaryStage) {
 		primaryStage.setTitle("JavaFX Welcome");
@@ -78,9 +80,15 @@ public class JavaFXTest extends Application {
 		group.setStyle("-fx-background-color: white;");
 
 		/* Graphics Section */
+<<<<<<< HEAD
 		circle = new Circle(150, 20, 50);
 		circle.relocate(250, 20);
 		circle.setFill(new Color(0, 1, 0, 1)); // RGBa!!!!!
+=======
+		Circle circle = new Circle(50, Color.BLUE);
+		circle.relocate(150, 20);
+		circle.setFill(new Color(0, 1, 0, 0.5)); // RGBa!!!!!
+>>>>>>> refs/heads/HBranch
 
 		Ellipse ellipse = new Ellipse(100, 150, 20, 30);
 		// ellipse.setFill(new Color(1, 0.8, 1, 1));
@@ -129,9 +137,17 @@ public class JavaFXTest extends Application {
 		MediaPlayer mediaPlayer = new MediaPlayer(media);
 		mediaPlayer.setAutoPlay(true);
 		// create mediaView and add media player to the viewer
+<<<<<<< HEAD
 		mediaView = new MediaView(mediaPlayer);
 		mediaView.relocate(50, 50);
 		// (scene.getRoot()).getChildren().add(mediaView);
+=======
+		mediaView.setMediaPlayer(mediaPlayer);
+		mediaView.relocate(500, 500);
+		//(scene.getRoot()).getChildren().add(mediaView);
+		mediaView.setOpacity(1);//Set Opacity of the Media View. Defaults to 1.
+		
+>>>>>>> refs/heads/HBranch
 
 		/* Image section! */
 		Image image = new Image("file:me.png", 100, 100, true, true);
@@ -242,10 +258,21 @@ public class JavaFXTest extends Application {
 	public class buttonEventHandler implements EventHandler<ActionEvent> {
 		@Override
 		public void handle(ActionEvent e) {
+<<<<<<< HEAD
 			Button buttonPressed = (Button) e.getSource();
 			//circle.setTranslateZ(circle.getTranslateZ()-0.1);
 			circle.toBack();
 			mediaView.toFront();			
+=======
+			Button buttonPressed = (Button)e.getSource();
+			System.out.println(buttonPressed.getId());	
+			
+		if (mediaView.getOpacity() == 0){
+			mediaView.setOpacity(1);
+		} else {
+		mediaView.setOpacity(0);	
+		}
+>>>>>>> refs/heads/HBranch
 		}
 	}
 

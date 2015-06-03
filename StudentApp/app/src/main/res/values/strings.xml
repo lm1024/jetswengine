@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--  (c) Copyright by WaveMedia. -->
+<!-- Array Resource XML -->
+<resources>
+    <!-- App Name String Resource -->
+    <string name="app_name">SmartSlides</string>
+    <!-- Information Menu Item  String Resource -->
+    <string name="action_info">Information</string>
+    <!-- Option A Button String Resource -->
+    <string name="option_a">A</string>
+    <!-- Option B Button String Resource -->
+    <string name="option_b">B</string>
+    <!-- Option C Button String Resource -->
+    <string name="option_c">C</string>
+    <!-- Option D Button String Resource -->
+    <string name="option_d">D</string>
+    <!-- Open Activity Name String Resource -->
+    <string name="title_activity_open">Open</string>
+    <!-- Connection Code String Resource -->
+    <string name="hex_code">Connection Code:</string>
+    <!-- Connect Button String Resource -->
+    <string name="connect">Connect</string>
+    <!-- Logo Content Description String Resource (This is for Screen Readers) -->
+    <string name="SScontentDescription">Smart Slides Logo</string>
+    <!-- Cancel Button String Resource -->
+    <string name="cancel">Cancel</string>
+    <!-- Ok Button  String Resource -->
+    <string name="ok">OK</string>
+    <!-- Send a Question Label String Resource -->
+    <string name="question">Send a Question:</string>
+    <!-- Send Button String Resource -->
+    <string name="send">Send</string>
+    <!-- Length Error Alert Dialog Title String Resource -->
+    <string name="length_error">Question Too Long!</string>
+    <!-- Edit Button String Resource -->
+    <string name="edit">Edit</string>
+    <!-- Connection Error Alert Dialog Error String Resource -->
+    <string name="connection_error">Can\'t Connect to Server</string>
+    <!-- Invalid Question Error -->
+    <string name="sc_error">Invalid Question</string>
+</resources>

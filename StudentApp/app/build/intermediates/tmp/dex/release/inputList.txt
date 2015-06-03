@@ -1,0 +1,5 @@
+C:\Users\Harrison\Documents\jetswengine\StudentApp\app\build\intermediates\classes\release
+C:\Users\Harrison\Documents\jetswengine\StudentApp\app\build\intermediates\pre-dexed\release\support-annotations-21.0.3-ce9ffc09c6a0c4ce7e95a06480a86341f03e9c08.jar
+C:\Users\Harrison\Documents\jetswengine\StudentApp\app\build\intermediates\pre-dexed\release\internal_impl-21.0.3-53aae5cb3bd5db9f3e640ecb9235017669682bb7.jar
+C:\Users\Harrison\Documents\jetswengine\StudentApp\app\build\intermediates\pre-dexed\release\classes-a5f59f613d7ff5e3eda707a1557f45679e53eea9.jar
+C:\Users\Harrison\Documents\jetswengine\StudentApp\app\build\intermediates\pre-dexed\release\classes-f24fe76e6e7f530531770f8364d4ed69bd24a2f5.jar
