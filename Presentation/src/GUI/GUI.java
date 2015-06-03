@@ -25,7 +25,6 @@ import runtime.SlideshowRuntimeData;
 import comms.CommsHandler;
 
 import utils.IPEncoder;
-import utils.SimpleLogger;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -161,8 +160,6 @@ public class GUI extends Application {
 
 		/* Create new instance of settings */
 		preferences = new UserPreferences();
-
-		SimpleLogger.init();
 
 		/* Read CSV into array list */
 		parseFiles();
