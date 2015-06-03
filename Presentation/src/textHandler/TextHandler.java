@@ -9,7 +9,7 @@ import javafx.scene.web.WebView;
  * Class for handling multiple textboxes on a javafx group.
  * 
  * @author tjd511
- * @version 2.0 02/03/2015
+ * @version 2.0 02/05/2015
  */
 public class TextHandler {
 	private Group group;
@@ -40,7 +40,7 @@ public class TextHandler {
 	 * @param textBox
 	 *            a textBox object containing all the information about the
 	 *            textBox to be drawn. Must be formed using the TextBuilder.
-	 * @see {@link textHandler.TextObject}
+	 * @see textHandler.TextObject
 	 */
 	public void createTextbox(TextObject textBox) {
 		texts.add(new Text(group));

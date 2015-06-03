@@ -26,7 +26,6 @@ public class ImageObject {
 	private final float xEnd;
 	private final float yEnd;
 	private final float relativeXEnd;
-	
 	private final float relativeYEnd;
 	private final ArrayList<ImageEffect> imageEffects;
 
@@ -165,7 +164,7 @@ public class ImageObject {
 	public float getyEnd() {
 		return yEnd;
 	}
-	
+
 	/**
 	 * @return the relativeXEnd
 	 */
@@ -182,7 +181,7 @@ public class ImageObject {
 
 	/**
 	 * @return a list of ImageEffects that are to be applied to the image
-	 * @see {@link imageHandler.ImageEffect}
+	 * @see imageHandler.ImageEffect
 	 */
 	public ArrayList<ImageEffect> getImageEffects() {
 		return imageEffects;
@@ -329,26 +328,22 @@ public class ImageObject {
 			this.cropUp = cropUp;
 			return this;
 		}
-		
-		
+
 		public ImageBuilder xEnd(float xEnd) {
 			this.xEnd = xEnd;
 			return this;
 		}
 
-		
 		public ImageBuilder yEnd(float yEnd) {
 			this.yEnd = yEnd;
 			return this;
 		}
-		
 
 		public ImageBuilder relativeXEnd(float relativeXEnd) {
 			this.relativeXEnd = relativeXEnd;
 			return this;
 		}
 
-		
 		public ImageBuilder relativeYEnd(float relativeYEnd) {
 			this.relativeYEnd = relativeYEnd;
 			return this;
@@ -360,7 +355,7 @@ public class ImageObject {
 		 * @param imageEffects
 		 *            a list of imageEffects that should be applied to the
 		 *            image.
-		 * @see {@link imageHandler.ImageEffectsList}
+		 * @see imageHandler.ImageEffectsList
 		 */
 		public ImageBuilder imageEffects(ImageEffectsList imageEffects) {
 			this.imageEffects = imageEffects.getList();

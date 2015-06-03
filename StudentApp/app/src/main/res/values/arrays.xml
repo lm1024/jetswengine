@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--  (c) Copyright by WaveMedia. -->
+<!-- Array Resource XML -->
+<resources>
+    <!-- Dropdown Box Array Resource -->
+    <string-array name="site_array">
+        <item>University Of York</item>
+        <item>University of Nottingham</item>
+        <item>University of Liverpool</item>
+        <item>University of Cambridge</item>
+        <item>University of Oxford</item>
+        <item>Fulford School</item>
+    </string-array>
+    <!-- Site IP Array Resource -->
+    <string-array name="ip_array">
+        <item>144.32</item>
+        <item>0.0</item>
+        <item>0.0</item>
+        <item>0.0</item>
+        <item>0.0</item>
+        <item>0.0</item>
+    </string-array>
+    <!-- Dropdown Box Position Array Resource -->
+    <integer-array name="site_id">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </integer-array>
+</resources>

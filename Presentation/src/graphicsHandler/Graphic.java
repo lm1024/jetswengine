@@ -59,7 +59,7 @@ public class Graphic {
 	 * @param graphic
 	 *            a graphics object containing all the information about the
 	 *            graphic to be drawn. Must be formed using the GraphicBuilder.
-	 * @see {@link graphicsHandler.Graphic}
+	 * @see graphicsHandler.Graphic
 	 */
 	public void drawShape(GraphicObject graphic) {
 		GraphicType graphicType = graphic.getGraphic();
@@ -132,7 +132,7 @@ public class Graphic {
 				shadingType,
 				shadingStops);
 			break;
-		case CIRCLE: // TODO circle rotation
+		case CIRCLE:
 			drawCircle(
 				xStartPos,
 				yStartPos,

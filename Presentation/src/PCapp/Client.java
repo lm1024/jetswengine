@@ -35,12 +35,8 @@ public class Client {
         out = new PrintWriter(socket.getOutputStream(), true);
     }
 	
-	public void sendToServerWithIP(String message) {
+	public void sendToServer(String message) {
 		out.println(IP + ":" + message);
-	}
-	
-	public void sendToServerWithoutIP(String message) {
-		out.println(message);
 	}
 
 }
