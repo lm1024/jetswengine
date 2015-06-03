@@ -3,14 +3,24 @@ package Data;
 
 import utils.Utils;
 
+/**
+ * Slide Item abstract class for describing the properties of all slide items.
+ * 
+ * @author dk666
+ * @version 2.1 02/02/15
+ */
 public abstract class SlideItem {
 
+	/* Properties required by all slide items */
 	private String sourceFile = null;
 	private float xStart;
 	private float yStart;
 	private float startTime;
 	private float duration;
 
+	/**
+	 * For debugging. Prints the properties of this slide item.
+	 */
 	public void printItem() {
 		System.out.println("Class name:" + this.getClass().getSimpleName());
 		System.out.println("Sourcefile: " + sourceFile);
@@ -20,6 +30,12 @@ public abstract class SlideItem {
 		System.out.println("duration: " + duration);
 	}
 
+	
+	/**
+	 * Constructs a new SlideItem object with the specified defaults.
+	 * 
+	 * @param defaults
+	 */
 	public SlideItem(Defaults defaults) {
 		this.startTime = defaults.getStartTime();
 		this.duration = defaults.getDuration();
@@ -42,7 +58,7 @@ public abstract class SlideItem {
 				this.sourceFile = string;
 			}
 		} catch (NullPointerException e) {
-			//Do Nothing
+			// Do Nothing
 		}
 	}
 

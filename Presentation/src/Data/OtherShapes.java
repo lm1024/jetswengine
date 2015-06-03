@@ -6,27 +6,27 @@ import java.util.List;
 import utils.Utils;
 
 /**
+ * OtherShapes class for defining shapes that don't fit the other categories.
+ * 
  * @author dk666
- *
+ * @version 2.1 02/03/15
  */
 public class OtherShapes extends Graphic {
-	
+
 	private boolean solid;
 
 	public OtherShapes(Defaults defaults) {
 		super(defaults);
 		this.solid = defaults.getShapeSolidity();
 	}
-	
+
 	@Override
 	public void printItem() {
 		super.printItem();
 		System.out.println("Solid: " + solid);
 		System.out.println("");
 	}
-	
-	
-	
+
 	/**
 	 * @return {@code true} if shape is solid
 	 */
@@ -38,21 +38,21 @@ public class OtherShapes extends Graphic {
 		boolean b = Boolean.parseBoolean(string);
 		this.solid = b;
 	}
-	
+
 	public class Triangle extends OtherShapes {
-		
+
 		private float outlineThickness;
 		private float rotation;
 		private String outlineColor;
 		private List<Float> xPoints = new ArrayList<Float>();
 		private List<Float> yPoints = new ArrayList<Float>();
-		
+
 		public Triangle(Defaults defaults) {
 			super(defaults);
 			this.outlineColor = defaults.getOutlineColor();
 			this.outlineThickness = defaults.getOutlineThickness();
 		}
-		
+
 		/**
 		 * @return the rotation
 		 */
@@ -61,7 +61,8 @@ public class OtherShapes extends Graphic {
 		}
 
 		/**
-		 * @param string the rotation to set
+		 * @param string
+		 *            the rotation to set
 		 */
 		public void setRotation(String string) {
 			try {
@@ -71,7 +72,7 @@ public class OtherShapes extends Graphic {
 				/* Do Nothing */
 			}
 		}
-		
+
 		/**
 		 * @return the outlineColor
 		 */
@@ -88,7 +89,7 @@ public class OtherShapes extends Graphic {
 				this.outlineColor = string;
 			}
 		}
-		
+
 		public float getOutlineThickness() {
 			return this.outlineThickness;
 		}
@@ -112,7 +113,8 @@ public class OtherShapes extends Graphic {
 		}
 
 		/**
-		 * @param xPoints the xPoints to set
+		 * @param xPoints
+		 *            the xPoints to set
 		 */
 		public void setxPoints(List<Float> xPoints) {
 			this.xPoints = xPoints;
@@ -126,27 +128,28 @@ public class OtherShapes extends Graphic {
 		}
 
 		/**
-		 * @param yPoints the yPoints to set
+		 * @param yPoints
+		 *            the yPoints to set
 		 */
 		public void setyPoints(List<Float> yPoints) {
 			this.yPoints = yPoints;
 		}
 	}
-	
+
 	public class Polygon extends OtherShapes {
-		
+
 		private float outlineThickness;
 		private String outlineColor;
 		private float rotation;
 		private List<Float> xPoints = new ArrayList<Float>();
 		private List<Float> yPoints = new ArrayList<Float>();
-		
+
 		public Polygon(Defaults defaults) {
 			super(defaults);
 			this.outlineColor = defaults.getOutlineColor();
 			this.outlineThickness = defaults.getOutlineThickness();
 		}
-		
+
 		/**
 		 * @return the rotation
 		 */
@@ -155,7 +158,8 @@ public class OtherShapes extends Graphic {
 		}
 
 		/**
-		 * @param string the rotation to set
+		 * @param string
+		 *            the rotation to set
 		 */
 		public void setRotation(String string) {
 			try {
@@ -165,7 +169,7 @@ public class OtherShapes extends Graphic {
 				/* Do Nothing */
 			}
 		}
-		
+
 		/**
 		 * @return the outlineColor
 		 */
@@ -182,7 +186,7 @@ public class OtherShapes extends Graphic {
 				this.outlineColor = string;
 			}
 		}
-		
+
 		public float getOutlineThickness() {
 			return this.outlineThickness;
 		}
@@ -206,7 +210,8 @@ public class OtherShapes extends Graphic {
 		}
 
 		/**
-		 * @param xPoints the xPoints to set
+		 * @param xPoints
+		 *            the xPoints to set
 		 */
 		public void setxPoints(List<Float> xPoints) {
 			this.xPoints = xPoints;
@@ -220,15 +225,16 @@ public class OtherShapes extends Graphic {
 		}
 
 		/**
-		 * @param yPoints the yPoints to set
+		 * @param yPoints
+		 *            the yPoints to set
 		 */
 		public void setyPoints(List<Float> yPoints) {
 			this.yPoints = yPoints;
 		}
 	}
-	
+
 	public class Chord extends OtherShapes {
-		
+
 		private float outlineThickness;
 		private String outlineColor;
 		private float width;
@@ -236,13 +242,13 @@ public class OtherShapes extends Graphic {
 		private float length;
 		private float arcAngle;
 		private float rotation;
-		
+
 		public Chord(Defaults defaults) {
 			super(defaults);
 			this.outlineColor = defaults.getOutlineColor();
 			this.outlineThickness = defaults.getOutlineThickness();
 		}
-		
+
 		/**
 		 * @return the rotation
 		 */
@@ -251,7 +257,8 @@ public class OtherShapes extends Graphic {
 		}
 
 		/**
-		 * @param string the rotation to set
+		 * @param string
+		 *            the rotation to set
 		 */
 		public void setRotation(String string) {
 			try {
@@ -261,7 +268,7 @@ public class OtherShapes extends Graphic {
 				/* Do Nothing */
 			}
 		}
-		
+
 		/**
 		 * @return the outlineColor
 		 */
@@ -278,7 +285,7 @@ public class OtherShapes extends Graphic {
 				this.outlineColor = string;
 			}
 		}
-		
+
 		public float getOutlineThickness() {
 			return this.outlineThickness;
 		}
@@ -301,7 +308,7 @@ public class OtherShapes extends Graphic {
 		public void setWidth(String string) {
 			try {
 				float f = Float.parseFloat(string);
-				if(f > 0) {
+				if (f > 0) {
 					this.width = f;
 				}
 			} catch (Exception e) {
@@ -316,7 +323,7 @@ public class OtherShapes extends Graphic {
 		public void setHeight(String string) {
 			try {
 				float f = Float.parseFloat(string);
-				if(f > 0) {
+				if (f > 0) {
 					this.height = f;
 				}
 			} catch (Exception e) {
@@ -331,13 +338,14 @@ public class OtherShapes extends Graphic {
 		public void setLength(String string) {
 			try {
 				float f = Float.parseFloat(string);
-				if(f > 0) {
+				if (f > 0) {
 					this.length = f;
 				}
 			} catch (Exception e) {
 				/* Do Nothing */
 			}
 		}
+
 		public float getArcAngle() {
 			return arcAngle;
 		}
@@ -345,7 +353,7 @@ public class OtherShapes extends Graphic {
 		public void setArcAngle(String string) {
 			try {
 				float f = Float.parseFloat(string);
-				if(f > 0) {
+				if (f > 0) {
 					this.arcAngle = f;
 				}
 			} catch (Exception e) {
@@ -353,9 +361,9 @@ public class OtherShapes extends Graphic {
 			}
 		}
 	}
-	
+
 	public class Arc extends OtherShapes {
-		
+
 		private float outlineThickness;
 		private String outlineColor;
 		private float width;
@@ -363,13 +371,13 @@ public class OtherShapes extends Graphic {
 		private float length;
 		private float arcAngle;
 		private float rotation;
-		
+
 		public Arc(Defaults defaults) {
 			super(defaults);
 			this.outlineColor = defaults.getOutlineColor();
 			this.outlineThickness = defaults.getOutlineThickness();
 		}
-		
+
 		/**
 		 * @return the rotation
 		 */
@@ -378,7 +386,8 @@ public class OtherShapes extends Graphic {
 		}
 
 		/**
-		 * @param string the rotation to set
+		 * @param string
+		 *            the rotation to set
 		 */
 		public void setRotation(String string) {
 			try {
@@ -388,7 +397,7 @@ public class OtherShapes extends Graphic {
 				/* Do Nothing */
 			}
 		}
-		
+
 		/**
 		 * @return the outlineColor
 		 */
@@ -405,7 +414,7 @@ public class OtherShapes extends Graphic {
 				this.outlineColor = string;
 			}
 		}
-		
+
 		public float getOutlineThickness() {
 			return this.outlineThickness;
 		}
@@ -428,7 +437,7 @@ public class OtherShapes extends Graphic {
 		public void setWidth(String string) {
 			try {
 				float f = Float.parseFloat(string);
-				if(f > 0) {
+				if (f > 0) {
 					this.width = f;
 				}
 			} catch (Exception e) {
@@ -443,7 +452,7 @@ public class OtherShapes extends Graphic {
 		public void setHeight(String string) {
 			try {
 				float f = Float.parseFloat(string);
-				if(f > 0) {
+				if (f > 0) {
 					this.height = f;
 				}
 			} catch (Exception e) {
@@ -458,13 +467,14 @@ public class OtherShapes extends Graphic {
 		public void setLength(String string) {
 			try {
 				float f = Float.parseFloat(string);
-				if(f > 0) {
+				if (f > 0) {
 					this.length = f;
 				}
 			} catch (Exception e) {
 				/* Do Nothing */
 			}
 		}
+
 		public float getArcAngle() {
 			return arcAngle;
 		}
@@ -472,7 +482,7 @@ public class OtherShapes extends Graphic {
 		public void setArcAngle(String string) {
 			try {
 				float f = Float.parseFloat(string);
-				if(f > 0) {
+				if (f > 0) {
 					this.arcAngle = f;
 				}
 			} catch (Exception e) {
@@ -480,17 +490,17 @@ public class OtherShapes extends Graphic {
 			}
 		}
 	}
-	
+
 	public class Line extends OtherShapes {
-		
+
 		private float xEnd;
 		private float yEnd;
 		private float thickness = 1;
-		
+
 		public Line(Defaults defaults) {
 			super(defaults);
 		}
-		
+
 		@Override
 		public void printItem() {
 			super.printItem();
@@ -499,7 +509,7 @@ public class OtherShapes extends Graphic {
 			System.out.println("thickness: " + thickness);
 			System.out.println("");
 		}
-		
+
 		public float getThickness() {
 			return this.thickness;
 		}
@@ -514,7 +524,7 @@ public class OtherShapes extends Graphic {
 				/* Do Nothing */
 			}
 		}
-		
+
 		public float getXEnd() {
 			return xEnd;
 		}
@@ -549,19 +559,18 @@ public class OtherShapes extends Graphic {
 			}
 		}
 
-
 	}
-	
+
 	public class Arrow extends OtherShapes {
-		
+
 		private float xEnd;
 		private float yEnd;
 		private float thickness = 1;
-		
+
 		public Arrow(Defaults defaults) {
 			super(defaults);
 		}
-		
+
 		public float getThickness() {
 			return this.thickness;
 		}
@@ -576,7 +585,7 @@ public class OtherShapes extends Graphic {
 				/* Do Nothing */
 			}
 		}
-		
+
 		public float getXEnd() {
 			return xEnd;
 		}

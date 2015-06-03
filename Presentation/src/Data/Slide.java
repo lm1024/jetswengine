@@ -18,7 +18,8 @@ public class Slide {
 	private List<Slide> tangentSlides;
 
 	/**
-	 * @param tangentSlides the tangentSlides to set
+	 * @param tangentSlides
+	 *            the tangentSlides to set
 	 */
 	public void removeTangentSlides() {
 		this.tangentSlides.clear();
@@ -30,7 +31,7 @@ public class Slide {
 		this.duration = defaults.getDuration();
 		this.backgroundColor = defaults.getBackgroundColor();
 	}
-	
+
 	/**
 	 * @return the backgroundColour
 	 */
@@ -47,7 +48,7 @@ public class Slide {
 			this.backgroundColor = string;
 		}
 	}
-	
+
 	/**
 	 * @return the currentItem
 	 */
@@ -80,54 +81,65 @@ public class Slide {
 			/* Do Nothing */
 		}
 	}
-	
+
 	/**
 	 * @return the slideItems
 	 */
 	public List<SlideItem> getAll() {
 		return itemList;
 	}
-	
+
 	/**
 	 * @return the slideItem
 	 */
 	public SlideItem get(int index) {
 		return itemList.get(index);
 	}
-	
+
+	/**
+	 * Adds the SlideItem to the slide.
+	 * 
+	 * @param item
+	 */
 	public void add(SlideItem item) {
 		this.currentItem = item;
 		itemList.add(currentItem);
 	}
-	
+
+	/**
+	 * Remove the slide item at the specified index from the slide.
+	 * 
+	 * @param index
+	 */
 	public void remove(int index) {
 		itemList.remove(index);
 	}
-	
+
+	/**
+	 * Sets the question on the slide to be the specified question.
+	 * 
+	 * @param question
+	 */
 	public void addQuestion(Question question) {
 		this.slideQuestion = question;
 	}
-	
+
+	/**
+	 * Returns true if the current slide contains a question.
+	 * 
+	 * @return
+	 */
 	public boolean containsQuestion() {
 		return slideQuestion != null;
 	}
-	
+
+	/**
+	 * Returns the current question.
+	 * 
+	 * @return
+	 */
 	public Question getQuestion() {
 		return slideQuestion;
-	}
-	
-	public Slide copySlide() {
-		Slide slide = new Slide(new Defaults());
-		Slide slideToBeCopied = this;
-		
-		slide.setBackgroundColor(slideToBeCopied.getBackgroundColor());
-		slide.setDuration(((Float)slideToBeCopied.getDuration()).toString());
-		
-		for (SlideItem item : slideToBeCopied.getAll()) {
-			slide.add(item);
-		}
-		
-		return slide;
 	}
 
 	/**
@@ -138,7 +150,10 @@ public class Slide {
 	}
 
 	/**
-	 * @param tangentSlides the tangentSlides to set
+	 * Adds the specified slide to the list of tangent slides.
+	 * 
+	 * @param tangentSlides
+	 *            the tangentSlides to set
 	 */
 	public void addTangentSlide(Slide tangent) {
 		this.tangentSlides.add(tangent);

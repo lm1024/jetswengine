@@ -3,8 +3,17 @@ package Data;
 
 import utils.Utils;
 
+/**
+ * TextFragment class for containing a single fragment of formatted text.
+ * 
+ * @author dk666
+ * @version 3.1 02/06/15
+ */
+
+/* Implements Cloneable so that duplicate fragments can be created */
 public class TextFragment implements Cloneable {
 
+	/* Variable for properties of the fragment */
 	private boolean bold;
 	private boolean underlined;
 	private boolean italicised;
@@ -17,9 +26,11 @@ public class TextFragment implements Cloneable {
 	private String font;
 	private double fontSize;
 	private String text;
-	
+
 	/**
-	 * @Initialises a new text fragment
+	 * @Initialises a new text fragment with the specified defaults
+	 * 
+	 * @param defaults
 	 */
 	public TextFragment(Defaults defaults) {
 		this.font = defaults.getFont();
@@ -27,15 +38,23 @@ public class TextFragment implements Cloneable {
 		this.fontSize = defaults.getFontSize();
 		this.highlightColor = defaults.getHighlightColor();
 	}
-	
-	public TextFragment clone(){  
-	    try{  
-	        return (TextFragment)super.clone();  
-	    }catch(Exception e){ 
-	        return null; 
-	    }
+
+	/** 
+	 * Clones the current text fragment.
+	 * 
+	 * @return a clone of the current text fragment.
+	 */
+	public TextFragment clone() {
+		try {
+			return (TextFragment) super.clone();
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
+	/**
+	 * For debugging. Prints the contents of this current fragment.
+	 */
 	public void printItem() {
 		System.out.println("Bold: " + bold);
 		System.out.println("Underlined: " + underlined);
@@ -297,17 +316,20 @@ public class TextFragment implements Cloneable {
 	}
 
 	/**
-	 * @param newline the newline to set
+	 * Sets if the fragment ends with a newline.
+	 * @param newline
+	 *            the newline to set
 	 */
 	public void setNewline(boolean newline) {
 		this.newline = newline;
 	}
-	
+
 	/**
-	 * @param newline the newline to set
+	 * @param newline
+	 *            the newline to set
 	 */
 	public void setNewline(String string) {
-		this.newline= Boolean.parseBoolean(string);
+		this.newline = Boolean.parseBoolean(string);
 	}
 
 }

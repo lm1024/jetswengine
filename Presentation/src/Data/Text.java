@@ -7,8 +7,19 @@ import java.util.List;
 import utils.Utils;
 import Data.Defaults;
 
+/**
+ * Text class for containing a single SmartSlides text data.
+ * 
+ * @author dk666
+ * @version 2.3 02/06/15
+ */
 public class Text extends SlideItem {
 
+	/*
+	 * Text consists of a collection of text fragments, with a current fragment
+	 * being set for easy access. Text can also have an alignment, font, color,
+	 * size, background color, hightlight color, and end co-ordinates.
+	 */
 	private List<TextFragment> textFragments;
 	private TextFragment currentTextFragment;
 	private String alignment; // left/right/center
@@ -19,7 +30,12 @@ public class Text extends SlideItem {
 	private String highlightColor;
 	private float xEnd = 1;
 	private float yEnd = 1;
-	
+
+	/**
+	 * Constructs a new Text object with the specified defaults.
+	 * 
+	 * @param defaults
+	 */
 	public Text(Defaults defaults) {
 		super(defaults);
 		this.textFragments = new ArrayList<TextFragment>();
@@ -31,6 +47,9 @@ public class Text extends SlideItem {
 		this.highlightColor = defaults.getHighlightColor();
 	}
 
+	/**
+	 * For debugging. Prints the content of this text object and its fragments.
+	 */
 	@Override
 	public void printItem() {
 		super.printItem();
@@ -51,7 +70,7 @@ public class Text extends SlideItem {
 		}
 		System.out.println("");
 	}
-	
+
 	/**
 	 * @return the highlightColor
 	 */
