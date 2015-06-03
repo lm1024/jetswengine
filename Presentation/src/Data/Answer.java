@@ -50,6 +50,7 @@ public class Answer {
 	 */
 	public void increaseAnswerCount() {
 		answerCount++;
+		System.out.println("inc");
 	}
 
 	/**

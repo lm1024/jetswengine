@@ -1,59 +1,99 @@
 /** (c) Copyright by WaveMedia. */
 package tests;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.IOException;
+import java.net.Inet4Address;
+import java.net.UnknownHostException;
+
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 import Data.Question;
+import PCapp.Client;
 
 import comms.CommsHandler;
 
 /**
- * @author tjd511
+ * Class for testing the comms unit.
  * 
+ * @author lp775
+ * @version 1.0 29/05/2015
  */
 public class CommsTest {
 
+	private static CommsHandler comms;
+	private static Client clive;
+	private static Question question;
+
+	private static String ip;
+
 	/**
-	 * @param args
+	 * Initial set up of the test environment. Gets the IP of the current PC,
+	 * and creates a server and a client.
 	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		CommsHandler comms = null;
-
-		Question question = new Question("Q1", "Q1");
-		question.addAnswer("1", true);
-		question.addAnswer("2", false);
-		question.addAnswer("3", false);
-		question.addAnswer("4", false);
-
+	@BeforeClass
+	public static void setUp() {
 		try {
 			comms = new CommsHandler();
-			System.out.println("Got here");
-			comms.setCurrentQuestion(question);
-
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			System.exit(0);
 			e.printStackTrace();
 		}
 
-		for (int i = 1; i <= 10; i++) {
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			System.out.println("Slept for " + i + " seconds.");
+		try {
+			ip = Inet4Address.getLocalHost().getHostAddress();
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
-		for (int i = 0; i < question.getNumberOfAnswers(); i++) {
-			System.out.println("Question " + i + ": " + question.getAnswer(i).getAnswerCount());
+		clive = new Client(ip);
+
+		question = new Question("id", "filename");
+		question.addAnswer("1", true);
+		question.addAnswer("2", false);
+
+		comms.setCurrentQuestion(question);
+	}
+
+	/**
+	 * Tests that an answer is incremented when a client sends the ID of a
+	 * answer.
+	 */
+	@Test
+	public void testAnswerIsIncremented() {
+		clive.sendToServer("0");
+
+		/* Pause and wait for the comms thread to finish its work. */
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		
-		for (String q : comms.getRecievedQuestionList()) {
-			System.out.println("Question: " + q);
+
+		assertEquals(1, comms.getCurrentQuestion().getAnswer(0).getAnswerCount());
+		assertEquals(0, comms.getCurrentQuestion().getAnswer(1).getAnswerCount());
+	}
+
+	/**
+	 * Tests that the server receives any sent questions from the clients. 
+	 */
+	@Test
+	public void testQuestionIsRecieved() {
+		clive.sendToServer("Hello?");
+
+		/* Pause and wait for the comms thread to finish its work. */
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+
+		assertEquals(ip + ":" + "Hello?", comms.getRecievedQuestionList().get(0));
 
 	}
 

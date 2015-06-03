@@ -152,6 +152,7 @@ public class Question {
 	 *            the IP of the source of the answer.
 	 */
 	public void increaseAnswerCount(int index, String ip) {
+		System.out.println(index + " " + ip );
 		/* Ensure that the index exists in the list. */
 		if (index < answers.size() && index >= 0) {
 

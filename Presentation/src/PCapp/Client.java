@@ -36,6 +36,7 @@ public class Client {
     }
 	
 	public void sendToServer(String message) {
+		System.out.println("Sending a message. " + message);
 		out.println(IP + ":" + message);
 	}
 
