@@ -25,7 +25,7 @@ public class DocumentInfoHandler extends DefaultHandler {
 	/* String buffer for storing the content of an element */
 	private StringBuffer contentBuffer = new StringBuffer();
 
-	/* Creates a new DocumentInfoHandler */
+	/** Creates a new DocumentInfoHandler */
 	public DocumentInfoHandler(XMLReader reader, ContentHandler parent,
 			Slideshow slideshow) {
 		this.parentHandler = parent;
@@ -42,7 +42,7 @@ public class DocumentInfoHandler extends DefaultHandler {
 		contentBuffer.append(ch, start, length);
 	}
 
-	/*
+	/**
 	 * Called when the XML Parser encounters a end tag for an element. Assigns
 	 * the content of each tag to its respective variable in the data structure.
 	 */

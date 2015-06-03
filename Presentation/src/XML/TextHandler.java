@@ -11,25 +11,39 @@ import Data.Text;
 import Data.Slide;
 import Data.TextFragment;
 
+/**
+ * Text Handler class for parsing slide Tags from XML Slideshows.
+ * 
+ * @author dk666
+ * @version 2.3 02/05/15
+ */
 public class TextHandler extends DefaultHandler {
 
 	private Slide slide;
 	private XMLReader reader;
 	private SlideHandler parentHandler;
 	private Text text;
+
+	/* String buffer for storing the content of an element */
 	private StringBuffer contentBuffer = new StringBuffer();
 
-	public TextHandler(XMLReader reader, SlideHandler parent,
-			Slide slide) {
+	/** Creates a new TextHandler */
+	public TextHandler(XMLReader reader, SlideHandler parent, Slide slide) {
 		this.parentHandler = parent;
 		this.slide = slide;
 		this.reader = reader;
 	}
-	
+
+	/** Returns current slideshow defaults */
 	public Defaults getDefaults() {
 		return parentHandler.getDefaults();
 	}
 
+	/**
+	 * Called when the XML Parser encounters a start tag for a text element.
+	 * Assigns all the attributes of the text tag to a Text object.
+	 * Reassigns the correct content handler after parsing completes.
+	 */
 	public void startElement(String uri, String localName, String qName,
 			Attributes attributes) throws SAXException {
 		// sort out element name if (no) namespace in use
@@ -38,7 +52,7 @@ public class TextHandler extends DefaultHandler {
 			elementName = qName;
 		}
 		contentBuffer.setLength(0);
-		if(elementName.equals("text")) {
+		if (elementName.equals("text")) {
 			text = new Text(getDefaults());
 			text.setSourceFile(attributes.getValue("sourcefile"));
 			text.setDuration(attributes.getValue("duration"));
@@ -53,19 +67,31 @@ public class TextHandler extends DefaultHandler {
 			text.setFontSize(attributes.getValue("fontsize"));
 			text.setBackgroundColor(attributes.getValue("backgroundcolor"));
 			text.setHighlightColor(attributes.getValue("highlightcolor"));
-		} else if(elementName.equals("richtext")) {
-			reader.setContentHandler(new TextFragmentHandler(reader,this,text));
-			reader.getContentHandler().startElement(uri, localName, qName, attributes);
-		} else  {
-			System.err.println("Unknown start element encountered: " + elementName);
+		} else if (elementName.equals("richtext")) {
+			reader.setContentHandler(new TextFragmentHandler(reader, this, text));
+			reader.getContentHandler().startElement(uri, localName, qName,
+					attributes);
+		} else {
+			System.err.println("Unknown start element encountered: "
+					+ elementName);
 		}
 	}
 
+	/**
+	 * Called by the parser when it encounters characters in the main body of an
+	 * element.
+	 */
 	public void characters(char[] ch, int start, int length)
 			throws SAXException {
-			contentBuffer.append(ch,start,length);
+		contentBuffer.append(ch, start, length);
 	}
 
+	/**
+	 * Called when the XML Parser encounters a end tag for an element. 
+	 * Creates a text fragment if PWS text is being used.
+	 * Adds the text to the current slide.
+	 * Returns control to the parent handler.
+	 */
 	public void endElement(String uri, String localName, String qName)
 			throws SAXException {
 		// sort out element name if (no) namespace in use
@@ -74,7 +100,7 @@ public class TextHandler extends DefaultHandler {
 			elementName = qName;
 		}
 		if (elementName.equals("text")) {
-			if(!contentBuffer.toString().trim().equals("")) {
+			if (!contentBuffer.toString().trim().equals("")) {
 				TextFragment tf = new TextFragment(parentHandler.getDefaults());
 				tf.setFont(text.getFont());
 				tf.setFontColor(text.getFontColor());
@@ -85,7 +111,8 @@ public class TextHandler extends DefaultHandler {
 			slide.add(text);
 			reader.setContentHandler(parentHandler);
 		} else {
-			System.err.println("Unknown Text end element encountered: " + elementName);
+			System.err.println("Unknown Text end element encountered: "
+					+ elementName);
 		}
 	}
 

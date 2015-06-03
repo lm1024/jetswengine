@@ -14,8 +14,10 @@ import Data.Slide;
 import Data.Slideshow;
 
 /**
- * @author David
+ * Slide Handler class for parsing slide Tags from XML Slideshows.
  * 
+ * @author dk666
+ * @version 3.0 02/05/15
  */
 public class SlideHandler extends DefaultHandler {
 
@@ -25,13 +27,12 @@ public class SlideHandler extends DefaultHandler {
 	private Slide slide;
 	private boolean isTangent;
 
-	public Defaults getDefaults() {
+	/* Returns the current slideshow defaults */
+	protected Defaults getDefaults() {
 		return slideshow.getDefaults();
 	}
 
-	/**
-	 * 
-	 */
+	/* Creates a new SlideHandler */
 	public SlideHandler(XMLReader reader, ContentHandler parent,
 			Slideshow slideshow) {
 		this.parentHandler = parent;
@@ -40,6 +41,11 @@ public class SlideHandler extends DefaultHandler {
 		this.slide = new Slide(getDefaults());
 	}
 
+	/*
+	 * Called when the XML Parser encounters a start tag for a slide element.
+	 * Assigns all the attributes of the slide tag to a slide object. Assigns
+	 * the correct handler for each slide element within a slide.
+	 */
 	public void startElement(String uri, String localName, String qName,
 			Attributes attributes) throws SAXException {
 		// sort out element name if (no) namespace in use
@@ -88,6 +94,11 @@ public class SlideHandler extends DefaultHandler {
 		}
 	}
 
+	/*
+	 * Called when the XML Parser encounters an end tag for a slide element.
+	 * Adds the slide to the correct location, depending on whether it is a
+	 * tangent or not. Returns control back to parent handler after parsing.
+	 */
 	public void endElement(String uri, String localName, String qName)
 			throws SAXException {
 		// sort out element name if (no) namespace in use
