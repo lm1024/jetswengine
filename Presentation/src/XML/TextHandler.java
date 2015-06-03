@@ -46,7 +46,7 @@ public class TextHandler extends DefaultHandler {
 	 */
 	public void startElement(String uri, String localName, String qName,
 			Attributes attributes) throws SAXException {
-		// sort out element name if (no) namespace in use
+		/* sort out element name if (no) namespace in use */
 		String elementName = localName;
 		if ("".equals(elementName)) {
 			elementName = qName;

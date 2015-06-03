@@ -110,13 +110,13 @@ public class AudienceGUI extends Application {
 
 				/* Submit the question in the test box */
 			} else if (btnPressed.getId().equals("submit")) {
-				client.sendToServer(userQuestion.getText());
+				client.sendToServerWithoutIP(userQuestion.getText());
 				userQuestion.clear();
 
 			} else {
 
 				/* send button ID to server */
-				client.sendToServer(btnPressed.getId());
+				client.sendToServerWithIP(btnPressed.getId());
 			}
 		}
 	}
