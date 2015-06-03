@@ -45,7 +45,7 @@ public class GraphicHandler extends DefaultHandler {
 	}
 
 	/* Returns slideshow defaults */
-	private Defaults getDefaults() {
+	protected Defaults getDefaults() {
 		return parentHandler.getDefaults();
 	}
 
