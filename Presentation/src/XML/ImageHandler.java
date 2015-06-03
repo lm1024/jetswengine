@@ -10,8 +10,7 @@ import Data.Image;
 import Data.Slide;
 
 /**
- * Image Handler class for parsing image Tags from XML
- * Slideshows.
+ * Image Handler class for parsing image Tags from XML Slideshows.
  * 
  * @author dk666
  * @version 1.4 02/06/15
@@ -22,13 +21,9 @@ public class ImageHandler extends DefaultHandler {
 	private XMLReader reader;
 	private SlideHandler parentHandler;
 	private Image image;
-	
-	/* String buffer for storing the content of an element */
-	private StringBuffer contentBuffer = new StringBuffer();
 
 	/* Creates a new ImageHandler */
-	public ImageHandler(XMLReader reader, SlideHandler parent,
-			Slide slide) {
+	public ImageHandler(XMLReader reader, SlideHandler parent, Slide slide) {
 		this.parentHandler = parent;
 		this.slide = slide;
 		this.reader = reader;
@@ -45,7 +40,7 @@ public class ImageHandler extends DefaultHandler {
 		if ("".equals(elementName)) {
 			elementName = qName;
 		}
-		if(elementName.equals("image")) {
+		if (elementName.equals("image")) {
 			image = new Image(parentHandler.getDefaults());
 			image.setSourceFile(attributes.getValue("sourcefile"));
 			image.setCropX1(attributes.getValue("cropx1"));
@@ -63,16 +58,21 @@ public class ImageHandler extends DefaultHandler {
 			image.setStartTime(attributes.getValue("starttime"));
 			image.setXStart(attributes.getValue("xstart"));
 			image.setYStart(attributes.getValue("ystart"));
-		} else if (elementName.matches("sepia|bloom|blur|glow|grayscale|reflection")) {
+		} else if (elementName
+				.matches("sepia|bloom|blur|glow|grayscale|reflection")) {
 			image.addImageEffect(elementName);
 		} else {
 			System.err.println("Unknown element encountered");
 		}
 	}
 
+	/*
+	 * Called when the XML Parser encounters a end tag for an Image element.
+	 * Adds the image to the slide and returns control to the parent handler.
+	 */
 	public void endElement(String uri, String localName, String qName)
 			throws SAXException {
-		// sort out element name if (no) namespace in use
+		/* sort out element name if (no) namespace in use */
 		String elementName = localName;
 		if ("".equals(elementName)) {
 			elementName = qName;
@@ -81,13 +81,12 @@ public class ImageHandler extends DefaultHandler {
 		if (elementName.equals("image")) {
 			slide.add(image);
 			reader.setContentHandler(parentHandler);
-		} else if (elementName.matches("sepia|bloom|blur|glow|grayscale|reflection")) {
-			
-		} else{
+		} else if (elementName
+				.matches("sepia|bloom|blur|glow|grayscale|reflection")) {
+			/* Prevents Error Printouts for image effect end tags */
+		} else {
 			System.err.println("Unknown element found");
 		}
-
-		contentBuffer.setLength(0);
 	}
 
 }

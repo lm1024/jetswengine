@@ -11,14 +11,23 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import Data.Graphic;
 
+/**
+ * Shading Handler class for parsing shading Tags from XML Slideshows.
+ * 
+ * @author dk666
+ * @version 1.0 02/05/15
+ */
 public class ShadingHandler extends DefaultHandler {
 
 	private Graphic graphic;
 	private XMLReader reader;
 	private GraphicHandler parentHandler;
+
+	/* Lists of shading color(s) and their relative location(s) */
 	private List<String> shadingList = new ArrayList<String>();
 	private List<Float> stopValuesList = new ArrayList<Float>();
 
+	/* Creates a new ShadingHandler */
 	public ShadingHandler(XMLReader reader, GraphicHandler parent,
 			Graphic graphic) {
 		this.parentHandler = parent;
@@ -26,6 +35,10 @@ public class ShadingHandler extends DefaultHandler {
 		this.reader = reader;
 	}
 
+	/*
+	 * Called when the XML Parser encounters a start tag for a Shading element.
+	 * Sets the shading type and any shading colors and stop values specified.
+	 */
 	public void startElement(String uri, String localName, String qName,
 			Attributes attributes) throws SAXException {
 		// sort out element name if (no) namespace in use
@@ -55,6 +68,11 @@ public class ShadingHandler extends DefaultHandler {
 		stopValuesList.add(f);
 	}
 
+	/*
+	 * Called when the XML Parser encounters an end tag for a Shading element.
+	 * Assigns the shading to the current graphic and returns to the parent
+	 * handler.
+	 */
 	public void endElement(String uri, String localName, String qName)
 			throws SAXException {
 		// sort out element name if (no) namespace in use

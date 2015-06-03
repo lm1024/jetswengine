@@ -13,20 +13,44 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import Data.Slideshow;
 
+/**
+ * ImprovedXMLReader class for parsing SmartSlidesshows.
+ * Uses a SAXParser to parse an XML SmartSlideshow.
+ * 
+ * @author dk666
+ * @version 1.1 02/04/15
+ */
 public class ImprovedXMLReader extends DefaultHandler {
 	
 	private Slideshow slideshow;
 	
 
+	/**
+	 * Converts SmartSlideshow in XML to live data.
+	 * 
+	 * @param filename
+	 *           location of XML file to open
+	 */
 	public ImprovedXMLReader(String filename) throws IOException {
 		slideshow = new Slideshow();
 		readXMLFile(filename);
 	}
 
+	/**
+	 * Converts SmartSlideshow in XML to live data.
+	 * 
+	 * @return Slideshow
+	 *           Slideshow represented by XML
+	 */
 	public Slideshow getSlideshow() {
 		return slideshow;
 	}
 
+	/**
+	 * Attempts to parse the XML file use the SAXParser.
+	 * Sets the slideshow to null if errors occur.
+	 * 
+	 */
 	private void readXMLFile(String inputFile) throws IOException {
 		try {
 			// use the default parser

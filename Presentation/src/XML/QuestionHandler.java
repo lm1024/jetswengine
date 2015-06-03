@@ -9,8 +9,10 @@ import Data.Question;
 import Data.Slide;
 
 /**
- * @author David
- *
+ * Question Handler class for parsing question Tags from XML Slideshows.
+ * 
+ * @author dk666
+ * @version 1.0 02/05/15
  */
 public class QuestionHandler extends DefaultHandler {
 
@@ -19,9 +21,7 @@ public class QuestionHandler extends DefaultHandler {
 	private SlideHandler parentHandler;
 	private Question question;
 
-	/**
-	 * 
-	 */
+	/* Creates a new QuestionHandler */
 	public QuestionHandler(XMLReader reader, SlideHandler parent,
 			Slide slide) {
 		this.parentHandler = parent;
@@ -30,10 +30,13 @@ public class QuestionHandler extends DefaultHandler {
 		
 	}
 
+	/*
+	 * Called when the XML Parser encounters a start tag for a Question element.
+	 * Assigns all the attributes of the question tag to a Question object.
+	 */
 	public void startElement(String uri, String localName, String qName,
 			Attributes attributes) throws SAXException {
-		// sort out element name if (no) namespace in use
-		//TODO: Call start Element when handler is changed to parse duration
+		/* sort out element name if (no) namespace in use */
 		String elementName = localName;
 		if ("".equals(elementName)) {
 			elementName = qName;
@@ -47,9 +50,13 @@ public class QuestionHandler extends DefaultHandler {
 		}
 	}
 	
+	/*
+	 * Called when the XML Parser encounters a end tag for a Question element.
+	 * Adds the question to the current slide.
+	 */
 	public void endElement(String uri, String localName, String qName)
 			throws SAXException {
-		// sort out element name if (no) namespace in use
+		/* sort out element name if (no) namespace in use */
 		String elementName = localName;
 		if ("".equals(elementName)) {
 			elementName = qName;
