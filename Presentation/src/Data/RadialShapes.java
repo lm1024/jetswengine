@@ -90,6 +90,10 @@ public class RadialShapes extends Graphic {
 		return solid;
 	}
 
+	/**
+	 * Sets the solidity of the shape.
+	 * @param string
+	 */
 	public void setSolid(String string) {
 		boolean b = Boolean.parseBoolean(string);
 		this.solid = b;
@@ -138,7 +142,8 @@ public class RadialShapes extends Graphic {
 	}
 
 	/**
-	 * @author dk666 Defines Circle as a radial shape.
+	 * Defines Circle as a radial shape.
+	 * @author dk666 
 	 * 
 	 */
 	public class Circle extends RadialShapes {
@@ -148,8 +153,10 @@ public class RadialShapes extends Graphic {
 	}
 
 	/**
-	 * @author dk666 Defines Square as a radial shape. Squares also have arc
-	 *         widths and heights.
+	 * Defines Square as a radial shape. Squares also have arc widths and
+	 * heights.
+	 * 
+	 * @author dk666
 	 */
 	public class Square extends RadialShapes {
 
@@ -219,7 +226,8 @@ public class RadialShapes extends Graphic {
 	}
 
 	/**
-	 * @author dk666 Defines EquilateralTriangle as a radial shape.
+	 * Defines EquilateralTriangle as a radial shape.
+	 * @author dk666 
 	 * 
 	 */
 	public class EquilateralTriangle extends RadialShapes {
@@ -234,8 +242,9 @@ public class RadialShapes extends Graphic {
 	}
 
 	/**
-	 * @author dk666 Defines RegularPolygon as a radial shape. Regular polygons
+	 * Defines RegularPolygon as a radial shape. Regular polygons
 	 *         can also have any number of sides
+	 * @author dk666 
 	 * 
 	 */
 	public class RegularPolygon extends RadialShapes {
@@ -276,8 +285,9 @@ public class RadialShapes extends Graphic {
 	}
 
 	/**
-	 * @author dk666 Defines Star as a radial shape. Stars
+	 * Defines Star as a radial shape. Stars
 	 *         can also have any number of points > 3.
+	 * @author dk666 
 	 * 
 	 */
 	public class Star extends RadialShapes {
