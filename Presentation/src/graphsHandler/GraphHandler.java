@@ -1,3 +1,4 @@
+/** (c) Copyright by WaveMedia. */
 package graphsHandler;
 
 import javafx.collections.ObservableList;
@@ -9,6 +10,12 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Series;
 
+/**
+ * Class handles the drawing of any pie charts on screen in a JavaFX group.
+ * 
+ * @author tjd511, lm1024
+ * @version 1.2 02/02/2014
+ */
 public class GraphHandler {
 
 	private Group group;
@@ -35,7 +42,7 @@ public class GraphHandler {
 	 * @param pieChartObject
 	 *            A PieChartObject containing all the data of the chart to be
 	 *            drawn.
-	 * @see {@link graphsHandler.PieChartObject}
+	 * @see graphsHandler.PieChartObject
 	 */
 	public void drawPieChart(PieChartObject pieChartObject) {
 		ObservableList<PieChart.Data> pieChartData = pieChartObject.getPieChartData();
@@ -55,6 +62,10 @@ public class GraphHandler {
 		group.getChildren().add(pChart);
 	}
 
+	/**
+	 * Method to draw a bar chart on the screen. Not used, just left in case of
+	 * future use.
+	 */
 	@SuppressWarnings("unchecked")
 	// safe
 	public void drawBarChart(int x, int y, float size, String title, String xLabel, String yLabel, String[] xLabels,

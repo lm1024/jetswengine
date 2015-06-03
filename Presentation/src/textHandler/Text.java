@@ -56,7 +56,7 @@ public class Text {
 	 */
 	public Text(Group group) {
 		this.group = group;
-		
+
 		/* Instantiate the WebView that will be used to display the text */
 		webView = new WebView();
 	}
@@ -67,7 +67,7 @@ public class Text {
 	 * @param textBox
 	 *            the text box to be drawn. Must be formed using the TextBox
 	 *            builder.
-	 * @see {@link textHandler.TextObject}
+	 * @see textHandler.TextObject
 	 */
 	public void drawText(TextObject textBox) {
 		stringBuffer = textBox.getStringBuffer();
@@ -227,8 +227,8 @@ public class Text {
 		 * Initialise string with the initial attribute of a body element that
 		 * has a tag that stops the html being edited by the user.
 		 */
-		String htmlString = "<body contenteditable=\"false\" style=\"background-color: "
-				+ formatColorHTMLString(backgroundColor) + "\">";
+		String htmlString = "<body contenteditable=\"false\" style=\"background-color: " + formatColorHTMLString(backgroundColor)
+				+ "\">";
 
 		/*
 		 * Append the tag for the type of text alignment required. Set
@@ -287,8 +287,10 @@ public class Text {
 			 * color information (last 6 chars of color string contain RRGGBB in
 			 * hex).
 			 */
-			String fontNameAndColorString = "<font face =\"" + currentString.getFont() + "\" color=\""
-					+ colorString.substring(rStartChar, bEndChar) + "\">";
+			String fontNameAndColorString = "<font face =\"" + currentString.getFont()
+					+ "\" color=\""
+					+ colorString.substring(rStartChar, bEndChar)
+					+ "\">";
 
 			/*
 			 * Highlighting section. Initialise string with the 8bit hex value
@@ -307,8 +309,9 @@ public class Text {
 			 * convert to a decimal from 0 to 1
 			 */
 			DecimalFormat df = new DecimalFormat("0.0");
-			String opacityFormatted = df.format((Integer.parseInt(colorString.substring(alphaStartChar, alphaEndChar),
-					16)) / 255f);
+			String opacityFormatted = df.format((Integer.parseInt(
+				colorString.substring(alphaStartChar, alphaEndChar),
+				16)) / 255f);
 
 			/*
 			 * Initialise new string to store the preBody font opacity
@@ -317,7 +320,9 @@ public class Text {
 			String fontOpacityString = "<span style=\"opacity:" + opacityFormatted + "\">";
 
 			/* Combines the attribute strings */
-			preBodyAttributes = preBodyAttributes + fontSizeString + fontNameAndColorString + highlightingString
+			preBodyAttributes = preBodyAttributes + fontSizeString
+					+ fontNameAndColorString
+					+ highlightingString
 					+ fontOpacityString;
 
 			/* Adds tags for bold, italic, underline and strike through */
@@ -389,21 +394,31 @@ public class Text {
 		DecimalFormat df = new DecimalFormat("0.0");
 
 		String highlightingOpacityFormatted = df.format((Integer.parseInt(
-				colorString.substring(alphaStartChar, alphaEndChar), 16)) / 255f);
+			colorString.substring(alphaStartChar, alphaEndChar),
+			16)) / 255f);
 
 		/*
 		 * Convert r, g and b from 2digit hex to integer values to work with
 		 * rgba css tag
 		 */
 		String redHighlightingFormatted = Integer.toString((Integer.parseInt(
-				colorString.substring(rStartChar, rEndChar), 16)));
+			colorString.substring(rStartChar, rEndChar),
+			16)));
 		String greenHighlightingFormatted = Integer.toString((Integer.parseInt(
-				colorString.substring(gStartChar, gEndChar), 16)));
+			colorString.substring(gStartChar, gEndChar),
+			16)));
 		String blueHighlightingFormatted = Integer.toString((Integer.parseInt(
-				colorString.substring(bStartChar, bEndChar), 16)));
+			colorString.substring(bStartChar, bEndChar),
+			16)));
 
-		formattedColorString = formattedColorString + redHighlightingFormatted + "," + greenHighlightingFormatted + ","
-				+ blueHighlightingFormatted + "," + highlightingOpacityFormatted + ")";
+		formattedColorString = formattedColorString + redHighlightingFormatted
+				+ ","
+				+ greenHighlightingFormatted
+				+ ","
+				+ blueHighlightingFormatted
+				+ ","
+				+ highlightingOpacityFormatted
+				+ ")";
 
 		return formattedColorString;
 	}
@@ -429,7 +444,8 @@ public class Text {
 
 		try {
 			writer = new BufferedWriter(new FileWriter(file));
-			writer.write("body {\n	    overflow-x: hidden;\n	    overflow-y: hidden;\n}\n::-webkit-scrollbar { \n   width: 16px;\n}::-webkit-scrollbar-track  { \n   background-color: white;\n}");
+			writer
+				.write("body {\n	    overflow-x: hidden;\n	    overflow-y: hidden;\n}\n::-webkit-scrollbar { \n   width: 16px;\n}::-webkit-scrollbar-track  { \n   background-color: white;\n}");
 		} catch (IOException ex) {
 			System.err.println("IOException occured during custom.css creation.");
 		} finally {

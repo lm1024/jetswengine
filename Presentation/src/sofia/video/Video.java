@@ -87,8 +87,11 @@ public class Video {
 	/** Variable to maintain whether the volume slider is visible or not */
 	private boolean volumeOpen = false;
 
-	/** Fullscreen stage */
-	private Stage fsStage;
+	/**
+	 * Fullscreen stage. TD: No longer used as fullscreen window was changed to
+	 * use our fullscreen stage to fix a bug with the mouse handler.
+	 */
+	//private Stage fsStage;
 
 	/** Fullscreen information, needed when exiting fullscreen. */
 	private FullscreenInfo fsInfo;
@@ -96,8 +99,8 @@ public class Video {
 	/** The minimum width a video can be whilst still accommodating the controls */
 	private static final int MIN_WIDTH = 350;
 
-	/** Event handler for fullscreen exit */
-	private EventHandler<WindowEvent> fullScreenCloseHandler;
+	/** Event handler for fullscreen exit. TD: No longer used due to fullscreen change. */
+	//private EventHandler<WindowEvent> fullScreenCloseHandler;
 
 	private boolean loop;
 
@@ -136,13 +139,11 @@ public class Video {
 		this.group = nGroup;
 
 		/* Set the full screen exit event handler reference */
-		this.fullScreenCloseHandler = nFullScreenCloseHandler;
+		//this.fullScreenCloseHandler = nFullScreenCloseHandler;
 
 		this.stage = stage;
 
 		this.loop = loop;
-
-		System.out.println(x + " " + y);
 
 		/* Load icon images */
 		playImage = new ImageView(
@@ -812,35 +813,35 @@ public class Video {
 		@Override
 		public void changed(ObservableValue<? extends Status> val, Status oldVal, Status newVal) {
 			try {
-			switch (newVal) {
-			case DISPOSED:
-				break;
-			case HALTED:
-				break;
-			case PAUSED:
-				playButton.setGraphic(playImage);
-				break;
-			case PLAYING:
-				playButton.setGraphic(pauseImage);
-				break;
-			case READY:
-				updateTimeStamp(durationStamp, mediaPlayer.getMedia().getDuration());
-				playButton.setGraphic(playImage);
-				break;
-			case STALLED:
-				break;
-			case STOPPED:
-				setScan();
-				updateTimeStamp(timeStamp, mediaPlayer.getCurrentTime());
-				playButton.setGraphic(playImage);
-				break;
-			case UNKNOWN:
-				break;
-			default:
-				break;
-			}
-		}  catch(Exception e){
-			
+				switch (newVal) {
+				case DISPOSED:
+					break;
+				case HALTED:
+					break;
+				case PAUSED:
+					playButton.setGraphic(playImage);
+					break;
+				case PLAYING:
+					playButton.setGraphic(pauseImage);
+					break;
+				case READY:
+					updateTimeStamp(durationStamp, mediaPlayer.getMedia().getDuration());
+					playButton.setGraphic(playImage);
+					break;
+				case STALLED:
+					break;
+				case STOPPED:
+					setScan();
+					updateTimeStamp(timeStamp, mediaPlayer.getCurrentTime());
+					playButton.setGraphic(playImage);
+					break;
+				case UNKNOWN:
+					break;
+				default:
+					break;
+				}
+			} catch (Exception e) {
+
 			}
 		}
 	}

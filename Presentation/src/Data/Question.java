@@ -11,48 +11,66 @@ import java.util.Date;
 import java.util.HashMap;
 
 /**
+ * Class to store information about a question in a slideshow.
+ * 
  * @author tjd511
- * @version 1.0 14/04/2015
+ * @version 2.0 01/06/2015
  */
 public class Question {
-	private String id = null;
-	private String logfile = null; // TODO add a folder extension to this in the
-									// parser!!!
+	/* Variables to store information about the question. */
+	private String id;
+	private String logfile;
 	private ArrayList<Answer> answers;
 
+	/*
+	 * Hash map to keep track of if a IP has sent a response previously, and if
+	 * so, what answer they selected.
+	 */
 	private HashMap<String, Integer> IPs;
-	private static final String FILE_FOLDER = "logfiles";
-	private static final String FILE_EXTENSION = ".csv";
 
-	private static final String COMMA_DELIMITER = ",";
-	private static final String NEWLINE_DELIMITER = "\n";
-	
+	/* Final variables containing information for the CSV saving method. */
+	private final String FILE_FOLDER = "logfiles";
+	private final String FILE_EXTENSION = ".csv";
+	private final String COMMA_DELIMITER = ",";
+	private final String NEWLINE_DELIMITER = "\n";
+
+	/*
+	 * Hash map to keep track of unique IDs for each IP for when the answers are
+	 * saved to CSV.
+	 */
 	private HashMap<String, Integer> IPMap;
-	
+
+	/*
+	 * List to store all recieved responses, their unique ID and the time of the
+	 * responce.
+	 */
 	private ArrayList<String> answerTimeData;
 
 	/**
+	 * Constructor for the question class.
 	 * 
+	 * @param id
+	 *            the ID for the question.
+	 * @param logfile
+	 *            the name to be used in saving the answers to CSV.
 	 */
 	public Question(String id, String logfile) {
-		/* Set the variables based upon the constructor arguments */
-		if(id == null) {
+		/* Ensure that both ID and logfile have a value. */
+		if (id == null) {
 			System.out.println("Unspecified ID found in Question");
 			id = "UnspecifiedID";
 		}
 		this.id = id;
 
-		if(logfile == null) {
+		if (logfile == null) {
 			System.out.println("Unspecified Filename found in Question");
 			logfile = "UnspecifiedFilename";
 		}
 		this.logfile = logfile;
 
-		/* Instantiate the answer list */
+		/* Instantiate the other variables. */
 		answers = new ArrayList<Answer>();
-		
 		IPs = new HashMap<String, Integer>();
-		
 		IPMap = new HashMap<String, Integer>();
 		answerTimeData = new ArrayList<String>();
 	}
@@ -78,16 +96,21 @@ public class Question {
 		return answers.get(index);
 	}
 
+	/**
+	 * @return an array list of all of the recieved answers.
+	 */
 	public ArrayList<Answer> getAnswers() {
 		return answers;
 	}
 
 	/**
+	 * Method adds a answer to the answer list for this question.
+	 * 
 	 * @param answers
 	 *            the answers to set
 	 */
 	public void addAnswer(String answerId, boolean correct) {
-		/* Make a new answer and add it to the list of answers */
+		/* Ensure that answerId contains a valid string. */
 		if (answerId == null) {
 			System.out.println("Answer found with unspecified ID");
 			answerId = Integer.toString(answers.size() + 1);
@@ -111,34 +134,60 @@ public class Question {
 	}
 
 	/**
-	 * @return
+	 * @return the number of answers in the list.
 	 */
 	public int getNumberOfAnswers() {
 		return answers.size();
 	}
 
 	/**
+	 * Increases the answer at the index specified by one of the parameters.
+	 * Also checks that the IP specified has not answered previously. If it has,
+	 * it decrements the last answer received before incrementing the new
+	 * choice.
+	 * 
 	 * @param index
+	 *            the index of the answer to increase.
+	 * @param ip
+	 *            the IP of the source of the answer.
 	 */
 	public void increaseAnswerCount(int index, String ip) {
-
+		/* Ensure that the index exists in the list. */
 		if (index < answers.size() && index >= 0) {
-			
+
+			/* Check if there has been a earlier response to this answer. */
 			if (IPs.get(ip) == null) {
+				/*
+				 * If there has not, add this answer to the hashmap and
+				 * increment the received answer.
+				 */
 				IPs.put(ip, index);
 				answers.get(index).increaseAnswerCount();
-			}
-			else {
+			} else {
+				/*
+				 * If there has, decrement the previous answer, before updating
+				 * the hashmap and incrementing the received answer.
+				 */
 				answers.get(IPs.get(ip)).decreaseAnswerCount();
 				IPs.put(ip, index);
 				answers.get(index).increaseAnswerCount();
 			}
-			
+
+			/* Store the answer so it can be saved later. */
 			storeAnswerTime(ip, index);
 
 		}
 	}
-	
+
+	/**
+	 * Method saves data about the response in a list so that it can be saved to
+	 * file later.
+	 * 
+	 * @param ip
+	 *            the IP of the response
+	 * @param answer
+	 *            the answer received
+	 */
 	private void storeAnswerTime(String ip, int answer) {
 		if (IPMap.get(ip) == null) {
 			/* IP not been stored before. */
@@ -152,6 +201,9 @@ public class Question {
 		}
 	}
 
+	/**
+	 * Method saves all of the answer data to a CSV file.
+	 */
 	public void writeLogfile() {
 		/* Create a new reference to the folder for the files. */
 		File folder = new File(FILE_FOLDER);
@@ -183,7 +235,7 @@ public class Question {
 				writer.append(COMMA_DELIMITER);
 				writer.append(Integer.toString(getNumberOfAnswers()));
 				writer.append(NEWLINE_DELIMITER);
-				
+
 				/* Write the column headings. */
 				writer.append("Answer ID");
 				writer.append(COMMA_DELIMITER);
@@ -191,7 +243,7 @@ public class Question {
 				writer.append(NEWLINE_DELIMITER);
 
 				/*
-				 * Loop through all the answers, writing the relevent info to a
+				 * Loop through all the answers, writing the relevant info to a
 				 * new line.
 				 */
 				for (Answer answer : this.getAnswers()) {
@@ -200,20 +252,24 @@ public class Question {
 					writer.append(Integer.toString(answer.getAnswerCount()));
 					writer.append(NEWLINE_DELIMITER);
 				}
-				
+
 				writer.append(NEWLINE_DELIMITER);
 
+				/*
+				 * Loop through all of the answer time data and save this in a
+				 * column below the received answer columns.
+				 */
 				for (String s : answerTimeData) {
 					writer.append(s);
 					writer.append(NEWLINE_DELIMITER);
 				}
 
-				/* Flush the stream and close the filewriter */
+				/* Flush the stream and close the filewriter. */
 				writer.flush();
 				writer.close();
 
 			} catch (IOException e) {
-				e.printStackTrace(); // TODO
+				System.err.println("Error whilst trying to save data to CSV.");
 			}
 		}
 	}

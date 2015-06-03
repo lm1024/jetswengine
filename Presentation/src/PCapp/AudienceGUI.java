@@ -21,11 +21,14 @@ import javafx.stage.Stage;
 
 public class AudienceGUI extends Application {
 
-	final private Image smartSlidesIcon = new Image("file:img/Single_S.png");
+	final private Image smartSlidesIcon = new Image(
+			"file:resources/img/Single_S.png");
 	private final Rectangle2D primaryBounds = Screen.getPrimary().getBounds();
 
 	/* Cascading style sheet and colours */
 	final private String styleSheet = "file:resources/styles/style1.css";
+
+	final private String smartSlidesTitle = "file:img/Smartslides_DarkText.png";
 
 	/* Connection settings */
 	private TextField serverAddress;
@@ -49,8 +52,20 @@ public class AudienceGUI extends Application {
 	}
 
 	public String getHexCodeIP(String hexCode) {
-		int hexCode2 = Integer.parseInt(hexCode,16);
-		return (hexCode2 >> 8) + "." + (hexCode2 & 0x00FF);
+		String[] hex;
+		String hexCodeIP;
+		hex = hexCode.split("(?!^)");
+		String hexString1 = hex[0] + hex[1];
+		String hexString2 = hex[2] + hex[3];
+		int hexCodeIPString1 = hex2decimal(hexString1);
+		System.out.println("WM IP: " + hexCode + " " + hex);
+		System.out.println("WM IP: " + hexString1 + " -> " + hexCodeIPString1);
+		int hexCodeIPString2 = hex2decimal(hexString2);
+		System.out.println("WM IP: " + hexString2 + " -> " + hexCodeIPString2);
+		hexCodeIP = Integer.toString(hexCodeIPString1);
+		hexCodeIP += "." + Integer.toString(hexCodeIPString2);
+		System.out.println("WM IP: " + hexCodeIP);
+		return hexCodeIP;
 	}
 
 	public static int hex2decimal(String s) {
@@ -62,14 +77,7 @@ public class AudienceGUI extends Application {
 			int d = digits.indexOf(c);
 			val = 16 * val + d;
 		}
-		
-		System.out.println("HELLO " + s);
-		System.out.println(val);
-		System.out.println(Integer.parseInt(s, 16));
-		
 		return val;
-		
-		
 	}
 
 	/**
@@ -84,12 +92,12 @@ public class AudienceGUI extends Application {
 
 			if (btnPressed.getId().equals("connect")) {
 
+				/* Submit the connection code */
 				if (serverAddress.getText().matches("^([0-9a-fA-F]){4}$")
 						&& (institutionCode != null)) {
 					String serverIP = getHexCodeIP(serverAddress.getText());
 
-					System.out.println(institutionCode + "." + serverIP);
-
+					/* Setup the client */
 					client = new Client(institutionCode + "." + serverIP);
 
 					/* Enable buttons */
@@ -97,33 +105,36 @@ public class AudienceGUI extends Application {
 						btn[i].setDisable(false);
 					}
 					questionSubmit.setDisable(false);
-					
+
 				}
 
+				/* Submit the question in the test box */
 			} else if (btnPressed.getId().equals("submit")) {
-				System.out.println("submit pressed");
-				client.sendToServerWithoutIP(userQuestion.getText());
+				client.sendToServer(userQuestion.getText());
 				userQuestion.clear();
 
 			} else {
 
 				/* send button ID to server */
-				client.sendToServerWithIP(btnPressed.getId());
+				client.sendToServer(btnPressed.getId());
 			}
 		}
 	}
-	
 
+	/*
+	 * A method to easily handle combo box events
+	 */
 	private class comboListener implements ChangeListener<Number> {
 
 		@Override
 		public void changed(ObservableValue<? extends Number> arg0,
 				Number arg1, Number arg2) {
-
-			System.out.println(arg2);
-
+			/*
+			 * Check which institution has been selected and append the first
+			 * two parts of the IP as needed
+			 */
 			switch (arg2.toString()) {
-			case "0":
+			case "0":// UoY
 				institutionCode = "144.32";
 				break;
 
@@ -148,6 +159,9 @@ public class AudienceGUI extends Application {
 
 		/* Box to put everything in */
 		VBox answersBox = new VBox();
+		answersBox.setAlignment(Pos.CENTER);
+		answersBox.getStyleClass().add("invisiBox");
+		answersBox.setSpacing(primaryBounds.getHeight() * 0.01);
 
 		/* creates a scene within the stage */
 		Scene mainScene = new Scene(answersBox);
@@ -155,15 +169,11 @@ public class AudienceGUI extends Application {
 		/* add the stylesheet */
 		mainScene.getStylesheets().add(styleSheet);
 
-		answersBox.setAlignment(Pos.CENTER);
-		answersBox.getStyleClass().add("invisiBox");
-		answersBox.setSpacing(primaryBounds.getHeight() * 0.01);
-
+		/* Add title image */
 		ImageView smartSlides = new ImageView();
-		Image smartSlidesImage = new Image("file:img/Smartslides_DarkText.png",
+		Image smartSlidesImage = new Image(smartSlidesTitle,
 				primaryBounds.getWidth() * 0.1, 0, true, true);
 		smartSlides.setImage(smartSlidesImage);
-
 		answersBox.getChildren().add(smartSlides);
 
 		/* User question layout box */
@@ -180,10 +190,10 @@ public class AudienceGUI extends Application {
 		questionSubmit.setOnAction(new buttonHandler());
 
 		question.getChildren().addAll(userQuestion, questionSubmit);
-		
+
 		answersBox.getChildren().add(question);
 
-		/* add 4 buttons */
+		/* Add the 4 buttons for answering a question */
 		for (int i = 0; i < 4; i++) {
 
 			btn[i] = new Button();
@@ -201,11 +211,11 @@ public class AudienceGUI extends Application {
 		btn[2].setText("C");
 		btn[3].setText("D");
 
+		/* Add the combo box for selecting an institution */
 		ComboBox<String> institution = new ComboBox<String>();
 		institution.setItems(FXCollections.observableArrayList(
 				"University of York", "Institution 2", "Institution 3"));
 		institution.setPromptText("Institution:");
-
 		institution.getSelectionModel().selectedIndexProperty()
 				.addListener(new comboListener());
 
