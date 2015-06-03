@@ -8,7 +8,7 @@ import javafx.scene.Group;
 /**
  * Class to handle multiple images at once.
  * 
- * @author tjd511 
+ * @author tjd511
  * @version 1.0 13/04/2015
  */
 public class ImageHandler {

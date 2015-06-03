@@ -132,7 +132,7 @@ public class Graphic {
 				shadingType,
 				shadingStops);
 			break;
-		case CIRCLE: // TODO circle rotation
+		case CIRCLE:
 			drawCircle(
 				xStartPos,
 				yStartPos,

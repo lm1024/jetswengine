@@ -2,9 +2,7 @@
 package runtime;
 
 import java.awt.AWTException;
-import java.awt.Dimension;
 import java.awt.Robot;
-import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashSet;
@@ -44,7 +42,7 @@ import GUI.UserPreferences;
  * mouse and keyboard events, as well as slide and slide item level timing.
  * 
  * @author tjd511
- * @version 1.0 21/04/2015
+ * @version 2.0 21/05/2015
  */
 public class SlideshowRuntimeData {
 
@@ -95,14 +93,20 @@ public class SlideshowRuntimeData {
 	/* The comms handler for the current slideshow. */
 	private CommsHandler comms;
 
+	/*
+	 * Variables used for creating the splash screen for displaying the
+	 * connection code.
+	 */
 	private Rectangle idRectangle;
 	private Label connectionCodeSlideTitle;
 	private Label connectionCodeLabel;
-
 	private final String connectionCodeSlideTitleString = "Current Connection Code";
-
 	private String currentConnectionCode;
 
+	/*
+	 * Variable to keep track of the preferences saved in the settings menu of
+	 * the GUI.
+	 */
 	private UserPreferences preferences;
 
 	/**
@@ -110,6 +114,10 @@ public class SlideshowRuntimeData {
 	 * 
 	 * @param slideshow
 	 *            the slideshow to be displayed in the new fullscreen window.
+	 * @param comms
+	 *            the commsHandler used in this instance of the program.
+	 * @param preferences
+	 *            the preferences saved in the settings menu of the GUI.
 	 */
 	public SlideshowRuntimeData(Slideshow slideshow, CommsHandler comms, UserPreferences preferences) {
 		/*
@@ -120,8 +128,8 @@ public class SlideshowRuntimeData {
 		this.currentXAspectRatio = slideshow.getDefaults().getxAspectRatio();
 		this.currentYAspectRatio = slideshow.getDefaults().getyAspectRatio();
 
+		/* Sets the comms handler and the user preferences. */
 		this.comms = comms;
-
 		this.preferences = preferences;
 
 		/*
@@ -165,7 +173,7 @@ public class SlideshowRuntimeData {
 
 		/* Set the mouse click handler. */
 		scene.setOnMouseClicked(new MouseClickHandler());
-		
+
 		/*
 		 * Add an event filter for key pressed events so that keyboard presses
 		 * can be handled, and the events do not get passed to the handlers.
@@ -244,26 +252,35 @@ public class SlideshowRuntimeData {
 		if (nextUpdate != null && !nextUpdate.isDone()) {
 			nextUpdate.cancel(true);
 		}
-		
+
 		slideRenderer.clear();
-		
+
+		/*
+		 * Creates a rectangle for the background color and adds it to the
+		 * group.
+		 */
 		double screenStartX = preferences.getBounds().getMinX();
 		double screenStartY = preferences.getBounds().getMinY();
 		double screenWidth = preferences.getBounds().getWidth();
 		double screenHeight = preferences.getBounds().getHeight();
-		
+
 		double a = Integer.parseInt(currentSlide.getBackgroundColor().substring(1, 3), 16) / 255.0;
 		double r = Integer.parseInt(currentSlide.getBackgroundColor().substring(3, 5), 16) / 255.0;
 		double g = Integer.parseInt(currentSlide.getBackgroundColor().substring(5, 7), 16) / 255.0;
 		double b = Integer.parseInt(currentSlide.getBackgroundColor().substring(7, 9), 16) / 255.0;
-		
+
 		Rectangle backgroundRect = new Rectangle(screenStartX, screenStartY, screenWidth, screenHeight);
-		backgroundRect.setFill(new Color(r,g,b,a));
+		backgroundRect.setFill(new Color(r, g, b, a));
 		((Group) secondaryStage.getScene().getRoot()).getChildren().add(backgroundRect);
-		
+
 		/* Pass the current slide to the renderer to be drawn. */
 		slideRenderer.drawSlide(currentSlide);
 
+		/*
+		 * Updates the current question in the comms handler to a set question
+		 * if there is one in the current slide, else it makes a new OTS
+		 * question and adds that instead.
+		 */
 		if (comms != null) {
 			if (currentSlide.containsQuestion()) {
 				comms.setCurrentQuestion(currentSlide.getQuestion());
@@ -281,6 +298,12 @@ public class SlideshowRuntimeData {
 		}
 	}
 
+	/**
+	 * Method creates a new OTS question object with the ID as the current OTS
+	 * question number.
+	 * 
+	 * @return the new OTS question
+	 */
 	private Question createNewOTSQuestion() {
 		/* Dynamically create a question slide. */
 		int questionNumber = 0;
@@ -437,7 +460,6 @@ public class SlideshowRuntimeData {
 					moveBackwards();
 				}
 			}
-			//e.consume();
 		}
 	}
 
@@ -533,7 +555,7 @@ public class SlideshowRuntimeData {
 					int requestedSlide;
 					/* Catches if the numberInput has no numbers in the string. */
 					try {
-						requestedSlide = Integer.parseInt(numberInput)-1;
+						requestedSlide = Integer.parseInt(numberInput) - 1;
 					} catch (NumberFormatException e) {
 						/* Reset the string and quit the case. */
 						numberInput = "";
@@ -559,7 +581,7 @@ public class SlideshowRuntimeData {
 					/* Get the screensize */
 					double screenWidth = preferences.getBounds().getWidth();
 					double screenHeight = preferences.getBounds().getHeight();
-					
+
 					/* Create a new background to blank out the current slide. */
 					idRectangle = new Rectangle(0, 0, screenWidth, screenHeight);
 					idRectangle.setFill(Color.WHITE);
@@ -582,13 +604,14 @@ public class SlideshowRuntimeData {
 					/* Get the current group that is being drawn on. */
 					Group group = (Group) secondaryStage.getScene().getRoot();
 
+					/* Add the splash screen to the group. */
 					group.getChildren().addAll(idRectangle, connectionCodeLabel, connectionCodeSlideTitle);
 					break;
 				case C:
 					/*
 					 * If the current slide does not have a question, clear the
-					 * currently collected question data. Create a new question,
-					 * and add it to the comms.
+					 * currently collected question data. Create a new OTS
+					 * question, and add it to the comms.
 					 */
 					if ((comms != null) && (!currentSlide.containsQuestion())) {
 						comms.setCurrentQuestion(createNewOTSQuestion());
@@ -640,11 +663,9 @@ public class SlideshowRuntimeData {
 		@Override
 		public void handle(WindowEvent arg0) {
 			/*
-			 * If the window is closed, close the slideshow and exit the
-			 * program.
+			 * If the window is closed, close the slideshow.
 			 */
 			closeSlideshow();
-			// System.exit(0); // not required
 		}
 	}
 
@@ -717,6 +738,7 @@ public class SlideshowRuntimeData {
 	public void closeSlideshow() {
 		scheduler.shutdownNow();
 
+		/* Saves the recieved questions and answer data if required. */
 		if (preferences.isQuestionsLogged()) {
 			slideshow.saveQuestionData();
 		}
@@ -735,7 +757,12 @@ public class SlideshowRuntimeData {
 	}
 
 	/**
+	 * Hides the screen with a rectangle of either black (for keyEvent B) or
+	 * white (for keyEvent W).
+	 * 
 	 * @param keyEvent
+	 *            the keypressed for this event. B makes a black screen, W makes
+	 *            a white screen.
 	 */
 	private void hideScreen(KeyEvent keyEvent) {
 		/* Get the screensize */
@@ -782,6 +809,9 @@ public class SlideshowRuntimeData {
 		screenHidden = true;
 	}
 
+	/**
+	 * Removes the black or white rectangle from the screen.
+	 */
 	private void showScreen() {
 		/* Get the current group */
 		Group group = (Group) secondaryStage.getScene().getRoot();

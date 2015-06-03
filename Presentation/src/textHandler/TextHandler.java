@@ -9,7 +9,7 @@ import javafx.scene.web.WebView;
  * Class for handling multiple textboxes on a javafx group.
  * 
  * @author tjd511
- * @version 2.0 02/03/2015
+ * @version 2.0 02/05/2015
  */
 public class TextHandler {
 	private Group group;

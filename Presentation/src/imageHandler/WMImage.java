@@ -17,8 +17,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.image.PixelReader;
 
-import javax.swing.JOptionPane;
-
 /**
  * Class for handling images on a JavaFX group.
  * 
@@ -60,9 +58,24 @@ public class WMImage {
 		float relativeXEnd = image.getRelativeXEnd();
 		float relativeYEnd = image.getRelativeYEnd();
 		ArrayList<ImageEffect> imageEffects = image.getImageEffects();
-		drawImage(xPos, yPos, filepath, scaleX, scaleY, rotation, vFlip, hFlip,
-				cropLeft, cropRight, cropDown, cropUp, xEnd, yEnd,
-				relativeXEnd, relativeYEnd, imageEffects);
+		drawImage(
+			xPos,
+			yPos,
+			filepath,
+			scaleX,
+			scaleY,
+			rotation,
+			vFlip,
+			hFlip,
+			cropLeft,
+			cropRight,
+			cropDown,
+			cropUp,
+			xEnd,
+			yEnd,
+			relativeXEnd,
+			relativeYEnd,
+			imageEffects);
 	}
 
 	/**
@@ -121,28 +134,25 @@ public class WMImage {
 	 * @param cropUp
 	 *            size of crop from the bottom of the image
 	 * @param xEnd
+	 *            the absolute x end coordinate of the image
 	 * @param yEnd
-	 *            /TODO
+	 *            the absolute y end coordinate of the image
 	 * @param imageEffects
 	 *            a varargs containing all image effects that are to be applied
 	 *            to the image. The first one in the list is the primary effect,
 	 *            the effect following uses the previous effect as an input.
 	 */
-	private void drawImage(float xPos, float yPos, String filepath,
-			double scaleX, double scaleY, float rotation, boolean vFlip,
-			boolean hFlip, double cropLeft, double cropRight, double cropDown,
-			double cropUp, float xEnd, float yEnd, float relativeXEnd, float relativeYEnd,
-			ArrayList<ImageEffect> imageEffects) {
+	private void drawImage(float xPos, float yPos, String filepath, double scaleX, double scaleY, float rotation,
+			boolean vFlip, boolean hFlip, double cropLeft, double cropRight, double cropDown, double cropUp,
+			float xEnd, float yEnd, float relativeXEnd, float relativeYEnd, ArrayList<ImageEffect> imageEffects) {
 		/* Create image variable */
 		Image image = null;
 		try {
-			/* Attempt to load image. (Takes a while... should be preloaded) */
+			/* Attempt to load image. (Takes a while... could be preloaded) */
 			image = new Image(filepath);
 			if (image.errorProperty().getValue()) {
 				image = null;
 			}
-			// System.out.println("Image loaded with error state: " +
-			// image.errorProperty().getValue());
 		}
 		/* Exception handling for simple URL/Image type errors */
 		catch (IllegalArgumentException WrongURL) {
@@ -173,13 +183,10 @@ public class WMImage {
 		PixelReader reader = image.getPixelReader();
 
 		/* Make a new cropped image using the coordinates calculated */
-		WritableImage croppedImage = new WritableImage(reader, xStart, yStart,
-				cropWidth, cropHeight);
+		WritableImage croppedImage = new WritableImage(reader, xStart, yStart, cropWidth, cropHeight);
 
 		/* Assign the image to be the new cropped image */
 		image = croppedImage;
-
-		
 
 		/* Get the new dimensions of the cropped image */
 		imageWidth = image.getWidth();
@@ -199,7 +206,7 @@ public class WMImage {
 			scaleY = (yEnd - yPos) / imageHeight;
 			scaleX = scaleY;
 		}
-		
+
 		/* Flip image vertically and horizontally if required */
 		if (vFlip) {
 			scaleY *= -1;
@@ -218,11 +225,11 @@ public class WMImage {
 		double newYPos;
 		newXPos = xPos - (imageWidth - imageWidth * scaleX) / 2;
 		newYPos = yPos - (imageHeight - imageHeight * scaleY) / 2;
-		
-		if(vFlip) {
+
+		if (vFlip) {
 			newYPos -= (imageHeight * scaleY);
 		}
-		if(hFlip) {
+		if (hFlip) {
 			newXPos -= (imageWidth * scaleX);
 		}
 		imageView.relocate(newXPos, newYPos);
@@ -277,8 +284,7 @@ public class WMImage {
 				bottomEffect = reflection;
 				break;
 			default:
-				System.err.println("Effect " + currentEffectName
-						+ " not implemented yet.");
+				System.err.println("Effect " + currentEffectName + " not implemented yet.");
 			}
 			imageView.setEffect(bottomEffect);
 		}

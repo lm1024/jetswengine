@@ -52,7 +52,7 @@ import javafx.stage.WindowEvent;
  * items on the slides.
  * 
  * @author tjd511
- * @version 1.0 21/04/2015
+ * @version 2.0 21/05/2015
  */
 public class SlideRenderer {
 
@@ -77,9 +77,13 @@ public class SlideRenderer {
 	private float slideWidth;
 	private float slideHeight;
 
+	/*
+	 * Values stored to ensure that all slideitems can be scaled to look the
+	 * same as they did on the original resolution.
+	 */
 	private int originalSlideHeight;
 	private float scaleFactor;
-	
+
 	/* Class level slide to keep track of the currently drawn slide. */
 	private Slide currentSlide;
 
@@ -89,6 +93,9 @@ public class SlideRenderer {
 	 * @param stage
 	 *            the stage that includes a group which all of the elements are
 	 *            to be drawn on.
+	 * @param originalSlideHeight
+	 *            the original slide height in pixels of the slide used to
+	 *            create the slideshow.
 	 */
 	public SlideRenderer(Stage stage, int originalSlideHeight) {
 		this.stage = stage;
@@ -104,7 +111,7 @@ public class SlideRenderer {
 
 		/* Gets the group of the stage. */
 		this.group = (Group) stage.getScene().getRoot();
-		
+
 		this.originalSlideHeight = originalSlideHeight;
 
 		this.graphicsHandler = new GraphicsHandler(group);
@@ -134,8 +141,8 @@ public class SlideRenderer {
 		this.ySlideStart = (float) ySlideStart;
 		this.slideWidth = (float) slideWidth;
 		this.slideHeight = (float) slideHeight;
-		
-		this.scaleFactor = ((float)originalSlideHeight)/((float)slideHeight);
+
+		this.scaleFactor = ((float) originalSlideHeight) / ((float) slideHeight);
 	}
 
 	/**
@@ -165,14 +172,17 @@ public class SlideRenderer {
 				addGraphic((Graphic) currentSlideItem);
 			}
 		}
-		
-		/* Add the connection code to the corner of the screen on question slides. */
+
+		/*
+		 * Add the connection code to the corner of the screen on question
+		 * slides.
+		 */
 		if (currentSlide.containsQuestion()) {
 			String ipString = new IPEncoder().getIPCode();
-			
+
 			TextFragmentList tfl = new TextFragmentList();
 			tfl.add(new TextObject.TextFragmentBuilder(ipString).fontSize(30).build());
-			
+
 			textHandler.createTextbox(new TextObject.TextBoxBuilder(0, 0).textFragmentList(tfl).build());
 		}
 	}
@@ -344,7 +354,7 @@ public class SlideRenderer {
 		case CIRCLE:
 			Circle circle = (Circle) currentGraphic;
 			graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos)
-			
+
 				.radius(circle.getSize())
 				.color(circle.getGraphicColor())
 				.solid(circle.isSolid())
@@ -353,23 +363,7 @@ public class SlideRenderer {
 				.shadow(circle.getShadow())
 				.rotation(circle.getRotation())
 				.shadingType(circle.getShadingType());
-			//break;
-			//TODO
-			/*System.out.println(convXRelCoordToAbsCoord(2* circle.getSize() + circle.getXStart()) - xStartPos);
-			System.out.println(convYRelCoordToAbsCoord(2* circle.getSize() + circle.getYStart()) - yStartPos);
-			graphicBuilder = new GraphicBuilder(GraphicType.OVAL, xStartPos, yStartPos)
-			.xEndPos(convXRelCoordToAbsCoord(2* circle.getSize() + circle.getXStart()))
-			.yEndPos(convYRelCoordToAbsCoord(2* circle.getSize() + circle.getYStart()))
-			.color(circle.getGraphicColor())
-			.solid(circle.isSolid())
-			.outlineColor(circle.getOutlineColor())
-			.outlineThickness(circle.getOutlineThickness())
-			.shadow(circle.getShadow())
-			.rotation(circle.getRotation())
-			.shadingType(circle.getShadingType());*/
-		break;
-			
-			
+			break;
 		case EQUILATERALTRIANGLE:
 			EquilateralTriangle eTri = (EquilateralTriangle) currentGraphic;
 			graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos)
@@ -445,16 +439,15 @@ public class SlideRenderer {
 				.color(square.getGraphicColor())
 				.solid(square.isSolid())
 				.arcWidth(square.getArcWidth())
-				.arcHeight(square.getArcHeight())				
+				.arcHeight(square.getArcHeight())
 				.outlineColor(square.getOutlineColor())
 				.outlineThickness(square.getOutlineThickness())
 				.shadow(square.getShadow())
 				.rotation(square.getRotation())
 				.shadingType(square.getShadingType());
-				
+
 			break;
-			
-			
+
 		case STAR:
 			Star star = (Star) currentGraphic;
 			graphicBuilder = new GraphicBuilder(graphicType, xStartPos, yStartPos)
@@ -579,7 +572,7 @@ public class SlideRenderer {
 				.fontColor(fontColor)
 				.highlightColor(highlightColor)
 				.fontName(font)
-				.fontSize((int) (fontSize/scaleFactor))
+				.fontSize((int) (fontSize / scaleFactor))
 				.build());
 		}
 
@@ -605,7 +598,7 @@ public class SlideRenderer {
 	}
 
 	/**
-	 * 
+	 * Adds an image to the group.
 	 * 
 	 * @param currentImage
 	 *            the image object containing information about the image to be
@@ -687,7 +680,7 @@ public class SlideRenderer {
 		boolean visibleControls = currentAudio.isVisibleControlsOnly();
 		boolean playButtonOnly = currentAudio.isPlayButtonOnly();
 
-		audioHandler.createAudio(x, y, width, sourceFile,  autoPlay, loop, visibleControls, playButtonOnly);
+		audioHandler.createAudio(x, y, width, sourceFile, autoPlay, loop, visibleControls, playButtonOnly);
 
 		/* Hides and pauses the audio if it has a start time tag. */
 		if (currentAudio.getStartTime() != 0) {
@@ -806,16 +799,16 @@ public class SlideRenderer {
 		 */
 		graphHandler.drawPieChart(answerChart);
 	}
-	
+
 	public void pauseAllAudios() {
 		for (int i = 1; i <= audioHandler.getAudioCount(); i++) {
-			audioHandler.pauseAudio(i-1);
+			audioHandler.pauseAudio(i - 1);
 		}
 	}
-	
+
 	public void pauseAllVideos() {
 		for (int i = 1; i <= videoHandler.getVideoCount(); i++) {
-			videoHandler.pauseVideo(i-1);
+			videoHandler.pauseVideo(i - 1);
 		}
 	}
 
