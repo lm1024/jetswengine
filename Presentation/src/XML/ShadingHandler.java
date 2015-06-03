@@ -27,7 +27,7 @@ public class ShadingHandler extends DefaultHandler {
 	private List<String> shadingList = new ArrayList<String>();
 	private List<Float> stopValuesList = new ArrayList<Float>();
 
-	/* Creates a new ShadingHandler */
+	/** Creates a new ShadingHandler */
 	public ShadingHandler(XMLReader reader, GraphicHandler parent,
 			Graphic graphic) {
 		this.parentHandler = parent;
@@ -35,7 +35,7 @@ public class ShadingHandler extends DefaultHandler {
 		this.reader = reader;
 	}
 
-	/*
+	/**
 	 * Called when the XML Parser encounters a start tag for a Shading element.
 	 * Sets the shading type and any shading colors and stop values specified.
 	 */
@@ -68,7 +68,7 @@ public class ShadingHandler extends DefaultHandler {
 		stopValuesList.add(f);
 	}
 
-	/*
+	/**
 	 * Called when the XML Parser encounters an end tag for a Shading element.
 	 * Assigns the shading to the current graphic and returns to the parent
 	 * handler.

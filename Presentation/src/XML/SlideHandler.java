@@ -27,12 +27,12 @@ public class SlideHandler extends DefaultHandler {
 	private Slide slide;
 	private boolean isTangent;
 
-	/* Returns the current slideshow defaults */
+	/** Returns the current slideshow defaults */
 	protected Defaults getDefaults() {
 		return slideshow.getDefaults();
 	}
 
-	/* Creates a new SlideHandler */
+	/** Creates a new SlideHandler */
 	public SlideHandler(XMLReader reader, ContentHandler parent,
 			Slideshow slideshow) {
 		this.parentHandler = parent;
@@ -41,7 +41,7 @@ public class SlideHandler extends DefaultHandler {
 		this.slide = new Slide(getDefaults());
 	}
 
-	/*
+	/**
 	 * Called when the XML Parser encounters a start tag for a slide element.
 	 * Assigns all the attributes of the slide tag to a slide object. Assigns
 	 * the correct handler for each slide element within a slide.
@@ -94,7 +94,7 @@ public class SlideHandler extends DefaultHandler {
 		}
 	}
 
-	/*
+	/**
 	 * Called when the XML Parser encounters an end tag for a slide element.
 	 * Adds the slide to the correct location, depending on whether it is a
 	 * tangent or not. Returns control back to parent handler after parsing.

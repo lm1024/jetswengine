@@ -25,7 +25,7 @@ public class DefaultSettingsHandler extends DefaultHandler {
 	/* String buffer for storing the content of an element */
 	private StringBuffer contentBuffer = new StringBuffer();
 
-	/* Creates a new DefaultSettingsHandler */
+	/** Creates a new DefaultSettingsHandler */
 	public DefaultSettingsHandler(XMLReader reader, ContentHandler parent,
 			Slideshow slideshow) {
 		this.defaults = slideshow.getDefaults();
@@ -42,7 +42,7 @@ public class DefaultSettingsHandler extends DefaultHandler {
 		contentBuffer.append(ch, start, length);
 	}
 
-	/*
+	/**
 	 * Called when the XML Parser encounters a end tag for an element. Assigns
 	 * the content of each tag to its respective variable in the data structure.
 	 * Recalculates ratios after all variables have been assigned.

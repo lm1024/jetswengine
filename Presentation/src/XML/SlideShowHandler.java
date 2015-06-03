@@ -19,13 +19,13 @@ public class SlideShowHandler extends DefaultHandler {
 	private XMLReader reader;
 	private Slideshow slideshow;
 
-	/* Creates a new SlideShowHandler */
+	/** Creates a new SlideShowHandler */
 	public SlideShowHandler(XMLReader reader, Slideshow slideshow) {
 		this.slideshow = slideshow;
 		this.reader = reader;
 	}
 
-	/*
+	/**
 	 * Called when the XML Parser encounters a start tag for a slideshow
 	 * element. 
 	 * Assigns the correct handler for each element within a slideshow.

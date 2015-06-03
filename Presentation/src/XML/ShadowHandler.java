@@ -20,14 +20,14 @@ public class ShadowHandler extends DefaultHandler {
 	private XMLReader reader;
 	private GraphicHandler parentHandler;
 
-	/* Creates a new QuestionHandler */
+	/** Creates a new QuestionHandler */
 	public ShadowHandler(XMLReader reader, GraphicHandler parent, Graphic graphic) {
 		this.parentHandler = parent;
 		this.graphic = graphic;
 		this.reader = reader;
 	}
 
-	/*
+	/**
 	 * Called when the XML Parser encounters a start tag for a shadow element.
 	 * Assigns all the attributes of the shadow tag to a graphic object.
 	 * Returns control back to parent handler after parsing.

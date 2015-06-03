@@ -36,7 +36,7 @@ public class GraphicHandler extends DefaultHandler {
 	private String tempDuration, tempStartTime, tempGraphicColor, tempXStart,
 			tempYStart;
 
-	/* Creates a new GraphicHandler */
+	/** Creates a new GraphicHandler */
 	public GraphicHandler(XMLReader reader, SlideHandler parent, Slide slide) {
 		this.parentHandler = parent;
 		this.slide = slide;
@@ -44,12 +44,12 @@ public class GraphicHandler extends DefaultHandler {
 		this.graphic = new Graphic(getDefaults());
 	}
 
-	/* Returns slideshow defaults */
+	/** Returns slideshow defaults */
 	protected Defaults getDefaults() {
 		return parentHandler.getDefaults();
 	}
 
-	/* Updates object type of graphic for PWS Support */
+	/** Updates object type of graphic for PWS Support */
 	private void updateGraphicType(String graphicType) {
 		switch (graphicType) {
 		case "oval":
@@ -109,7 +109,7 @@ public class GraphicHandler extends DefaultHandler {
 		}
 	}
 
-	/*
+	/**
 	 * Called when the XML Parser encounters a start tag for an element. Assigns
 	 * the content of each tag to its respective variable in the data structure.
 	 * Recalculates ratios after all variables have been assigned.
@@ -503,7 +503,7 @@ public class GraphicHandler extends DefaultHandler {
 		}
 	}
 
-	/*
+	/**
 	 * Called when the XML Parser encounters a end tag for an element. Adds
 	 * co-ordinates to shape if required. If end of graphic is detected, adds
 	 * the shape to the Data Structure. Reassigns parent handler to the reader.

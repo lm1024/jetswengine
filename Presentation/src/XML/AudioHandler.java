@@ -22,7 +22,7 @@ public class AudioHandler extends DefaultHandler {
 	private SlideHandler parentHandler;
 	private Audio audio;
 
-	/* Creates a new AudioHandler */
+	/** Creates a new AudioHandler */
 	public AudioHandler(XMLReader reader, SlideHandler parent, Slide slide) {
 		this.parentHandler = parent;
 		this.reader = reader;
@@ -30,7 +30,7 @@ public class AudioHandler extends DefaultHandler {
 
 	}
 
-	/*
+	/**
 	 * Called when the XML Parser encounters a start tag for an Audio element.
 	 * Assigns all the attributes of the audio tag to an Audio object and adds
 	 * it to the current slideshow.

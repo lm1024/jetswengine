@@ -21,7 +21,7 @@ public class QuestionHandler extends DefaultHandler {
 	private SlideHandler parentHandler;
 	private Question question;
 
-	/* Creates a new QuestionHandler */
+	/** Creates a new QuestionHandler */
 	public QuestionHandler(XMLReader reader, SlideHandler parent,
 			Slide slide) {
 		this.parentHandler = parent;
@@ -30,7 +30,7 @@ public class QuestionHandler extends DefaultHandler {
 		
 	}
 
-	/*
+	/**
 	 * Called when the XML Parser encounters a start tag for a Question element.
 	 * Assigns all the attributes of the question tag to a Question object.
 	 */
@@ -50,7 +50,7 @@ public class QuestionHandler extends DefaultHandler {
 		}
 	}
 	
-	/*
+	/**
 	 * Called when the XML Parser encounters a end tag for a Question element.
 	 * Adds the question to the current slide.
 	 */

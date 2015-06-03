@@ -22,7 +22,7 @@ public class DocumentInfoHandler extends DefaultHandler {
 	private ContentHandler parentHandler;
 	private DocumentInfo info;
 
-	/* String buffer for storing the content of an element */
+	/** String buffer for storing the content of an element */
 	private StringBuffer contentBuffer = new StringBuffer();
 
 	/** Creates a new DocumentInfoHandler */

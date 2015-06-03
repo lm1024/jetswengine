@@ -22,14 +22,14 @@ public class ImageHandler extends DefaultHandler {
 	private SlideHandler parentHandler;
 	private Image image;
 
-	/* Creates a new ImageHandler */
+	/** Creates a new ImageHandler */
 	public ImageHandler(XMLReader reader, SlideHandler parent, Slide slide) {
 		this.parentHandler = parent;
 		this.slide = slide;
 		this.reader = reader;
 	}
 
-	/*
+	/**
 	 * Called when the XML Parser encounters a start tag for an Image element.
 	 * Assigns all the attributes of the image tag to an Image object.
 	 */
@@ -66,7 +66,7 @@ public class ImageHandler extends DefaultHandler {
 		}
 	}
 
-	/*
+	/**
 	 * Called when the XML Parser encounters a end tag for an Image element.
 	 * Adds the image to the slide and returns control to the parent handler.
 	 */
