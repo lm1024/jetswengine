@@ -40,7 +40,7 @@ public class TextHandler {
 	 * @param textBox
 	 *            a textBox object containing all the information about the
 	 *            textBox to be drawn. Must be formed using the TextBuilder.
-	 * @see {@link textHandler.TextObject}
+	 * @see textHandler.TextObject
 	 */
 	public void createTextbox(TextObject textBox) {
 		texts.add(new Text(group));

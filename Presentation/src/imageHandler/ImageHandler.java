@@ -33,7 +33,7 @@ public class ImageHandler {
 	 * @param imageObject
 	 *            a image object containing all the information about the image
 	 *            to be drawn. Must be formed using the ImageBuilder.
-	 * @see {@link imageHandler.ImageObject}
+	 * @see imageHandler.ImageObject
 	 */
 	public void createImage(ImageObject imageObject) {
 		images.add(new WMImage(group));

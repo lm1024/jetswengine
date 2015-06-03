@@ -181,7 +181,7 @@ public class ImageObject {
 
 	/**
 	 * @return a list of ImageEffects that are to be applied to the image
-	 * @see {@link imageHandler.ImageEffect}
+	 * @see imageHandler.ImageEffect
 	 */
 	public ArrayList<ImageEffect> getImageEffects() {
 		return imageEffects;
@@ -355,7 +355,7 @@ public class ImageObject {
 		 * @param imageEffects
 		 *            a list of imageEffects that should be applied to the
 		 *            image.
-		 * @see {@link imageHandler.ImageEffectsList}
+		 * @see imageHandler.ImageEffectsList
 		 */
 		public ImageBuilder imageEffects(ImageEffectsList imageEffects) {
 			this.imageEffects = imageEffects.getList();

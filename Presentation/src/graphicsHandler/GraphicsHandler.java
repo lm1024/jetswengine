@@ -32,7 +32,7 @@ public class GraphicsHandler {
 	 * @param graphicObject
 	 *            a graphics object containing all the information about the
 	 *            graphic to be drawn. Must be formed using the GraphicBuilder.
-	 * @see {@link graphicsHandler.GraphicObject}
+	 * @see graphicsHandler.GraphicObject
 	 */
 	public void createGraphic(GraphicObject graphicObject) {
 		graphics.add(new Graphic(group));

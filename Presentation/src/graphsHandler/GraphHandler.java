@@ -42,7 +42,7 @@ public class GraphHandler {
 	 * @param pieChartObject
 	 *            A PieChartObject containing all the data of the chart to be
 	 *            drawn.
-	 * @see {@link graphsHandler.PieChartObject}
+	 * @see graphsHandler.PieChartObject
 	 */
 	public void drawPieChart(PieChartObject pieChartObject) {
 		ObservableList<PieChart.Data> pieChartData = pieChartObject.getPieChartData();

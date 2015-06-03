@@ -38,7 +38,7 @@ public class WMImage {
 	 * @param image
 	 *            a image object containing all the information about the image
 	 *            to be drawn. Must be formed using the ImageBuilder.
-	 * @see {@link imageHandler.ImageObject}
+	 * @see imageHandler.ImageObject
 	 */
 	public void drawImage(ImageObject image) {
 		float xPos = image.getXStartPos();

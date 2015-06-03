@@ -693,7 +693,7 @@ public class GraphicObject {
 		 * @param offset
 		 *            the relative distance through the shape that the color
 		 *            should appear.
-		 * @see {@link graphicsHandler.Shading}
+		 * @see graphicsHandler.Shading
 		 */
 		public GraphicBuilder shadingElement(String shadingColor, float offset) {
 			if (verifyColor(shadingColor) && (offset >= 0) && (offset <= 1)) {
