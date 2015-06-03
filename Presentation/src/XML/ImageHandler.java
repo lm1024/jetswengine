@@ -10,8 +10,11 @@ import Data.Image;
 import Data.Slide;
 
 /**
- * @author David
- *
+ * Image Handler class for parsing image Tags from XML
+ * Slideshows.
+ * 
+ * @author dk666
+ * @version 1.4 02/06/15
  */
 public class ImageHandler extends DefaultHandler {
 
@@ -19,11 +22,11 @@ public class ImageHandler extends DefaultHandler {
 	private XMLReader reader;
 	private SlideHandler parentHandler;
 	private Image image;
+	
+	/* String buffer for storing the content of an element */
 	private StringBuffer contentBuffer = new StringBuffer();
 
-	/**
-	 * 
-	 */
+	/* Creates a new ImageHandler */
 	public ImageHandler(XMLReader reader, SlideHandler parent,
 			Slide slide) {
 		this.parentHandler = parent;
@@ -31,10 +34,13 @@ public class ImageHandler extends DefaultHandler {
 		this.reader = reader;
 	}
 
+	/*
+	 * Called when the XML Parser encounters a start tag for an Image element.
+	 * Assigns all the attributes of the image tag to an Image object.
+	 */
 	public void startElement(String uri, String localName, String qName,
 			Attributes attributes) throws SAXException {
-		// sort out element name if (no) namespace in use
-		//TODO: Call start Element when handler is changed to parse duration
+		/* sort out element name if (no) namespace in use */
 		String elementName = localName;
 		if ("".equals(elementName)) {
 			elementName = qName;
