@@ -22,6 +22,7 @@ public class AudioHandler extends DefaultHandler {
 	private SlideHandler parentHandler;
 	private Audio audio;
 
+	/* Creates a new AudioHandler */
 	public AudioHandler(XMLReader reader, SlideHandler parent, Slide slide) {
 		this.parentHandler = parent;
 		this.reader = reader;
