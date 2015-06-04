@@ -64,7 +64,7 @@ public class CommsTest {
 	 */
 	@Test
 	public void testAnswerIsIncremented() {
-		clive.sendToServer("0");
+		clive.sendToServerWithIP("0");
 
 		/* Pause and wait for the comms thread to finish its work. */
 		try {
@@ -83,7 +83,7 @@ public class CommsTest {
 	 */
 	@Test
 	public void testQuestionIsRecieved() {
-		clive.sendToServer("Hello?");
+		clive.sendToServerWithIP("Hello?");
 
 		/* Pause and wait for the comms thread to finish its work. */
 		try {
