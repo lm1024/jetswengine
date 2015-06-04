@@ -64,6 +64,25 @@ public class Image extends SlideItem {
 		System.out.println("FlipVertical: " + flipVertical);
 		System.out.println("");
 	}
+	
+	/**
+	 * @param sourceFile
+	 *            the sourceFile to set
+	 */
+	@Override
+	public void setSourceFile(String string) {
+		try {
+			if (!string.equals("null")) {
+				if(string.startsWith("file:")) {
+					super.setSourceFile(string);
+				} else {
+					super.setSourceFile("file:" + string);
+				}
+			}
+		} catch (NullPointerException e) {
+			// Do Nothing
+		}
+	}
 
 	/**
 	 * Adds the specified image effect to the list of image effects to be

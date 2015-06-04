@@ -254,7 +254,7 @@ public class XMLTest {
 	public void testSlideOneImageOne() {
 		Image image = (Image) currentSlideshow.getSlide(0).get(3);
 
-		assertTrue(image.getSourceFile().equals("cat.jpg"));
+		assertEquals(image.getSourceFile(),"file:cat.jpg");
 		assertTrue(image.getXStart() == 0.5);
 		assertTrue(image.getYStart() == 0.5);
 		assertTrue(image.getScaleX() == 1);
@@ -277,7 +277,7 @@ public class XMLTest {
 	public void testSlideOneImageTwo() {
 		Image image = (Image) currentSlideshow.getSlide(0).get(4);
 
-		assertEquals("selfie.jpg", image.getSourceFile());
+		assertEquals("file:selfie.jpg", image.getSourceFile());
 		assertEquals(0.5, image.getXStart(), 0.001);
 		assertEquals(0.5, image.getYStart(), 0.001);
 
