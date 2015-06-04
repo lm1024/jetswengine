@@ -182,13 +182,13 @@ public class XMLTest {
 		assertTrue(text.getSourceFile().equals("test.txt"));
 
 		assertTrue(text.getStartTime() == defaultStartTime);
-		assertTrue(text.getXStart() == 0.5);
-		assertTrue(text.getYStart() == 0.5);
+		assertEquals(text.getXStart(), 0.2,0.001);
+		assertEquals(text.getYStart(), 0.2,0.001);
 		assertTrue(text.getXEnd() == 1.0);
 		assertTrue(text.getYEnd() == 1.0);
 		
 		assertTrue(text.getFont().equals("Arial"));
-		assertTrue(text.getFontColor().equals("#00112233"));
+		assertTrue(text.getFontColor().equals("#ffff2233"));
 		assertTrue(text.getFontSize() == 26);
 
 		/* Empty text fragment list for sourcefile? */
