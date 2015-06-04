@@ -1,6 +1,8 @@
 /** (c) Copyright by WaveMedia. */
 package runtime;
 
+import gui.UserPreferences;
+
 import java.awt.AWTException;
 import java.awt.Robot;
 import java.util.ArrayList;
@@ -12,6 +14,10 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import comms.CommsHandler;
+import data.Question;
+import data.Slide;
+import data.SlideItem;
+import data.Slideshow;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -31,11 +37,6 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import renderer.SlideRenderer;
 import utils.IPEncoder;
-import Data.Question;
-import Data.Slide;
-import Data.SlideItem;
-import Data.Slideshow;
-import GUI.UserPreferences;
 
 /**
  * Class for controlling the current slideshow being displayed. Handles all

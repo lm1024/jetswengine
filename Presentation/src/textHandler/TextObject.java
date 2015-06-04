@@ -3,10 +3,11 @@ package textHandler;
 
 import java.util.ArrayList;
 
+import data.Defaults;
+import data.TextFragment;
+
 import javafx.scene.text.Font;
 
-import Data.Defaults;
-import Data.TextFragment;
 
 /**
  * Text object class for passing to the textHandler to draw to screen.

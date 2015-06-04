@@ -10,10 +10,11 @@ import java.net.UnknownHostException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import Data.Question;
-import PCapp.Client;
+import pcapp.Client;
+
 
 import comms.CommsHandler;
+import data.Question;
 
 /**
  * Class for testing the comms unit.

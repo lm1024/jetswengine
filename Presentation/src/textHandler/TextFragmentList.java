@@ -3,7 +3,8 @@ package textHandler;
 
 import java.util.ArrayList;
 
-import Data.TextFragment;
+import data.TextFragment;
+
 
 /**
  * Class to handle a list of text fragments for within a text box.

@@ -15,30 +15,32 @@ import imageHandler.ImageEffect;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import Data.Answer;
-import Data.Audio;
-import Data.CommonShapes.Oval;
-import Data.CommonShapes.Rectangle;
-import Data.Defaults;
-import Data.DocumentInfo;
-import Data.Image;
-import Data.OtherShapes.Arc;
-import Data.OtherShapes.Arrow;
-import Data.OtherShapes.Chord;
-import Data.OtherShapes.Line;
-import Data.OtherShapes.Polygon;
-import Data.OtherShapes.Triangle;
-import Data.Question;
-import Data.RadialShapes.Circle;
-import Data.RadialShapes.EquilateralTriangle;
-import Data.RadialShapes.RegularPolygon;
-import Data.RadialShapes.Square;
-import Data.RadialShapes.Star;
-import Data.Slide;
-import Data.Slideshow;
-import Data.Text;
-import Data.Video;
-import XML.ImprovedXMLReader;
+import xml.ImprovedXMLReader;
+
+import data.Answer;
+import data.Audio;
+import data.Defaults;
+import data.DocumentInfo;
+import data.Image;
+import data.Question;
+import data.Slide;
+import data.Slideshow;
+import data.Text;
+import data.Video;
+import data.CommonShapes.Oval;
+import data.CommonShapes.Rectangle;
+import data.OtherShapes.Arc;
+import data.OtherShapes.Arrow;
+import data.OtherShapes.Chord;
+import data.OtherShapes.Line;
+import data.OtherShapes.Polygon;
+import data.OtherShapes.Triangle;
+import data.RadialShapes.Circle;
+import data.RadialShapes.EquilateralTriangle;
+import data.RadialShapes.RegularPolygon;
+import data.RadialShapes.Square;
+import data.RadialShapes.Star;
+
 
 /**
  * @author dk666, vr561, ipf501

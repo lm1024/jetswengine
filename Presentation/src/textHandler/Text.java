@@ -12,9 +12,10 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import com.sun.webpane.platform.WebPage;
 
+import data.TextFragment;
+
 import javafx.scene.Group;
 import javafx.scene.web.WebView;
-import Data.TextFragment;
 
 /**
  * Class for handling text and text boxes on a javafx group.
