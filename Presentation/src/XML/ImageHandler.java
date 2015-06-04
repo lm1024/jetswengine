@@ -51,6 +51,8 @@ public class ImageHandler extends DefaultHandler {
 			image.setFlipHorizontal(attributes.getValue("fliphorizontal"));
 			image.setFlipVertical(attributes.getValue("flipvertical"));
 			image.setRotation(attributes.getValue("rotation"));
+			image.setScaleX(attributes.getValue("scale"));
+			image.setScaleY(attributes.getValue("scale"));
 			image.setScaleX(attributes.getValue("hscale"));
 			image.setScaleY(attributes.getValue("vscale"));
 			image.setxEnd(attributes.getValue("xend"));
