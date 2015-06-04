@@ -5,8 +5,15 @@ import imageHandler.ImageEffect;
 
 import java.util.ArrayList;
 
+/**
+ * Image class for containing a single SmartSlides Image data.
+ * 
+ * @author dk666
+ * @version 2.3 02/06/15
+ */
 public class Image extends SlideItem {
-	
+
+	/* Properties of an Image */
 	private float rotation;
 	private float scaleX;
 	private float scaleY;
@@ -18,9 +25,15 @@ public class Image extends SlideItem {
 	private boolean flipVertical;
 	private float xEnd;
 	private float yEnd;
-	
+
+	/* Images can contain multiple effects, so store them all in a list */
 	private ArrayList<ImageEffect> imageEffects;
-	
+
+	/**
+	 * Constructs a new Image object with the specified defaults.
+	 * 
+	 * @param defaults
+	 */
 	public Image(Defaults defaults) {
 		super(defaults);
 		this.rotation = defaults.getRotation();
@@ -30,10 +43,12 @@ public class Image extends SlideItem {
 		this.cropX2 = defaults.getCropX2();
 		this.cropY1 = defaults.getCropY1();
 		this.cropY2 = defaults.getCropY2();
-		
 		imageEffects = new ArrayList<ImageEffect>();
-	}	
-	
+	}
+
+	/**
+	 * For debugging. Outputs the properties of this graphic.
+	 */
 	@Override
 	public void printItem() {
 		super.printItem();
@@ -49,47 +64,60 @@ public class Image extends SlideItem {
 		System.out.println("FlipVertical: " + flipVertical);
 		System.out.println("");
 	}
-	
+
+	/**
+	 * Adds the specified image effect to the list of image effects to be
+	 * applied to the image.
+	 * 
+	 * @param imageEffectName
+	 *            the image effect to add to the shape.
+	 */
 	public void addImageEffect(String imageEffectName) {
-		switch (imageEffectName) { 
-			case "sepia":
-				imageEffects.add(ImageEffect.SEPIA);
-				break;
-			case "bloom":
-				imageEffects.add(ImageEffect.BLOOM);
-				break;
-			case "blur":
-				imageEffects.add(ImageEffect.BLUR);
-				break;
-			case "glow":
-				imageEffects.add(ImageEffect.GLOW);
-				break;
-			case "grayscale":
-				imageEffects.add(ImageEffect.GRAYSCALE);
-				break;
-			case "reflection":
-				imageEffects.add(ImageEffect.REFLECTION);
-				break;
-			default:
-				break;
-			
+		switch (imageEffectName) {
+		case "sepia":
+			imageEffects.add(ImageEffect.SEPIA);
+			break;
+		case "bloom":
+			imageEffects.add(ImageEffect.BLOOM);
+			break;
+		case "blur":
+			imageEffects.add(ImageEffect.BLUR);
+			break;
+		case "glow":
+			imageEffects.add(ImageEffect.GLOW);
+			break;
+		case "grayscale":
+			imageEffects.add(ImageEffect.GRAYSCALE);
+			break;
+		case "reflection":
+			imageEffects.add(ImageEffect.REFLECTION);
+			break;
+		default:
+			break;
+
 		}
-		
-		
+
 	}
+
 	
+	/**
+	 * Returns the list of image effects to be applied to the image.
+	 * @return imageEffects the list of image effects.
+	 */
 	public ArrayList<ImageEffect> getImageEffects() {
 		return imageEffects;
 	}
 
 	/**
-	 * @return the scaleX
+	 * Returns the scale factor for the x-direction.
+	 * @return scaleX the x-direction scale factor.
 	 */
 	public float getScaleX() {
 		return scaleX;
 	}
 
 	/**
+	 * Sets the scale factor to be applied to the image in the x-direction.
 	 * @param scalex
 	 *            the scalex to set
 	 */
@@ -103,17 +131,19 @@ public class Image extends SlideItem {
 			/* Do Nothing */
 		}
 	}
-	
+
 	/**
-	 * @return the scaleY
+	 * Returns the scale factor for the y-direction.
+	 * @return scaleY the y-direction scale factor.
 	 */
 	public float getScaleY() {
 		return scaleY;
 	}
-	
+
 	/**
-	 * @param scaley
-	 *            the scaley to set
+	 * Sets the scale factor to be applied to the image in the y-direction.
+	 * @param scaleY
+	 *            the scaleY to set
 	 */
 	public void setScaleY(String string) {
 		try {
@@ -180,7 +210,7 @@ public class Image extends SlideItem {
 
 	/**
 	 * @return the cropX1
-	 */	
+	 */
 	public float getCropX1() {
 		return cropX1;
 	}
@@ -192,7 +222,7 @@ public class Image extends SlideItem {
 	public void setCropX1(String string) {
 		try {
 			float f = Float.parseFloat(string);
-			if((f >= 0) && (f <= 1)) {
+			if ((f >= 0) && (f <= 1)) {
 				this.cropX1 = f;
 			}
 		} catch (Exception e) {
@@ -214,7 +244,7 @@ public class Image extends SlideItem {
 	public void setCropY1(String string) {
 		try {
 			float f = Float.parseFloat(string);
-			if((f >= 0) && (f <= 1)) {
+			if ((f >= 0) && (f <= 1)) {
 				this.cropY1 = f;
 			}
 		} catch (Exception e) {
@@ -236,7 +266,7 @@ public class Image extends SlideItem {
 	public void setCropX2(String string) {
 		try {
 			float f = Float.parseFloat(string);
-			if((f >= 0) && (f <= 1)) {
+			if ((f >= 0) && (f <= 1)) {
 				this.cropX2 = f;
 			}
 		} catch (Exception e) {
@@ -274,7 +304,8 @@ public class Image extends SlideItem {
 	}
 
 	/**
-	 * @param xEnd the xEnd to set
+	 * @param xEnd
+	 *            the xEnd to set
 	 */
 	public void setxEnd(String string) {
 		try {
@@ -295,7 +326,8 @@ public class Image extends SlideItem {
 	}
 
 	/**
-	 * @param yEnd the yEnd to set
+	 * @param yEnd
+	 *            the yEnd to set
 	 */
 	public void setyEnd(String string) {
 		try {

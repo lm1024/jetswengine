@@ -6,8 +6,19 @@ import java.math.BigInteger;
 import utils.Utils;
 import javafx.scene.text.Font;
 
+/**
+ * Defaults class for containing the default values for properties of objects
+ * within a slideshow.
+ * 
+ * @author dk666
+ * @version 2.3 02/06/15
+ */
 public class Defaults {
 
+	/*
+	 * Properties with defined defaults. These values will only be used if not
+	 * overwritten by the defaults specified in the XML.
+	 */
 	private String backgroundColor = "#00FFFFFF";
 	private String font = Font.getDefault().getName();
 	private double fontSize = Font.getDefault().getSize();
@@ -33,14 +44,19 @@ public class Defaults {
 	private double yAspectRatio = 4;
 	private int originalXResolution = 1280;
 	private int originalYResolution = 1024;
-	
-	
 	private boolean audioHasVisibleControls = false;
 
+	/**
+	 * Constructs a new Defaults object. All defaults initialise to hard-coded
+	 * sensible values.
+	 */
 	public Defaults() {
 
 	}
 
+	/**
+	 * For debugging. Outputs all the default settings.
+	 */
 	public void printDefaults() {
 		System.out.println("Start of Document Defaults:");
 		System.out.println("BackgroundColour: " + backgroundColor);
@@ -58,7 +74,20 @@ public class Defaults {
 		System.out.println("CropY1: " + cropY1);
 		System.out.println("CropX2: " + cropX2);
 		System.out.println("CropY2: " + cropY2);
-		System.out.println("End of Document Defaults\n");
+		System.out.println("Shape Solidity: " + shapeSolidity);
+		System.out.println("Stop Value" + stopValue);
+		System.out.println("Outline Thickness: " + outlineThickness);
+		System.out.println("Outline Color: " + outlineColor);
+		System.out.println("Audio Width: " + audioWidth);
+		System.out.println("Video Width: " + videoWidth);
+		System.out.println("X Aspect Ratio: " + xAspectRatio);
+		System.out.println("Y Aspect Ratio: " + yAspectRatio);
+		System.out.println("Original X Resolution: " + originalXResolution);
+		System.out.println("Original Y Resolution: " + originalYResolution);
+		System.out.println("Audio Has Visible Controls: "
+				+ audioHasVisibleControls);
+		System.out.println("End of Document Defaults");
+		System.out.println("");
 	}
 
 	/**
@@ -77,7 +106,7 @@ public class Defaults {
 			this.backgroundColor = string;
 		}
 	}
-	
+
 	/**
 	 * @return the outlineColor
 	 */
@@ -94,11 +123,22 @@ public class Defaults {
 			this.outlineColor = string;
 		}
 	}
-	
+
+	/**
+	 * Returns the default outline thickness.
+	 * 
+	 * @return outlineThickness The thickness of the outline
+	 */
 	public float getOutlineThickness() {
 		return this.outlineThickness;
 	}
 
+	/**
+	 * Sets the default outline thickness.
+	 * 
+	 * @param string
+	 *            The thickness of the outline.
+	 */
 	public void setOutlineThickness(String string) {
 		try {
 			float f = Float.parseFloat(string);
@@ -406,7 +446,8 @@ public class Defaults {
 	}
 
 	/**
-	 * @param string the shapeSolidity to set
+	 * @param string
+	 *            the shapeSolidity to set
 	 */
 	public void setShapeSolidity(String string) {
 		this.shapeSolidity = Boolean.parseBoolean(string);
@@ -418,7 +459,7 @@ public class Defaults {
 	public float getStopValue() {
 		return stopValue;
 	}
-	
+
 	/**
 	 * @param cropX1
 	 *            the cropX1 to set
@@ -434,56 +475,131 @@ public class Defaults {
 		}
 	}
 
+	/**
+	 * Returns the default width of an audio player.
+	 * 
+	 * @return the width
+	 */
 	public float getAudioWidth() {
 		return audioWidth;
 	}
 
-	public void setAudioWidth(float audioWidth) {
-		this.audioWidth = audioWidth; //TODO
+	/**
+	 * Sets the default width of the audio player.
+	 * 
+	 * @param width
+	 *            the width to set
+	 */
+	public void setAudioWidth(String s) {
+		try {
+			float f = Float.parseFloat(s);
+			if (f > 0) {
+				this.audioWidth = f;
+			}
+
+		} catch (Exception e) {
+			// Do nothing
+		}
 	}
-	
+
+	/**
+	 * Returns the default width of a video player.
+	 * 
+	 * @return the width
+	 */
 	public float getVideoWidth() {
 		return videoWidth;
 	}
 
-	public void setVideoWidth(float videoWidth) {
-		this.videoWidth = videoWidth; //TODO
+	/**
+	 * Sets the default width of the video player.
+	 * 
+	 * @param width
+	 *            the width to set
+	 */
+	public void setVideoWidth(String s) {
+		try {
+			float f = Float.parseFloat(s);
+			if (f > 0) {
+				this.videoWidth = f;
+			}
+
+		} catch (Exception e) {
+			// Do nothing
+		}
 	}
 
+	/**
+	 * Returns the default visibility of the audio player controls.
+	 * 
+	 * @return
+	 */
 	public boolean isAudioHasVisibleControls() {
 		return audioHasVisibleControls;
 	}
 
-	public void setAudioHasVisibleControls(boolean audioHasVisibleControls) {
-		this.audioHasVisibleControls = audioHasVisibleControls; //TODO
+	/**
+	 * Sets the default visibility of the audio player controls.
+	 * 
+	 * @param string
+	 *            the visibility of the controls.
+	 */
+	public void setAudioHasVisibleControls(String string) {
+		this.audioHasVisibleControls = Boolean.parseBoolean(string);
 	}
 
 	/**
-	 * @return the xAspectRatio
+	 * Returns the xAspectRatio.
+	 * 
+	 * @return the xAspectRatio to return.
 	 */
 	public double getxAspectRatio() {
 		return xAspectRatio;
 	}
 
 	/**
-	 * @param xAspectRatio the xAspectRatio to set
+	 * Sets the default xAspectRatio
+	 * 
+	 * @param xAspectRatio
+	 *            the xAspectRatio to set
 	 */
-	public void setxAspectRatio(double xAspectRatio) {
-		this.xAspectRatio = xAspectRatio;
+	public void setxAspectRatio(String s) {
+		try {
+			double d = Double.parseDouble(s);
+			if (d > 0) {
+				this.xAspectRatio = d;
+			}
+
+		} catch (Exception e) {
+			// Do nothing
+		}
 	}
 
 	/**
-	 * @return the yAspectRatio
+	 * Returns the yAspectRatio
+	 * 
+	 * @return the yAspectRatio to return.
 	 */
 	public double getyAspectRatio() {
 		return yAspectRatio;
 	}
 
 	/**
-	 * @param yAspectRatio the yAspectRatio to set
+	 * Sets the default yAspectRatio
+	 * 
+	 * @param yAspectRatio
+	 *            the yAspectRatio to set
 	 */
-	public void setyAspectRatio(double yAspectRatio) {
-		this.yAspectRatio = yAspectRatio;
+	public void setyAspectRatio(String s) {
+		try {
+			double d = Double.parseDouble(s);
+			if (d > 0) {
+				this.yAspectRatio = d;
+			}
+
+		} catch (Exception e) {
+			// Do nothing
+		}
 	}
 
 	/**
@@ -494,7 +610,8 @@ public class Defaults {
 	}
 
 	/**
-	 * @param originalXResolution the originalXResolution to set
+	 * @param originalXResolution
+	 *            the originalXResolution to set
 	 */
 	public void setOriginalXResolution(String originalXResolution) {
 		try {
@@ -515,7 +632,8 @@ public class Defaults {
 	}
 
 	/**
-	 * @param originalYResolution the originalYResolution to set
+	 * @param originalYResolution
+	 *            the originalYResolution to set
 	 */
 	public void setOriginalYResolution(String originalYResolution) {
 		try {
@@ -527,9 +645,14 @@ public class Defaults {
 			/* Do Nothing */
 		}
 	}
-	
+
+	/**
+	 * Recalculates the aspect ratio from the original resolutions. Should be
+	 * called after all default settings have been set.
+	 */
 	public void RecalculateRatios() {
-		int gcd = BigInteger.valueOf(originalXResolution).gcd(BigInteger.valueOf(originalYResolution)).intValue();
+		int gcd = BigInteger.valueOf(originalXResolution)
+				.gcd(BigInteger.valueOf(originalYResolution)).intValue();
 		this.xAspectRatio = originalXResolution / gcd;
 		this.yAspectRatio = originalYResolution / gcd;
 	}

@@ -11,7 +11,7 @@ import utils.Utils;
  */
 public class RadialShapes extends Graphic {
 
-	/**/
+	/* Properties of all radial shapes */
 	private boolean solid;
 	private float size;
 	private float rotation;

@@ -6,7 +6,6 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 
-import Data.Slide;
 import Data.Slideshow;
 
 /**

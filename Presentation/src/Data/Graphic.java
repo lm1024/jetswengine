@@ -1,27 +1,38 @@
 /** (c) Copyright by WaveMedia. */
 package Data;
 
-import java.util.HashMap;
 import java.util.List;
 
 import utils.Utils;
-import Data.CommonShapes.*;
-import Data.RadialShapes.*;
-import Data.OtherShapes.*;
 
+/**
+ * Graphic class for containing a single SmartSlides Graphic data.
+ * 
+ * @author dk666
+ * @version 2.3 02/06/15
+ */
 public class Graphic extends SlideItem {
 
+	/* Properties of all graphics */
 	private String graphicColor;
 	private String shadow = "None";
 	private List<String> shadingList;
 	private List<Float> stopValuesList;
 	private String shadingType = "None";
 
+	/**
+	 * Constructs a new Graphic object with the specified defaults.
+	 * 
+	 * @param defaults
+	 */
 	public Graphic(Defaults defaults) {
 		super(defaults);
 		this.graphicColor = defaults.getGraphicColor();
 	}
 	
+	/**
+	 * For debugging. Outputs the properties of this graphic.
+	 */
 	@Override
 	public void printItem() {
 		super.printItem();
@@ -49,97 +60,6 @@ public class Graphic extends SlideItem {
 		
 	}
 
-	public static Graphic makeGraphic(HashMap<String, String> hashMap, Defaults defaults) {
-		Graphic g;
-		switch (hashMap.get("type")) {
-		case "oval":
-			g = new CommonShapes(defaults).new Oval(defaults);
-			((Oval) g).setSolid(hashMap.get("solid"));
-			((Oval) g).setXEnd(hashMap.get("xend"));
-			((Oval) g).setYEnd(hashMap.get("yend"));
-			break;
-		case "rectangle":
-			g = new CommonShapes(defaults).new Rectangle(defaults);
-			((Rectangle) g).setSolid(hashMap.get("solid"));
-			((Rectangle) g).setXEnd(hashMap.get("xend"));
-			((Rectangle) g).setYEnd(hashMap.get("yend"));
-			break;
-		case "line":
-			g = new OtherShapes(defaults).new Line(defaults);
-			((Line) g).setXEnd(hashMap.get("xend"));
-			((Line) g).setYEnd(hashMap.get("yend"));
-			break;
-		case "circle":
-			g = new RadialShapes(defaults).new Circle(defaults);
-			((Circle) g).setSolid(hashMap.get("solid"));
-			((Circle) g).setSize(hashMap.get("radius"));
-			((Circle) g).setSize(hashMap.get("size"));
-			break;
-		case "square":
-			g = new RadialShapes(defaults).new Square(defaults);
-			((Square) g).setSolid(hashMap.get("solid"));
-			((Square) g).setSize(hashMap.get("size"));
-			break;
-		case "arrow":
-			g = new OtherShapes(defaults).new Arrow(defaults);
-			((Arrow) g).setSolid(hashMap.get("solid"));
-			((Arrow) g).setXEnd(hashMap.get("xend"));
-			((Arrow) g).setYEnd(hashMap.get("yend"));
-			break;
-		case "equitriangle":
-			g = new RadialShapes(defaults).new EquilateralTriangle(defaults);
-			((EquilateralTriangle) g).setSolid(hashMap.get("solid"));
-			((EquilateralTriangle) g).setSize(hashMap.get("size"));
-			break;
-		case "triangle":
-			g = new OtherShapes(defaults).new Triangle(defaults);
-			((Triangle) g).setSolid(hashMap.get("solid"));
-			break;
-		case "regpolygon":
-			g = new RadialShapes(defaults).new RegularPolygon(defaults);
-			((RegularPolygon) g).setSolid(hashMap.get("solid"));
-			((RegularPolygon) g).setSize(hashMap.get("size"));
-			((RegularPolygon) g).setNumberOfSides(hashMap.get("numberofsides"));
-			break;
-		case "polygon":
-			g = new OtherShapes(defaults).new Triangle(defaults);
-			((Triangle) g).setSolid(hashMap.get("solid"));
-			break;
-		case "star":
-			g = new RadialShapes(defaults).new Star(defaults);
-			((Star) g).setSolid(hashMap.get("solid"));
-			((Star) g).setSize(hashMap.get("size"));
-			((Star) g).setNumberOfPoints(hashMap.get("numberofpoints"));
-			break;
-		case "chord":
-			g = new OtherShapes(defaults).new Chord(defaults);
-			((Chord) g).setSolid(hashMap.get("solid"));
-			((Chord) g).setWidth(hashMap.get("width"));
-			((Chord) g).setHeight(hashMap.get("height"));
-			((Chord) g).setLength(hashMap.get("length"));
-			((Chord) g).setArcAngle(hashMap.get("arcangle"));
-			break;
-		case "arc":
-			g = new OtherShapes(defaults).new Arc(defaults);
-			((Arc) g).setSolid(hashMap.get("solid"));
-			((Arc) g).setWidth(hashMap.get("width"));
-			((Arc) g).setHeight(hashMap.get("height"));
-			((Arc) g).setLength(hashMap.get("length"));
-			((Arc) g).setArcAngle(hashMap.get("arcangle"));
-			break;
-		default:
-			System.out.println("Unknown graphic: " + hashMap.get("type") + ". Returning Null");
-			return null;
-
-		}
-		g.setDuration(hashMap.get("duration"));
-		g.setGraphicColor(hashMap.get("graphiccolor"));
-		g.setStartTime(hashMap.get("starttime"));
-		g.setXStart(hashMap.get("xstart"));
-		g.setYStart(hashMap.get("ystart"));
-		return g;
-	}
-
 	/**
 	 * @return the graphicColor
 	 */
@@ -157,10 +77,19 @@ public class Graphic extends SlideItem {
 		}
 	}
 
+	/**
+	 * Returns the weight of the shadow of this graphic.
+	 * @return shadow the weight of the shadow.
+	 */
 	public String getShadow() {
 		return shadow;
 	}
 
+	
+	/**
+	 * Sets the weight of the shadow of the this graphic.
+	 * @param string the weight of the shadow.
+	 */
 	public void setShadow(String string) {
 		if(Utils.validShadow(string)) {
 			this.shadow = string;
@@ -168,14 +97,16 @@ public class Graphic extends SlideItem {
 	}
 
 	/**
-	 * @return the shadingList
+	 * Returns the list of shading colors of this graphic.
+	 * @return shadingList the list of shading colors.
 	 */
 	public List<String> getShadingList() {
 		return shadingList;
 	}
 
 	/**
-	 * @param shadingList the shadingList to set
+	 * Sets the list of shading colors of this shape.
+	 * @param shadingList the shadingList to set.
 	 */
 	public void setShadingList(List<String> shadingList) {
 		this.shadingList = shadingList;
@@ -197,10 +128,19 @@ public class Graphic extends SlideItem {
 		}
 	}
 
+	
+	/**
+	 * Returns the list of stop values of the shading colors of this graphic.
+	 * @return stopValuesList the list of stop values.
+	 */
 	public List<Float> getStopValuesList() {
 		return stopValuesList;
 	}
 
+	/**
+	 * Sets the list of stop values of the shading colors of this shape.
+	 * @param stopValuesList the stopValuesList to set.
+	 */
 	public void setStopValuesList(List<Float> stopValuesList) {
 		this.stopValuesList = stopValuesList;
 	}

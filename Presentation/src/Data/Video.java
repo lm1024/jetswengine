@@ -32,18 +32,19 @@ public class Video extends SlideItem {
 	}
 
 	/**
-	 * Sets the width of the video.
-	 * 
-	 * @param width
-	 *            the width to set
+	 * Sets the width of the video player.
+	 * @param width the width to set
 	 */
 	public void setWidth(String s) {
 		try {
-			this.width = Float.parseFloat(s);
+			float f = Float.parseFloat(s);
+			if(f > 0) {
+				this.width = f;
+			}
+			
 		} catch (Exception e) {
-			// Do nothing
+			//Do nothing
 		}
-
 	}
 
 	/**

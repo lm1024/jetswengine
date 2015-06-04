@@ -104,11 +104,38 @@ public class DefaultSettingsHandler extends DefaultHandler {
 		case "cropy2":
 			defaults.setCropY2(contentBuffer.toString().trim());
 			break;
+		case "audiowidth":
+			defaults.setAudioWidth(contentBuffer.toString().trim());
+			break;
+		case "videowidth":
+			defaults.setVideoWidth(contentBuffer.toString().trim());
+			break;
+		case "audiocontrolsvisible":
+			defaults.setAudioHasVisibleControls(contentBuffer.toString().trim());
+			break;
 		case "originalxresolution":
 			defaults.setOriginalXResolution(contentBuffer.toString().trim());
 			break;
 		case "originalyresolution":
 			defaults.setOriginalYResolution(contentBuffer.toString().trim());
+			break;
+		case "xaspectratio":
+			defaults.setxAspectRatio(contentBuffer.toString().trim());
+			break;
+		case "yaspectratio":
+			defaults.setyAspectRatio(contentBuffer.toString().trim());
+			break;
+		case "shapesolidity":
+			defaults.setShapeSolidity(contentBuffer.toString().trim());
+			break;
+		case "stopvalue":
+			defaults.setStopValue(contentBuffer.toString().trim());
+			break;
+		case "outlinethickness":
+			defaults.setOutlineThickness(contentBuffer.toString().trim());
+			break;
+		case "outlinecolor":
+			defaults.setOutlineColor(contentBuffer.toString().trim());
 			break;
 		default:
 			break;

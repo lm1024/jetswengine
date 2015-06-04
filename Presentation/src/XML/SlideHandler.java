@@ -7,8 +7,6 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 
-import Data.CommonShapes;
-import Data.CommonShapes.Rectangle;
 import Data.Defaults;
 import Data.Slide;
 import Data.Slideshow;
