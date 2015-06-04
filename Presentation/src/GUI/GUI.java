@@ -320,8 +320,12 @@ public class GUI extends Application {
 			}
 			/* if file does not exist then create it */
 			try {
+				new File("resources/csv").mkdir();
 				xmlFiles.createNewFile();
+				buttonscsv.createNewFile();
 			} catch (IOException e) {
+				System.out.println("Failed creating files");
+				System.out.println(xmlFiles.getPath());
 				e.printStackTrace();
 			}
 			updateButtonsCSV();

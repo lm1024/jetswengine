@@ -1,6 +1,10 @@
 /** (c) Copyright by WaveMedia. */
 package XML;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
@@ -98,6 +102,23 @@ public class TextHandler extends DefaultHandler {
 		String elementName = localName;
 		if ("".equals(elementName)) {
 			elementName = qName;
+		}
+		
+		if(text.getSourceFile() != null) {
+			StringBuffer textFromFile = new StringBuffer();
+			String line;
+			try (BufferedReader br = new BufferedReader(new FileReader(new File(text.getSourceFile())))) {
+				/* Loop through and add each line of the CSV to buttonInfo */
+				while ((line = br.readLine()) != null) {
+					textFromFile.append(line + "\n");
+				}
+				textFromFile.deleteCharAt(textFromFile.length() - 1);
+			} catch (Exception e) {
+				textFromFile = null;
+			}
+			if(textFromFile != null) {
+				contentBuffer = textFromFile;
+			}
 		}
 		if (elementName.equals("text")) {
 			if (!contentBuffer.toString().trim().equals("")) {
